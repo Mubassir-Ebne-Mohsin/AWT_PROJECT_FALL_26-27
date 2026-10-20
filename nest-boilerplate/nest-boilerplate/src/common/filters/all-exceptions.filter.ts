@@ -1,0 +1,127 @@
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from "@nestjs/common";
+import { ThrottlerException } from "@nestjs/throttler";
+import { ZodValidationException } from "nestjs-zod";
+import { ZodError } from "zod";
+import type { Response } from "express";
+import { AppException, ErrorCode } from "@/common/errors";
+
+interface ErrorBody {
+  error: { code: ErrorCode; message: string; details?: unknown };
+}
+
+const CODE_BY_STATUS: Record<number, ErrorCode> = {
+  [HttpStatus.UNAUTHORIZED]: "UNAUTHENTICATED",
+  [HttpStatus.FORBIDDEN]: "FORBIDDEN",
+  [HttpStatus.NOT_FOUND]: "NOT_FOUND",
+  [HttpStatus.TOO_MANY_REQUESTS]: "RATE_LIMITED",
+  [HttpStatus.SERVICE_UNAVAILABLE]: "UNAVAILABLE",
+  [HttpStatus.BAD_REQUEST]: "VALIDATION_FAILED",
+  [HttpStatus.UNPROCESSABLE_ENTITY]: "VALIDATION_FAILED",
+};
+
+// node-redis rejects with these when the connection is down (offline queue disabled).
+const REDIS_DOWN_ERRORS = [
+  "ClientOfflineError",
+  "ClientClosedError",
+  "ConnectionTimeoutError",
+];
+
+@Catch()
+export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger("Exception");
+
+  catch(exception: unknown, host: ArgumentsHost) {
+    const res = host.switchToHttp().getResponse<Response>();
+    const { status, body } = this.toResponse(exception);
+    if (status >= 500) {
+      this.logger.error(
+        exception instanceof Error
+          ? (exception.stack ?? exception.message)
+          : String(exception),
+      );
+    }
+    res.status(status).json(body);
+  }
+
+  private toResponse(exception: unknown): { status: number; body: ErrorBody } {
+    if (exception instanceof AppException) {
+      return this.build(
+        exception.getStatus(),
+        exception.code,
+        exception.message,
+        exception.details,
+      );
+    }
+    if (exception instanceof ZodValidationException) {
+      return this.build(
+        422,
+        "VALIDATION_FAILED",
+        "Validation failed",
+        this.zodDetails(exception.getZodError()),
+      );
+    }
+    if (exception instanceof ThrottlerException) {
+      return this.build(
+        429,
+        "RATE_LIMITED",
+        "Too many requests. Please slow down.",
+      );
+    }
+    if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      const code =
+        CODE_BY_STATUS[status] ??
+        (status >= 500 ? "INTERNAL" : "VALIDATION_FAILED");
+      // Never leak framework internals for server errors.
+      const message =
+        status >= 500 ? "Something went wrong" : this.messageOf(exception);
+      return this.build(status, code, message);
+    }
+    if (
+      exception instanceof Error &&
+      REDIS_DOWN_ERRORS.includes(exception.name)
+    ) {
+      return this.build(
+        503,
+        "UNAVAILABLE",
+        "A required service is temporarily unavailable",
+      );
+    }
+    return this.build(500, "INTERNAL", "Something went wrong");
+  }
+
+  private build(
+    status: number,
+    code: ErrorCode,
+    message: string,
+    details?: unknown,
+  ) {
+    const error: ErrorBody["error"] = { code, message };
+    if (details !== undefined) error.details = details;
+    return { status, body: { error } };
+  }
+
+  private messageOf(e: HttpException): string {
+    const r = e.getResponse();
+    if (typeof r === "string") return r;
+    const m = (r as { message?: string | string[] }).message;
+    return Array.isArray(m) ? m.join(", ") : (m ?? e.message);
+  }
+
+  private zodDetails(err: unknown) {
+    if (!(err instanceof ZodError)) return undefined;
+    return {
+      fields: err.issues.map((i) => ({
+        path: i.path.join("."),
+        message: i.message,
+      })),
+    };
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2022",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./src/@types"
+    ],
+    "resolveJsonModule": true,
+    "paths": {
+      "@/src/*": [
+        "./src/*"
+      ],
+      "@/types/*": [
+        "./src/@types/*"
+      ],
+      "@/common/*": [
+        "./src/common/*"
+      ],
+      "@/config": [
+        "./src/config/index.ts"
+      ],
+      "@/config/*": [
+        "./src/config/*"
+      ],
+      "@/database/*": [
+        "./src/database/*"
+      ],
+      "@/modules/*": [
+        "./src/modules/*"
+      ],
+      "@/providers/*": [
+        "./src/providers/*"
+      ]
+    },
+    "esModuleInterop": true
+  },
+  "include": [
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
