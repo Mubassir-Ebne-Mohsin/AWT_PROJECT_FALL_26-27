@@ -28,7 +28,7 @@
         "./src/common/*"
       ],
       "@/config": [
-        "./src/config/index.ts"
+        "./src/config"
       ],
       "@/config/*": [
         "./src/config/*"

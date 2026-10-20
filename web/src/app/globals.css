@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import "../styles/proto.css";
+
+/* Expose the prototype tokens to Tailwind utilities (bg-surface, text-ink-2, border-line ...). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-fail: var(--fail);
+}
+
+/* Tailwind's preflight resets headings; the prototype sets its own sizes via .h1/.h2/.h3. */
+h1, h2, h3, h4 { font-size: inherit; font-weight: inherit; }
+
+/* sonner toasts, themed with the prototype tokens */
+.sf-toast {
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  font-family: var(--font-body) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .spin { animation: none !important; }
+}

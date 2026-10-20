@@ -7,7 +7,8 @@ import {
   Req,
   Res,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiExtraModels, ApiTags } from "@nestjs/swagger";
+import { ErrorResponseDto } from "@/common/swagger/error-response.dto";
 import { Throttle } from "@nestjs/throttler";
 import type { CookieOptions, Request, Response } from "express";
 import { appConfig } from "@/config";
@@ -45,6 +46,8 @@ const authLimit = {
 };
 
 @ApiTags("auth")
+// Registered once so the generated client has a type for every error body.
+@ApiExtraModels(ErrorResponseDto)
 @Controller("auth")
 export class AuthController {
   constructor(

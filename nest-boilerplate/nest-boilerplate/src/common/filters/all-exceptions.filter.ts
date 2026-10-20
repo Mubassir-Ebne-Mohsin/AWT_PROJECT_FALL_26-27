@@ -26,11 +26,13 @@ const CODE_BY_STATUS: Record<number, ErrorCode> = {
   [HttpStatus.UNPROCESSABLE_ENTITY]: "VALIDATION_FAILED",
 };
 
-// node-redis rejects with these when the connection is down (offline queue disabled).
+// node-redis (offline queue disabled) and ioredis (rate-limit storage) reject with these
+// when Redis is unreachable. That is "service unavailable", not a bug in the request.
 const REDIS_DOWN_ERRORS = [
   "ClientOfflineError",
   "ClientClosedError",
   "ConnectionTimeoutError",
+  "MaxRetriesPerRequestError",
 ];
 
 @Catch()
@@ -40,7 +42,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const res = host.switchToHttp().getResponse<Response>();
     const { status, body } = this.toResponse(exception);
-    if (status >= 500) {
+    if (exception instanceof AppException) {
+      // Deliberate errors (e.g. a failing health check) need no stack trace.
+      if (status >= 500) this.logger.warn(exception.message);
+    } else if (status >= 500) {
       this.logger.error(
         exception instanceof Error
           ? (exception.stack ?? exception.message)

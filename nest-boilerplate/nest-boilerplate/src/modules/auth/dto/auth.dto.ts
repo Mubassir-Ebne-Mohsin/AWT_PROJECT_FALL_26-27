@@ -8,8 +8,8 @@ const newPassword = z
   .string()
   .min(8, "Use at least 8 characters")
   .max(128, "Use at most 128 characters")
-  .regex(/[A-Za-z]/, "Include at least one letter")
-  .regex(/\d/, "Include at least one number");
+  // One pattern (not two) keeps the generated OpenAPI type a plain string.
+  .regex(/^(?=.*[A-Za-z])(?=.*\d)/, "Include at least one letter and one number");
 
 export const registerSchema = z.object({
   email,
