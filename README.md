@@ -4,6 +4,8 @@ Draw a system architecture on a canvas, let a simulator find its bottlenecks und
 
 **Status: Phase 1 (foundation).** Auth, health, the app shell, every route as a placeholder, and all system-state pages. Designs, the canvas and the simulator arrive in Phase 2. The design reference is a clickable prototype in `nest-boilerplate/nest-boilerplate/docs/stressforge/reference/`.
 
+Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). The Phase 1 audit verdict is **Partial**; see the report for verified checks, open findings, and remaining work.
+
 ## Layout
 
 ```
