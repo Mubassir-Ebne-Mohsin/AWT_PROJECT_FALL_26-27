@@ -51,6 +51,7 @@ interface RequestOptions {
 }
 
 const FALLBACK_CODE: Record<number, ApiErrorCode> = {
+  409: "CONFLICT",
   401: "UNAUTHENTICATED",
   403: "FORBIDDEN",
   404: "NOT_FOUND",

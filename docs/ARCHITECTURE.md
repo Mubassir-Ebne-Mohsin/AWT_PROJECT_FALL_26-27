@@ -67,6 +67,7 @@ Success: `{ "data": ..., "meta"?: ... }`. Errors: `{ "error": { "code", "message
 
 | Code | HTTP | Frontend reaction |
 | --- | --- | --- |
+| `CONFLICT` | 409 | Inline save/retry conflict; preserve draft/session |
 | `VALIDATION_FAILED` | 422 | Field messages shown inline on the form (`details.fields[]`) |
 | `UNAUTHENTICATED` | 401 | Wrong credentials inline; elsewhere send to `/login?next=` |
 | `SESSION_EXPIRED` | 401 | Silent refresh once, then the session-expired modal |
@@ -80,3 +81,5 @@ Success: `{ "data": ..., "meta"?: ... }`. Errors: `{ "error": { "code", "message
 ## Phase 2: the mock engine becomes a `SimulationModule`
 
 [mock-engine.js](../nest-boilerplate/nest-boilerplate/docs/stressforge/reference/mock-engine.js) is a pure function of a design graph and a traffic profile. In Phase 2 it moves to `src/modules/simulation` as plain TypeScript (no Nest imports in the engine itself), wrapped by a thin `SimulationService`, so the same code runs in unit tests against textbook queueing results. A `DesignsModule` adds the `designs` table (JSONB graph, owner, traffic) and CRUD; `POST /v1/designs/:id/simulate` and `/limits` return the engine output inside the standard envelope. The frontend reuses the route placeholders for Traffic, Results and Limits and adds the canvas editor. What Phase 1 provides for this: authenticated users, ownership via `@CurrentUser()`, validation with zod DTOs, the envelope and error codes, generated API types, and the system-state pages.
+
+M1 (2026-10-24) freezes the planned graph/traffic/design/run contracts in backend src/common/contracts/phase2. See [contract guide](contracts/README.md). Generated planned OpenAPI/types remain separate from live /docs-json. No Phase 2 controller, worker or migration is registered yet. Explicit Run/Limits will return202 plus a status URL; retained terminal retries return200. M2 ports/profiles the engine; M3 adds persistence and the safe asynchronous lifecycle.

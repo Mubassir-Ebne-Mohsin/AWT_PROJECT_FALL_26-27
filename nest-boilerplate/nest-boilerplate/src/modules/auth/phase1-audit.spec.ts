@@ -166,6 +166,7 @@ describe("AllExceptionsFilter (requirement: stable error codes and statuses)", (
   };
 
   it.each([
+    ["CONFLICT", 409],
     ["VALIDATION_FAILED", 422],
     ["UNAUTHENTICATED", 401],
     ["SESSION_EXPIRED", 401],

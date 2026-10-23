@@ -29,7 +29,10 @@
     "lint:check": "eslint \"{src,test}/**/*.ts\"",
     "db:up": "docker compose -f docker-compose.dev.yml up -d --wait",
     "db:down": "docker compose -f docker-compose.dev.yml down",
-    "typecheck": "tsc --project tsconfig.test.json --noEmit"
+    "typecheck": "tsc --project tsconfig.test.json --noEmit",
+    "contract:phase2": "ts-node -r tsconfig-paths/register src/script/export-phase2-contract.ts",
+    "contract:phase2:check": "pnpm contract:phase2 --check",
+    "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check"
   },
   "dependencies": {
     "@nest-lab/throttler-storage-redis": "^1.2.0",

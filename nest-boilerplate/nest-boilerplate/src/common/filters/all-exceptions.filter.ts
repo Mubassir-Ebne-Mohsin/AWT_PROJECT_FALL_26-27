@@ -17,6 +17,7 @@ interface ErrorBody {
 }
 
 const CODE_BY_STATUS: Record<number, ErrorCode> = {
+  [HttpStatus.CONFLICT]: "CONFLICT",
   [HttpStatus.UNAUTHORIZED]: "UNAUTHENTICATED",
   [HttpStatus.FORBIDDEN]: "FORBIDDEN",
   [HttpStatus.NOT_FOUND]: "NOT_FOUND",

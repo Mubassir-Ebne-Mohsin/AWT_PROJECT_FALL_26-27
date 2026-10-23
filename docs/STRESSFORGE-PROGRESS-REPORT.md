@@ -1,8 +1,8 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-23 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** This report records verification of the local working tree. This report-only GitHub update does not include the implementation fixes or new test files; those remain local pending a separate code publication. The GitHub code snapshot is therefore not the verified completed snapshot.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1 contracts and this checkpoint are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; engine implementation awaits the next approval checkpoint. See section 11.
 
 ## 1. Maintenance instructions
 
@@ -43,12 +43,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Planned locally: `docs/PHASE-2-PLAN.md` (not included in this report-only publication); implementation not started |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures complete; M2–M9 not started. See section 11; local Phase 2 changes not yet published |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Only Phase 1 has been audited.
+Phase 1 has a complete Foundation audit; Phase 2 verification currently covers M0–M1 only. No Phase 2 feature runtime is complete.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -305,6 +305,10 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 ## 8. Dated update history
 
+- **2026-10-24 — M0–M1 completed:** User approved the baseline/contracts stage with a checkpoint before engine implementation. Published Phase 1 fixes9e8bb00; added canonical Zod/OpenAPI/types, six full-precision oracle fixtures, contract tests and CONFLICT integration. Final114 backend unit,22 e2e,36 frontend tests plus builds/types/lint/live checks passed. Phase 2 remains In progress; section11 records scope and limits.
+
+- **2026-10-23 — Phase 2 plan refined:** Re-read local completion/publication status, existing tests and selected prototype/engine sections. Replaced stale Phase 1 repair/test-setup work with a baseline gate, defined M0–M9 and the early working M3 slice, and integrated six independent static-review corrections. Archived the original plan. Planning documents only; Phase 1 verdict unchanged and Phase 2 implementation not started.
+
 - **2026-10-23 — report-only publication:** User requested the updated progress report on GitHub. Published only this Markdown file; explicitly distinguished local verification from the older remote implementation. No application code or secret files included.
 
 - **2026-10-23 — Phase 1 remediation completed:** closed F1/F2/F4–F14 with implementation fixes and observed verification; F3 triaged after compatible updates. Verified Node 22 builds/types/lint, 72 unit + 2 real Redis + 22 e2e + 35 frontend tests, original 7 regressions, real HTTP/service failures, fresh migration/seed, all-route four-combination browser matrix, production dev-control exclusion, and actual API-stop recovery. Preserved the original partial audit and Phase 2 planning edits. Current verdict: Complete for the local Foundation scope with documented dependency follow-ups; see section 9.
@@ -451,3 +455,78 @@ Phase 2 can now use authenticated users, stable errors/envelopes, generated API 
 
 
 Cleanup (2026-10-23): stopped only the owned audit API/frontend listeners and stressforge-phase1-audit Compose services; audit volumes and databases retained. Normal project services/data and existing env files were preserved. Start the normal Docker services and restart the backend/frontend to use the fixes, then log in again.
+
+
+## 10. Phase 2 planning checkpoint — 2026-10-23
+
+[Refined Phase 2 plan](PHASE-2-PLAN.md): ten milestones M0–M9, scope/contracts, engine truth/resource limits, ownership, saves/conflicts, durable runs/preview priority, user-flow gates and a static planning review. Original preserved in docs/archive/PHASE-2-PLAN-2026-10-22.md.
+
+[Verified] Repository inspection still shows the Phase 1 remediation code/tests local and uncommitted after the report-only publication (HEAD eb8c39b). Existing frontend test infrastructure is present. Reference-engine SHA256 still matches the recorded e841b1af...78f. New plan references and diagram fences were checked; no application code, services or tests were executed or changed for this planning work.
+
+[Recommendation] Before Phase 2 implementation, review/commit the actual verified Phase 1 code and establish its publication/local baseline accurately. Then freeze contracts/fixtures in M1 and deliver the first real create/save/simulate/reopen slice at M3 before completing the rich editor/tabs. No Phase 2 milestone is complete merely because it is planned. Future implementation must update this same report with observed evidence and reassess affected earlier requirements. Planning changes are local; nothing is automatically synchronized or published.
+
+## 11. Phase 2 M0–M1 checkpoint — 2026-10-24
+
+**Verdict: M0 and M1 complete. Phase 2 IN PROGRESS; M2–M9 not started.** User approved starting the foundation baseline/contracts, with a checkpoint before engine implementation. No simulation engine, worker, designs migration/controller, canvas or real AI was implemented in this session.
+
+### M0: immutable, published Foundation baseline
+
+[Verified] Reviewed the existing pending remediation scope, ignored environment files and new tests; removed two trailing blank lines caught by staged diff validation. Committed the Phase 1 fixes/tests/docs as **9e8bb00**, then fetched origin/main and performed a normal fast-forward push (eb8c39b..9e8bb00). The older report-only publication gap is closed. No environment values or normal project data were reset.
+
+[Verified] Before that commit, Node v22.23.4 gates passed: API build/typecheck/lint:check, 72 unit tests (2 opt-in Docker checks skipped), 22 e2e on isolated sf_m0_20261024, web 35 tests/typecheck/lint/check:routes/build, and 7/7 offline audit regressions. Read-only lint retained 22 inherited warnings. The full browser matrix and opt-in Redis checks from 2026-10-23 were not repeated as M0 gates; their dated evidence remains in section 9.
+
+### M1: contracts and full-precision reference fixtures
+
+| Requirement | Implementation and observed evidence | Status |
+| --- | --- | --- |
+| One authoritative payload definition | Backend src/common/contracts/phase2: strict Zod graph/traffic/import/design/run/result schemas; planned OpenAPI generated from them; existing actual API types remain separate | verified |
+| Safe draft vs runnable validation boundary | Empty/cyclic drafts accepted; duplicate/unsafe ids, self/duplicate/dangling edges, nonfinite positions, ownership injection and unknown type-specific settings rejected in focused tests. Runnable engine validation remains M2 | verified for M1 |
+| Exact bounds/import versions | Six source templates fit schema; 50 nodes/200 edges; 64KiB UTF-8 text parser; versionless legacy or version1; omitted import layout fields accepted for later deterministic completion; unknown version/invalid supplied fields rejected | verified |
+| Fingerprint and retry/revision identity | Tested SHA256 identity excludes coordinates/edge ids; includes semantic order/labels/props/traffic/version. Typed expectedRevision/UUID requestId, run lifecycle and conflict details; service-level atomic saves/idempotency remain M3 | verified contract; runtime deferred |
+| Finite result/limits semantics | Explicit finite/unbounded variants, Clients servers:null, honest minimum-load and capped-search states, bounded arrays and validated threshold brackets; documentation-only wire examples validate | verified contract; port deferred |
+| Prototype oracle | Captured six full-precision graph/traffic + validation/simulation/paths/limits/timeline fixtures and minimum-load counterexample. Read-only recapture --check matches; source engine hash still e841b1afe3f2897cab9405d86bd4f735f977e5c0ce950ebbab7f621e54f7d78f | verified source evidence |
+| CONFLICT/409 integration | AppException/filter + actual Swagger ErrorResponseDto + generated live API type + client fallback; tests confirm inline handling retains credentials and details without system-screen events | verified |
+| Generated contract and consumer types | 13 planned operations; local refs resolve; OpenAPI/examples drift checks and frontend gen:phase2 --check pass. All operations explicitly planned; no fake live endpoint | verified |
+| Reviewable examples and maintenance | docs/contracts/README.md, examples.json, PHASE-2-PLAN.md and this report distinguish contracts/oracle evidence from unimplemented services | verified |
+
+The canonical schemas are in common/contracts because M1 does not register a DesignsModule/SimulationModule. The reference source remains unchanged. No package dependency was added.
+
+Decisions frozen after inspection:
+- Preserve SECTION 14's **200** replica maximum; correct the plan's earlier proposed100. Other starting envelopes remain subject to M2 complexity/runtime profiling, not measured promises.
+- Normalize schema/property key order before both reference and port evaluation; preserve node/edge array order and explicit property presence. Fingerprints canonicalize object keys; source timeline seeds cannot drift solely from input key insertion order.
+- Capture source NaN rather than letting JSON silently turn it into null. Observed NaNs are Clients server counts (unbounded capacity times zero service time); the wire contract explicitly uses null only for this not-applicable field.
+- Preserve the source 0.1rps-pass/1rps-fail counterexample; do not interpret findLimits breakRps:0 as zero capacity. Limits headroom is unknown/null at a failed minimum and only a lower bound when no failure was observed within range.
+- Keep generated planned types separate from types generated from actual /docs-json until provider implementation is verified. No paid service or AI call.
+
+### Final M1 checks performed
+
+All listed commands/checks exited0 in their final runs.
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build / typecheck / lint:check | PASS; strict source/test types; 0 lint errors, 22 inherited warnings |
+| API pnpm test --runInBand | PASS: 114 tests =72 previous +41 contract +1 conflict mapping; 2 opt-in Docker cases skipped |
+| API pnpm test:e2e | PASS:22 on sf_m1_20261024, real isolated Postgres, fake Redis/counters as documented |
+| API pnpm contract:phase2:check | PASS: OpenAPI and schema-validated examples match canonical sources |
+| API pnpm fixtures:phase2 | PASS: six complete fixtures plus minimum-load counterexample match normalized reference inputs |
+| WEB pnpm gen:api | PASS against actual audit API5001; live schema change is CONFLICT enum addition |
+| WEB pnpm gen:phase2 --check | PASS: separate planned types current |
+| WEB pnpm test | PASS:36 including409 inline/preserved-session/gateway fallback regression |
+| WEB pnpm typecheck / lint / check:routes / build | PASS; all35 existing route patterns still have pages; no new feature page represented as working |
+| Real-service node docs/audit/live-phase1.cjs | PASS:15 checks; health/docs200, register201, login/me/refresh200, logout204, revoked/missing-token401, malformed/oversized422, duplicate-email201/422, credentialed OPTIONS204 |
+| Live Swagger/planned-route check | PASS: ErrorResponseDto includes CONFLICT; no planned Phase2 paths in live OpenAPI; /v1/designs and /v1/simulation/catalog return404 |
+| Source preservation / whitespace / secret-file checks | Engine hash unchanged; diff checks pass; real env files ignored/untracked; generated artifacts contain no auth tokens |
+
+During development, one import-union typing/syntax issue, an operation-count assertion and a test cleanup call failed initial checks; all were corrected and the final relevant gates above passed. The source Clients NaN was retained as evidence and documented, not suppressed as a passing engine result.
+
+[Untested] M2 engine parity/performance, worker crash/timeout/priority, M3 database/run/save ownership races and all canvas/Traffic/Results/Limits journeys remain future work. No new browser visual matrix or fresh dependency advisory scan ran in this milestone; no UI layout/dependency version changed. The React/jsdom suite emits its known script-tag rendering notice; it is not a browser console observation.
+
+### Publication, cleanup and next gate
+
+[Verified] Phase 1 baseline9e8bb00 is on GitHub main. M1 contracts, generated artifacts, archived/refined plan and this checkpoint are committed locally on codex/phase2-contracts; they are not yet published. Do not confuse the published baseline with locally prepared Phase 2 work.
+
+Owned audit API and stressforge-phase1-audit services are stopped after checks; volumes and sf_m0_20261024/sf_m1_20261024 databases are retained. Normal stressforge-dev and unrelated services/data are preserved.
+
+**Next approval checkpoint: M2 engine/worker.** Port pure TypeScript functions and builders, implement the documented wire exceptions, prove six-fixture parity with abs1e-6+rel1e-6 tolerance, and profile/freeze graph expansion/output/time/memory limits before worker admission. Preserve responsive health, test crashes/timeouts and both watch/compiled runtimes. Do not start M2 until the user approves continuation.
+
+Future milestone work must update this same report, retain this history/evidence, regenerate affected contracts/types and reassess Phase 1 auth/errors/session behavior. Nothing updates or publishes automatically.

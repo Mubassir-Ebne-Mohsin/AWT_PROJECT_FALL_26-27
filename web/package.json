@@ -12,7 +12,8 @@
     "check:routes": "node scripts/check-routes.mjs",
     "test": "node --require ./tests/register.cjs --test tests/*.test.cjs",
     "test:browser": "playwright test",
-    "test:browser:list": "playwright test --list"
+    "test:browser:list": "playwright test --list",
+    "gen:phase2": "openapi-typescript ../docs/contracts/phase2.openapi.json -o src/lib/api/phase2-schema.d.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.104.5",

@@ -6,7 +6,7 @@ Draw a system architecture on a canvas, let a simulator find its bottlenecks und
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and remaining dependency follow-ups.
 
-Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (proposed; implementation not started).
+Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M1 complete locally; engine implementation awaits the next approval checkpoint). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
 

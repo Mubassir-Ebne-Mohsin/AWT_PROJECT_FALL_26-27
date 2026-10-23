@@ -2,6 +2,7 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 
 /** Stable machine-readable codes; the frontend maps system-state pages to these. */
 export const ERROR_CODES = {
+  CONFLICT: HttpStatus.CONFLICT,
   VALIDATION_FAILED: HttpStatus.UNPROCESSABLE_ENTITY,
   UNAUTHENTICATED: HttpStatus.UNAUTHORIZED,
   SESSION_EXPIRED: HttpStatus.UNAUTHORIZED,

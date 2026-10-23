@@ -1,0 +1,3554 @@
+{
+  "note": "Documentation-only source-derived payloads. No running Phase 2 service is implied. DELETE success is 204 with no body; other payloads are wrapped in data unless explicitly marked full envelope. Error examples are in the contract guide.",
+  "examples": [
+    {
+      "flow": "GET catalog data",
+      "schema": "Catalog",
+      "value": {
+        "engineVersion": "reference-port-v1",
+        "components": [
+          {
+            "type": "client",
+            "label": "Clients",
+            "short": "Users",
+            "category": "Entry",
+            "capacity": {
+              "kind": "unbounded"
+            },
+            "latency": 0,
+            "behavior": "none",
+            "blurb": "Where requests start. Its region is where your users are.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "region",
+              "share"
+            ]
+          },
+          {
+            "type": "cdn",
+            "label": "CDN",
+            "short": "CDN",
+            "category": "Edge",
+            "capacity": {
+              "kind": "finite",
+              "value": 40000
+            },
+            "latency": 12,
+            "behavior": "shed",
+            "blurb": "Answers cacheable reads at an edge location near users.",
+            "defaults": {
+              "replicas": 1,
+              "hitRatio": 0.6
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "hitRatio"
+            ]
+          },
+          {
+            "type": "lb",
+            "label": "Load balancer",
+            "short": "LB",
+            "category": "Routing",
+            "capacity": {
+              "kind": "finite",
+              "value": 20000
+            },
+            "latency": 1,
+            "behavior": "shed",
+            "blurb": "Spreads requests across the servers behind it.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "gateway",
+            "label": "API gateway",
+            "short": "Gateway",
+            "category": "Routing",
+            "capacity": {
+              "kind": "finite",
+              "value": 8000
+            },
+            "latency": 3,
+            "behavior": "shed",
+            "blurb": "Auth, rate limits and routing in front of your services.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "app",
+            "label": "App server",
+            "short": "App",
+            "category": "Compute",
+            "capacity": {
+              "kind": "finite",
+              "value": 600
+            },
+            "latency": 22,
+            "behavior": "shed",
+            "blurb": "Runs your request handlers. Scale out with replicas.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "worker",
+            "label": "Worker",
+            "short": "Worker",
+            "category": "Compute",
+            "capacity": {
+              "kind": "finite",
+              "value": 250
+            },
+            "latency": 60,
+            "behavior": "backlog",
+            "blurb": "Pulls jobs from a queue and processes them in the background.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "cache",
+            "label": "Cache",
+            "short": "Cache",
+            "category": "Data",
+            "capacity": {
+              "kind": "finite",
+              "value": 30000
+            },
+            "latency": 1.2,
+            "behavior": "shed",
+            "blurb": "In-memory store for hot reads. Misses fall through to the database.",
+            "defaults": {
+              "replicas": 1,
+              "hitRatio": 0.8
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region",
+              "hitRatio"
+            ]
+          },
+          {
+            "type": "db",
+            "label": "Database",
+            "short": "DB",
+            "category": "Data",
+            "capacity": {
+              "kind": "finite",
+              "value": 1800
+            },
+            "latency": 6,
+            "behavior": "timeout",
+            "blurb": "Primary database. Takes every write and any reads sent to it.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "replica",
+            "label": "Read replica",
+            "short": "Replica",
+            "category": "Data",
+            "capacity": {
+              "kind": "finite",
+              "value": 1800
+            },
+            "latency": 6,
+            "behavior": "timeout",
+            "blurb": "Read-only copy of the primary. Takes reads and replays every write.",
+            "defaults": {
+              "replicas": 1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region"
+            ]
+          },
+          {
+            "type": "queue",
+            "label": "Queue",
+            "short": "Queue",
+            "category": "Async",
+            "capacity": {
+              "kind": "finite",
+              "value": 12000
+            },
+            "latency": 2,
+            "behavior": "reject",
+            "blurb": "Accepts work now and hands it to workers at their own pace.",
+            "defaults": {
+              "replicas": 1,
+              "maxDepth": 500000
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region",
+              "maxDepth"
+            ]
+          },
+          {
+            "type": "storage",
+            "label": "Object storage",
+            "short": "Storage",
+            "category": "Data",
+            "capacity": {
+              "kind": "finite",
+              "value": 3500
+            },
+            "latency": 35,
+            "behavior": "shed",
+            "blurb": "Files and media, S3-style. A share of reads fetch from it.",
+            "defaults": {
+              "replicas": 1,
+              "share": 0.15
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region",
+              "share"
+            ]
+          },
+          {
+            "type": "external",
+            "label": "Third-party API",
+            "short": "External",
+            "category": "External",
+            "capacity": {
+              "kind": "finite",
+              "value": 150
+            },
+            "latency": 180,
+            "behavior": "shed",
+            "blurb": "A service you call but do not run, such as payments or email.",
+            "defaults": {
+              "replicas": 1,
+              "share": 0.1
+            },
+            "editableProperties": [
+              "replicas",
+              "capacity",
+              "latency",
+              "region",
+              "share"
+            ]
+          }
+        ],
+        "regions": [
+          {
+            "id": "us-east",
+            "label": "US East"
+          },
+          {
+            "id": "eu-west",
+            "label": "EU West"
+          },
+          {
+            "id": "ap-south",
+            "label": "Asia South"
+          }
+        ],
+        "trafficDefaults": {
+          "preset": "custom",
+          "rps": 500,
+          "burst": 1.5,
+          "readRatio": 0.8,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        },
+        "presets": [
+          {
+            "id": "steady",
+            "name": "Steady weekday",
+            "note": "Normal working-hours load with small bumps.",
+            "traffic": {
+              "preset": "steady",
+              "rps": 400,
+              "burst": 1.2,
+              "readRatio": 0.8,
+              "sloP95": 300,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "steady"
+            }
+          },
+          {
+            "id": "evening",
+            "name": "Evening peak",
+            "note": "The busiest hour of a normal day.",
+            "traffic": {
+              "preset": "evening",
+              "rps": 1200,
+              "burst": 1.5,
+              "readRatio": 0.85,
+              "sloP95": 300,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "steady"
+            }
+          },
+          {
+            "id": "flash",
+            "name": "Flash sale",
+            "note": "Short spikes at 3x while carts and orders surge.",
+            "traffic": {
+              "preset": "flash",
+              "rps": 1400,
+              "burst": 3,
+              "readRatio": 0.6,
+              "sloP95": 400,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "spike"
+            }
+          },
+          {
+            "id": "launch",
+            "name": "Launch day",
+            "note": "Traffic climbs all day after a big announcement.",
+            "traffic": {
+              "preset": "launch",
+              "rps": 5000,
+              "burst": 2,
+              "readRatio": 0.92,
+              "sloP95": 300,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "ramp"
+            }
+          },
+          {
+            "id": "ingest",
+            "name": "Write-heavy ingest",
+            "note": "Devices or logs pushing data in constantly.",
+            "traffic": {
+              "preset": "ingest",
+              "rps": 1500,
+              "burst": 1.3,
+              "readRatio": 0.15,
+              "sloP95": 250,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "steady"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "flow": "GET templates data item three-tier",
+      "schema": "Template",
+      "value": {
+        "id": "three-tier",
+        "name": "Classic three-tier web app",
+        "blurb": "A load balancer, a pool of app servers, a cache and one database. The usual starting point.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "Load balancer",
+              "x": 280,
+              "y": 228,
+              "type": "lb",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "App servers",
+              "x": 520,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 3,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n6",
+              "label": "Cache",
+              "x": 760,
+              "y": 228,
+              "type": "cache",
+              "props": {
+                "region": "us-east",
+                "hitRatio": 0.8
+              }
+            },
+            {
+              "id": "n8",
+              "label": "Postgres",
+              "x": 1000,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            },
+            {
+              "id": "e7",
+              "from": "n4",
+              "to": "n6"
+            },
+            {
+              "id": "e9",
+              "from": "n4",
+              "to": "n8"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "evening",
+          "rps": 1200,
+          "burst": 1.5,
+          "readRatio": 0.85,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        }
+      }
+    },
+    {
+      "flow": "GET templates data item content",
+      "schema": "Template",
+      "value": {
+        "id": "content",
+        "name": "Read-heavy content site",
+        "blurb": "CDN at the edge, a cache and a read replica. Built for feeds, blogs and catalogs.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "CDN",
+              "x": 280,
+              "y": 228,
+              "type": "cdn",
+              "props": {
+                "hitRatio": 0.8
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Load balancer",
+              "x": 520,
+              "y": 228,
+              "type": "lb",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n6",
+              "label": "App servers",
+              "x": 760,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 3,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n8",
+              "label": "Redis",
+              "x": 1000,
+              "y": 228,
+              "type": "cache",
+              "props": {
+                "region": "us-east",
+                "hitRatio": 0.9
+              }
+            },
+            {
+              "id": "n10",
+              "label": "Postgres",
+              "x": 1240,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n12",
+              "label": "Read replica",
+              "x": 1480,
+              "y": 228,
+              "type": "replica",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            },
+            {
+              "id": "e7",
+              "from": "n4",
+              "to": "n6"
+            },
+            {
+              "id": "e9",
+              "from": "n6",
+              "to": "n8"
+            },
+            {
+              "id": "e11",
+              "from": "n6",
+              "to": "n10"
+            },
+            {
+              "id": "e13",
+              "from": "n10",
+              "to": "n12"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "evening",
+          "rps": 2000,
+          "burst": 1.5,
+          "readRatio": 0.92,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        }
+      }
+    },
+    {
+      "flow": "GET templates data item ingest",
+      "schema": "Template",
+      "value": {
+        "id": "ingest",
+        "name": "Write-heavy ingest pipeline",
+        "blurb": "An API gateway in front, a queue to soak up bursts, workers writing to the database.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "API gateway",
+              "x": 280,
+              "y": 228,
+              "type": "gateway",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "App servers",
+              "x": 520,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 4,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n6",
+              "label": "Time-series DB",
+              "x": 1000,
+              "y": 181,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n7",
+              "label": "Kafka",
+              "x": 760,
+              "y": 228,
+              "type": "queue",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n8",
+              "label": "Workers",
+              "x": 1000,
+              "y": 275,
+              "type": "worker",
+              "props": {
+                "replicas": 4,
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            },
+            {
+              "id": "e9",
+              "from": "n4",
+              "to": "n7"
+            },
+            {
+              "id": "e10",
+              "from": "n7",
+              "to": "n8"
+            },
+            {
+              "id": "e11",
+              "from": "n8",
+              "to": "n6"
+            },
+            {
+              "id": "e12",
+              "from": "n4",
+              "to": "n6"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "ingest",
+          "rps": 1500,
+          "burst": 1.3,
+          "readRatio": 0.15,
+          "sloP95": 250,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        }
+      }
+    },
+    {
+      "flow": "GET templates data item checkout",
+      "schema": "Template",
+      "value": {
+        "id": "checkout",
+        "name": "E-commerce checkout",
+        "blurb": "A payments API on the request path, order emails sent by background workers.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "CDN",
+              "x": 280,
+              "y": 228,
+              "type": "cdn",
+              "props": {
+                "hitRatio": 0.5
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Load balancer",
+              "x": 520,
+              "y": 228,
+              "type": "lb",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n6",
+              "label": "App servers",
+              "x": 760,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 4,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n8",
+              "label": "Redis",
+              "x": 1000,
+              "y": 87,
+              "type": "cache",
+              "props": {
+                "region": "us-east",
+                "hitRatio": 0.8
+              }
+            },
+            {
+              "id": "n10",
+              "label": "Postgres",
+              "x": 1240,
+              "y": 181,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n11",
+              "label": "Queue",
+              "x": 1000,
+              "y": 181,
+              "type": "queue",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n12",
+              "label": "Workers",
+              "x": 1240,
+              "y": 275,
+              "type": "worker",
+              "props": {
+                "replicas": 2,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n16",
+              "label": "Email API",
+              "x": 1000,
+              "y": 275,
+              "type": "external",
+              "props": {
+                "capacity": 800,
+                "region": "us-east",
+                "share": 1
+              }
+            },
+            {
+              "id": "n19",
+              "label": "Payments API",
+              "x": 1000,
+              "y": 369,
+              "type": "external",
+              "props": {
+                "capacity": 400,
+                "region": "us-east",
+                "share": 0.06
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            },
+            {
+              "id": "e7",
+              "from": "n4",
+              "to": "n6"
+            },
+            {
+              "id": "e9",
+              "from": "n6",
+              "to": "n8"
+            },
+            {
+              "id": "e13",
+              "from": "n6",
+              "to": "n11"
+            },
+            {
+              "id": "e14",
+              "from": "n11",
+              "to": "n12"
+            },
+            {
+              "id": "e15",
+              "from": "n12",
+              "to": "n10"
+            },
+            {
+              "id": "e17",
+              "from": "n12",
+              "to": "n16"
+            },
+            {
+              "id": "e18",
+              "from": "n6",
+              "to": "n10"
+            },
+            {
+              "id": "e20",
+              "from": "n6",
+              "to": "n19"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "flash",
+          "rps": 1400,
+          "burst": 3,
+          "readRatio": 0.6,
+          "sloP95": 400,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "spike"
+        }
+      }
+    },
+    {
+      "flow": "GET templates data item mvp",
+      "schema": "Template",
+      "value": {
+        "id": "mvp",
+        "name": "Single-server MVP",
+        "blurb": "One app server and one database. Cheap and simple, and a quick way to see what breaks first.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "App servers",
+              "x": 280,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 1,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Database",
+              "x": 520,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "steady",
+          "rps": 300,
+          "burst": 1.2,
+          "readRatio": 0.8,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        }
+      }
+    },
+    {
+      "flow": "GET templates data item media",
+      "schema": "Template",
+      "value": {
+        "id": "media",
+        "name": "Photo sharing",
+        "blurb": "Uploads go to object storage and images are served from a CDN.",
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "CDN",
+              "x": 280,
+              "y": 228,
+              "type": "cdn",
+              "props": {
+                "hitRatio": 0.75
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Load balancer",
+              "x": 520,
+              "y": 228,
+              "type": "lb",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n6",
+              "label": "App servers",
+              "x": 760,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 2,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n8",
+              "label": "Cache",
+              "x": 1000,
+              "y": 181,
+              "type": "cache",
+              "props": {
+                "region": "us-east",
+                "hitRatio": 0.8
+              }
+            },
+            {
+              "id": "n10",
+              "label": "Database",
+              "x": 1240,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n12",
+              "label": "Object storage",
+              "x": 1000,
+              "y": 275,
+              "type": "storage",
+              "props": {
+                "region": "us-east",
+                "share": 0.25
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            },
+            {
+              "id": "e7",
+              "from": "n4",
+              "to": "n6"
+            },
+            {
+              "id": "e9",
+              "from": "n6",
+              "to": "n8"
+            },
+            {
+              "id": "e11",
+              "from": "n6",
+              "to": "n10"
+            },
+            {
+              "id": "e13",
+              "from": "n6",
+              "to": "n12"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "custom",
+          "rps": 800,
+          "burst": 1.5,
+          "readRatio": 0.9,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        }
+      }
+    },
+    {
+      "flow": "POST designs request",
+      "schema": "CreateDesign",
+      "value": {
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "App servers",
+              "x": 280,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 1,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Database",
+              "x": 520,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "steady",
+          "rps": 300,
+          "burst": 1.2,
+          "readRatio": 0.8,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        },
+        "name": "Single-server MVP",
+        "description": "",
+        "source": "template",
+        "templateId": "mvp"
+      }
+    },
+    {
+      "flow": "GET or POST designs data",
+      "schema": "Design",
+      "value": {
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "App servers",
+              "x": 280,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 1,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Database",
+              "x": 520,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "steady",
+          "rps": 300,
+          "burst": 1.2,
+          "readRatio": 0.8,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        },
+        "name": "Single-server MVP",
+        "description": "",
+        "source": "template",
+        "templateId": "mvp",
+        "id": "00000000-0000-4000-8000-000000000001",
+        "revision": 1,
+        "createdAt": "2026-10-24T00:00:00Z",
+        "updatedAt": "2026-10-24T00:00:00Z"
+      }
+    },
+    {
+      "flow": "PATCH designs request",
+      "schema": "PatchDesign",
+      "value": {
+        "expectedRevision": 1,
+        "name": "Updated MVP"
+      }
+    },
+    {
+      "flow": "POST validate request",
+      "schema": "ValidateRequest",
+      "value": {
+        "expectedRevision": 1
+      }
+    },
+    {
+      "flow": "POST validate data",
+      "schema": "Validation",
+      "value": {
+        "ok": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "flow": "POST simulate or limits request",
+      "schema": "RunRequest",
+      "value": {
+        "expectedRevision": 1,
+        "requestId": "00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "flow": "POST simulate 202 data",
+      "schema": "AcceptedRun",
+      "value": {
+        "run": {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "designId": "00000000-0000-4000-8000-000000000001",
+          "requestId": "00000000-0000-4000-8000-000000000001",
+          "designRevision": 1,
+          "fingerprint": "1568041010bfce516bc192666b854c84003bfaac78170ef3e430fd1974989ee7",
+          "engineVersion": "reference-port-v1",
+          "kind": "simulation",
+          "snapshot": {
+            "schemaVersion": 1,
+            "graph": {
+              "nodes": [
+                {
+                  "id": "n1",
+                  "label": "Users",
+                  "x": 40,
+                  "y": 228,
+                  "type": "client",
+                  "props": {
+                    "region": "us-east"
+                  }
+                },
+                {
+                  "id": "n2",
+                  "label": "App servers",
+                  "x": 280,
+                  "y": 228,
+                  "type": "app",
+                  "props": {
+                    "replicas": 1,
+                    "region": "us-east"
+                  }
+                },
+                {
+                  "id": "n4",
+                  "label": "Database",
+                  "x": 520,
+                  "y": 228,
+                  "type": "db",
+                  "props": {
+                    "region": "us-east"
+                  }
+                }
+              ],
+              "edges": [
+                {
+                  "id": "e3",
+                  "from": "n1",
+                  "to": "n2"
+                },
+                {
+                  "id": "e5",
+                  "from": "n2",
+                  "to": "n4"
+                }
+              ]
+            },
+            "traffic": {
+              "preset": "steady",
+              "rps": 300,
+              "burst": 1.2,
+              "readRatio": 0.8,
+              "sloP95": 300,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "steady"
+            }
+          },
+          "createdAt": "2026-10-24T00:00:00Z",
+          "status": "pending",
+          "completedAt": null,
+          "result": null,
+          "failure": null
+        },
+        "statusUrl": "/v1/designs/00000000-0000-4000-8000-000000000001/runs/00000000-0000-4000-8000-000000000001"
+      }
+    },
+    {
+      "flow": "GET run pending data",
+      "schema": "Run",
+      "value": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "designId": "00000000-0000-4000-8000-000000000001",
+        "requestId": "00000000-0000-4000-8000-000000000001",
+        "designRevision": 1,
+        "fingerprint": "1568041010bfce516bc192666b854c84003bfaac78170ef3e430fd1974989ee7",
+        "engineVersion": "reference-port-v1",
+        "kind": "simulation",
+        "snapshot": {
+          "schemaVersion": 1,
+          "graph": {
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Users",
+                "x": 40,
+                "y": 228,
+                "type": "client",
+                "props": {
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n2",
+                "label": "App servers",
+                "x": 280,
+                "y": 228,
+                "type": "app",
+                "props": {
+                  "replicas": 1,
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n4",
+                "label": "Database",
+                "x": 520,
+                "y": 228,
+                "type": "db",
+                "props": {
+                  "region": "us-east"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "id": "e3",
+                "from": "n1",
+                "to": "n2"
+              },
+              {
+                "id": "e5",
+                "from": "n2",
+                "to": "n4"
+              }
+            ]
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          }
+        },
+        "createdAt": "2026-10-24T00:00:00Z",
+        "status": "pending",
+        "completedAt": null,
+        "result": null,
+        "failure": null
+      }
+    },
+    {
+      "flow": "GET run complete data",
+      "schema": "Run",
+      "value": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "designId": "00000000-0000-4000-8000-000000000001",
+        "requestId": "00000000-0000-4000-8000-000000000001",
+        "designRevision": 1,
+        "fingerprint": "1568041010bfce516bc192666b854c84003bfaac78170ef3e430fd1974989ee7",
+        "engineVersion": "reference-port-v1",
+        "kind": "simulation",
+        "snapshot": {
+          "schemaVersion": 1,
+          "graph": {
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Users",
+                "x": 40,
+                "y": 228,
+                "type": "client",
+                "props": {
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n2",
+                "label": "App servers",
+                "x": 280,
+                "y": 228,
+                "type": "app",
+                "props": {
+                  "replicas": 1,
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n4",
+                "label": "Database",
+                "x": 520,
+                "y": 228,
+                "type": "db",
+                "props": {
+                  "region": "us-east"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "id": "e3",
+                "from": "n1",
+                "to": "n2"
+              },
+              {
+                "id": "e5",
+                "from": "n2",
+                "to": "n4"
+              }
+            ]
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          }
+        },
+        "createdAt": "2026-10-24T00:00:00Z",
+        "status": "completed",
+        "completedAt": "2026-10-24T00:00:00Z",
+        "result": {
+          "kind": "simulation",
+          "summary": {
+            "validation": {
+              "ok": true,
+              "errors": [],
+              "warnings": []
+            },
+            "traffic": {
+              "preset": "steady",
+              "rps": 300,
+              "burst": 1.2,
+              "readRatio": 0.8,
+              "sloP95": 300,
+              "errorBudget": 0.01,
+              "durationMin": 10,
+              "shape": "steady"
+            },
+            "rps": 300,
+            "peakRps": 360,
+            "p50": 27.411567116496606,
+            "p95": 43.143026043320646,
+            "p99": 52.062107521814816,
+            "mean": 28.47373241357003,
+            "errorRate": 0,
+            "throughput": 300,
+            "sloMet": true,
+            "verdict": "pass",
+            "nodes": [
+              {
+                "id": "n1",
+                "type": "client",
+                "label": "Users",
+                "region": "us-east",
+                "reads": 240,
+                "writes": 59.999999999999986,
+                "async": 0,
+                "peak": 360,
+                "cap": {
+                  "kind": "unbounded"
+                },
+                "rho": 0,
+                "status": "idle",
+                "background": false,
+                "T": 0,
+                "S": 0,
+                "Wq": 0,
+                "servers": null,
+                "errors": 0,
+                "visit": 1,
+                "contribution": 0,
+                "satRps": {
+                  "kind": "unbounded"
+                }
+              },
+              {
+                "id": "n2",
+                "type": "app",
+                "label": "App servers",
+                "region": "us-east",
+                "reads": 240,
+                "writes": 59.999999999999986,
+                "async": 0,
+                "peak": 360,
+                "cap": {
+                  "kind": "finite",
+                  "value": 600
+                },
+                "rho": 0.6,
+                "status": "ok",
+                "background": false,
+                "T": 22.47244890471189,
+                "S": 22,
+                "Wq": 0.47244890471188905,
+                "servers": 13,
+                "errors": 0,
+                "visit": 1,
+                "contribution": 22.47244890471189,
+                "satRps": {
+                  "kind": "finite",
+                  "value": 500
+                }
+              },
+              {
+                "id": "n4",
+                "type": "db",
+                "label": "Database",
+                "region": "us-east",
+                "reads": 240,
+                "writes": 59.999999999999986,
+                "async": 0,
+                "peak": 360,
+                "cap": {
+                  "kind": "finite",
+                  "value": 1800
+                },
+                "rho": 0.2,
+                "status": "ok",
+                "background": false,
+                "T": 6.001283508858136,
+                "S": 6,
+                "Wq": 0.0012835088581362045,
+                "servers": 11,
+                "errors": 0,
+                "visit": 1,
+                "contribution": 6.001283508858136,
+                "satRps": {
+                  "kind": "finite",
+                  "value": 1500
+                }
+              }
+            ],
+            "maxRho": 0.6,
+            "queues": [],
+            "backgroundIssues": [],
+            "flows": [
+              {
+                "from": "n1",
+                "to": "n2",
+                "rps": 360
+              },
+              {
+                "from": "n2",
+                "to": "n4",
+                "rps": 360
+              }
+            ],
+            "crossRegion": [],
+            "bottleneckId": "n2"
+          },
+          "paths": [
+            {
+              "kind": "Read",
+              "p": 0.8,
+              "mean": 28.473732413570026,
+              "p95": 43.144768986904644,
+              "ok": 1,
+              "steps": [
+                {
+                  "id": "n1",
+                  "label": "Users",
+                  "type": "client",
+                  "hop": 0,
+                  "T": 0
+                },
+                {
+                  "id": "n2",
+                  "label": "App servers",
+                  "type": "app",
+                  "hop": 0,
+                  "T": 22.47244890471189
+                },
+                {
+                  "id": "n4",
+                  "label": "Database",
+                  "type": "db",
+                  "hop": 0,
+                  "T": 6.001283508858136
+                }
+              ]
+            },
+            {
+              "kind": "Write",
+              "p": 0.19999999999999996,
+              "mean": 28.473732413570026,
+              "p95": 43.144768986904644,
+              "ok": 1,
+              "steps": [
+                {
+                  "id": "n1",
+                  "label": "Users",
+                  "type": "client",
+                  "hop": 0,
+                  "T": 0
+                },
+                {
+                  "id": "n2",
+                  "label": "App servers",
+                  "type": "app",
+                  "hop": 0,
+                  "T": 22.47244890471189
+                },
+                {
+                  "id": "n4",
+                  "label": "Database",
+                  "type": "db",
+                  "hop": 0,
+                  "T": 6.001283508858136
+                }
+              ]
+            }
+          ],
+          "timeline": [
+            {
+              "t": 0,
+              "rps": 0,
+              "p95": 41.786284002035835,
+              "err": 0
+            },
+            {
+              "t": 0.2127659574468085,
+              "rps": 65.13871809150626,
+              "p95": 43.50448566282449,
+              "err": 0
+            },
+            {
+              "t": 0.425531914893617,
+              "rps": 129.87473001852234,
+              "p95": 42.27126695527676,
+              "err": 0
+            },
+            {
+              "t": 0.6382978723404255,
+              "rps": 187.41385542411118,
+              "p95": 43.9660471390156,
+              "err": 0
+            },
+            {
+              "t": 0.851063829787234,
+              "rps": 259.64164403267205,
+              "p95": 41.523547475499,
+              "err": 0
+            },
+            {
+              "t": 1.0638297872340425,
+              "rps": 293.91518837423064,
+              "p95": 43.99813728815758,
+              "err": 0
+            },
+            {
+              "t": 1.276595744680851,
+              "rps": 297.85061557078734,
+              "p95": 43.94121852366001,
+              "err": 0
+            },
+            {
+              "t": 1.4893617021276595,
+              "rps": 297.8710855334066,
+              "p95": 43.80484041151047,
+              "err": 0
+            },
+            {
+              "t": 1.702127659574468,
+              "rps": 303.57778428238817,
+              "p95": 44.00297934083964,
+              "err": 0
+            },
+            {
+              "t": 1.9148936170212765,
+              "rps": 305.936331753619,
+              "p95": 43.45236864465002,
+              "err": 0
+            },
+            {
+              "t": 2.127659574468085,
+              "rps": 292.60104212444276,
+              "p95": 44.134028367120976,
+              "err": 0
+            },
+            {
+              "t": 2.3404255319148937,
+              "rps": 306.79016771377064,
+              "p95": 43.245716991668765,
+              "err": 0
+            },
+            {
+              "t": 2.553191489361702,
+              "rps": 306.2663690862246,
+              "p95": 44.26727841308431,
+              "err": 0
+            },
+            {
+              "t": 2.765957446808511,
+              "rps": 294.1678256622981,
+              "p95": 42.72276777980597,
+              "err": 0
+            },
+            {
+              "t": 2.978723404255319,
+              "rps": 293.1558192532975,
+              "p95": 42.411107685351766,
+              "err": 0
+            },
+            {
+              "t": 3.1914893617021276,
+              "rps": 299.2826075409539,
+              "p95": 43.963486818986894,
+              "err": 0
+            },
+            {
+              "t": 3.404255319148936,
+              "rps": 300.6519421481062,
+              "p95": 41.819089201610225,
+              "err": 0
+            },
+            {
+              "t": 3.617021276595745,
+              "rps": 304.2144456622191,
+              "p95": 41.59029941509807,
+              "err": 0
+            },
+            {
+              "t": 3.829787234042553,
+              "rps": 300.79309599939734,
+              "p95": 41.86865717414729,
+              "err": 0
+            },
+            {
+              "t": 4.042553191489361,
+              "rps": 295.8787526667584,
+              "p95": 42.099224219858,
+              "err": 0
+            },
+            {
+              "t": 4.25531914893617,
+              "rps": 306.90639736130834,
+              "p95": 41.75314222578879,
+              "err": 0
+            },
+            {
+              "t": 4.468085106382978,
+              "rps": 322.13269430132846,
+              "p95": 41.585745376468076,
+              "err": 0
+            },
+            {
+              "t": 4.680851063829787,
+              "rps": 326.41239049555134,
+              "p95": 44.18010020082809,
+              "err": 0
+            },
+            {
+              "t": 4.8936170212765955,
+              "rps": 349.310730154275,
+              "p95": 43.731655108923285,
+              "err": 0
+            },
+            {
+              "t": 5.106382978723404,
+              "rps": 357.7069505667031,
+              "p95": 42.49234991431807,
+              "err": 0
+            },
+            {
+              "t": 5.319148936170213,
+              "rps": 332.5358543499715,
+              "p95": 41.768156278398706,
+              "err": 0
+            },
+            {
+              "t": 5.531914893617022,
+              "rps": 317.5370293223811,
+              "p95": 42.27543478661673,
+              "err": 0
+            },
+            {
+              "t": 5.74468085106383,
+              "rps": 303.18170335376635,
+              "p95": 43.11119509179486,
+              "err": 0
+            },
+            {
+              "t": 5.957446808510638,
+              "rps": 304.7872555826325,
+              "p95": 43.94116889745745,
+              "err": 0
+            },
+            {
+              "t": 6.170212765957447,
+              "rps": 302.76390744606033,
+              "p95": 41.79772983284961,
+              "err": 0
+            },
+            {
+              "t": 6.382978723404255,
+              "rps": 301.5755423507653,
+              "p95": 41.57801248449663,
+              "err": 0
+            },
+            {
+              "t": 6.595744680851063,
+              "rps": 306.986928563565,
+              "p95": 44.12569729769419,
+              "err": 0
+            },
+            {
+              "t": 6.808510638297872,
+              "rps": 302.59158801985905,
+              "p95": 43.83544400274458,
+              "err": 0
+            },
+            {
+              "t": 7.0212765957446805,
+              "rps": 300.2794786042068,
+              "p95": 43.32527295620731,
+              "err": 0
+            },
+            {
+              "t": 7.23404255319149,
+              "rps": 294.5958589366637,
+              "p95": 42.54488840998155,
+              "err": 0
+            },
+            {
+              "t": 7.446808510638298,
+              "rps": 296.2116216227878,
+              "p95": 43.8099663210226,
+              "err": 0
+            },
+            {
+              "t": 7.659574468085106,
+              "rps": 306.27339935163036,
+              "p95": 43.98391195324682,
+              "err": 0
+            },
+            {
+              "t": 7.872340425531915,
+              "rps": 305.74310597847216,
+              "p95": 41.38693760650456,
+              "err": 0
+            },
+            {
+              "t": 8.085106382978722,
+              "rps": 298.3106091048103,
+              "p95": 43.18435135350986,
+              "err": 0
+            },
+            {
+              "t": 8.297872340425531,
+              "rps": 299.7948243515566,
+              "p95": 41.59586092709883,
+              "err": 0
+            },
+            {
+              "t": 8.51063829787234,
+              "rps": 298.88810332864523,
+              "p95": 43.73772944943372,
+              "err": 0
+            },
+            {
+              "t": 8.72340425531915,
+              "rps": 297.0882620662451,
+              "p95": 43.199997108597934,
+              "err": 0
+            },
+            {
+              "t": 8.936170212765957,
+              "rps": 296.358502402436,
+              "p95": 43.18064171274096,
+              "err": 0
+            },
+            {
+              "t": 9.148936170212766,
+              "rps": 297.64512959634885,
+              "p95": 42.830488202097904,
+              "err": 0
+            },
+            {
+              "t": 9.361702127659575,
+              "rps": 303.11887417919934,
+              "p95": 43.62052419212324,
+              "err": 0
+            },
+            {
+              "t": 9.574468085106384,
+              "rps": 300.5092633527238,
+              "p95": 41.7902404483333,
+              "err": 0
+            },
+            {
+              "t": 9.787234042553191,
+              "rps": 295.80766656668857,
+              "p95": 44.03650494738445,
+              "err": 0
+            },
+            {
+              "t": 10,
+              "rps": 294.0987756312825,
+              "p95": 43.83819976533399,
+              "err": 0
+            }
+          ],
+          "timelineLabel": "illustrative sampled timeline"
+        },
+        "failure": null
+      }
+    },
+    {
+      "flow": "GET run failed data",
+      "schema": "Run",
+      "value": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "designId": "00000000-0000-4000-8000-000000000001",
+        "requestId": "00000000-0000-4000-8000-000000000001",
+        "designRevision": 1,
+        "fingerprint": "1568041010bfce516bc192666b854c84003bfaac78170ef3e430fd1974989ee7",
+        "engineVersion": "reference-port-v1",
+        "kind": "simulation",
+        "snapshot": {
+          "schemaVersion": 1,
+          "graph": {
+            "nodes": [
+              {
+                "id": "n1",
+                "label": "Users",
+                "x": 40,
+                "y": 228,
+                "type": "client",
+                "props": {
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n2",
+                "label": "App servers",
+                "x": 280,
+                "y": 228,
+                "type": "app",
+                "props": {
+                  "replicas": 1,
+                  "region": "us-east"
+                }
+              },
+              {
+                "id": "n4",
+                "label": "Database",
+                "x": 520,
+                "y": 228,
+                "type": "db",
+                "props": {
+                  "region": "us-east"
+                }
+              }
+            ],
+            "edges": [
+              {
+                "id": "e3",
+                "from": "n1",
+                "to": "n2"
+              },
+              {
+                "id": "e5",
+                "from": "n2",
+                "to": "n4"
+              }
+            ]
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          }
+        },
+        "createdAt": "2026-10-24T00:00:00Z",
+        "status": "failed",
+        "completedAt": "2026-10-24T00:00:00Z",
+        "result": null,
+        "failure": {
+          "code": "INTERRUPTED",
+          "message": "Calculation interrupted; retry deliberately."
+        }
+      }
+    },
+    {
+      "flow": "Simulation result",
+      "schema": "SimulationOutput",
+      "value": {
+        "kind": "simulation",
+        "summary": {
+          "validation": {
+            "ok": true,
+            "errors": [],
+            "warnings": []
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          },
+          "rps": 300,
+          "peakRps": 360,
+          "p50": 27.411567116496606,
+          "p95": 43.143026043320646,
+          "p99": 52.062107521814816,
+          "mean": 28.47373241357003,
+          "errorRate": 0,
+          "throughput": 300,
+          "sloMet": true,
+          "verdict": "pass",
+          "nodes": [
+            {
+              "id": "n1",
+              "type": "client",
+              "label": "Users",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "unbounded"
+              },
+              "rho": 0,
+              "status": "idle",
+              "background": false,
+              "T": 0,
+              "S": 0,
+              "Wq": 0,
+              "servers": null,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 0,
+              "satRps": {
+                "kind": "unbounded"
+              }
+            },
+            {
+              "id": "n2",
+              "type": "app",
+              "label": "App servers",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 600
+              },
+              "rho": 0.6,
+              "status": "ok",
+              "background": false,
+              "T": 22.47244890471189,
+              "S": 22,
+              "Wq": 0.47244890471188905,
+              "servers": 13,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 22.47244890471189,
+              "satRps": {
+                "kind": "finite",
+                "value": 500
+              }
+            },
+            {
+              "id": "n4",
+              "type": "db",
+              "label": "Database",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 1800
+              },
+              "rho": 0.2,
+              "status": "ok",
+              "background": false,
+              "T": 6.001283508858136,
+              "S": 6,
+              "Wq": 0.0012835088581362045,
+              "servers": 11,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 6.001283508858136,
+              "satRps": {
+                "kind": "finite",
+                "value": 1500
+              }
+            }
+          ],
+          "maxRho": 0.6,
+          "queues": [],
+          "backgroundIssues": [],
+          "flows": [
+            {
+              "from": "n1",
+              "to": "n2",
+              "rps": 360
+            },
+            {
+              "from": "n2",
+              "to": "n4",
+              "rps": 360
+            }
+          ],
+          "crossRegion": [],
+          "bottleneckId": "n2"
+        },
+        "paths": [
+          {
+            "kind": "Read",
+            "p": 0.8,
+            "mean": 28.473732413570026,
+            "p95": 43.144768986904644,
+            "ok": 1,
+            "steps": [
+              {
+                "id": "n1",
+                "label": "Users",
+                "type": "client",
+                "hop": 0,
+                "T": 0
+              },
+              {
+                "id": "n2",
+                "label": "App servers",
+                "type": "app",
+                "hop": 0,
+                "T": 22.47244890471189
+              },
+              {
+                "id": "n4",
+                "label": "Database",
+                "type": "db",
+                "hop": 0,
+                "T": 6.001283508858136
+              }
+            ]
+          },
+          {
+            "kind": "Write",
+            "p": 0.19999999999999996,
+            "mean": 28.473732413570026,
+            "p95": 43.144768986904644,
+            "ok": 1,
+            "steps": [
+              {
+                "id": "n1",
+                "label": "Users",
+                "type": "client",
+                "hop": 0,
+                "T": 0
+              },
+              {
+                "id": "n2",
+                "label": "App servers",
+                "type": "app",
+                "hop": 0,
+                "T": 22.47244890471189
+              },
+              {
+                "id": "n4",
+                "label": "Database",
+                "type": "db",
+                "hop": 0,
+                "T": 6.001283508858136
+              }
+            ]
+          }
+        ],
+        "timeline": [
+          {
+            "t": 0,
+            "rps": 0,
+            "p95": 41.786284002035835,
+            "err": 0
+          },
+          {
+            "t": 0.2127659574468085,
+            "rps": 65.13871809150626,
+            "p95": 43.50448566282449,
+            "err": 0
+          },
+          {
+            "t": 0.425531914893617,
+            "rps": 129.87473001852234,
+            "p95": 42.27126695527676,
+            "err": 0
+          },
+          {
+            "t": 0.6382978723404255,
+            "rps": 187.41385542411118,
+            "p95": 43.9660471390156,
+            "err": 0
+          },
+          {
+            "t": 0.851063829787234,
+            "rps": 259.64164403267205,
+            "p95": 41.523547475499,
+            "err": 0
+          },
+          {
+            "t": 1.0638297872340425,
+            "rps": 293.91518837423064,
+            "p95": 43.99813728815758,
+            "err": 0
+          },
+          {
+            "t": 1.276595744680851,
+            "rps": 297.85061557078734,
+            "p95": 43.94121852366001,
+            "err": 0
+          },
+          {
+            "t": 1.4893617021276595,
+            "rps": 297.8710855334066,
+            "p95": 43.80484041151047,
+            "err": 0
+          },
+          {
+            "t": 1.702127659574468,
+            "rps": 303.57778428238817,
+            "p95": 44.00297934083964,
+            "err": 0
+          },
+          {
+            "t": 1.9148936170212765,
+            "rps": 305.936331753619,
+            "p95": 43.45236864465002,
+            "err": 0
+          },
+          {
+            "t": 2.127659574468085,
+            "rps": 292.60104212444276,
+            "p95": 44.134028367120976,
+            "err": 0
+          },
+          {
+            "t": 2.3404255319148937,
+            "rps": 306.79016771377064,
+            "p95": 43.245716991668765,
+            "err": 0
+          },
+          {
+            "t": 2.553191489361702,
+            "rps": 306.2663690862246,
+            "p95": 44.26727841308431,
+            "err": 0
+          },
+          {
+            "t": 2.765957446808511,
+            "rps": 294.1678256622981,
+            "p95": 42.72276777980597,
+            "err": 0
+          },
+          {
+            "t": 2.978723404255319,
+            "rps": 293.1558192532975,
+            "p95": 42.411107685351766,
+            "err": 0
+          },
+          {
+            "t": 3.1914893617021276,
+            "rps": 299.2826075409539,
+            "p95": 43.963486818986894,
+            "err": 0
+          },
+          {
+            "t": 3.404255319148936,
+            "rps": 300.6519421481062,
+            "p95": 41.819089201610225,
+            "err": 0
+          },
+          {
+            "t": 3.617021276595745,
+            "rps": 304.2144456622191,
+            "p95": 41.59029941509807,
+            "err": 0
+          },
+          {
+            "t": 3.829787234042553,
+            "rps": 300.79309599939734,
+            "p95": 41.86865717414729,
+            "err": 0
+          },
+          {
+            "t": 4.042553191489361,
+            "rps": 295.8787526667584,
+            "p95": 42.099224219858,
+            "err": 0
+          },
+          {
+            "t": 4.25531914893617,
+            "rps": 306.90639736130834,
+            "p95": 41.75314222578879,
+            "err": 0
+          },
+          {
+            "t": 4.468085106382978,
+            "rps": 322.13269430132846,
+            "p95": 41.585745376468076,
+            "err": 0
+          },
+          {
+            "t": 4.680851063829787,
+            "rps": 326.41239049555134,
+            "p95": 44.18010020082809,
+            "err": 0
+          },
+          {
+            "t": 4.8936170212765955,
+            "rps": 349.310730154275,
+            "p95": 43.731655108923285,
+            "err": 0
+          },
+          {
+            "t": 5.106382978723404,
+            "rps": 357.7069505667031,
+            "p95": 42.49234991431807,
+            "err": 0
+          },
+          {
+            "t": 5.319148936170213,
+            "rps": 332.5358543499715,
+            "p95": 41.768156278398706,
+            "err": 0
+          },
+          {
+            "t": 5.531914893617022,
+            "rps": 317.5370293223811,
+            "p95": 42.27543478661673,
+            "err": 0
+          },
+          {
+            "t": 5.74468085106383,
+            "rps": 303.18170335376635,
+            "p95": 43.11119509179486,
+            "err": 0
+          },
+          {
+            "t": 5.957446808510638,
+            "rps": 304.7872555826325,
+            "p95": 43.94116889745745,
+            "err": 0
+          },
+          {
+            "t": 6.170212765957447,
+            "rps": 302.76390744606033,
+            "p95": 41.79772983284961,
+            "err": 0
+          },
+          {
+            "t": 6.382978723404255,
+            "rps": 301.5755423507653,
+            "p95": 41.57801248449663,
+            "err": 0
+          },
+          {
+            "t": 6.595744680851063,
+            "rps": 306.986928563565,
+            "p95": 44.12569729769419,
+            "err": 0
+          },
+          {
+            "t": 6.808510638297872,
+            "rps": 302.59158801985905,
+            "p95": 43.83544400274458,
+            "err": 0
+          },
+          {
+            "t": 7.0212765957446805,
+            "rps": 300.2794786042068,
+            "p95": 43.32527295620731,
+            "err": 0
+          },
+          {
+            "t": 7.23404255319149,
+            "rps": 294.5958589366637,
+            "p95": 42.54488840998155,
+            "err": 0
+          },
+          {
+            "t": 7.446808510638298,
+            "rps": 296.2116216227878,
+            "p95": 43.8099663210226,
+            "err": 0
+          },
+          {
+            "t": 7.659574468085106,
+            "rps": 306.27339935163036,
+            "p95": 43.98391195324682,
+            "err": 0
+          },
+          {
+            "t": 7.872340425531915,
+            "rps": 305.74310597847216,
+            "p95": 41.38693760650456,
+            "err": 0
+          },
+          {
+            "t": 8.085106382978722,
+            "rps": 298.3106091048103,
+            "p95": 43.18435135350986,
+            "err": 0
+          },
+          {
+            "t": 8.297872340425531,
+            "rps": 299.7948243515566,
+            "p95": 41.59586092709883,
+            "err": 0
+          },
+          {
+            "t": 8.51063829787234,
+            "rps": 298.88810332864523,
+            "p95": 43.73772944943372,
+            "err": 0
+          },
+          {
+            "t": 8.72340425531915,
+            "rps": 297.0882620662451,
+            "p95": 43.199997108597934,
+            "err": 0
+          },
+          {
+            "t": 8.936170212765957,
+            "rps": 296.358502402436,
+            "p95": 43.18064171274096,
+            "err": 0
+          },
+          {
+            "t": 9.148936170212766,
+            "rps": 297.64512959634885,
+            "p95": 42.830488202097904,
+            "err": 0
+          },
+          {
+            "t": 9.361702127659575,
+            "rps": 303.11887417919934,
+            "p95": 43.62052419212324,
+            "err": 0
+          },
+          {
+            "t": 9.574468085106384,
+            "rps": 300.5092633527238,
+            "p95": 41.7902404483333,
+            "err": 0
+          },
+          {
+            "t": 9.787234042553191,
+            "rps": 295.80766656668857,
+            "p95": 44.03650494738445,
+            "err": 0
+          },
+          {
+            "t": 10,
+            "rps": 294.0987756312825,
+            "p95": 43.83819976533399,
+            "err": 0
+          }
+        ],
+        "timelineLabel": "illustrative sampled timeline"
+      }
+    },
+    {
+      "flow": "Limits result (loose documented example bracket)",
+      "schema": "LimitsOutput",
+      "value": {
+        "kind": "limits",
+        "state": "found",
+        "minimumTestedRps": 1,
+        "maximumTestedRps": 785.0167119344417,
+        "searchIterations": 24,
+        "current": {
+          "validation": {
+            "ok": true,
+            "errors": [],
+            "warnings": []
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          },
+          "rps": 300,
+          "peakRps": 360,
+          "p50": 27.411567116496606,
+          "p95": 43.143026043320646,
+          "p99": 52.062107521814816,
+          "mean": 28.47373241357003,
+          "errorRate": 0,
+          "throughput": 300,
+          "sloMet": true,
+          "verdict": "pass",
+          "nodes": [
+            {
+              "id": "n1",
+              "type": "client",
+              "label": "Users",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "unbounded"
+              },
+              "rho": 0,
+              "status": "idle",
+              "background": false,
+              "T": 0,
+              "S": 0,
+              "Wq": 0,
+              "servers": null,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 0,
+              "satRps": {
+                "kind": "unbounded"
+              }
+            },
+            {
+              "id": "n2",
+              "type": "app",
+              "label": "App servers",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 600
+              },
+              "rho": 0.6,
+              "status": "ok",
+              "background": false,
+              "T": 22.47244890471189,
+              "S": 22,
+              "Wq": 0.47244890471188905,
+              "servers": 13,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 22.47244890471189,
+              "satRps": {
+                "kind": "finite",
+                "value": 500
+              }
+            },
+            {
+              "id": "n4",
+              "type": "db",
+              "label": "Database",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 1800
+              },
+              "rho": 0.2,
+              "status": "ok",
+              "background": false,
+              "T": 6.001283508858136,
+              "S": 6,
+              "Wq": 0.0012835088581362045,
+              "servers": 11,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 6.001283508858136,
+              "satRps": {
+                "kind": "finite",
+                "value": 1500
+              }
+            }
+          ],
+          "maxRho": 0.6,
+          "queues": [],
+          "backgroundIssues": [],
+          "flows": [
+            {
+              "from": "n1",
+              "to": "n2",
+              "rps": 360
+            },
+            {
+              "from": "n2",
+              "to": "n4",
+              "rps": 360
+            }
+          ],
+          "crossRegion": [],
+          "bottleneckId": "n2"
+        },
+        "headroom": {
+          "kind": "finite",
+          "value": 1.6354514831967535
+        },
+        "firstId": "n2",
+        "cause": "latency",
+        "orderLabel": "predicted saturation under unshed demand",
+        "order": [
+          {
+            "id": "n2",
+            "label": "App servers",
+            "type": "app",
+            "satRps": {
+              "kind": "finite",
+              "value": 500
+            }
+          },
+          {
+            "id": "n4",
+            "label": "Database",
+            "type": "db",
+            "satRps": {
+              "kind": "finite",
+              "value": 1500
+            }
+          }
+        ],
+        "curve": [
+          {
+            "rps": 1,
+            "p50": 26.927434062727997,
+            "p95": 42.643501808555826,
+            "p99": 51.59110783373529,
+            "err": 0,
+            "maxRho": 0.002
+          },
+          {
+            "rps": 17.841288907600948,
+            "p50": 26.92743519392996,
+            "p95": 42.64350286312643,
+            "p99": 51.59110874022894,
+            "err": 0,
+            "maxRho": 0.03568257781520189
+          },
+          {
+            "rps": 35.682577815201896,
+            "p50": 26.927456972337005,
+            "p95": 42.64352316627971,
+            "p99": 51.59112619263581,
+            "err": 0,
+            "maxRho": 0.07136515563040378
+          },
+          {
+            "rps": 53.52386672280284,
+            "p50": 26.92756953794193,
+            "p95": 42.64362810977914,
+            "p99": 51.59121640373586,
+            "err": 0,
+            "maxRho": 0.1070477334456057
+          },
+          {
+            "rps": 71.36515563040379,
+            "p50": 26.927918436665536,
+            "p95": 42.643953415798556,
+            "p99": 51.59149606986548,
+            "err": 0,
+            "maxRho": 0.14273031126080757
+          },
+          {
+            "rps": 89.20644453800473,
+            "p50": 26.928749636124166,
+            "p95": 42.64472860519905,
+            "p99": 51.592162671882974,
+            "err": 0,
+            "maxRho": 0.17841288907600947
+          },
+          {
+            "rps": 107.04773344560569,
+            "p50": 26.930439203330796,
+            "p95": 42.646305174341684,
+            "p99": 51.59351913836863,
+            "err": 0,
+            "maxRho": 0.2140954668912114
+          },
+          {
+            "rps": 124.88902235320664,
+            "p50": 26.933530107035708,
+            "p95": 42.64919232189879,
+            "p99": 51.59600578767342,
+            "err": 0,
+            "maxRho": 0.24977804470641332
+          },
+          {
+            "rps": 142.73031126080758,
+            "p50": 26.938778984046873,
+            "p95": 42.65410397843962,
+            "p99": 51.60024373454641,
+            "err": 0,
+            "maxRho": 0.28546062252161514
+          },
+          {
+            "rps": 160.5716001684085,
+            "p50": 26.947216625875367,
+            "p95": 42.66202276685917,
+            "p99": 51.607096443418456,
+            "err": 0,
+            "maxRho": 0.32114320033681704
+          },
+          {
+            "rps": 178.41288907600946,
+            "p50": 26.96022739957193,
+            "p95": 42.67428972791536,
+            "p99": 51.61776046378803,
+            "err": 0,
+            "maxRho": 0.35682577815201894
+          },
+          {
+            "rps": 196.25417798361042,
+            "p50": 26.979655034540514,
+            "p95": 42.692734066150734,
+            "p99": 51.63390393351354,
+            "err": 0,
+            "maxRho": 0.39250835596722083
+          },
+          {
+            "rps": 214.09546689121137,
+            "p50": 27.00794559440402,
+            "p95": 42.71986647007566,
+            "p99": 51.657884701664486,
+            "err": 0,
+            "maxRho": 0.4281909337824228
+          },
+          {
+            "rps": 231.9367557988123,
+            "p50": 27.048343708335306,
+            "p95": 42.75917586581154,
+            "p99": 51.69310368454066,
+            "err": 0,
+            "maxRho": 0.4638735115976246
+          },
+          {
+            "rps": 249.77804470641328,
+            "p50": 27.10516646443792,
+            "p95": 42.81559880671905,
+            "p99": 51.74459262771799,
+            "err": 0,
+            "maxRho": 0.49955608941282664
+          },
+          {
+            "rps": 267.6193336140142,
+            "p50": 27.18419289797977,
+            "p95": 42.89628507364523,
+            "p99": 51.82001745147823,
+            "err": 0,
+            "maxRho": 0.5352386672280284
+          },
+          {
+            "rps": 285.46062252161516,
+            "p50": 27.29322962994887,
+            "p95": 43.01188710364714,
+            "p99": 51.931437431150414,
+            "err": 0,
+            "maxRho": 0.5709212450432303
+          },
+          {
+            "rps": 303.3019114292161,
+            "p50": 27.442952315528128,
+            "p95": 43.17880706367422,
+            "p99": 52.09847950491211,
+            "err": 0,
+            "maxRho": 0.6066038228584322
+          },
+          {
+            "rps": 321.143200336817,
+            "p50": 27.648192848146287,
+            "p95": 43.42325971427991,
+            "p99": 52.35425075801594,
+            "err": 0,
+            "maxRho": 0.6422864006736341
+          },
+          {
+            "rps": 338.984489244418,
+            "p50": 27.929974671790745,
+            "p95": 43.78891756638406,
+            "p99": 52.7567488246676,
+            "err": 0,
+            "maxRho": 0.677968978488836
+          },
+          {
+            "rps": 356.8257781520189,
+            "p50": 28.31886290425462,
+            "p95": 44.35192833032997,
+            "p99": 53.41177229032177,
+            "err": 0,
+            "maxRho": 0.7136515563040379
+          },
+          {
+            "rps": 374.6670670596199,
+            "p50": 28.86076447481613,
+            "p95": 45.25177670619576,
+            "p99": 54.52097240654393,
+            "err": 0,
+            "maxRho": 0.7493341341192397
+          },
+          {
+            "rps": 392.50835596722084,
+            "p50": 29.627662543183508,
+            "p95": 46.75768322219601,
+            "p99": 56.48752521963738,
+            "err": 0,
+            "maxRho": 0.7850167119344417
+          },
+          {
+            "rps": 410.34964487482176,
+            "p50": 30.73942909849129,
+            "p95": 49.41830568793902,
+            "p99": 60.16128037740818,
+            "err": 0,
+            "maxRho": 0.8206992897496435
+          },
+          {
+            "rps": 428.19093378242275,
+            "p50": 32.41478368751166,
+            "p95": 54.42058406565974,
+            "p99": 67.45174918975742,
+            "err": 0,
+            "maxRho": 0.8563818675648456
+          },
+          {
+            "rps": 446.0322226900237,
+            "p50": 35.11927768451394,
+            "p95": 64.56846891761766,
+            "p99": 83.0993036362797,
+            "err": 0,
+            "maxRho": 0.8920644453800473
+          },
+          {
+            "rps": 463.8735115976246,
+            "p50": 40.17110882517384,
+            "p95": 87.85593113179763,
+            "p99": 121.50112491840969,
+            "err": 0,
+            "maxRho": 0.9277470231952492
+          },
+          {
+            "rps": 481.7148005052255,
+            "p50": 54.20625953377725,
+            "p95": 160.8178004839637,
+            "p99": 252.35416720147848,
+            "err": 6.391700502206277e-10,
+            "maxRho": 0.9634296010104509
+          },
+          {
+            "rps": 499.55608941282657,
+            "p50": 127.15394108369532,
+            "p95": 531.0356212785703,
+            "p99": 960.1302032401442,
+            "err": 0.00013776645834662204,
+            "maxRho": 0.9991121788256533
+          },
+          {
+            "rps": 517.3973783204275,
+            "p50": 208.64058559623214,
+            "p95": 935.6546948250375,
+            "p99": 1742.3445719347687,
+            "err": 0.03530561191974657,
+            "maxRho": 1.034794756640855
+          },
+          {
+            "rps": 535.2386672280284,
+            "p50": 290.26836200832963,
+            "p95": 1339.3405269945683,
+            "p99": 2523.69253106247,
+            "err": 0.07143948865981642,
+            "maxRho": 1.0704773344560568
+          },
+          {
+            "rps": 553.0799561356293,
+            "p50": 371.94312200372997,
+            "p95": 1742.730787637395,
+            "p99": 3304.731033566038,
+            "err": 0.1078118176599483,
+            "maxRho": 1.1061599122712586
+          },
+          {
+            "rps": 570.9212450432303,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.14238727425376196,
+            "maxRho": 1.1418424900864605
+          },
+          {
+            "rps": 588.7625339508312,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.1683755386703144,
+            "maxRho": 1.1775250679016622
+          },
+          {
+            "rps": 606.6038228584322,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.19283508165059937,
+            "maxRho": 1.2132076457168643
+          },
+          {
+            "rps": 624.4451117660332,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.2158969364605824,
+            "maxRho": 1.2488902235320665
+          },
+          {
+            "rps": 642.286400673634,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.23767757711445503,
+            "maxRho": 1.2845728013472681
+          },
+          {
+            "rps": 660.1276895812351,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.25828088584109143,
+            "maxRho": 1.3202553791624703
+          },
+          {
+            "rps": 677.968978488836,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.27779980989790487,
+            "maxRho": 1.355937956977672
+          },
+          {
+            "rps": 695.8102673964369,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.29631776349026606,
+            "maxRho": 1.3916205347928736
+          },
+          {
+            "rps": 713.6515563040379,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.31390981940300955,
+            "maxRho": 1.4273031126080757
+          },
+          {
+            "rps": 731.4928452116388,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.3306437262468387,
+            "maxRho": 1.4629856904232776
+          },
+          {
+            "rps": 749.3341341192398,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.34658078038381857,
+            "maxRho": 1.4986682682384793
+          },
+          {
+            "rps": 767.1754230268408,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.3617765761888463,
+            "maxRho": 1.5343508460536817
+          },
+          {
+            "rps": 785.0167119344417,
+            "p50": 437.97200746589385,
+            "p95": 2068.6678163591455,
+            "p99": 3935.8886854045713,
+            "err": 0.37628165400273605,
+            "maxRho": 1.5700334238688833
+          }
+        ],
+        "passingRps": 1,
+        "failingRps": 490.635444959026,
+        "at": {
+          "validation": {
+            "ok": true,
+            "errors": [],
+            "warnings": []
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          },
+          "rps": 490.635444959026,
+          "peakRps": 588.7625339508312,
+          "p50": 81.18645038387314,
+          "p95": 300.00004864945635,
+          "p99": 515.5897269985664,
+          "mean": 111.32559760320952,
+          "errorRate": 0.000002781318724887072,
+          "throughput": 490.63408034547587,
+          "sloMet": false,
+          "verdict": "fail",
+          "nodes": [
+            {
+              "id": "n1",
+              "type": "client",
+              "label": "Users",
+              "region": "us-east",
+              "reads": 392.50835596722084,
+              "writes": 98.12708899180518,
+              "async": 0,
+              "peak": 588.7625339508312,
+              "cap": {
+                "kind": "unbounded"
+              },
+              "rho": 0,
+              "status": "idle",
+              "background": false,
+              "T": 0,
+              "S": 0,
+              "Wq": 0,
+              "servers": null,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 0,
+              "satRps": {
+                "kind": "unbounded"
+              }
+            },
+            {
+              "id": "n2",
+              "type": "app",
+              "label": "App servers",
+              "region": "us-east",
+              "reads": 392.50835596722084,
+              "writes": 98.12708899180518,
+              "async": 0,
+              "peak": 588.7625339508312,
+              "cap": {
+                "kind": "finite",
+                "value": 600
+              },
+              "rho": 0.981270889918052,
+              "status": "warn",
+              "background": false,
+              "T": 105.31521034471206,
+              "S": 22,
+              "Wq": 83.31521034471206,
+              "servers": 13,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 105.31521034471206,
+              "satRps": {
+                "kind": "finite",
+                "value": 500
+              }
+            },
+            {
+              "id": "n4",
+              "type": "db",
+              "label": "Database",
+              "region": "us-east",
+              "reads": 392.50835596722084,
+              "writes": 98.12708899180518,
+              "async": 0,
+              "peak": 588.7625339508312,
+              "cap": {
+                "kind": "finite",
+                "value": 1800
+              },
+              "rho": 0.3270902966393507,
+              "status": "ok",
+              "background": false,
+              "T": 6.010387258497499,
+              "S": 6,
+              "Wq": 0.0103872584974984,
+              "servers": 11,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 6.010387258497499,
+              "satRps": {
+                "kind": "finite",
+                "value": 1500
+              }
+            }
+          ],
+          "maxRho": 0.981270889918052,
+          "queues": [],
+          "backgroundIssues": [],
+          "flows": [
+            {
+              "from": "n1",
+              "to": "n2",
+              "rps": 588.7625339508312
+            },
+            {
+              "from": "n2",
+              "to": "n4",
+              "rps": 588.7625339508312
+            }
+          ],
+          "crossRegion": [],
+          "bottleneckId": "n2"
+        }
+      }
+    },
+    {
+      "flow": "GET designs full envelope",
+      "schema": "DesignList",
+      "value": {
+        "data": [
+          {
+            "id": "00000000-0000-4000-8000-000000000001",
+            "name": "Single-server MVP",
+            "description": "",
+            "source": "template",
+            "templateId": "mvp",
+            "revision": 1,
+            "createdAt": "2026-10-24T00:00:00Z",
+            "updatedAt": "2026-10-24T00:00:00Z",
+            "nodeCount": 3,
+            "edgeCount": 2,
+            "latestRun": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "kind": "simulation",
+              "status": "completed",
+              "designRevision": 1,
+              "createdAt": "2026-10-24T00:00:00Z",
+              "verdict": "pass",
+              "p95": 43.143026043320646
+            }
+          }
+        ],
+        "meta": {
+          "page": 1,
+          "pageSize": 20,
+          "total": 1
+        }
+      }
+    },
+    {
+      "flow": "GET dashboard data",
+      "schema": "Dashboard",
+      "value": {
+        "designs": [
+          {
+            "id": "00000000-0000-4000-8000-000000000001",
+            "name": "Single-server MVP",
+            "description": "",
+            "source": "template",
+            "templateId": "mvp",
+            "revision": 1,
+            "createdAt": "2026-10-24T00:00:00Z",
+            "updatedAt": "2026-10-24T00:00:00Z",
+            "nodeCount": 3,
+            "edgeCount": 2,
+            "latestRun": {
+              "id": "00000000-0000-4000-8000-000000000001",
+              "kind": "simulation",
+              "status": "completed",
+              "designRevision": 1,
+              "createdAt": "2026-10-24T00:00:00Z",
+              "verdict": "pass",
+              "p95": 43.143026043320646
+            }
+          }
+        ],
+        "recentRuns": [
+          {
+            "id": "00000000-0000-4000-8000-000000000001",
+            "kind": "simulation",
+            "status": "completed",
+            "designRevision": 1,
+            "createdAt": "2026-10-24T00:00:00Z",
+            "verdict": "pass",
+            "p95": 43.143026043320646,
+            "designId": "00000000-0000-4000-8000-000000000001",
+            "designName": "Single-server MVP"
+          }
+        ],
+        "counts": {
+          "designs": 1,
+          "retainedRuns": 1
+        },
+        "countsLabel": "Runs in the retained window"
+      }
+    },
+    {
+      "flow": "POST preview request",
+      "schema": "PreviewRequest",
+      "value": {
+        "schemaVersion": 1,
+        "graph": {
+          "nodes": [
+            {
+              "id": "n1",
+              "label": "Users",
+              "x": 40,
+              "y": 228,
+              "type": "client",
+              "props": {
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n2",
+              "label": "App servers",
+              "x": 280,
+              "y": 228,
+              "type": "app",
+              "props": {
+                "replicas": 1,
+                "region": "us-east"
+              }
+            },
+            {
+              "id": "n4",
+              "label": "Database",
+              "x": 520,
+              "y": 228,
+              "type": "db",
+              "props": {
+                "region": "us-east"
+              }
+            }
+          ],
+          "edges": [
+            {
+              "id": "e3",
+              "from": "n1",
+              "to": "n2"
+            },
+            {
+              "id": "e5",
+              "from": "n2",
+              "to": "n4"
+            }
+          ]
+        },
+        "traffic": {
+          "preset": "steady",
+          "rps": 300,
+          "burst": 1.2,
+          "readRatio": 0.8,
+          "sloP95": 300,
+          "errorBudget": 0.01,
+          "durationMin": 10,
+          "shape": "steady"
+        },
+        "editorSessionId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1
+      }
+    },
+    {
+      "flow": "POST preview data",
+      "schema": "PreviewResponse",
+      "value": {
+        "editorSessionId": "00000000-0000-4000-8000-000000000001",
+        "sequence": 1,
+        "fingerprint": "1568041010bfce516bc192666b854c84003bfaac78170ef3e430fd1974989ee7",
+        "engineVersion": "reference-port-v1",
+        "validation": {
+          "ok": true,
+          "errors": [],
+          "warnings": []
+        },
+        "summary": {
+          "validation": {
+            "ok": true,
+            "errors": [],
+            "warnings": []
+          },
+          "traffic": {
+            "preset": "steady",
+            "rps": 300,
+            "burst": 1.2,
+            "readRatio": 0.8,
+            "sloP95": 300,
+            "errorBudget": 0.01,
+            "durationMin": 10,
+            "shape": "steady"
+          },
+          "rps": 300,
+          "peakRps": 360,
+          "p50": 27.411567116496606,
+          "p95": 43.143026043320646,
+          "p99": 52.062107521814816,
+          "mean": 28.47373241357003,
+          "errorRate": 0,
+          "throughput": 300,
+          "sloMet": true,
+          "verdict": "pass",
+          "nodes": [
+            {
+              "id": "n1",
+              "type": "client",
+              "label": "Users",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "unbounded"
+              },
+              "rho": 0,
+              "status": "idle",
+              "background": false,
+              "T": 0,
+              "S": 0,
+              "Wq": 0,
+              "servers": null,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 0,
+              "satRps": {
+                "kind": "unbounded"
+              }
+            },
+            {
+              "id": "n2",
+              "type": "app",
+              "label": "App servers",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 600
+              },
+              "rho": 0.6,
+              "status": "ok",
+              "background": false,
+              "T": 22.47244890471189,
+              "S": 22,
+              "Wq": 0.47244890471188905,
+              "servers": 13,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 22.47244890471189,
+              "satRps": {
+                "kind": "finite",
+                "value": 500
+              }
+            },
+            {
+              "id": "n4",
+              "type": "db",
+              "label": "Database",
+              "region": "us-east",
+              "reads": 240,
+              "writes": 59.999999999999986,
+              "async": 0,
+              "peak": 360,
+              "cap": {
+                "kind": "finite",
+                "value": 1800
+              },
+              "rho": 0.2,
+              "status": "ok",
+              "background": false,
+              "T": 6.001283508858136,
+              "S": 6,
+              "Wq": 0.0012835088581362045,
+              "servers": 11,
+              "errors": 0,
+              "visit": 1,
+              "contribution": 6.001283508858136,
+              "satRps": {
+                "kind": "finite",
+                "value": 1500
+              }
+            }
+          ],
+          "maxRho": 0.6,
+          "queues": [],
+          "backgroundIssues": [],
+          "flows": [
+            {
+              "from": "n1",
+              "to": "n2",
+              "rps": 360
+            },
+            {
+              "from": "n2",
+              "to": "n4",
+              "rps": 360
+            }
+          ],
+          "crossRegion": [],
+          "bottleneckId": "n2"
+        }
+      }
+    },
+    {
+      "flow": "409 revision error details",
+      "schema": "ConflictDetails",
+      "value": {
+        "reason": "REVISION_MISMATCH",
+        "currentRevision": 2
+      }
+    },
+    {
+      "flow": "409 request reuse details",
+      "schema": "ConflictDetails",
+      "value": {
+        "reason": "REQUEST_ID_REUSED"
+      }
+    },
+    {
+      "flow": "Legacy import request",
+      "schema": "Import",
+      "value": {
+        "nodes": [
+          {
+            "id": "u",
+            "type": "client"
+          },
+          {
+            "id": "a",
+            "type": "app"
+          }
+        ],
+        "edges": [
+          {
+            "from": "u",
+            "to": "a"
+          }
+        ]
+      }
+    }
+  ]
+}
