@@ -32,7 +32,11 @@
     "typecheck": "tsc --project tsconfig.test.json --noEmit",
     "contract:phase2": "ts-node -r tsconfig-paths/register src/script/export-phase2-contract.ts",
     "contract:phase2:check": "pnpm contract:phase2 --check",
-    "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check"
+    "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check",
+    "test:simulation": "jest --runInBand --runTestsByPath src/modules/simulation/engine/engine.spec.ts src/modules/simulation/worker/worker.spec.ts",
+    "simulation:profile": "ts-node -r tsconfig-paths/register src/script/profile-simulation.ts",
+    "simulation:profile:compiled": "node dist/script/profile-simulation.js",
+    "simulation:health:verify": "ts-node -r tsconfig-paths/register src/script/verify-simulation-health.ts"
   },
   "dependencies": {
     "@nest-lab/throttler-storage-redis": "^1.2.0",

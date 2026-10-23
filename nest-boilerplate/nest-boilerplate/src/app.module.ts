@@ -1,11 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import {
-  APP_FILTER,
-  APP_GUARD,
-  APP_INTERCEPTOR,
-  APP_PIPE,
-} from "@nestjs/core";
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { BullModule } from "@nestjs/bull";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis";
@@ -20,6 +15,8 @@ import { RequestLoggerMiddleware } from "@/common/middlewares/request-logger.mid
 import { AuthModule } from "@/modules/auth/auth.module";
 import { HealthModule } from "@/modules/health/health.module";
 import { UsersModule } from "@/modules/users/users.module";
+
+import { SimulationModule } from "@/modules/simulation/simulation.module";
 
 const { env } = appConfig;
 
@@ -41,6 +38,7 @@ const { env } = appConfig;
     UsersModule,
     AuthModule,
     HealthModule,
+    SimulationModule,
   ],
   providers: [
     { provide: APP_PIPE, useClass: ZodValidationPipe },

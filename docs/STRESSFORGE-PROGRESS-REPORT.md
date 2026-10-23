@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1 contracts and this checkpoint are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; engine implementation awaits the next approval checkpoint. See section 11.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M2 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; the first usable design journey awaits M3 approval. See sections 11–12.
 
 ## 1. Maintenance instructions
 
@@ -43,12 +43,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures complete; M2–M9 not started. See section 11; local Phase 2 changes not yet published |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3–M9 not started. See section 12; local Phase 2 changes not yet published |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification currently covers M0–M1 only. No Phase 2 feature runtime is complete.
+Phase 1 has a complete Foundation audit; Phase 2 verification covers M0–M2; the backend engine/worker is verified, but no user-facing design flow is complete.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -305,6 +305,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 ## 8. Dated update history
 
+- **2026-10-24 — M2 completed:** User approved M2. Ported and tested the pure TypeScript engine, builders/wire adapter, bounded worker/admission and failure recovery. Six source fixtures match;144 unit/22 e2e/36 frontend regressions plus source/compiled/watch and real-service health checks passed. Local checkpoint only; M3 not started. See section12.
+
 - **2026-10-24 — M0–M1 completed:** User approved the baseline/contracts stage with a checkpoint before engine implementation. Published Phase 1 fixes9e8bb00; added canonical Zod/OpenAPI/types, six full-precision oracle fixtures, contract tests and CONFLICT integration. Final114 backend unit,22 e2e,36 frontend tests plus builds/types/lint/live checks passed. Phase 2 remains In progress; section11 records scope and limits.
 
 - **2026-10-23 — Phase 2 plan refined:** Re-read local completion/publication status, existing tests and selected prototype/engine sections. Replaced stale Phase 1 repair/test-setup work with a baseline gate, defined M0–M9 and the early working M3 slice, and integrated six independent static-review corrections. Archived the original plan. Planning documents only; Phase 1 verdict unchanged and Phase 2 implementation not started.
@@ -530,3 +532,70 @@ Owned audit API and stressforge-phase1-audit services are stopped after checks; 
 **Next approval checkpoint: M2 engine/worker.** Port pure TypeScript functions and builders, implement the documented wire exceptions, prove six-fixture parity with abs1e-6+rel1e-6 tolerance, and profile/freeze graph expansion/output/time/memory limits before worker admission. Preserve responsive health, test crashes/timeouts and both watch/compiled runtimes. Do not start M2 until the user approves continuation.
 
 Future milestone work must update this same report, retain this history/evidence, regenerate affected contracts/types and reassess Phase 1 auth/errors/session behavior. Nothing updates or publishes automatically.
+
+## 12. Phase 2 M2 checkpoint — 2026-10-24
+
+**Verdict: M2 COMPLETE. Phase 2 remains IN PROGRESS; M3–M9 not started.** The user explicitly approved M2 after reviewing M0–M1. This session implemented and verified the calculation foundation; it did not create Designs tables/controllers, run persistence, a canvas, Traffic/Results/Limits pages or real AI calls.
+
+### Implementation and evidence
+
+| M2 exit requirement | Evidence | Status |
+| --- | --- | --- |
+| Pure TypeScript engine | src/modules/simulation/engine separates typed catalog, graph validation, routing/propagation, distributions/queue math, simulation, paths, timeline, Limits, builders/import and wire adapter. Strict typecheck; production engine has no any/ts-ignore/ts-nocheck and imports no Nest/database/browser APIs | verified |
+| Six-template numerical parity | engine.spec.ts recursively compares full source simulation/path/timeline structures, exact issue/status/order fields and finite abs1e-6+rel1e-6 values. Limits curves/thresholds/order and full failing-load simulation match source fixtures; passing/failing brackets checked. No tolerance widened; source unchanged | verified |
+| Correctness/wire exceptions | Clients pool is not applicable/null; permitted Infinity explicitly tagged; unexpected NaN rejected; minimum-load threshold remains unknown; maximum1e7rps search produces a lower-bound result rather than proven infinite capacity | verified |
+| Catalog, templates and imports | All12 types, six exact templates; builders reproduce fixture inputs; omitted coordinates completed deterministically and generated edge ids avoid collisions; empty safe draft remains valid | verified |
+| Model edge/sanity checks | Zero load/share, semantic-invalid graphs, overload/replicas/cache/regions/burst, missing queue consumer/infinite lag, one-server waiting-time reduction, minimum-load counterexample, capped search and deterministic/nonmutating behavior | verified |
+| Bounded calculation | Pair/walk/live-component limits, bounded encoded result, fixed sample/search budgets; dense49-node/138-edge draft rejects with COMPLEXITY_LIMIT. No silent accurate-looking partial result | verified initial envelope |
+| Worker/scheduler | One lazy worker, four waiting slots, per-owner durable-priority pending limit, provisional reservations, queue-inclusive5s/preview2s deadlines, preview preemption/eviction/supersession, cancellation/TTL cleanup and shutdown | verified in-memory primitive |
+| Failure isolation | Actual CPU-bound test worker terminated/replaced; exits/thrown errors/malformed or wrong-fingerprint replies fail safely; real replacement calculations succeed. Timers/capacity released; delayed timer callback cannot allow a late start | verified |
+| Source/compiled/watch execution | Actual source and compiled worker profiles; Nest start:dev compiles with0 errors, loads SimulationModule, serves auth/health/Swagger, and restarts after source edits. Worker entry path selects compiled output for Nest watch/production and TS for ts-node/Jest | verified |
+| Health responsiveness | Actual AppModule/HealthController with real configured Postgres/Redis: nine HTTP200 health probes before/during CPU loop/after timeout/crash/recovery, plus two fault markers; latest maximum response74.50ms | verified local observation |
+| Foundation integration | Controller-free SimulationModule registered; no new HTTP feature route; auth/health e2e and actual watch-mode HTTP walkthrough pass; live API type generation unchanged; frontend tests/types pass | verified |
+
+See [model/execution documentation](SIMULATION-MODEL.md) for architecture, commands and numerical limitations. No dependency or paid service was added.
+
+### Frozen bounds and measured profile
+
+- Inputs retain M1 bounds:50 nodes/200 edges and type-specific finite settings; draft validity does not imply supported compute complexity.
+- Per complete calculation:2,000,000 combination attempts,200,000 walker calls,4096 live components,512KiB encoded result,6 named paths,48 timeline points,45 curve points and24 Limits refinement iterations.
+- One worker; at most4 waiting jobs/reservations and one pending durable-priority job per owner. Reservations can expire before a database commit/start; their deadline is not reset. Preview metadata is capped128 entries/30sTTL.
+- Five-second durable-priority and two-second preview deadlines include queue/startup time. V8 old generation128MiB, young generation16MiB, stack4MiB; these are not an absolute process RSS limit. Worker environment omits application signing/database secrets and includes safe temp settings.
+- Local source profile:16 cases,15 complete +1 explicit dense-branch rejection. Maximum observed complete wall time1259.06ms including first-task startup; maximum post-calculation heap45.43MiB; maximum result30748bytes; heartbeat gap35.16ms. Dense rejection240.48ms.
+- Local compiled profile: same16 cases/15 complete +1 rejection; maximum complete wall time370.23ms; post-calculation heap20.27MiB; maximum result30748bytes; heartbeat gap34.41ms. Dense rejection220.10ms.
+- The successful matrix includes each of six templates in simulation and Limits modes, a50-node chain simulation,49-node chain Limits calculation and13-node branching. These measurements are local observations, not portable timing guarantees or peak-memory measurements.
+
+Raw dated measurements: docs/audit/m2-profile-source.json, m2-profile-compiled.json and m2-worker-health.json. The profiler does not require a database; the health verifier uses actual configured audit services and creates no accounts/schema. Fault worker modes exist only in test/fixtures, never the production message schema.
+
+### Checks performed
+
+All listed final checks passed with exit0. Node v22.23.4 and existing pinned pnpm were used.
+
+| Command/check | Result and limits |
+| --- | --- |
+| pnpm build; actual pnpm start:dev | PASS production build; watch compilation/recompilation0 errors; registered controller-free SimulationModule and existing routes |
+| pnpm typecheck; pnpm lint:check | PASS;0 errors,22 inherited lint warnings; five temporary new warnings were removed |
+| pnpm test --runInBand --coverage --collectCoverageFrom=modules/simulation/**/*.ts --coverageReporters=json-summary --coverageReporters=text-summary | PASS:144 unit tests,2 opt-in Docker checks skipped. Simulation coverage: statements88.70% (1052/1186), branches77.01% (536/696), functions92.40% (219/237), lines90.16% (944/1047). Child-worker execution/standalone live scripts are not fully represented by Jest coverage; this is evidence, not the completion criterion |
+| pnpm test:simulation | PASS:30 cases (17 engine/model +13 worker). Affected worker suite13/13 separately rerun after the final safe-temp-environment adjustment |
+| pnpm test:e2e | PASS:22, real isolated sf_m2_20261024 Postgres database; fake Redis/counters as documented in the existing suite |
+| pnpm simulation:profile / simulation:profile:compiled | PASS:16 cases each, expected complexity rejection distinguished from successful calculations |
+| pnpm simulation:health:verify | PASS:11 recorded checks, actual Postgres/Redis, CPU timeout/crash/recovery and HTTP health responsiveness |
+| pnpm contract:phase2:check / pnpm fixtures:phase2 | PASS: canonical contract/examples and all full-precision source fixtures remain current |
+| node docs/audit/live-phase1.cjs against Nest watch | PASS:15 real-service checks; healthy/docs200, register201, login/me/refresh200, logout204, revoked/missing-token401, malformed/oversized422, email-race201/422 and CORS OPTIONS204 |
+| WEB pnpm gen:api / pnpm gen:phase2 --check | PASS; live API type output unchanged, planned types current; calculation HTTP operations remain unmounted |
+| WEB pnpm test / pnpm typecheck | PASS:36 maintained tests and strict types. No frontend implementation changed; browser visual matrix/frontend production build were not repeated in M2 |
+| Diff/source/security review | No unrelated files/dependency changes; reference engine SHA256 still e841b1af...78f; real env files remain ignored; no graph/secret/raw-worker-error logging; temporary port scripts and verified misplaced compiler cache removed |
+
+Verification setup corrections: fixed an early test fixture path and type-import cleanup issue; waited for the deliberately asynchronous Redis connection before real-health assertions; supplied safe TEMP/TMP to prevent a Windows ts-node cache appearing under an undefined/temp folder. Failed preliminary checks were rerun successfully. Model fixtures were not edited to conceal a failure.
+
+### Reassessment and remaining work
+
+[Verified] Foundation auth, JWT/session/error envelopes, CORS, Swagger, health and generated actual API types remain working through the changed AppModule. Phase 1 completion remains the dated Foundation verdict; its historical no-Phase2-module requirement is not a prohibition on this explicitly approved later milestone. No Designs module/table exists yet.
+
+[Untested/not implemented] Database acceptance, ownership/revision races, idempotency/coalescing, immutable run persistence/finalization/restart reconciliation/retention, and the usable editor loop remain M3. Durable is currently a scheduler priority/disconnect policy; all M2 jobs are memory-only and do not survive an API restart. M3 must persist before returning acceptance and reconcile interrupted work.
+
+The preserved queueing/lognormal model, probability pruning/compression, saturation clamps and independently sampled timeline remain approximations. No real traffic calibration, browser editor flow, production deployment, fresh advisory scan or full cross-browser accessibility audit was performed. Existing Phase 1 dependency follow-ups remain as documented; M2 adds no dependencies.
+
+M2 is committed locally on codex/phase2-contracts, not pushed; GitHub main remains Phase1 baseline9e8bb00. Owned watch/audit processes and audit containers were stopped after checks; normal project services/volumes/data were preserved.
+
+**Next: seek approval for M3**, the first real template → edit replicas → save → asynchronous simulation → results → reopen journey, with ownership/revision/idempotency/save safety from the start. Do not mark Phase 2 complete before M9. Future work must update this same report, preserve prior history, attach fresh evidence and reassess affected earlier requirements; no automatic updates/publication.

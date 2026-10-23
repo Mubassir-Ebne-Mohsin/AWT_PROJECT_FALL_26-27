@@ -6,7 +6,7 @@ Draw a system architecture on a canvas, let a simulator find its bottlenecks und
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and remaining dependency follow-ups.
 
-Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M1 complete locally; engine implementation awaits the next approval checkpoint). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
+Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M2 complete locally; the first usable design/save/run journey is M3). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
 
@@ -99,3 +99,5 @@ pnpm test:browser
 ```
 
 From the root, after building the backend, `node docs/audit/phase1-regressions.cjs` runs offline regressions. `node docs/audit/live-phase1.cjs` exercises a running audit API and creates accounts; never record its tokens. `node docs/audit/rate-limit.cjs` starts a temporary API with the default auth limit against the configured audit services and stops its own process afterward.
+
+Backend engine/worker checks and model limitations: [Simulation model (M2)](docs/SIMULATION-MODEL.md). No new editor or calculation HTTP route is available until M3.

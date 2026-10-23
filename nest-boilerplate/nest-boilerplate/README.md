@@ -73,3 +73,18 @@ Compatible updates and removal of unused event-emitter/Socket.IO dependencies re
 | bull -> uuid 8.3.2 (moderate) | Advisory affects buffer handling in v3/v5/v6; the installed Bull sources call v4. Patch requires >=11.1.1, a major change. Retain until a compatible Bull update or a separately tested queue migration. |
 
 The all-dependency audit also reports two moderate file-type advisories through @swc/cli's downloader. They are development-tool dependencies, and no application input path to that downloader was found. Do not treat the reduced production count as a clean security audit. No forced cross-major Faker/uuid override was applied.
+
+## M2 simulation core
+
+SimulationModule is registered without calculation controllers. No Designs tables/API or canvas are available yet. The pure engine and bounded worker run free locally. See [model/worker documentation](../../docs/SIMULATION-MODEL.md) and the living report for evidence and limits.
+
+```powershell
+pnpm test:simulation
+pnpm simulation:profile
+pnpm build
+pnpm simulation:profile:compiled
+# Real Postgres/Redis must be configured first; prefer isolated audit services.
+pnpm simulation:health:verify
+```
+
+The profiler requires no database and writes local aggregate evidence only. The health verifier creates no users or schema; its crash/CPU-loop fixture is a development test, never an API feature.

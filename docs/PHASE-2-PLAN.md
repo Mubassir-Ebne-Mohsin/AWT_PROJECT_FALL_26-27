@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; stop for a checkpoint before M2 engine implementation. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
+**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; next checkpoint before M3. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
 
 ## 1. Target and recommendation
 
@@ -124,7 +124,7 @@ Starting guardrails below require fixture/profile confirmation; they are not mea
 | Graph/import | 50 nodes, 200 edges, 64KiB UTF-8 import; label 1–80/name 1–100 characters; finite coordinates absolute value <=100000 |
 | Settings | replicas integer 1–200; finite capacity >0 to 1e9 rps; latency 0–60000ms; ratios 0–1; queue depth integer 1–1e9; client share 0–1e6 |
 | Traffic | rps 0–1e7; burst 1–100; read/error shares 0–1; p95 target 1–60000ms; duration 1–1440 minutes; source shapes/presets/regions |
-| Work | One worker; global pending queue 4; at most one accepted pending durable job/owner; bounded/expiring preview bookkeeping |
+| Work | One worker; at most four waiting jobs/reservations; at most one accepted pending durable job/owner; bounded/expiring preview bookkeeping |
 | Deadline | Proposed explicit calculation total 5s including queue wait; shorter preview deadline; terminate/replace CPU-bound worker on timeout |
 | Expansion/output | Fixed sample/search budgets and explicit path-expansion cap; graph size alone does not bound exponential paths |
 
@@ -155,7 +155,7 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
-Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2–M9 remain Not started. M0 is baseline preparation, not new functionality.
+Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3–M9 remain Not started. M0 is baseline preparation, not new functionality.
 
 | Step | Context/output | Exit evidence |
 | --- | --- | --- |
@@ -249,3 +249,5 @@ Counterexample: Clients→App, capacity1rps/latency1ms/burst2/readRatio1/p95targ
 - 2026-10-24 M1: canonical schemas/OpenAPI/planned types, six normalized full-precision fixtures and counterexample, request/response examples, fingerprint/import contracts and CONFLICT integration verified. Source Clients servers NaN explicitly maps to not-applicable null; Limits floor/headroom semantics clarified. M2 not started; next approval checkpoint.
 
 Archive formatting note: the original plan text is retained; three Markdown trailing-space hard breaks were normalized when committing the archive on 2026-10-24.
+
+- 2026-10-24 M2 completed after explicit user approval: typed model/builders/wire adapter, six-fixture parity, bounded worker/admission, failure recovery and real-health/source/compiled/watch checks. Bounds frozen and limitations documented in SIMULATION-MODEL.md. M3 not started; await approval for the first usable design journey.

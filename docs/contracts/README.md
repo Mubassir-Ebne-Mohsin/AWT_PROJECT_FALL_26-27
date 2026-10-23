@@ -83,3 +83,7 @@ Both oracle and future port receive the same schema-normalized inputs. Compare a
 ## Maintenance
 
 Change canonical schemas first; regenerate OpenAPI/types; inspect diffs; update fixtures only intentionally; test runtime refinements and caller behavior. Update docs/PHASE-2-PLAN.md and the same docs/STRESSFORGE-PROGRESS-REPORT.md at each milestone. Preserve earlier history, record actual commands/results and reassess affected Phase 1 requirements. Nothing updates automatically.
+
+## M2 provider progress (2026-10-24)
+
+The typed engine/wire adapter and controller-free worker module now implement these calculation shapes and pass source parity. See [model documentation](../SIMULATION-MODEL.md). All HTTP operations in phase2.openapi.json remain planned until M3; no schema shape or generated type changed in M2. Memory-only scheduling does not provide database idempotency/durability.

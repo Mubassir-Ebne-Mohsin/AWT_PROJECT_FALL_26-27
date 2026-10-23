@@ -1,0 +1,78 @@
+{
+  "date": "2026-10-23T20:32:33.282Z",
+  "node": "v22.23.4",
+  "note": "Actual AppModule/HealthController with configured Postgres and Redis. Fault entry is test-only, never an HTTP calculation option. No account/DDL changes.",
+  "results": [
+    {
+      "label": "before",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 74.5005999999994
+    },
+    {
+      "label": "CPU loop 0",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 6.840400000000955
+    },
+    {
+      "label": "CPU loop 1",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 4.730199999999968
+    },
+    {
+      "label": "CPU loop 2",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 6.096299999999246
+    },
+    {
+      "label": "CPU loop 3",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 4.098900000000867
+    },
+    {
+      "label": "CPU loop 4",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 5.07589999999982
+    },
+    {
+      "label": "CPU-bound worker terminated",
+      "code": "TIMEOUT"
+    },
+    {
+      "label": "after timeout",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 6.496399999999994
+    },
+    {
+      "label": "crashed worker detected",
+      "code": "WORKER_CRASH"
+    },
+    {
+      "label": "after crash",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 4.140599999998813
+    },
+    {
+      "label": "after recovery",
+      "status": 200,
+      "postgres": "up",
+      "redis": "up",
+      "elapsedMs": 4.531100000000151
+    }
+  ]
+}
