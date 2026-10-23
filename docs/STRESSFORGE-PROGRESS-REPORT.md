@@ -1,6 +1,8 @@
 # STRESSFORGE progress report
 
-> **Audit date: 2026-10-22 (Asia/Dhaka). Phase 1: PARTIAL — not complete.**
+> **Latest update: 2026-10-23 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+
+> **Publication scope:** This report records verification of the local working tree. This report-only GitHub update does not include the implementation fixes or new test files; those remain local pending a separate code publication. The GitHub code snapshot is therefore not the verified completed snapshot.
 
 ## 1. Maintenance instructions
 
@@ -9,7 +11,7 @@ Nothing updates this file automatically. Whoever completes a later phase (a pers
 1. Add the new phase's checklist and results, and keep every earlier section and the update history.
 2. Record new verification evidence: exact command, result, exit status, short output quote. Tag each conclusion `[Verified]`, `[Inferred]` or `[Untested]`.
 3. Re-check earlier requirements that the new work touches (auth, error codes, route registry, API types) and change their status if they regressed.
-4. Update the phase tracker (section 3) and the verdict (section 7).
+4. Update the phase tracker (section 3) and the latest dated verdict (currently section 9). Preserve the original section 7 verdict as history.
 5. Add a dated entry to the update history (section 8), newest first.
 
 Audit rules used for Phase 1 (reuse them): audits do not change application source, config, dependencies, migrations or existing tests; they may add new test files and edit this report. No secret values are printed or recorded. Never mark something Verified without a command or test result behind it.
@@ -40,15 +42,15 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 
 | Phase | Name | Status |
 | --- | --- | --- |
-| 1 | Foundation | Partial: working core flows; open defects and verification gaps |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Not started |
+| 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Planned locally: `docs/PHASE-2-PLAN.md` (not included in this report-only publication); implementation not started |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
 Only Phase 1 has been audited.
 
-## 4. Phase 1 checklist
+## 4. Phase 1 checklist — original 2026-10-22 baseline
 
 **Legend:** verified = inspected code plus relevant observed checks; partial = implementation exists but a defect or required check remains; missing = absent; blocked = unable to verify in this environment. References are relative to the project root. **API/** = `nest-boilerplate/nest-boilerplate/`; **WEB/** = `web/`. Passing a build is not evidence of complete behavior.
 
@@ -96,7 +98,6 @@ Only Phase 1 has been audited.
 | Requirement | Implementation and verification | Status |
 | --- | --- | --- |
 | App Router/strict TS/Tailwind/ESLint, requested libraries | package.json/tsconfig/providers inspected; lint/typecheck/build pass; installed Next 16.4.2 (latest registry version not separately checked) | verified |
-
 | B1 prototype tokens, light/dark/semantic palette, spacing/radii/fonts | proto.css, globals.css and next/font match named tokens/fonts; computed Instrument Sans and light background verified. Visual screenshots timed out | partial |
 | B1 persistent Light/Dark/System selection | Default follows system, explicit light/dark persist, but no control selects System again (F8) | partial |
 | B2 topbar/user menu/palette/breadcrumbs | Ctrl+K focuses search, 54 production destinations; routes render. Generic workspace titles and missing dashboard breadcrumb (F13) | partial |
@@ -217,7 +218,7 @@ $headers = @{Authorization="Bearer $(($r.Content | ConvertFrom-Json).data.access
 
 ## 6. Findings, ordered by severity
 
-All findings are open. **Verified** means reproduced by observed HTTP/browser/test results. **Inferred** means code supports a concern without a complete runtime reproduction. File references use the API/ and WEB/ prefixes above.
+At the original 2026-10-22 baseline all findings below were open. Section 9 records their current disposition; original reproductions are preserved as history. **Verified** means reproduced by observed HTTP/browser/test results. **Inferred** means code supports a concern without a complete runtime reproduction. File references use the API/ and WEB/ prefixes above.
 
 ### F1 — High — refresh-family revocation expires too early
 
@@ -283,7 +284,7 @@ All findings are open. **Verified** means reproduced by observed HTTP/browser/te
 - **Untested:** full actual @Roles endpoint end to end; all menu arrow-key behavior; screen-reader/contrast audit; real root-layout error recovery; full responsive/theme form/route/control matrix; Node 22 clean install. Actual maintenance, AI quota and simulator validation are intentionally later-phase implementations.
 - phase1-audit.spec.ts has five **it.failing** cases. Runner green means those defects are reproduced. Once fixed, convert those to ordinary tests and record closures. The standalone regression harness deliberately exits 1 for unresolved desired behavior.
 
-## 7. Phase 1 verdict and exact remaining work
+## 7. Original 2026-10-22 verdict and remaining work
 
 **PARTIAL — not complete.** Normal auth, persistence, health, local services, API schema generation and route placeholders work. Passing baseline builds and 27 original tests do not override reproduced auth/security/error-handling defects and required checks still unverified.
 
@@ -304,6 +305,12 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 ## 8. Dated update history
 
+- **2026-10-23 — report-only publication:** User requested the updated progress report on GitHub. Published only this Markdown file; explicitly distinguished local verification from the older remote implementation. No application code or secret files included.
+
+- **2026-10-23 — Phase 1 remediation completed:** closed F1/F2/F4–F14 with implementation fixes and observed verification; F3 triaged after compatible updates. Verified Node 22 builds/types/lint, 72 unit + 2 real Redis + 22 e2e + 35 frontend tests, original 7 regressions, real HTTP/service failures, fresh migration/seed, all-route four-combination browser matrix, production dev-control exclusion, and actual API-stop recovery. Preserved the original partial audit and Phase 2 planning edits. Current verdict: Complete for the local Foundation scope with documented dependency follow-ups; see section 9.
+
+- **2026-10-22 — Phase 2 planning:** Created docs/PHASE-2-PLAN.md with scope, Phase 1 prerequisites, milestone dependencies, contracts, test gates and a planning review. Phase 2 is planned only; no implementation is verified and Phase 1 remains Partial.
+
 - **2026-10-22 — review completed to available evidence:** assessed Phase 1 PARTIAL. Recorded original checks, additional audit cases, six failing regression assertions, real local service/HTTP tests, browser observations, package scan and limitations. No application behavior changes.
 - **2026-10-22 — draft baseline clarification:** the standalone harness and stressforge-phase1-audit containers were created in this review session. The earlier draft's “pre-existing/left untouched” wording below is preserved as history, not adopted as this session's resource-ownership claim. Existing non-audit project data was preserved.
 - **2026-10-22 — original draft entry retained:** “audit started. Scope fixed from PHASE-1-PROMPT.md. Pre-existing state recorded: untracked docs/audit/phase1-regressions.cjs and two Docker containers named stressforge-phase1-audit-* (ports 5545, 6391) existed before this audit and were left untouched.”
@@ -320,3 +327,127 @@ Additional observed UI checks: unauthenticated /new/template?audit=1 redirected 
 Audit cleanup (2026-10-22): audit API and identified audit frontend processes stopped; only the stressforge-phase1-audit Compose project stopped, without deleting its volumes or test data. Docker Desktop and unrelated project services were left untouched. Existing tracked application files have no diff; added/preserved audit artifacts are this report, docs/audit/phase1-regressions.cjs and src/modules/auth/phase1-audit.spec.ts. No commit or dependency update was made.
 
 - **2026-10-22 — GitHub publication preparation:** Phase 1 implementation history, audit tests and this living report prepared for the user-requested initial publication to Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27 on main. Root README now links this report. The audit verdict and unresolved findings are unchanged; publication does not mark Phase 1 complete.
+
+
+## 9. 2026-10-23 remediation and re-verification
+
+**Current verdict: COMPLETE for Phase 1 local Foundation scope.** All original functional findings have verified fixes. F3 is closed by compatible updates plus documented reachability analysis; two transitive production advisories remain as follow-up, not a claim of a clean security scan. The user authorized application fixes after the read-only audit. The audit-only restriction in section 1 describes the original audit; it does not prohibit these explicitly requested repairs. Existing Phase 2 planning edits and unrelated data are preserved. No future-phase implementation is included.
+
+### Decisions
+
+- Refresh families now expire at an absolute deadline (seven days from login by default). Rotation changes token ids and preserves the exact signed expiry; cookie maxAge is the remaining lifetime. Versioned refresh claims reject pre-fix sliding cookies, requiring one fresh login after upgrading. No database reset or secret changes are needed.
+- HTTP body-parser failures use 422 VALIDATION_FAILED with generic messages. Wrapped syntax errors must not echo submitted credentials. Unexpected server errors are logged without arbitrary exception messages or SQL parameters.
+- Browser acceptance uses a separate local audit database and Redis. Its traffic limits can be raised for the route matrix, while separate tests retain normal limit verification. Unit/e2e doubles are distinguished from real-service checks.
+
+### Verification sequence and historical intermediate results
+
+- [Verified] Expanded API e2e: 20/20 passed before the final dependency update, including concurrent registration, parser errors, retryable logout failures and test-only @Roles/@CurrentUser endpoints. Further review added partial-write and cookie-deadline cases, requiring a final rerun.
+- [Verified] `node docs/audit/live-phase1.cjs`: 15 real HTTP checks passed against isolated PostgreSQL/Redis: health/docs/schema 200; register 201; login/me/refresh 200; logout 204; revoked/missing credentials 401; malformed/oversized bodies 422; concurrent email registrations 201+422; credentialed CORS OPTIONS 204. No tokens or hashes are recorded.
+- [Verified] Stopped only stressforge-phase1-audit Redis: health 503 UNAVAILABLE with redis:down; restarted: 200. Repeated for PostgreSQL: 503 with postgres:down, then 200 recovery. Existing normal application services/data were not stopped or reset.
+- [Verified] Opened original prototype at 1440x900. Light tokens: bg #F2F4F7, accent #2446D2, radii 4/6/10px, topbar 52px; dark bg #0B0F15, accent #7D95FF, ok #36C384. Inline screenshot succeeded. Rendered-app comparison is pending.
+
+Final results below supersede the intermediate results above.
+
+
+### Finding closure table
+
+All rows refer to the original findings in section 6. [Verified] is used only where inspected implementation and observed tests support closure.
+
+| Finding | Current disposition | Implementation and verification evidence |
+| --- | --- | --- |
+| F1 refresh-family lifetime | verified — fixed | API/src/modules/auth/auth.service.ts preserves an absolute signed expiry across rotation; ver:1 rejects legacy sliding cookies. Auth tests cover still-valid descendant rejection, exact deadline, legacy cookie rejection and cookie lifetime. Original regression harness passes. |
+| F2 swallowed logout failures | verified — fixed | JWT parsing catches are separate from revocation writes; writes fail as 503 UNAVAILABLE. Controller retains cookies on failure. E2E covers each partial write failure, successful retry and eventual rejection of both credentials. Frontend catches failure, signs out locally and explicitly warns that the server session may remain active; no stale retry can revoke a later login. |
+| F3 dependency advisories | verified — triaged, follow-up retained | Compatible dependency updates, unused Socket.IO/event-emitter removal, and a scoped Swagger serializer update reduce production findings from 47 to 2 (0 critical, 1 high, 1 moderate). Installed Bull only calls uuid.v4; the buffer advisory affects v3/v5/v6. The fixed-value demo seeder calls neither Faker helpers.fake nor DataFactory. Major upgrades require separate compatibility work; see API/README.md. Swagger UI/JSON/YAML test passes. |
+| F4 terminal 401 / refresh 429 | verified — fixed | WEB/src/lib/api/client.ts retries once, emits session expiry on a second 401, preserves credentials on transient refresh failures, and handles malformed refresh envelopes safely. Maintained client tests and real browser failure/recovery scenarios pass. |
+| F5 API 404 state | verified — fixed | NOT_FOUND event/provider mapping opens the not-found screen. Typed client and browser-injected 404 tests pass; unknown real API route is still 404 NOT_FOUND. |
+| F6 duplicate registration race | verified — fixed | UsersService maps only PostgreSQL 23505/uq_users_email to the existing 422 email error. Deterministic constraint tests preserve unrelated failures; concurrent HTTP requests yield 201+422 with one stored row. |
+| F7 parser contract / disclosure | verified — fixed | Raw parser errors and wrapped Nest 400 errors become safe 422 VALIDATION_FAILED responses. Malformed syntax near a secret sentinel and oversized JSON pass HTTP tests; unexpected error logs do not echo arbitrary messages/SQL parameters. |
+| F8 System theme | verified — fixed | Accessible Light/Dark/System selector plus palette actions; persisted choice, OS media changes and reload verified in rendered tests and all four browser projects. |
+| F9 drawer focus | verified — fixed | Shared drawer-focus lifecycle restores connected opener focus on Escape/button closure, without stealing focus after the user moves into content. Both Help and AI paths pass rendered and browser tests. |
+| F10 test type safety / Node 22 | verified — fixed | Node/Jest/pg types and strict test tsconfig restored; both Jest runners enable diagnostics. pnpm typecheck and full tsc pass. Backend/frontend gates run under portable Node v22.23.4, leaving global Node untouched. |
+| F11 Redis password profile | verified — fixed | Compose configures requirepass and an authenticated healthcheck; API URL encoding remains consistent. Opt-in Docker tests pass for empty and punctuation-containing passwords through node-redis and ioredis; unauthenticated access is rejected when enabled. |
+| F12 unsafe production examples | verified — fixed | Production rejects either published placeholder in either signing role and rejects equal secrets. Schema/startup tests pass and show readable field names without printing submitted secrets. |
+| F13 titles / breadcrumbs / plans | verified — fixed | Workspace titles resolve each tab; dashboard has its breadcrumb; concrete planned content is present. Registry tests and all 35 route patterns across four browser combinations verify title/heading/breadcrumb consistency. |
+| F14 setup ordering / paths | verified — fixed | Root/backend READMEs use explicit PowerShell locations, preserve existing env files, configure env before Compose, explain port 5433 conflicts, and correct architecture links. Fresh database migration and two idempotent seeds pass. A new-machine installer walkthrough is not claimed. |
+
+Additional original review notes: login/register/session links preserve a validated return-to path; unsafe destinations are rejected. Same-origin refreshes are serialized with Web Locks and tested with real concurrent tabs. @Roles and @CurrentUser work through test-only controller endpoints under the application's actual global guards; no extra production admin route was introduced.
+
+
+### Current Phase 1 requirement checklist (supersedes baseline statuses in section 4)
+
+| Requirement | Implementation / current verification | Status |
+| --- | --- | --- |
+| Layout, existing backend, sibling web, pnpm, no secrets committed | Same nested backend/web layout; both lockfiles; tracked env files are examples and real env files remain ignored | verified |
+| Node 22 and zero-cost runtime | Portable Node v22.23.4 used for final gates; local Postgres16/Redis7; no real AI/provider calls | verified |
+| Boilerplate fixes 1–10 | Original inspected fixes retained; strict JWT/role tests, config defaults, naming/migration tests, zod/parser contract, dev Compose, OIDC removal, rebrand, /v1 and /docs | verified |
+| A1 config validation and env example | Production-secret/default tests; coherent Redis authentication; safe commented setup | verified |
+| A2 global prefix, Swagger/JSON, CORS/OPTIONS, validation/filter/logging | Live endpoints/preflight; Swagger YAML compatibility; sanitized parser/server errors; logging sentinel tests | verified |
+| A3 success/error envelopes and stable code/status mapping | Interceptor/filter tests plus real 422/401/404/429/503 checks | verified |
+| A4 Postgres/Redis health | 200 healthy; actual dependency stop produces 503 details; restart recovers | verified |
+| A5 users entity and migration | Fresh UUID/lowercase/unique/hash/timestamps schema migration; seed aggregate verifies lowercased Argon2id account | verified |
+| A5 register/login/me and credential errors | Real HTTP/browser flows, no hash in response, identical wrong-credential errors, duplicate-email race handled | verified |
+| A5 access JWT, cookie rotation/revocation/logout | Memory-only access token; httpOnly/Lax refresh; versioned fixed-deadline rotation; replay/partial-write/expired-token regressions pass | verified |
+| A5 throttling and guard/decorator hierarchy | Real Redis default ten-request limit; missing token 401; test-only USER/ADMIN endpoints exercise all global guards and CurrentUser | verified |
+| A5 seeder | Fresh migration then seed twice creates one demo user | verified |
+| A6 unit/e2e suites | 72 ordinary unit tests, 2 separately run real Redis checks, 22 e2e; strict test typecheck passes; no expected-failure tests remain | verified |
+| A7 no designs module | No Phase 2 APIs, editor or engine added | verified |
+| B framework/libraries/API generation | Strict Next16/React/Tailwind setup retained; Next16.4.2 matches registry latest checked in this session; gen:api against live /docs-json passes | verified |
+| B1 design system/themes/fonts | Actual prototype/app browser comparison; matching token palette/radii/topbar/font; Light/Dark/System persistence and OS changes tested | verified |
+| B2 shell/global controls | Brand/navigation/user menu, breadcrumbs, Ctrl+K, scripted AI, Help, ?, local feedback/toasts; browser control/focus checks pass | verified |
+| B3 registry and placeholders | 35 patterns retained; every page exists; full four-combination title/heading/breadcrumb/overflow matrix; future screens remain explicit phase placeholders | verified |
+| B4 system states/dev-only controls | All ten demo states across four combinations; real/injected error recovery; production Ctrl+Shift+D exposes no dev controls | verified |
+| B5 real auth/protection/return-to/one refresh retry | Actual forms/loading/validation, protected redirects, safe auth links, real shared-cookie tab restore; one retry and expiry/429 behavior covered | verified |
+| B6 typed API client and Query provider | Envelope/ApiError/refresh/event tests; generated schema and providers verified; no persistent access-token storage | verified |
+| B7 dashboard | Real /auth/me name/email/role, Phase 2 cards and breadcrumb shown | verified |
+| B8 responsiveness and accessibility | 1024/1440 x light/dark matrix; labels, focus rings, palette/drawer keyboard navigation, focus restoration, reduced-motion CSS | verified |
+| C root/backend README + architecture | Safe PowerShell setup/ports/tests; module map, auth diagram, error table, Phase 2 note; living report updated with history retained | verified |
+| D1–D7 acceptance gates | Docker healthy; fresh migration/seed; backend/web gates; HTTP walkthrough; route/control matrix; actual API-stop/recovery | verified |
+
+### Final check results (Node v22.23.4 unless stated)
+
+All successful gates below exited 0 unless an advisory scan is explicitly shown as nonzero.
+
+| Command / practical check | Result |
+| --- | --- |
+| API pnpm install --frozen-lockfile | PASS; lockfile current; no reset of env/database. pnpm 10.34.7 |
+| API pnpm build | PASS |
+| API pnpm typecheck; pnpm exec tsc --noEmit --pretty false | PASS, including test/setup sources; previous 191 diagnostics resolved |
+| API pnpm lint and pnpm lint:check | PASS, 0 errors; 22 pre-existing helper/test-double warnings remain |
+| API pnpm test --runInBand | PASS: 72 ordinary checks; 2 opt-in Docker cases skipped in the default run |
+| API TEST_REDIS_COMPOSE=1 pnpm exec jest --runInBand --runTestsByPath src/config/redis-compose.spec.ts | PASS: both opt-in checks, including authenticated healthcheck and both Redis clients; uniquely owned disposable project cleaned up |
+| API pnpm test:e2e | PASS: 22/22; real disposable Postgres database, fake Redis/in-memory counters explicitly distinguished from separate real checks |
+| API pnpm test:cov --runInBand --collectCoverageFrom='**/*.ts' --coverageReporters=json-summary --coverageReporters=text-summary | PASS: statements 37.26% (297/797), branches 36.70% (116/316), functions 35% (42/120), lines 36.76% (261/710). This unit-only metric includes unused boilerplate and excludes separate e2e/browser coverage; it is not a completion argument |
+| node docs/audit/phase1-regressions.cjs | PASS: 7/7 desired-behavior assertions. Successful refresh fixture now includes the real complete user shape; behavior assertions retained/strengthened |
+| node docs/audit/live-phase1.cjs | PASS: 15 real-service HTTP checks with status codes recorded above |
+| node docs/audit/rate-limit.cjs (audit DB_PORT=5545 / REDIS_PORT=6391) | PASS: ten 422s, then two 429s; temporary API uses normal limits and its own loopback client |
+| Fresh sf_completion_<timestamp> database: migration:run + seeder:run:dev twice | PASS: CreateUsers applied, seed completed twice, aggregate users=1/lowercase=true/hashed=true; no existing database reset |
+| Actual audit Redis/Postgres stop/restart | PASS: 503 UNAVAILABLE details then 200 recovery for both |
+| WEB pnpm gen:api | PASS against running backend; schema unchanged |
+| WEB pnpm typecheck / lint / check:routes / build | PASS; 35 route patterns; production generated 29 static pages plus dynamic routes and proxy |
+| WEB pnpm test | PASS: 35/35 maintained client/rendered UI/route/error-boundary tests; no paid services or test-only runtime app hooks |
+| WEB pnpm test:browser, Chrome, four viewport/theme projects | PASS: 8 normal/error integration scenarios plus 4 dev-state scenarios; all 35 patterns covered in each combination. Final affected failure-recovery scenario separately rerun across all four combinations |
+| Production server /login + Ctrl+Shift+D | PASS: no developer menu/button, no unexpected console errors, no overflow |
+| Actual API stop on authenticated dashboard | PASS: Waking up the server, no crash overlay/overflow; after restart returned automatically to the same dashboard with /auth/me user |
+| Prototype/app visual comparison | PASS for Phase 1 shell/auth styling: tokens, fonts, radii, split layout and topbar. Static labelled illustration remains illustrative; no Phase 2 simulation is represented as working |
+| API pnpm audit --prod --json | Exit 1: two remaining triaged transitive advisories, no critical; see F3 closure and API README. Full dependency scan also has two moderate development downloader advisories |
+| WEB pnpm audit --prod --json | PASS: zero advisories |
+| git diff --check; secret-file tracking/ignore checks | PASS; only env examples tracked; no token/hash dumps or real env files added |
+
+An initial coverage invocation incorrectly prefixed src/ relative to Jest's src root and yielded 0/0; it was discarded and rerun with the correct source-relative glob above. A final browser rerun initially failed because the delegated dev process had ended; restarting the owned audit frontend resolved the connection refusal. These were verification setup issues, not hidden passing results.
+
+
+### Remaining limits and next phase
+
+No mandatory Phase 1 functional work remains known from this verification. This verdict is for the specified local course-project Foundation scope, not a production security certification.
+
+- Two transitive production advisories remain triaged as unreachable in current flows, plus two moderate development downloader advisories. Reassess before using Faker templates, UUID v3/v5/v6 output buffers, queues, or changing those dependency chains. Do not describe pnpm audit as clean.
+- Backend lint passes with 22 inherited warnings. Unit-only all-source coverage is 37.26%; separate HTTP/browser evidence covers the requested flows but does not make untested boilerplate verified.
+- Chrome was exercised; browsers without Web Locks have only per-tab refresh coordination. A full screen-reader/contrast audit and framework-driven root-layout fault injection were not performed. Boundary rendering/retry callbacks, actual API failures, keyboard paths, reduced-motion rules and responsive layouts were verified as described above.
+- The login-side diagram is explicitly a static illustration. OAuth/password-reset controls from the fake prototype are not presented as working services; real email/password auth is the Phase 1 scope.
+- No application data or env values were reset. Portable Node 22 is a verification tool in the local temp directory; global Node is unchanged. Generated artifacts, traces and browser storage state are not committed.
+- No commit or GitHub push was performed during remediation. This subsequent report-only publication leaves the implementation fixes, tests, other documentation edits and Phase 2 plan local; publish them separately before treating the GitHub code as the completed snapshot.
+
+Phase 2 can now use authenticated users, stable errors/envelopes, generated API types and tested shell/session recovery. Designs CRUD, canvas editing, SimulationModule, Traffic/Results/Limits, real AI and later-phase pages remain unimplemented. Follow docs/PHASE-2-PLAN.md and update this same report at each milestone; preserve history, attach new evidence, and reassess earlier requirements affected by new work. Nothing updates this report automatically.
+
+
+Cleanup (2026-10-23): stopped only the owned audit API/frontend listeners and stressforge-phase1-audit Compose services; audit volumes and databases retained. Normal project services/data and existing env files were preserved. Start the normal Docker services and restart the backend/frontend to use the fixes, then log in again.
