@@ -4,6 +4,7 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, 
 import { useQueryClient } from "@tanstack/react-query";
 import { onSessionChange, refreshSession, RefreshResult, User } from "@/lib/api/client";
 import { logout as apiLogout } from "@/lib/api/auth";
+import { notify } from "@/lib/notify";
 import { hasSessionHint } from "@/lib/session-hint";
 
 export type AuthStatus = "loading" | "authed" | "anon";
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       setStatus("anon");
     }
-    // "unreachable": stay in "loading"; the waking-up screen retries once the API is back.
+    // Transient failures: preserve the current session; the waking-up screen retries once the API is back.
   }, []);
 
   const restore = useCallback(() => refreshSession().then(applyResult), [applyResult]);
@@ -53,8 +54,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [applyResult]);
 
   const signOut = useCallback(async () => {
-    await apiLogout();
-    queryClient.clear();
+    try {
+      await apiLogout();
+    } catch {
+      // Do not offer a stale retry action: a later login can replace the cookie
+      // with another session, and retrying would revoke that newer session.
+      notify("Signed out on this device. Server sign-out failed; the server session may still be active.", "warn");
+    } finally {
+      queryClient.clear();
+    }
   }, [queryClient]);
 
   const value = useMemo(() => ({ status, user, restore, signOut }), [status, user, restore, signOut]);

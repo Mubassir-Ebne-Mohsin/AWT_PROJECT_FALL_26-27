@@ -1,5 +1,6 @@
 "use client";
 
+import { enterDrawer } from "@/lib/drawer-focus";
 import { useEffect, useRef, useState } from "react";
 import { useUi } from "@/components/shell/ui-provider";
 import { Icon } from "@/components/ui/icon";
@@ -21,9 +22,10 @@ export function AiPanel() {
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    inputRef.current?.focus();
+    const restoreFocus = enterDrawer(inputRef.current);
     return () => {
       if (timer.current) clearInterval(timer.current);
+      restoreFocus();
     };
   }, []);
 

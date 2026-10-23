@@ -17,6 +17,7 @@ export interface IssuedSession {
   accessToken: string;
   expiresIn: number;
   refreshToken: string;
+  refreshExpiresIn: number;
   user: User;
 }
 
@@ -40,7 +41,9 @@ export class AuthService {
   async register(dto: RegisterDto): Promise<IssuedSession> {
     if (await this.users.findByEmail(dto.email)) {
       throw new AppException("VALIDATION_FAILED", "Validation failed", {
-        fields: [{ path: "email", message: "This email is already registered" }],
+        fields: [
+          { path: "email", message: "This email is already registered" },
+        ],
       });
     }
     const user = await this.users.create({
@@ -55,7 +58,8 @@ export class AuthService {
     const user = await this.users.findByEmail(dto.email);
     const hash = user?.passwordHash ?? (await DUMMY_HASH_PROMISE);
     const ok = await argon2.verify(hash, dto.password);
-    if (!user || !ok) throw new AppException("UNAUTHENTICATED", BAD_CREDENTIALS);
+    if (!user || !ok)
+      throw new AppException("UNAUTHENTICATED", BAD_CREDENTIALS);
     return this.issue(user, randomUUID());
   }
 
@@ -77,29 +81,48 @@ export class AuthService {
     }
 
     const user = await this.users.findById(payload.sub);
-    if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
-    return this.issue(user, payload.fam);
+    if (!user)
+      throw new AppException("UNAUTHENTICATED", "You are not signed in");
+    return this.issue(user, payload.fam, payload.exp);
   }
 
-  /** Always succeeds from the caller's view; revokes whatever tokens are presentable. */
+  /** Invalid credentials are harmless; failed revocation writes must remain retryable. */
   async logout(refreshToken?: string, accessToken?: string): Promise<void> {
+    let refresh: RefreshTokenPayload | undefined;
+    let access: AccessTokenPayload | undefined;
     if (refreshToken) {
       try {
-        const p = await this.jwt.verifyAsync<RefreshTokenPayload>(refreshToken, {
-          secret: env.JWT_REFRESH_SECRET,
-        });
-        await this.tokens.revokeFamily(p.fam, secondsLeft(p.exp));
+        const payload = await this.jwt.verifyAsync<RefreshTokenPayload>(
+          refreshToken,
+          {
+            secret: env.JWT_REFRESH_SECRET,
+          },
+        );
+        if (payload.typ === "refresh") refresh = payload;
       } catch {
-        // Expired or malformed: nothing left to revoke.
+        /* An expired or malformed token has nothing left to revoke. */
       }
     }
     if (accessToken) {
       try {
-        const p = await this.jwt.verifyAsync<AccessTokenPayload>(accessToken);
-        await this.tokens.revokeAccess(p.jti, secondsLeft(p.exp));
+        const payload =
+          await this.jwt.verifyAsync<AccessTokenPayload>(accessToken);
+        if (payload.typ === "access") access = payload;
       } catch {
-        // Already expired or invalid.
+        /* Already expired or invalid. */
       }
+    }
+    try {
+      await Promise.all([
+        refresh &&
+          this.tokens.revokeFamily(refresh.fam, secondsLeft(refresh.exp)),
+        access && this.tokens.revokeAccess(access.jti, secondsLeft(access.exp)),
+      ]);
+    } catch {
+      throw new AppException(
+        "UNAVAILABLE",
+        "Sign out could not be confirmed. Please retry.",
+      );
     }
   }
 
@@ -108,7 +131,16 @@ export class AuthService {
       const p = await this.jwt.verifyAsync<RefreshTokenPayload>(token, {
         secret: env.JWT_REFRESH_SECRET,
       });
-      if (p.typ !== "refresh") throw new Error("wrong token type");
+      if (
+        p.typ !== "refresh" ||
+        p.ver !== 1 ||
+        !p.sub ||
+        !p.jti ||
+        !p.fam ||
+        !Number.isFinite(p.exp)
+      ) {
+        throw new Error("Invalid refresh claims");
+      }
       return p;
     } catch (e) {
       if (e instanceof TokenExpiredError) {
@@ -118,7 +150,14 @@ export class AuthService {
     }
   }
 
-  private async issue(user: User, family: string): Promise<IssuedSession> {
+  private async issue(
+    user: User,
+    family: string,
+    // A family has an absolute lifetime. Rotation changes ids, never its deadline,
+    // so no descendant can outlive a replay/logout revocation marker.
+    refreshExpiresAt = Math.floor(Date.now() / 1000) +
+      env.JWT_REFRESH_TTL_SECONDS,
+  ): Promise<IssuedSession> {
     const accessPayload: Omit<AccessTokenPayload, "exp"> = {
       typ: "access",
       sub: user.id,
@@ -126,11 +165,13 @@ export class AuthService {
       role: user.role,
       jti: randomUUID(),
     };
-    const refreshPayload: Omit<RefreshTokenPayload, "exp"> = {
+    const refreshPayload: RefreshTokenPayload = {
+      ver: 1,
       typ: "refresh",
       sub: user.id,
       jti: randomUUID(),
       fam: family,
+      exp: refreshExpiresAt,
     };
     const [accessToken, refreshToken] = await Promise.all([
       this.jwt.signAsync(accessPayload, {
@@ -138,13 +179,13 @@ export class AuthService {
       }),
       this.jwt.signAsync(refreshPayload, {
         secret: env.JWT_REFRESH_SECRET,
-        expiresIn: env.JWT_REFRESH_TTL_SECONDS,
       }),
     ]);
     return {
       accessToken,
       expiresIn: env.JWT_ACCESS_TTL_SECONDS,
       refreshToken,
+      refreshExpiresIn: Math.max(0, secondsLeft(refreshExpiresAt)),
       user,
     };
   }

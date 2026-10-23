@@ -6,6 +6,7 @@ export type ApiEventName =
   | "session-expired" // refresh failed while the user was signed in
   | "server-error" // 500
   | "rate-limited" // 429
+  | "not-found" // 404
   | "forbidden"; // 403
 
 type Listener = () => void;

@@ -1,44 +1,75 @@
 # StressForge API
 
-NestJS 11 + TypeORM (PostgreSQL) + Redis backend for StressForge. Phase 1 covers auth, users and health. The API is served under `/v1`, Swagger UI at `/docs` and the raw OpenAPI document at `/docs-json`.
+NestJS 11 + TypeORM (PostgreSQL) + Redis backend. Phase 1 covers auth, users and health. API: /v1; Swagger: /docs and /docs-json.
 
 ## Prerequisites
 
-- Node.js 22 (`.nvmrc`), pnpm 10+ (`npm i -g pnpm`)
-- Docker Desktop (for local Postgres 16 and Redis 7), or your own Postgres and Redis
+- Node.js 22 (see .nvmrc), pnpm 10.
+- Docker Desktop for local Postgres 16 and Redis 7, or matching local instances.
 
 ## Setup (Windows PowerShell)
 
 ```powershell
-pnpm install
-Copy-Item .env.example .env        # then set real JWT secrets, see the comment in .env.example
-pnpm db:up                          # docker compose -f docker-compose.dev.yml up -d
+Set-Location -LiteralPath 'C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate'
+if (-not (Test-Path -LiteralPath '.env')) { Copy-Item -LiteralPath '.env.example' -Destination '.env' }
+# Edit .env BEFORE Compose: generate two independent JWT secrets; confirm free host ports.
+pnpm install --frozen-lockfile
+pnpm db:up
+docker compose -f docker-compose.dev.yml ps
 pnpm migration:run
-pnpm seeder:run:dev                 # demo user: demo@stressforge.dev
-pnpm start:dev                      # http://localhost:5001/v1/health
+pnpm seeder:run:dev
+pnpm start:dev
 ```
 
-The demo user's password is `DEMO_USER_PASSWORD` in `.env` (default in `.env.example`).
+Replace the absolute checkout prefix if needed. New environments use DB_PORT=5433 to avoid the common local Postgres port 5432 conflict; the container stays on 5432. If 5433 is occupied, choose another free DB_PORT in .env before starting Compose. Keep existing .env files and unrelated databases. Changing .env does not change credentials already stored in a Postgres named volume.
+
+REDIS_PASSWORD may be empty for local development or nonempty: Compose configures Redis requirepass, its authenticated healthcheck, and all API clients from the same setting. Quote special characters as described in .env.example. Recreate services after changing credentials. Do not delete existing volumes to resolve a port conflict.
+
+The demo login is demo@stressforge.dev; its password comes from DEMO_USER_PASSWORD in .env.
 
 ## Scripts
 
 | Command | What it does |
 | --- | --- |
 | `pnpm start:dev` | Watch mode |
-| `pnpm build` / `pnpm start:prod` | Compile to `dist/` and run it |
-| `pnpm migration:run` / `migration:rollback` / `migration:rollbackAll` | TypeORM migrations (`src/database/migrations`) |
+| `pnpm build` / `pnpm start:prod` | Compile to dist and run |
+| `pnpm typecheck` | Strict source, unit, e2e and setup typecheck without emitting files |
+| `pnpm test --runInBand` | Unit tests with ts-jest diagnostics enabled |
+| `pnpm test:e2e` | Real Postgres; disposable DB_TEST_DATABASE required (tests truncate users) |
+| `pnpm migration:run` / `migration:rollback` / `migration:rollbackAll` | TypeORM migrations |
 | `pnpm migration:create src/database/migrations/Name` | New empty migration |
-| `pnpm seeder:run:dev` / `seeder:refresh:dev` | Seed / re-seed the demo user (`seeder:run` uses `dist`) |
-| `pnpm test` | Unit tests |
-| `pnpm test:e2e` | End-to-end tests against Postgres (creates `stressforge_test` if missing) |
+| `pnpm seeder:run:dev` / `seeder:refresh:dev` | Seed / re-seed demo user; compiled equivalents omit :dev |
 | `pnpm lint` / `pnpm lint:check` | ESLint with / without autofix |
 
-E2E tests replace Redis with an in-memory fake, so they need Postgres only. Everything else (the real app, health checks, rate limiting) uses real Redis.
+Run typecheck before either Jest suite. Both unit and e2e runners use tsconfig.test.json with ts-jest diagnostics enabled. E2E replaces Redis/rate limiting with in-memory doubles, so it does not verify real Redis authentication.
 
 ## Conventions
 
-- Environment is validated with zod at boot (`src/config/app.config.ts`); a bad `.env` fails fast with a readable list of problems.
-- Success responses are `{ data, meta? }`; errors are `{ error: { code, message, details? } }`. See `docs/ARCHITECTURE.md` at the repo root for the code table.
-- Validation uses zod DTOs (`createZodDto` from `nestjs-zod`). Routes are authenticated by default; mark open routes with `@Public()`, restrict with `@Roles(Role.ADMIN)`, read the caller with `@CurrentUser()`.
-- Imports use the `@/` aliases (relative imports are linted).
-- `docker-compose.yml` is a legacy production-style file from the boilerplate and is not used by StressForge.
+- Environment is validated at boot; production rejects the published JWT placeholders and equal access/refresh secrets. Generate each secret independently (at least 32 characters).
+- Responses use data/meta or error/code/message/details. See [architecture](../../docs/ARCHITECTURE.md) and [root setup](../../README.md).
+- Use zod DTOs, @Public(), @Roles(Role.ADMIN), @CurrentUser(), and @/ import aliases.
+- docker-compose.dev.yml is the local profile; docker-compose.yml is legacy boilerplate.
+
+## Focused config verification
+
+With Docker running, the opt-in Redis check creates a unique disposable Compose project, tests empty and nonempty passwords through the server, healthcheck, node-redis and ioredis, then removes only that project's resources:
+
+```powershell
+Set-Location -LiteralPath 'C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate'
+$env:TEST_REDIS_COMPOSE = '1'
+try { pnpm exec jest --runInBand --runTestsByPath src/config/redis-compose.spec.ts }
+finally { Remove-Item Env:TEST_REDIS_COMPOSE -ErrorAction SilentlyContinue }
+```
+
+The default unit run skips this Docker integration suite. app.config.spec.ts checks production-secret rejection, module startup, Redis URL encoding and local defaults. swagger-runtime.spec.ts checks UI, JSON and YAML endpoints without requiring a database.
+
+## Dependency triage (2026-10-23)
+
+Compatible updates and removal of unused event-emitter/Socket.IO dependencies reduced the production audit from 47 findings (including one critical) to two: one high and one moderate. The scoped Swagger js-yaml 5.5.0 override is covered by the UI/JSON/YAML regression.
+
+| Remaining path | Assessment and follow-up |
+| --- | --- |
+| nestjs-seeder -> @faker-js/faker 8.4.1 (high) | Advisory concerns helpers.fake; the deterministic demo seeder does not call it or DataFactory. Patched Faker requires >=10.5.0, a major change beyond the current seeder's range. Update/replace the seeder before adding Faker-based or user-controlled seed templates. Exploitability is not established. |
+| bull -> uuid 8.3.2 (moderate) | Advisory affects buffer handling in v3/v5/v6; the installed Bull sources call v4. Patch requires >=11.1.1, a major change. Retain until a compatible Bull update or a separately tested queue migration. |
+
+The all-dependency audit also reports two moderate file-type advisories through @swc/cli's downloader. They are development-tool dependencies, and no application input path to that downloader was found. Do not treat the reduced production count as a clean security audit. No forced cross-major Faker/uuid override was applied.

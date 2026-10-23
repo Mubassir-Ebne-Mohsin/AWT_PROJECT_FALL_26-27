@@ -1,20 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 // Replaces the root layout, so it cannot use the providers, fonts or the shell:
 // self-contained markup that follows the OS colour scheme.
 export default function GlobalError({ error, retry }: { error: unknown; retry: () => void }) {
+  const titleRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
+    titleRef.current?.focus();
     console.error(error);
   }, [error]);
   const digest = (error as { digest?: string } | null)?.digest;
   return (
     <html lang="en">
+      <head><title>Server error · StressForge</title></head>
       <body style={{ margin: 0, fontFamily: "system-ui, sans-serif", background: "Canvas", color: "CanvasText", colorScheme: "light dark" }}>
         <main style={{ maxWidth: 560, margin: "0 auto", padding: "15vh 24px" }}>
           <p style={{ font: "600 12px monospace", letterSpacing: ".08em", opacity: 0.7 }}>HTTP 500</p>
-          <h1 style={{ fontSize: 30, margin: "8px 0 12px" }}>Something broke on our side.</h1>
+          <h1 ref={titleRef} tabIndex={-1} style={{ fontSize: 30, margin: "8px 0 12px" }}>Something broke on our side.</h1>
           <p style={{ lineHeight: 1.55 }}>The app hit an error it could not recover from. Your designs are safe and nothing was lost.</p>
           {digest && <p style={{ font: "13px monospace", opacity: 0.7 }}>Reference: {digest}</p>}
           <button

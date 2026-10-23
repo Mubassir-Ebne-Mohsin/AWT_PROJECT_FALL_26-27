@@ -10,7 +10,7 @@ export default async function globalSetup() {
   }
   const admin = new Client({
     host: process.env.DB_HOST ?? "localhost",
-    port: Number(process.env.DB_PORT ?? 5432),
+    port: Number(process.env.DB_PORT ?? 5433),
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: "postgres",

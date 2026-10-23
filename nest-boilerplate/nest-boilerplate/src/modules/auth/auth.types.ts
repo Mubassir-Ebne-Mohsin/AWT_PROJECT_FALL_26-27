@@ -10,6 +10,8 @@ export interface AccessTokenPayload {
 }
 
 export interface RefreshTokenPayload {
+  /** Version 1 families have a fixed deadline; pre-fix sliding cookies must sign in again. */
+  ver: 1;
   typ: "refresh";
   sub: string;
   /** Token id; rotated on every refresh. */

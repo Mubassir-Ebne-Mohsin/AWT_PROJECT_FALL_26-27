@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { authLink } from "@/lib/safe-next";
 import { FormEvent, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -12,6 +15,9 @@ import { notify } from "@/lib/notify";
 
 /** Shown when the refresh token no longer works. Signing in again keeps the page and its state. */
 export function SessionModal() {
+  const pathname = usePathname();
+  const search = useSearchParams().toString();
+  const loginHref = authLink("/login", pathname + (search ? `?${search}` : ""));
   const { closeSystem } = useUi();
   const { user, signOut } = useAuth();
   const queryClient = useQueryClient();
@@ -54,6 +60,7 @@ export function SessionModal() {
               <div>{error}</div>
             </div>
           )}
+          {user ? <>
           <div className="field">
             <label className="label" htmlFor="sess-email">
               Email
@@ -66,6 +73,7 @@ export function SessionModal() {
             </label>
             <input id="sess-pw" data-autofocus type="password" className="input" autoComplete="current-password" value={pw} onChange={(e) => setPw(e.target.value)} />
           </div>
+          </> : <Link data-autofocus href={loginHref} className="btn btn-primary" onClick={closeSystem}>Log in to continue</Link>}
         </div>
         <div className="modal-f">
           <button
@@ -78,9 +86,9 @@ export function SessionModal() {
           >
             Use another account
           </button>
-          <button className="btn btn-primary" type="submit" disabled={busy || !pw}>
+          {user && <button className="btn btn-primary" type="submit" disabled={busy || !pw}>
             {busy ? "Logging in…" : "Log in again"}
-          </button>
+          </button>}
         </div>
       </form>
     </Modal>

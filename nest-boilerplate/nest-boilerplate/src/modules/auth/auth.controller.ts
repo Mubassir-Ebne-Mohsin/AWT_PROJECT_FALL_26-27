@@ -94,7 +94,12 @@ export class AuthController {
       );
     } catch (e) {
       // A dead refresh token is useless; stop the browser from resending it.
-      if (e instanceof AppException) res.clearCookie(REFRESH_COOKIE, cookieOptions());
+      if (
+        e instanceof AppException &&
+        ["UNAUTHENTICATED", "SESSION_EXPIRED"].includes(e.code)
+      ) {
+        res.clearCookie(REFRESH_COOKIE, cookieOptions());
+      }
       throw e;
     }
   }
@@ -103,10 +108,7 @@ export class AuthController {
   @Public()
   @Post("logout")
   @HttpCode(204)
-  async logout(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const bearer = (req.headers.authorization ?? "").split(" ")[1];
     await this.auth.logout(req.cookies?.[REFRESH_COOKIE], bearer);
     res.clearCookie(REFRESH_COOKIE, cookieOptions());
@@ -117,14 +119,15 @@ export class AuthController {
   @ApiOkEnvelope(UserDto)
   async me(@CurrentUser() current: AuthUser): Promise<UserDto> {
     const user = await this.users.findById(current.id);
-    if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
+    if (!user)
+      throw new AppException("UNAUTHENTICATED", "You are not signed in");
     return this.users.toDto(user);
   }
 
   private respond(res: Response, session: IssuedSession) {
     res.cookie(REFRESH_COOKIE, session.refreshToken, {
       ...cookieOptions(),
-      maxAge: env.JWT_REFRESH_TTL_SECONDS * 1000,
+      maxAge: session.refreshExpiresIn * 1000,
     });
     return {
       accessToken: session.accessToken,

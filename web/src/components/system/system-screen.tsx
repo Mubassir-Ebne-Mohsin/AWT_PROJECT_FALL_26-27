@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useUi } from "@/components/shell/ui-provider";
@@ -32,6 +32,8 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => { titleRef.current?.focus(); }, [kind]);
   const [busy, setBusy] = useState(false);
   const [prog, setProg] = useState(0);
   const [showRaw, setShowRaw] = useState(false);
@@ -64,7 +66,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
     const poll = async () => {
       try {
         const res = await fetch(`${API_URL}/health`, { credentials: "omit", signal: AbortSignal.timeout(4000) });
-        // Any HTTP answer except a gateway error means the process is up; 503 with details still is "up".
+        // Resume only after a healthy 2xx response; a 503 still means dependencies are unavailable.
         if (res.ok && !stopped) {
           clearInterval(tick);
           recovered();
@@ -92,6 +94,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
       onRetry?.();
       closeSystem();
       void queryClient.invalidateQueries();
+      if (status === "loading" && !fromDev) void restore();
       router.refresh();
       if (message) notify(message, "ok");
     }, 700);
@@ -392,7 +395,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
           </span>
         </div>
       </div>
-      <h1 className="sys-title">{title}</h1>
+      <h1 ref={titleRef} tabIndex={-1} className="sys-title">{title}</h1>
       {body}
       {detail}
       <div className="row">

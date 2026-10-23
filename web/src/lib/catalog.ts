@@ -65,10 +65,10 @@ export interface WorkspaceTab {
 }
 
 export const WS_TABS: WorkspaceTab[] = [
-  { id: "edit", label: "Edit", icon: "pencil", phase: 2, fid: "C" },
-  { id: "traffic", label: "Traffic", icon: "wave", phase: 2, fid: "P" },
-  { id: "results", label: "Results", icon: "bars", phase: 2, fid: "C" },
-  { id: "limits", label: "Limits", icon: "gauge", phase: 2, fid: "P" },
+  { id: "edit", desc: "Draw and configure the architecture.", planned: ["Drag components onto the canvas and connect their handles", "Edit capacity, replicas, region and type-specific settings", "View utilization with the load overlay"], label: "Edit", icon: "pencil", phase: 2, fid: "C" },
+  { id: "traffic", desc: "Configure the traffic scenario for this design.", planned: ["Set rate, bursts, read share and traffic presets", "Choose the p95 target and error budget"], label: "Traffic", icon: "wave", phase: 2, fid: "P" },
+  { id: "results", desc: "Read the stress-test verdict and its bottleneck.", planned: ["Compare p95 and errors against the target and budget", "Inspect component utilization and slow request paths"], label: "Results", icon: "bars", phase: 2, fid: "C" },
+  { id: "limits", desc: "Find the traffic where the design first misses its target.", planned: ["Ramp traffic to the breaking point", "Inspect component failure order and current headroom"], label: "Limits", icon: "gauge", phase: 2, fid: "P" },
   {
     id: "improve",
     label: "Improve",

@@ -18,6 +18,7 @@ function ApiEventBridge() {
       apiEvents.on("session-expired", () => openSystem("session")),
       apiEvents.on("server-error", () => openSystem("500")),
       apiEvents.on("rate-limited", () => openSystem("ratelimited")),
+      apiEvents.on("not-found", () => openSystem("404")),
       apiEvents.on("forbidden", () => openSystem("403")),
     ];
     return () => offs.forEach((off) => off());

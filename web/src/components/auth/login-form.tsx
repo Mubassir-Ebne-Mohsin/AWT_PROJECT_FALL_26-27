@@ -9,7 +9,7 @@ import { Icon, cx } from "@/components/ui/icon";
 import { login } from "@/lib/api/auth";
 import { ApiError, isApiError } from "@/lib/api/errors";
 import { notify } from "@/lib/notify";
-import { safeNext } from "@/lib/safe-next";
+import { authLink, safeNext } from "@/lib/safe-next";
 import { fieldErrors, loginSchema } from "@/lib/validation/auth";
 
 type Field = "email" | "password";
@@ -144,7 +144,7 @@ export function LoginForm() {
           </form>
           <div className="small">
             <span className="muted">
-              No account? <Link href="/register">Sign up</Link>
+              No account? <Link href={authLink("/register", next)}>Sign up</Link>
             </span>
           </div>
         </div>

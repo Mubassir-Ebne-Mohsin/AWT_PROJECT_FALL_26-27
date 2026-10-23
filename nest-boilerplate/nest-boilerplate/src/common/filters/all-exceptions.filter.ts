@@ -46,11 +46,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
       // Deliberate errors (e.g. a failing health check) need no stack trace.
       if (status >= 500) this.logger.warn(exception.message);
     } else if (status >= 500) {
-      this.logger.error(
-        exception instanceof Error
-          ? (exception.stack ?? exception.message)
-          : String(exception),
-      );
+      // Unexpected error messages/stacks can include SQL parameters or credentials.
+      this.logger.error("Unhandled request failure");
     }
     res.status(status).json(body);
   }
@@ -79,6 +76,26 @@ export class AllExceptionsFilter implements ExceptionFilter {
         "Too many requests. Please slow down.",
       );
     }
+    // body-parser errors are not necessarily Nest HttpExceptions. Do not expose
+    // the parser's message/body, which can contain submitted credentials.
+    if (
+      exception instanceof Error &&
+      "type" in exception &&
+      [
+        "entity.too.large",
+        "entity.parse.failed",
+        "request.aborted",
+        "request.size.invalid",
+      ].includes(String(exception.type))
+    ) {
+      return this.build(
+        422,
+        "VALIDATION_FAILED",
+        exception.type === "entity.too.large"
+          ? "Request body is too large"
+          : "Invalid request body",
+      );
+    }
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
       const code =
@@ -86,8 +103,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
         (status >= 500 ? "INTERNAL" : "VALIDATION_FAILED");
       // Never leak framework internals for server errors.
       const message =
-        status >= 500 ? "Something went wrong" : this.messageOf(exception);
-      return this.build(status, code, message);
+        status >= 500
+          ? "Something went wrong"
+          : status === 400
+            ? "Invalid request body"
+            : this.messageOf(exception);
+      return this.build(
+        code === "VALIDATION_FAILED" ? 422 : status,
+        code,
+        message,
+      );
     }
     if (
       exception instanceof Error &&

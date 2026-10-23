@@ -1,5 +1,7 @@
 "use client";
 
+import { Crumbs } from "@/components/shell/crumbs";
+import { resolveRoute } from "@/lib/routes";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -28,6 +30,7 @@ export function Dashboard() {
 
   return (
     <div className="page">
+      <Crumbs resolved={resolveRoute("/dashboard")} />
       <div className="page-head">
         <div className="stack">
           <span className="eyebrow">Dashboard</span>

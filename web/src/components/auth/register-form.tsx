@@ -8,7 +8,7 @@ import { Icon, cx } from "@/components/ui/icon";
 import { register } from "@/lib/api/auth";
 import { isApiError } from "@/lib/api/errors";
 import { notify } from "@/lib/notify";
-import { safeNext } from "@/lib/safe-next";
+import { authLink, safeNext } from "@/lib/safe-next";
 import { fieldErrors, passwordStrength, registerSchema } from "@/lib/validation/auth";
 
 type Field = "displayName" | "email" | "password" | "terms";
@@ -127,7 +127,7 @@ export function RegisterForm() {
           </form>
           <div className="small">
             <span className="muted">
-              Have an account? <Link href="/login">Log in</Link>
+              Have an account? <Link href={authLink("/login", next)}>Log in</Link>
             </span>
           </div>
         </div>

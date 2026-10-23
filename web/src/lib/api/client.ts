@@ -103,14 +103,27 @@ async function toError(res: Response): Promise<ApiError> {
 function announce(err: ApiError, silent?: boolean) {
   if (silent) return;
   if (err.code === "INTERNAL") apiEvents.emit("server-error");
+  else if (err.code === "SESSION_EXPIRED") apiEvents.emit("session-expired");
   else if (err.code === "RATE_LIMITED") apiEvents.emit("rate-limited");
+  else if (err.code === "NOT_FOUND") apiEvents.emit("not-found");
   else if (err.code === "FORBIDDEN") apiEvents.emit("forbidden");
   else if (err.code === "UNAVAILABLE") apiEvents.emit("unreachable");
 }
 
 export type RefreshResult =
   | { ok: true; session: AuthSession }
-  | { ok: false; reason: "signed-out" | "unreachable" };
+  | { ok: false; reason: "signed-out" | "unreachable" | "rate-limited" | "failed"; error?: ApiError };
+
+/** Web Locks serialize cookie rotation across same-origin tabs. Each tab gets its own
+ * in-memory access token using the latest httpOnly cookie; no token is broadcast or stored.
+ * Without Web Locks, the per-module single flight below is the best available fallback.
+ */
+async function coordinateRefresh<T>(run: () => Promise<T>): Promise<T> {
+  if (typeof navigator !== "undefined" && navigator.locks) {
+    return await navigator.locks.request("stressforge-auth-refresh", run);
+  }
+  return run();
+}
 
 let inflightRefresh: Promise<RefreshResult> | null = null;
 
@@ -119,11 +132,16 @@ let inflightRefresh: Promise<RefreshResult> | null = null;
  * share one request, because the server rotates the cookie and rejects a replay.
  */
 export function refreshSession(): Promise<RefreshResult> {
-  inflightRefresh ??= (async (): Promise<RefreshResult> => {
+  inflightRefresh ??= coordinateRefresh(async (): Promise<RefreshResult> => {
     try {
       const res = await send("/auth/refresh", { method: "POST", auth: false }, null);
       if (res.ok) {
         const session = ((await res.json()) as { data: AuthSession }).data;
+        if (!session || typeof session.accessToken !== "string" || !session.accessToken ||
+          !session.user || typeof session.user.id !== "string" || typeof session.user.email !== "string" ||
+          typeof session.user.displayName !== "string") {
+          throw new Error("Invalid refresh response");
+        }
         adoptSession(session);
         return { ok: true, session };
       }
@@ -131,12 +149,18 @@ export function refreshSession(): Promise<RefreshResult> {
         apiEvents.emit("unreachable");
         return { ok: false, reason: "unreachable" };
       }
-      forgetToken();
-      return { ok: false, reason: "signed-out" };
-    } catch {
+      const error = await toError(res);
+      if (res.status === 401) {
+        forgetToken();
+        return { ok: false, reason: "signed-out", error };
+      }
+      announce(error);
+      return { ok: false, reason: res.status === 429 ? "rate-limited" : "failed", error };
+    } catch (error) {
+      if (!(error instanceof ApiError && error.code === "NETWORK")) apiEvents.emit("unreachable");
       return { ok: false, reason: "unreachable" };
     }
-  })().finally(() => {
+  }).finally(() => {
     inflightRefresh = null;
   });
   return inflightRefresh;
@@ -151,10 +175,18 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
     const refreshed = await refreshSession();
     if (refreshed.ok) {
       res = await send(path, opts, accessToken);
+      if (res.status === 401) {
+        forgetToken();
+        apiEvents.emit("session-expired");
+        throw await toError(res);
+      }
     } else if (refreshed.reason === "signed-out") {
       // One retry is all we do: the session is really gone.
       apiEvents.emit("session-expired");
       throw await toError(res);
+    } else {
+      // A temporary refresh failure must not masquerade as an invalid session.
+      throw refreshed.error ?? new ApiError("NETWORK", "Could not restore the session", 0);
     }
   }
 

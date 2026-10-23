@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
+import { ThemeSelect } from "@/components/shell/theme-select";
 import { initialsOf, useAuth } from "@/components/auth/auth-provider";
 import { useUi } from "@/components/shell/ui-provider";
 import { BrandMark, Icon, cx } from "@/components/ui/icon";
@@ -24,23 +23,12 @@ const PUBLIC_NAV: Array<[string, string]> = [
   ["/about", "About"],
 ];
 
-// True only after hydration, so theme-dependent icons never mismatch server HTML.
-const useMounted = () =>
-  useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-
 export function TopBar({ pathname }: { pathname: string }) {
   const { ui, setUI } = useUi();
   const { user, status, signOut } = useAuth();
-  const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useMounted();
   const authed = status === "authed" && user;
   const nav = authed ? USER_NAV : PUBLIC_NAV;
   const isCurrent = (to: string) => sectionOf(pathname) === sectionOf(to);
-  const dark = mounted && resolvedTheme === "dark";
   const close = { navMenu: false, userMenu: false };
 
   return (
@@ -127,14 +115,7 @@ export function TopBar({ pathname }: { pathname: string }) {
         <button className="btn btn-ghost icon hide-sm" aria-label="Send feedback" title="Send feedback" onClick={() => setUI({ feedback: true })}>
           <Icon n="msg" />
         </button>
-        <button
-          className="btn btn-ghost icon"
-          aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-          title={dark ? "Light theme" : "Dark theme"}
-          onClick={() => setTheme(dark ? "light" : "dark")}
-        >
-          <Icon n={dark ? "sun" : "moon"} />
-        </button>
+        <ThemeSelect />
 
         {authed ? (
           <div className="menu-wrap">

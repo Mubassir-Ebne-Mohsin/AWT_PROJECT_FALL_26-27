@@ -1,5 +1,6 @@
 "use client";
 
+import { enterDrawer } from "@/lib/drawer-focus";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useUi } from "@/components/shell/ui-provider";
@@ -13,7 +14,7 @@ export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const { route, params } = resolved;
 
-  useEffect(() => closeRef.current?.focus(), []);
+  useEffect(() => enterDrawer(closeRef.current), []);
 
   const tab = route.id === "workspace" ? WS_TABS.find((t) => t.id === params.tab) : undefined;
   const entry = HELP[route.id === "workspace" ? `ws-${params.tab}` : route.id];

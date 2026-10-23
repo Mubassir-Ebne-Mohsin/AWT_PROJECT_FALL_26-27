@@ -1,4 +1,4 @@
-import { INestApplication } from "@nestjs/common";
+import { Controller, Get, INestApplication } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { Test } from "@nestjs/testing";
 import { DataSource } from "typeorm";
@@ -6,6 +6,10 @@ import request from "supertest";
 import { AppModule } from "@/src/app.module";
 import { configureApp } from "@/src/app.setup";
 import { RedisCacheService } from "@/providers/cache/redis/redis-cache.service";
+import { Roles, CurrentUser } from "@/common/decorators";
+import { Role } from "@/common/enums/role.enum";
+import { AuthUser } from "@/common/interfaces/auth-user.interface";
+import { TokenStore } from "@/modules/auth/token-store.service";
 import { FakeRedisCacheService } from "../test/fake-redis";
 
 const creds = {
@@ -20,6 +24,22 @@ const cookieOf = (res: request.Response) =>
   );
 const cookieValue = (c: string) => c.split(";")[0];
 
+// Test-only routes prove global guards and parameter decorators compose correctly.
+@Controller("audit-roles")
+class AuditRolesController {
+  @Get("user")
+  @Roles(Role.USER)
+  user(@CurrentUser() user: AuthUser) {
+    return user;
+  }
+
+  @Get("admin")
+  @Roles(Role.ADMIN)
+  admin(@CurrentUser() user: AuthUser) {
+    return user;
+  }
+}
+
 describe("StressForge API (e2e)", () => {
   let app: INestApplication;
   let redis: FakeRedisCacheService;
@@ -27,7 +47,10 @@ describe("StressForge API (e2e)", () => {
 
   beforeAll(async () => {
     redis = new FakeRedisCacheService();
-    const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule],
+      controllers: [AuditRolesController],
+    })
       .overrideProvider(RedisCacheService)
       .useValue(redis)
       .compile();
@@ -162,6 +185,22 @@ describe("StressForge API (e2e)", () => {
         .expect(200);
       const second = cookieValue(cookieOf(refreshed)!);
       expect(second).not.toBe(first);
+      const decode = (cookie: string) =>
+        JSON.parse(
+          Buffer.from(
+            cookie.split("=")[1].split(".")[1],
+            "base64url",
+          ).toString(),
+        );
+      expect(decode(second).exp).toBe(decode(first).exp);
+      const maxAge = Number(/Max-Age=(\d+)/i.exec(cookieOf(refreshed)!)![1]);
+      expect(maxAge).toBeGreaterThan(0);
+      expect(maxAge).toBeGreaterThanOrEqual(
+        decode(second).exp - Math.floor(Date.now() / 1000) - 1,
+      );
+      expect(maxAge).toBeLessThanOrEqual(
+        decode(second).exp - Math.floor(Date.now() / 1000) + 1,
+      );
       expect(refreshed.body.data.accessToken).toEqual(expect.any(String));
 
       // Replaying the spent token is a theft signal: it fails and kills the family.
@@ -198,6 +237,127 @@ describe("StressForge API (e2e)", () => {
 
     it("logout without credentials still succeeds", async () => {
       await http.post("/v1/auth/logout").expect(204);
+    });
+  });
+
+  describe("audit regression integration", () => {
+    it("concurrent registration returns one success and one email validation error", async () => {
+      const responses = await Promise.all([register(), register()]);
+      expect(responses.map((r) => r.status).sort()).toEqual([201, 422]);
+      const failed = responses.find((r) => r.status === 422)!;
+      expect(failed.body.error.details.fields[0].path).toBe("email");
+      expect(
+        (
+          await app
+            .get(DataSource)
+            .query("SELECT count(*)::int AS count FROM users")
+        )[0].count,
+      ).toBe(1);
+    });
+
+    it("malformed and oversized JSON produce safe 422 validation responses", async () => {
+      const malformed = await http
+        .post("/v1/auth/register")
+        .set("Content-Type", "application/json")
+        .send('{"password":"SENTINEL_SECRET" invalid}')
+        .expect(422);
+      const oversized = await http
+        .post("/v1/auth/register")
+        .send({ ...creds, password: "x".repeat(150_000) })
+        .expect(422);
+      for (const res of [malformed, oversized]) {
+        expect(res.body.error.code).toBe("VALIDATION_FAILED");
+        expect(JSON.stringify(res.body)).not.toContain("SENTINEL_SECRET");
+        expect(res.body.error.message.length).toBeLessThan(100);
+      }
+    });
+
+    it("logout storage failure returns 503, retains the cookie, and can be retried", async () => {
+      const reg = await register();
+      const store = app.get(TokenStore);
+      const failure = jest
+        .spyOn(store, "revokeFamily")
+        .mockRejectedValueOnce(new Error("storage unavailable"));
+      try {
+        const res = await http
+          .post("/v1/auth/logout")
+          .set("Cookie", cookieValue(cookieOf(reg)!))
+          .expect(503);
+        expect(res.body.error.code).toBe("UNAVAILABLE");
+        expect(res.headers["set-cookie"]).toBeUndefined();
+        await http
+          .post("/v1/auth/logout")
+          .set("Cookie", cookieValue(cookieOf(reg)!))
+          .expect(204);
+      } finally {
+        failure.mockRestore();
+      }
+    });
+
+    it.each(["revokeFamily", "revokeAccess"] as const)(
+      "partial logout failure in %s is retryable",
+      async (method) => {
+        const reg = await register();
+        const first = cookieValue(cookieOf(reg)!);
+        const access = reg.body.data.accessToken;
+        const failure = jest
+          .spyOn(app.get(TokenStore), method)
+          .mockRejectedValueOnce(new Error("unavailable"));
+        try {
+          const res = await http
+            .post("/v1/auth/logout")
+            .set("Cookie", first)
+            .set("Authorization", `Bearer ${access}`)
+            .expect(503);
+          expect(res.body.error.code).toBe("UNAVAILABLE");
+          expect(res.headers["set-cookie"]).toBeUndefined();
+          await http
+            .post("/v1/auth/logout")
+            .set("Cookie", first)
+            .set("Authorization", `Bearer ${access}`)
+            .expect(204);
+          await http
+            .get("/v1/auth/me")
+            .set("Authorization", `Bearer ${access}`)
+            .expect(401);
+          await http.post("/v1/auth/refresh").set("Cookie", first).expect(401);
+        } finally {
+          failure.mockRestore();
+        }
+      },
+    );
+
+    it("enforces @Roles and @CurrentUser end to end, including the ADMIN hierarchy", async () => {
+      const reg = await register();
+      await http.get("/v1/audit-roles/admin").expect(401);
+      const userToken = reg.body.data.accessToken;
+      const current = await http
+        .get("/v1/audit-roles/user")
+        .set("Authorization", `Bearer ${userToken}`)
+        .expect(200);
+      expect(current.body.data.id).toBe(reg.body.data.user.id);
+      const refused = await http
+        .get("/v1/audit-roles/admin")
+        .set("Authorization", `Bearer ${userToken}`)
+        .expect(403);
+      expect(refused.body.error.code).toBe("FORBIDDEN");
+      await app
+        .get(DataSource)
+        .query("UPDATE users SET role = $1 WHERE id = $2", [
+          Role.ADMIN,
+          reg.body.data.user.id,
+        ]);
+      const login = await http
+        .post("/v1/auth/login")
+        .send({ email: creds.email, password: creds.password })
+        .expect(200);
+      for (const route of ["user", "admin"]) {
+        const res = await http
+          .get(`/v1/audit-roles/${route}`)
+          .set("Authorization", `Bearer ${login.body.data.accessToken}`)
+          .expect(200);
+        expect(res.body.data.role).toBe(Role.ADMIN);
+      }
     });
   });
 

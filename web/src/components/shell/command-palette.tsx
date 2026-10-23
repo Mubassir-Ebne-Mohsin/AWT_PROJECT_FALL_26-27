@@ -1,5 +1,6 @@
 "use client";
 
+import { THEME_OPTIONS } from "@/components/shell/theme-select";
 import { Command } from "cmdk";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -25,10 +26,9 @@ interface Cmd {
 export function CommandPalette() {
   const { setUI, openSystem } = useUi();
   const { status, signOut } = useAuth();
-  const { resolvedTheme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const router = useRouter();
   const authed = status === "authed";
-  const dark = resolvedTheme === "dark";
 
   const commands = useMemo(() => {
     const out: Cmd[] = [];
@@ -37,9 +37,9 @@ export function CommandPalette() {
     const go = (path: string) => () => router.push(path);
 
     if (authed) add("Actions", "New design", go("/new"), { icon: "plus", hint: "/new" });
-    add("Actions", dark ? "Switch to light theme" : "Switch to dark theme", () => setTheme(dark ? "light" : "dark"), {
-      icon: dark ? "sun" : "moon",
-    });
+    for (const theme of THEME_OPTIONS) {
+      add("Appearance", `Use ${theme} theme`, () => setTheme(theme), { icon: theme === "dark" ? "moon" : "sun" });
+    }
     if (authed) add("Actions", "Ask the AI assistant", () => setUI({ ai: true, help: false }), { icon: "sparkle", hint: "." });
     add("Actions", "Help for this screen", () => setUI({ help: true, ai: false }), { icon: "help" });
     add("Actions", "Keyboard shortcuts", () => setUI({ shortcuts: true }), { icon: "keyboard", hint: "?" });
@@ -61,7 +61,7 @@ export function CommandPalette() {
       for (const st of SYSTEM_STATES) add("System states", st.label, () => openSystem(st.id, true), { icon: st.icon, hint: st.code, keywords: "error state dev" });
     }
     return out;
-  }, [authed, dark, router, setTheme, setUI, signOut, openSystem]);
+  }, [authed, router, setTheme, setUI, signOut, openSystem]);
 
   const groups = useMemo(() => {
     const map = new Map<string, Cmd[]>();

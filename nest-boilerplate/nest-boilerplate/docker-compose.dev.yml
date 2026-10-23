@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD:-stressforge}
       POSTGRES_DB: ${DB_DATABASE:-stressforge}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
     volumes:
       - stressforge_pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -23,13 +23,27 @@ services:
 
   redis:
     image: redis:7-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    command:
+      - sh
+      - -ec
+      - |
+        if [ -n "$${REDIS_PASSWORD}" ]; then
+          exec redis-server --requirepass "$${REDIS_PASSWORD}"
+        fi
+        exec redis-server
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
       - stressforge_redisdata:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test:
+        [
+          "CMD-SHELL",
+          'REDISCLI_AUTH="$${REDIS_PASSWORD}" redis-cli ping | grep -qx PONG',
+        ]
       interval: 5s
       timeout: 3s
       retries: 10

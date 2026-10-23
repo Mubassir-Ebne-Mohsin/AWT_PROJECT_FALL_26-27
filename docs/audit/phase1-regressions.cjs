@@ -1,7 +1,7 @@
 /** Phase 1 audit regressions. No application edits, network calls or stored credentials.
  * Run from the project root after building the backend:
  * node docs/audit/phase1-regressions.cjs
- * Failing assertions describe requirements that still need fixes; do not weaken them.
+ * Desired-behavior assertions remain ordinary passing requirements after remediation.
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -53,7 +53,9 @@ const expired=()=>response(401,{error:{code:'SESSION_EXPIRED',message:'expired'}
   const saved=Date.now, ttl=appConfig.env.JWT_REFRESH_TTL_SECONDS; let now=Math.floor(saved()/1000)*1000;
   Date.now=()=>now; appConfig.env.JWT_REFRESH_TTL_SECONDS=10;
   try{const {auth,user}=service();const original=await auth.issue(user,'audit-family');now+=9000;const rotated=await auth.refresh(original.refreshToken);
-  await assert.rejects(()=>auth.refresh(original.refreshToken));now+=2000;
+  await assert.rejects(()=>auth.refresh(original.refreshToken));
+  await new JwtService().verifyAsync(rotated.refreshToken,{secret:process.env.JWT_REFRESH_SECRET});
+  await assert.rejects(()=>auth.refresh(rotated.refreshToken),'replayed family still accepts an unexpired descendant');now+=2000;
   await assert.rejects(()=>auth.refresh(rotated.refreshToken),'revoked family became usable after original token expired');
   }finally{Date.now=saved;appConfig.env.JWT_REFRESH_TTL_SECONDS=ttl;}
  });
@@ -63,7 +65,7 @@ const expired=()=>response(401,{error:{code:'SESSION_EXPIRED',message:'expired'}
   await assert.rejects(()=>auth.logout(session.refreshToken),'logout silently swallowed storage failure');
  });
  await check('a 401 after the one permitted retry opens session-expired',async()=>{
-  const {c,events}=client([expired(),response(200,{data:{accessToken:'new',expiresIn:900,user:{id:'audit'}}}),expired()]);
+  const {c,events}=client([expired(),response(200,{data:{accessToken:'new',expiresIn:900,user:{id:'audit',email:'audit@example.com',displayName:'Audit',role:'user'}}}),expired()]);
   await assert.rejects(()=>c.api('/auth/me'));assert.ok(events.includes('session-expired'),'no session-expired event on retry 401');
  });
  await check('refresh 429 preserves credentials and announces rate-limited',async()=>{

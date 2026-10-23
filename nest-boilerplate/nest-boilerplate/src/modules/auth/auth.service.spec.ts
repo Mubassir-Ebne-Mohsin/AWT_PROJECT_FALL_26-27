@@ -109,6 +109,44 @@ describe("AuthService", () => {
       });
     });
 
+    it("rotation preserves the absolute family expiry and shortens cookie lifetime", async () => {
+      const now = Date.now;
+      const start = Math.floor(now() / 1000) * 1000;
+      const clock = jest.spyOn(Date, "now").mockReturnValue(start);
+      try {
+        const first = await register();
+        clock.mockReturnValue(start + 5_000);
+        const second = await service.refresh(first.refreshToken);
+        expect(jwt.decode(second.refreshToken).exp).toBe(
+          jwt.decode(first.refreshToken).exp,
+        );
+        expect(second.refreshExpiresIn).toBe(first.refreshExpiresIn - 5);
+        await service.logout(first.refreshToken);
+        await expect(
+          service.refresh(second.refreshToken),
+        ).rejects.toMatchObject({ code: "SESSION_EXPIRED" });
+      } finally {
+        clock.mockRestore();
+      }
+    });
+
+    it("expires a rotated family at its exact original deadline", async () => {
+      const start = Math.floor(Date.now() / 1000) * 1000;
+      const clock = jest.spyOn(Date, "now").mockReturnValue(start);
+      try {
+        const first = await register();
+        clock.mockReturnValue(start + 1_000);
+        const second = await service.refresh(first.refreshToken);
+        const exp = jwt.decode(first.refreshToken).exp;
+        clock.mockReturnValue(exp * 1000);
+        await expect(
+          service.refresh(second.refreshToken),
+        ).rejects.toMatchObject({ code: "SESSION_EXPIRED" });
+      } finally {
+        clock.mockRestore();
+      }
+    });
+
     it("rejects a refresh token signed with the access secret", async () => {
       const { user } = await register();
       const forged = await jwt.signAsync(
@@ -125,6 +163,20 @@ describe("AuthService", () => {
       await expect(service.refresh(s.accessToken)).rejects.toBeInstanceOf(
         AppException,
       );
+    });
+
+    it("requires reauthentication for pre-fix sliding refresh cookies", async () => {
+      const { user } = await register();
+      const legacy = await jwt.signAsync(
+        { typ: "refresh", sub: user.id, fam: "old", jti: "legacy" },
+        {
+          secret: env.JWT_REFRESH_SECRET,
+          expiresIn: 60,
+        },
+      );
+      await expect(service.refresh(legacy)).rejects.toMatchObject({
+        code: "UNAUTHENTICATED",
+      });
     });
 
     it("requires a refresh token", async () => {
