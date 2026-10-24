@@ -1,0 +1,165 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M6 connections, history and graph repair",
+  "verdict": "complete for approved scope; Phase2 remains in progress",
+  "publication": {
+    "branch": "codex/phase2-contracts",
+    "featureCommit": "a08d284",
+    "foundationHarnessCommit": "b90737d",
+    "verifiedRemoteCodeSha": "b90737df9399ca2647638f04171793da052522e7",
+    "mainUnchanged": "9e8bb00",
+    "documentation": "subsequent commit on same branch"
+  },
+  "runtime": {
+    "node": "22.23.4",
+    "apiPort": 5003,
+    "webPort": 3003,
+    "postgresPort": 5549,
+    "redisPort": 6396,
+    "auditDatabase": "sf_m6_audit",
+    "e2eDatabase": "sf_m6_e2e",
+    "processOnlyAuthLimit": 300,
+    "normalDataUntouched": true
+  },
+  "checks": {
+    "backendBuild": "exit0",
+    "backendTypecheck": "exit0",
+    "backendLint": {
+      "exit": 0,
+      "errors": 0,
+      "inheritedWarnings": 22
+    },
+    "backendUnit": {
+      "exit": 0,
+      "passed": 174,
+      "suites": 12,
+      "seconds": 90.479,
+      "realRedis": true
+    },
+    "backendE2e": {
+      "exit": 0,
+      "passed": 44,
+      "suites": 2,
+      "seconds": 58.973,
+      "realPostgres": true,
+      "redisAndThrottle": "existing doubles"
+    },
+    "freshAuditMigrations": {
+      "exit": 0,
+      "applied": [
+        "CreateUsers1761000000000",
+        "CreateDesigns1792800000000"
+      ]
+    },
+    "frontendUnit": {
+      "exit": 0,
+      "passed": 86,
+      "seconds": 43.604,
+      "newM6Tests": 13
+    },
+    "frontendBuild": "exit0, final source with .next-audit",
+    "frontendTypecheck": "exit0",
+    "frontendLint": "exit0, clean",
+    "routes": {
+      "passed": 35
+    },
+    "liveApiTypes": "exit0, unchanged",
+    "initialChromeFull": {
+      "exit": 1,
+      "passed": 122,
+      "failed": 2,
+      "skippedDevOnly": 4,
+      "minutes": 16.4,
+      "allOriginalM6CasesPassed": 36
+    },
+    "correctedFoundationRepeats": {
+      "exit": 0,
+      "passed": 8,
+      "minutes": 2.3,
+      "command": "pnpm exec playwright test phase1.spec.ts --grep '35 registry routes' --repeat-each=2",
+      "changes": "DOMContentLoaded + authenticated dashboard assertion between theme reloads; original tab status/auth assertions retained"
+    },
+    "addedM6SessionChrome": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 29.4
+    },
+    "allM6ChromeCombinations": {
+      "passed": 40,
+      "scenarios": 10,
+      "projects": [
+        "1024-light",
+        "1024-dark",
+        "1440-light",
+        "1440-dark"
+      ],
+      "note": "36 cases in full run plus 4 added session cases, not a single new complete full-suite invocation"
+    },
+    "edgeM6": {
+      "exit": 0,
+      "passed": 10,
+      "seconds": 42.6,
+      "project": "1440-light"
+    },
+    "devStates": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 36.4,
+      "statesPerProject": 10
+    },
+    "realDependencyOutages": {
+      "exit": 0,
+      "postgresHealthDown": 503,
+      "redisHealthDown": 503,
+      "recoveredHealth": 200,
+      "connectionRetained": true,
+      "historyRetained": true,
+      "undoRecoveredOriginalGraph": true
+    },
+    "finalHealth": 200,
+    "finalSwagger": 200
+  },
+  "initialBrowserFailures": [
+    {
+      "project": "1024-dark",
+      "test": "Foundation registry/themes/tab restores/logout",
+      "observed": "second tab lacked me-card and reached login; audit API logged refresh401"
+    },
+    {
+      "project": "1440-dark",
+      "test": "same Foundation journey",
+      "observed": "page.reload exceeded30s waiting load; snapshot showed authenticated dashboard"
+    }
+  ],
+  "interpretation": "Theme reloads did not await restored authentication; interrupted refresh/load timing is inferred, not proven universal cause. Strengthened focused repeats pass. No auth verification, replay protection, server throttle or deadline was weakened.",
+  "limits": [
+    "No complete post-correction128-case rerun",
+    "Firefox/WebKit/formal AT/soak untested",
+    "No actual API-process outage repeated in M6; actual PostgreSQL/Redis and network/session failure paths covered",
+    "Three inherited backend advisories not rescanned",
+    "Local memory-only history and unsaved draft recovery",
+    "M7-M9 still unfinished; real AI remains later course obligation"
+  ],
+  "screenshots": [
+    "m6-editor-1024-light.png",
+    "m6-editor-1024-dark.png",
+    "m6-editor-1440-light.png",
+    "m6-editor-1440-dark.png"
+  ],
+  "cleanup": {
+    "auditProcessesStopped": true,
+    "m6LabelledContainersStoppedAndRetained": true,
+    "normalServicesPreserved": true,
+    "historicalM3M4M5ScreenshotsRestored": true,
+    "preexistingM2ProfileExcluded": true
+  },
+  "packagesChanged": false,
+  "lockfilesChanged": false,
+  "migrationsChanged": false,
+  "envFilesChanged": false,
+  "engineBehaviorChanged": false,
+  "referenceFilesChanged": false,
+  "paidUsage": false,
+  "maintenance": "Update the same STRESSFORGE-PROGRESS-REPORT.md on milestone completion; preserve history, add observed evidence and reassess touched earlier requirements. No automatic updates."
+}

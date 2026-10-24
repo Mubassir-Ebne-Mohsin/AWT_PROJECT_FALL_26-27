@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M5 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 provides the first saved-design journey and M4 completes creation/dashboard and M5 adds the interactive canvas; see sections13–16 for verification and limitations.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M6 code is now published on GitHub branch **codex/phase2-contracts** (verified remote checkpoint **b90737d**); main retains the Phase1 baseline. Phase2 remains in progress: M6 adds connections, undo and actionable graph repair; M7–M9 remain. See sections13–17 for evidence, limitations and publication details.
 
 ## 1. Maintenance instructions
 
@@ -32,7 +32,7 @@ Build and run: see `README.md` at the repo root.
 
 Sources used to define phase requirements:
 
-- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard and M5 canvas scopes, with verification in sections15–16. Historical Phase1 sources follow.
+- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard, M5 canvas and M6 connections/history/repair scopes, with verification in sections15–17. Historical Phase1 sources follow.
 
 - `nest-boilerplate/nest-boilerplate/docs/stressforge/PHASE-1-PROMPT.md` (the Phase 1 specification; the only roadmap-like document found).
 - The prototype's `PHASE_NAMES` and route phases (SECTION 5) for the phase names of Phases 2 to 5.
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey, M4 creation/dashboard and M5 canvas fundamentals complete; M6–M9 not started. See sections13–16; local Phase 2 changes not yet published |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey, M4 creation/dashboard, M5 canvas and M6 connections/history/repair complete; M7–M9 not started. See sections13–17; Phase2 code published on codex/phase2-contracts |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard and M5 canvas fundamentals; full Phase2 completion still requires M6–M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; full Phase2 completion still requires M7–M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-24 — M6 completed and code published:** Connections/reversal/deletion, component duplication/deletion, bounded undo/redo and revision-bound graph repair implemented.174 backend unit,44 e2e,86 frontend unit,40 M6 Chrome and10 Edge scenarios passed. Real PostgreSQL/Redis interruptions retained connections/history. Initial full browser run122 passed/2 Foundation timing failures/4 dev skips; strengthened Foundation rechecks8/8 and separate dev checks4/4 passed. Section17 preserves this evidence and limits. Code a08d284 and test synchronization b90737d published on codex/phase2-contracts; main unchanged.
 
 - **2026-10-24 — M5 completed:** Approved canvas fundamentals implemented and verified: all twelve types, selection/movement/properties, pan/zoom/fit/minimap, keyboard alternatives and guarded persistence. Final174 backend unit,44 e2e,73 frontend unit,32 final Chrome and7 Edge cases passed; full regression checkpoint84 passed/4 dev-only skips. Actual PostgreSQL/Redis outage recovery verified. Section16 records evidence, corrections and limits. Local only; M6–M9 not started.
 
@@ -882,3 +884,77 @@ Evidence images: audit/m5-canvas-{1024,1440}-{light,dark}.png and audit/m5-refer
 **M5 verdict: COMPLETE for approved fundamentals; no unresolved mandatory M5 functional failure observed in the completed gates.** Changes remain local on codex/phase2-contracts, with no GitHub push. The pre-existing modified audit/m2-profile-source.json is preserved and excluded. Future milestone completion MUST update this same report, preserve earlier phase history, record new verification evidence and reassess affected earlier requirements; nothing updates automatically.
 
 M5 local implementation checkpoint: **30ea144**. Final audit health and Swagger both returned200 before cleanup. Stopped only verified audit API5003/web3003 and the two containers labelled stressforge.audit=m5; databases/containers retained for reproducibility. Normal Docker PostgreSQL/Redis and pre-existing QA services remained running/healthy. No normal frontend was stopped. Historical screenshots were restored, the unrelated M2 profile stays uncommitted, and no GitHub push occurred.
+
+
+## 17. M6 — Connections, history and graph repair
+
+**2026-10-24 (Asia/Dhaka). Verdict: M6 COMPLETE for its approved scope. Phase2 remains IN PROGRESS; M7–M9 remain unfinished.** The user approved the reviewed M6 scope and explicitly requested GitHub publication. Sources: [Phase2 roadmap](PHASE-2-PLAN.md), prototype Sections12–14 and store/history behaviour, existing M1 graph contracts, M3 revision/run safety and M5 canvas. Applicable web/AGENTS.md and installed Next client-boundary documentation were read. [M6 operating guide](M6-CONNECTIONS-HISTORY.md); [durable verification summary](audit/m6-verification.json).
+
+### Requirement mapping
+
+| Requirement | Inspected implementation and observed evidence | Status |
+| --- | --- | --- |
+| Create directional arrows | Canvas ports support pointer drag, Connect source/target clicks and Escape/focus/capture cancellation. Labelled Source/Destination controls are the keyboard alternative. Actual zoomed port drag, two-click and repair-action journeys pass | Verified |
+| Select/reverse/delete connections | Wide invisible SVG hit targets, keyboard selection and Connection dropdown; reverse keeps edge identity/order. Shared immutable commands reject self-links, duplicate directions, missing nodes and inputs into Clients;200-edge bound retained. Invalid operations do not write | Verified |
+| Duplicate/delete components | Unique IDs, cloned properties, bounded copy labels, visible offset and no copied arrows. Node deletion removes incident edges in one history action; Undo restores the exact graph.50-node limit remains | Verified |
+| Bounded undo/redo | EditorHistory stores at most60 input snapshots; property/name groups use1500ms coalescing, completed drags are atomic. New edits clear Redo; viewport/selection/checks/revisions/run identities are excluded. Buttons, Ctrl+Z/Shift+Z/Y/D and Delete respect text inputs and canvas scope | Verified |
+| Useful graph repair | Existing POST /designs/:id/validate reused through Check graph after a serialized save barrier. Revision/input-bound errors and repairs focus named components; disconnected Clients offers Start connection. Run422 details populate the same panel. Changed checks are labelled Outdated; late/disposed replies are ignored | Verified |
+| Draft versus runnable graph | Empty/disconnected/cyclic graphs save safely; errors block simulation. Cycle repair through arrow deletion/undo and successful blank Clients→App→Database run/reload exercised. Unreachable-component warnings remain informative and do not prevent otherwise valid runs | Verified |
+| Save races and conflicts | Undo during delayed save survives acknowledgement and re-saves at the returned revision.429 keeps graph/history for retry. Concurrent remote edit yields409 and preserves local graph; deliberate reapply starts a new history boundary, with no automatic merge | Verified |
+| Session and account boundaries | Four Chrome width/theme cases prove connection/history survives session-modal re-login. A mocked failed logout still clears local draft/history; same-owner re-login reopens stored inputs with Undo disabled. Another account receives403 and cannot see old component controls | Verified |
+| Real failure recovery | Dedicated PostgreSQL5549 and Redis6396 interrupted independently: health503, recovery200, retained connection/history, explicit retry and Undo recover original graph. Audit identity/ports checked and containers restarted in finally | Verified |
+| Earlier UI/integration | Foundation/M3/M4/M5 regression checkpoint plus strengthened Foundation repeats and separate dev-state matrix. Production build, strict types/lint,35 routes and live API-type equality pass. No dependency, lockfile, route, endpoint, schema, migration, env or engine behaviour change | Verified |
+| Documentation/publication | This same report, tracker/history, roadmap, architecture, README, guides, tests and evidence updated. Implementation and earlier Phase2 commits pushed to codex/phase2-contracts; remote SHA matched local code checkpoint. Main unchanged | Verified |
+
+Implementation: WEB/src/lib/canvas/commands.ts, lib/editor-history.ts, lib/editor-session.ts; components/canvas/{graph-canvas,graph-nodes,canvas-editor,connection-panel,validation-panel,node-properties}; workspace/workspace.tsx and the existing API wrapper. New tests are WEB/tests/m6.test.cjs, browser/m6.spec.ts and explicit opt-in verify-m6-services.cjs.
+
+### Verification results and exact scope
+
+Node22.23.4; existing pnpm/package versions retained. Final listed checks passed; the initial full-run failures are explicitly retained below rather than counted as passes.
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build / pnpm typecheck / pnpm lint:check | Exit0;0 errors,22 inherited lint warnings |
+| API TEST_REDIS_COMPOSE=1 pnpm test --runInBand | Exit0;174/174,12 suites,90.479s; includes real Redis |
+| API pnpm test:e2e, DB_TEST_DATABASE=sf_m6_e2e | Exit0;44/44,2 suites,58.973s; actual PostgreSQL, existing Redis/throttler doubles |
+| Existing migrations on fresh sf_m6_audit | Exit0; CreateUsers and CreateDesigns applied; no new migration |
+| WEB pnpm test | Exit0;86/86,43.604s, no skips;13 focused M6 unit cases added |
+| WEB pnpm build / pnpm typecheck / pnpm lint | Exit0; final production source built with isolated .next-audit, frontend lint clean |
+| WEB pnpm check:routes; openapi-typescript http://localhost:5003/docs-json --check | Exit0;35 routes, live types unchanged |
+| Initial full production Chrome pnpm exec playwright test | Exit1;122 passed,2 failed,4 intentional dev skips,16.4min. All36 original M6 cases passed across1024/1440 light/dark; both failures were existing Foundation journeys described below |
+| Corrected Foundation pnpm exec playwright test phase1.spec.ts --grep '35 registry routes' --repeat-each=2 | Exit0;8/8,2.3min, both repeats of all four width/theme combinations, with actual two-tab rotation/login/logout assertions retained |
+| Added M6 session/history case across all four Chrome projects | Exit0;4/4,29.4s. Together with the36 original M6 cases, all40 M6 Chrome checks passed on final application source |
+| Edge pnpm exec playwright test m6.spec.ts --project=1440-light | Exit0;10/10,42.6s, all M6 journeys including the added session/history case |
+| Separate next dev, SF_DEV_STATES=1, Playwright --grep '@dev' | Exit0;4/4,36.4s; all ten state demonstrations per width/theme. Production skips separately covered |
+| SF_M6_REAL_OUTAGES=1 node tests/verify-m6-services.cjs | Exit0; actual PostgreSQL and Redis health503 independently; recovered200; connectionRetained/historyRetained/undoRecoveredOriginalGraph all true |
+| Visual/source review | 1024/light and1440/dark M6 screenshots inspected; source design tokens/icons/geometry reused, arrows and toolbar visible, no horizontal overflow in asserted cases. Existing reference files unchanged |
+| Final running API health / Swagger | Both200 before cleanup |
+
+The full128-case command was not rerun after the test-only synchronization correction. Evidence is the initial122 passes plus focused repeated coverage of both failing Foundation cases, the added4 M6 session cases, Edge10 and dev4. Do not describe the original full invocation as a clean pass or add overlapping runs into a unique-test total.
+
+Browser evidence: audit/m6-editor-{1024,1440}-{light,dark}.png. Earlier M3/M4/M5 screenshots generated by regressions are restored from HEAD so their historical evidence remains unchanged. Detailed local logs are ignored; the durable aggregate records outcomes, scope and limitations without tokens or auth traces.
+
+### Findings and verification corrections
+
+1. **The missing repair loop is closed.** M5 could save disconnected components but offered no arrow tool to fix them. M6 now provides actual connection creation and an explicit, actionable graph check, with a successful blank-to-run browser journey.
+2. **History and revisions are separate.** Undoing a save must not restore an old server revision or erase newer edits when the outstanding acknowledgement arrives. Input-only snapshots and existing submitted-state acknowledgements pass delayed-save/undo/re-save tests.
+3. **Reset boundaries are explicit.** Discard/clean remote adoption/deliberate rebase clears old history; session-modal reauthentication retains it. Explicit local logout/account switch clears it even when server logout fails. Failed logout does not claim confirmed server revocation.
+4. **Connection safety:** cancelled pointers create no edge, reverse validates before mutation, and stale selections cannot leave an enabled delete action for a nonexistent edge. Pending connections suppress unrelated canvas nudges until completion/cancellation.
+5. **Foundation browser timing:** the initial1024-dark journey reached login instead of the expected second restored tab; audit API logged refresh401. The1440-dark journey timed out waiting30s for reload's load event while its snapshot already showed an authenticated dashboard. Theme checks had awaited theme DOM immediately after repeated reloads without explicitly awaiting restored authentication. The final harness uses DOMContentLoaded and asserts the authenticated dashboard before the next reload; all original two-tab status and auth assertions remain. Eight focused repeats passed. Interrupted refresh/load timing is an inference, not proven universal causality; no auth verification/replay protection, server throttle, timeout or security rule was weakened.
+6. **Test-only setup:** an initial new unit case accidentally used the real API saver instead of its test double; corrected dependency injection, final86/86 passed. An undefined CSS fill token was replaced with the existing surface token before final production build; final frontend lint has no new warning.
+
+### Limits, remaining work and publication
+
+- [Verified] The approved M6 editing/repair scope is implemented; no unresolved mandatory M6 functional failure was observed in completed final gates. The initial long-run browser timing failures remain recorded above; focused passing reruns do not prove every refresh-interruption race impossible.
+- [Verified] History is local memory per user/design, not server history or offline persistence. Reload/tab close loses unsaved changes/history; existing guards warn where supported. There is no cross-tab merge. Whole-design deletion retains its separate existing confirmation.
+- [Verified] Checks validate a successfully saved revision and do not silently rewrite the graph. Temporary view changes are not history/save operations. Numerical estimates and immutable run provenance remain unchanged.
+- [Untested] Firefox/WebKit, formal assistive-technology audit and long-duration soak/storage-growth tests. A complete post-correction128-case rerun and an actual API-process outage were not repeated in M6; real dependency outages and network/session/failure paths were exercised as recorded.
+- [Verified] Earlier three backend transitive advisories remain triaged in section14. No fresh dependency scan or dependency version change; this is not a clean-security-audit claim.
+- [Verified] Normal data, .env and normal development services were preserved. M6 used dedicated labelled containers, sf_m6_audit/sf_m6_e2e, API5003/web3003 and a process-only audit auth limit300. No production changes or paid services/AI calls.
+- [Verified] M7 full Traffic/Results, M8 load overlay/live preview/Limits and M9 final integration acceptance remain. Real AI is still a later essential course obligation. M6 completion does not complete Phase2 or authorize M7.
+
+Publication: feature **a08d284** and Foundation harness **b90737d** were pushed to [codex/phase2-contracts](https://github.com/Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27/tree/codex/phase2-contracts); git ls-remote matched **b90737df9399ca2647638f04171793da052522e7**. This also publishes previously local M1–M5 commits. Main remains Phase1 baseline9e8bb00; no forced update or merge. Documentation/evidence accompany a subsequent commit on the same branch.
+
+The pre-existing modified audit/m2-profile-source.json remains untouched and excluded. Future phase/milestone completion MUST update this same report, preserve earlier history, record observed new evidence and reassess affected earlier requirements; nothing updates automatically.
+
+Cleanup evidence: final audit health/docs200 recorded, then only verified API5003 and audit next dev3003 processes stopped. Only containers labelled stressforge.audit=m6 were stopped and retained. Normal development PostgreSQL/Redis and pre-existing QA containers remained healthy/running; normal frontend untouched. Historical M3/M4/M5 screenshots restored from HEAD. Documentation and sanitized evidence are committed/published on the same Phase2 branch; no main merge or production deployment.

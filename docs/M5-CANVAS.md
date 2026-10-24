@@ -52,3 +52,7 @@ Existing scripts remain authoritative: pnpm test, lint, typecheck, build and che
 A frame sample on the maximum graph is a short usability smoke check, not a formal performance benchmark. Browser/coverage results and untested areas are recorded with their scope in the report.
 
 Future milestone completion must update the same progress report, preserve earlier history, record new evidence and reassess touched earlier requirements. No automatic updates or synchronization are promised.
+
+## Subsequent milestone
+
+M6 now supplies the connection, duplication/deletion, undo/redo and graph-repair tools deferred above. This guide preserves the M5 scope/history; use [the M6 guide](M6-CONNECTIONS-HISTORY.md) for current editing behaviour and the living report for its verification status.
