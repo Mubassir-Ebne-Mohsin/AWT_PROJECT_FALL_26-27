@@ -98,6 +98,152 @@ describe("M3 saved designs and simulation (isolated database)", () => {
     }
     throw new Error("Run remained pending");
   }
+  it("M4 prepares every creation source without persistence, then saves owned snapshots", async () => {
+    await http
+      .post("/v1/designs/prepare")
+      .send({ input: { source: "scripted", text: "app" } })
+      .expect(401);
+    const before = await db.getRepository(SavedDesign).count();
+    for (const input of [
+      {
+        source: "blank",
+        name: "Blank",
+        region: "ap-south",
+        start: "empty",
+        preset: "flash",
+      },
+      {
+        source: "import",
+        text: JSON.stringify({ nodes: [{ id: "a", type: "app" }] }),
+      },
+      {
+        source: "scripted",
+        text: "Online store, 3 app servers, Redis, Postgres, Stripe, background emails.",
+      },
+    ]) {
+      const checked = await http
+        .post("/v1/designs/prepare")
+        .set(auth())
+        .send({ input })
+        .expect(200);
+      expect(await db.getRepository(SavedDesign).count()).toBe(before);
+      const created = await http
+        .post("/v1/designs")
+        .set(auth())
+        .send(checked.body.data.design)
+        .expect(201);
+      const id = created.body.data.id;
+      await http
+        .get("/v1/designs/" + id)
+        .set({ Authorization: "Bearer " + foreign })
+        .expect(403);
+      if (input.source === "scripted")
+        expect(created.body.data.description).toContain(
+          "Scripted mock assumptions:",
+        );
+      await http
+        .delete("/v1/designs/" + id)
+        .set(auth())
+        .expect(204);
+    }
+    expect(await db.getRepository(SavedDesign).count()).toBe(before);
+    const docs = await http.get("/docs-json").expect(200);
+    expect(
+      docs.body.paths["/v1/designs/prepare"].post.responses["200"],
+    ).toBeDefined();
+  });
+  it("M4 invalid preparation leaves design and run counts unchanged", async () => {
+    const designs = await db.getRepository(SavedDesign).count(),
+      runs = await db.getRepository(SavedRun).count();
+    for (const input of [
+      { source: "scripted", text: "" },
+      { source: "scripted", text: "1.5 app servers" },
+      {
+        source: "blank",
+        name: "bad",
+        region: "nowhere",
+        start: "empty",
+        preset: "steady",
+      },
+      { source: "import", text: "{" },
+      {
+        source: "import",
+        text: JSON.stringify({ nodes: [], schemaVersion: 2 }),
+      },
+      {
+        source: "import",
+        text: JSON.stringify({ nodes: [], ownerId: "forged" }),
+      },
+      {
+        source: "import",
+        text: JSON.stringify({ nodes: [], description: "界".repeat(22000) }),
+      },
+    ])
+      await http
+        .post("/v1/designs/prepare")
+        .set(auth())
+        .send({ input })
+        .expect(422);
+    await http
+      .post("/v1/designs/prepare")
+      .set(auth())
+      .send({ input: { source: "scripted", text: "app" }, ownerId: "forged" })
+      .expect(422);
+    expect(await db.getRepository(SavedDesign).count()).toBe(designs);
+    expect(await db.getRepository(SavedRun).count()).toBe(runs);
+  });
+  it("M4 accepts the full 64 KiB import allowance even when JSON transport doubles whitespace", async () => {
+    const text = "\t".repeat(64000) + '{"nodes":[]}';
+    expect(Buffer.byteLength(text, "utf8")).toBeLessThan(65536);
+    await http
+      .post("/v1/designs/prepare")
+      .set(auth())
+      .send({ input: { source: "import", text } })
+      .expect(200);
+  });
+  it("M4 creates exact owned copies of all six templates without implicit model runs", async () => {
+    const runs = await db.getRepository(SavedRun).count();
+    for (const template of getTemplates()) {
+      const body = {
+        schemaVersion: 1,
+        name: template.name,
+        description: template.blurb,
+        source: "template",
+        templateId: template.id,
+        graph: template.graph,
+        traffic: template.traffic,
+      };
+      const created = await http
+        .post("/v1/designs")
+        .set(auth())
+        .send(body)
+        .expect(201);
+      const id = created.body.data.id;
+      const reopened = await http
+        .get("/v1/designs/" + id)
+        .set(auth())
+        .expect(200);
+      expect(reopened.body.data.graph).toEqual(template.graph);
+      expect(reopened.body.data.traffic).toEqual(template.traffic);
+      expect(reopened.body.data.templateId).toBe(template.id);
+      await http
+        .delete("/v1/designs/" + id)
+        .set(auth())
+        .expect(204);
+    }
+    expect(await db.getRepository(SavedRun).count()).toBe(runs);
+  });
+  it("M4 oversized transport errors retain CORS and the validation envelope", async () => {
+    await http
+      .post("/v1/designs/prepare")
+      .set("Origin", "http://localhost:3000")
+      .set(auth())
+      .send({ input: { source: "import", text: " ".repeat(170000) } })
+      .expect(422)
+      .expect("Access-Control-Allow-Origin", "http://localhost:3000")
+      .expect("X-Content-Type-Options", "nosniff")
+      .expect((r) => expect(r.body.error.code).toBe("VALIDATION_FAILED"));
+  });
   it("authenticates all new routes and publishes only mounted contracts", async () => {
     for (const path of [
       "/designs",

@@ -19,6 +19,7 @@ import { DesignsService } from "@/modules/designs/designs.service";
 import { RunsService } from "@/modules/designs/runs.service";
 import {
   CreateDesignDto,
+  PrepareDesignDto,
   PatchDesignDto,
   RunRequestDto,
   ValidateDesignDto,
@@ -28,6 +29,7 @@ import {
   getCatalog,
   getTemplates,
 } from "@/modules/simulation/engine/templates";
+import { prepareDesign } from "@/modules/designs/creation";
 @ApiTags("designs")
 @ApiBearerAuth()
 @Controller("designs")
@@ -37,6 +39,11 @@ export class DesignsController {
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
+  @Post("prepare")
+  @HttpCode(200)
+  prepare(@Body() dto: PrepareDesignDto) {
+    return prepareDesign(dto.input);
+  }
   @Post() create(@CurrentUser() u: AuthUser, @Body() dto: CreateDesignDto) {
     return this.designs.create(u.id, dto);
   }
