@@ -138,7 +138,9 @@ test("35 registry routes, auth forms, palette, drawers, themes, tab restores and
     const selector = page.getByRole("combobox", { name: "Color theme" });
     for (const theme of ["light", "dark", "system"]) {
       await selector.selectOption(theme);
-      await page.reload();
+      await page.reload({waitUntil:"domcontentloaded"});
+      // Settle rotating-cookie restoration before the next reload can abort it.
+      await expect(page.getByTestId("me-card")).toContainText(email);
       await expect(selector).toHaveValue(theme);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme === "system" ? scheme : theme);
       expect(await page.evaluate(() => localStorage.getItem("sf-theme"))).toBe(theme);
