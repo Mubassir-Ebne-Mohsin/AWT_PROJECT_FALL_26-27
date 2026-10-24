@@ -30,6 +30,9 @@ export type CanvasApi = {
   center: () => Point;
   locate: (p: Point) => Point;
   inside: (p: Point) => boolean;
+  focus: (id:string) => void;
+  cancel:()=>void;
+  connectFrom:(id:string)=>void;
 };
 type Drag =
   | {
@@ -41,23 +44,35 @@ type Drag =
       moved: boolean;
       pointer: number;
     }
-  | { kind: "pan"; start: Point; view: View; pointer: number };
+  | { kind: "pan"; start: Point; view: View; pointer: number }
+  | {kind:"connect"; id:string; start:Point; position:Point; moved:boolean; pointer:number};
 export function GraphCanvas({
   graph,
   session,
   selected,
   onSelect,
   apiRef,
+  connectMode,
+  setConnectMode,
+  edgeSelected,
+  onEdgeSelect,
+  onConnect,
 }: {
   graph: Graph;
   session: EditorSession;
   selected: string;
   onSelect: (id: string) => void;
   apiRef: Ref<CanvasApi>;
+  connectMode:boolean;
+  setConnectMode:(value:boolean)=>void;
+  edgeSelected:string;
+  onEdgeSelect:(id:string)=>void;
+  onConnect:(from:string,to:string)=>void;
 }) {
   const box = useRef<HTMLDivElement>(null),
     svg = useRef<SVGSVGElement>(null),
-    drag = useRef<Drag | null>(null);
+    drag = useRef<Drag | null>(null), pendingSource=useRef("");
+  const [link,setLink]=useState<{from:string;position:Point}|null>(null);
   const [size, setSize] = useState<Size>({ w: 0, h: 0 }),
     [storedView, setView] = useState<View | null>(null),
     [preview, setPreview] = useState<
@@ -84,8 +99,11 @@ export function GraphCanvas({
   };
   const locate = (p: Point) => world(local(p), view);
   useImperativeHandle(apiRef, () => ({
+    cancel:()=>finish(true),
+    connectFrom:(id)=>{finish(true);const n=session.state.design.graph.nodes.find(n=>n.id===id);if(n){pendingSource.current=id;session.beginGesture();setLink({from:id,position:{x:n.x+NODE_W+50,y:n.y+NODE_H/2}});box.current?.focus();}},
     center: () => world({ x: size.w / 2, y: size.h / 2 }, view),
     locate,
+    focus:(id)=>{const n=session.state.design.graph.nodes.find(n=>n.id===id);if(n){setView(v=>({...v??view,x:size.w/2-(n.x+NODE_W/2)*(v??view).k,y:size.h/2-(n.y+NODE_H/2)*(v??view).k})); box.current?.focus();}},
     inside: (p) => {
       const r = box.current!.getBoundingClientRect();
       return p.x >= r.left && p.x <= r.right && p.y >= r.top && p.y <= r.bottom;
@@ -96,7 +114,7 @@ export function GraphCanvas({
     if (!el) return;
     const wheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (drag.current) return;
+      if (drag.current || pendingSource.current) return;
       const r = el.getBoundingClientRect();
       const p = { x: e.clientX - r.left, y: e.clientY - r.top };
       setView((v) =>
@@ -108,7 +126,8 @@ export function GraphCanvas({
   }, [graph.nodes, size]);
   useEffect(
     () => () => {
-      if (drag.current?.kind === "node") session.endGesture();
+      if (drag.current?.kind === "node" || drag.current?.kind === "connect" || pendingSource.current) session.endGesture();
+      pendingSource.current="";
       drag.current = null;
     },
     [session],
@@ -121,6 +140,23 @@ export function GraphCanvas({
         .closest("[data-node]")
         ?.getAttribute("data-node"),
       p = point(e);
+    const edge=(e.target as Element).closest("[data-edge]")?.getAttribute("data-edge");
+    const output=(e.target as Element).closest("[data-output]");
+    if(id && (connectMode || output || pendingSource.current)) {
+      onSelect(id);
+      if(pendingSource.current) {
+        const from=pendingSource.current;
+        pendingSource.current="";setLink(null);session.endGesture();onConnect(from,id);
+      } else {
+        session.beginGesture();
+        drag.current={kind:"connect",id,start:p,position:locate(p),moved:false,pointer:e.pointerId};
+        setLink({from:id,position:locate(p)});
+        e.currentTarget.setPointerCapture(e.pointerId);
+      }
+      e.preventDefault(); return;
+    }
+    if(edge){onEdgeSelect(edge);e.preventDefault();return;}
+    if(pendingSource.current){finish(true);}
     if (id) {
       const n = graph.nodes.find((n) => n.id === id)!;
       const w = locate(p);
@@ -157,16 +193,24 @@ export function GraphCanvas({
     if (!d.moved && Math.abs(p.x - d.start.x) + Math.abs(p.y - d.start.y) <= 3)
       return;
     const w = locate(p);
+    if(d.kind==="connect"){d.moved=true;d.position=w;setLink({from:d.id,position:w});return;}
     d.moved = true;
     d.position = { x: snap(w.x - d.offset.x), y: snap(w.y - d.offset.y) };
     setPreview({ id: d.id, position: d.position });
   }
-  function finish(cancel = false) {
+  function finish(cancel = false, target?:string) {
+    if(pendingSource.current){pendingSource.current="";session.endGesture();}
+    setLink(null);
     const d = drag.current;
     drag.current = null;
     setPreview(undefined);
     if (d && svg.current?.hasPointerCapture(d.pointer))
       svg.current.releasePointerCapture(d.pointer);
+    if(d?.kind==="connect"){
+      if(!cancel && !d.moved){pendingSource.current=d.id;setLink({from:d.id,position:d.position});return;}
+      session.endGesture();
+      if(!cancel && target)onConnect(d.id,target);
+    }
     if (d?.kind === "node")
       session.endGesture(
         !cancel && d.moved
@@ -195,7 +239,7 @@ export function GraphCanvas({
       role="region"
       aria-label="Architecture canvas"
       aria-describedby="canvas-help"
-      onBlur={e=>{if(drag.current&&!e.currentTarget.contains(e.relatedTarget as Node|null))finish(true);}}
+      onBlur={e=>{if((drag.current||pendingSource.current)&&!e.currentTarget.contains(e.relatedTarget as Node|null))finish(true);}}
       onKeyDown={(e) => {
         if (
           (e.target as Element).closest("button,input,select,textarea") &&
@@ -206,11 +250,11 @@ export function GraphCanvas({
         if (e.key === "Escape") {
           e.preventDefault();
           e.stopPropagation();
-          if (drag.current) finish(true);
-          else onSelect("");
+          if (drag.current || pendingSource.current) finish(true);
+          else {setConnectMode(false);onSelect("");}
           return;
         }
-        if (drag.current) return;
+        if (drag.current || pendingSource.current) return;
         if (e.key === "f" || e.key === "F") {
           e.preventDefault();
           setView(fit(graph.nodes, size));
@@ -234,7 +278,7 @@ export function GraphCanvas({
           if (delta) {
             e.preventDefault();
             session.edit(
-              moveComponent(graph, n.id, n.x + delta.x, n.y + delta.y, false),
+              moveComponent(graph, n.id, n.x + delta.x, n.y + delta.y, false), "move:"+n.id,
             );
           }
         }
@@ -242,13 +286,16 @@ export function GraphCanvas({
     >
       <svg
         ref={svg}
-        className="cv-svg"
+        className={"cv-svg"+(connectMode?" connecting":"")}
         aria-label="Architecture graph"
         role="group"
         onPointerDown={start}
         onPointerMove={move}
         onPointerUp={(e) => {
-          if (drag.current?.pointer === e.pointerId) finish();
+          if (drag.current?.pointer === e.pointerId) {
+            const target=document.elementFromPoint(e.clientX,e.clientY)?.closest("[data-node]");
+            finish(false,target && e.currentTarget.contains(target)?target.getAttribute("data-node")??undefined:undefined);
+          }
         }}
         onPointerCancel={(e) => {
           if (drag.current?.pointer === e.pointerId) finish(true);
@@ -299,14 +346,18 @@ export function GraphCanvas({
             selected={selected}
             onSelect={onSelect}
             preview={preview}
+            edgeSelected={edgeSelected}
+            onEdgeSelect={onEdgeSelect}
+            connecting={connectMode || !!link}
           />
+          {link && (()=>{const n=graph.nodes.find(n=>n.id===link.from);return n?<path className="m6-link-preview" pointerEvents="none" d={`M${n.x+NODE_W} ${n.y+NODE_H/2} L${link.position.x} ${link.position.y}`} markerEnd={"url(#"+gridId+"-arrow)"} />:null;})()}
         </g>
       </svg>
       <div className="cv-tools" role="toolbar" aria-label="Canvas tools">
         <button
           className="btn btn-ghost icon"
           aria-label="Select and move"
-          onClick={() => box.current?.focus()}
+          onClick={() => {finish(true);setConnectMode(false);box.current?.focus();}}
         >
           <Icon n="cursor" />
         </button>
@@ -346,6 +397,7 @@ export function GraphCanvas({
           <Icon n="search" />
         </button>
       </div>
+      {connectMode && <p className="m6-connect-hint" role="status">{link?"Choose the destination component.":"Connect: choose a source, then a destination."} Escape cancels.</p>}
       <Minimap graph={graph} view={view} size={size} onCenter={center} />
       {!graph.nodes.length && (
         <div className="cv-empty">

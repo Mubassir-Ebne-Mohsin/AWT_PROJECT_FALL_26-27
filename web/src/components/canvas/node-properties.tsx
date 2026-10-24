@@ -28,7 +28,7 @@ export function NodeProperties({
             }
           : n,
       ) as typeof graph.nodes,
-    });
+    }, label !== undefined ? "label:"+node.id : "prop:"+node.id+":"+Object.keys(value).join(","));
   };
   return (
     <>
@@ -128,8 +128,7 @@ export function NodeProperties({
       </div>
       <div className="props-sec">
         <p className="hint">
-          Connecting, duplication, component deletion and undo arrive in M6.
-          Existing connections are preserved.
+          Use the toolbar to duplicate or delete this component. Deleting also removes its connections; Undo restores them.
         </p>
       </div>
     </>

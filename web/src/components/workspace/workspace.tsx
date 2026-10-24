@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useDrafts } from "@/components/workspace/draft-provider";
+import { ValidationPanel } from "@/components/canvas/validation-panel";
 import { CanvasEditor } from "@/components/canvas/canvas-editor";
 import { RunResults } from "@/components/workspace/run-results";
 import { Crumbs } from "@/components/shell/crumbs";
@@ -66,7 +67,8 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
         <span className="hint" role="status">{state.saving ? "Saving…" : state.conflict ? "Save conflict" : session.dirty ? (state.error ? "Save failed — unsaved changes" : "Unsaved") : "Saved"} · revision {state.saved.revision}</span>
       </div><div className="row tight">
         <button className="btn btn-sm" disabled={state.saving || !session.dirty || state.conflict || state.gesture || !!state.inputErrors.length} onClick={() => session.save().then(() => queries.invalidateQueries({ queryKey: ["dashboard"] })).catch(() => undefined)}>Save</button>
-        <button className="btn btn-primary btn-sm" disabled={state.running || state.run?.status === "pending" || state.conflict || state.gesture || !!state.inputErrors.length} onClick={run}>{state.running ? "Submitting…" : state.intent ? "Retry same request" : state.run?.status === "pending" ? "Queued / running…" : "Run test"}</button>
+        <button className="btn btn-sm" disabled={state.checking || state.running || state.conflict || state.gesture || !!state.inputErrors.length} onClick={()=>session.check().catch(()=>undefined)}>{state.checking?"Checking…":"Check graph"}</button>
+        <button className="btn btn-primary btn-sm" disabled={state.checking || state.running || state.run?.status === "pending" || state.conflict || state.gesture || !!state.inputErrors.length} onClick={run}>{state.running ? "Submitting…" : state.intent ? "Retry same request" : state.run?.status === "pending" ? "Queued / running…" : "Run test"}</button>
         <button className="btn btn-ghost btn-sm" onClick={remove}>Delete</button>
       </div></div>
       <nav className="tabs" aria-label="Design workspace">{WS_TABS.map(t => <Link key={t.id} className={`tab ${tab === t.id ? "active" : ""}`} aria-current={tab === t.id ? "page" : undefined} href={`/designs/${initial.id}/${t.id}${runId ? "?run="+runId : ""}`}>{t.label}{!["edit","results"].includes(t.id) && <span className="ph-mark">Later</span>}</Link>)}</nav>
@@ -84,7 +86,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
         <div className="row"><button className="btn" onClick={() => { if (window.confirm("Discard your draft and load this saved version?")) { session.reload(current); setCurrent(null); } }}>Discard draft and reload</button>
         <button className="btn" onClick={() => { if (window.confirm("Keep your draft on this revision? The next save will replace the reviewed saved inputs.")) { session.reapply(current); setCurrent(null); } }}>Reapply my draft deliberately</button></div>
       </section>}
-      {tab === "edit" && <CanvasEditor session={session}/>}
+      {tab === "edit" ? <CanvasEditor session={session}/> : <ValidationPanel session={session}/>}
       {state.design.description && <details className="panel panel-b"><summary>Design description and assumptions</summary><p className="m3-wrap">{state.design.description}</p></details>}
       {runQuery.isError && <div className="note fail" role="alert"><p>Could not load the selected result.</p><button className="btn" onClick={() => runQuery.refetch()}>Retry loading result</button></div>}
       <RunResults run={displayedRun} stale={session.isRunStale(displayedRun)} />

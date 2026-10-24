@@ -107,3 +107,11 @@
 @media (min-width: 900px) {
   .m5-workspace .ed-narrow { display: none; }
 }
+/* M6 interactive edges/ports retain the prototype canvas geometry. */
+.m5-editor .m6-edge-hit {pointer-events:stroke;cursor:pointer;}
+.m5-editor .cv-edge.is-sel, .m5-editor [data-edge]:focus-visible .cv-edge {stroke:var(--accent);stroke-width:3;}
+.m5-editor [data-edge]:focus-visible {outline:none;}
+.m5-editor .cv-port {fill:var(--surface);stroke:var(--accent);stroke-width:2;cursor:crosshair;pointer-events:all;}
+.m6-link-preview {fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4;}
+.m6-connect-hint {position:absolute;bottom:12px;left:12px;right:12px;margin:0;padding:8px;background:var(--surface);color:var(--ink);font-size:11px;pointer-events:none;}
+.m5-editor .ed-props select {width:100%;min-width:0;}

@@ -9,12 +9,18 @@ export function GraphNodes({
   preview,
   onSelect,
   markerId,
+  edgeSelected,
+  onEdgeSelect,
+  connecting,
 }: {
   graph: Graph;
   selected: string;
   preview?: { id: string; position: Point };
   onSelect: (id: string) => void;
   markerId: string;
+  edgeSelected?: string;
+  onEdgeSelect: (id:string) => void;
+  connecting: boolean;
 }) {
   const positions = new Map(
     graph.nodes.map((n) => [
@@ -28,13 +34,14 @@ export function GraphNodes({
         const a = positions.get(e.from),
           b = positions.get(e.to);
         return a && b ? (
-          <path
-            key={e.id}
-            className="cv-edge"
-            markerEnd={"url(#" + markerId + ")"}
-            d={edgePath(a, b)}
-            fill="none"
-          />
+          <g key={e.id} data-edge={e.id} role="button" tabIndex={0}
+            aria-label={"Connection: " + a.label + " to " + b.label}
+            aria-pressed={edgeSelected===e.id}
+            onFocus={()=>onEdgeSelect(e.id)}
+            onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();onEdgeSelect(e.id);}}}>
+            <path className={"cv-edge"+(edgeSelected===e.id?" is-sel":"")} markerEnd={"url(#"+markerId+")"} d={edgePath(a,b)} fill="none"/>
+            <path className="m6-edge-hit" d={edgePath(a,b)} fill="none" stroke="transparent" strokeWidth="16"/>
+          </g>
         ) : null;
       })}
       {graph.nodes.map((n) => {
@@ -75,6 +82,7 @@ export function GraphNodes({
             <g className="cv-glyph" transform="translate(19 21)">
               <ComponentGlyph type={n.type} size={22} />
             </g>
+            <circle className="cv-port" data-output={n.id} cx={NODE_W} cy={NODE_H/2} r="6" aria-hidden="true" style={{opacity:connecting?1:undefined}} />
             <text className="cv-node-label" x="60" y="28">
               {n.label.length > 17 ? n.label.slice(0, 16) + "…" : n.label}
             </text>

@@ -282,7 +282,7 @@ export function Dashboard() {
         New design from template
       </Link>
       <p className="hint">
-        Results are mathematical predictions from saved runs. Earlier revisions are labelled; open results to compare tested inputs. Connections and undo arrive in M6.
+        Results are mathematical predictions from saved runs. Earlier revisions are labelled; open results to compare tested inputs. Canvas connections and undo are available in Edit.
       </p>
       {removing && (
         <Modal

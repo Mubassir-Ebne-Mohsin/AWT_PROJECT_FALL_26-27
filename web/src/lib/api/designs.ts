@@ -15,3 +15,6 @@ export const createDesign = (template: Template) => api<Design>("/designs", { me
 export const submitRun = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/simulate", { method: "POST", body, silent: true });
 export const fetchRun = (id: string, runId: string, signal?: AbortSignal) => api<DesignRun>("/designs/" + id + "/runs/" + runId, { signal });
 export const deleteDesign = (id: string) => api<void>("/designs/" + id, { method: "DELETE", silent: true });
+
+export type Validation = Schemas["Validation"];
+export const validateDesign = (id: string, expectedRevision: number) => api<Validation>("/designs/" + id + "/validate", {method: "POST", body: {expectedRevision}, silent: true});
