@@ -1,171 +1,31 @@
 "use client";
-
-import { Crumbs } from "@/components/shell/crumbs";
-import { resolveRoute } from "@/lib/routes";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
-import { Icon } from "@/components/ui/icon";
+import { Crumbs } from "@/components/shell/crumbs";
+import { resolveRoute } from "@/lib/routes";
 import { fetchMe } from "@/lib/api/auth";
-import { LEARN_TOPICS } from "@/lib/catalog";
-
-const greeting = () => {
-  const h = new Date().getHours();
-  return h < 5 ? "Working late" : h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-};
-
-const START_OPTIONS: Array<[string, string, string, string]> = [
-  ["/new/describe", "wand", "Describe it in words", "Get an AI draft from a paragraph"],
-  ["/new/template", "grid", "From a template", "Working designs to start from"],
-  ["/new/blank", "square", "Blank canvas", "Draw it yourself"],
-  ["/new/import", "upload", "Import JSON", "Bring a saved design"],
-];
-
-/** Phase 1 dashboard: the real greeting from GET /auth/me, with the prototype's cards as Phase 2 placeholders. */
+import { fetchDashboard } from "@/lib/api/designs";
 export function Dashboard() {
-  const { user: sessionUser } = useAuth();
+  const { user } = useAuth();
   const me = useQuery({ queryKey: ["me"], queryFn: fetchMe });
-  const name = me.data?.displayName ?? sessionUser?.displayName;
-  const first = name?.split(" ")[0];
-
-  return (
-    <div className="page">
-      <Crumbs resolved={resolveRoute("/dashboard")} />
-      <div className="page-head">
-        <div className="stack">
-          <span className="eyebrow">Dashboard</span>
-          <h1 className="h1">{first ? `${greeting()}, ${first}.` : `${greeting()}.`}</h1>
-          <p className="lede">
-            {me.isError
-              ? "We could not load your profile. Your designs will appear here in phase 2."
-              : "Your designs and test runs will appear here. Designs, the editor and the simulator arrive in phase 2."}
-          </p>
-        </div>
-        <div className="row">
-          <Link href="/new/describe" className="btn">
-            <Icon n="wand" /> Describe a system
-          </Link>
-          <Link href="/new" className="btn btn-primary">
-            <Icon n="plus" /> New design
-          </Link>
-        </div>
-      </div>
-
-      <div className="stack xl">
-        {me.data && (
-          <div className="note accent" data-testid="me-card">
-            <Icon n="user" />
-            <div>
-              Signed in as <b>{me.data.displayName}</b> ({me.data.email}), role <code>{me.data.role}</code>. Loaded from <code>GET /v1/auth/me</code>.
-            </div>
-          </div>
-        )}
-
-        <div className="readouts" aria-label="Summary (available in phase 2)">
-          {[
-            ["Designs", "—", "none yet"],
-            ["Tests this week", "—", "none yet"],
-            ["Missing target", "—", "needs a design"],
-            ["AI calls left today", "—", "AI arrives in phase 3"],
-          ].map(([label, value, sub]) => (
-            <div className="readout" key={label}>
-              <div className="eyebrow">{label}</div>
-              <div className="v num muted">{value}</div>
-              <div className="s">{sub}</div>
-            </div>
-          ))}
-        </div>
-
-        <section className="stack">
-          <div className="row between">
-            <h2 className="h2">Needs attention</h2>
-            <span className="tag accent">Phase 2</span>
-          </div>
-          <div className="panel empty">Designs that miss their p95 or error target at the traffic you set will be listed here.</div>
-        </section>
-
-        <section className="stack">
-          <div className="row between">
-            <h2 className="h2">Your designs</h2>
-            <span className="tag accent">Phase 2</span>
-          </div>
-          <div className="panel empty">
-            <p>No designs yet.</p>
-            <p className="hint" style={{ marginTop: 6 }}>
-              Cards with a diagram, a live verdict and a breaking point will appear here.
-            </p>
-          </div>
-        </section>
-
-        <div className="split">
-          <section className="panel">
-            <div className="panel-h">
-              <h2 className="h3">Recent test runs</h2>
-              <span className="tag accent">Phase 2</span>
-            </div>
-            <div className="tbl-wrap">
-              <table className="tbl">
-                <thead>
-                  <tr>
-                    <th>Design</th>
-                    <th>When</th>
-                    <th className="r">Traffic</th>
-                    <th className="r">p95</th>
-                    <th className="r">Errors</th>
-                    <th>Result</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td colSpan={6} className="muted">
-                      No runs yet.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-          <div className="stack lg">
-            <section className="panel">
-              <div className="panel-h">
-                <h2 className="h3">Start something new</h2>
-                <span className="tag accent">Phase 2</span>
-              </div>
-              <div className="panel-b stack">
-                {START_OPTIONS.map(([to, icon, title, sub]) => (
-                  <Link key={to} href={to} className="row" style={{ color: "var(--ink)", textDecoration: "none", gap: 12 }}>
-                    <span className="pal-item" style={{ padding: 0 }}>
-                      <span className="gl">
-                        <Icon n={icon} />
-                      </span>
-                    </span>
-                    <span className="grow">
-                      <b style={{ fontWeight: 650 }}>{title}</b>
-                      <br />
-                      <span className="muted small">{sub}</span>
-                    </span>
-                    <Icon n="chevR" s={14} />
-                  </Link>
-                ))}
-              </div>
-            </section>
-            <section className="panel">
-              <div className="panel-h">
-                <h2 className="h3">Learn next</h2>
-                <span className="tag">Phase 4</span>
-              </div>
-              <div className="panel-b row tight">
-                {["p95", "caching", "queues", "replicas"].map((k) => (
-                  <Link key={k} href={`/learn/${k}`} className="chip">
-                    <Icon n="book" s={13} /> {LEARN_TOPICS[k]}
-                  </Link>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
-        <p className="hint">Every card above is a placeholder for phase 2. Only your name and role come from the API.</p>
-      </div>
+  const dashboard = useQuery({ queryKey: ["dashboard", user?.id], queryFn: fetchDashboard, enabled: !!user });
+  const data = dashboard.data;
+  return <div className="page stack lg">
+    <Crumbs resolved={resolveRoute("/dashboard")} />
+    <div className="page-head"><div className="stack"><span className="eyebrow">Dashboard</span><h1 className="h1">Welcome, {(me.data?.displayName ?? user?.displayName ?? "").split(" ")[0]}.</h1><p className="lede">Your saved architectures and model results.</p></div><Link href="/new/template" className="btn btn-primary">New design from template</Link></div>
+    {me.data && <div className="note accent" data-testid="me-card">Signed in as <b>{me.data.displayName}</b> ({me.data.email}), role <code>{me.data.role}</code>.</div>}
+    <div className="readouts">
+      <div className="readout"><span className="eyebrow">Designs</span><div className="v num">{data?.counts.designs ?? "—"}</div></div>
+      <div className="readout"><span className="eyebrow">Stored test runs</span><div className="v num">{data?.counts.retainedRuns ?? "—"}</div><span className="hint">{data?.countsLabel ?? "Runs in the retained window"}</span></div>
+      <div className="readout"><span className="eyebrow">AI</span><div className="v">Scripted mock</div><span className="hint">Real AI arrives in a later phase</span></div>
     </div>
-  );
+    {dashboard.isPending && <p role="status">Loading saved designs…</p>}
+    {dashboard.isError && <div className="note warn"><p>Could not load saved designs.</p><button className="btn" onClick={() => dashboard.refetch()}>Retry</button></div>}
+    <section className="stack"><div className="row between"><h2 className="h2">Your designs</h2><span className="hint">10 most recently edited</span></div>
+      {!data?.designs.length ? <div className="panel empty">No designs yet. Choose a template to start.</div> : <div className="m3-template-grid">{data.designs.map(d => <Link className="panel panel-b stack" key={d.id} href={`/designs/${d.id}/edit${d.latestRun ? "?run="+d.latestRun.id : ""}`} style={{ color: "var(--ink)", textDecoration: "none" }}><h3 className="h3">{d.name}</h3><p className="muted">{d.nodeCount} components · revision {d.revision}</p><span className="tag">{d.latestRun ? d.latestRun.verdict ?? d.latestRun.status : "Not run"}</span>{d.latestRun && d.latestRun.designRevision !== d.revision && <span className="hint">Result is from an older revision</span>}</Link>)}</div>}
+    </section>
+    <section className="panel"><div className="panel-h"><h2 className="h3">Recent test runs</h2></div><div className="tbl-wrap"><table className="tbl"><thead><tr><th>Design</th><th>Revision</th><th>Status</th><th>p95</th></tr></thead><tbody>{data?.recentRuns.map(r => <tr key={r.id}><td><Link href={`/designs/${r.designId}/results?run=${r.id}`}>{r.designName}</Link></td><td>{r.designRevision}</td><td>{r.verdict ?? r.status}</td><td>{r.p95 == null ? "—" : r.p95.toFixed(2)+" ms"}</td></tr>)}{!data?.recentRuns.length && <tr><td colSpan={4} className="muted">No runs yet.</td></tr>}</tbody></table></div></section>
+    <p className="hint">M3 connects saved designs to the mathematical engine. Full canvas editing, creation tools, Traffic and Limits follow in later milestones.</p>
+  </div>;
 }

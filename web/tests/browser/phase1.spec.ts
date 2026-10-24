@@ -5,10 +5,10 @@ import { SYSTEM_STATES } from "../../src/lib/system-states";
 const apiBase = process.env.SF_API_URL ?? "http://localhost:5001/v1";
 const password = "Frontend-Audit-123!";
 const devStates = process.env.SF_DEV_STATES === "1";
-const samplePath = (path: string) => path
+const samplePath = (path: string, designId = "frontend-audit") => path
   .replace(":topic", "p95").replace(":section", "profile")
   .replace(":token", "frontend-audit-share")
-  .replace(":id", path.startsWith("/challenges") ? "flash-sale" : "frontend-audit")
+  .replace(":id", path.startsWith("/challenges") ? "flash-sale" : designId)
   .replace(":tab", path.startsWith("/evaluation") ? "simulator" : "results");
 
 async function noOverflow(page: Page) {
@@ -55,10 +55,14 @@ test("35 registry routes, auth forms, palette, drawers, themes, tab restores and
   });
 
   await test.step("all 35 registered patterns resolve with correct document titles and no overflow", async () => {
+    await page.goto("/new/template");
+    await page.getByRole("button", { name: "Use Single-server MVP", exact: true }).click();
+    await expect(page.getByLabel("Replicas (1–200)")).toBeVisible();
+    const ownedDesignId = new URL(page.url()).pathname.split("/")[2];
     expect(ROUTES).toHaveLength(35);
     for (const route of ROUTES) {
       await test.step(route.path, async () => {
-        const path = samplePath(route.path);
+        const path = samplePath(route.path, ownedDesignId);
         const navigable = ["learn-topic", "challenge", "evaluation", "settings"].includes(route.id) || (!route.path.includes(":") && !route.redirectTo);
         if (navigable) {
           await page.keyboard.press("Control+k");
@@ -103,7 +107,7 @@ test("35 registry routes, auth forms, palette, drawers, themes, tab restores and
         await trigger.click();
         await expect(page.getByLabel(initial, { exact: true })).toBeFocused();
         if (opener === "AI assistant") {
-          await expect(page.getByText("Scripted mock", { exact: true })).toBeVisible();
+          await expect(page.getByRole("complementary", { name: "AI assistant" }).getByText("Scripted mock", { exact: true })).toBeVisible();
           await page.getByLabel("Message the assistant", { exact: true }).fill("Explain p95");
           await page.getByRole("button", { name: "Send", exact: true }).click();
           await expect(page.locator(".ai-msg.assistant")).toBeVisible();

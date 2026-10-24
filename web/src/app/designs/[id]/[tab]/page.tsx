@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
+import { Workspace } from "@/components/workspace/workspace";
+export default async function Page({ params }: { params: Promise<{ id: string; tab: string }> }) {
+  const { id, tab } = await params;
+  return <Workspace id={id} tab={tab} />;
 }

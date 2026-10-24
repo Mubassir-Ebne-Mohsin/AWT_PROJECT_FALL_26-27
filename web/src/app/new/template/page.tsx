@@ -1,5 +1,2 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
-}
+import { TemplatePicker } from "@/components/workspace/template-picker";
+export default function Page() { return <TemplatePicker />; }

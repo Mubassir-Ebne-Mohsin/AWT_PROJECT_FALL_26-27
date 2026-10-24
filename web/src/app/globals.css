@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../styles/proto.css";
+@import "../styles/m3.css";
 
 /* Expose the prototype tokens to Tailwind utilities (bg-surface, text-ink-2, border-line ...). */
 @theme inline {

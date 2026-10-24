@@ -100,6 +100,143 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDesigns"];
+        put?: never;
+        post: operations["createDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get: operations["getDesign"];
+        put?: never;
+        post?: never;
+        delete: operations["deleteDesign"];
+        options?: never;
+        head?: never;
+        patch: operations["patchDesign"];
+        trace?: never;
+    };
+    "/v1/designs/{id}/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["validateDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/simulate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["simulateDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/runs/{runId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                runId: string;
+            };
+            cookie?: never;
+        };
+        get: operations["getDesignRun"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTemplates"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/simulation/catalog": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSimulationCatalog"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dashboard": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDashboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -153,6 +290,2112 @@ export interface components {
             /** @enum {string} */
             redis: "up" | "down";
             timestamp: string;
+        };
+        CreateDesignDto: {
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            /** @enum {string|null} */
+            templateId: "three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media" | null;
+            /** @enum {number} */
+            schemaVersion: 1;
+            graph: {
+                nodes: ({
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "client";
+                    props: {
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cdn";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "lb";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "gateway";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "app";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "worker";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cache";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "db";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "replica";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "queue";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        maxDepth?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "storage";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "external";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                })[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
+            traffic: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
+        };
+        PatchDesignDto: {
+            expectedRevision: number;
+            name?: string;
+            description?: string;
+            graph?: {
+                nodes: ({
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "client";
+                    props: {
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cdn";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "lb";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "gateway";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "app";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "worker";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cache";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "db";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "replica";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "queue";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        maxDepth?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "storage";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "external";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                })[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
+            traffic?: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
+        };
+        ValidateDesignDto: {
+            expectedRevision: number;
+        };
+        RunRequestDto: {
+            expectedRevision: number;
+            /** Format: uuid */
+            requestId: string;
+        };
+        Graph: {
+            nodes: ({
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "client";
+                props: {
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "cdn";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "lb";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "gateway";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "app";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "worker";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "cache";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "db";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "replica";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "queue";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    maxDepth?: number;
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "storage";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label: string;
+                x: number;
+                y: number;
+                /** @constant */
+                type: "external";
+                props: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            })[];
+            edges: {
+                id: string;
+                from: string;
+                to: string;
+            }[];
+        };
+        Traffic: {
+            /** @enum {string} */
+            preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+            rps: number;
+            burst: number;
+            readRatio: number;
+            sloP95: number;
+            errorBudget: number;
+            durationMin: number;
+            /** @enum {string} */
+            shape: "steady" | "ramp" | "spike";
+        };
+        Snapshot: {
+            /** @constant */
+            schemaVersion: 1;
+            graph: components["schemas"]["Graph"];
+            traffic: components["schemas"]["Traffic"];
+        };
+        Import: {
+            name?: string;
+            description?: string;
+            nodes: ({
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "client";
+                props?: {
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "cdn";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "lb";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "gateway";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "app";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "worker";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "cache";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "db";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "replica";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "queue";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    maxDepth?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "storage";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "external";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            })[];
+            edges?: {
+                id?: string;
+                from: string;
+                to: string;
+            }[];
+            traffic?: {
+                /** @enum {string} */
+                preset?: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps?: number;
+                burst?: number;
+                readRatio?: number;
+                sloP95?: number;
+                errorBudget?: number;
+                durationMin?: number;
+                /** @enum {string} */
+                shape?: "steady" | "ramp" | "spike";
+            };
+            /** @constant */
+            schemaVersion: 1;
+        } | {
+            name?: string;
+            description?: string;
+            nodes: ({
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "client";
+                props?: {
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "cdn";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "lb";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "gateway";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "app";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "worker";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "cache";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    hitRatio?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "db";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "replica";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "queue";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    maxDepth?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "storage";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            } | {
+                id: string;
+                label?: string;
+                x?: number;
+                y?: number;
+                /** @constant */
+                type: "external";
+                props?: {
+                    replicas?: number;
+                    capacity?: number;
+                    latency?: number;
+                    /** @enum {string} */
+                    region?: "us-east" | "eu-west" | "ap-south";
+                    share?: number;
+                };
+            })[];
+            edges?: {
+                id?: string;
+                from: string;
+                to: string;
+            }[];
+            traffic?: {
+                /** @enum {string} */
+                preset?: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps?: number;
+                burst?: number;
+                readRatio?: number;
+                sloP95?: number;
+                errorBudget?: number;
+                durationMin?: number;
+                /** @enum {string} */
+                shape?: "steady" | "ramp" | "spike";
+            };
+        };
+        Design: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+            revision: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** @constant */
+            schemaVersion: 1;
+            graph: components["schemas"]["Graph"];
+            traffic: components["schemas"]["Traffic"];
+        };
+        CreateDesign: {
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+            /** @constant */
+            schemaVersion: 1;
+            graph: components["schemas"]["Graph"];
+            traffic: components["schemas"]["Traffic"];
+        };
+        PatchDesign: {
+            expectedRevision: number;
+            name?: string;
+            description?: string;
+            graph?: components["schemas"]["Graph"];
+            traffic?: components["schemas"]["Traffic"];
+        };
+        ValidateRequest: {
+            expectedRevision: number;
+        };
+        Validation: {
+            ok: boolean;
+            errors: {
+                /** @enum {string} */
+                code: "EMPTY" | "NO_ENTRY" | "ENTRY_UNCONNECTED" | "EDGE_INTO_ENTRY" | "CYCLE" | "UNREACHABLE" | "QUEUE_NO_CONSUMER" | "WRITES_TO_REPLICA" | "NO_WRITE_TARGET" | "COMPLEXITY_LIMIT";
+                message: string;
+                repair: string;
+                nodeIds: string[];
+                /** @enum {string} */
+                severity: "error" | "warning" | "info";
+            }[];
+            warnings: {
+                /** @enum {string} */
+                code: "EMPTY" | "NO_ENTRY" | "ENTRY_UNCONNECTED" | "EDGE_INTO_ENTRY" | "CYCLE" | "UNREACHABLE" | "QUEUE_NO_CONSUMER" | "WRITES_TO_REPLICA" | "NO_WRITE_TARGET" | "COMPLEXITY_LIMIT";
+                message: string;
+                repair: string;
+                nodeIds: string[];
+                /** @enum {string} */
+                severity: "error" | "warning" | "info";
+            }[];
+        };
+        RunRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            requestId: string;
+        };
+        Run: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            requestId: string;
+            designRevision: number;
+            fingerprint: string;
+            engineVersion: string;
+            /** @enum {string} */
+            kind: "simulation" | "limits";
+            snapshot: components["schemas"]["Snapshot"];
+            /** Format: date-time */
+            createdAt: string;
+            /** @constant */
+            status: "pending";
+            completedAt: null;
+            result: null;
+            failure: null;
+        } | {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            requestId: string;
+            designRevision: number;
+            fingerprint: string;
+            engineVersion: string;
+            /** @enum {string} */
+            kind: "simulation" | "limits";
+            snapshot: components["schemas"]["Snapshot"];
+            /** Format: date-time */
+            createdAt: string;
+            /** @constant */
+            status: "completed";
+            /** Format: date-time */
+            completedAt: string;
+            result: components["schemas"]["SimulationOutput"] | components["schemas"]["LimitsOutput"];
+            failure: null;
+        } | {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            requestId: string;
+            designRevision: number;
+            fingerprint: string;
+            engineVersion: string;
+            /** @enum {string} */
+            kind: "simulation" | "limits";
+            snapshot: components["schemas"]["Snapshot"];
+            /** Format: date-time */
+            createdAt: string;
+            /** @constant */
+            status: "failed";
+            /** Format: date-time */
+            completedAt: string;
+            result: null;
+            failure: {
+                /** @enum {string} */
+                code: "TIMEOUT" | "WORKER_CRASH" | "INTERRUPTED" | "COMPUTE_FAILED" | "COMPLEXITY_LIMIT";
+                message: string;
+            };
+        };
+        AcceptedRun: {
+            run: components["schemas"]["Run"];
+            statusUrl: string;
+        };
+        DesignSummary: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+            revision: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            nodeCount: number;
+            edgeCount: number;
+            latestRun: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "simulation" | "limits";
+                /** @enum {string} */
+                status: "pending" | "completed" | "failed";
+                designRevision: number;
+                /** Format: date-time */
+                createdAt: string;
+                verdict: ("pass" | "strained" | "fail") | null;
+                p95: number | null;
+            } | null;
+        };
+        DesignList: {
+            data: components["schemas"]["DesignSummary"][];
+            meta: {
+                page: number;
+                pageSize: number;
+                total: number;
+            };
+        };
+        Dashboard: {
+            designs: components["schemas"]["DesignSummary"][];
+            recentRuns: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "simulation" | "limits";
+                /** @enum {string} */
+                status: "pending" | "completed" | "failed";
+                designRevision: number;
+                /** Format: date-time */
+                createdAt: string;
+                verdict: ("pass" | "strained" | "fail") | null;
+                p95: number | null;
+                /** Format: uuid */
+                designId: string;
+                designName: string;
+            }[];
+            counts: {
+                designs: number;
+                retainedRuns: number;
+            };
+            /** @constant */
+            countsLabel: "Runs in the retained window";
+        };
+        PreviewRequest: {
+            /** Format: uuid */
+            editorSessionId: string;
+            sequence: number;
+            /** @constant */
+            schemaVersion: 1;
+            graph: components["schemas"]["Graph"];
+            traffic: components["schemas"]["Traffic"];
+        };
+        PreviewResponse: {
+            /** Format: uuid */
+            editorSessionId: string;
+            sequence: number;
+            fingerprint: string;
+            engineVersion: string;
+            validation: components["schemas"]["Validation"];
+            summary: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            } | null;
+        };
+        ConflictDetails: {
+            /** @constant */
+            reason: "REVISION_MISMATCH";
+            currentRevision: number;
+        } | {
+            /** @constant */
+            reason: "REQUEST_ID_REUSED";
+        };
+        Template: {
+            /** @enum {string} */
+            id: "three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media";
+            name: string;
+            blurb: string;
+            /** @constant */
+            schemaVersion: 1;
+            graph: components["schemas"]["Graph"];
+            traffic: components["schemas"]["Traffic"];
+        };
+        Catalog: {
+            engineVersion: string;
+            components: {
+                /** @enum {string} */
+                type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                label: string;
+                short: string;
+                category: string;
+                capacity: {
+                    /** @constant */
+                    kind: "finite";
+                    value: number;
+                } | {
+                    /** @constant */
+                    kind: "unbounded";
+                };
+                latency: number;
+                /** @enum {string} */
+                behavior: "none" | "shed" | "backlog" | "timeout" | "reject";
+                blurb: string;
+                defaults: {
+                    /** @constant */
+                    replicas: 1;
+                    hitRatio?: number;
+                    share?: number;
+                    maxDepth?: number;
+                };
+                editableProperties: ("capacity" | "replicas" | "latency" | "region" | "hitRatio" | "share" | "maxDepth")[];
+            }[];
+            regions: {
+                /** @enum {string} */
+                id: "us-east" | "eu-west" | "ap-south";
+                label: string;
+            }[];
+            trafficDefaults: components["schemas"]["Traffic"];
+            presets: {
+                /** @enum {string} */
+                id: "steady" | "evening" | "flash" | "launch" | "ingest";
+                name: string;
+                note: string;
+                traffic: components["schemas"]["Traffic"];
+            }[];
+        };
+        SimulationOutput: {
+            /** @constant */
+            kind: "simulation";
+            summary: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+            paths: {
+                /** @enum {string} */
+                kind: "Read" | "Write";
+                p: number;
+                mean: number;
+                p95: number;
+                ok: number;
+                steps: {
+                    id: string;
+                    label: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    hop: number;
+                    T: number;
+                }[];
+            }[];
+            timeline: {
+                t: number;
+                rps: number;
+                p95: number;
+                err: number;
+            }[];
+            /** @constant */
+            timelineLabel: "illustrative sampled timeline";
+        };
+        LimitsOutput: {
+            /** @constant */
+            kind: "limits";
+            /** @constant */
+            minimumTestedRps: 1;
+            maximumTestedRps: number;
+            searchIterations: number;
+            current: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+            headroom: {
+                /** @constant */
+                kind: "finite";
+                value: number;
+            } | {
+                /** @constant */
+                kind: "unbounded";
+            };
+            firstId: string | null;
+            cause: ("latency" | "errors" | "both") | null;
+            /** @constant */
+            orderLabel: "predicted saturation under unshed demand";
+            order: {
+                id: string;
+                label: string;
+                /** @enum {string} */
+                type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                satRps: {
+                    /** @constant */
+                    kind: "finite";
+                    value: number;
+                } | {
+                    /** @constant */
+                    kind: "unbounded";
+                };
+            }[];
+            curve: {
+                rps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                err: number;
+                maxRho: number;
+            }[];
+            /** @constant */
+            state: "found";
+            passingRps: number;
+            failingRps: number;
+            at: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+        } | {
+            /** @constant */
+            kind: "limits";
+            /** @constant */
+            minimumTestedRps: 1;
+            maximumTestedRps: number;
+            searchIterations: number;
+            current: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+            headroom: null;
+            firstId: string | null;
+            cause: ("latency" | "errors" | "both") | null;
+            /** @constant */
+            orderLabel: "predicted saturation under unshed demand";
+            order: {
+                id: string;
+                label: string;
+                /** @enum {string} */
+                type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                satRps: {
+                    /** @constant */
+                    kind: "finite";
+                    value: number;
+                } | {
+                    /** @constant */
+                    kind: "unbounded";
+                };
+            }[];
+            curve: {
+                rps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                err: number;
+                maxRho: number;
+            }[];
+            /** @constant */
+            state: "failsAtMinimumLoad";
+            /** @constant */
+            lowerThreshold: "unknown";
+            at: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+        } | {
+            /** @constant */
+            kind: "limits";
+            /** @constant */
+            minimumTestedRps: 1;
+            maximumTestedRps: number;
+            searchIterations: number;
+            current: {
+                traffic: components["schemas"]["Traffic"];
+                rps: number;
+                peakRps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                mean: number;
+                errorRate: number;
+                throughput: number;
+                sloMet: boolean;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                validation: components["schemas"]["Validation"];
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    /** @enum {string} */
+                    region: "us-east" | "eu-west" | "ap-south";
+                    reads: number;
+                    writes: number;
+                    async: number;
+                    peak: number;
+                    cap: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    rho: number;
+                    /** @enum {string} */
+                    status: "idle" | "ok" | "warn" | "fail";
+                    background: boolean;
+                    T: number;
+                    S: number;
+                    Wq: number;
+                    servers: number | null;
+                    errors: number;
+                    visit: number;
+                    contribution: number;
+                    satRps: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                }[];
+                bottleneckId: string | null;
+                maxRho: number;
+                queues: {
+                    id: string;
+                    label: string;
+                    arrival: number;
+                    peakArrival: number;
+                    drain: number;
+                    backlog: number;
+                    lag: {
+                        /** @constant */
+                        kind: "finite";
+                        value: number;
+                    } | {
+                        /** @constant */
+                        kind: "unbounded";
+                    };
+                    overflow: number;
+                    maxDepth: number;
+                    /** @enum {string} */
+                    state: "idle" | "clear" | "growing" | "absorbing";
+                    syncShare: number;
+                }[];
+                backgroundIssues: {
+                    id: string;
+                    label: string;
+                    rho: number;
+                    dropped: number;
+                }[];
+                flows: {
+                    from: string;
+                    to: string;
+                    rps: number;
+                }[];
+                crossRegion: {
+                    from: string;
+                    to: string;
+                    /** @enum {string} */
+                    fromRegion: "us-east" | "eu-west" | "ap-south";
+                    /** @enum {string} */
+                    toRegion: "us-east" | "eu-west" | "ap-south";
+                    rtt: number;
+                    flow: number;
+                }[];
+            };
+            headroom: number | null;
+            firstId: string | null;
+            cause: ("latency" | "errors" | "both") | null;
+            /** @constant */
+            orderLabel: "predicted saturation under unshed demand";
+            order: {
+                id: string;
+                label: string;
+                /** @enum {string} */
+                type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                satRps: {
+                    /** @constant */
+                    kind: "finite";
+                    value: number;
+                } | {
+                    /** @constant */
+                    kind: "unbounded";
+                };
+            }[];
+            curve: {
+                rps: number;
+                p50: number;
+                p95: number;
+                p99: number;
+                err: number;
+                maxRho: number;
+            }[];
+            /** @constant */
+            state: "notReachedWithinRange";
+            /** @constant */
+            headroomIsLowerBound: true;
+            at: null;
+        };
+        Error: {
+            error: {
+                /** @enum {string} */
+                code: "CONFLICT" | "VALIDATION_FAILED" | "UNAUTHENTICATED" | "SESSION_EXPIRED" | "FORBIDDEN" | "NOT_FOUND" | "RATE_LIMITED" | "INTERNAL" | "UNAVAILABLE";
+                message: string;
+                details?: unknown;
+            };
+        };
+        ListQuery: {
+            /** @default 1 */
+            page: number;
+            /** @default 20 */
+            pageSize: number;
         };
     };
     responses: never;
@@ -289,6 +2532,1077 @@ export interface operations {
                     "application/json": {
                         data: components["schemas"]["HealthDto"];
                     };
+                };
+            };
+        };
+    };
+    listDesigns: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DesignList"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    createDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDesign"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Design"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Design"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    deleteDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    patchDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PatchDesign"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Design"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    validateDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ValidateRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Validation"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    simulateDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Retained terminal request replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AcceptedRun"];
+                    };
+                };
+            };
+            /** @description Success */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AcceptedRun"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getDesignRun: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                runId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Run"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getTemplates: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Six source templates */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Template"][];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getSimulationCatalog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Catalog"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getDashboard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Dashboard"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
                 };
             };
         };

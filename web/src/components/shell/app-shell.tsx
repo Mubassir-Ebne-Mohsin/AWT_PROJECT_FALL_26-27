@@ -1,5 +1,6 @@
 "use client";
 
+import { confirmDraftNavigation } from "@/lib/draft-navigation";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
@@ -105,8 +106,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       }
       if (gAt && Date.now() - gAt < 1200) {
         gAt = 0;
-        if (k === "d") router.push("/dashboard");
-        else if (k === "n") router.push("/new");
+        if (k === "d" && confirmDraftNavigation("/dashboard")) router.push("/dashboard");
+        else if (k === "n" && confirmDraftNavigation("/new")) router.push("/new");
         return;
       }
       if (k === "g") gAt = Date.now();

@@ -1,6 +1,7 @@
 "use client";
 
 import { THEME_OPTIONS } from "@/components/shell/theme-select";
+import { confirmDraftNavigation } from "@/lib/draft-navigation";
 import { Command } from "cmdk";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -34,7 +35,7 @@ export function CommandPalette() {
     const out: Cmd[] = [];
     const add = (group: string, label: string, run: () => void, o: Partial<Cmd> = {}) =>
       out.push({ group, label, run, ...o });
-    const go = (path: string) => () => router.push(path);
+    const go = (path: string) => () => { if (confirmDraftNavigation(path)) router.push(path); };
 
     if (authed) add("Actions", "New design", go("/new"), { icon: "plus", hint: "/new" });
     for (const theme of THEME_OPTIONS) {

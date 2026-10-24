@@ -1,0 +1,17 @@
+import { api } from "@/lib/api/client";
+import type { components } from "@/lib/api/schema";
+type Schemas = components["schemas"];
+export type Design = Schemas["Design"];
+export type Graph = Design["graph"];
+export type DesignRun = Schemas["Run"];
+export type Template = Schemas["Template"];
+export type DashboardData = Schemas["Dashboard"];
+export type AcceptedRun = Schemas["AcceptedRun"];
+export const fetchTemplates = () => api<Template[]>("/templates");
+export const fetchDashboard = () => api<DashboardData>("/dashboard");
+export const fetchDesign = (id: string) => api<Design>("/designs/" + id);
+export const saveDesign = (id: string, body: Schemas["PatchDesign"]) => api<Design>("/designs/" + id, { method: "PATCH", body, silent: true });
+export const createDesign = (template: Template) => api<Design>("/designs", { method: "POST", body: { schemaVersion: 1, name: template.name, description: template.blurb, source: "template", templateId: template.id, graph: template.graph, traffic: template.traffic }, silent: true });
+export const submitRun = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/simulate", { method: "POST", body, silent: true });
+export const fetchRun = (id: string, runId: string, signal?: AbortSignal) => api<DesignRun>("/designs/" + id + "/runs/" + runId, { signal });
+export const deleteDesign = (id: string) => api<void>("/designs/" + id, { method: "DELETE", silent: true });

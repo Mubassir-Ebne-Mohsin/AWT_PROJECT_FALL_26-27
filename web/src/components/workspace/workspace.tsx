@@ -1,0 +1,94 @@
+"use client";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/components/auth/auth-provider";
+import { useDrafts } from "@/components/workspace/draft-provider";
+import { GraphView } from "@/components/workspace/graph-view";
+import { RunResults } from "@/components/workspace/run-results";
+import { Crumbs } from "@/components/shell/crumbs";
+import { RoutePlaceholder } from "@/components/placeholder";
+import { resolveRoute } from "@/lib/routes";
+import { WS_TABS } from "@/lib/catalog";
+import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
+import { EditorSession } from "@/lib/editor-session";
+export function Workspace({ id, tab }: { id: string; tab: string }) {
+  const { user } = useAuth();
+  const design = useQuery({ queryKey: ["design", user?.id, id], queryFn: () => fetchDesign(id), enabled: !!user });
+  if (!["edit","results"].includes(tab)) return <RoutePlaceholder />;
+  if (!design.data) return <div className="page" role="status">{design.isError ? "Could not load this design." : "Loading design…"}</div>;
+  return <LoadedWorkspace key={user!.id + id} initial={design.data} tab={tab} />;
+}
+function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
+  const drafts = useDrafts(), { user } = useAuth(), router = useRouter(), queries = useQueryClient(), search = useSearchParams();
+  const [session] = useState(() => {
+    const key = user!.id + ":" + initial.id;
+    let value = drafts.get(key);
+    if (!value) { value = new EditorSession(initial); drafts.set(key, value); }
+    return value;
+  });
+  const state = useSyncExternalStore(session.subscribe, session.getSnapshot, session.getSnapshot);
+  const [selected, setSelected] = useState(initial.graph.nodes.find(n => n.type === "app")?.id ?? initial.graph.nodes[0]?.id ?? "");
+  const [current, setCurrent] = useState<Design | null>(null);
+  const [actionError, setActionError] = useState("");
+  const node = state.design.graph.nodes.find(n => n.id === selected);
+  const runId = state.run?.id ?? search.get("run");
+  const runQuery = useQuery({ queryKey: ["run", user?.id, initial.id, runId], queryFn: ({ signal }) => fetchRun(initial.id, runId!, signal), enabled: !!runId, refetchInterval: q => q.state.data?.status === "pending" ? 600 : false });
+  useEffect(() => { if (runQuery.data && runQuery.data.id === runId) session.setRun(runQuery.data); }, [runQuery.data, runId, session]);
+  useEffect(() => {
+    if (!session.dirty || state.conflict || state.saving || state.error) return;
+    const timer = setTimeout(() => { void session.save().then(() => queries.invalidateQueries({ queryKey: ["dashboard"] })).catch(() => undefined); }, 750);
+    return () => clearTimeout(timer);
+  }, [session, state.design, state.conflict, state.saving, state.error, queries]);
+  async function run() {
+    setActionError("");
+    try { const accepted = await session.run(); await queries.invalidateQueries({ queryKey: ["dashboard"] }); router.replace("/designs/" + initial.id + "/results?run=" + accepted.run.id); }
+    catch { /* Session keeps a retryable identity and the draft. */ }
+  }
+  async function resolveConflict() {
+    try { setCurrent(await fetchDesign(initial.id)); } catch (e) { setActionError(e instanceof Error ? e.message : "Could not reload"); }
+  }
+  async function remove() {
+    if (!window.confirm("Delete this design and its stored results?")) return;
+    try { await deleteDesign(initial.id); session.dispose(); drafts.delete(user!.id + ":" + initial.id); await queries.invalidateQueries({ queryKey: ["dashboard"] }); router.push("/dashboard"); }
+    catch (e) { setActionError(e instanceof Error ? e.message : "Deletion failed"); }
+  }
+  return <div className="ws">
+    <div className="ws-head stack"><h1 className="sr-only">{WS_TABS.find(t => t.id === tab)?.label}</h1>
+      <Crumbs resolved={resolveRoute("/designs/" + initial.id + "/" + tab)} />
+      <div className="row between"><div className="grow stack">
+        <label className="sr-only" htmlFor="design-name">Design name</label><input id="design-name" className="ws-name" maxLength={100} value={state.design.name} onChange={e => session.rename(e.target.value)} />
+        <span className="hint" role="status">{state.saving ? "Saving…" : state.conflict ? "Save conflict" : session.dirty ? (state.error ? "Save failed — unsaved changes" : "Unsaved") : "Saved"} · revision {state.saved.revision}</span>
+      </div><div className="row tight">
+        <button className="btn btn-sm" disabled={state.saving || !session.dirty || state.conflict} onClick={() => session.save().then(() => queries.invalidateQueries({ queryKey: ["dashboard"] })).catch(() => undefined)}>Save</button>
+        <button className="btn btn-primary btn-sm" disabled={state.running || state.run?.status === "pending" || state.conflict} onClick={run}>{state.running ? "Submitting…" : state.intent ? "Retry same request" : state.run?.status === "pending" ? "Queued / running…" : "Run test"}</button>
+        <button className="btn btn-ghost btn-sm" onClick={remove}>Delete</button>
+      </div></div>
+      <nav className="tabs" aria-label="Design workspace">{WS_TABS.map(t => <Link key={t.id} className={`tab ${tab === t.id ? "active" : ""}`} aria-current={tab === t.id ? "page" : undefined} href={`/designs/${initial.id}/${t.id}${runId ? "?run="+runId : ""}`}>{t.label}{!["edit","results"].includes(t.id) && <span className="ph-mark">Later</span>}</Link>)}</nav>
+    </div>
+    <div className="ws-body stack lg m3-body">
+      {(state.error || actionError) && <p className="note fail" role="alert">{state.error || actionError}</p>}
+      {state.intent && <p className="note warn">Acceptance is unconfirmed. Retry the same request to recover its status. Your newer edits will be used only for a subsequent run.</p>}
+      {state.intent && state.error.includes("Acceptance is unknown beyond the 24-hour") && <button className="btn" onClick={() => { if (window.confirm("The original acceptance is unknown. Check recent runs first. Starting another intent may duplicate that calculation. Continue?")) session.abandonUncertainIntent(); }}>Allow a deliberate new calculation</button>}
+      {state.conflict && <button className="btn" onClick={resolveConflict}>Inspect current saved version</button>}
+      {current && <section className="panel panel-b stack" aria-label="Save conflict resolution">
+        <h2 className="h3">Saved revision {current.revision}: {current.name}</h2>
+        <p>Your draft remains in memory. Review the saved graph before deciding.</p>
+        <details><summary>Current saved inputs</summary><pre className="m3-wrap">{JSON.stringify({ graph: current.graph, traffic: current.traffic }, null, 2)}</pre></details>
+        <div className="row"><button className="btn" onClick={() => { if (window.confirm("Discard your draft and load this saved version?")) { session.reload(current); setCurrent(null); } }}>Discard draft and reload</button>
+        <button className="btn" onClick={() => { if (window.confirm("Keep your draft on this revision? The next save will replace the reviewed saved inputs.")) { session.reapply(current); setCurrent(null); } }}>Reapply my draft deliberately</button></div>
+      </section>}
+      {tab === "edit" ? <div className="m3-editor">
+        <section className="stack"><GraphView graph={state.design.graph} selected={selected} onSelect={setSelected} /><p className="hint">M3 preview: select a component to edit replicas. Moving nodes and editing connections arrive in later milestones.</p></section>
+        <aside className="panel panel-b stack"><h2 className="h3">Component properties</h2>
+          <label htmlFor="component-choice">Component</label><select id="component-choice" className="input" value={selected} onChange={e => setSelected(e.target.value)}>{state.design.graph.nodes.map(n => <option key={n.id} value={n.id}>{n.label}</option>)}</select>
+          {node && node.type !== "client" && <><label htmlFor="replicas">Replicas (1–200)</label><input id="replicas" className="input num" type="number" min={1} max={200} step={1} value={"replicas" in node.props ? node.props.replicas ?? 1 : 1} onChange={e => { const replicas = Number(e.target.value); if (Number.isInteger(replicas) && replicas >= 1 && replicas <= 200) session.edit({ ...state.design.graph, nodes: state.design.graph.nodes.map(n => n.id === selected ? { ...n, props: { ...n.props, replicas } } : n) as Design["graph"]["nodes"] }); }} /></>}
+          {node?.type === "client" && <p className="hint">Clients are the entry point; they have no replica pool.</p>}
+          <p className="hint">{state.design.traffic.rps} rps ×{state.design.traffic.burst} burst · p95 target {state.design.traffic.sloP95} ms</p>
+        </aside>
+      </div> : null}
+      <RunResults run={state.run} stale={session.stale} />
+    </div>
+  </div>;
+}
