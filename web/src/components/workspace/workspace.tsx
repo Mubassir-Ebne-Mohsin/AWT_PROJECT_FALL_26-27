@@ -72,6 +72,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
       <nav className="tabs" aria-label="Design workspace">{WS_TABS.map(t => <Link key={t.id} className={`tab ${tab === t.id ? "active" : ""}`} aria-current={tab === t.id ? "page" : undefined} href={`/designs/${initial.id}/${t.id}${runId ? "?run="+runId : ""}`}>{t.label}{!["edit","results"].includes(t.id) && <span className="ph-mark">Later</span>}</Link>)}</nav>
     </div>
     <div className="ws-body stack lg m3-body">
+      {state.design.description && <details className="panel panel-b"><summary>Design description and assumptions</summary><p className="m3-wrap">{state.design.description}</p></details>}
       {(state.error || actionError) && <p className="note fail" role="alert">{state.error || actionError}</p>}
       {state.intent && <p className="note warn">Acceptance is unconfirmed. Retry the same request to recover its status. Your newer edits will be used only for a subsequent run.</p>}
       {state.intent && state.error.includes("Acceptance is unknown beyond the 24-hour") && <button className="btn" onClick={() => { if (window.confirm("The original acceptance is unknown. Check recent runs first. Starting another intent may duplicate that calculation. Continue?")) session.abandonUncertainIntent(); }}>Allow a deliberate new calculation</button>}

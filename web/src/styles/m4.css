@@ -1,0 +1,116 @@
+.m4-fields {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.m4-thumb {
+  height: 155px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line-soft);
+  background-color: var(--canvas);
+  overflow: hidden;
+}
+.m4-thumb svg {
+  width: 100%;
+  height: 100%;
+}
+.m4-template-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-content: start;
+}
+.m4-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.m4-preview {
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+.m4-preview .m4-thumb {
+  height: 190px;
+}
+.m4-example {
+  height: auto;
+  text-align: left;
+  white-space: normal;
+  padding: 9px 12px;
+  border-radius: 8px;
+}
+.m4-design-card {
+  overflow: hidden;
+}
+.m4-design-link {
+  display: flex;
+  padding: 22px;
+  color: var(--ink);
+  text-decoration: none;
+  min-height: 160px;
+}
+.m4-design-link:hover {
+  background: var(--accent-soft);
+}
+.m4-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.m4-card-footer {
+  padding: 10px 18px;
+  border-top: 1px solid var(--line-soft);
+}
+.m4-small-value {
+  font-size: 22px !important;
+}
+.m4-attention {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.m4-attention:last-child {
+  border: 0;
+}
+.m4-shortcut {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px;
+  border-radius: var(--r);
+}
+.m4-shortcut:hover {
+  background: var(--accent-soft);
+}
+.tag.fail {
+  color: var(--fail);
+}
+.tag.warn {
+  color: var(--warn);
+}
+.tag.ok {
+  color: var(--ok);
+}
+.m4-fields input[type="file"] {
+  max-width: 100%;
+}
+@media (max-width: 1100px) {
+  .m4-template-split {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+  }
+  .m4-template-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .m4-template-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .m4-preview {
+    position: static;
+  }
+}

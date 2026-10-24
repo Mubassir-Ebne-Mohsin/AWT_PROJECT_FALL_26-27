@@ -1,4 +1,5 @@
 "use client";
+import { CreationProvider } from "@/components/creation/creation-provider";
 import { DraftProvider } from "@/components/workspace/draft-provider";
 
 import { ReactNode, useEffect, useState } from "react";
@@ -59,7 +60,7 @@ export function Providers({ children }: { children: ReactNode }) {
         <UiProvider>
           <AuthProvider>
             <ApiEventBridge />
-            <DraftProvider>{children}</DraftProvider>
+            <CreationProvider><DraftProvider>{children}</DraftProvider></CreationProvider>
             <ThemedToaster />
           </AuthProvider>
         </UiProvider>

@@ -1,5 +1,2 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
-}
+import { ImportDesign } from "@/components/creation/import";
+export default function Page() { return <ImportDesign />; }

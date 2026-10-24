@@ -100,6 +100,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["prepareDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs": {
         parameters: {
             query?: never;
@@ -290,6 +306,27 @@ export interface components {
             /** @enum {string} */
             redis: "up" | "down";
             timestamp: string;
+        };
+        PrepareDesignDto: {
+            input: {
+                /** @enum {string} */
+                source: "blank";
+                name: string;
+                /** @enum {string} */
+                region: "us-east" | "eu-west" | "ap-south";
+                /** @enum {string} */
+                start: "clients" | "empty";
+                /** @enum {string} */
+                preset: "steady" | "evening" | "flash" | "launch" | "ingest";
+            } | {
+                /** @enum {string} */
+                source: "import";
+                text: string;
+            } | {
+                /** @enum {string} */
+                source: "scripted";
+                text: string;
+            };
         };
         CreateDesignDto: {
             name: string;
@@ -2532,6 +2569,297 @@ export interface operations {
                     "application/json": {
                         data: components["schemas"]["HealthDto"];
                     };
+                };
+            };
+        };
+    };
+    prepareDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    input: {
+                        /** @constant */
+                        source: "blank";
+                        name: string;
+                        /** @enum {string} */
+                        region: "us-east" | "eu-west" | "ap-south";
+                        /** @enum {string} */
+                        start: "clients" | "empty";
+                        /** @enum {string} */
+                        preset: "steady" | "evening" | "flash" | "launch" | "ingest";
+                    } | {
+                        /** @constant */
+                        source: "import";
+                        text: string;
+                    } | {
+                        /** @constant */
+                        source: "scripted";
+                        text: string;
+                    };
+                };
+            };
+        };
+        responses: {
+            /** @description Validated draft; nothing persisted */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: {
+                            design: {
+                                name: string;
+                                description: string;
+                                /** @enum {string} */
+                                source: "blank" | "template" | "import" | "scripted";
+                                templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+                                /** @constant */
+                                schemaVersion: 1;
+                                graph: {
+                                    nodes: ({
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "client";
+                                        props: {
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                            share?: number;
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "cdn";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            hitRatio?: number;
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "lb";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "gateway";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "app";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "worker";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "cache";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                            hitRatio?: number;
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "db";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "replica";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "queue";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                            maxDepth?: number;
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "storage";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                            share?: number;
+                                        };
+                                    } | {
+                                        id: string;
+                                        label: string;
+                                        x: number;
+                                        y: number;
+                                        /** @constant */
+                                        type: "external";
+                                        props: {
+                                            replicas?: number;
+                                            capacity?: number;
+                                            latency?: number;
+                                            /** @enum {string} */
+                                            region?: "us-east" | "eu-west" | "ap-south";
+                                            share?: number;
+                                        };
+                                    })[];
+                                    edges: {
+                                        id: string;
+                                        from: string;
+                                        to: string;
+                                    }[];
+                                };
+                                traffic: {
+                                    /** @enum {string} */
+                                    preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                                    rps: number;
+                                    burst: number;
+                                    readRatio: number;
+                                    sloP95: number;
+                                    errorBudget: number;
+                                    durationMin: number;
+                                    /** @enum {string} */
+                                    shape: "steady" | "ramp" | "spike";
+                                };
+                            };
+                            assumptions: string[];
+                        };
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
                 };
             };
         };

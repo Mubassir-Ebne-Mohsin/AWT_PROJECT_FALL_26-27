@@ -1,3 +1,4 @@
+import "@/styles/m4.css";
 import type { Metadata } from "next";
 import { Archivo, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { AppShell } from "@/components/shell/app-shell";

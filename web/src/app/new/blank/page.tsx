@@ -1,5 +1,2 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
-}
+import { BlankDesign } from "@/components/creation/blank";
+export default function Page() { return <BlankDesign />; }

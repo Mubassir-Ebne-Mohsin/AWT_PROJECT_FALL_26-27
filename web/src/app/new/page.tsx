@@ -1,5 +1,2 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
-}
+import { CreationChooser } from "@/components/creation/chooser";
+export default function Page() { return <CreationChooser />; }
