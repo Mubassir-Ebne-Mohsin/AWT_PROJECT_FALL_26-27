@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-24",
+  "milestone": "Phase 2 M3 deep audit",
+  "node": "22.23.4",
+  "backendUnit": {
+    "skipped": 0,
+    "passed": 148
+  },
+  "apiE2e": {
+    "scope": "Real PostgreSQL, test Redis/throttle doubles",
+    "passed": 39
+  },
+  "frontend": {
+    "passed": 56
+  },
+  "browserProduction": {
+    "channel": "chrome",
+    "scope": "Real isolated API/Postgres/Redis/worker",
+    "skippedDevOnly": 4,
+    "widths": [
+      1024,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "passed": 44
+  },
+  "m3BackendCoverage": {
+    "lines": {
+      "total": 253,
+      "covered": 244,
+      "skipped": 0,
+      "pct": 96.44
+    },
+    "statements": {
+      "total": 277,
+      "covered": 265,
+      "skipped": 0,
+      "pct": 95.66
+    },
+    "functions": {
+      "total": 52,
+      "covered": 50,
+      "skipped": 0,
+      "pct": 96.15
+    },
+    "branches": {
+      "total": 81,
+      "covered": 70,
+      "skipped": 0,
+      "pct": 86.41
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "dependencyAudit": {
+    "backend": {
+      "high": 2,
+      "moderate": 1,
+      "critical": 0
+    },
+    "note": "Inherited transitive advisories; see progress report section14 for reachability and limits",
+    "frontend": {
+      "high": 0,
+      "moderate": 0,
+      "critical": 0
+    }
+  },
+  "note": "Aggregate observed results only; no secrets/account contents. Full findings/limitations: progress report section14.",
+  "browserEdge": {
+    "passed": 7,
+    "theme": "light",
+    "width": 1440,
+    "scope": "All seven deep scenarios",
+    "channel": "msedge"
+  },
+  "browserBackFollowup": {
+    "passed": 1,
+    "scope": "Back after delayed accepted response",
+    "channel": "chrome"
+  },
+  "browserDeveloperStates": {
+    "statesPerCase": 10,
+    "channel": "chrome",
+    "scope": "Isolated next dev; both widths/themes",
+    "passed": 4
+  }
+}

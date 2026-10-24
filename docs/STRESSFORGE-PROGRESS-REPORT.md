@@ -305,6 +305,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 ## 8. Dated update history
 
+- **2026-10-24 — M3 deep audit closed:** Six issue groups fixed;148 unit/39 API/56 frontend tests,44 production Chrome browser checks,7 Edge scenarios and4 developer-state cases passed. M3 backend line coverage96.44%, branch86.41%. Three inherited backend advisories remain documented; no dependency change or GitHub push. See section14.
+
 - **2026-10-24 — M3 implementation:** Explicit user approval; owned designs/runs, asynchronous persistent simulation lifecycle, template/replica/save/results/reopen flow and focused failure tests added. All gates passed:146 backend unit/31 API e2e/44 frontend/16 browser checks;4 dev-only browser cases intentionally skipped. Section13 records evidence and limits. Changes remain local.
 
 - **2026-10-24 — M2 completed:** User approved M2. Ported and tested the pure TypeScript engine, builders/wire adapter, bounded worker/admission and failure recovery. Six source fixtures match;144 unit/22 e2e/36 frontend regressions plus source/compiled/watch and real-service health checks passed. Local checkpoint only; M3 not started. See section12.
@@ -668,3 +670,67 @@ Local implementation checkpoints: backend6ffd470 and frontend38f3dd5. Health and
 Fixed WEB/src/lib/editor-session.ts using WEB/src/lib/stable-json.ts: object keys compare canonically, meaningful array order remains intact, and save acknowledgments adopt normalized fields only when no newer edit superseded them. This also prevents repeated saves of a server-trimmed name. Existing request limits and environment values were not changed.
 
 [Verified] The new normalization regression failed before the fix, then passed. Five added cases cover single acknowledged save, semantic key ordering, one-save Run submission, meaningful array reordering, and trimmed-name/newer-edit safety. Final WEB pnpm test:49 passed; pnpm lint and pnpm typecheck passed. WEB pnpm build also passed (exit0). Earlier browser matrix is historical evidence; it was not rerun for this pure comparison/acknowledgment change. Existing M2 profiling edits remain untouched.
+## 14. M3 deep audit and hardening (2026-10-24)
+
+User requested deeper testing after the replica autosave correction. This follow-up inspects actual implementation and expands adversarial coverage; it does not start M4. Earlier M3 completion evidence and its limitations remain above.
+
+### Reproduced findings and resolutions
+
+All functional findings below are closed by the accompanying code/tests. Severity describes impact, not a claim that user data was compromised.
+
+| ID / severity | Reproduction and impact | Fix / evidence |
+| --- | --- | --- |
+| M3-D01 / medium | Accept a simulation but lose its response; retry gets429 (or401). The browser discarded requestId and could create another run. Reloading a conflicted draft also discarded the uncertain identity. | WEB/lib/editor-session.ts preserves identity through throttling, authentication recovery and draft reload. Both state regressions failed before correction. A real-service browser test verifies one request identity and one retained run after lost acceptance→429→retry. |
+| M3-D02 / medium | Run two revisions; select the older row from Dashboard. URL points to the old run, but a cached newer run overrides it and displays the wrong result. | Workspace now prioritizes the selected URL and only displays matching run data. Browser reproduction failed before the fix and passes afterward. Selected-result read failures now have an inline retry. |
+| M3-D03 / medium | Open/save a clean design, leave it, save from another client, then reopen within the query cache lifetime. The UI reports Saved but still shows old inputs. | Refetch on workspace entry/focus; EditorSession adopts strictly newer server revisions only while clean/not saving. Browser failed with replicas1 instead of7 before correction. Unit tests also protect dirty/in-flight edits and ignore old responses. |
+| M3-D04 / medium | Delete a design between Dashboard's joined run read and its later design-name lookup. The entire dashboard returned404. | API/modules/designs/designs.service.ts reads the name in the same joined query, removing the race and extra per-run lookup. Deterministic DB interleaving test failed404 before correction and passes200 after it. Stable ID tiebreakers also make equal-timestamp ordering deterministic. |
+| M3-D05 / medium | A submission response arrives after local logout/account disposal or after leaving the workspace. The old handler could return acceptance or redirect back to Results. A held-response browser test reproduced the unwanted redirect. Template creation had the same stale-handler pattern. No data-access bypass was observed. | EditorSession checks disposal after awaiting submission; useActiveView prevents unmounted run/template handlers from redirecting. Unit and delayed-response browser tests protect these paths. Accepted backend work still completes independently. |
+| M3-D06 / low | A draft is saved but calculation acceptance is unknown. Dirty-only navigation/unload checks did not warn before losing its memory-only retry identity. | Draft guards now include saving, running and uncertain intent. State test proves saved-but-uncertain work remains unsettled. Browser-history cancellation remains the documented later-editor limitation. |
+
+The earlier autosave normalization defect remains covered: the deep browser test edits Database replicas (initially omitted), observes multiple complete750ms debounce windows, and confirms exactly one PATCH before/after Run.
+
+### Expanded checks and environment
+
+- Node22.23.4; existing pnpm/lockfiles; no new runtime package or AI call.
+- Existing user servers on3000/5001 were not stopped. Separate API5003, web3003, databases sf_m3_deep_20261024 and sf_m3_deep_e2e_20261024. Initial smoke checks used existing local Redis; subsequent full checks used the dedicated stressforge-m3-deep-redis container on6393 to separate sessions/throttle counters. No normal design/user rows were changed.
+- Added opt-in STRESSFORGE_AUDIT_BUILD=1, fixed .next-audit output, lint/Git ignores and generated-type includes, so audit builds do not replace a running .next development build. Default build/run behavior is unchanged.
+- API e2e uses real PostgreSQL and existing Redis/rate-limit doubles. Browser checks use real PostgreSQL, Redis, JWT/cookies and the real worker. Disposable real-Redis Compose configuration tests were also enabled.
+- The user-modified audit/m2-profile-source.json is preserved and excluded. Reference model/fixtures and API contracts are unchanged.
+
+| Gate | Observed result |
+| --- | --- |
+| API pnpm test --runInBand --silent with TEST_REDIS_COMPOSE=1 | PASS,148/148,10 suites; no skipped tests |
+| API pnpm test:e2e --coverage --collectCoverageFrom=src/modules/designs/**/*.ts | PASS,39/39 (22 Foundation +17 M3),2 suites |
+| M3 backend coverage | Statements95.66% (265/277), branches86.41% (70/81), functions96.15% (50/52), lines96.44% (244/253). Only modules/designs is collected; this is not whole-project coverage or proof of correctness |
+| API build / strict typecheck / lint:check | PASS; lint0 errors,22 inherited warnings |
+| WEB pnpm test | PASS,56/56 |
+| WEB lint / strict typecheck / isolated production build | PASS |
+| Canonical schema/examples/reference fixtures | PASS contract:phase2:check and fixtures:phase2 |
+| WEB route/live/planned API checks | PASS;35 routes, live /docs-json types and planned types unchanged |
+| Final production browser matrix | PASS,44 passed;4 dev-only cases intentionally skipped against production;3.4min. Chrome at1024/1440, light/dark. Seven deep cases plus existing M3/Foundation browser flows |
+
+New backend cases reject invalid replicas/fractions/capacity/properties/IDs/coordinates/pagination without mutating the design; accept zero traffic and replicas200 with finite outputs; save but refuse a cyclic graph; resolve conflicting concurrent request identities; expire admission behind a real PostgreSQL row lock and successfully retry; protect >50 young request keys plus pending records; reproduce concurrent dashboard deletion, and prove retained-key replay precedes scheduler-full rejection. Earlier tests retain actual worker crash/timeout, DB acceptance/finalization failure, restart, ownership, immutable snapshots and deletion coverage.
+
+One Foundation rate-limit test exceeded its5s budget while running dozens of dummy Argon2 checks under concurrent build load. Its throttle-only loop now uses schema-rejected requests and asserts422 until429; ordinary incorrect-credential/password verification remains independently tested. No runtime limit was raised. The audit directory initially needed an explicit ESLint ignore because generated bundles were being scanned; corrected before the final lint pass.
+
+### Dependency/security review and remaining limits
+
+Fresh pnpm audit --prod: frontend0 advisories; backend3 (2high,1moderate). No dependency/lockfile was changed in this audit.
+
+| Dependency / path | Registry advisory and current assessment |
+| --- | --- |
+| multer2.4.0 via @nestjs/platform-express | [Pending asynchronous fileFilter DoS](https://github.com/advisories/GHSA-q7qp-rjg7-q26m), high. Newly recorded in this review; the dependency already existed. [Verified] no FileInterceptor/FilesInterceptor/AnyFilesInterceptor/MulterModule/upload handling call sites in src. [Inferred] the affected file-filter path is not exposed by current M3. This is not a full exploit proof; update the parent/transitive dependency in a reviewed follow-up, before adding upload handling. |
+| @faker-js/faker via nestjs-seeder | [helpers.fake code execution](https://github.com/advisories/GHSA-qxc2-j82w-r537), high. Existing Foundation follow-up. [Verified] seeding uses fixed values/argon2 and no helpers.fake calls; no untrusted template evaluation is added. |
+| uuid via Bull | [v3/v5/v6 buffer bounds](https://github.com/advisories/GHSA-w5hq-g745-h8pq), moderate. Existing Foundation follow-up. M3 uses node:crypto randomUUID; this audit adds no affected buffer API calls. |
+
+Static M3 review found no eval/dangerous HTML/console.log call sites in its server/workspace/session code. Ownership, unknown-field rejection and safe failure envelopes are tested; no new authorization bypass was observed. This is a scoped review, not a claim of zero security risk or a clean backend dependency audit.
+
+Single API instance, memory-only unsaved drafts, interrupted-job failure rather than automatic compute resumption, latest10 dashboard cards and mathematical model limitations remain documented design boundaries. Long-running storage/soak tests, Firefox/WebKit, full assistive-technology testing and formal race verification remain untested. Frontend dependency scan is current only for this audit date. No production deployment or paid usage occurred.
+
+**Deep-audit verdict: PASS for the tested M3 functional scope. Six finding groups closed; no remaining functional failure observed in the completed gates. The backend dependency scan is not clean, and the limits above remain explicit.** Future work must update this same living report, retain this evidence/history and reassess affected earlier requirements; updates are not automatic.
+
+Additional final checks: Microsoft Edge passed all7 deep scenarios (21.4s); a focused Chrome follow-up also passed Back navigation after delayed acceptance. Original M3 screenshots were preserved; the new snapshots are audit/m3-deep-review-{1024,1440}-{light,dark}.png. Aggregate machine-readable evidence is audit/m3-deep-verification.json.
+
+Developer-state follow-up:4/4 passed against the isolated next dev server (40.4s), covering all ten states per width/theme combination. The4 production-only skips are therefore separately verified rather than hidden. Backend checkpointc2d22b7; frontend checkpointe8ef367. No M4 work started.
+
+Cleanup: final audit health200; stopped only owned ports3003/5003 and the labelled audit Redis container. Isolated databases and stopped audit container remain for reproducibility. Normal3000/5001 services and user data were preserved; unrelated m2-profile-source.json remains uncommitted.

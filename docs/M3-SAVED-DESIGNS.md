@@ -52,9 +52,11 @@ PATCH locks the owned row, compares expectedRevision, updates allowlisted fields
 
 A memory-only EditorSession sits above the shell's system-screen replacement and is keyed by user/design. It serializes saves; each response acknowledges only its submitted baseline. Later edits remain dirty. Autosave debounces 750ms. Run flushes edits before capturing revision. Failed saves block submission.
 
-409 retains the draft and offers inspection of current saved inputs, confirmed discard/reload or deliberate reapply. Unknown run acceptance retains requestId/revision; retry recovers the original run even after newer edits. After the 24h guarantee the browser requires deliberate new intent with an uncertainty warning. Old revision/semantic inputs mark results stale.
+409 retains the draft and offers inspection of current saved inputs, confirmed discard/reload or deliberate reapply. Unknown run acceptance retains requestId/revision through429/401 and draft reload; retry recovers the original run even after newer edits. After the 24h guarantee the browser requires deliberate new intent with an uncertainty warning. Old revision/semantic inputs mark results stale.
 
-Explicit local logout/account changes dispose sessions, including when server logout fails. Late operations from disposed sessions cannot submit a new calculation. Session expiry alone retains the draft. Link/palette/keyboard navigation warns for dirty sessions, and beforeunload warns where supported. Browser history traversal retains memory drafts but has no custom cancel dialog; broader history/navigation editing behavior remains a later editor milestone. Reload/closure can lose failed unsaved edits; no persistent offline draft store was added.
+Clean reopened drafts adopt newer server revisions; dirty/in-flight drafts are never overwritten by refetch. Selected stored-result URLs take precedence over cached results. See progress report section14 for the deep-audit reproductions and fixes.
+
+Explicit local logout/account changes dispose sessions, including when server logout fails. Late operations from disposed sessions cannot submit a new calculation. Session expiry alone retains the draft. Link/palette/keyboard navigation warns for dirty sessions, and beforeunload warns where supported, including unconfirmed calculation acceptance. Browser history traversal retains memory drafts but has no custom cancel dialog; broader history/navigation editing behavior remains a later editor milestone. Reload/closure can lose failed unsaved edits; no persistent offline draft store was added.
 
 ## Verification and limits
 
