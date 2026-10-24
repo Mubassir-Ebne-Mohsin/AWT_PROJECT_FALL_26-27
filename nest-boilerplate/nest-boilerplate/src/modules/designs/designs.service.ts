@@ -88,7 +88,7 @@ export class DesignsService {
       .getRepository(SavedDesign)
       .findAndCount({
         where: { ownerId: owner },
-        order: { updatedAt: "DESC" },
+        order: { updatedAt: "DESC", id: "DESC" },
         skip: (page - 1) * pageSize,
         take: pageSize,
       });
@@ -96,7 +96,10 @@ export class DesignsService {
       designs.map(async (d) => {
         const latest = await this.db
           .getRepository(SavedRun)
-          .findOne({ where: { designId: d.id }, order: { createdAt: "DESC" } });
+          .findOne({
+            where: { designId: d.id },
+            order: { createdAt: "DESC", id: "DESC" },
+          });
         const {
           graph: _g,
           traffic: _t,
@@ -155,18 +158,21 @@ export class DesignsService {
         .innerJoin(SavedDesign, "d", "d.id=r.design_id AND d.owner_id=:owner", {
           owner,
         });
+    // Read the name in the same joined snapshot as the run. A later deletion must
+    // not turn the entire dashboard into a 404 during a second ownership lookup.
     const recent = await query()
+      .addSelect("d.name", "designName")
       .orderBy("r.createdAt", "DESC")
-      .take(10)
-      .getMany();
+      .addOrderBy("r.id", "DESC")
+      .limit(10)
+      .getRawAndEntities<{ r_id: string; designName: string }>();
     const retainedRuns = await query().getCount();
-    const recentRuns = await Promise.all(
-      recent.map(async (r) => ({
-        ...this.runSummary(r),
-        designId: r.designId,
-        designName: (await this.owned(owner, r.designId)).name,
-      })),
-    );
+    const names = new Map(recent.raw.map((row) => [row.r_id, row.designName]));
+    const recentRuns = recent.entities.map((r) => ({
+      ...this.runSummary(r),
+      designId: r.designId,
+      designName: names.get(r.id)!,
+    }));
     return {
       designs,
       recentRuns,

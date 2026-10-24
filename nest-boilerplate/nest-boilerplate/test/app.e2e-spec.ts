@@ -381,14 +381,16 @@ describe("StressForge API (e2e)", () => {
       expect(res.headers["access-control-allow-credentials"]).toBe("true");
     });
 
-    // Keep last: it exhausts the auth rate limit for this app instance.
+    // Keep last: it exhausts this instance. Invalid DTOs count toward throttling
+    // without performing dozens of expensive dummy password verifications.
     it("rate limits auth routes with RATE_LIMITED", async () => {
       let limited: request.Response | undefined;
       for (let i = 0; i < 80 && !limited; i++) {
         const r = await http
           .post("/v1/auth/login")
-          .send({ email: "x@y.com", password: "pw" });
+          .send({ email: "x@y.com", password: "" });
         if (r.status === 429) limited = r;
+        else expect(r.status).toBe(422);
       }
       expect(limited?.body.error.code).toBe("RATE_LIMITED");
     });

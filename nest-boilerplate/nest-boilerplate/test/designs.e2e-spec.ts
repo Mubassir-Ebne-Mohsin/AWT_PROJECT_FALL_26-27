@@ -1,7 +1,8 @@
 import { SimulationService } from "@/modules/simulation/simulation.service";
 import { Test } from "@nestjs/testing";
 import { NestExpressApplication } from "@nestjs/platform-express";
-import { DataSource } from "typeorm";
+import { DataSource, SelectQueryBuilder } from "typeorm";
+import { SavedDesign } from "@/modules/designs/entities/design.entity";
 import request from "supertest";
 import { randomUUID } from "node:crypto";
 import { Worker } from "node:worker_threads";
@@ -311,13 +312,11 @@ describe("M3 saved designs and simulation (isolated database)", () => {
   it("releases admission when persistence fails before acceptance", async () => {
     const d = await create(),
       body = { expectedRevision: 1, requestId: randomUUID() };
-    const transaction = jest
-      .spyOn(db, "transaction")
-      .mockRejectedValueOnce(
-        Object.assign(new Error("test-only unavailable database"), {
-          code: "ECONNREFUSED",
-        }),
-      );
+    const transaction = jest.spyOn(db, "transaction").mockRejectedValueOnce(
+      Object.assign(new Error("test-only unavailable database"), {
+        code: "ECONNREFUSED",
+      }),
+    );
     await http
       .post("/v1/designs/" + d.id + "/simulate")
       .set(auth())
@@ -464,5 +463,322 @@ describe("M3 saved designs and simulation (isolated database)", () => {
     expect(await repo.countBy({ designId: d.id })).toBe(50);
     expect(await repo.findOneBy({ id: original.id })).not.toBeNull();
     expect(await repo.findOneBy({ id: interruptedId })).not.toBeNull();
+  });
+  it("rejects unsafe settings and payloads without mutating a saved design", async () => {
+    const d = await create();
+    const invalidGraphs = [
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n) =>
+          n.type === "app" ? { ...n, props: { ...n.props, replicas: 201 } } : n,
+        ),
+      },
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n) =>
+          n.type === "app" ? { ...n, props: { ...n.props, replicas: 1.5 } } : n,
+        ),
+      },
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n) =>
+          n.type === "app" ? { ...n, props: { ...n.props, capacity: 0 } } : n,
+        ),
+      },
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n) =>
+          n.type === "app" ? { ...n, props: { ...n.props, unknown: 1 } } : n,
+        ),
+      },
+      { ...d.graph, nodes: [...d.graph.nodes, d.graph.nodes[0]] },
+      {
+        ...d.graph,
+        edges: [
+          ...d.graph.edges,
+          { id: "unsafeEdge", from: "missing", to: d.graph.nodes[0].id },
+        ],
+      },
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n, i) =>
+          i === 0 ? { ...n, id: "constructor" } : n,
+        ),
+      },
+      {
+        ...d.graph,
+        nodes: d.graph.nodes.map((n, i) => (i === 0 ? { ...n, x: 100001 } : n)),
+      },
+    ];
+    for (const graph of invalidGraphs)
+      await http
+        .patch("/v1/designs/" + d.id)
+        .set(auth())
+        .send({ expectedRevision: 1, graph })
+        .expect(422);
+    for (const body of [
+      { expectedRevision: 1, name: " " },
+      { expectedRevision: 1, revision: 999 },
+      { expectedRevision: 1, schemaVersion: 2 },
+      { expectedRevision: 0, name: "unsafe" },
+      { expectedRevision: 1, traffic: { ...d.traffic, rps: -1 } },
+    ])
+      await http
+        .patch("/v1/designs/" + d.id)
+        .set(auth())
+        .send(body)
+        .expect(422);
+    for (const query of [
+      "page=NaN",
+      "pageSize=51",
+      "page=1.5",
+      "pageSize=0",
+      "page[]=1",
+    ])
+      await http
+        .get("/v1/designs?" + query)
+        .set(auth())
+        .expect(422);
+    const after = await http
+      .get("/v1/designs/" + d.id)
+      .set(auth())
+      .expect(200);
+    expect(after.body.data).toEqual(d);
+  });
+  it("supports zero traffic and the replica upper bound without non-finite output", async () => {
+    const d = await create(),
+      graph = structuredClone(d.graph);
+    graph.nodes.find((n) => n.type === "app")!.props.replicas = 200;
+    await http
+      .patch("/v1/designs/" + d.id)
+      .set(auth())
+      .send({ expectedRevision: 1, graph, traffic: { ...d.traffic, rps: 0 } })
+      .expect(200);
+    const response = await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send({ expectedRevision: 2, requestId: randomUUID() })
+      .expect(202);
+    const completed = await terminal(d.id, response.body.data.run.id);
+    expect(completed.status).toBe("completed");
+    if (
+      completed.status === "completed" &&
+      completed.result.kind === "simulation"
+    ) {
+      expect(completed.result.summary.rps).toBe(0);
+      expect(completed.result.summary.errorRate).toBe(0);
+      expect(Number.isFinite(completed.result.summary.p95)).toBe(true);
+    }
+  });
+  it("saves a safe cyclic draft but blocks calculation with a structured cycle issue", async () => {
+    const d = await create(),
+      graph = structuredClone(d.graph);
+    graph.edges.push({
+      id: "backLink",
+      from: graph.nodes[2].id,
+      to: graph.nodes[1].id,
+    });
+    await http
+      .patch("/v1/designs/" + d.id)
+      .set(auth())
+      .send({ expectedRevision: 1, graph })
+      .expect(200);
+    const validation = await http
+      .post("/v1/designs/" + d.id + "/validate")
+      .set(auth())
+      .send({ expectedRevision: 2 })
+      .expect(200);
+    expect(
+      validation.body.data.errors.some(
+        (e: { code: string }) => e.code === "CYCLE",
+      ),
+    ).toBe(true);
+    await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send({ expectedRevision: 2, requestId: randomUUID() })
+      .expect(422);
+    expect(await db.getRepository(SavedRun).countBy({ designId: d.id })).toBe(
+      0,
+    );
+  });
+  it("rejects conflicting concurrent identities under one request key", async () => {
+    const d = await create(),
+      requestId = randomUUID();
+    const responses = await Promise.all(
+      [1, 2].map((expectedRevision) =>
+        http
+          .post("/v1/designs/" + d.id + "/simulate")
+          .set(auth())
+          .send({ expectedRevision, requestId }),
+      ),
+    );
+    expect(responses.map((r) => r.status).sort()).toEqual([202, 409]);
+    const accepted = responses.find((r) => r.status === 202)!;
+    await terminal(d.id, accepted.body.data.run.id);
+    expect(
+      await db.getRepository(SavedRun).countBy({ designId: d.id, requestId }),
+    ).toBe(1);
+  });
+  it("expires provisional admission blocked behind a database row lock, then recovers", async () => {
+    const d = await create(),
+      runner = db.createQueryRunner(),
+      body = { expectedRevision: 1, requestId: randomUUID() };
+    await runner.connect();
+    await runner.startTransaction();
+    await runner.query("SELECT id FROM designs WHERE id=$1 FOR UPDATE", [d.id]);
+    const pending = http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send(body)
+      .then((r) => r);
+    let clock: jest.SpyInstance | undefined;
+    try {
+      for (let i = 0; i < 150 && executor.state.reservations === 0; i++)
+        await new Promise((r) => setTimeout(r, 10));
+      expect(executor.state.reservations).toBe(1);
+      const now = Date.now();
+      clock = jest.spyOn(Date, "now").mockReturnValue(now + 6000);
+      await runner.commitTransaction();
+      expect((await pending).status).toBe(503);
+    } finally {
+      clock?.mockRestore();
+      if (runner.isTransactionActive) await runner.rollbackTransaction();
+      await runner.release();
+    }
+    expect(executor.state.reservations).toBe(0);
+    expect(await db.getRepository(SavedRun).countBy({ designId: d.id })).toBe(
+      0,
+    );
+    const retry = await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send(body)
+      .expect(202);
+    expect((await terminal(d.id, retry.body.data.run.id)).status).toBe(
+      "completed",
+    );
+  });
+  it("protects more than fifty young keys and never prunes pending records", async () => {
+    const d = await create();
+    const accepted = await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send({ expectedRevision: 1, requestId: randomUUID() })
+      .expect(202);
+    const original = await terminal(d.id, accepted.body.data.run.id),
+      repo = db.getRepository(SavedRun);
+    for (let i = 0; i < 55; i++) {
+      const id = randomUUID(),
+        requestId = randomUUID(),
+        createdAt = new Date(Date.now() - 1000 - i);
+      await repo.insert({
+        id,
+        designId: d.id,
+        requestId,
+        status: "completed",
+        createdAt,
+        completedAt: createdAt,
+        payload: {
+          ...original,
+          id,
+          requestId,
+          createdAt: createdAt.toISOString(),
+        },
+      });
+    }
+    const id = randomUUID(),
+      requestId = randomUUID(),
+      pending: DesignRun = {
+        ...original,
+        id,
+        requestId,
+        status: "pending",
+        result: null,
+        failure: null,
+        completedAt: null,
+      };
+    await repo.insert({
+      id,
+      designId: d.id,
+      requestId,
+      status: "pending",
+      createdAt: new Date(Date.now() - 48 * 3600000),
+      completedAt: null,
+      payload: pending,
+    });
+    await app.get(RunsService).prune(d.id);
+    expect(await repo.countBy({ designId: d.id })).toBe(57);
+    expect((await repo.findOneByOrFail({ id })).status).toBe("pending");
+    await app.get(RunsService).reconcile(true);
+  });
+  it("keeps dashboard available when a design is deleted between its read queries", async () => {
+    const d = await create(),
+      response = await http
+        .post("/v1/designs/" + d.id + "/simulate")
+        .set(auth())
+        .send({ expectedRevision: 1, requestId: randomUUID() })
+        .expect(202);
+    await terminal(d.id, response.body.data.run.id);
+    const originalCount = SelectQueryBuilder.prototype.getCount;
+    const count = jest
+      .spyOn(SelectQueryBuilder.prototype, "getCount")
+      .mockImplementationOnce(async function (
+        this: SelectQueryBuilder<SavedRun>,
+      ) {
+        await db.getRepository(SavedDesign).delete(d.id);
+        return originalCount.call(this);
+      });
+    try {
+      await http.get("/v1/dashboard").set(auth()).expect(200);
+    } finally {
+      count.mockRestore();
+    }
+  });
+  it("replays retained keys even when unrelated scheduler capacity is full", async () => {
+    const d = await create(),
+      requestId = randomUUID(),
+      body = { expectedRevision: 1, requestId };
+    const accepted = await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send(body)
+      .expect(202);
+    await terminal(d.id, accepted.body.data.run.id);
+    const slots = Array.from({ length: 4 }, (_, i) =>
+      executor.reserve("capacity-audit-" + i, "durable"),
+    );
+    try {
+      const replay = await http
+        .post("/v1/designs/" + d.id + "/simulate")
+        .set(auth())
+        .send(body)
+        .expect(200);
+      expect(replay.body.data.run.id).toBe(accepted.body.data.run.id);
+      await http
+        .post("/v1/designs/" + d.id + "/simulate")
+        .set(auth())
+        .send({ ...body, expectedRevision: 2 })
+        .expect(409);
+      await http
+        .post("/v1/designs/" + d.id + "/simulate")
+        .set(auth())
+        .send({ ...body, requestId: randomUUID() })
+        .expect(429);
+      expect(await db.getRepository(SavedRun).countBy({ designId: d.id })).toBe(
+        1,
+      );
+    } finally {
+      slots.forEach((slot) => slot.release());
+      await Promise.allSettled(slots.map((slot) => slot.result));
+    }
+    const next = await http
+      .post("/v1/designs/" + d.id + "/simulate")
+      .set(auth())
+      .send({ ...body, requestId: randomUUID() })
+      .expect(202);
+    expect((await terminal(d.id, next.body.data.run.id)).status).toBe(
+      "completed",
+    );
   });
 });
