@@ -1,3 +1,4 @@
+import { documentDesigns } from "@/modules/designs/openapi";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { cleanupOpenApiDoc } from "nestjs-zod";
@@ -46,5 +47,6 @@ export function setupSwagger(app: NestExpressApplication) {
     .addBearerAuth()
     .build();
   const document = cleanupOpenApiDoc(SwaggerModule.createDocument(app, config));
+  documentDesigns(document);
   SwaggerModule.setup("docs", app, document, { jsonDocumentUrl: "docs-json" });
 }

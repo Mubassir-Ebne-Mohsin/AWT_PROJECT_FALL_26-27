@@ -1,3 +1,4 @@
+import { DesignsModule } from "@/modules/designs/designs.module";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
@@ -39,6 +40,7 @@ const { env } = appConfig;
     AuthModule,
     HealthModule,
     SimulationModule,
+    DesignsModule,
   ],
   providers: [
     { provide: APP_PIPE, useClass: ZodValidationPipe },

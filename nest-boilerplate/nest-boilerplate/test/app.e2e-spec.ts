@@ -56,6 +56,7 @@ describe("StressForge API (e2e)", () => {
       .compile();
     const nest = moduleRef.createNestApplication<NestExpressApplication>();
     configureApp(nest);
+    await nest.get(DataSource).runMigrations();
     await nest.init();
     app = nest;
     await app.get(DataSource).runMigrations();
@@ -63,7 +64,7 @@ describe("StressForge API (e2e)", () => {
   });
 
   beforeEach(async () => {
-    await app.get(DataSource).query(`TRUNCATE TABLE "users"`);
+    await app.get(DataSource).query(`TRUNCATE TABLE "users" CASCADE`);
   });
 
   afterAll(async () => {

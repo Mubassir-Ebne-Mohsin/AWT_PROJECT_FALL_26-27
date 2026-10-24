@@ -10,6 +10,7 @@ import { ThrottlerException } from "@nestjs/throttler";
 import { ZodValidationException } from "nestjs-zod";
 import { ZodError } from "zod";
 import type { Response } from "express";
+import { databaseUnavailable } from "@/common/filters/database-unavailable";
 import { AppException, ErrorCode } from "@/common/errors";
 
 interface ErrorBody {
@@ -117,7 +118,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
     if (
       exception instanceof Error &&
-      REDIS_DOWN_ERRORS.includes(exception.name)
+      (REDIS_DOWN_ERRORS.includes(exception.name) ||
+        databaseUnavailable(exception))
     ) {
       return this.build(
         503,
