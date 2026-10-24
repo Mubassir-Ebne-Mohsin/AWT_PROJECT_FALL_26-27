@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M4 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 provides the first saved-design journey and M4 completes creation/dashboard; see sections13–15 for verification and limitations.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M5 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 provides the first saved-design journey and M4 completes creation/dashboard and M5 adds the interactive canvas; see sections13–16 for verification and limitations.
 
 ## 1. Maintenance instructions
 
@@ -32,7 +32,7 @@ Build and run: see `README.md` at the repo root.
 
 Sources used to define phase requirements:
 
-- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard plan, with its verification in section15. Historical Phase1 sources follow.
+- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard and M5 canvas scopes, with verification in sections15–16. Historical Phase1 sources follow.
 
 - `nest-boilerplate/nest-boilerplate/docs/stressforge/PHASE-1-PROMPT.md` (the Phase 1 specification; the only roadmap-like document found).
 - The prototype's `PHASE_NAMES` and route phases (SECTION 5) for the phase names of Phases 2 to 5.
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey and M4 creation/dashboard complete; M5–M9 not started. See sections13–15; local Phase 2 changes not yet published |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey, M4 creation/dashboard and M5 canvas fundamentals complete; M6–M9 not started. See sections13–16; local Phase 2 changes not yet published |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs and M4 creation/dashboard; full Phase2 completion still requires M5–M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard and M5 canvas fundamentals; full Phase2 completion still requires M6–M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-24 — M5 completed:** Approved canvas fundamentals implemented and verified: all twelve types, selection/movement/properties, pan/zoom/fit/minimap, keyboard alternatives and guarded persistence. Final174 backend unit,44 e2e,73 frontend unit,32 final Chrome and7 Edge cases passed; full regression checkpoint84 passed/4 dev-only skips. Actual PostgreSQL/Redis outage recovery verified. Section16 records evidence, corrections and limits. Local only; M6–M9 not started.
 
 - **2026-10-24 — M4 completed:** User approved Creation/dashboard. Four creation flows, source-parity scripted drafts, persistent assumptions, honest saved-result summaries, confirmed deletion and recovery implemented.173 backend unit/44 API/63 frontend tests,60 production Chrome/4 Edge/4 developer-state checks passed; real PostgreSQL/Redis/API outages recovered with retained inputs. Scope, corrections, evidence and limits in section15. Local only; M5–M9 not started.
 
@@ -809,3 +811,74 @@ No unresolved mandatory M4 functional defect was observed in the tested scope.
 Publication is local only on codex/phase2-contracts. The pre-existing modified audit/m2-profile-source.json remains untouched and excluded from M4 commits. Future milestone completion must update THIS report, retain earlier history, add new verification evidence and reassess affected earlier requirements; no automatic update or synchronization is promised.
 
 M4 local code checkpoints: backend **5c53dc9**; frontend/tests/types **9d89900**. Final audit health and Swagger both returned200 before cleanup. The verified audit API/frontend processes were stopped; only containers labelled stressforge.audit=m4 (PostgreSQL5547/Redis6394) were stopped and retained for reproducibility. Normal PostgreSQL5433, Redis6379 and the pre-existing QA services remained running/healthy. No normal development frontend was stopped, no .env was edited, and no GitHub push occurred.
+
+
+## 16. M5 — Canvas fundamentals
+
+**2026-10-24 (Asia/Dhaka). Verdict: M5 COMPLETE for the approved canvas fundamentals scope. Phase 2 remains IN PROGRESS; M6–M9 are not implemented or authorized by M5 approval.** Sources: user-approved M5 scope, [Phase2 roadmap](PHASE-2-PLAN.md), prototype Sections12–14 and static glyphs in Section2, frozen M1 graph/catalog contracts, existing M3/M4 lifecycle, web/AGENTS.md and installed Next client-boundary documentation. [Operating guide](M5-CANVAS.md); [durable verification summary](audit/m5-verification.json).
+
+### Requirement mapping
+
+All Verified rows below combine inspected implementation with the checks listed next.
+
+| Requirement | Implementation / evidence | Status |
+| --- | --- | --- |
+| All twelve types, click and palette drag | WEB/components/canvas/palette.tsx and lib/canvas/model.ts use the real catalog. Collision-free IDs across nodes/edges;50-node limit. All twelve types saved/reopened; zoomed drop, outside drop, Escape and keyboard activation exercised | Verified |
+| SVG architecture and selection | graph-nodes.tsx ports trusted static prototype icons,184x64 nodes, grid and existing directed curves. Click, keyboard and dropdown selection; labels remain escaped React text. Existing edges follow node movement | Verified |
+| Movement and coordinates | geometry.ts + graph-canvas.tsx convert viewport/world coordinates; local preview then one release commit.12-unit grid; keyboard12/Shift48 and position buttons; finite/clamped API bounds. Reload and mid-gesture write counts asserted | Verified |
+| Properties | node-properties/property-fields use catalog editableProperties, region/defaults and type-specific controls. Clients traffic weight has no replicas; CDN global location has no region selector. Empty/nonfinite/fractional/out-of-range values cannot be saved; legal imported values are not rewritten on inspection | Verified |
+| Pan, zoom, fit, minimap | Background pan; actual wheel pointer anchor;30–200% zoom; prototype30–115% Fit; focus-selected, buttons/scoped shortcuts and interactive minimap. These view changes send no PATCH | Verified |
+| Persistence and lifecycle | EditorSession guards incomplete gestures/invalid fields, serialized750ms autosave, explicit Save/Run and existing conflict/uncertain acceptance flow. Cancel/focus loss commits nothing. Clean held remote revisions apply after cancellation. Failed moves remain retryable | Verified |
+| Numerical staleness | Semantic comparison excludes positions/title and retains semantic graph/traffic fields/order. Layout-only movement keeps the saved result current; replicas mark it stale. Stored revision/fingerprint/version remain visible. Dashboard says Earlier revision because summaries cannot prove semantic equality | Verified |
+| Appearance/responsiveness/accessibility | Reference opened in browser and compared with M5 screenshots. Existing fonts/tokens, node icons/curves, panels and grid reused; narrow1024 layout and1440 layout in light/dark. Actual899/900 breakpoint, keyboard alternatives, visible focus and no console/overflow failures in scenarios | Verified |
+| Earlier integration | Full Foundation/M3/M4 browser checkpoint, final creation journey and backend e2e passed; live OpenAPI types unchanged. Auth/session/ownership/save/selected-run/creation recovery requirements reassessed by regressions | Verified |
+| Living docs and scope | This report, roadmap, README, architecture, canvas/test guides and evidence updated. No endpoint, package/lockfile, migration, env, route registry or engine behavior change | Verified |
+
+Implementation paths above are under WEB/src unless otherwise stated. Connections render but cannot yet be created/reversed/deleted; component deletion/duplication and undo/redo remain M6. Full Traffic/Results are M7; load overlays/live preview/Limits are M8. Newly added disconnected components are safe drafts; creating a new runnable topology needs M6. Existing connected templates remain runnable. Real AI remains a later course requirement.
+
+### Checks and observed results
+
+Node22.23.4; existing pnpm versions retained. All final commands below returned exit0. Intermediate failures are documented separately.
+
+| Check | Result |
+| --- | --- |
+| API pnpm build / pnpm typecheck / pnpm lint:check | Pass;0 errors,22 inherited lint warnings |
+| API TEST_REDIS_COMPOSE=1 pnpm test --runInBand | Final174/174,12 suites,61.285s; includes real Redis and catalog-fixture equality |
+| API pnpm test:e2e --runInBand, DB_TEST_DATABASE=sf_m5_e2e | 44/44,2 suites,54.787s; actual isolated PostgreSQL, existing Redis/throttler doubles |
+| WEB pnpm test | 73/73,33.272s;10 new canvas tests plus prior regressions |
+| WEB pnpm lint / pnpm typecheck / pnpm build | Pass; production build uses ignored .next-audit and isolated API URL |
+| WEB pnpm check:routes; live openapi-typescript /docs-json --check | Pass;35 registry patterns and unchanged live API contract |
+| Full Chrome production pnpm exec playwright test checkpoint | 84 passed,4 intentional @dev skips,6.8min, four width/theme combinations; before final Escape/focus cancellation correction |
+| Final Chrome pnpm exec playwright test m5.spec.ts m5-boundary.spec.ts plus full M4 creation-journey selection | 32/32,3.4min across1024/1440 light/dark; after all application changes, including cancellation/layout corrections |
+| Edge pnpm exec playwright test m5.spec.ts m5-boundary.spec.ts --project=1440-light | 7/7,47.6s on final source |
+| Focused canvas coverage via Node test loader | geometry100% lines/branches/functions; model92.06% lines,87.23% branches,100% functions. This is transpiled focused-helper coverage, not whole-app coverage |
+| SF_M5_REAL_OUTAGES=1 node tests/verify-m5-services.cjs | Actual dedicated PostgreSQL5548 and Redis6395 stop/restart: health503 independently,200 after recovery; node positions retained and explicit save recovered |
+| Source/reference comparison | Reference and M5 browser screenshots inspected; reference files unchanged. No pixel-identical or completed analytical-overlay claim |
+
+Browser matrix scenarios cover: mid-drag pauses beyond autosave, one release write, exact Shift movement, layout-versus-property staleness, all12 types, invalid fractions and200 replicas, reload, pointer cancellation/Escape/focus interruption, failed-save retry, zoomed palette drops, no writes for views,50nodes/200edges, remote revision during gesture, wheel/zoom limits/minimap keyboard, and899/900px resize.
+
+Evidence images: audit/m5-canvas-{1024,1440}-{light,dark}.png and audit/m5-reference-1440-light.png. Local ignored logs retain detailed runs; durable results are captured in audit/m5-verification.json. Historical M3/M4 screenshots overwritten by regression execution were restored from HEAD, preserving earlier phase evidence.
+
+### Findings resolved / verification corrections
+
+1. **Wheel listener:** React's passive wheel handling could emit preventDefault console errors. Replaced with a scoped native passive:false listener and cleanup; actual wheel browser case passes.
+2. **Gesture safety:** source of truth stays unchanged during pointer frames; Escape, lost capture, pointer cancellation and focus leaving for Ctrl+K cancel safely. A compiled follow-up reproduced an Escape palette drop still adding a component; cancellation now suppresses the trailing pointer click. Final Chrome/Edge checks verify no node was added.
+3. **Remote replacement:** reads arriving during a clean drag were protected but needed reconsideration after cancellation. Gesture/input dependencies and focus-refetch policy now apply held clean revisions after cancellation. The browser harness dispatches window visibilitychange, matching the installed TanStack listener; its earlier document-target timeout was a test mistake.
+4. **Imported positions and visual boundary:** keyboard movement preserves exact12/48 deltas from non-grid imported coordinates; pointer drags still snap. Explicit M5 CSS overrides the prototype's900px hide rule, so the stated900px boundary actually works. Description/assumptions moved below the canvas; the final creation/reload journey passes.
+5. **False staleness:** layout-only saves previously caused revision-based stale labels. Detailed results compare semantic inputs; dashboard summaries honestly show Earlier revision without inventing model equality.
+6. **Worker timing:** one intermediate full run had173 passes/1 real-worker deadline failure under active build/browser load. No runtime deadline or test expectation was loosened. Focused worker/catalog rerun passed14/14; final full suite passed174/174. Temporary resource contention is a plausible explanation, not proven causality; the earlier timeout is retained as a reliability observation.
+
+### Decisions, limits and remaining work
+
+- [Verified] No new dependency, schema/migration or environment setting. Pure SVG/React reuse the approved stack. Static source glyph HTML is trusted constant data; user labels never enter raw HTML.
+- [Verified] M5 services/database are isolated: labelled audit PostgreSQL5548/Redis6395, API5003/web3003; process-only audit auth limit300. Normal data/services and .env remain unchanged. No paid usage or production operation.
+- [Verified] Palette grouping follows live catalog categories; source design language is ported, with connection tools and numerical overlays honestly deferred. It is not a claim of final full-prototype fidelity.
+- [Verified] Memory-only unsaved drafts and view state, no cross-tab merge/offline persistence, single API instance and earlier model assumptions remain. Extreme imported extents can exceed a single view at minimum30% zoom; pan/dropdown/focus remain available.
+- [Untested] Firefox/WebKit, formal assistive-technology audit and long-duration soak/storage tests. The50-node frame sample is only a short usability smoke test.
+- [Untested in M5] Separate @dev state matrix and actual API process outage were not repeated; four production dev skips are explicit. M4's independently passed4/4 dev-state and actual API outage evidence remains historical. M5 did test real PostgreSQL/Redis outages and retained editing.
+- [Verified] The three inherited backend transitive advisories remain triaged in section14; no dependency scan was refreshed and no version changed. A scoped functional pass does not mean a clean security audit.
+- [Verified] Phase1 and M3/M4 regression verdicts remain unchanged. M6–M9 remain required before calling Phase2 complete: connections/deletion/undo/save refinements, full Traffic/Results, preview/Limits/load overlay and final integration acceptance.
+
+**M5 verdict: COMPLETE for approved fundamentals; no unresolved mandatory M5 functional failure observed in the completed gates.** Changes remain local on codex/phase2-contracts, with no GitHub push. The pre-existing modified audit/m2-profile-source.json is preserved and excluded. Future milestone completion MUST update this same report, preserve earlier phase history, record new verification evidence and reassess affected earlier requirements; nothing updates automatically.
+
+M5 local implementation checkpoint: **30ea144**. Final audit health and Swagger both returned200 before cleanup. Stopped only verified audit API5003/web3003 and the two containers labelled stressforge.audit=m5; databases/containers retained for reproducibility. Normal Docker PostgreSQL/Redis and pre-existing QA services remained running/healthy. No normal frontend was stopped. Historical screenshots were restored, the unrelated M2 profile stays uncommitted, and no GitHub push occurred.

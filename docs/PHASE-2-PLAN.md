@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; M4 subsequently approved and implemented; acceptance evidence is recorded in the living report. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
+**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; M4 subsequently approved and implemented; M5 canvas scope explicitly approved and implemented; acceptance evidence is recorded in the living report. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
 
 ## 1. Target and recommendation
 
@@ -155,7 +155,7 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
-Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice implementation and verification are complete; M4–M9 remain Not started. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
+Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice, M4 creation/dashboard and M5 canvas fundamentals are complete; M6–M9 remain Not started. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
 
 | Step | Context/output | Exit evidence |
 | --- | --- | --- |
@@ -255,3 +255,4 @@ Archive formatting note: the original plan text is retained; three Markdown trai
 - 2026-10-24 M3 completed after explicit user approval: owned persistence/revisions, safe asynchronous simulation admission/idempotency/recovery/retention, template-backed replica/save/results/reopen UI and focused failure coverage.146 unit/31 e2e/44 frontend/16 browser checks passed;4 dev-only browser cases intentionally skipped in production. Phase2 remains in progress; M4–M9 require subsequent authorization.
 
 - 2026-10-24 M4: user explicitly approved the reviewed Creation/dashboard scope and recommended decisions. Implemented four creation paths, source-parity scripted drafting, strict non-persistent preparation, persistent assumptions, honest stored-result dashboard and confirmed deletion. See [M4 guide](M4-CREATION-DASHBOARD.md) and progress-report section15 for evidence and limitations. M5–M9 still require authorization; M4 does not deliver the drawing canvas, real AI or complete Phase2.
+- 2026-10-24 M5: approved canvas fundamentals implemented: twelve catalog types, SVG selection/movement/properties, palette drops, pan/zoom/fit/minimap, keyboard alternatives and guarded persistence. See [M5 guide](M5-CANVAS.md) and report section16 for final acceptance evidence. Existing edges render; editing connections, deleting/duplicating components and undo/redo remain M6 and require subsequent approval. Phase2 overall remains in progress.

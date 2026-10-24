@@ -6,7 +6,7 @@ Draw a system architecture on a canvas, let a simulator find its bottlenecks und
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and remaining dependency follow-ups.
 
-Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M2 complete locally; the first usable design/save/run journey is M3). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
+Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M5 complete locally; connections and undo are next in M6). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
 
@@ -102,4 +102,4 @@ From the root, after building the backend, `node docs/audit/phase1-regressions.c
 
 Backend engine/worker checks and model limitations: [Simulation model (M2)](docs/SIMULATION-MODEL.md). M3 now adds owned saved designs, template/replica editing and asynchronous simulation results. See [M3 run guide](docs/M3-SAVED-DESIGNS.md). Run backend pnpm migration:run before starting the updated API.
 
-M4 adds all four creation paths at /new and the saved-design dashboard. See [M4 creation/dashboard guide](docs/M4-CREATION-DASHBOARD.md). Start/restart the existing backend and frontend; no new package installation, migration or environment value is needed for M4. Blank drafts save now; drawing/connecting tools remain M5–M6.
+M4 adds all four creation paths at /new and the saved-design dashboard. See [M4 creation/dashboard guide](docs/M4-CREATION-DASHBOARD.md). Start/restart the existing backend and frontend; no new package installation, migration or environment value is needed for M4. M5 adds the interactive palette, movement, properties, pan/zoom/fit and minimap. See [M5 canvas guide](docs/M5-CANVAS.md). Restart the existing backend/frontend; no new dependency, migration or environment value is needed. Connections and undo/redo remain M6.

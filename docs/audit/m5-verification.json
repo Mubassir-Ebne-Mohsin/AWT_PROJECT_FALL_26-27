@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M5 canvas fundamentals",
+  "implementationCommit": "30ea144",
+  "cleanup": {"finalHealth":200,"finalSwagger":200,"auditProcessesStopped":true,"labelledM5ContainersStoppedAndRetained":true,"normalServicesPreserved":true},
+  "verdict": "complete for approved scope; Phase2 in progress",
+  "publication": "local only, codex/phase2-contracts",
+  "runtime": {
+    "node": "22.23.4",
+    "apiPort": 5003,
+    "webPort": 3003,
+    "postgresPort": 5548,
+    "redisPort": 6395,
+    "browserDatabase": "sf_m5_audit",
+    "e2eDatabase": "sf_m5_e2e",
+    "normalDataUntouched": true
+  },
+  "checks": {
+    "backendBuild": "pass",
+    "backendTypecheck": "pass",
+    "backendLint": {
+      "status": "pass",
+      "errors": 0,
+      "inheritedWarnings": 22
+    },
+    "backendUnit": {
+      "command": "TEST_REDIS_COMPOSE=1 pnpm test --runInBand",
+      "passed": 174,
+      "suites": 12,
+      "seconds": 61.285,
+      "skipped": 0
+    },
+    "backendE2e": {
+      "command": "pnpm test:e2e --runInBand",
+      "passed": 44,
+      "suites": 2,
+      "seconds": 54.787,
+      "realPostgres": true,
+      "redisAndThrottle": "existing doubles"
+    },
+    "frontendUnit": {
+      "command": "pnpm test",
+      "passed": 73,
+      "seconds": 33.272
+    },
+    "frontendBuild": "pass",
+    "frontendTypecheck": "pass",
+    "frontendLint": "pass",
+    "routeRegistry": {
+      "passed": 35
+    },
+    "liveApiTypes": "pass, unchanged",
+    "chromeRegressionCheckpoint": {
+      "passed": 84,
+      "skippedDevOnly": 4,
+      "minutes": 6.8,
+      "timing": "before final cancellation/layout changes"
+    },
+    "chromeFinal": {
+      "passed": 32,
+      "minutes": 3.4,
+      "projects": [
+        "1024-light",
+        "1024-dark",
+        "1440-light",
+        "1440-dark"
+      ],
+      "selection": "m5.spec.ts, m5-boundary.spec.ts and full M4 creation journey",
+      "timing": "after all application changes"
+    },
+    "edgeFinal": {
+      "passed": 7,
+      "seconds": 47.6,
+      "project": "1440-light",
+      "selection": "m5.spec.ts and m5-boundary.spec.ts"
+    },
+    "focusedCoverage": {
+      "geometry": {
+        "line": 100,
+        "branch": 100,
+        "function": 100
+      },
+      "model": {
+        "line": 92.06,
+        "branch": 87.23,
+        "function": 100
+      },
+      "scope": "transpiled helper tests, not whole-application coverage"
+    },
+    "realServiceOutages": {
+      "postgresHealthDown": 503,
+      "redisHealthDown": 503,
+      "recoveredHealth": 200,
+      "nodePositionsRetained": true,
+      "explicitSaveRecovered": true
+    }
+  },
+  "intermediateFailure": {
+    "test": "Bounded real worker execution deterministic TS worker",
+    "result": "deadline exceeded in one full run, 173 passed/1 failed",
+    "focusedRerun": "14/14 pass",
+    "finalFullRerun": "174/174 pass",
+    "runtimeDeadlineChanged": false,
+    "interpretation": "resource contention plausible but not proven"
+  },
+  "screenshots": [
+    "m5-canvas-1024-light.png",
+    "m5-canvas-1024-dark.png",
+    "m5-canvas-1440-light.png",
+    "m5-canvas-1440-dark.png",
+    "m5-reference-1440-light.png"
+  ],
+  "limits": [
+    "M6 connections/deletion/duplication/undo deferred",
+    "M7 full Traffic/Results deferred",
+    "M8 live load/preview/Limits deferred",
+    "Memory-only unsaved/view state",
+    "Firefox/WebKit/formal AT/soak untested",
+    "Dev state matrix and API-process outage not repeated in M5; historical M4 evidence retained",
+    "Three inherited backend advisories not rescanned",
+    "Short maximum-graph frame sample is not benchmark"
+  ],
+  "packagesChanged": false,
+  "migrationsChanged": false,
+  "envFilesChanged": false,
+  "referenceFilesChanged": false,
+  "engineBehaviorChanged": false,
+  "paidUsage": false,
+  "maintenance": "Update the same STRESSFORGE-PROGRESS-REPORT.md at later milestone completion, preserve history, add observed evidence and reassess touched earlier requirements. No automatic updates."
+}
