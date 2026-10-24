@@ -8,5 +8,5 @@ export function confirmDraftNavigation(path: string) {
   const current = location.pathname.match(/^\/designs\/([^/]+)/)?.[1];
   const next = new URL(path, location.href);
   if (current && next.origin === location.origin && next.pathname.startsWith("/designs/" + current + "/")) return true;
-  return window.confirm("Leave with unsaved changes? Memory-only drafts cannot survive a page reload.");
+  return window.confirm("Leave with unsaved changes or an unconfirmed calculation? Memory-only recovery cannot survive a page reload.");
 }

@@ -78,3 +78,37 @@ test("server-trimmed names acknowledge only the submitted value",async()=>{
   newer.rename("submitted  ");const pending=newer.save();newer.rename("newer  ");release();await pending;
   assert.equal(newer.state.design.name,"newer  ");assert.equal(newer.state.saved.name,"submitted");assert.equal(newer.dirty,true);
 });
+test("uncertain acceptance retains its identity after a rate-limit response",async()=>{
+  const bodies=[];
+  const s=new EditorSession(design(),undefined,async(_id,b)=>{bodies.push(b);if(bodies.length===1)throw new ApiError("NETWORK","lost",0);if(bodies.length===2)throw new ApiError("RATE_LIMITED","slow down",429);return {run:{id:"original",status:"pending"},statusUrl:""}});
+  await assert.rejects(s.run());const key=s.state.intent.requestId;await assert.rejects(s.run());
+  assert.equal(s.state.intent?.requestId,key);await s.run();assert.deepEqual(bodies,[bodies[0],bodies[0],bodies[0]]);
+});
+test("discarding a draft conflict does not discard uncertain calculation acceptance",async()=>{
+  const s=new EditorSession(design(),undefined,async()=>{throw new ApiError("NETWORK","lost",0)});
+  await assert.rejects(s.run());const intent=s.state.intent;
+  s.reload({...design(),revision:2});assert.deepEqual(s.state.intent,intent);
+});
+test("clean drafts adopt only newer server revisions and dirty drafts stay untouched",()=>{
+  const s=new EditorSession(design());s.receiveServer({...design(),revision:2,name:"remote"});assert.equal(s.state.design.name,"remote");
+  s.receiveServer({...design(),revision:1,name:"old response"});assert.equal(s.state.design.name,"remote");
+  s.rename("mine");s.receiveServer({...design(),revision:3,name:"new remote"});assert.equal(s.state.design.name,"mine");assert.equal(s.state.saved.revision,2);
+});
+test("an incoming server snapshot cannot overwrite an in-flight submitted edit",async()=>{
+  let release;const s=new EditorSession(design(),async(_id,b)=>{await new Promise(r=>{release=r});return {...design(),...b,revision:2}});
+  s.rename("mine");const saving=s.save();s.receiveServer({...design(),revision:3,name:"remote"});assert.equal(s.state.design.name,"mine");release();await saving;
+  s.receiveServer({...design(),revision:3,name:"remote"});assert.equal(s.state.design.name,"remote");
+});
+test("unconfirmed calculation acceptance is unsettled even when the draft is saved",async()=>{
+  const s=new EditorSession(design(),undefined,async()=>{throw new ApiError("NETWORK","lost",0)});assert.equal(s.hasUnsettledWork,false);
+  await assert.rejects(s.run());assert.equal(s.dirty,false);assert.equal(s.hasUnsettledWork,true);
+});
+test("authentication failure on an uncertain retry preserves the request id",async()=>{
+  let attempts=0;const s=new EditorSession(design(),undefined,async()=>{if(++attempts===1)throw new ApiError("NETWORK","lost",0);throw new ApiError("SESSION_EXPIRED","login",401)});
+  await assert.rejects(s.run());const intent=s.state.intent;await assert.rejects(s.run());assert.deepEqual(s.state.intent,intent);
+});
+test("a disposed account cannot return a late acceptance to its navigation handler",async()=>{
+  let finish;const s=new EditorSession(design(),undefined,async()=>new Promise(resolve=>{finish=resolve}));
+  const pending=s.run();await new Promise(resolve=>setImmediate(resolve));s.dispose();finish({run:{id:"old-account-run",status:"pending"},statusUrl:""});
+  await assert.rejects(pending,/session has ended/);assert.equal(s.state.run,undefined);
+});

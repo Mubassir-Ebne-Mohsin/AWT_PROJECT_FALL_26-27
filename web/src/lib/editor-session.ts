@@ -16,6 +16,10 @@ export class EditorSession {
   getSnapshot = () => this.state;
   subscribe = (fn: () => void) => { this.listeners.add(fn); return () => { this.listeners.delete(fn); }; };
   get dirty() { return !sameDraft(this.state.design, this.state.saved); }
+  get hasUnsettledWork() { return this.dirty || this.state.saving || this.state.running || !!this.state.intent; }
+  receiveServer(design: Design) {
+    if (design.id === this.state.design.id && !this.dirty && !this.state.saving && design.revision > this.state.saved.revision) this.update({ design, saved: design, error: "", conflict: false });
+  }
   private update(value: Partial<EditorState>) { if (!this.disposed) { this.state = { ...this.state, ...value }; this.listeners.forEach(fn => fn()); } }
   edit(graph: Graph) { this.update({ design: { ...this.state.design, graph }, error: this.state.conflict ? this.state.error : "" }); }
   rename(name: string) { this.update({ design: { ...this.state.design, name }, error: this.state.conflict ? this.state.error : "" }); }
@@ -43,11 +47,12 @@ export class EditorSession {
     })();
     await this.saving;
   }
-  reload(design: Design) { this.update({ design, saved: design, error: "", conflict: false, intent: undefined }); }
+  reload(design: Design) { this.update({ design, saved: design, error: "", conflict: false }); }
   reapply(current: Design) { this.update({ saved: current, design: { ...this.state.design, revision: current.revision }, conflict: false, error: "" }); }
   abandonUncertainIntent() { this.update({ intent: undefined, error: "" }); }
   setRun(run: DesignRun) { this.update({ run }); }
-  get stale() { const r = this.state.run; return !!r && (r.designRevision !== this.state.saved.revision || semanticInput(this.state.design) !== semanticInput({ ...this.state.design, graph: r.snapshot.graph, traffic: r.snapshot.traffic })); }
+  get stale() { return this.isRunStale(this.state.run); }
+  isRunStale(r?: DesignRun) { return !!r && (r.designRevision !== this.state.saved.revision || semanticInput(this.state.design) !== semanticInput({ ...this.state.design, graph: r.snapshot.graph, traffic: r.snapshot.traffic })); }
   async run(): Promise<AcceptedRun> {
     if (this.disposed) throw new Error("This account session has ended");
     if (this.state.running) throw new Error("Submission already in progress");
@@ -63,11 +68,12 @@ export class EditorSession {
       if (Date.now() - intent.startedAt >= 24 * 3600000) throw new Error("Acceptance is unknown beyond the 24-hour retry guarantee. Check stored runs before starting a new calculation.");
       if (this.disposed) throw new Error("This account session has ended");
       const accepted = await this.submit(this.state.design.id, { requestId: intent.requestId, expectedRevision: intent.expectedRevision });
+      if (this.disposed) throw new Error("This account session has ended");
       this.update({ run: accepted.run, intent: undefined });
       return accepted;
     } catch (error) {
       // Network/5xx can hide acceptance. Preserve the original request identity for Retry.
-      if (error instanceof ApiError && error.status >= 400 && error.status < 500) this.update({ intent: undefined });
+      if (error instanceof ApiError && [404, 409, 422].includes(error.status)) this.update({ intent: undefined });
       this.update({ error: error instanceof Error ? error.message : "Run submission failed" });
       throw error;
     } finally { this.update({ running: false }); }

@@ -17,7 +17,7 @@ export function DraftProvider({ children }: { children: ReactNode }) {
     });
   }, [sessions]);
   useEffect(() => {
-    const dirty = () => [...sessions.values()].some(s => s.dirty);
+    const dirty = () => [...sessions.values()].some(s => s.hasUnsettledWork);
     const unregister = registerDraftGuard(dirty);
     const unload = (e: BeforeUnloadEvent) => { if (dirty()) { e.preventDefault(); e.returnValue = ""; } };
     const click = (e: MouseEvent) => {

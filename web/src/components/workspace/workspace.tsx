@@ -12,16 +12,18 @@ import { RoutePlaceholder } from "@/components/placeholder";
 import { resolveRoute } from "@/lib/routes";
 import { WS_TABS } from "@/lib/catalog";
 import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
+import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
 export function Workspace({ id, tab }: { id: string; tab: string }) {
   const { user } = useAuth();
-  const design = useQuery({ queryKey: ["design", user?.id, id], queryFn: () => fetchDesign(id), enabled: !!user });
+  const design = useQuery({ queryKey: ["design", user?.id, id], queryFn: () => fetchDesign(id), enabled: !!user && ["edit", "results"].includes(tab), refetchOnMount: "always", refetchOnWindowFocus: true });
   if (!["edit","results"].includes(tab)) return <RoutePlaceholder />;
   if (!design.data) return <div className="page" role="status">{design.isError ? "Could not load this design." : "Loading design…"}</div>;
   return <LoadedWorkspace key={user!.id + id} initial={design.data} tab={tab} />;
 }
 function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   const drafts = useDrafts(), { user } = useAuth(), router = useRouter(), queries = useQueryClient(), search = useSearchParams();
+  const isActive = useActiveView();
   const [session] = useState(() => {
     const key = user!.id + ":" + initial.id;
     let value = drafts.get(key);
@@ -33,8 +35,10 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   const [current, setCurrent] = useState<Design | null>(null);
   const [actionError, setActionError] = useState("");
   const node = state.design.graph.nodes.find(n => n.id === selected);
-  const runId = state.run?.id ?? search.get("run");
+  const runId = search.get("run") ?? state.run?.id;
   const runQuery = useQuery({ queryKey: ["run", user?.id, initial.id, runId], queryFn: ({ signal }) => fetchRun(initial.id, runId!, signal), enabled: !!runId, refetchInterval: q => q.state.data?.status === "pending" ? 600 : false });
+  const displayedRun = runQuery.data?.id === runId ? runQuery.data : state.run?.id === runId ? state.run : undefined;
+  useEffect(() => { session.receiveServer(initial); }, [session, initial, state.saving, state.design]);
   useEffect(() => { if (runQuery.data && runQuery.data.id === runId) session.setRun(runQuery.data); }, [runQuery.data, runId, session]);
   useEffect(() => {
     if (!session.dirty || state.conflict || state.saving || state.error) return;
@@ -43,7 +47,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   }, [session, state.design, state.conflict, state.saving, state.error, queries]);
   async function run() {
     setActionError("");
-    try { const accepted = await session.run(); await queries.invalidateQueries({ queryKey: ["dashboard"] }); router.replace("/designs/" + initial.id + "/results?run=" + accepted.run.id); }
+    try { const accepted = await session.run(); if (!isActive()) return; await queries.invalidateQueries({ queryKey: ["dashboard"] }); if (!isActive()) return; router.replace("/designs/" + initial.id + "/results?run=" + accepted.run.id); }
     catch { /* Session keeps a retryable identity and the draft. */ }
   }
   async function resolveConflict() {
@@ -88,7 +92,8 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
           <p className="hint">{state.design.traffic.rps} rps ×{state.design.traffic.burst} burst · p95 target {state.design.traffic.sloP95} ms</p>
         </aside>
       </div> : null}
-      <RunResults run={state.run} stale={session.stale} />
+      {runQuery.isError && <div className="note fail" role="alert"><p>Could not load the selected result.</p><button className="btn" onClick={() => runQuery.refetch()}>Retry loading result</button></div>}
+      <RunResults run={displayedRun} stale={session.isRunStale(displayedRun)} />
     </div>
   </div>;
 }

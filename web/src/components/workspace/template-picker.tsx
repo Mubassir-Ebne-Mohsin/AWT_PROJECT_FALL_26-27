@@ -2,18 +2,20 @@
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useActiveView } from "@/lib/use-active-view";
 import { Crumbs } from "@/components/shell/crumbs";
 import { resolveRoute } from "@/lib/routes";
 import { createDesign, fetchTemplates, Template } from "@/lib/api/designs";
 export function TemplatePicker() {
+  const isActive = useActiveView();
   const templates = useQuery({ queryKey: ["templates"], queryFn: fetchTemplates });
   const [pending, setPending] = useState(false), [error, setError] = useState("");
   const router = useRouter(), queries = useQueryClient();
   async function choose(t: Template) {
     if (pending) return;
     setPending(true); setError("");
-    try { const d = await createDesign(t); await queries.invalidateQueries({ queryKey: ["dashboard"] }); router.push("/designs/" + d.id + "/edit"); }
-    catch (e) { setError(e instanceof Error ? e.message : "Could not create design"); setPending(false); }
+    try { const d = await createDesign(t); if (!isActive()) return; await queries.invalidateQueries({ queryKey: ["dashboard"] }); if (!isActive()) return; router.push("/designs/" + d.id + "/edit"); }
+    catch (e) { if (!isActive()) return; setError(e instanceof Error ? e.message : "Could not create design"); setPending(false); }
   }
   return <div className="page stack lg">
     <Crumbs resolved={resolveRoute("/new/template")} />

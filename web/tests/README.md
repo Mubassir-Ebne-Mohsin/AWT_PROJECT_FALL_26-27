@@ -20,3 +20,7 @@ Four projects cover 1024/1440 pixels by light/dark. Each project visits all 35 r
 Web Locks serialize same-origin tab refreshes against the latest httpOnly cookie. Browsers lacking Web Locks retain only per-tab single flight; no insecure persistent token or ad-hoc storage lock fallback is used. The isolated-module unit test deterministically simulates rotating-cookie contention; the browser test additionally exercises real shared cookies and the live backend.
 
 Installed Next 16.4.2 docs (`node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/error.md`) recommend `retry()` for refetch/recovery and expose `reset()` for rerender without refetch. Both segment/global recovery buttons have rendered click tests. Browser state tests do not inject a root-layout exception into the running app; framework-driven global-boundary fault injection remains separate integration coverage.
+
+## M3 deep audit isolation
+
+Use a disposable API/database/Redis instance. Set NEXT_PUBLIC_API_URL=http://localhost:5003/v1 and STRESSFORGE_AUDIT_BUILD=1 before pnpm build and pnpm start --port 3003; this uses ignored .next-audit output instead of replacing a running development build. Set SF_WEB_URL=http://localhost:3003 and SF_API_URL=http://localhost:5003/v1 for Playwright. m3-deep.spec.ts covers selected stored results, clean remote edits, default-property autosave stability, lost acceptance plus429, and dirty-draft session reauthentication. Existing request limits remain in force; the dedicated Redis instance keeps test counters separate from normal use.
