@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M2 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; the first usable design journey awaits M3 approval. See sections 11–12.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M3 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 implements the first usable design journey; see section13 for its verification and limitations.
 
 ## 1. Maintenance instructions
 
@@ -43,12 +43,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3–M9 not started. See section 12; local Phase 2 changes not yet published |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 first saved-design journey complete; M4–M9 not started. See section13; local Phase 2 changes not yet published |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification covers M0–M2; the backend engine/worker is verified, but no user-facing design flow is complete.
+Phase 1 has a complete Foundation audit; Phase 2 verification now includes the M3 saved-design journey; full Phase2 completion still requires M4–M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -304,6 +304,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-24 — M3 implementation:** Explicit user approval; owned designs/runs, asynchronous persistent simulation lifecycle, template/replica/save/results/reopen flow and focused failure tests added. All gates passed:146 backend unit/31 API e2e/44 frontend/16 browser checks;4 dev-only browser cases intentionally skipped. Section13 records evidence and limits. Changes remain local.
 
 - **2026-10-24 — M2 completed:** User approved M2. Ported and tested the pure TypeScript engine, builders/wire adapter, bounded worker/admission and failure recovery. Six source fixtures match;144 unit/22 e2e/36 frontend regressions plus source/compiled/watch and real-service health checks passed. Local checkpoint only; M3 not started. See section12.
 
@@ -599,3 +601,62 @@ The preserved queueing/lognormal model, probability pruning/compression, saturat
 M2 is committed locally on codex/phase2-contracts, not pushed; GitHub main remains Phase1 baseline9e8bb00. Owned watch/audit processes and audit containers were stopped after checks; normal project services/volumes/data were preserved.
 
 **Next: seek approval for M3**, the first real template → edit replicas → save → asynchronous simulation → results → reopen journey, with ownership/revision/idempotency/save safety from the start. Do not mark Phase 2 complete before M9. Future work must update this same report, preserve prior history, attach fresh evidence and reassess affected earlier requirements; no automatic updates/publication.
+
+## 13. M3 — first saved-design journey (2026-10-24)
+
+**Scope:** user explicitly approved implementing the reviewed M3 recommendation. This is authorized implementation, not a repeat of the historical read-only Phase 1 audit. [Plan](PHASE-2-PLAN.md); [operation/lifecycle guide](M3-SAVED-DESIGNS.md). M4–M9 and Phase 2 overall remain unfinished.
+
+### Requirement/evidence checklist
+
+| M3 requirement | Implementation and observed verification | Status |
+| --- | --- | --- |
+| Owned persistent designs and immutable runs | API/modules/designs, migration 1792800000000-CreateDesigns; real PostgreSQL e2e read/write/delete and app restart; owner FK, run-request uniqueness, status/time indexes | [Verified] |
+| Ownership on every operation | CurrentUser-derived ownership; foreign read/write/delete/run =403, missing =404, wrong design/run pairing =404; account dashboard isolation tested | [Verified] |
+| Safe save/revision conflict | Row lock + expectedRevision; simultaneous writes produce one200/one409; unknown owner fields422; incomplete graph saves but Run422 | [Verified] |
+| Durable admission/idempotency | Matching keys checked before revision/capacity; bounded in-flight coalescing; reserve→transaction→commit→start; concurrent identical requests same run; retained terminal replay200 after later edits; changed identity409 | [Verified] |
+| Compute/failure lifecycle | Pending persisted before202; one pending/account includes DB finalization; real worker crash/timeout→safe failed record; health200; deletion cancels and cascades; failed acceptance releases slots | [Verified] |
+| Restart/recovery/retention | Actual app close/reboot preserves completed snapshot/result and marks interrupted pending row failed; failed finalization recovers after DB restoration; 24h keys protected then newest50 terminal/design; tests cover pruning | [Verified] |
+| Template→edit→save→run→results→reopen | Six source templates; minimal SVG/property form; replica control; autosave/manual save; true model metrics; query-linked stored run and dashboard reopen | [Verified] main flow at1024/1440 light/dark |
+| Minimum save safety | EditorSession serialization, submitted-state acknowledgments, save barrier, retained conflict/failed drafts, same request identity after lost acceptance, stale results, disposed account sessions | [Verified] eight focused frontend tests plus browser recovery |
+| Real contracts/types | /docs-json publishes implemented subset from frozen Zod contracts; schema.d.ts regenerated from running API; preview/Limits remain absent; canonical/planned artifacts unchanged | [Verified] |
+| Documentation and phase boundaries | M3 guide, root/backend README, architecture/contract guide and this report updated; no runtime packages added; no real AI integration | [Verified] source inspection |
+
+### Commands and results
+
+Node v22.23.4, existing pnpm versions. Docker Desktop was initially stopped; started it. Normal Compose services became available; no normal-user tables were migrated/truncated by these checks. Isolated databases: sf_m3_20261024 (e2e) and sf_m3_browser_20261024 (live browser/API).
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build | PASS, exit0 |
+| API pnpm lint:check | PASS, exit0; 0errors,22 inherited warnings, no new M3 warnings |
+| API pnpm typecheck | PASS, exit0; strict source/unit/e2e/setup |
+| API pnpm test --runInBand | PASS, exit0; 146 passed,2 opt-in real-Redis tests skipped; 9 suites passed,1 skipped |
+| API pnpm test:e2e with DB_TEST_DATABASE=sf_m3_20261024 | PASS, exit0; 31 tests (22 Foundation +9 M3), real PostgreSQL, existing Redis/throttle doubles |
+| Fresh live browser DB pnpm migration:run | PASS, exit0; CreateUsers1761000000000 and CreateDesigns1792800000000 applied |
+| Compiled API + production web | Started successfully with real PostgreSQL/Redis; /v1/health and /docs-json available |
+| WEB pnpm test | PASS, exit0;44 tests including8 new editor-session cases |
+| WEB pnpm build, pnpm lint, pnpm typecheck | PASS, exit0 |
+| WEB pnpm gen:api | PASS, exit0; real mounted API source |
+| WEB pnpm check:routes | PASS, exit0;35 registered patterns have page files |
+| API pnpm contract:phase2:check; pnpm fixtures:phase2; WEB pnpm gen:phase2 --check | PASS, exit0; canonical schemas/examples, six source fixtures and minimum-load counterexample unchanged |
+| Browser full regression matrix (pnpm exec playwright test --reporter=dot, SF_BROWSER_CHANNEL=chrome) | PASS, exit0;16 passed,4 dev-only cases intentionally skipped,1.9min;1024/1440 light/dark |
+
+M3 browser main journey passed at four size/theme combinations, collecting page errors and console errors and checking no horizontal overflow. Separate recovery coverage exercises an injected503 save failure, retained replicas, canceled dirty-link navigation, concurrent server save/409, explicit reapply, and a lost successful POST response: retry recovers the original run and exactly one retained row. These controlled browser failures are intentional; their network console messages are not counted as unexpected errors in the happy-path test.
+
+Early verification caught/fixed a TypeORM dashboard query ordering defect and added dashboard ownership/content regression checks. Test-only setup corrections included pre-init Swagger registration, a strict type narrowing correction, using actual owned UUIDs for the former placeholder route matrix, and scoping ambiguous/mobile browser selectors. Initial failed runs are not reported as passing gates.
+
+### Reassessment, boundaries and remaining work
+
+[Verified] Existing Foundation auth/error/client/focus tests and the22 Foundation HTTP tests still pass. A known database connection/restart error now maps to503 UNAVAILABLE without exposing driver details; unrelated SQL/schema faults remain500. Historical Phase1 prohibition on Designs/Simulation was a phase boundary; the later user-approved modules do not invalidate that historical verdict.
+
+[Verified] Screenshots: audit/m3-1024-light.png, m3-1024-dark.png, m3-1440-light.png, m3-1440-dark.png. Aggregate storage snapshot audit/m3-storage.json observed8 MVP run rows, mean JSONB payload4046bytes, max4050bytes, table+indexes163840bytes at capture time. This sample is not a forecast; larger supported outputs retain the M2 size bound. Retention is tested; there is no hidden daily quota.
+
+[Limitations] One API instance only. Interrupted pending jobs fail safely rather than resume computation. Failed finalizations can remain pending until DB recovery plus the bounded recovery interval. Dashboard is the10 most recently edited designs, not the later full library. Browser history traversal preserves memory drafts but has no custom cancellation dialog; broader history/navigation editing behavior belongs to the later editor work. Failed unsaved edits cannot survive reload/closure; beforeunload depends on browser support.
+
+[Untested in M3] New Firefox/WebKit/mobile/screen-reader matrices, fresh advisory audit, real infrastructure calibration and production deployment. Four dev-state browser cases intentionally require next dev and remain separate from production checks; earlier Phase1 evidence is preserved. Existing triaged dependency follow-ups remain. No paid usage, model calls, new runtime dependencies or production-system changes.
+
+M4–M9 remain: complete creation flows, dashboard polish, full canvas/connections/undo/recovery, Traffic/Results charting, Limits/preview UI and final Phase2 acceptance. M3 does not authorize beginning those milestones.
+
+**M3 verdict: COMPLETE for the approved first-slice scope. Phase2 remains IN PROGRESS; M4–M9 are not started.** Changes remain local on codex/phase2-contracts; nothing from this milestone was pushed. The pre-existing modified audit/m2-profile-source.json was preserved and excluded from M3 changes. Future milestone completion must update this same report, retain all earlier history, record new evidence and reassess affected earlier requirements; updates/publication are not automatic.
+
+Local implementation checkpoints: backend6ffd470 and frontend38f3dd5. Health and Swagger returned200 after the final run; live OpenAPI version3.1.0. Only agent-owned verification API/web processes were stopped afterward; normal Docker services, volumes and user data were preserved. The isolated test databases remain available for reproducibility.

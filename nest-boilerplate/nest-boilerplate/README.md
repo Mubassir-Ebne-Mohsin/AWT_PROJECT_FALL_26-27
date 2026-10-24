@@ -76,7 +76,7 @@ The all-dependency audit also reports two moderate file-type advisories through 
 
 ## M2 simulation core
 
-SimulationModule is registered without calculation controllers. No Designs tables/API or canvas are available yet. The pure engine and bounded worker run free locally. See [model/worker documentation](../../docs/SIMULATION-MODEL.md) and the living report for evidence and limits.
+Historical M2: SimulationModule was registered without calculation controllers. M3 now adds Designs tables/owned CRUD and asynchronous simulation; preview/Limits routes remain planned. See [M3 run guide](../../docs/M3-SAVED-DESIGNS.md). Apply pnpm migration:run before starting the updated API. The pure engine and bounded worker run free locally. See [model/worker documentation](../../docs/SIMULATION-MODEL.md) and the living report for evidence and limits.
 
 ```powershell
 pnpm test:simulation

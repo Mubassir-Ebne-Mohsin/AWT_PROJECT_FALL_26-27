@@ -1,4 +1,4 @@
-# StressForge architecture (Phase 1)
+# StressForge architecture (Foundation + Phase 2 through M3)
 
 ## Modules
 
@@ -12,10 +12,12 @@ nest-boilerplate/nest-boilerplate/src
   modules/users                  User entity, UsersService (the only code that touches password hashes)
   modules/auth                   register / login / refresh / logout / me, token rotation, Redis revocation
   modules/health                 GET /v1/health (Postgres + Redis)
+  modules/designs                owned persistence, revisions, asynchronous run lifecycle/recovery
+  modules/simulation             pure model, bounded worker, validation
   providers/                     Postgres (TypeORM), Redis client
   database/                      migrations, seeders
 web/src
-  app/                           one page per registry route; login, register, dashboard are real
+  app/                           one page per registry route; auth, dashboard, template picker and minimum Edit/Results workspace are real
   lib/routes.ts                  the route registry (path, title, area, phase, fidelity, description)
   lib/api/                       typed fetch client, ApiError, refresh, generated schema.d.ts
   components/shell/              top bar, command palette, AI panel, help, shortcuts, feedback, dev switcher
@@ -78,10 +80,12 @@ Success: `{ "data": ..., "meta"?: ... }`. Errors: `{ "error": { "code", "message
 | `UNAVAILABLE` | 503 | "Waking up" page; polls `/v1/health` and returns by itself |
 | (no response) | n/a | Same "waking up" page |
 
-## Phase 2: the mock engine becomes a `SimulationModule`
+## Phase 2 through M3
 
-[mock-engine.js](../nest-boilerplate/nest-boilerplate/docs/stressforge/reference/mock-engine.js) is a pure function of a design graph and a traffic profile. In Phase 2 it moves to `src/modules/simulation` as plain TypeScript (no Nest imports in the engine itself), wrapped by a thin `SimulationService`, so the same code runs in unit tests against textbook queueing results. A `DesignsModule` adds the `designs` table (JSONB graph, owner, traffic) and CRUD; `POST /v1/designs/:id/simulate` and `/limits` return the engine output inside the standard envelope. The frontend reuses the route placeholders for Traffic, Results and Limits and adds the canvas editor. What Phase 1 provides for this: authenticated users, ownership via `@CurrentUser()`, validation with zod DTOs, the envelope and error codes, generated API types, and the system-state pages.
+The pure TypeScript model and bounded worker live in modules/simulation; the engine has no Nest/database dependencies. DesignsModule owns JSONB graph/traffic, revisions and immutable run payloads, authorized through the existing CurrentUser identity. See [M3 lifecycle/run guide](M3-SAVED-DESIGNS.md) and [model limits](SIMULATION-MODEL.md).
 
-M1 (2026-10-24) freezes the planned graph/traffic/design/run contracts in backend src/common/contracts/phase2. See [contract guide](contracts/README.md). Generated planned OpenAPI/types remain separate from live /docs-json. M2 registers a controller-free SimulationModule with a lazy bounded worker; no Designs controller or migration exists yet. Explicit Run/Limits will return202 plus a status URL; retained terminal retries return200. M2 has ported/profiled the engine; M3 adds persistence and the safe asynchronous lifecycle.
+POST /v1/designs/:id/simulate commits pending inputs before returning202 and a status URL; a matching terminal replay returns200. Browser polling retrieves the stored result. A short row-lock transaction protects saves/admission; computation never holds the transaction. A single API process coalesces request keys and enforces one pending run/account. Startup marks interrupted work failed; periodic reconciliation repairs orphaned pending rows after database recovery. Deletion cascades runs and cancels local reservations. Keys are protected24h, then the latest50 terminal runs/design are retained.
 
-M2 separates pure typed model functions from SimulationService and SimulationExecutor (one worker, four waiting jobs, queue-inclusive deadlines, preview preemption, strict reply identities). See [model and execution](SIMULATION-MODEL.md) for measured bounds and numerical limitations. The scheduler is memory-only; database acceptance/idempotency/restart handling remain M3.
+The frontend ports the template picker and minimum workspace into existing URLs. Memory-only EditorSession state above the system-screen boundary protects serialized saves, newer in-flight edits, conflicts and uncertain run acceptance. Owned dashboard cards reopen stored designs/results; model estimates are explicitly labelled. Access tokens remain memory-only and existing refresh/session behavior is reused.
+
+Live /docs-json exposes only mounted M3 operations using the frozen Zod contracts. Full planned Phase2 contracts/types remain in docs/contracts and phase2-schema.d.ts; frontend production calls use schema.d.ts generated from the running API. Preview/Limits HTTP routes, advanced creation, full canvas/edges/undo and polished Traffic/Results/Limit tabs remain later milestones. No new runtime dependencies or real AI calls.

@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-24",
+  "database": "sf_m3_browser_20261024",
+  "note": "Observed local test dataset; not a growth forecast or storage quota",
+  "rows": 8,
+  "mean_payload_bytes": 4046,
+  "maximum_payload_bytes": 4050,
+  "table_and_indexes_bytes": 163840
+}

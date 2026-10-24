@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; next checkpoint before M3. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
+**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; checkpoint before M4. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
 
 ## 1. Target and recommendation
 
@@ -155,7 +155,7 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
-Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3–M9 remain Not started. M0 is baseline preparation, not new functionality.
+Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice implementation and verification are complete; M4–M9 remain Not started. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
 
 | Step | Context/output | Exit evidence |
 | --- | --- | --- |
@@ -251,3 +251,5 @@ Counterexample: Clients→App, capacity1rps/latency1ms/burst2/readRatio1/p95targ
 Archive formatting note: the original plan text is retained; three Markdown trailing-space hard breaks were normalized when committing the archive on 2026-10-24.
 
 - 2026-10-24 M2 completed after explicit user approval: typed model/builders/wire adapter, six-fixture parity, bounded worker/admission, failure recovery and real-health/source/compiled/watch checks. Bounds frozen and limitations documented in SIMULATION-MODEL.md. M3 not started; await approval for the first usable design journey.
+
+- 2026-10-24 M3 completed after explicit user approval: owned persistence/revisions, safe asynchronous simulation admission/idempotency/recovery/retention, template-backed replica/save/results/reopen UI and focused failure coverage.146 unit/31 e2e/44 frontend/16 browser checks passed;4 dev-only browser cases intentionally skipped in production. Phase2 remains in progress; M4–M9 require subsequent authorization.

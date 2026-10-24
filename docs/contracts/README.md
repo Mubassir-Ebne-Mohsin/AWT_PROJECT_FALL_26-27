@@ -87,3 +87,7 @@ Change canonical schemas first; regenerate OpenAPI/types; inspect diffs; update 
 ## M2 provider progress (2026-10-24)
 
 The typed engine/wire adapter and controller-free worker module now implement these calculation shapes and pass source parity. See [model documentation](../SIMULATION-MODEL.md). All HTTP operations in phase2.openapi.json remain planned until M3; no schema shape or generated type changed in M2. Memory-only scheduling does not provide database idempotency/durability.
+
+## M3 live subset (2026-10-24)
+
+Owned design CRUD/validation/simulation/run polling, catalog/templates and dashboard are now mounted. Live /docs-json uses their canonical schemas with implemented operation markers and OpenAPI3.1; web schema.d.ts is regenerated from it. Preview and Limits HTTP operations remain planned/unmounted; phase2.openapi.json and phase2-schema.d.ts remain the full planned contract. See [M3 guide](../M3-SAVED-DESIGNS.md).
