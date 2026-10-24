@@ -1,0 +1,376 @@
+{
+  "engineVersion": "reference-port-v1",
+  "components": [
+    {
+      "type": "client",
+      "label": "Clients",
+      "short": "Users",
+      "category": "Entry",
+      "capacity": {
+        "kind": "unbounded"
+      },
+      "latency": 0,
+      "behavior": "none",
+      "blurb": "Where requests start. Its region is where your users are.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "region",
+        "share"
+      ]
+    },
+    {
+      "type": "cdn",
+      "label": "CDN",
+      "short": "CDN",
+      "category": "Edge",
+      "capacity": {
+        "kind": "finite",
+        "value": 40000
+      },
+      "latency": 12,
+      "behavior": "shed",
+      "blurb": "Answers cacheable reads at an edge location near users.",
+      "defaults": {
+        "replicas": 1,
+        "hitRatio": 0.6
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "hitRatio"
+      ]
+    },
+    {
+      "type": "lb",
+      "label": "Load balancer",
+      "short": "LB",
+      "category": "Routing",
+      "capacity": {
+        "kind": "finite",
+        "value": 20000
+      },
+      "latency": 1,
+      "behavior": "shed",
+      "blurb": "Spreads requests across the servers behind it.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "gateway",
+      "label": "API gateway",
+      "short": "Gateway",
+      "category": "Routing",
+      "capacity": {
+        "kind": "finite",
+        "value": 8000
+      },
+      "latency": 3,
+      "behavior": "shed",
+      "blurb": "Auth, rate limits and routing in front of your services.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "app",
+      "label": "App server",
+      "short": "App",
+      "category": "Compute",
+      "capacity": {
+        "kind": "finite",
+        "value": 600
+      },
+      "latency": 22,
+      "behavior": "shed",
+      "blurb": "Runs your request handlers. Scale out with replicas.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "worker",
+      "label": "Worker",
+      "short": "Worker",
+      "category": "Compute",
+      "capacity": {
+        "kind": "finite",
+        "value": 250
+      },
+      "latency": 60,
+      "behavior": "backlog",
+      "blurb": "Pulls jobs from a queue and processes them in the background.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "cache",
+      "label": "Cache",
+      "short": "Cache",
+      "category": "Data",
+      "capacity": {
+        "kind": "finite",
+        "value": 30000
+      },
+      "latency": 1.2,
+      "behavior": "shed",
+      "blurb": "In-memory store for hot reads. Misses fall through to the database.",
+      "defaults": {
+        "replicas": 1,
+        "hitRatio": 0.8
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region",
+        "hitRatio"
+      ]
+    },
+    {
+      "type": "db",
+      "label": "Database",
+      "short": "DB",
+      "category": "Data",
+      "capacity": {
+        "kind": "finite",
+        "value": 1800
+      },
+      "latency": 6,
+      "behavior": "timeout",
+      "blurb": "Primary database. Takes every write and any reads sent to it.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "replica",
+      "label": "Read replica",
+      "short": "Replica",
+      "category": "Data",
+      "capacity": {
+        "kind": "finite",
+        "value": 1800
+      },
+      "latency": 6,
+      "behavior": "timeout",
+      "blurb": "Read-only copy of the primary. Takes reads and replays every write.",
+      "defaults": {
+        "replicas": 1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region"
+      ]
+    },
+    {
+      "type": "queue",
+      "label": "Queue",
+      "short": "Queue",
+      "category": "Async",
+      "capacity": {
+        "kind": "finite",
+        "value": 12000
+      },
+      "latency": 2,
+      "behavior": "reject",
+      "blurb": "Accepts work now and hands it to workers at their own pace.",
+      "defaults": {
+        "replicas": 1,
+        "maxDepth": 500000
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region",
+        "maxDepth"
+      ]
+    },
+    {
+      "type": "storage",
+      "label": "Object storage",
+      "short": "Storage",
+      "category": "Data",
+      "capacity": {
+        "kind": "finite",
+        "value": 3500
+      },
+      "latency": 35,
+      "behavior": "shed",
+      "blurb": "Files and media, S3-style. A share of reads fetch from it.",
+      "defaults": {
+        "replicas": 1,
+        "share": 0.15
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region",
+        "share"
+      ]
+    },
+    {
+      "type": "external",
+      "label": "Third-party API",
+      "short": "External",
+      "category": "External",
+      "capacity": {
+        "kind": "finite",
+        "value": 150
+      },
+      "latency": 180,
+      "behavior": "shed",
+      "blurb": "A service you call but do not run, such as payments or email.",
+      "defaults": {
+        "replicas": 1,
+        "share": 0.1
+      },
+      "editableProperties": [
+        "replicas",
+        "capacity",
+        "latency",
+        "region",
+        "share"
+      ]
+    }
+  ],
+  "regions": [
+    {
+      "id": "us-east",
+      "label": "US East"
+    },
+    {
+      "id": "eu-west",
+      "label": "EU West"
+    },
+    {
+      "id": "ap-south",
+      "label": "Asia South"
+    }
+  ],
+  "trafficDefaults": {
+    "preset": "custom",
+    "rps": 500,
+    "burst": 1.5,
+    "readRatio": 0.8,
+    "sloP95": 300,
+    "errorBudget": 0.01,
+    "durationMin": 10,
+    "shape": "steady"
+  },
+  "presets": [
+    {
+      "id": "steady",
+      "name": "Steady weekday",
+      "note": "Normal working-hours load with small bumps.",
+      "traffic": {
+        "preset": "steady",
+        "rps": 400,
+        "burst": 1.2,
+        "readRatio": 0.8,
+        "sloP95": 300,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      }
+    },
+    {
+      "id": "evening",
+      "name": "Evening peak",
+      "note": "The busiest hour of a normal day.",
+      "traffic": {
+        "preset": "evening",
+        "rps": 1200,
+        "burst": 1.5,
+        "readRatio": 0.85,
+        "sloP95": 300,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      }
+    },
+    {
+      "id": "flash",
+      "name": "Flash sale",
+      "note": "Short spikes at 3x while carts and orders surge.",
+      "traffic": {
+        "preset": "flash",
+        "rps": 1400,
+        "burst": 3,
+        "readRatio": 0.6,
+        "sloP95": 400,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "spike"
+      }
+    },
+    {
+      "id": "launch",
+      "name": "Launch day",
+      "note": "Traffic climbs all day after a big announcement.",
+      "traffic": {
+        "preset": "launch",
+        "rps": 5000,
+        "burst": 2,
+        "readRatio": 0.92,
+        "sloP95": 300,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "ramp"
+      }
+    },
+    {
+      "id": "ingest",
+      "name": "Write-heavy ingest",
+      "note": "Devices or logs pushing data in constantly.",
+      "traffic": {
+        "preset": "ingest",
+        "rps": 1500,
+        "burst": 1.3,
+        "readRatio": 0.15,
+        "sloP95": 250,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      }
+    }
+  ]
+}

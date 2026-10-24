@@ -1,0 +1,23 @@
+import {test,expect} from "@playwright/test";
+const api=process.env.SF_API_URL??"http://localhost:5001/v1";
+test("M5 wheel, zoom limits, minimap keyboard and exact narrow-screen boundary",async({page},info)=>{
+ const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));page.on("console",m=>{if(m.type()==="error")errors.push(m.text());});
+ await page.goto("/register");await page.getByLabel("Name",{exact:true}).fill("M5 View");
+ await page.getByLabel("Email",{exact:true}).fill("m5-view-"+Date.now()+"-"+info.project.name+"@example.test");
+ await page.getByLabel("Password",{exact:true}).fill("M5-View-2026!");await page.locator("#reg-terms").check();
+ await page.getByRole("button",{name:"Create account",exact:true}).click();await expect(page.getByRole("button",{name:"Account menu",exact:true})).toBeVisible();
+ await page.goto("/new/template");await page.getByRole("button",{name:"Use Single-server MVP",exact:true}).click();
+ const canvas=page.getByRole("region",{name:"Architecture canvas",exact:true});await expect(canvas).toBeVisible();await expect(page.getByLabel("Replicas (1–200)",{exact:true})).toBeVisible();
+ const id=new URL(page.url()).pathname.split("/")[2];let writes=0;page.on("request",r=>{if(r.url()===api+"/designs/"+id&&r.method()==="PATCH")writes++;});
+ await canvas.scrollIntoViewIfNeeded();const box=(await canvas.boundingBox())!,zoom=page.getByLabel("Canvas zoom",{exact:true}),before=await zoom.textContent();
+ await page.mouse.move(box.x+box.width*.45,box.y+box.height*.2);await page.mouse.wheel(0,150);await expect(zoom).not.toHaveText(before!);
+ for(let i=0;i<20;i++)await page.getByRole("button",{name:"Zoom out",exact:true}).click();await expect(zoom).toHaveText("30%");
+ for(let i=0;i<25;i++)await page.getByRole("button",{name:"Zoom in",exact:true}).click();await expect(zoom).toHaveText("200%");
+ const minimap=page.getByRole("button",{name:/^Minimap:/});await minimap.focus();await page.keyboard.press("Enter");
+ await page.setViewportSize({width:900,height:900});await expect(canvas).toBeVisible();await expect(page.locator(".ed-narrow")).toBeHidden();
+ await page.setViewportSize({width:899,height:900});await expect(page.locator(".ed-narrow")).toBeVisible();await expect(canvas).toBeHidden();
+ const viewport=info.project.use.viewport as {width:number;height:number};await page.setViewportSize(viewport);
+ await expect(canvas).toBeVisible();await page.getByRole("button",{name:"Fit to screen",exact:true}).click();
+ await page.waitForTimeout(850);expect(writes).toBe(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+ expect(errors).toEqual([]);
+});

@@ -3,7 +3,7 @@ import { saveDesign, submitRun } from "@/lib/api/designs";
 import { stableJson } from "@/lib/stable-json";
 import { ApiError } from "@/lib/api/errors";
 export interface RunIntent { requestId: string; expectedRevision: number; startedAt: number }
-export interface EditorState { design: Design; saved: Design; saving: boolean; running: boolean; error: string; conflict: boolean; intent?: RunIntent; run?: DesignRun }
+export interface EditorState { design: Design; saved: Design; saving: boolean; running: boolean; gesture: boolean; inputErrors: string[]; error: string; conflict: boolean; intent?: RunIntent; run?: DesignRun }
 const sameDraft = (a: Design, b: Design) => stableJson([a.name,a.graph,a.traffic]) === stableJson([b.name,b.graph,b.traffic]);
 export const semanticInput = (d: Design) => stableJson([d.graph.nodes.map(n => ({ id: n.id, label: n.label, type: n.type, props: n.props })), d.graph.edges.map(e => ({from: e.from, to: e.to})), d.traffic]);
 /** One memory-only session survives route/system-screen unmounts. A save acknowledges only its submitted draft. */
@@ -12,19 +12,27 @@ export class EditorSession {
   private listeners = new Set<() => void>();
   private saving?: Promise<void>;
   private disposed = false;
-  constructor(design: Design, private patch = saveDesign, private submit = submitRun) { this.state = { design, saved: design, saving: false, running: false, error: "", conflict: false }; }
+  constructor(design: Design, private patch = saveDesign, private submit = submitRun) { this.state = { design, saved: design, saving: false, running: false, gesture: false, inputErrors: [], error: "", conflict: false }; }
   getSnapshot = () => this.state;
   subscribe = (fn: () => void) => { this.listeners.add(fn); return () => { this.listeners.delete(fn); }; };
   get dirty() { return !sameDraft(this.state.design, this.state.saved); }
-  get hasUnsettledWork() { return this.dirty || this.state.saving || this.state.running || !!this.state.intent; }
+  get hasUnsettledWork() { return this.state.gesture || this.state.inputErrors.length > 0 || this.dirty || this.state.saving || this.state.running || !!this.state.intent; }
   receiveServer(design: Design) {
-    if (design.id === this.state.design.id && !this.dirty && !this.state.saving && design.revision > this.state.saved.revision) this.update({ design, saved: design, error: "", conflict: false });
+    if (design.id === this.state.design.id && !this.dirty && !this.state.saving && !this.state.gesture && !this.state.inputErrors.length && design.revision > this.state.saved.revision) this.update({ design, saved: design, error: "", conflict: false });
   }
   private update(value: Partial<EditorState>) { if (!this.disposed) { this.state = { ...this.state, ...value }; this.listeners.forEach(fn => fn()); } }
+  beginGesture() { this.update({ gesture: true }); }
+  endGesture(graph?: Graph) { this.update({ gesture: false, ...(graph ? { design: { ...this.state.design, graph }, error: this.state.conflict ? this.state.error : "" } : {}) }); }
+  inputError(key: string, invalid: boolean) {
+    const inputErrors = this.state.inputErrors.filter(k => k !== key);
+    if (invalid) inputErrors.push(key);
+    if (inputErrors.join("|") !== this.state.inputErrors.join("|")) this.update({ inputErrors });
+  }
   edit(graph: Graph) { this.update({ design: { ...this.state.design, graph }, error: this.state.conflict ? this.state.error : "" }); }
   rename(name: string) { this.update({ design: { ...this.state.design, name }, error: this.state.conflict ? this.state.error : "" }); }
   async save(): Promise<void> {
     if (this.disposed) throw new Error("This account session has ended");
+    if (this.state.gesture || this.state.inputErrors.length) throw new Error("Finish moving or correct the highlighted input before saving.");
     if (this.saving) { await this.saving; if (this.dirty) return this.save(); return; }
     if (!this.dirty) return;
     if (this.state.conflict) throw new Error("Resolve the save conflict first");
@@ -52,7 +60,7 @@ export class EditorSession {
   abandonUncertainIntent() { this.update({ intent: undefined, error: "" }); }
   setRun(run: DesignRun) { this.update({ run }); }
   get stale() { return this.isRunStale(this.state.run); }
-  isRunStale(r?: DesignRun) { return !!r && (r.designRevision !== this.state.saved.revision || semanticInput(this.state.design) !== semanticInput({ ...this.state.design, graph: r.snapshot.graph, traffic: r.snapshot.traffic })); }
+  isRunStale(r?: DesignRun) { return !!r && (semanticInput(this.state.design) !== semanticInput({ ...this.state.design, graph: r.snapshot.graph, traffic: r.snapshot.traffic })); }
   async run(): Promise<AcceptedRun> {
     if (this.disposed) throw new Error("This account session has ended");
     if (this.state.running) throw new Error("Submission already in progress");

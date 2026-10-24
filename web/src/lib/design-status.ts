@@ -16,7 +16,7 @@ export function designStatus(design: DashboardData["designs"][number]) {
               ? "Missing target"
               : "Completed";
   return {
-    label: (stale ? "Stale · " : "") + label,
+    label: (stale ? "Earlier revision · " : "") + label,
     tone: stale
       ? ""
       : run.status === "failed" || run.verdict === "fail"

@@ -42,7 +42,7 @@ test("M4 5xx can follow commit and remains uncertain; blank names never submit",
 });
 test("M4 status distinguishes old verdicts, calculation failure and missing results",()=>{
  assert.equal(designStatus({revision:2,latestRun:null}).label,"Not run");
- assert.equal(designStatus({revision:2,latestRun:{designRevision:1,status:"completed",verdict:"fail"}}).label,"Stale · Missing target");
+ assert.equal(designStatus({revision:2,latestRun:{designRevision:1,status:"completed",verdict:"fail"}}).label,"Earlier revision · Missing target");
  assert.equal(designStatus({revision:1,latestRun:{designRevision:1,status:"failed",verdict:null}}).label,"Calculation failed");
  assert.equal(designStatus({revision:1,latestRun:{designRevision:1,status:"pending",verdict:null}}).label,"Test running");
 });
