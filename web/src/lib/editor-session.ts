@@ -1,10 +1,11 @@
 import type { Design, DesignRun, Graph, AcceptedRun } from "@/lib/api/designs";
 import { saveDesign, submitRun } from "@/lib/api/designs";
+import { stableJson } from "@/lib/stable-json";
 import { ApiError } from "@/lib/api/errors";
 export interface RunIntent { requestId: string; expectedRevision: number; startedAt: number }
 export interface EditorState { design: Design; saved: Design; saving: boolean; running: boolean; error: string; conflict: boolean; intent?: RunIntent; run?: DesignRun }
-const sameDraft = (a: Design, b: Design) => JSON.stringify([a.name,a.graph,a.traffic]) === JSON.stringify([b.name,b.graph,b.traffic]);
-export const semanticInput = (d: Design) => JSON.stringify([d.graph.nodes.map(n => ({ id: n.id, label: n.label, type: n.type, props: n.props })), d.graph.edges.map(e => ({from: e.from, to: e.to})), d.traffic]);
+const sameDraft = (a: Design, b: Design) => stableJson([a.name,a.graph,a.traffic]) === stableJson([b.name,b.graph,b.traffic]);
+export const semanticInput = (d: Design) => stableJson([d.graph.nodes.map(n => ({ id: n.id, label: n.label, type: n.type, props: n.props })), d.graph.edges.map(e => ({from: e.from, to: e.to})), d.traffic]);
 /** One memory-only session survives route/system-screen unmounts. A save acknowledges only its submitted draft. */
 export class EditorSession {
   state: EditorState;
@@ -28,7 +29,13 @@ export class EditorSession {
     this.saving = (async () => {
       try {
         const saved = await this.patch(submitted.id, { expectedRevision: this.state.saved.revision, name: submitted.name, graph: submitted.graph, traffic: submitted.traffic });
-        this.update({ saved, design: { ...this.state.design, revision: saved.revision, updatedAt: saved.updatedAt } });
+        const current = this.state.design;
+        // Adopt canonical server values only where no newer edit superseded this submission.
+        this.update({ saved, design: { ...current,
+          name: current.name === submitted.name ? saved.name : current.name,
+          graph: stableJson(current.graph) === stableJson(submitted.graph) ? saved.graph : current.graph,
+          traffic: stableJson(current.traffic) === stableJson(submitted.traffic) ? saved.traffic : current.traffic,
+          revision: saved.revision, updatedAt: saved.updatedAt } });
       } catch (error) {
         this.update({ error: error instanceof Error ? error.message : "Save failed", conflict: error instanceof ApiError && error.code === "CONFLICT" });
         throw error;

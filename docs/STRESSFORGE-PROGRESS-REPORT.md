@@ -660,3 +660,11 @@ M4–M9 remain: complete creation flows, dashboard polish, full canvas/connectio
 **M3 verdict: COMPLETE for the approved first-slice scope. Phase2 remains IN PROGRESS; M4–M9 are not started.** Changes remain local on codex/phase2-contracts; nothing from this milestone was pushed. The pre-existing modified audit/m2-profile-source.json was preserved and excluded from M3 changes. Future milestone completion must update this same report, retain all earlier history, record new evidence and reassess affected earlier requirements; updates/publication are not automatic.
 
 Local implementation checkpoints: backend6ffd470 and frontend38f3dd5. Health and Swagger returned200 after the final run; live OpenAPI version3.1.0. Only agent-owned verification API/web processes were stopped afterward; normal Docker services, volumes and user data were preserved. The isolated test databases remain available for reproducibility.
+
+### M3 follow-up — replica autosave rate-limit defect (2026-10-24)
+
+[Verified] A focused regression reproduced a false dirty state after the server returned equivalent JSON objects with normalized property order. JSON.stringify equality treated that order as an edit. Autosave could continue resending; Run's save barrier could immediately repeat saves until rejected. The user's live browser/network trace was not inspected, so this is a reproduced matching defect rather than a claim to have traced their exact429.
+
+Fixed WEB/src/lib/editor-session.ts using WEB/src/lib/stable-json.ts: object keys compare canonically, meaningful array order remains intact, and save acknowledgments adopt normalized fields only when no newer edit superseded them. This also prevents repeated saves of a server-trimmed name. Existing request limits and environment values were not changed.
+
+[Verified] The new normalization regression failed before the fix, then passed. Five added cases cover single acknowledged save, semantic key ordering, one-save Run submission, meaningful array reordering, and trimmed-name/newer-edit safety. Final WEB pnpm test:49 passed; pnpm lint and pnpm typecheck passed. WEB pnpm build also passed (exit0). Earlier browser matrix is historical evidence; it was not rerun for this pure comparison/acknowledgment change. Existing M2 profiling edits remain untouched.

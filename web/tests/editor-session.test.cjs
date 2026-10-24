@@ -40,3 +40,41 @@ test("unknown acceptance is not retried after the 24h guarantee",async()=>{
 test("disposed account session ignores a late save response",async()=>{
   let finish;const s=new EditorSession(design(),async()=>new Promise(r=>{finish=r}));s.rename("draft");const pending=s.save();s.dispose();finish({...design(),revision:2,name:"draft"});await pending;assert.equal(s.state.saved.revision,1);
 });
+
+test("a server-normalized key order acknowledges the edit without repeated saves", async () => {
+  const d=design(); d.graph.nodes[0].props={region:"us-east",capacity:800};
+  let calls=0;
+  const normalize=value=>Array.isArray(value)?value.map(normalize):value&&typeof value==="object"?Object.fromEntries(Object.keys(value).sort().map(k=>[k,normalize(value[k])])):value;
+  const s=new EditorSession(d,async(_id,b)=>{calls++;return normalize({...d,...b,revision:b.expectedRevision+1})});
+  s.edit({...d.graph,nodes:d.graph.nodes.map(n=>({...n,props:{...n.props,replicas:2}}))});
+  await s.save();
+  assert.equal(s.dirty,false,"normalized object-key order must not remain dirty");
+  await s.save();
+  assert.equal(calls,1,"an acknowledged edit must not issue a second PATCH");
+});
+test("result staleness ignores object-key order while preserving graph array order",()=>{
+  const d=design(),s=new EditorSession(d);
+  s.setRun({designRevision:1,snapshot:{graph:{edges:[],nodes:d.graph.nodes.map(n=>({props:n.props,y:n.y,x:n.x,label:n.label,type:n.type,id:n.id}))},traffic:d.traffic}});
+  assert.equal(s.stale,false);
+});
+test("Run flushes a normalized replica edit once before submitting", async()=>{
+  const d=design(); d.graph.nodes[0].props={region:"us-east",capacity:800};
+  let saves=0,runs=0;
+  const normalize=value=>Array.isArray(value)?value.map(normalize):value&&typeof value==="object"?Object.fromEntries(Object.keys(value).sort().map(k=>[k,normalize(value[k])])):value;
+  const s=new EditorSession(d,async(_id,b)=>{assert.ok(++saves<=1,"Run must not loop over already acknowledged saves");return normalize({...d,...b,revision:2})},async()=>{runs++;return {run:{id:"run",status:"pending"},statusUrl:""}});
+  s.edit({...d.graph,nodes:d.graph.nodes.map(n=>({...n,props:{...n.props,replicas:3}}))});
+  await s.run();assert.equal(saves,1);assert.equal(runs,1);assert.equal(s.dirty,false);
+});
+test("meaningful graph array ordering is still detected as an edit",()=>{
+  const d=design();d.graph.nodes.push({...d.graph.nodes[0],id:"b",label:"Second"});
+  const s=new EditorSession(d);s.setRun({designRevision:1,snapshot:{graph:d.graph,traffic:d.traffic}});
+  s.edit({...d.graph,nodes:[...d.graph.nodes].reverse()});assert.equal(s.dirty,true);assert.equal(s.stale,true);
+});
+test("server-trimmed names acknowledge only the submitted value",async()=>{
+  const d=design();let release;
+  const s=new EditorSession(d,async(_id,b)=>({...d,...b,name:b.name.trim(),revision:2}));
+  s.rename("MVP  ");await s.save();assert.equal(s.state.design.name,"MVP");assert.equal(s.dirty,false);
+  const newer=new EditorSession(d,async(_id,b)=>{await new Promise(r=>{release=r});return {...d,...b,name:b.name.trim(),revision:2}});
+  newer.rename("submitted  ");const pending=newer.save();newer.rename("newer  ");release();await pending;
+  assert.equal(newer.state.design.name,"newer  ");assert.equal(newer.state.saved.name,"submitted");assert.equal(newer.dirty,true);
+});
