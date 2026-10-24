@@ -24,3 +24,11 @@ Installed Next 16.4.2 docs (`node_modules/next/dist/docs/01-app/03-api-reference
 ## M3 deep audit isolation
 
 Use a disposable API/database/Redis instance. Set NEXT_PUBLIC_API_URL=http://localhost:5003/v1 and STRESSFORGE_AUDIT_BUILD=1 before pnpm build and pnpm start --port 3003; this uses ignored .next-audit output instead of replacing a running development build. Set SF_WEB_URL=http://localhost:3003 and SF_API_URL=http://localhost:5003/v1 for Playwright. m3-deep.spec.ts covers selected stored results, clean remote edits, default-property autosave stability, lost acceptance plus429, and dirty-draft session reauthentication. Existing request limits remain in force; the dedicated Redis instance keeps test counters separate from normal use.
+
+## M4 creation/dashboard acceptance
+
+M4 reuses the existing infrastructure. creation-session.test.cjs tests concurrent submission, lost/5xx acceptance, definitive errors, disposed accounts, preview invalidation, names and status labels. browser/m4.spec.ts covers template previews/custom naming, blank creation, text/file import, scripted assumptions across reload, dashboard/delete, invalid inputs and lost-response duplicate prevention. browser/m4-recovery.spec.ts covers empty blank graphs, inline429 retry, network recovery with retained descriptions, changed-preview invalidation and escaped labels.
+
+Use SF_WEB_URL=http://localhost:3003, SF_API_URL=http://localhost:5003/v1, SF_BROWSER_CHANNEL=chrome and the ignored .next-audit production build for the four-project matrix. Full production browser runs intentionally skip the four @dev state cases; run those separately against an isolated dev server with SF_DEV_STATES=1.
+
+Two non-default, explicit opt-in harnesses are documented in docs/M4-CREATION-DASHBOARD.md. verify-m4-services.cjs stops/starts only labelled M4 Docker containers on5547/6394 and always restarts them; the API must use their dedicated sf_m4_outage database. verify-m4-api-outage.cjs uses two operator Enter signals to coordinate an actual audit-API stop/restart. Neither runs in pnpm test. Never target normal services, export auth traces or commit .env.

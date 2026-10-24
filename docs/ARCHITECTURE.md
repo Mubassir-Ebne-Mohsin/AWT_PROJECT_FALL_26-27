@@ -80,7 +80,7 @@ Success: `{ "data": ..., "meta"?: ... }`. Errors: `{ "error": { "code", "message
 | `UNAVAILABLE` | 503 | "Waking up" page; polls `/v1/health` and returns by itself |
 | (no response) | n/a | Same "waking up" page |
 
-## Phase 2 through M3
+## Phase 2 through M4
 
 The pure TypeScript model and bounded worker live in modules/simulation; the engine has no Nest/database dependencies. DesignsModule owns JSONB graph/traffic, revisions and immutable run payloads, authorized through the existing CurrentUser identity. See [M3 lifecycle/run guide](M3-SAVED-DESIGNS.md) and [model limits](SIMULATION-MODEL.md).
 
@@ -88,4 +88,6 @@ POST /v1/designs/:id/simulate commits pending inputs before returning202 and a s
 
 The frontend ports the template picker and minimum workspace into existing URLs. Memory-only EditorSession state above the system-screen boundary protects serialized saves, newer in-flight edits, conflicts and uncertain run acceptance. Owned dashboard cards reopen stored designs/results; model estimates are explicitly labelled. Access tokens remain memory-only and existing refresh/session behavior is reused.
 
-Live /docs-json exposes only mounted M3 operations using the frozen Zod contracts. Full planned Phase2 contracts/types remain in docs/contracts and phase2-schema.d.ts; frontend production calls use schema.d.ts generated from the running API. Preview/Limits HTTP routes, advanced creation, full canvas/edges/undo and polished Traffic/Results/Limit tabs remain later milestones. No new runtime dependencies or real AI calls.
+Live /docs-json exposes only mounted M3 operations using the frozen Zod contracts. Full planned Phase2 contracts/types remain in docs/contracts and phase2-schema.d.ts; frontend production calls use schema.d.ts generated from the running API. Preview/Limits HTTP routes, full canvas/edges/undo and polished Traffic/Results/Limit tabs remain later milestones. No new runtime dependencies or real AI calls.
+
+M4 adds authenticated POST /v1/designs/prepare as a pure import/blank/scripted preparation boundary, returning a validated CreateDesign snapshot without persistence or simulation. The existing POST /designs persists reviewed inputs. Scripted keyword rules port the reference MockAI draft; assumptions are explicitly stored with the description, and no provider/quota is used. CreationProvider keeps per-user/per-screen forms in memory above system screens, rejects concurrent submissions, retains uncertain acceptance and guards late navigation. Dashboard verdicts are saved results with explicit stale/pending/calculation-failure states. See [M4 guide](M4-CREATION-DASHBOARD.md).

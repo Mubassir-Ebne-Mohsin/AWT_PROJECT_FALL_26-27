@@ -101,3 +101,5 @@ pnpm test:browser
 From the root, after building the backend, `node docs/audit/phase1-regressions.cjs` runs offline regressions. `node docs/audit/live-phase1.cjs` exercises a running audit API and creates accounts; never record its tokens. `node docs/audit/rate-limit.cjs` starts a temporary API with the default auth limit against the configured audit services and stops its own process afterward.
 
 Backend engine/worker checks and model limitations: [Simulation model (M2)](docs/SIMULATION-MODEL.md). M3 now adds owned saved designs, template/replica editing and asynchronous simulation results. See [M3 run guide](docs/M3-SAVED-DESIGNS.md). Run backend pnpm migration:run before starting the updated API.
+
+M4 adds all four creation paths at /new and the saved-design dashboard. See [M4 creation/dashboard guide](docs/M4-CREATION-DASHBOARD.md). Start/restart the existing backend and frontend; no new package installation, migration or environment value is needed for M4. Blank drafts save now; drawing/connecting tools remain M5–M6.

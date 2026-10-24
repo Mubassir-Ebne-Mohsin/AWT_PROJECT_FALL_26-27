@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; checkpoint before M4. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
+**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; M4 subsequently approved and implemented; acceptance evidence is recorded in the living report. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
 
 ## 1. Target and recommendation
 
@@ -253,3 +253,5 @@ Archive formatting note: the original plan text is retained; three Markdown trai
 - 2026-10-24 M2 completed after explicit user approval: typed model/builders/wire adapter, six-fixture parity, bounded worker/admission, failure recovery and real-health/source/compiled/watch checks. Bounds frozen and limitations documented in SIMULATION-MODEL.md. M3 not started; await approval for the first usable design journey.
 
 - 2026-10-24 M3 completed after explicit user approval: owned persistence/revisions, safe asynchronous simulation admission/idempotency/recovery/retention, template-backed replica/save/results/reopen UI and focused failure coverage.146 unit/31 e2e/44 frontend/16 browser checks passed;4 dev-only browser cases intentionally skipped in production. Phase2 remains in progress; M4–M9 require subsequent authorization.
+
+- 2026-10-24 M4: user explicitly approved the reviewed Creation/dashboard scope and recommended decisions. Implemented four creation paths, source-parity scripted drafting, strict non-persistent preparation, persistent assumptions, honest stored-result dashboard and confirmed deletion. See [M4 guide](M4-CREATION-DASHBOARD.md) and progress-report section15 for evidence and limitations. M5–M9 still require authorization; M4 does not deliver the drawing canvas, real AI or complete Phase2.

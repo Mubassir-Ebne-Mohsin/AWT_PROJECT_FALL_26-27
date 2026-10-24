@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M3 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 implements the first usable design journey; see section13 for its verification and limitations.
+> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M4 implementation and checkpoints are local on **codex/phase2-contracts**, not yet published. Phase 2 is in progress; M3 provides the first saved-design journey and M4 completes creation/dashboard; see sections13–15 for verification and limitations.
 
 ## 1. Maintenance instructions
 
@@ -11,7 +11,7 @@ Nothing updates this file automatically. Whoever completes a later phase (a pers
 1. Add the new phase's checklist and results, and keep every earlier section and the update history.
 2. Record new verification evidence: exact command, result, exit status, short output quote. Tag each conclusion `[Verified]`, `[Inferred]` or `[Untested]`.
 3. Re-check earlier requirements that the new work touches (auth, error codes, route registry, API types) and change their status if they regressed.
-4. Update the phase tracker (section 3) and the latest dated verdict (currently section 9). Preserve the original section 7 verdict as history.
+4. Update the phase tracker (section 3) and the latest dated verdict for each affected phase (Phase1 section9; latest Phase2 milestone at the end). Preserve the original section 7 verdict as history.
 5. Add a dated entry to the update history (section 8), newest first.
 
 Audit rules used for Phase 1 (reuse them): audits do not change application source, config, dependencies, migrations or existing tests; they may add new test files and edit this report. No secret values are printed or recorded. Never mark something Verified without a command or test result behind it.
@@ -32,6 +32,8 @@ Build and run: see `README.md` at the repo root.
 
 Sources used to define phase requirements:
 
+- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard plan, with its verification in section15. Historical Phase1 sources follow.
+
 - `nest-boilerplate/nest-boilerplate/docs/stressforge/PHASE-1-PROMPT.md` (the Phase 1 specification; the only roadmap-like document found).
 - The prototype's `PHASE_NAMES` and route phases (SECTION 5) for the phase names of Phases 2 to 5.
 - `README.md` and `docs/ARCHITECTURE.md` (what the project claims).
@@ -43,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 first saved-design journey complete; M4–M9 not started. See section13; local Phase 2 changes not yet published |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey and M4 creation/dashboard complete; M5–M9 not started. See sections13–15; local Phase 2 changes not yet published |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification now includes the M3 saved-design journey; full Phase2 completion still requires M4–M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs and M4 creation/dashboard; full Phase2 completion still requires M5–M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -304,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-24 — M4 completed:** User approved Creation/dashboard. Four creation flows, source-parity scripted drafts, persistent assumptions, honest saved-result summaries, confirmed deletion and recovery implemented.173 backend unit/44 API/63 frontend tests,60 production Chrome/4 Edge/4 developer-state checks passed; real PostgreSQL/Redis/API outages recovered with retained inputs. Scope, corrections, evidence and limits in section15. Local only; M5–M9 not started.
 
 - **2026-10-24 — M3 deep audit closed:** Six issue groups fixed;148 unit/39 API/56 frontend tests,44 production Chrome browser checks,7 Edge scenarios and4 developer-state cases passed. M3 backend line coverage96.44%, branch86.41%. Three inherited backend advisories remain documented; no dependency change or GitHub push. See section14.
 
@@ -734,3 +738,74 @@ Additional final checks: Microsoft Edge passed all7 deep scenarios (21.4s); a fo
 Developer-state follow-up:4/4 passed against the isolated next dev server (40.4s), covering all ten states per width/theme combination. The4 production-only skips are therefore separately verified rather than hidden. Backend checkpointc2d22b7; frontend checkpointe8ef367. No M4 work started.
 
 Cleanup: final audit health200; stopped only owned ports3003/5003 and the labelled audit Redis container. Isolated databases and stopped audit container remain for reproducibility. Normal3000/5001 services and user data were preserved; unrelated m2-profile-source.json remains uncommitted.
+
+## 15. M4 — Creation and dashboard
+
+**2026-10-24 (Asia/Dhaka). Verdict: M4 COMPLETE for its approved scope. Phase 2 remains IN PROGRESS; M5–M9 are not implemented or authorized.** The user approved the reviewed M4 plan and recommended decisions before implementation. This is implementation work, not the historical read-only audit. Sources: [Phase 2 roadmap](PHASE-2-PLAN.md), prototype Sections 10–11 and its MockAI.draft rules, frozen M1 import/CreateDesign contracts, completed M3 lifecycle and applicable web/AGENTS.md / installed Next page documentation. [M4 operating guide](M4-CREATION-DASHBOARD.md); [durable verification summary](audit/m4-verification.json).
+
+### Requirement mapping
+
+| Requirement | Implementation and verification evidence | Status |
+| --- | --- | --- |
+| Four creation choices | Existing /new URLs now mount chooser/blank/import/describe components under WEB/src/components/creation; six-template picker extended in workspace/template-picker.tsx. All routes exercised through real services and registry matrix | Verified |
+| Six exact templates and custom names | Real graph thumbnails, selected details, editable copy name, quick-use actions; API e2e saves/reopens every template and compares graph/traffic, creating no implicit run | Verified |
+| Blank starting draft | Name/region/preset and Clients-only/empty variants; API/unit/browser checks verify persisted region/preset and safe empty draft; Run still blocks invalid architectures | Verified |
+| Import | Existing importDesign normalizer reused behind authenticated POST /v1/designs/prepare. Paste/file/legacy/version1 supported; 64 KiB UTF-8/50-node/200-edge contract preserved; defaults/layout/collision-free IDs tested. Malformed/unsupported/forged input creates no design/run | Verified |
+| Scripted description | Ported prototype keyword rules; four exact source-example parity cases. Explicit Scripted mock label before submission, review and name before saving; invalid-output demonstration cannot create a design. No provider or quota operation | Verified |
+| Persistent assumptions | Validated description contains original text plus delimited Scripted mock assumptions section, within existing 2000-character limit. Workspace renders it as text; browser reload verifies retention | Verified |
+| Dashboard | Real owned summaries/cards, retained counts, scoped Needs attention, all four creation shortcuts, selected recent-run links, empty/loading/retry states. Unrun/stale/pending/calculation-failed/model-verdict distinctions have focused tests. No mass simulation or Limits computation | Verified |
+| Confirmed deletion | Shared accessible alert dialog; cancel preserves row, confirm removes it and updates summaries/editor cache. Existing M3 e2e continues to verify ownership, cascade/compute cancellation and dashboard deletion interleaving | Verified |
+| Recovery and duplicate prevention | CreationSession/CreationProvider keep per-user/per-screen memory above system pages. Concurrent clicks guarded; input edits invalidate previews; names preserve checked graph. Disposed/late replies ignored; network/5xx creates become uncertain, with dashboard recovery or explicitly confirmed new intent. Unconfirmed work warns on unload | Verified |
+| Integration/security | Existing authenticated create/ownership/revision/error/session contracts retained; live OpenAPI preparation operation and generated WEB/schema.d.ts. No new runtime dependencies, database migration or env value. Existing Foundation and M3 regressions pass | Verified |
+| Visual/accessibility baseline | Prototype opened in browser and compared with generated template/dashboard images; original tokens/fonts/layout classes reused. Chrome matrix at1024/1440 light/dark checks all35 routes, keyboard palette/drawers/auth, focus recovery and overflow; M4 form labels, safe text and delete dialog exercised. Edge M4 journeys pass | Verified |
+| Living documentation | Root README, architecture, roadmap, frontend test guide and M4 guide updated; earlier report history preserved | Verified |
+
+### Checks performed
+
+All final commands below returned exit0. Node22.23.4 was used; repository package managers/lockfiles remained unchanged.
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build / pnpm typecheck / pnpm lint:check | Pass; lint0 errors,22 inherited warnings; compiled API starts and serves health/docs |
+| API pnpm test --runInBand with TEST_REDIS_COMPOSE=1 | 173/173,11 suites, no skips, including disposable real-Redis checks |
+| Final focused creation.spec.ts coverage | 25/25; creation.ts + scripted-draft.ts only: statements94.48%, branches81.87%, functions100%, lines96.21%. Not whole-project coverage |
+| API pnpm test:e2e, DB_TEST_DATABASE=sf_m4_e2e_20261024 | 44/44,2 suites; actual PostgreSQL, existing Redis/throttler doubles |
+| WEB pnpm test | 63/63; concurrent creation, unknown acceptance, definitive errors, disposal, edited previews, names and status labels added |
+| WEB pnpm lint / pnpm typecheck / pnpm build | Pass; isolated STRESSFORGE_AUDIT_BUILD=1 output used for production build |
+| WEB pnpm check:routes | 35 registry patterns, all have pages |
+| Live openapi-typescript against5003/docs-json --check; pnpm gen:phase2 --check | Pass; live types include preparation, frozen planned types unchanged |
+| API pnpm contract:phase2:check / pnpm fixtures:phase2 | Pass; canonical contracts/examples and six complete fixtures/minimum-load counterexample still match |
+| Chrome production pnpm exec playwright test | 60 passed,4 intentional @dev skips,4.5min;16 new M4 checks included across four width/theme combinations |
+| Edge M4 suites,1440/light | 4/4 passed,18.0s |
+| Separate next dev @dev run with SF_DEV_STATES=1 | 4/4 passed,30.9s; all10 demo states per width/theme combination. Production skips separately verified |
+| Real dependency outages | Dedicated labelled PostgreSQL5547 and Redis6394 stopped/restarted independently: health503 while down,200 after recovery; blank name/description retained; no design created during failed write |
+| Actual API stop/restart | Verified only the audit port5003 process, stopped it with an import form open, observed waking-up, restarted and confirmed health200, then verified original import text returned intact |
+| Source/diff review | No new eval/dangerous HTML/runtime console logging found in scoped creation source; no package/lock/.env/reference-engine changes. Existing M3 screenshots restored after regression tests |
+
+Browser evidence: audit/m4-dashboard-{1024,1440}-{light,dark}.png; audit/m4-templates-{1024,1440}-{light,dark}.png; audit/m4-api-unreachable.png. The screenshot comparison establishes reuse of the reference design language, not pixel-identical analytical UI: unavailable live verdict/breakpoint figures are explicitly deferred rather than fabricated.
+
+### Findings caught and resolved during implementation
+
+1. **Import transport boundary:** a valid64 KiB raw JSON file padded with tabs became >100 KiB when escaped in the request envelope and was rejected. Reproduction is now a passing e2e case. Preparation alone allows160 KiB transport; raw UTF-8 limit remains64 KiB and other JSON routes100 KiB.
+2. **Parser integration:** directly registering Express JSON parsing caused Nest to skip its default parser on other routes; compiled pnpm resolution also exposed that Express is transitive, not a direct runtime import. The final implementation uses Nest's supported useBodyParser API, explicitly registers both bounded parsers, and passes Foundation auth/e2e plus compiled startup. No new package needed.
+3. **CORS on parse failures:** an oversized preparation request initially returned422 without Access-Control-Allow-Origin, which browsers could mistake for a network outage. Parsing now follows CORS/helmet; the dedicated test asserts422, VALIDATION_FAILED, allow-origin and nosniff headers.
+4. **Stable control labels:** wrapped selects and changing textarea text made exact label targeting unreliable. Explicit accessible names keep controls labelled through edits and errors; the browser journeys now pass.
+5. **Creation lifecycle:** synchronous in-flight guards and retained uncertainty prevent immediate duplicate submissions; text/preview state survives actual outages. Wrong/late account replies cannot navigate or restore data. This is deliberately not a cross-tab/server idempotency guarantee.
+6. **Harness corrections:** browser assertions were corrected to use the existing design-name input, inline alerts and alertdialog role. A premature API-restart gate timed out before health was ready; the rerun explicitly required health200 and passed. Intermediate failures/aborted reruns are not counted as final passes.
+
+No unresolved mandatory M4 functional defect was observed in the tested scope.
+
+### Decisions, limitations and continuity
+
+- [Verified] Scripted rules preserve prototype daily-user conversion with a visible assumption. Literal unsupported server/worker counts are rejected instead of silently clamped; negative/fractional counts cannot become positive via substring matching. Scripted drafting is a heuristic, not a general natural-language parser.
+- [Verified] Assumptions use the existing description as explicitly delimited text; no Notes feature or metadata migration. Template previews show graph/default traffic, with no invented p95/breaking point. Saved runs remain the numerical authority.
+- [Verified] Dashboard displays ten recent designs and ten recent retained runs. Attention count names its ten-design scope. The standalone /designs page remains Phase3; counts are not invented lifetime statistics.
+- [Verified] Form recovery is memory-only. Reload/tab close loses unsaved form state; separate tabs/reloads may still deliberately create duplicate designs. The UI explains uncertainty and offers dashboard recovery. General cross-tab create idempotency is not claimed.
+- [Verified] Normal user tables were not truncated; e2e and browser databases were isolated. A separate dedicated PostgreSQL/Redis pair was used before stopping any service. Audit auth limit300 was process-only; normal global120 limit and all .env files were unchanged.
+- [Untested] Firefox/WebKit, formal assistive-technology review and long-duration soak/storage-growth tests were not run in M4. The inherited three backend transitive advisories remain as triaged in section14; dependency audit was not refreshed and no dependency version changed.
+- [Verified] Phase1 auth/errors/session/shell and M3 save/conflict/selected-run/normalization/lost-acceptance/late-navigation requirements were reassessed through the full regressions. Their completion verdicts remain unchanged.
+- [Verified] M5–M9 remain: interactive canvas, edges/undo/save refinements, full Traffic/Results, Limits/preview and final Phase2 acceptance. Real AI is a later essential course requirement; scripted output does not satisfy it.
+
+Publication is local only on codex/phase2-contracts. The pre-existing modified audit/m2-profile-source.json remains untouched and excluded from M4 commits. Future milestone completion must update THIS report, retain earlier history, add new verification evidence and reassess affected earlier requirements; no automatic update or synchronization is promised.
+
+M4 local code checkpoints: backend **5c53dc9**; frontend/tests/types **9d89900**. Final audit health and Swagger both returned200 before cleanup. The verified audit API/frontend processes were stopped; only containers labelled stressforge.audit=m4 (PostgreSQL5547/Redis6394) were stopped and retained for reproducibility. Normal PostgreSQL5433, Redis6379 and the pre-existing QA services remained running/healthy. No normal development frontend was stopped, no .env was edited, and no GitHub push occurred.

@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M4 Creation/dashboard",
+  "runtime": "Node 22.23.4",
+  "checks": {
+    "backendBuild": 0,
+    "backendTypecheck": 0,
+    "backendLint": {
+      "exit": 0,
+      "errors": 0,
+      "inheritedWarnings": 22
+    },
+    "backendUnit": {
+      "passed": 173,
+      "suites": 11,
+      "optInRealRedis": true
+    },
+    "finalCreationUnit": {
+      "passed": 25,
+      "suites": 1
+    },
+    "backendE2e": {
+      "passed": 44,
+      "suites": 2,
+      "database": "sf_m4_e2e_20261024",
+      "redis": "test double"
+    },
+    "frontendUnit": {
+      "passed": 63
+    },
+    "frontendLint": 0,
+    "frontendTypecheck": 0,
+    "frontendAuditBuild": 0,
+    "routes": {
+      "patterns": 35,
+      "allHavePages": true
+    },
+    "liveApiTypes": 0,
+    "frozenPhase2Types": 0,
+    "canonicalContracts": 0,
+    "sourceFixtures": 0,
+    "chromeProduction": {
+      "passed": 60,
+      "skippedDeveloperOnly": 4,
+      "combinations": [
+        "1024-light",
+        "1024-dark",
+        "1440-light",
+        "1440-dark"
+      ]
+    },
+    "edge": {
+      "passed": 4,
+      "combination": "1440-light"
+    },
+    "chromeDevStates": {
+      "passed": 4,
+      "statesPerCombination": 10
+    },
+    "creationCoverage": {
+      "files": [
+        "creation.ts",
+        "scripted-draft.ts"
+      ],
+      "statements": 94.48,
+      "branches": 81.87,
+      "functions": 100,
+      "lines": 96.21
+    }
+  },
+  "realOutages": {
+    "postgresHealth": 503,
+    "redisHealth": 503,
+    "recoveredHealth": 200,
+    "blankRetained": true,
+    "descriptionRetained": true,
+    "apiUnavailableScreen": true,
+    "apiRestartRecovery": true,
+    "importRetained": true,
+    "normalDatabaseUntouched": true
+  },
+  "isolation": {
+    "api": 5003,
+    "web": 3003,
+    "postgres": 5547,
+    "redis": 6394,
+    "database": "sf_m4_outage",
+    "authThrottleForAudit": 300,
+    "normalGlobalThrottle": 120,
+    "extraEarlierBrowserDatabase": "sf_m4_browser_20261024"
+  },
+  "limits": [
+    "Creation duplicate protection is in-memory per screen, not server idempotency across reloads/tabs.",
+    "Dashboard displays 10 most recently edited designs; retained counts are not lifetime totals.",
+    "No real AI, full canvas, Traffic/Results expansion, Limits or preview feature is delivered by M4.",
+    "Inherited dependency advisories remain triaged in report section14; M4 changed no dependency versions.",
+    "Firefox/WebKit, formal assistive-technology audit and long-duration soak were not run."
+  ]
+}
