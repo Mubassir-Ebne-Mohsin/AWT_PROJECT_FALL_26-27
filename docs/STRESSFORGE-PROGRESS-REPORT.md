@@ -307,6 +307,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 ## 8. Dated update history
 
+- **2026-10-25 — Local startup recovery:** Pasted log showed PostgreSQL/Redis ECONNREFUSED after successful compilation. Docker Desktop engine was stopped. Started Docker and the existing normal development Compose services without resetting volumes, restarted the exited backend watcher under Node22, and verified health200 (postgres up/redis up) plus Swagger200. See section18. No M7 implementation.
+
 - **2026-10-24 — M6 completed and code published:** Connections/reversal/deletion, component duplication/deletion, bounded undo/redo and revision-bound graph repair implemented.174 backend unit,44 e2e,86 frontend unit,40 M6 Chrome and10 Edge scenarios passed. Real PostgreSQL/Redis interruptions retained connections/history. Initial full browser run122 passed/2 Foundation timing failures/4 dev skips; strengthened Foundation rechecks8/8 and separate dev checks4/4 passed. Section17 preserves this evidence and limits. Code a08d284 and test synchronization b90737d published on codex/phase2-contracts; main unchanged.
 
 - **2026-10-24 — M5 completed:** Approved canvas fundamentals implemented and verified: all twelve types, selection/movement/properties, pan/zoom/fit/minimap, keyboard alternatives and guarded persistence. Final174 backend unit,44 e2e,73 frontend unit,32 final Chrome and7 Edge cases passed; full regression checkpoint84 passed/4 dev-only skips. Actual PostgreSQL/Redis outage recovery verified. Section16 records evidence, corrections and limits. Local only; M6–M9 not started.
@@ -958,3 +960,11 @@ Publication: feature **a08d284** and Foundation harness **b90737d** were pushed 
 The pre-existing modified audit/m2-profile-source.json remains untouched and excluded. Future phase/milestone completion MUST update this same report, preserve earlier history, record observed new evidence and reassess affected earlier requirements; nothing updates automatically.
 
 Cleanup evidence: final audit health/docs200 recorded, then only verified API5003 and audit next dev3003 processes stopped. Only containers labelled stressforge.audit=m6 were stopped and retained. Normal development PostgreSQL/Redis and pre-existing QA containers remained healthy/running; normal frontend untouched. Historical M3/M4/M5 screenshots restored from HEAD. Documentation and sanitized evidence are committed/published on the same Phase2 branch; no main merge or production deployment.
+
+## 18. Local startup recovery — 2026-10-25
+
+[Verified] The supplied watch log had zero compilation errors followed by PostgreSQL and ioredis ECONNREFUSED. Live inspection found Docker's Linux engine pipe absent, no PostgreSQL5433/Redis6379 listeners, and the earlier backend application exited while its file watcher remained waiting. Existing non-secret host/port settings matched the intended development services.
+
+[Verified] Started Docker Desktop, ran docker compose -f docker-compose.dev.yml up -d --wait in the existing backend directory, and confirmed both normal development containers healthy. Restarted only the identified failed project watcher with Node22.23.4 / pnpm start:dev. GET http://localhost:5001/v1/health returned200 with status ok, postgres up and redis up; /docs returned200. The restored normal services and backend watcher were left running for use.
+
+This was a stopped dependency/startup-order problem; no application behavior, dependency, migration or .env value changed. Existing volumes/accounts and unrelated work were preserved. README now explains starting Docker/services before the backend and restarting an exhausted startup attempt. No automated regression suite was rerun for this operational/docs-only recovery; live service health and Swagger were verified. M7 remains not started. This recovery update is local unless separately published.

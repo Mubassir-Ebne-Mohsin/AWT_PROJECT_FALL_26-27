@@ -103,3 +103,24 @@ From the root, after building the backend, `node docs/audit/phase1-regressions.c
 Backend engine/worker checks and model limitations: [Simulation model (M2)](docs/SIMULATION-MODEL.md). M3 now adds owned saved designs, template/replica editing and asynchronous simulation results. See [M3 run guide](docs/M3-SAVED-DESIGNS.md). Run backend pnpm migration:run before starting the updated API.
 
 M4 adds all four creation paths at /new and the saved-design dashboard. See [M4 creation/dashboard guide](docs/M4-CREATION-DASHBOARD.md). Start/restart the existing backend and frontend; no new package installation, migration or environment value is needed for M4. M5 adds the interactive palette, movement, properties, pan/zoom/fit and minimap. See [M5 canvas guide](docs/M5-CANVAS.md). Restart the existing backend/frontend; no new dependency, migration or environment value is needed. M6 adds arrow creation/reversal/deletion, component duplication/deletion, undo/redo and actionable graph checks. See [M6 editing guide](docs/M6-CONNECTIONS-HISTORY.md).
+
+## If PostgreSQL and Redis report ECONNREFUSED
+
+Compilation can succeed while the required services are stopped. Open Docker Desktop and wait for its engine to run, then use PowerShell:
+
+```powershell
+Set-Location -LiteralPath 'C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate'
+docker compose -f docker-compose.dev.yml up -d --wait
+docker compose -f docker-compose.dev.yml ps
+pnpm start:dev
+```
+
+Both containers should say healthy. If an earlier API startup already exhausted its retries, press Ctrl+C in that backend terminal and run pnpm start:dev again after the containers are healthy. Starting Docker alone does not restart an exited API process.
+
+From another terminal, verify:
+
+```powershell
+Invoke-RestMethod http://localhost:5001/v1/health
+```
+
+Use the ports already configured in your environment. Existing named volumes and accounts are retained; no database reset is needed.
