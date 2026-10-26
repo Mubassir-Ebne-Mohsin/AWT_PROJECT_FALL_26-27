@@ -330,6 +330,10 @@ test("M8 recorded topology renders the saved snapshot with numeric labels and a 
   assert.match(html, /failing at or above 100%/);
   assert.match(html, /modeled request flow, not observed packets/);
   assert.match(html, /modeled utilization 150%, failing/);
+  assert.match(html, /Connection: Users to App, modeled flow 300\/s/);
+  // Flow labels are drawn after every node so short edges never hide them under node bodies.
+  assert.ok(html.lastIndexOf("data-node=") < html.indexOf("cv-flow-labels"), "flow labels render above nodes");
+  assert.match(html, /cv-edge-label[^>]*>300\/s</);
 });
 
 test("M8 live preview labels: off, current, stale and paused are distinct and never claim to be saved", () => {

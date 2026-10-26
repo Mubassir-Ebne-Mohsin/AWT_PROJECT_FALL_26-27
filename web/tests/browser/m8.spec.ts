@@ -278,3 +278,24 @@ test("M8 session-modal reauthentication keeps the draft and renews the preview i
   await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
   expect(ids.at(-1)).not.toBe(before);
 });
+
+test("M8 editing with Load on: new/removed components never inherit old metrics; undo restores current output", async ({ page }, info) => {
+  const { errors } = await setup(page, "edit-overlay-" + info.project.name);
+  await page.getByRole("button", { name: "Load (L)" }).click();
+  await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator(".cv-node.overlay")).toHaveCount(3);
+  await page.getByRole("button", { name: "Add App server", exact: true }).click();
+  // Changed topology: the old output is stale, so nothing is painted as current until the new reply.
+  await expect(page.locator(".cv-node.overlay")).toHaveCount(0);
+  await expect(page.locator("[data-node]")).toHaveCount(4);
+  await expect(page.locator(".cv-node.overlay")).toHaveCount(4, { timeout: 15_000 });
+  await page.getByRole("button", { name: "Delete selection" }).click();
+  await expect(page.locator("[data-node]")).toHaveCount(3);
+  await expect(page.locator(".cv-node.overlay")).toHaveCount(3, { timeout: 15_000 });
+  await page.getByRole("button", { name: "Undo", exact: true }).click();
+  await expect(page.locator("[data-node]")).toHaveCount(4);
+  await expect(page.locator(".cv-node.overlay")).toHaveCount(4, { timeout: 15_000 });
+  await expect(page.getByRole("status").filter({ hasText: /^Saved ·/ })).toBeVisible({ timeout: 15_000 });
+  await noOverflow(page);
+  expect(errors).toEqual([]);
+});

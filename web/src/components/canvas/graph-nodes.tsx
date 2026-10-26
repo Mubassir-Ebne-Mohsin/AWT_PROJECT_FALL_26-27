@@ -39,12 +39,11 @@ export function GraphNodes({
           b = positions.get(e.to);
         return a && b ? (
           <g key={e.id} data-edge={e.id} role="button" tabIndex={0}
-            aria-label={"Connection: " + a.label + " to " + b.label}
+            aria-label={"Connection: " + a.label + " to " + b.label + (overlay?.edges.has(e.id) ? ", modeled flow " + overlay.edges.get(e.id)!.label : "")}
             aria-pressed={edgeSelected===e.id}
             onFocus={()=>onEdgeSelect(e.id)}
             onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();onEdgeSelect(e.id);}}}>
             <path className={"cv-edge"+(edgeSelected===e.id?" is-sel":"")+(overlay?.edges.has(e.id)?" flow":"")} markerEnd={"url(#"+markerId+")"} d={edgePath(a,b)} fill="none" style={overlay?.edges.has(e.id)?{strokeWidth:overlay.edges.get(e.id)!.width}:undefined}/>
-            {overlay?.edges.has(e.id) && (()=>{const ax=a.x+NODE_W,ay=a.y+NODE_H/2,bx=b.x,by=b.y+NODE_H/2;return <text className="cv-edge-label" x={(ax+bx)/2} y={(ay+by)/2-6} textAnchor="middle">{overlay.edges.get(e.id)!.label} modeled</text>;})()}
             <path className="m6-edge-hit" d={edgePath(a,b)} fill="none" stroke="transparent" strokeWidth="16"/>
           </g>
         ) : null;
@@ -119,6 +118,16 @@ export function GraphNodes({
           </g>
         );
       })}
+      {overlay && overlay.edges.size > 0 && (
+        <g className="cv-flow-labels" aria-hidden="true" pointerEvents="none">
+          {graph.edges.map((e) => {
+            const a = positions.get(e.from), b = positions.get(e.to), flow = overlay.edges.get(e.id);
+            if (!a || !b || !flow) return null;
+            const ax = a.x + NODE_W, ay = a.y + NODE_H / 2, bx = b.x, by = b.y + NODE_H / 2;
+            return <text key={e.id} className="cv-edge-label" x={(ax + bx) / 2} y={(ay + by) / 2 - 8} textAnchor="middle">{flow.label}</text>;
+          })}
+        </g>
+      )}
     </>
   );
 }
