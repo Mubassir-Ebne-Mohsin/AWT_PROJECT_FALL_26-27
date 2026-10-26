@@ -74,15 +74,17 @@ export class AuthService {
     if (await this.tokens.isFamilyRevoked(payload.fam)) {
       throw new AppException("SESSION_EXPIRED", "Your session has expired");
     }
+    // Do fallible database work before spending the credential. Otherwise a
+    // recoverable database outage turns the next retry into a replay revocation.
+    const user = await this.users.findById(payload.sub);
+    if (!user)
+      throw new AppException("UNAUTHENTICATED", "You are not signed in");
     if (!(await this.tokens.consumeRefresh(payload.jti, ttl))) {
       // A spent token came back: assume it was stolen and kill the whole chain.
       await this.tokens.revokeFamily(payload.fam, ttl);
       throw new AppException("SESSION_EXPIRED", "Your session has expired");
     }
 
-    const user = await this.users.findById(payload.sub);
-    if (!user)
-      throw new AppException("UNAUTHENTICATED", "You are not signed in");
     return this.issue(user, payload.fam, payload.exp);
   }
 

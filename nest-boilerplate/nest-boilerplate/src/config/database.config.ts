@@ -92,6 +92,14 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [__dirname + `/../database/migrations/*.${ext}`],
   logging: false,
   synchronize: false,
+  // Bound acquisition and server work, including lock waits. Server-side cancellation
+  // prevents a timed-out statement from silently committing after the client gives up.
+  extra: {
+    connectionTimeoutMillis: 1000,
+    statement_timeout: 2000,
+    query_timeout: 2500,
+    idle_in_transaction_session_timeout: 5000,
+  },
 };
 
 export default dataSourceOptions;

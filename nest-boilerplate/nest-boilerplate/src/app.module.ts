@@ -4,7 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { BullModule } from "@nestjs/bull";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { ThrottlerStorageRedisService } from "@nest-lab/throttler-storage-redis";
+import { ReliableThrottlerStorage } from "@/providers/cache/redis/reliable-throttler-storage";
 import { ZodValidationPipe } from "nestjs-zod";
 import { appConfig } from "@/config";
 import { PostgresDatabaseProviderModule } from "@/providers/database/postgres/provider.module";
@@ -34,7 +34,12 @@ const { env } = appConfig;
     ThrottlerModule.forRoot({
       // Live previews have their own bucket so a fast-editing tab cannot starve autosave/Run (M8).
       throttlers: [
-        { name: "default", ttl: 60_000, limit: env.THROTTLE_LIMIT, skipIf: isPreviewRoute },
+        {
+          name: "default",
+          ttl: 60_000,
+          limit: env.THROTTLE_LIMIT,
+          skipIf: isPreviewRoute,
+        },
         {
           name: "preview",
           ttl: 60_000,
@@ -47,7 +52,7 @@ const { env } = appConfig;
       storage:
         env.NODE_ENV === "test"
           ? undefined
-          : new ThrottlerStorageRedisService(env.REDIS_URL),
+          : new ReliableThrottlerStorage(env.REDIS_URL),
     }),
     UsersModule,
     AuthModule,
