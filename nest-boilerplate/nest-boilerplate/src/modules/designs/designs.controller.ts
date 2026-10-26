@@ -98,6 +98,18 @@ export class DesignsController {
     res.status(accepted.run.status === "pending" ? 202 : 200);
     return accepted;
   }
+  /** Saved Limits search: same durable admission/idempotency/polling protocol as simulate, stored kind "limits". */
+  @Post(":id/limits")
+  async limits(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() dto: RunRequestDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const accepted = await this.runs.submit(u.id, id, "limits", dto);
+    res.status(accepted.run.status === "pending" ? 202 : 200);
+    return accepted;
+  }
   @Get(":id/runs/:runId")
   run(
     @CurrentUser() u: AuthUser,

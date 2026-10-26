@@ -16,8 +16,13 @@ const messages: Record<ExecutionCode, string> = {
   CANCELLED: "Preview or provisional calculation was cancelled.",
   UNAVAILABLE: "Calculation service is shutting down.",
 };
+/** Optional refinement of RATE_LIMITED: the owner's own durable job is pending (preview is paused, not under pressure). */
+export type ExecutionReason = "DURABLE_PENDING";
 export class ExecutionError extends Error {
-  constructor(readonly code: ExecutionCode) {
+  constructor(
+    readonly code: ExecutionCode,
+    readonly reason?: ExecutionReason,
+  ) {
     super(messages[code]);
     this.name = "ExecutionError";
   }

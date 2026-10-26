@@ -100,6 +100,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/simulation/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["previewSimulation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/prepare": {
         parameters: {
             query?: never;
@@ -180,6 +196,24 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["simulateDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/limits": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["findDesignLimits"];
         delete?: never;
         options?: never;
         head?: never;
@@ -306,6 +340,202 @@ export interface components {
             /** @enum {string} */
             redis: "up" | "down";
             timestamp: string;
+        };
+        PreviewRequestDto: {
+            /** Format: uuid */
+            editorSessionId: string;
+            sequence: number;
+            /** @enum {number} */
+            schemaVersion: 1;
+            graph: {
+                nodes: ({
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "client";
+                    props: {
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cdn";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "lb";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "gateway";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "app";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "worker";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "cache";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "db";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "replica";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "queue";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        maxDepth?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "storage";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @enum {string} */
+                    type: "external";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                })[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
+            traffic: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
         };
         PrepareDesignDto: {
             input: {
@@ -1627,6 +1857,25 @@ export interface components {
         } | {
             /** @constant */
             reason: "REQUEST_ID_REUSED";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_SUPERSEDED";
+        };
+        PreviewErrorDetails: {
+            /** @constant */
+            reason: "PREVIEW_SUPERSEDED";
+        } | {
+            /** @constant */
+            reason: "DURABLE_PENDING";
+        } | {
+            /** @constant */
+            reason: "COMPLEXITY_LIMIT";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_TIMEOUT";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_FAILED";
         };
         Template: {
             /** @enum {string} */
@@ -2573,6 +2822,104 @@ export interface operations {
             };
         };
     };
+    previewSimulation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PreviewRequest"];
+            };
+        };
+        responses: {
+            /** @description Success */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["PreviewResponse"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     prepareDesign: {
         parameters: {
             query?: never;
@@ -3446,6 +3793,117 @@ export interface operations {
         };
     };
     simulateDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RunRequest"];
+            };
+        };
+        responses: {
+            /** @description Retained terminal request replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AcceptedRun"];
+                    };
+                };
+            };
+            /** @description Success */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AcceptedRun"];
+                    };
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    findDesignLimits: {
         parameters: {
             query?: never;
             header?: never;

@@ -111,7 +111,7 @@ export class SimulationExecutor {
           (s) => s.owner === owner && s.priority === "durable",
         )
       )
-        throw new ExecutionError("RATE_LIMITED");
+        throw new ExecutionError("RATE_LIMITED", "DURABLE_PENDING");
       for (const slot of [...this.slots.values()])
         if (slot.editor === editor) this.cancel(slot, "CANCELLED");
     } else {

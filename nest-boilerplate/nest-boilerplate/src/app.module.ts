@@ -18,6 +18,10 @@ import { HealthModule } from "@/modules/health/health.module";
 import { UsersModule } from "@/modules/users/users.module";
 
 import { SimulationModule } from "@/modules/simulation/simulation.module";
+import {
+  isPreviewRoute,
+  PREVIEW_THROTTLE_LIMIT,
+} from "@/common/decorators/preview-throttle.decorator";
 
 const { env } = appConfig;
 
@@ -28,7 +32,16 @@ const { env } = appConfig;
     RedisCacheModule,
     BullModule.forRoot({ url: env.REDIS_URL }),
     ThrottlerModule.forRoot({
-      throttlers: [{ name: "default", ttl: 60_000, limit: env.THROTTLE_LIMIT }],
+      // Live previews have their own bucket so a fast-editing tab cannot starve autosave/Run (M8).
+      throttlers: [
+        { name: "default", ttl: 60_000, limit: env.THROTTLE_LIMIT, skipIf: isPreviewRoute },
+        {
+          name: "preview",
+          ttl: 60_000,
+          limit: PREVIEW_THROTTLE_LIMIT,
+          skipIf: (context) => !isPreviewRoute(context),
+        },
+      ],
       // Counters live in Redis so limits survive restarts and work across instances.
       // Tests run on the default in-memory storage.
       storage:

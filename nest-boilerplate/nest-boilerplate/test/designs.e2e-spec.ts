@@ -256,8 +256,13 @@ describe("M3 saved designs and simulation (isolated database)", () => {
     expect(
       docs.body.paths["/v1/designs/{id}/simulate"].post.responses["202"],
     ).toBeDefined();
-    expect(docs.body.paths["/v1/simulation/preview"]).toBeUndefined();
-    expect(docs.body.paths["/v1/designs/{id}/limits"]).toBeUndefined();
+    // M8 (user-approved 2026-10-26) mounts preview and Limits; earlier these asserted absence.
+    expect(
+      docs.body.paths["/v1/simulation/preview"].post["x-implementation-status"],
+    ).toBe("implemented");
+    expect(
+      docs.body.paths["/v1/designs/{id}/limits"].post["x-implementation-status"],
+    ).toBe("implemented");
     await http
       .get("/v1/templates")
       .set(auth())

@@ -120,3 +120,4 @@ export const schemas = {
 // No Nest module/controller is registered in M1. These contracts describe future routes.
 export type Design = z.infer<typeof designSchema>;
 export type DesignRun = z.infer<typeof runSchema>;
+export type PreviewRequest = z.infer<typeof previewRequestSchema>;

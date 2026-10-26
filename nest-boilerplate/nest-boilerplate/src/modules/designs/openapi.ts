@@ -5,11 +5,11 @@ import {
   preparedDesignSchema,
 } from "@/modules/designs/creation.schema";
 import { phase2OpenApi } from "@/common/contracts/phase2/openapi";
-/** Reuse frozen contracts only for mounted operations. Preview/Limits stay planned. */
+/** Reuse frozen contracts for every mounted operation (M8 mounts Limits and preview). */
 export function documentDesigns(document: OpenAPIObject) {
   const contract = phase2OpenApi();
   document.openapi = "3.1.0";
-  const excluded = new Set(["/simulation/preview", "/designs/{id}/limits"]);
+  const excluded = new Set<string>();
   for (const [path, value] of Object.entries(contract.paths)) {
     if (excluded.has(path)) continue;
     const actual = JSON.parse(JSON.stringify(value)) as Record<string, unknown>;
