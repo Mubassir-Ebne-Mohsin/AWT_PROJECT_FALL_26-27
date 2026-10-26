@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { kindLabel, runHref, workspaceHref } from "@/lib/run-links";
 import { useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -140,9 +141,9 @@ export function Dashboard() {
                 </span>
                 <Link
                   className="btn btn-sm"
-                  href={"/designs/" + d.id + "/results?run=" + d.latestRun!.id}
+                  href={runHref(d.id, d.latestRun!)}
                 >
-                  Open results
+                  {d.latestRun!.kind === "limits" ? "Open Limits" : "Open results"}
                 </Link>
               </div>
             ))}
@@ -172,12 +173,15 @@ export function Dashboard() {
               <article className="panel m4-design-card" key={d.id}>
                 <Link
                   className="m4-design-link stack"
-                  href={
-                    "/designs/" +
-                    d.id +
-                    "/edit" +
-                    (d.latestRun ? "?run=" + d.latestRun.id : "")
-                  }
+                  href={workspaceHref(
+                    d.id,
+                    "edit",
+                    d.latestRun
+                      ? d.latestRun.kind === "limits"
+                        ? { limits: d.latestRun.id }
+                        : { run: d.latestRun.id }
+                      : {},
+                  )}
                 >
                   <div className="m4-card-head">
                     <span className="eyebrow">
@@ -198,7 +202,10 @@ export function Dashboard() {
                   <span className="hint">
                     {d.latestRun?.p95 == null
                       ? "No completed latency"
-                      : d.latestRun.p95.toFixed(2) + " ms p95 (stored)"}
+                      : d.latestRun.p95.toFixed(2) +
+                        (d.latestRun.kind === "limits"
+                          ? " ms p95 at current load (Limits search)"
+                          : " ms p95 (stored)")}
                   </span>
                   <button
                     className="btn btn-ghost btn-sm"
@@ -237,18 +244,23 @@ export function Dashboard() {
                   <tr key={r.id}>
                     <td>
                       <Link
-                        href={"/designs/" + r.designId + "/results?run=" + r.id}
+                        href={runHref(r.designId, r)}
                       >
                         {r.designName}
                       </Link>
+                      <span className="hint"> · {kindLabel(r.kind)}</span>
                     </td>
                     <td>{r.designRevision}</td>
                     <td>
                       {r.status === "failed"
                         ? "Calculation failed"
                         : r.status === "pending"
-                          ? "Test running"
-                          : r.verdict}
+                          ? r.kind === "limits"
+                            ? "Limits search running"
+                            : "Test running"
+                          : r.kind === "limits"
+                            ? (r.verdict ?? "completed") + " at current load"
+                            : r.verdict}
                     </td>
                     <td>{r.p95 == null ? "—" : r.p95.toFixed(2) + " ms"}</td>
                   </tr>

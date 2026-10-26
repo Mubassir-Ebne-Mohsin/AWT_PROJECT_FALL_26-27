@@ -9,6 +9,8 @@ import { ValidationPanel } from "@/components/canvas/validation-panel";
 import { CanvasEditor } from "@/components/canvas/canvas-editor";
 import { TrafficTab } from "@/components/workspace/traffic-tab";
 import { RunResults } from "@/components/workspace/run-results";
+import { LimitsTab } from "@/components/workspace/limits-tab";
+import { workspaceHref } from "@/lib/run-links";
 import { Crumbs } from "@/components/shell/crumbs";
 import { RoutePlaceholder } from "@/components/placeholder";
 import { resolveRoute } from "@/lib/routes";
@@ -16,16 +18,17 @@ import { WS_TABS } from "@/lib/catalog";
 import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
 import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
+const LIVE_TABS = ["edit", "traffic", "results", "limits"];
 export function Workspace({ id, tab }: { id: string; tab: string }) {
   const { user } = useAuth();
   const design = useQuery({
     queryKey: ["design", user?.id, id],
     queryFn: () => fetchDesign(id),
-    enabled: !!user && ["edit", "traffic", "results"].includes(tab),
+    enabled: !!user && LIVE_TABS.includes(tab),
     refetchOnMount: "always",
     refetchOnWindowFocus: "always",
   });
-  if (!["edit", "traffic", "results"].includes(tab))
+  if (!LIVE_TABS.includes(tab))
     return <RoutePlaceholder />;
   if (!design.data)
     return (
@@ -62,19 +65,55 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   const [current, setCurrent] = useState<Design | null>(null);
   const [actionError, setActionError] = useState("");
 
+  // ?run= selects a recorded simulation and ?limits= a saved Limits search; each is routed by its stored kind.
   const runId = search.get("run") ?? state.run?.id;
+  const limitsId = search.get("limits") ?? state.limitsRun?.id;
+  const selection = { run: runId, limits: limitsId };
   const runQuery = useQuery({
     queryKey: ["run", user?.id, initial.id, runId],
     queryFn: ({ signal }) => fetchRun(initial.id, runId!, signal),
     enabled: !!runId,
     refetchInterval: (q) => (q.state.data?.status === "pending" ? 600 : false),
   });
-  const displayedRun =
-    runQuery.data?.id === runId
-      ? runQuery.data
-      : state.run?.id === runId
-        ? state.run
-        : undefined;
+  const limitsQuery = useQuery({
+    queryKey: ["run", user?.id, initial.id, limitsId],
+    queryFn: ({ signal }) => fetchRun(initial.id, limitsId!, signal),
+    enabled: !!limitsId,
+    refetchInterval: (q) => (q.state.data?.status === "pending" ? 600 : false),
+  });
+  const pick = (
+    id: string | undefined,
+    data: typeof runQuery.data,
+    local: typeof state.run,
+    kind: "simulation" | "limits",
+  ) => {
+    const r = data?.id === id ? data : local?.id === id ? local : undefined;
+    return r?.kind === kind ? r : undefined;
+  };
+  const displayedRun = pick(runId, runQuery.data, state.run, "simulation");
+  const displayedLimits = pick(limitsId, limitsQuery.data, state.limitsRun, "limits");
+  const limitsPending =
+    state.limitsRunning || displayedLimits?.status === "pending";
+  const simulationPending =
+    state.running || displayedRun?.status === "pending";
+  // An older link may carry the wrong parameter for a stored kind: move it to the matching view.
+  useEffect(() => {
+    const misfiled =
+      runQuery.data?.id === runId && runQuery.data?.kind === "limits"
+        ? { run: undefined, limits: runId, tab: "limits" }
+        : limitsQuery.data?.id === limitsId &&
+            limitsQuery.data?.kind === "simulation"
+          ? { run: limitsId, limits: undefined, tab: "results" }
+          : null;
+    if (misfiled && isActive())
+      router.replace(
+        workspaceHref(initial.id, misfiled.tab, {
+          run: misfiled.run ?? (misfiled.tab === "limits" ? undefined : runId),
+          limits:
+            misfiled.limits ?? (misfiled.tab === "results" ? undefined : limitsId),
+        }),
+      );
+  }, [runQuery.data, limitsQuery.data, runId, limitsId, initial.id, router, isActive]);
   useEffect(() => {
     session.receiveServer(initial);
   }, [
@@ -89,6 +128,10 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
     if (runQuery.data && runQuery.data.id === runId)
       session.setRun(runQuery.data);
   }, [runQuery.data, runId, session]);
+  useEffect(() => {
+    if (limitsQuery.data && limitsQuery.data.id === limitsId)
+      session.setRun(limitsQuery.data);
+  }, [limitsQuery.data, limitsId, session]);
   useEffect(() => {
     if (
       !session.dirty ||
@@ -124,10 +167,30 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
       await queries.invalidateQueries({ queryKey: ["dashboard"] });
       if (!isActive()) return;
       router.replace(
-        "/designs/" + initial.id + "/results?run=" + accepted.run.id,
+        workspaceHref(initial.id, "results", {
+          run: accepted.run.id,
+          limits: limitsId,
+        }),
       );
     } catch {
       /* Session keeps a retryable identity and the draft. */
+    }
+  }
+  async function findLimits() {
+    setActionError("");
+    try {
+      const accepted = await session.findLimits();
+      if (!isActive()) return;
+      await queries.invalidateQueries({ queryKey: ["dashboard"] });
+      if (!isActive()) return;
+      router.replace(
+        workspaceHref(initial.id, "limits", {
+          run: runId,
+          limits: accepted.run.id,
+        }),
+      );
+    } catch {
+      /* Session keeps a retryable Limits identity (never a simulation one) and the draft. */
     }
   }
   async function resolveConflict() {
@@ -217,8 +280,8 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
               className="btn btn-primary btn-sm"
               disabled={
                 state.checking ||
-                state.running ||
-                state.run?.status === "pending" ||
+                simulationPending ||
+                limitsPending ||
                 state.conflict ||
                 state.gesture ||
                 !!state.inputErrors.length
@@ -244,10 +307,10 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
               key={t.id}
               className={`tab ${tab === t.id ? "active" : ""}`}
               aria-current={tab === t.id ? "page" : undefined}
-              href={`/designs/${initial.id}/${t.id}${runId ? "?run=" + runId : ""}`}
+              href={workspaceHref(initial.id, t.id, selection)}
             >
               {t.label}
-              {!["edit", "traffic", "results"].includes(t.id) && (
+              {!LIVE_TABS.includes(t.id) && (
                 <span className="ph-mark">Later</span>
               )}
             </Link>
@@ -258,6 +321,12 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
         {(state.error || actionError) && (
           <p className="note fail" role="alert">
             {state.error || actionError}
+          </p>
+        )}
+        {limitsPending && tab !== "limits" && (
+          <p className="hint" role="status">
+            A Limits search is pending. Run test becomes available when it
+            finishes.
           </p>
         )}
         {state.intent && (
@@ -365,7 +434,42 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             </button>
           </div>
         )}
-        {tab === "traffic" ? (
+        {limitsQuery.isError && (
+          <div className="note fail" role="alert">
+            <p>Could not load the selected Limits search.</p>
+            <button className="btn" onClick={() => limitsQuery.refetch()}>
+              Retry loading Limits
+            </button>
+          </div>
+        )}
+        {tab === "limits" ? (
+          <LimitsTab
+            designId={initial.id}
+            run={displayedLimits}
+            stale={session.isRunStale(displayedLimits)}
+            selection={selection}
+            finding={state.limitsRunning}
+            uncertain={!!state.limitsIntent}
+            canFind={
+              !state.checking &&
+              !simulationPending &&
+              !limitsPending &&
+              !state.conflict &&
+              !state.gesture &&
+              !state.inputErrors.length
+            }
+            blockedReason={
+              simulationPending
+                ? "A test run is pending. Find limits becomes available when it finishes."
+                : state.inputErrors.length
+                  ? "Correct the highlighted input before searching."
+                  : state.conflict
+                    ? "Resolve the save conflict before searching."
+                    : undefined
+            }
+            onFind={findLimits}
+          />
+        ) : tab === "traffic" ? (
           <TrafficTab session={session} run={displayedRun} />
         ) : (
           <RunResults

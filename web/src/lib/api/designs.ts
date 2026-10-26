@@ -13,6 +13,7 @@ export const fetchDesign = (id: string) => api<Design>("/designs/" + id);
 export const saveDesign = (id: string, body: Schemas["PatchDesign"]) => api<Design>("/designs/" + id, { method: "PATCH", body, silent: true });
 export const createDesign = (template: Template) => api<Design>("/designs", { method: "POST", body: { schemaVersion: 1, name: template.name, description: template.blurb, source: "template", templateId: template.id, graph: template.graph, traffic: template.traffic }, silent: true });
 export const submitRun = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/simulate", { method: "POST", body, silent: true });
+export const submitLimits = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/limits", { method: "POST", body, silent: true });
 export const fetchRun = (id: string, runId: string, signal?: AbortSignal) => api<DesignRun>("/designs/" + id + "/runs/" + runId, { signal });
 export const deleteDesign = (id: string) => api<void>("/designs/" + id, { method: "DELETE", silent: true });
 

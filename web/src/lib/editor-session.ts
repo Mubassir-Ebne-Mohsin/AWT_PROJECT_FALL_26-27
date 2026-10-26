@@ -2,6 +2,7 @@ import type { Design, DesignRun, Graph, AcceptedRun } from "@/lib/api/designs";
 import {
   saveDesign,
   submitRun,
+  submitLimits,
   validateDesign,
   type Validation,
 } from "@/lib/api/designs";
@@ -25,6 +26,10 @@ export interface EditorState {
   conflict: boolean;
   intent?: RunIntent;
   run?: DesignRun;
+  /** M8: a saved Limits search keeps its own identity, never shared with simulation. */
+  limitsRunning: boolean;
+  limitsIntent?: RunIntent;
+  limitsRun?: DesignRun;
   canUndo: boolean;
   canRedo: boolean;
   checking: boolean;
@@ -57,12 +62,14 @@ export class EditorSession {
     private patch = saveDesign,
     private submit = submitRun,
     private validate = validateDesign,
+    private submitLimitsRun = submitLimits,
   ) {
     this.state = {
       design,
       saved: design,
       saving: false,
       running: false,
+      limitsRunning: false,
       gesture: false,
       inputErrors: [],
       error: "",
@@ -89,8 +96,10 @@ export class EditorSession {
       this.dirty ||
       this.state.saving ||
       this.state.running ||
+      this.state.limitsRunning ||
       this.state.checking ||
-      !!this.state.intent
+      !!this.state.intent ||
+      !!this.state.limitsIntent
     );
   }
   receiveServer(design: Design) {
@@ -322,11 +331,16 @@ export class EditorSession {
       checking: false,
     });
   }
-  abandonUncertainIntent() {
-    this.update({ intent: undefined, error: "" });
+  abandonUncertainIntent(kind: "simulation" | "limits" = "simulation") {
+    this.update(
+      kind === "limits"
+        ? { limitsIntent: undefined, error: "" }
+        : { intent: undefined, error: "" },
+    );
   }
+  /** Stored kind decides the slot: a Limits run can never become the selected simulation (or vice versa). */
   setRun(run: DesignRun) {
-    this.update({ run });
+    this.update(run.kind === "limits" ? { limitsRun: run } : { run });
   }
   get stale() {
     return this.isRunStale(this.state.run);
@@ -342,12 +356,44 @@ export class EditorSession {
         })
     );
   }
-  async run(): Promise<AcceptedRun> {
+  run(): Promise<AcceptedRun> {
+    return this.calculate("simulation");
+  }
+  findLimits(): Promise<AcceptedRun> {
+    return this.calculate("limits");
+  }
+  private calculate(kind: "simulation" | "limits"): Promise<AcceptedRun> {
+    const limits = kind === "limits";
+    const slot = {
+      intent: () => (limits ? this.state.limitsIntent : this.state.intent),
+      setIntent: (intent?: RunIntent) =>
+        this.update(limits ? { limitsIntent: intent } : { intent }),
+      setRunning: (running: boolean) =>
+        this.update(limits ? { limitsRunning: running } : { running }),
+      setRun: (run: DesignRun) =>
+        this.update(
+          limits
+            ? { limitsRun: run, limitsIntent: undefined }
+            : { run, intent: undefined },
+        ),
+      submit: limits ? this.submitLimitsRun : this.submit,
+    };
+    return this.submitCalculation(slot);
+  }
+  private async submitCalculation(slot: {
+    intent: () => RunIntent | undefined;
+    setIntent: (intent?: RunIntent) => void;
+    setRunning: (running: boolean) => void;
+    setRun: (run: DesignRun) => void;
+    submit: typeof submitRun;
+  }): Promise<AcceptedRun> {
     if (this.disposed) throw new Error("This account session has ended");
-    if (this.state.running) throw new Error("Submission already in progress");
-    this.update({ running: true, error: "" });
+    if (this.state.running || this.state.limitsRunning)
+      throw new Error("Submission already in progress");
+    slot.setRunning(true);
+    this.update({ error: "" });
     try {
-      let intent = this.state.intent;
+      let intent = slot.intent();
       if (!intent) {
         do {
           await this.save();
@@ -357,25 +403,25 @@ export class EditorSession {
           expectedRevision: this.state.saved.revision,
           startedAt: Date.now(),
         };
-        this.update({ intent });
+        slot.setIntent(intent);
       }
       if (Date.now() - intent.startedAt >= 24 * 3600000)
         throw new Error(
           "Acceptance is unknown beyond the 24-hour retry guarantee. Check stored runs before starting a new calculation.",
         );
       if (this.disposed) throw new Error("This account session has ended");
-      const accepted = await this.submit(this.state.design.id, {
+      const accepted = await slot.submit(this.state.design.id, {
         requestId: intent.requestId,
         expectedRevision: intent.expectedRevision,
       });
       if (this.disposed) throw new Error("This account session has ended");
-      this.update({ run: accepted.run, intent: undefined });
+      slot.setRun(accepted.run);
       return accepted;
     } catch (error) {
       if (
         error instanceof ApiError &&
         error.status === 422 &&
-        this.state.intent?.expectedRevision === this.state.saved.revision
+        slot.intent()?.expectedRevision === this.state.saved.revision
       ) {
         const result = (
           error.details as { validation?: Validation } | undefined
@@ -395,13 +441,13 @@ export class EditorSession {
       }
       // Network/5xx can hide acceptance: preserve identity for Retry.
       if (error instanceof ApiError && [404, 409, 422].includes(error.status))
-        this.update({ intent: undefined });
+        slot.setIntent(undefined);
       this.update({
         error: error instanceof Error ? error.message : "Run submission failed",
       });
       throw error;
     } finally {
-      this.update({ running: false });
+      slot.setRunning(false);
     }
   }
   dispose() {
