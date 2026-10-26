@@ -155,6 +155,9 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
+M9 proposed detail: [Phase 2 acceptance and closure scope](M9-ACCEPTANCE-SCOPE.md), dated 2026-10-27. Awaiting user approval; M9 execution has not started.
+
+
 M8 detail: [Limits, live preview and overlay scope](M8-LIMITS-PREVIEW-SCOPE.md), approved 2026-10-26 and completed 2026-10-27; see the [M8 guide](M8-LIVE-PREVIEW-LIMITS.md) and report section20.
 
 
