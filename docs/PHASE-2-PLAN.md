@@ -155,6 +155,9 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
+M8 proposed detail: [Limits, live preview and overlay scope](M8-LIMITS-PREVIEW-SCOPE.md), dated 2026-10-26. Awaiting user approval; application implementation has not started.
+
+
 Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice, M4 creation/dashboard, M5 canvas fundamentals and M6 connections/history/repair are complete; M7 Traffic/Results is complete locally; M8–M9 remain Not started. See M7-TRAFFIC-RESULTS.md and report section19. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
 
 | Step | Context/output | Exit evidence |
