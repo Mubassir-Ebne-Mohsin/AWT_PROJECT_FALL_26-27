@@ -1,8 +1,8 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-24 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-10-26 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase 1 remediation baseline **9e8bb00** was published to GitHub main on 2026-10-24. M1–M6 code is now published on GitHub branch **codex/phase2-contracts** (verified remote checkpoint **b90737d**); main retains the Phase1 baseline. Phase2 remains in progress: M6 adds connections, undo and actionable graph repair; M7–M9 remain. See sections13–17 for evidence, limitations and publication details.
+> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results is complete locally with evidence in section19; no M7 push or main merge occurred. Phase2 remains in progress: M8 Limits/preview and M9 final acceptance are unfinished.
 
 ## 1. Maintenance instructions
 
@@ -32,7 +32,7 @@ Build and run: see `README.md` at the repo root.
 
 Sources used to define phase requirements:
 
-- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard, M5 canvas and M6 connections/history/repair scopes, with verification in sections15–17. Historical Phase1 sources follow.
+- Current Phase2 scope: docs/PHASE-2-PLAN.md and the user-approved M4 creation/dashboard, M5 canvas and M6 connections/history/repair scopes, and the approved M7 Traffic/Results scope, with verification in sections15–19. Historical Phase1 sources follow.
 
 - `nest-boilerplate/nest-boilerplate/docs/stressforge/PHASE-1-PROMPT.md` (the Phase 1 specification; the only roadmap-like document found).
 - The prototype's `PHASE_NAMES` and route phases (SECTION 5) for the phase names of Phases 2 to 5.
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-24): M0 published baseline + M1 contracts/fixtures + M2 engine/worker complete; M3 saved-design journey, M4 creation/dashboard, M5 canvas and M6 connections/history/repair complete; M7–M9 not started. See sections13–17; Phase2 code published on codex/phase2-contracts |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-26): M0–M7 complete for their approved scopes; M8 Limits/live preview/overlay and M9 final acceptance not started. See sections13–19. M7 remains local; earlier M1–M6 published on codex/phase2-contracts |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; full Phase2 completion still requires M7–M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; full Phase2 completion still requires M8–M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,10 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-26 — M7 completed locally:** Full Traffic controls and recorded Results implemented.174 backend unit/44 e2e/101 frontend unit tests pass. Final complete browser invocation168 passed/4 intentional production dev skips; separate dev4/4 covers the skips. M7 has44 unique Chrome combinations (40 in that full run plus4 separately added pipeline-analysis cases) and11 Edge passes across two invocations. Real PostgreSQL/Redis/API interruptions retained traffic/history, recovered Undo and allowed a new run. Section19 preserves initial failed invocations and test corrections. M8–M9 remain; no M7 GitHub push.
+
+
 
 - **2026-10-25 — Local startup recovery:** Pasted log showed PostgreSQL/Redis ECONNREFUSED after successful compilation. Docker Desktop engine was stopped. Started Docker and the existing normal development Compose services without resetting volumes, restarted the exited backend watcher under Node22, and verified health200 (postgres up/redis up) plus Swagger200. See section18. No M7 implementation.
 
@@ -968,3 +972,74 @@ Cleanup evidence: final audit health/docs200 recorded, then only verified API500
 [Verified] Started Docker Desktop, ran docker compose -f docker-compose.dev.yml up -d --wait in the existing backend directory, and confirmed both normal development containers healthy. Restarted only the identified failed project watcher with Node22.23.4 / pnpm start:dev. GET http://localhost:5001/v1/health returned200 with status ok, postgres up and redis up; /docs returned200. The restored normal services and backend watcher were left running for use.
 
 This was a stopped dependency/startup-order problem; no application behavior, dependency, migration or .env value changed. Existing volumes/accounts and unrelated work were preserved. README now explains starting Docker/services before the backend and restarting an exhausted startup attempt. No automated regression suite was rerun for this operational/docs-only recovery; live service health and Swagger were verified. M7 remains not started. This recovery update is local unless separately published.
+
+## 19. M7 — Traffic and recorded Results
+
+**2026-10-26 (Asia/Dhaka). Verdict: M7 COMPLETE for the approved scope. Phase2 remains IN PROGRESS; M8 and M9 remain required.** The user approved the reviewed scope before implementation. Sources: the Phase2 roadmap, prototype Sections15–16 and existing M1/M2 contracts/model, M3 saved-run protocol and M6 editing/history safeguards. Applicable web/AGENTS.md and installed Next client-boundary documentation were read. See [M7 operating guide](M7-TRAFFIC-RESULTS.md) and [durable verification evidence](audit/m7-verification.json).
+
+### Requirements and observed evidence
+
+| Requirement | Implementation and verification | Status |
+| --- | --- | --- |
+| Traffic presets/settings | Server catalog supplies all five presets; Custom, logarithmic rate slider/numeric input, burst, read share, shape, p95 target, error budget and duration. All presets and settings persisted/reloaded in four width/theme browser cases. Presets preserve budget/duration, matching the source | Verified |
+| Region/history integration | All Clients update atomically; mixed/no-client cases handled. Input-only history, same-field grouping, Undo/Redo buttons/shortcuts and existing autosave reused. Unit tests cover multiple Clients, no Clients, preset action boundaries and undo branching | Verified |
+| Input validation and save barrier | Zod mirrors the server traffic envelope. Invalid raw values block writes/Run; Escape restores last valid values. Tests exercise zero, nonfinite/out-of-range input, delayed saves/newer traffic,409 retention/reapply,429/no simulation and same-identity uncertain retries | Verified |
+| Complete recorded results | Verdict reasons, p50/p95/p99, errors, throughput, bottleneck, sorted utilization/load/capacity/service/rejected metrics and inspectable mean service/wait/saturation. Real overload and replica changes alter backend metrics | Verified |
+| Charts/paths/supporting analysis | SVG timeline and accessible data table use returned samples with distinct axes/target; returned common read/write paths, mean contributions, queues, background failures and cross-region effects are rendered conditionally. Unit checks cover empty/zero/constant/extreme series; browser runs cover zero/maximum load plus an actual overloaded saved pipeline with growing backlog, background drops and cross-region calls | Verified |
+| Snapshot honesty | Targets, labels, graph/traffic, revision/fingerprint/engine/time come from the selected stored run. Semantic edits stale it; layout-only moves do not. Browser target300→600 confirms old target remains300 until a new run. Unit cases cover tiny nonzero errors, unbounded and utilization above100% | Verified |
+| Understand verdict and improve | Deterministic reasons distinguish high utilization, latency proximity without bottleneck and target/budget failure. Results row selection exposes inspection; Edit [component] selects the current node. Existing repair/run loop retained | Verified |
+| Session/failure recovery | Traffic session-modal login preserves draft/history; logout clears history. Real PostgreSQL/Redis health503 and actual API-process outage retain inputs/history; recovery200, Undo and a subsequent simulation pass. Selected-result503 has a controlled failure/recovery browser check | Verified |
+| Responsive/source/accessibility | Prototype and final Traffic/Results screenshots inspected; source fonts/tokens/cards/semantic palette reused.1024/1440 light/dark browser cases assert no document overflow; normal M7 zero/results flows assert no page or console errors. Labelled controls, keyboard sliders/history, row buttons and readable chart tables exercised | Verified |
+| Integration/docs/scope | Existing routes and API contracts reused; no new endpoint, migration, env value, engine formula or dependency. Builds/types/lint/tests/live API-type equality pass. This report, tracker, roadmap, architecture, README and test/operating guides updated. M8 preview/overlay/Limits not implemented | Verified |
+
+Main implementation: WEB/src/lib/{traffic,result-presentation,editor-session}.ts; components/workspace/{traffic-tab,traffic-field,timeline-chart,run-results,workspace}.tsx; canvas/canvas-editor.tsx for selected-node links; styles/m7.css. Tests: tests/m7.test.cjs, browser/m7.spec.ts and opt-in verify-m7-services.cjs. Existing M6 navigation test now explicitly waits for the Results/Edit URLs before reload; original graph/auth assertions remain.
+
+### Checks and exact results
+
+Node22.23.4 and existing pinned pnpm/package versions. Commands ran against dedicated labelled containers PostgreSQL5550/Redis6397, sf_m7_audit/sf_m7_e2e, API5003/web3003 and a process-only auth limit300. Normal data/.env were preserved.
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build / pnpm typecheck / pnpm lint:check | Exit0;0 errors,22 inherited lint warnings |
+| API TEST_REDIS_COMPOSE=1 pnpm test --runInBand | Exit0;174/174,12 suites,100.22s; includes real disposable Redis authentication |
+| API DB_TEST_DATABASE=sf_m7_e2e pnpm test:e2e | Exit0;44/44,2 suites,43.158s; actual PostgreSQL with existing Redis/throttler doubles |
+| Fresh sf_m7_audit pnpm migration:run | Exit0; existing CreateUsers and CreateDesigns migrations; no new migration |
+| WEB pnpm build / pnpm typecheck / pnpm lint | Exit0; separate .next-audit production build; strict types; frontend lint clean |
+| WEB pnpm test | Exit0;101/101,32.991s;15 focused M7 cases added |
+| WEB pnpm check:routes; live openapi-typescript /docs-json --check | Exit0;35 routes, generated mounted API types unchanged |
+| Initial1440/light M7 pilot | Exit1;6 passed,2 failed; accessible dropdown naming and replicas test label corrected before matrix verification |
+| First scoped Chrome M7 matrix | Exit0;32/32 across four width/theme combinations; subsequent tests added, not an extra unique-test total |
+| Initial full Chrome browser command | Exit1;161 passed,3 failed,4 intentional dev skips,12.0min; failures/corrections below |
+| Intermediate full Chrome rerun | Exit1;163 passed,1 M4 navigation/heading-locator failure,4 intentional dev skips,10.8min. Corrected case repeated8/8 across all four configurations before the final full rerun |
+| Final corrected full Chrome pnpm exec playwright test | Exit0;168 passed,0 failed,4 intentional production dev skips,10.6min. Includes Foundation, M3–M6 and40 M7 cases |
+| Earlier targeted maximum-traffic check | Exit0;4/4,17.2s.10-million-rps ×100 burst, keyboard read control, finite output/no horizontal overflow. These cases are also included in the final full run, not added twice |
+| Added real pipeline-analysis browser case | Exit0;4/4,19.2s. Added after the final command discovered its tests, so reported separately. Actual overloaded worker, growing queue, background failures and cross-region calls at all four widths/themes |
+| M7 unique Chrome coverage |44/44: ten journeys ×four in the final full command plus four separate pipeline-analysis cases. Earlier overlapping invocations are not added |
+| Edge m7.spec.ts --project=1440-light | Exit0;10/10 core journeys,32.4s; separately added pipeline-analysis case1/1,7.2s.11 distinct M7 journeys total |
+| Separate next dev; SF_DEV_STATES=1 Playwright --grep @dev | Initial3 passed/1 missed first shortcut,48.7s. After an observable form-handler readiness assertion, final Exit0;4/4,30.3s; all ten forced states per width/theme, separately covering production skips |
+| SF_M7_REAL_OUTAGES=1 node tests/verify-m7-services.cjs (interactive) | Exit0; PostgreSQL503/Redis503, actual API unreachable screen, health200 recovery; traffic/history retained, Undo and new run verified |
+| Final health / Swagger |200 /200 before cleanup |
+
+Detailed logs are ignored locally. Sanitized aggregate and m7-* screenshots in docs/audit retain the evidence. Historical M3–M6 screenshots regenerated by regression runs were restored from HEAD, preserving earlier evidence.
+
+### Corrections found during verification
+
+1. **Accessible select names:** implicit wrapping labels included option text, making exact named selection unreliable. Added explicit accessible names; controls/presets and persistence pass across all four configurations. One initial test also used Replicas instead of the existing Replicas (1–200) label; corrected the test.
+2. **Visual override:** inherited M3 grid styling overrode M7 metric-card columns. Increased the scoped selector specificity and tightened numeric-field proportions after comparing the actual prototype. The final width/theme checks use the corrected production build. This is a source-style port within the existing M6 shell, not a claim of pixel-identical final UI; numerical topology overlay remains M8.
+3. **Navigation/reload synchronization:** full regression first failed two M6 blank-to-run cases because the summary could appear on Edit before asynchronous navigation reached Results; immediately clicking Edit/reloading could interrupt that transition. The test now waits for the Results URL and then the Edit URL before reload. M7's Run helper likewise waits for the accepted run URL. No application navigation/auth/security rule was relaxed.
+4. **Failure-screen assertion:** a broad regex containing server selected a hidden SVG title for App servers. The corrected test targets the system heading, holds mocked dependency health503 during its assertion, then restores health/result responses and verifies recovery. Initial failures remain recorded above; the entire corrected suite was rerun.
+5. **Dashboard-transition assertion:** the intermediate rerun encountered an existing M4 lost-creation-response test selecting both a template heading and the saved-card heading during navigation. It now waits for the Dashboard URL and targets the owned-design article, keeping the original no-duplicate/count-one assertions. Eight focused repeats passed before the final complete172-case invocation passed168 with only its four intentional dev skips.
+6. **Developer-only shortcut readiness:** the first dev matrix passed3/4 but1440-dark missed its initial Ctrl+Shift+D menu. A cold hydration/effect timing race is inferred, not proven as a general application defect. The dev-only test now submits the empty login form and observes its client-validation result before using the window shortcut; all four projects then pass. Production test bodies are unchanged by this readiness step, and their four intentional skips remain separately covered.
+7. **Test/tool setup:** an initial test-only prefer-const lint error was corrected; final lint passes. The first API-outage coordination attempt had no interactive input and could not finish its stop/restart step; a later warm-start health check was retried only after explicitly confirming health200. The final interactive execution verified the complete outage sequence. These earlier attempts are not counted as full successful outage runs.
+
+### Decisions, limitations and remaining Phase2 work
+
+- [Verified] Traffic's preview/outcome is explicitly the last recorded run. Editing does not compute in the browser or silently invoke live preview. Results timelines are independent illustrative model samples, not live measurements. No invented progress percentage or real-time duration wait was added.
+- [Verified] Ordinary source slider/selection ranges are retained; the numeric fields preserve the existing API safety envelope and imported custom values rather than silently clamping them. Zero load is explicitly supported. Presets change the same fields as the prototype and preserve budget/duration.
+- [Verified] Pending/failed/absent results render no fabricated completed metrics. Selected-run identity, account separation, save conflicts and uncertain acceptance remain covered by new and existing tests.
+- [Verified] Phase1 and earlier milestone regression verdicts remain unchanged after the final complete browser rerun and backend tests. No new runtime dependency, lockfile change, endpoint, migration, environment setting or engine formula was introduced. The pre-existing modified audit/m2-profile-source.json remains untouched/excluded.
+- [Untested] Firefox/WebKit, formal assistive-technology audit and long-duration soak/storage-growth testing. Existing backend advisories remain triaged in section14; no fresh dependency scan or clean-security-audit claim.
+- [Verified] Memory-only drafts/history, no offline persistence/cross-tab merge, existing single-instance job limits and model assumptions remain. Normal Docker services/accounts were preserved. Only M7 audit processes/containers are stopped at cleanup; their data is retained for reproduction.
+- [Verified] M8 must still implement Limits, debounced live preview and numerical load overlays; M9 must complete integration acceptance and final documentation/publication review. Real AI remains a later essential course requirement. M7 completion does not complete Phase2 or authorize M8.
+
+**M7 verdict: COMPLETE for the approved Traffic/recorded Results scope, with no unresolved mandatory M7 functional failure observed in the completed gates.** Changes are committed locally on codex/phase2-contracts; no M7 GitHub push, main merge or production deployment occurred. Future completion work MUST update this same report, preserve earlier history, record new evidence and reassess affected earlier requirements; nothing updates automatically.

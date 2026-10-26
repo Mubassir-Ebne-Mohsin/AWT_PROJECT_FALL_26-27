@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-24 (Asia/Dhaka). **Status:** user approved starting M0–M1 on 2026-10-24; M2 subsequently approved and completed on 2026-10-24; M3 explicitly approved and completed on 2026-10-24; M4 subsequently approved and implemented; M5 canvas scope explicitly approved and implemented; M6 connections/history/graph repair approved, implemented and code published on codex/phase2-contracts; acceptance evidence is recorded in the living report. This document supersedes the original draft, preserved in [the archive](archive/PHASE-2-PLAN-2026-10-22.md). Recommended defaults below are planning decisions, not invented user approvals or verified implementations.
+**Revised:** 2026-10-26 (Asia/Dhaka). **Status:** M0–M7 completed for their user-approved scopes; M7 Traffic/recorded Results verified locally on 2026-10-26. M8–M9 remain not started and require subsequent authorization. M1–M6 published on codex/phase2-contracts; M7 remains local. Earlier planning/history is retained below and in the living report; the original draft remains in [the archive](archive/PHASE-2-PLAN-2026-10-22.md).
 
 ## 1. Target and recommendation
 
@@ -155,7 +155,7 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
-Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice, M4 creation/dashboard, M5 canvas fundamentals and M6 connections/history/repair are complete; M7–M9 remain Not started. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
+Each milestone is a reviewable coding step; split further if its diff becomes too large. M0 was completed and published on 2026-10-24 (9e8bb00); M1 contracts/fixtures completed locally; see [contract guide](contracts/README.md) and progress report section 11. M2 engine/worker is complete; see [model/execution evidence](SIMULATION-MODEL.md) and report section12. M3 first-slice, M4 creation/dashboard, M5 canvas fundamentals and M6 connections/history/repair are complete; M7 Traffic/Results is complete locally; M8–M9 remain Not started. See M7-TRAFFIC-RESULTS.md and report section19. See M3-SAVED-DESIGNS.md and progress report section13. M0 is baseline preparation, not new functionality.
 
 | Step | Context/output | Exit evidence |
 | --- | --- | --- |
@@ -258,3 +258,7 @@ Archive formatting note: the original plan text is retained; three Markdown trai
 - 2026-10-24 M5: approved canvas fundamentals implemented: twelve catalog types, SVG selection/movement/properties, palette drops, pan/zoom/fit/minimap, keyboard alternatives and guarded persistence. See [M5 guide](M5-CANVAS.md) and report section16 for final acceptance evidence. Existing edges render; editing connections, deleting/duplicating components and undo/redo remain M6 and require subsequent approval. Phase2 overall remains in progress.
 
 - 2026-10-24 M6: user approved implementation and GitHub publication. Added connection creation/reversal/deletion, component duplicate/delete, capped grouped local undo/redo, explicit saved-revision validation and actionable repair issues. M6 Chrome40/40, Edge10/10, session/history and real service outages verified; the full-run Foundation timing failures and successful strengthened rechecks are retained in report section17. Code a08d284 and Foundation harness b90737d published on codex/phase2-contracts. M7–M9 remain; no approval to start M7 is implied.
+
+
+
+- 2026-10-26 M7: user approved the reviewed Traffic/Results scope. Completed server-catalog settings, traffic history/save integration, recorded metric/path/timeline/inspection views and snapshot-safe verdicts. See [M7 guide](M7-TRAFFIC-RESULTS.md) and report section19 for full passing regression, separate edge-case/dev/Edge checks, actual outages and retained initial failures. M8–M9 remain; M7 is local with no new GitHub push.

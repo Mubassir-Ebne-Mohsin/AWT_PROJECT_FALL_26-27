@@ -1,0 +1,221 @@
+{
+  "date": "2026-10-26",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M7 Traffic and recorded Results",
+  "verdict": "complete for approved scope; Phase 2 remains in progress",
+  "publication": {
+    "branch": "codex/phase2-contracts",
+    "M7": "local commits only; no push or main merge in this milestone"
+  },
+  "runtime": {
+    "node": "22.23.4",
+    "apiPort": 5003,
+    "webPort": 3003,
+    "postgresPort": 5550,
+    "redisPort": 6397,
+    "auditDatabase": "sf_m7_audit",
+    "e2eDatabase": "sf_m7_e2e",
+    "processOnlyAuthLimit": 300,
+    "normalDataPreserved": true
+  },
+  "checks": {
+    "backendBuild": {
+      "exit": 0
+    },
+    "backendTypecheck": {
+      "exit": 0
+    },
+    "backendLint": {
+      "exit": 0,
+      "errors": 0,
+      "inheritedWarnings": 22
+    },
+    "backendUnit": {
+      "exit": 0,
+      "passed": 174,
+      "suites": 12,
+      "seconds": 100.22,
+      "realRedisCompose": true
+    },
+    "backendE2e": {
+      "exit": 0,
+      "passed": 44,
+      "suites": 2,
+      "seconds": 43.158,
+      "realPostgres": true,
+      "redisAndThrottle": "existing doubles"
+    },
+    "freshMigrations": {
+      "exit": 0,
+      "database": "sf_m7_audit",
+      "applied": [
+        "CreateUsers1761000000000",
+        "CreateDesigns1792800000000"
+      ]
+    },
+    "frontendBuild": {
+      "exit": 0,
+      "separateDist": ".next-audit"
+    },
+    "frontendTypecheck": {
+      "exit": 0
+    },
+    "frontendLint": {
+      "exit": 0,
+      "warnings": 0
+    },
+    "frontendUnit": {
+      "exit": 0,
+      "passed": 101,
+      "seconds": 32.9907581,
+      "newM7Cases": 15
+    },
+    "routes": {
+      "exit": 0,
+      "count": 35
+    },
+    "liveApiTypes": {
+      "exit": 0,
+      "unchanged": true
+    },
+    "pilotM7Chrome": {
+      "exit": 1,
+      "passed": 6,
+      "failed": 2,
+      "scope": "1440/light pilot; accessible dropdown names and existing replicas label corrected before the first matrix"
+    },
+    "initialM7Chrome": {
+      "exit": 0,
+      "passed": 32,
+      "scope": "original eight M7 journeys at four widths/themes after pilot corrections, before added session/boundary cases"
+    },
+    "initialFullChrome": {
+      "exit": 1,
+      "passed": 161,
+      "failed": 3,
+      "skipped": 4,
+      "minutes": 12.0,
+      "failures": "two M6 navigation/reload races and one broad M7 failure-screen locator"
+    },
+    "intermediateFullChrome": {
+      "exit": 1,
+      "passed": 163,
+      "failed": 1,
+      "skipped": 4,
+      "minutes": 10.8,
+      "failure": "M4 dashboard navigation encountered duplicate template/card headings before its locator was scoped"
+    },
+    "M4FocusedRepeat": {
+      "exit": 0,
+      "passed": 8,
+      "seconds": 52.8,
+      "scope": "two repeats in each width/theme; dashboard URL and owned design card are asserted before count check"
+    },
+    "finalFullChrome": {
+      "exit": 0,
+      "passed": 168,
+      "failed": 0,
+      "skipped": 4,
+      "scope": "all Foundation/M3/M4/M5/M6 and ten M7 journeys at four width/theme combinations; intentional production dev skips"
+    },
+    "addedMaximumTrafficChrome": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 17.2,
+      "scope": "earlier targeted maximum-load verification; these cases are also included in the final full suite, not an additional unique count"
+    },
+    "addedBackgroundAnalysisChrome": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 19.2,
+      "scope": "actual queue backlog, background failures and cross-region details at four widths/themes; added after final full discovery and verified separately"
+    },
+    "M7UniqueChrome": {
+      "passed": 44,
+      "scope": "ten journeys x four in the final full suite plus the four separate background-analysis cases; earlier overlapping invocations not added"
+    },
+    "M7Edge": {
+      "exit": 0,
+      "passed": 11,
+      "scope": "ten core journeys in one invocation plus the separately added background-analysis case, 1440/light"
+    },
+    "initialDevStateMatrix": {
+      "exit": 1,
+      "passed": 3,
+      "failed": 1,
+      "seconds": 48.7,
+      "failure": "first shortcut on 1440-dark did not open the menu; hydration timing inferred"
+    },
+    "devStateMatrix": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 30.3,
+      "scope": "all ten forced states at four width/theme combinations on next dev; observable form-handler readiness gate; covers production skips"
+    },
+    "actualServiceOutages": {
+      "exit": 0,
+      "postgresHealthDown": 503,
+      "redisHealthDown": 503,
+      "recoveredHealth": 200,
+      "apiUnreachableState": true,
+      "trafficRetained": true,
+      "historyRetained": true,
+      "undoRecovered": true,
+      "runAfterRecovery": true
+    },
+    "healthAndSwagger": {
+      "health": 200,
+      "docs": 200
+    }
+  },
+  "changes": {
+    "newRuntimeDependencies": 0,
+    "databaseMigrations": 0,
+    "apiEndpoints": 0,
+    "contractChanges": 0,
+    "engineFormulaChanges": 0,
+    "envChanges": 0
+  },
+  "cleanup": {
+    "finalHealth": 200,
+    "finalSwagger": 200,
+    "onlyM7AuditServicesStopped": true,
+    "auditDataRetained": true,
+    "normalServicesHealthy": true,
+    "historicalScreenshotsRestored": true,
+    "unrelatedM2ProfilePreserved": true
+  },
+  "evidenceImages": [
+    "m7-api-unreachable.png",
+    "m7-background-1024-dark.png",
+    "m7-background-1024-light.png",
+    "m7-background-1440-dark.png",
+    "m7-background-1440-light.png",
+    "m7-reference-results-1440-light.png",
+    "m7-reference-traffic-1440-light.png",
+    "m7-results-1024-dark.png",
+    "m7-results-1024-light.png",
+    "m7-results-1440-dark.png",
+    "m7-results-1440-light.png",
+    "m7-results-detail-1024-dark.png",
+    "m7-results-detail-1024-light.png",
+    "m7-results-detail-1440-dark.png",
+    "m7-results-detail-1440-light.png",
+    "m7-traffic-1024-dark.png",
+    "m7-traffic-1024-light.png",
+    "m7-traffic-1440-dark.png",
+    "m7-traffic-1440-light.png",
+    "m7-traffic-settings-1024-dark.png",
+    "m7-traffic-settings-1024-light.png",
+    "m7-traffic-settings-1440-dark.png",
+    "m7-traffic-settings-1440-light.png"
+  ],
+  "limitations": [
+    "Firefox/WebKit and formal assistive-technology audit not run",
+    "No long-duration soak or storage-growth testing",
+    "Earlier backend dependency advisories remain triaged, not freshly rescanned",
+    "Memory-only drafts/history; no offline persistence or cross-tab merge",
+    "M8 overlay/live preview/Limits and M9 integration acceptance remain",
+    "Real AI is a later essential requirement; no AI calls made"
+  ]
+}
