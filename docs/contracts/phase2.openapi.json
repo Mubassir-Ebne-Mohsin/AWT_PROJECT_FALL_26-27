@@ -5955,6 +5955,88 @@
               "reason"
             ],
             "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "PREVIEW_SUPERSEDED"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "PreviewErrorDetails": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "PREVIEW_SUPERSEDED"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "DURABLE_PENDING"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "COMPLEXITY_LIMIT"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "PREVIEW_TIMEOUT"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "reason": {
+                "type": "string",
+                "const": "PREVIEW_FAILED"
+              }
+            },
+            "required": [
+              "reason"
+            ],
+            "additionalProperties": false
           }
         ]
       },

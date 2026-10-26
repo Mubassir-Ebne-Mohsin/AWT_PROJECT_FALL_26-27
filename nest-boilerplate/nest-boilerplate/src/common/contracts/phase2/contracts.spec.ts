@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { ConflictException } from "@nestjs/common";
 import { graphSchema, importSchema, snapshotSchema, trafficSchema, TRAFFIC_DEFAULTS, Snapshot } from "@/common/contracts/phase2/graph.schema";
-import { createDesignSchema, patchDesignSchema, runRequestSchema, runSchema } from "@/common/contracts/phase2/api.schema";
+import { conflictDetailsSchema, createDesignSchema, patchDesignSchema, previewErrorDetailsSchema, previewRequestSchema, runRequestSchema, runSchema } from "@/common/contracts/phase2/api.schema";
 import { boundedValue, nodeMetricSchema } from "@/common/contracts/phase2/result.schema";
 import { parseImportText } from "@/common/contracts/phase2/import-text";
 import { inputFingerprint } from "@/common/contracts/phase2/fingerprint";
@@ -139,6 +139,22 @@ describe("Phase 2 contract boundaries (not engine implementation)", () => {
       switchToHttp: () => ({ getResponse: () => ({ status: (status: number) => ({ json: (body: unknown) => { actual = { status, body }; } }) }) }),
     } as never);
     expect(actual).toEqual({ status: 409, body: { error: { code: "CONFLICT", message: "Stale revision" } } });
+  });
+  it("M8 preview error details are a closed, strict set of reasons", () => {
+    for (const reason of ["PREVIEW_SUPERSEDED", "DURABLE_PENDING", "COMPLEXITY_LIMIT", "PREVIEW_TIMEOUT", "PREVIEW_FAILED"])
+      expect(previewErrorDetailsSchema.safeParse({ reason }).success).toBe(true);
+    expect(previewErrorDetailsSchema.safeParse({ reason: "CAPACITY" }).success).toBe(false);
+    expect(previewErrorDetailsSchema.safeParse({ reason: "DURABLE_PENDING", owner: "x" }).success).toBe(false);
+    expect(conflictDetailsSchema.safeParse({ reason: "PREVIEW_SUPERSEDED" }).success).toBe(true);
+  });
+  it("preview requests require a UUID editor session and a safe nonnegative sequence", () => {
+    const base = { ...sample(), editorSessionId: uuid, sequence: 0 };
+    expect(previewRequestSchema.safeParse(base).success).toBe(true);
+    expect(previewRequestSchema.safeParse({ ...base, sequence: -1 }).success).toBe(false);
+    expect(previewRequestSchema.safeParse({ ...base, sequence: 1.5 }).success).toBe(false);
+    expect(previewRequestSchema.safeParse({ ...base, sequence: Number.MAX_SAFE_INTEGER + 1 }).success).toBe(false);
+    expect(previewRequestSchema.safeParse({ ...base, editorSessionId: "not-a-uuid" }).success).toBe(false);
+    expect(previewRequestSchema.safeParse({ ...base, ownerId: uuid }).success).toBe(false);
   });
   it("validates source-derived request/response examples for every planned flow", () => {
     const output = phase2Examples();

@@ -83,6 +83,10 @@ export function phase2Examples() {
     { flow: "POST preview data", schema: "PreviewResponse", value: { editorSessionId: id, sequence: 1, fingerprint: inputFingerprint(input), engineVersion: MODEL_VERSION, validation: validation(template.expected.validation), summary: simulation.summary } },
     { flow: "409 revision error details", schema: "ConflictDetails", value: { reason: "REVISION_MISMATCH", currentRevision: 2 } },
     { flow: "409 request reuse details", schema: "ConflictDetails", value: { reason: "REQUEST_ID_REUSED" } },
+    { flow: "409 preview superseded details", schema: "PreviewErrorDetails", value: { reason: "PREVIEW_SUPERSEDED" } },
+    { flow: "429 preview paused by the owner's pending Run/Limits", schema: "PreviewErrorDetails", value: { reason: "DURABLE_PENDING" } },
+    { flow: "422 preview complexity limit", schema: "PreviewErrorDetails", value: { reason: "COMPLEXITY_LIMIT" } },
+    { flow: "503 preview deadline exceeded", schema: "PreviewErrorDetails", value: { reason: "PREVIEW_TIMEOUT" } },
     { flow: "Legacy import request", schema: "Import", value: { nodes: [{ id: "u", type: "client" }, { id: "a", type: "app" }], edges: [{ from: "u", to: "a" }] } },
   ];
   for (const example of examples) {

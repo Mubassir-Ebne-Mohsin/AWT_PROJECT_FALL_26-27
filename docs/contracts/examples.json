@@ -3529,6 +3529,34 @@
       }
     },
     {
+      "flow": "409 preview superseded details",
+      "schema": "PreviewErrorDetails",
+      "value": {
+        "reason": "PREVIEW_SUPERSEDED"
+      }
+    },
+    {
+      "flow": "429 preview paused by the owner's pending Run/Limits",
+      "schema": "PreviewErrorDetails",
+      "value": {
+        "reason": "DURABLE_PENDING"
+      }
+    },
+    {
+      "flow": "422 preview complexity limit",
+      "schema": "PreviewErrorDetails",
+      "value": {
+        "reason": "COMPLEXITY_LIMIT"
+      }
+    },
+    {
+      "flow": "503 preview deadline exceeded",
+      "schema": "PreviewErrorDetails",
+      "value": {
+        "reason": "PREVIEW_TIMEOUT"
+      }
+    },
+    {
       "flow": "Legacy import request",
       "schema": "Import",
       "value": {

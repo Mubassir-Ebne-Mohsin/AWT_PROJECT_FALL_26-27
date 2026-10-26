@@ -1077,6 +1077,25 @@ export interface components {
         } | {
             /** @constant */
             reason: "REQUEST_ID_REUSED";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_SUPERSEDED";
+        };
+        PreviewErrorDetails: {
+            /** @constant */
+            reason: "PREVIEW_SUPERSEDED";
+        } | {
+            /** @constant */
+            reason: "DURABLE_PENDING";
+        } | {
+            /** @constant */
+            reason: "COMPLEXITY_LIMIT";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_TIMEOUT";
+        } | {
+            /** @constant */
+            reason: "PREVIEW_FAILED";
         };
         Template: {
             /** @enum {string} */

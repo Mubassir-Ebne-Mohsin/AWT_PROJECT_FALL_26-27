@@ -75,6 +75,21 @@ export const previewResponseSchema = z.strictObject({
 export const conflictDetailsSchema = z.discriminatedUnion("reason", [
   z.strictObject({ reason: z.literal("REVISION_MISMATCH"), currentRevision: revision }),
   z.strictObject({ reason: z.literal("REQUEST_ID_REUSED") }),
+  // M8: a newer sequence for the same editor session (or a client abort) replaced this preview. Neutral, not a failure.
+  z.strictObject({ reason: z.literal("PREVIEW_SUPERSEDED") }),
+]);
+/**
+ * M8 preview error details. Status codes: PREVIEW_SUPERSEDED 409 CONFLICT; DURABLE_PENDING 429 RATE_LIMITED
+ * (the owner's own Run/Limits job is pending: preview is paused, not under pressure); COMPLEXITY_LIMIT 422
+ * VALIDATION_FAILED; PREVIEW_TIMEOUT / PREVIEW_FAILED 503 UNAVAILABLE. Genuine capacity pressure is a plain 429
+ * without details. All of them stay inline in the editor.
+ */
+export const previewErrorDetailsSchema = z.discriminatedUnion("reason", [
+  z.strictObject({ reason: z.literal("PREVIEW_SUPERSEDED") }),
+  z.strictObject({ reason: z.literal("DURABLE_PENDING") }),
+  z.strictObject({ reason: z.literal("COMPLEXITY_LIMIT") }),
+  z.strictObject({ reason: z.literal("PREVIEW_TIMEOUT") }),
+  z.strictObject({ reason: z.literal("PREVIEW_FAILED") }),
 ]);
 export const templateSchema = z.strictObject({
   id: templateId, name, blurb: z.string(), ...snapshotSchema.shape,
@@ -98,6 +113,7 @@ export const schemas = {
   Run: runSchema, AcceptedRun: acceptedRunSchema, DesignSummary: designSummarySchema,
   DesignList: designListSchema, Dashboard: dashboardSchema, PreviewRequest: previewRequestSchema,
   PreviewResponse: previewResponseSchema, ConflictDetails: conflictDetailsSchema,
+  PreviewErrorDetails: previewErrorDetailsSchema,
   Template: templateSchema, Catalog: catalogSchema, SimulationOutput: simulationOutputSchema,
   LimitsOutput: limitsOutputSchema,
 } as const;
