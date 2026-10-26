@@ -3,6 +3,7 @@ import type { Point } from "@/lib/canvas/geometry";
 import { NODE_H, NODE_W, edgePath } from "@/lib/canvas/geometry";
 
 import { ComponentGlyph } from "@/components/canvas/component-glyph";
+import type { LoadOverlay } from "@/lib/load-overlay";
 export function GraphNodes({
   graph,
   selected,
@@ -12,6 +13,7 @@ export function GraphNodes({
   edgeSelected,
   onEdgeSelect,
   connecting,
+  overlay,
 }: {
   graph: Graph;
   selected: string;
@@ -21,6 +23,8 @@ export function GraphNodes({
   edgeSelected?: string;
   onEdgeSelect: (id:string) => void;
   connecting: boolean;
+  /** M8 load overlay; present only for output computed from exactly these inputs. */
+  overlay?: LoadOverlay | null;
 }) {
   const positions = new Map(
     graph.nodes.map((n) => [
@@ -39,22 +43,25 @@ export function GraphNodes({
             aria-pressed={edgeSelected===e.id}
             onFocus={()=>onEdgeSelect(e.id)}
             onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();onEdgeSelect(e.id);}}}>
-            <path className={"cv-edge"+(edgeSelected===e.id?" is-sel":"")} markerEnd={"url(#"+markerId+")"} d={edgePath(a,b)} fill="none"/>
+            <path className={"cv-edge"+(edgeSelected===e.id?" is-sel":"")+(overlay?.edges.has(e.id)?" flow":"")} markerEnd={"url(#"+markerId+")"} d={edgePath(a,b)} fill="none" style={overlay?.edges.has(e.id)?{strokeWidth:overlay.edges.get(e.id)!.width}:undefined}/>
+            {overlay?.edges.has(e.id) && (()=>{const ax=a.x+NODE_W,ay=a.y+NODE_H/2,bx=b.x,by=b.y+NODE_H/2;return <text className="cv-edge-label" x={(ax+bx)/2} y={(ay+by)/2-6} textAnchor="middle">{overlay.edges.get(e.id)!.label} modeled</text>;})()}
             <path className="m6-edge-hit" d={edgePath(a,b)} fill="none" stroke="transparent" strokeWidth="16"/>
           </g>
         ) : null;
       })}
       {graph.nodes.map((n) => {
         const p = positions.get(n.id)!;
+        const load = overlay?.nodes.get(n.id);
+        const isBottleneck = overlay?.bottleneckId === n.id;
         return (
           <g
             key={n.id}
             data-node={n.id}
             role="button"
             tabIndex={0}
-            aria-label={n.label + ", " + n.type}
+            aria-label={n.label + ", " + n.type + (load && n.type !== "client" ? ", modeled utilization " + load.utilization + (load.status === "fail" ? ", failing" : load.status === "warn" ? ", strained" : ", healthy") : "")}
             aria-pressed={selected === n.id}
-            className={"cv-node" + (selected === n.id ? " is-sel" : "")}
+            className={"cv-node" + (selected === n.id ? " is-sel" : "") + (load ? " overlay s-" + load.status : "")}
             transform={`translate(${p.x} ${p.y})`}
             onFocus={() => onSelect(n.id)}
             onKeyDown={(e) => {
@@ -65,6 +72,8 @@ export function GraphNodes({
             }}
           >
             <title>{n.label}</title>
+            {isBottleneck && <rect className="cv-bneck" x="-7" y="-7" width={NODE_W + 14} height={NODE_H + 14} rx="12" />}
+            {isBottleneck && <g className="cv-bneck-tag" transform="translate(0 -30)"><rect width="86" height="17" rx="4" /><text x="7" y="12">BOTTLENECK</text></g>}
             <rect
               className="cv-node-body"
               width={NODE_W}
@@ -86,6 +95,15 @@ export function GraphNodes({
             <text className="cv-node-label" x="60" y="28">
               {n.label.length > 17 ? n.label.slice(0, 16) + "…" : n.label}
             </text>
+            {load && n.type !== "client" ? (
+              <>
+                <text className="cv-node-sub" x="60" y="46">
+                  <tspan className={"cv-pct s-" + load.status}>{load.utilization}</tspan> · {load.peak}{load.background ? " · background" : ""}
+                </text>
+                <rect className="cv-meter-bg" x="60" y="53" width="112" height="3" rx="1.5" />
+                <rect className={"cv-meter s-" + load.status} x="60" y="53" width={112 * load.meter} height="3" rx="1.5" />
+              </>
+            ) : (
             <text className="cv-node-sub" x="60" y="46">
               {n.type}
               {"replicas" in n.props
@@ -97,6 +115,7 @@ export function GraphNodes({
                   ? (n.props.region ?? "us-east")
                   : "us-east"}
             </text>
+            )}
           </g>
         );
       })}

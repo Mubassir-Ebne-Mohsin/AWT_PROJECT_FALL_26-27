@@ -14,6 +14,10 @@ export const saveDesign = (id: string, body: Schemas["PatchDesign"]) => api<Desi
 export const createDesign = (template: Template) => api<Design>("/designs", { method: "POST", body: { schemaVersion: 1, name: template.name, description: template.blurb, source: "template", templateId: template.id, graph: template.graph, traffic: template.traffic }, silent: true });
 export const submitRun = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/simulate", { method: "POST", body, silent: true });
 export const submitLimits = (id: string, body: Schemas["RunRequest"]) => api<AcceptedRun>("/designs/" + id + "/limits", { method: "POST", body, silent: true });
+export type PreviewRequest = Schemas["PreviewRequest"];
+export type PreviewResponse = Schemas["PreviewResponse"];
+/** Transient model preview: silent (inline errors only), cancelable through its AbortSignal. */
+export const previewSimulation = (body: PreviewRequest, signal?: AbortSignal) => api<PreviewResponse>("/simulation/preview", { method: "POST", body, silent: true, signal });
 export const fetchRun = (id: string, runId: string, signal?: AbortSignal) => api<DesignRun>("/designs/" + id + "/runs/" + runId, { signal });
 export const deleteDesign = (id: string) => api<void>("/designs/" + id, { method: "DELETE", silent: true });
 

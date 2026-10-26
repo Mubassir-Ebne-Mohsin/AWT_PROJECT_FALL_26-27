@@ -157,3 +157,189 @@ test("M8 Limits tab markup: states, honest labels, keyboard data table and no fa
   assert.match(blocked, /disabled=""/);
   assert.match(blocked, /A test run is pending/);
 });
+
+// ---------------- M8.3 live preview lifecycle ----------------
+const { PreviewSession } = require("../src/lib/preview-session");
+const tick = () => new Promise((r) => setImmediate(r));
+function harness() {
+  const timers = [];
+  const fake = { set: (fn) => (timers.push(fn), timers.length), clear: (h) => { if (h) timers[h - 1] = null; } };
+  const calls = [];
+  const send = (body, signal) => new Promise((resolve, reject) => calls.push({ body, signal, resolve, reject }));
+  const p = new PreviewSession(send, fake, 750, "11111111-1111-4111-8111-111111111111");
+  const flush = () => { const pending = timers.splice(0); pending.forEach((fn) => fn && fn()); };
+  const reply = (call, summary = { p95: call.body.sequence }) => call.resolve({ editorSessionId: call.body.editorSessionId, sequence: call.body.sequence, fingerprint: "f", engineVersion: "1", validation: { ok: true, errors: [], warnings: [] }, summary });
+  return { p, calls, flush, reply, timers };
+}
+const pdesign = (rps = 300, x = 0, name = "N") => ({ ...design(), name, graph: { nodes: [{ id: "a", type: "app", label: "App", x, y: 0, props: {} }], edges: [] }, traffic: traffic(rps) });
+
+test("M8 preview debounces rapid semantic edits into one request and ignores layout-only moves", async () => {
+  const { p, calls, flush, reply } = harness();
+  p.enable(pdesign(1));
+  for (let rps = 2; rps <= 20; rps++) p.setInput(pdesign(rps));
+  assert.equal(calls.length, 0, "nothing is sent before the debounce elapses");
+  flush();
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].body.traffic.rps, 20, "only the latest inputs are sent");
+  assert.equal(calls[0].body.sequence, 1);
+  reply(calls[0]);
+  await tick();
+  assert.equal(p.state.status, "ready");
+  p.setInput(pdesign(20, 500, "Renamed"));
+  flush();
+  assert.equal(calls.length, 1, "positions and names are not model inputs");
+  assert.equal(p.isCurrent(pdesign(20, 999)), true);
+  assert.equal(p.isCurrent(pdesign(21)), false, "a semantic edit makes the shown output not current");
+});
+
+test("M8 preview: a slow earlier reply never overwrites a newer one, and superseded requests are aborted", async () => {
+  const { p, calls, flush, reply } = harness();
+  p.enable(pdesign(1));
+  flush();
+  p.setInput(pdesign(2));
+  flush();
+  assert.equal(calls.length, 2);
+  assert.equal(calls[0].signal.aborted, true, "the superseded request is aborted");
+  reply(calls[1], { p95: 2 });
+  await tick();
+  reply(calls[0], { p95: 1 });
+  await tick();
+  assert.equal(p.state.summary.p95, 2);
+  assert.equal(p.state.forKey, require("../src/lib/editor-session").semanticInput(pdesign(2)));
+});
+
+test("M8 preview ignores replies for another editor session or after disable/dispose", async () => {
+  const { p, calls, flush } = harness();
+  p.enable(pdesign(1));
+  flush();
+  calls[0].resolve({ editorSessionId: "22222222-2222-4222-8222-222222222222", sequence: 1, validation: { ok: true, errors: [], warnings: [] }, summary: { p95: 9 } });
+  await tick();
+  assert.equal(p.state.summary, undefined);
+  p.setInput(pdesign(3));
+  flush();
+  p.disable();
+  assert.equal(calls[1].signal.aborted, true);
+  calls[1].resolve({ editorSessionId: p.editorSessionId, sequence: 2, validation: { ok: true, errors: [], warnings: [] }, summary: { p95: 3 } });
+  await tick();
+  assert.equal(p.state.status, "off");
+  assert.equal(p.state.summary, undefined);
+  p.enable(pdesign(4));
+  flush();
+  let notified = 0;
+  p.subscribe(() => notified++);
+  p.dispose();
+  assert.equal(calls[2].signal.aborted, true);
+  calls[2].resolve({ editorSessionId: p.editorSessionId, sequence: 3, validation: { ok: true, errors: [], warnings: [] }, summary: { p95: 4 } });
+  await tick();
+  assert.equal(notified, 0, "a disposed (logged-out/switched) session restores nothing");
+});
+
+test("M8 preview pauses for invalid input, gestures or durable work and resumes with only the latest inputs", async () => {
+  const { p, calls, flush, reply } = harness();
+  p.enable(pdesign(1));
+  flush();
+  p.setInput(pdesign(2), "Finish moving first.");
+  assert.equal(calls[0].signal.aborted, true);
+  for (let rps = 3; rps < 8; rps++) p.setInput(pdesign(rps), "Finish moving first.");
+  flush();
+  assert.equal(calls.length, 1, "no requests while paused");
+  assert.equal(p.state.status, "paused");
+  p.setInput(pdesign(8));
+  flush();
+  assert.equal(calls.length, 2);
+  assert.equal(calls[1].body.traffic.rps, 8);
+  reply(calls[1]);
+  await tick();
+  assert.equal(p.state.status, "ready");
+});
+
+test("M8 preview failures stay inline with explicit retry and no automatic retry loop", async () => {
+  const { p, calls, flush } = harness();
+  p.enable(pdesign(1));
+  flush();
+  calls[0].reject(new ApiError("RATE_LIMITED", "busy", 429, { reason: "DURABLE_PENDING" }));
+  await tick();
+  assert.equal(p.state.status, "paused");
+  assert.match(p.state.message, /pauses while your saved calculation runs/);
+  p.setInput(pdesign(1, 400));
+  flush();
+  assert.equal(calls.length, 1, "re-render/layout does not retry");
+  p.retry();
+  assert.equal(calls.length, 2);
+  calls[1].reject(new ApiError("RATE_LIMITED", "busy", 429));
+  await tick();
+  assert.equal(p.state.status, "error");
+  assert.equal(p.state.retryable, true);
+  p.setInput(pdesign(1, 800));
+  flush();
+  assert.equal(calls.length, 2, "an inline error is not retried automatically");
+  p.retry();
+  calls[2].reject(new ApiError("CONFLICT", "replaced", 409, { reason: "PREVIEW_SUPERSEDED" }));
+  await tick();
+  assert.equal(p.state.status, "idle", "supersession is neutral, not an error");
+  assert.equal(p.state.message, undefined);
+  p.setInput(pdesign(2));
+  flush();
+  calls[3].reject(new ApiError("VALIDATION_FAILED", "too complex", 422, { reason: "COMPLEXITY_LIMIT" }));
+  await tick();
+  assert.match(p.state.message, /supported calculation budget/);
+  assert.equal(p.state.retryable, false);
+});
+
+test("M8 preview: Undo back to computed inputs shows that output without a new request", async () => {
+  const { p, calls, flush, reply } = harness();
+  p.enable(pdesign(1));
+  flush();
+  reply(calls[0]);
+  await tick();
+  p.setInput(pdesign(2));
+  assert.equal(p.state.status, "waiting");
+  p.setInput(pdesign(1));
+  flush();
+  assert.equal(calls.length, 1);
+  assert.equal(p.state.status, "ready");
+});
+
+// ---------------- M8.4 overlay and recorded topology ----------------
+const { loadOverlay } = require("../src/lib/load-overlay");
+const ograph = { nodes: [{ id: "u", type: "client", label: "Users", x: 0, y: 0, props: {} }, { id: "a", type: "app", label: "App", x: 240, y: 0, props: {} }, { id: "new", type: "db", label: "New DB", x: 480, y: 0, props: {} }], edges: [{ id: "e1", from: "u", to: "a" }, { id: "e2", from: "a", to: "new" }] };
+const osummary = () => ({ ...summary(300), nodes: [{ ...node("u", "Users", 0), type: "client", servers: null }, { ...node("a", "App", 1.5), status: "fail", peak: 600 }], bottleneckId: "a", flows: [{ from: "u", to: "a", rps: 300 }] });
+
+test("M8 overlay paints only matching components, keeps >100% numeric and clamps only the meter", () => {
+  const o = loadOverlay(ograph, osummary());
+  assert.equal(o.nodes.get("a").utilization, "150%");
+  assert.equal(o.nodes.get("a").meter, 1);
+  assert.equal(o.nodes.get("a").status, "fail");
+  assert.equal(o.nodes.get("u").status, "idle", "Clients have no service pool");
+  assert.equal(o.nodes.has("new"), false, "a component absent from the output never borrows metrics");
+  assert.equal(o.edges.get("e1").rps, 300);
+  assert.equal(o.edges.has("e2"), false);
+  assert.equal(o.bottleneckId, "a");
+  const changedType = { ...ograph, nodes: ograph.nodes.map((n) => (n.id === "a" ? { ...n, type: "cache" } : n)) };
+  assert.equal(loadOverlay(changedType, osummary()).nodes.has("a"), false, "same id with a different type is not painted");
+  assert.equal(loadOverlay(ograph, null), null);
+  const calm = { ...osummary(), nodes: [{ ...node("a", "App", 0.5) }] };
+  assert.equal(loadOverlay(ograph, calm).bottleneckId, null, "no bottleneck tag below 75%");
+});
+
+test("M8 recorded topology renders the saved snapshot with numeric labels and a text legend", () => {
+  const { RecordedTopology } = require("../src/components/workspace/recorded-topology");
+  const html = renderToStaticMarkup(React.createElement(RecordedTopology, { graph: ograph, summary: osummary(), selected: "a", onSelect() {} }));
+  assert.match(html, /150%/);
+  assert.match(html, /BOTTLENECK/);
+  assert.match(html, /failing at or above 100%/);
+  assert.match(html, /modeled request flow, not observed packets/);
+  assert.match(html, /modeled utilization 150%, failing/);
+});
+
+test("M8 live preview labels: off, current, stale and paused are distinct and never claim to be saved", () => {
+  const { LivePreviewPanel } = require("../src/components/workspace/live-preview");
+  const v = (extra) => ({ enabled: true, current: true, onToggle() {}, onRetry() {}, state: { status: "ready", summary: osummary() }, ...extra });
+  const render = (x) => renderToStaticMarkup(React.createElement(LivePreviewPanel, { v: v(x) }));
+  assert.match(render({ enabled: false }), /Live preview off/);
+  assert.match(render({}), /Live preview — unsaved inputs/);
+  assert.match(render({ current: false }), /stale/);
+  assert.match(render({ state: { status: "paused", message: "Live preview pauses while your saved calculation runs." } }), /pauses while your saved calculation runs/);
+  assert.match(render({ state: { status: "error", message: "busy", retryable: true } }), /Retry preview/);
+  assert.match(render({}), /never saved and never replaces a recorded run/);
+});

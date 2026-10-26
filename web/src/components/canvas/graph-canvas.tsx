@@ -23,6 +23,7 @@ import {
 } from "@/lib/canvas/geometry";
 import { moveComponent } from "@/lib/canvas/model";
 import { GraphNodes } from "@/components/canvas/graph-nodes";
+import { LOAD_LEGEND, type LoadOverlay } from "@/lib/load-overlay";
 import { Minimap } from "@/components/canvas/minimap";
 import { Icon } from "@/components/ui/icon";
 import type { EditorSession } from "@/lib/editor-session";
@@ -57,6 +58,7 @@ export function GraphCanvas({
   edgeSelected,
   onEdgeSelect,
   onConnect,
+  overlay,
 }: {
   graph: Graph;
   session: EditorSession;
@@ -68,6 +70,7 @@ export function GraphCanvas({
   edgeSelected:string;
   onEdgeSelect:(id:string)=>void;
   onConnect:(from:string,to:string)=>void;
+  overlay?: LoadOverlay | null;
 }) {
   const box = useRef<HTMLDivElement>(null),
     svg = useRef<SVGSVGElement>(null),
@@ -349,10 +352,21 @@ export function GraphCanvas({
             edgeSelected={edgeSelected}
             onEdgeSelect={onEdgeSelect}
             connecting={connectMode || !!link}
+            overlay={overlay}
           />
           {link && (()=>{const n=graph.nodes.find(n=>n.id===link.from);return n?<path className="m6-link-preview" pointerEvents="none" d={`M${n.x+NODE_W} ${n.y+NODE_H/2} L${link.position.x} ${link.position.y}`} markerEnd={"url(#"+gridId+"-arrow)"} />:null;})()}
         </g>
       </svg>
+      {overlay && graph.nodes.length > 0 && (
+        <div className="cv-legend" aria-label="Load overlay legend">
+          {LOAD_LEGEND.map((l) => (
+            <span key={l.status}>
+              <span className={"sdot " + l.status} aria-hidden="true"></span>
+              {l.text}
+            </span>
+          ))}
+        </div>
+      )}
       <div className="cv-tools" role="toolbar" aria-label="Canvas tools">
         <button
           className="btn btn-ghost icon"

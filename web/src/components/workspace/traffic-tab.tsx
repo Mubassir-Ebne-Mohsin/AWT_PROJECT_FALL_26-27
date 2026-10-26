@@ -351,8 +351,7 @@ export function TrafficTab({
               <TimelineChart output={output} />
             ) : (
               <p className="hint">
-                Run the saved design to record a timeline. Live preview arrives
-                in M8.
+                Run the saved design to record a timeline. The live preview above summarizes unsaved inputs and has no timeline.
               </p>
             )}
           </div>

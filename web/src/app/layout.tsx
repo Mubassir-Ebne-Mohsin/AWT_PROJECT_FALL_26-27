@@ -1,3 +1,4 @@
+import "@/styles/m8.css";
 import "@/styles/m7.css";
 import "@/styles/m5.css";
 import "@/styles/m4.css";

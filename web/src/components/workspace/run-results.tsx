@@ -10,14 +10,18 @@ import {
   verdictReasons,
 } from "@/lib/result-presentation";
 import { TimelineChart } from "@/components/workspace/timeline-chart";
+import { RecordedTopology } from "@/components/workspace/recorded-topology";
 export function RunResults({
   run,
   stale,
   compact = false,
+  currentNodeIds,
 }: {
   run?: DesignRun;
   stale: boolean;
   compact?: boolean;
+  /** Component ids in the current draft; Edit links appear only for components that still exist. */
+  currentNodeIds?: string[];
 }) {
   if (!run)
     return (
@@ -144,7 +148,7 @@ export function RunResults({
           Open full results
         </Link>
       ) : (
-        <ResultDetails key={run.id} run={run} output={run.result} summary={s} />
+        <ResultDetails key={run.id} run={run} output={run.result} summary={s} currentNodeIds={currentNodeIds} />
       )}
     </section>
   );
@@ -153,10 +157,12 @@ function ResultDetails({
   run,
   output,
   summary: s,
+  currentNodeIds,
 }: {
   run: DesignRun;
   output: Simulation;
   summary: Summary;
+  currentNodeIds?: string[];
 }) {
   const [selected, setSelected] = useState(s.bottleneckId ?? "");
   const node = s.nodes.find((n) => n.id === selected);
@@ -170,6 +176,20 @@ function ResultDetails({
   return (
     <div className="m7-split m7-results">
       <div className="stack lg">
+        <section className="panel">
+          <div className="panel-h">
+            <h3 className="h3">Topology under load</h3>
+            <span className="hint">Revision {run.designRevision} snapshot</span>
+          </div>
+          <div className="panel-b">
+            <RecordedTopology
+              graph={run.snapshot.graph}
+              summary={s}
+              selected={selected}
+              onSelect={setSelected}
+            />
+          </div>
+        </section>
         <section className="panel">
           <div className="panel-h">
             <h3 className="h3">Test timeline</h3>
@@ -302,19 +322,26 @@ function ResultDetails({
                   <dt>Hits 100% at</dt>
                   <dd>{boundedText(node.satRps, " rps")}</dd>
                 </dl>
-                <Link
-                  className="btn"
-                  href={
-                    "/designs/" +
-                    run.designId +
-                    "/edit?node=" +
-                    encodeURIComponent(node.id) +
-                    "&run=" +
-                    run.id
-                  }
-                >
-                  Edit {node.label}
-                </Link>
+                {!currentNodeIds || currentNodeIds.includes(node.id) ? (
+                  <Link
+                    className="btn"
+                    href={
+                      "/designs/" +
+                      run.designId +
+                      "/edit?node=" +
+                      encodeURIComponent(node.id) +
+                      "&run=" +
+                      run.id
+                    }
+                  >
+                    Edit {node.label}
+                  </Link>
+                ) : (
+                  <p className="note">
+                    {node.label} no longer exists in the current draft. Its
+                    recorded metrics remain available here.
+                  </p>
+                )}
                 <p className="hint">
                   Opens this component in the current draft if it still exists.
                   Metrics here remain from the recorded run.

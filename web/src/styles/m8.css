@@ -1,0 +1,17 @@
+/* M8 Limits, live preview and load overlay. Reuses prototype tokens/classes; only layout glue lives here. */
+.m8-live-wrap { display: grid; gap: 6px; }
+.m8-live { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.m8-live .slider { display: flex; align-items: center; gap: 8px; min-width: 260px; }
+.m8-live .slider input { width: 180px; }
+.m8-readouts { gap: 16px; align-items: center; }
+.m8-readouts .ro { display: grid; gap: 2px; }
+.m8-readouts .ro .k { font: 600 10.5px var(--font-mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.m8-readouts .ro .v { font: 700 13px var(--font-mono); }
+/* Stale preview output stays visible but clearly not current. */
+.m8-readouts.is-stale { opacity: .55; }
+.m8-provenance { max-width: 760px; }
+.m8-ramp { width: 100%; height: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .cv-edge.flow { animation: none; }
+  .cv-bneck { animation: none; }
+}

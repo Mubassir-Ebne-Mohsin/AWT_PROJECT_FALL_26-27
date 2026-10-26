@@ -33,6 +33,8 @@ export interface EditorState {
   canUndo: boolean;
   canRedo: boolean;
   checking: boolean;
+  /** M8: live preview preference for this user/design, memory only; not history, not saved. */
+  livePreview: boolean;
   validation?: { revision: number; input: string; result: Validation };
 }
 const sameDraft = (a: Design, b: Design) =>
@@ -77,7 +79,11 @@ export class EditorSession {
       canUndo: false,
       canRedo: false,
       checking: false,
+      livePreview: false,
     };
+  }
+  setLivePreview(on: boolean) {
+    if (!this.disposed && on !== this.state.livePreview) this.update({ livePreview: on });
   }
   getSnapshot = () => this.state;
   subscribe = (fn: () => void) => {

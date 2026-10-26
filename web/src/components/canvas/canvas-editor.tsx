@@ -15,12 +15,16 @@ import {
 import { ValidationPanel } from "@/components/canvas/validation-panel";
 import { ConnectionPanel } from "@/components/canvas/connection-panel";
 import { NodeProperties } from "@/components/canvas/node-properties";
+import { LiveBar, type LivePreviewView } from "@/components/workspace/live-preview";
+import { loadOverlay } from "@/lib/load-overlay";
 export function CanvasEditor({
   session,
   focusNode,
+  live,
 }: {
   session: EditorSession;
   focusNode?: string;
+  live?: LivePreviewView;
 }) {
   const graph = session.state.design.graph;
   const [selected, setSelected] = useState(
@@ -95,6 +99,9 @@ export function CanvasEditor({
     });
   }
   const blocked = session.state.gesture || !!session.state.inputErrors.length;
+  // Paint load only for output computed from exactly the inputs on screen (no borrowed metrics).
+  const overlay =
+    live?.enabled && live.current ? loadOverlay(graph, live.state.summary) : null;
   function toggleConnect() {
     apiRef.current?.cancel();
     setConnectMode((v) => !v);
@@ -135,6 +142,10 @@ export function CanvasEditor({
           e.preventDefault();
           toggleConnect();
         }
+        if (key === "l" && live) {
+          e.preventDefault();
+          live.onToggle();
+        }
         if (
           (key === "delete" || key === "backspace") &&
           (node || edgeSelected)
@@ -167,6 +178,16 @@ export function CanvasEditor({
         >
           Connect (C)
         </button>
+        {live && (
+          <button
+            className="btn btn-sm"
+            aria-pressed={live.enabled}
+            title="Colour components by modeled load (L)"
+            onClick={live.onToggle}
+          >
+            Load (L)
+          </button>
+        )}
         <button
           className="btn btn-sm"
           disabled={!session.state.canUndo || blocked}
@@ -221,6 +242,7 @@ export function CanvasEditor({
             setConnectMode={setConnectMode}
             onConnect={connect}
             apiRef={apiRef}
+            overlay={overlay}
           />
         </div>
         <aside className="ed-props" aria-label="Component properties">
@@ -272,10 +294,24 @@ export function CanvasEditor({
             remove={remove}
           />
         </aside>
-        <div className="ed-live m5-live" id="canvas-help">
-          Select and move · drag background to pan · wheel or +/− to zoom · F to
-          fit · C to connect · Esc to cancel · Delete selection · Ctrl+Z to
-          undo. Live load colours arrive in M8.
+        <div className="ed-live m5-live m8-live-wrap" id="canvas-help">
+          {live && (
+            <LiveBar
+              session={session}
+              v={live}
+              disabled={blocked}
+              onSelect={(id) => {
+                selectNode(id);
+                apiRef.current?.focus(id);
+              }}
+            />
+          )}
+          <span className="hint">
+            Select and move · drag background to pan · wheel or +/− to zoom · F
+            to fit · C to connect · L for load · Esc to cancel · Delete
+            selection · Ctrl+Z to undo. Load colours are modeled estimates, not
+            observed traffic.
+          </span>
         </div>
       </div>
       <ValidationPanel

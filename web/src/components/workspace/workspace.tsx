@@ -11,6 +11,8 @@ import { TrafficTab } from "@/components/workspace/traffic-tab";
 import { RunResults } from "@/components/workspace/run-results";
 import { LimitsTab } from "@/components/workspace/limits-tab";
 import { workspaceHref } from "@/lib/run-links";
+import { PreviewSession } from "@/lib/preview-session";
+import { LivePreviewPanel, type LivePreviewView } from "@/components/workspace/live-preview";
 import { Crumbs } from "@/components/shell/crumbs";
 import { RoutePlaceholder } from "@/components/placeholder";
 import { resolveRoute } from "@/lib/routes";
@@ -96,6 +98,47 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
     state.limitsRunning || displayedLimits?.status === "pending";
   const simulationPending =
     state.running || displayedRun?.status === "pending";
+  // M8 live preview: one latest-only session per mounted workspace; never persisted, never a saved result.
+  const [preview] = useState(() => new PreviewSession());
+  // Unmount/navigation away cancels and switches preview off. Not dispose(): React's development
+  // double-invoke runs this cleanup once at mount, and a disposed session could never send again.
+  useEffect(() => () => preview.disable(), [preview]);
+  const previewState = useSyncExternalStore(
+    preview.subscribe,
+    preview.getSnapshot,
+    preview.getSnapshot,
+  );
+  const wantPreview =
+    state.livePreview && (tab === "edit" || tab === "traffic");
+  useEffect(() => {
+    if (wantPreview) preview.enable(session.state.design);
+    else preview.disable();
+  }, [wantPreview, preview, session]);
+  // Same-account reauthentication yields a new user object: keep the draft, start a fresh preview identity.
+  const [authUser, setAuthUser] = useState(user);
+  if (authUser !== user) setAuthUser(user);
+  useEffect(() => {
+    if (authUser) preview.renew();
+  }, [authUser, preview]);
+  const pauseReason = state.gesture
+    ? "Finish the current move or connection to update the preview."
+    : state.inputErrors.length
+      ? "Correct the highlighted input to update the preview."
+      : state.conflict
+        ? "Resolve the save conflict to update the preview."
+        : simulationPending || limitsPending
+          ? "Live preview pauses while your saved calculation runs."
+          : undefined;
+  useEffect(() => {
+    preview.setInput(state.design, pauseReason);
+  }, [preview, state.design, pauseReason, wantPreview]);
+  const live: LivePreviewView = {
+    enabled: wantPreview,
+    state: previewState,
+    current: preview.isCurrent(state.design),
+    onToggle: () => session.setLivePreview(!state.livePreview),
+    onRetry: () => preview.retry(),
+  };
   // An older link may carry the wrong parameter for a stored kind: move it to the matching view.
   useEffect(() => {
     const misfiled =
@@ -416,6 +459,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
           <CanvasEditor
             session={session}
             focusNode={search.get("node") ?? undefined}
+            live={live}
           />
         ) : (
           <ValidationPanel session={session} />
@@ -470,12 +514,16 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             onFind={findLimits}
           />
         ) : tab === "traffic" ? (
-          <TrafficTab session={session} run={displayedRun} />
+          <>
+            <LivePreviewPanel v={live} />
+            <TrafficTab session={session} run={displayedRun} />
+          </>
         ) : (
           <RunResults
             run={displayedRun}
             stale={session.isRunStale(displayedRun)}
             compact={tab === "edit"}
+            currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
           />
         )}
       </div>
