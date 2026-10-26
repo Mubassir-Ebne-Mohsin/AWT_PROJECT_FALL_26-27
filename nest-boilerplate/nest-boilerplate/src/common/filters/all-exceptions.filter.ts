@@ -9,7 +9,7 @@ import {
 import { ThrottlerException } from "@nestjs/throttler";
 import { ZodValidationException } from "nestjs-zod";
 import { ZodError } from "zod";
-import { TimeoutError as RedisTimeoutError } from "redis";
+import { TimeoutError as RedisTimeoutError, SocketTimeoutError } from "redis";
 import type { Response } from "express";
 import { databaseUnavailable } from "@/common/filters/database-unavailable";
 import { AppException, ErrorCode } from "@/common/errors";
@@ -120,6 +120,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (
       exception instanceof Error &&
       (exception instanceof RedisTimeoutError ||
+        exception instanceof SocketTimeoutError ||
         REDIS_DOWN_ERRORS.includes(exception.name) ||
         databaseUnavailable(exception))
     ) {

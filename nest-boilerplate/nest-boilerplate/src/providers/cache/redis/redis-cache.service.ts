@@ -20,9 +20,12 @@ export class RedisCacheService implements OnModuleInit, OnModuleDestroy {
       // so /health can report 503 and requests don't hang when Redis is down.
       disableOfflineQueue: true,
       commandsQueueMaxLength: 128,
+      // This option bounds queueing only; socketTimeout also bounds a sent command.
       commandOptions: { timeout: 1000 },
+      pingInterval: 500, // Keep a healthy idle connection alive below its socket deadline.
       socket: {
         connectTimeout: 1000,
+        socketTimeout: 1000,
         reconnectStrategy: (retries) => Math.min(retries * 200, 5000),
       },
     });

@@ -97,7 +97,7 @@ export const dataSourceOptions: DataSourceOptions = {
   extra: {
     connectionTimeoutMillis: 1000,
     statement_timeout: 2000,
-    query_timeout: 2500,
+    query_timeout: 2200, // query + rollback remain below the five-second outage target
     idle_in_transaction_session_timeout: 5000,
   },
 };

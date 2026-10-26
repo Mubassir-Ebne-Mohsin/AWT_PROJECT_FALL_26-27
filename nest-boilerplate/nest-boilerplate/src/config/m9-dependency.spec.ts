@@ -1,7 +1,7 @@
 import { ReliableThrottlerStorage } from "@/providers/cache/redis/reliable-throttler-storage";
 import { databaseUnavailable } from "@/common/filters/database-unavailable";
 import { AllExceptionsFilter } from "@/common/filters/all-exceptions.filter";
-import { TimeoutError } from "redis";
+import { TimeoutError, SocketTimeoutError } from "redis";
 import { ArgumentsHost } from "@nestjs/common";
 
 describe("M9 dependency safety", () => {
@@ -51,18 +51,21 @@ describe("M9 dependency safety", () => {
       ).toBe(false);
     expect(databaseUnavailable(new Error("a generic timeout bug"))).toBe(false);
   });
-  it("maps the actual Redis command timeout class to a safe503 envelope", () => {
-    const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-    const host = {
-      switchToHttp: () => ({ getResponse: () => res }),
-    } as unknown as ArgumentsHost;
-    new AllExceptionsFilter().catch(new TimeoutError(), host);
-    expect(res.status).toHaveBeenCalledWith(503);
-    expect(res.json).toHaveBeenCalledWith({
-      error: {
-        code: "UNAVAILABLE",
-        message: "A required service is temporarily unavailable",
-      },
-    });
-  });
+  it.each([new TimeoutError(), new SocketTimeoutError(1000)])(
+    "maps Redis queue/socket deadline %# to a safe503 envelope",
+    (error) => {
+      const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+      const host = {
+        switchToHttp: () => ({ getResponse: () => res }),
+      } as unknown as ArgumentsHost;
+      new AllExceptionsFilter().catch(error, host);
+      expect(res.status).toHaveBeenCalledWith(503);
+      expect(res.json).toHaveBeenCalledWith({
+        error: {
+          code: "UNAVAILABLE",
+          message: "A required service is temporarily unavailable",
+        },
+      });
+    },
+  );
 });
