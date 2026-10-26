@@ -6,7 +6,7 @@ Draw a system architecture on a canvas, let a simulator find its bottlenecks und
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and remaining dependency follow-ups.
 
-Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M7 implemented; Limits/live preview/overlay are next in M8). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
+Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M8 implemented; M9 final acceptance remains). See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
 
@@ -126,3 +126,5 @@ Invoke-RestMethod http://localhost:5001/v1/health
 Use the ports already configured in your environment. Existing named volumes and accounts are retained; no database reset is needed.
 
 M7 adds the full Traffic tab and recorded Results: configure rate/bursts/reads/targets, save and run, inspect latency/errors/paths/queues and select a component back in Edit. See [M7 guide](docs/M7-TRAFFIC-RESULTS.md). Restart the existing frontend; no new package, migration or environment value is needed. Live preview, load overlay and Limits remain M8.
+
+M8 adds saved Limits searches, an opt-in debounced live preview with a canvas load overlay (Load / L on Edit, a Live preview panel on Traffic) and the recorded Topology under load on Results. See [M8 guide](docs/M8-LIVE-PREVIEW-LIMITS.md). Rebuild/restart the backend and frontend; no new package, migration or environment value is needed.

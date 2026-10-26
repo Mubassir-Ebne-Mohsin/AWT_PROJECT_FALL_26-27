@@ -1,0 +1,202 @@
+{
+  "date": "2026-10-27",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M8 Limits, live preview and canvas load overlay",
+  "verdict": "complete for approved scope; Phase 2 remains in progress (M9)",
+  "publication": {
+    "branch": "codex/phase2-contracts",
+    "M8": "local commits only; no push, merge or deployment"
+  },
+  "runtime": {
+    "node": "22.23.4",
+    "apiPort": 5003,
+    "webPort": 3003,
+    "postgresPort": 5551,
+    "redisPort": 6398,
+    "auditDatabase": "sf_m8_audit",
+    "e2eDatabase": "sf_m8_e2e",
+    "containerLabel": "stressforge.audit=m8",
+    "processOnlyAuthLimit": 300,
+    "normalDataPreserved": true,
+    "envValuesRead": false
+  },
+  "approvedDefaults": {
+    "superseded": "409 PREVIEW_SUPERSEDED",
+    "ownerDurablePending": "429 DURABLE_PENDING",
+    "complexity": "422 COMPLEXITY_LIMIT",
+    "timeoutOrFailure": "503 PREVIEW_TIMEOUT / PREVIEW_FAILED",
+    "capacityPressure": "plain 429",
+    "previewThrottlePerMinute": 90,
+    "selection": {
+      "simulation": "?run=",
+      "limits": "?limits="
+    }
+  },
+  "checks": {
+    "backendBuild": {
+      "exit": 0
+    },
+    "backendTypecheck": {
+      "exit": 0
+    },
+    "backendLint": {
+      "exit": 0,
+      "errors": 0,
+      "inheritedWarnings": 22
+    },
+    "backendUnit": {
+      "exit": 0,
+      "passed": 176,
+      "suites": 12,
+      "seconds": 62.5,
+      "realRedisCompose": true
+    },
+    "backendE2e": {
+      "exit": 0,
+      "passed": 59,
+      "suites": 3,
+      "seconds": 41.4,
+      "m8Cases": 15
+    },
+    "contractCheck": {
+      "exit": 0
+    },
+    "frontendTypecheck": {
+      "exit": 0
+    },
+    "frontendLint": {
+      "exit": 0
+    },
+    "frontendBuild": {
+      "exit": 0,
+      "separateDist": ".next-audit"
+    },
+    "frontendUnit": {
+      "exit": 0,
+      "passed": 120,
+      "m8Cases": 19
+    },
+    "routes": {
+      "exit": 0,
+      "routes": 35
+    },
+    "liveApiTypes": {
+      "exit": 0,
+      "equal": true
+    },
+    "browserPilot": {
+      "initial": {
+        "passed": 3,
+        "failed": 3
+      },
+      "afterFixes": {
+        "passed": 6,
+        "failed": 0
+      }
+    },
+    "m8Matrix": {
+      "passed": 44,
+      "failed": 0,
+      "journeys": 11,
+      "projects": 4
+    },
+    "fullChromeRegression": {
+      "exit": 0,
+      "passed": 216,
+      "failed": 0,
+      "minutes": 16.2,
+      "devExcluded": true
+    },
+    "overlayEditingJourney": {
+      "passed": 4,
+      "failed": 0
+    },
+    "postLabelFixCanvasSuites": {
+      "exit": 0,
+      "passed": 116,
+      "minutes": 7.8
+    },
+    "postLabelFixRemainingSuites": {
+      "exit": 0,
+      "passed": 104,
+      "minutes": 6.8
+    },
+    "edge": {
+      "exit": 0,
+      "passed": 12,
+      "project": "1440-light",
+      "seconds": 46.3
+    },
+    "devStates": {
+      "exit": 0,
+      "passed": 4,
+      "seconds": 46.2
+    },
+    "realOutages": {
+      "initialAttemptsFailed": 5,
+      "consecutivePassingRuns": 3,
+      "postgres": {
+        "health": 503,
+        "saveFailed": true,
+        "previewKeptWorking": true,
+        "draftKept": true,
+        "savedAfterRecovery": true
+      },
+      "redis": {
+        "health": 503,
+        "signal": "Waking up the server.",
+        "draftKept": true,
+        "savedAfterRecovery": true
+      },
+      "apiRestartDuringLimits": {
+        "failureCode": "INTERRUPTED",
+        "shownInUi": true,
+        "noAutomaticResubmit": true,
+        "newSearchSucceeded": true,
+        "attemptsNeeded": 2
+      }
+    },
+    "mutationChecks": [
+      "abort wiring",
+      "preview throttle bucket",
+      "DURABLE_PENDING reason",
+      "reply acceptance rule",
+      "paused-state Retry",
+      "flow-label layering"
+    ]
+  },
+  "changes": {
+    "existingTestChangedWithApproval": "test/designs.e2e-spec.ts: two absence assertions now require preview and limits paths present and implemented",
+    "newDependencies": 0,
+    "migrations": 0,
+    "envValues": 0,
+    "engineFormulaChanges": 0
+  },
+  "applicationFixesFoundDuringVerification": [
+    "preview abort used req.destroyed",
+    "narrow bracket rounding",
+    "topology with missing flows",
+    "StrictMode disposed preview session",
+    "no Retry after DURABLE_PENDING pause",
+    "flow labels hidden under nodes"
+  ],
+  "observations": [
+    "one unreproduced 409 on the first autosave after Redis recovery; draft retained; three instrumented reruns clean",
+    "stopped PostgreSQL container once held a connection attempt about 32 s before 503"
+  ],
+  "evidenceImages": [
+    "m8-edit-overlay-1440-light.png",
+    "m8-edit-overlay-1440-dark.png",
+    "m8-limits-1440-light.png",
+    "m8-limits-1440-dark.png",
+    "m8-results-topology-1440-light.png",
+    "m8-results-topology-1440-dark.png"
+  ],
+  "limitations": [
+    "Firefox/WebKit untested",
+    "formal assistive-technology audit untested",
+    "soak/storage growth untested",
+    "single worker and single API instance",
+    "M9 remains"
+  ]
+}

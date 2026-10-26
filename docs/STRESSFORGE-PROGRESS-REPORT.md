@@ -1,8 +1,8 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-26 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results is complete locally with evidence in section19; no M7 push or main merge occurred. Phase2 remains in progress: M8 Limits/preview and M9 final acceptance are unfinished.
+> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 remains in progress: M9 final acceptance is unfinished.
 
 ## 1. Maintenance instructions
 
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-26): M0–M7 complete for their approved scopes; M8 Limits/live preview/overlay and M9 final acceptance not started. See sections13–19. M7 remains local; earlier M1–M6 published on codex/phase2-contracts |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-27): M0–M8 complete for their approved scopes; M9 final acceptance not started. See sections13–20. M7–M8 remain local; earlier M1–M6 published on codex/phase2-contracts |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; full Phase2 completion still requires M8–M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; full Phase2 completion still requires M9.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-27 — M8 completed locally:** Saved Limits (all three honest search states), debounced cancelable live preview, Load overlay with the shared traffic control, Traffic live panel and recorded Results topology. Simulation, Limits and preview identities are separate.176 backend unit/59 e2e/120 frontend unit tests pass. Full Chrome regression216/216; later fixes reverified by focused reruns (M5/M6/M8116/116, remaining suites in section20); M8 Chrome48 combinations, Edge12/12, dev4/4. Real PostgreSQL/Redis outages and an API restart during a pending Limits search (INTERRUPTED, no resubmission) verified. Initial failures, three application fixes found by new tests/screenshots, one user-approved M3 assertion change and one unreproduced 409 observation are recorded in section20. M9 remains; no push.
 
 - **2026-10-26 — M7 completed locally:** Full Traffic controls and recorded Results implemented.174 backend unit/44 e2e/101 frontend unit tests pass. Final complete browser invocation168 passed/4 intentional production dev skips; separate dev4/4 covers the skips. M7 has44 unique Chrome combinations (40 in that full run plus4 separately added pipeline-analysis cases) and11 Edge passes across two invocations. Real PostgreSQL/Redis/API interruptions retained traffic/history, recovered Undo and allowed a new run. Section19 preserves initial failed invocations and test corrections. M8–M9 remain; no M7 GitHub push.
 
@@ -1043,3 +1045,111 @@ Detailed logs are ignored locally. Sanitized aggregate and m7-* screenshots in d
 - [Verified] M8 must still implement Limits, debounced live preview and numerical load overlays; M9 must complete integration acceptance and final documentation/publication review. Real AI remains a later essential course requirement. M7 completion does not complete Phase2 or authorize M8.
 
 **M7 verdict: COMPLETE for the approved Traffic/recorded Results scope, with no unresolved mandatory M7 functional failure observed in the completed gates.** Changes are committed locally on codex/phase2-contracts; no M7 GitHub push, main merge or production deployment occurred. Future completion work MUST update this same report, preserve earlier history, record new evidence and reassess affected earlier requirements; nothing updates automatically.
+
+## 20. M8 — Limits, live preview and canvas load overlay
+
+**2026-10-27 (Asia/Dhaka). Verdict: M8 COMPLETE for the approved scope. Phase 2 remains IN PROGRESS: M9 final acceptance is still required.** The user approved the [M8 scope](M8-LIMITS-PREVIEW-SCOPE.md), then approved Stage 2 with the recommended defaults:
+
+- a superseded preview returns 409 PREVIEW_SUPERSEDED;
+- a preview blocked by the owner's own pending durable job returns 429 DURABLE_PENDING;
+- complexity returns 422 COMPLEXITY_LIMIT;
+- timeout or failure returns 503 PREVIEW_TIMEOUT / PREVIEW_FAILED;
+- plain 429 is kept for genuine capacity pressure;
+- preview has its own 90/min throttle bucket;
+- `?run=` selects a simulation and `?limits=` selects a Limits search.
+
+Sources: the Phase 2 roadmap, the prototype's Limits/LiveBar/ResultsTab topology, the frozen M1 contracts, the M2 worker, the M3 durable-run protocol and the M6/M7 editor safeguards. web/AGENTS.md and the installed Next 16 documentation were read. See the [M8 operating guide](M8-LIVE-PREVIEW-LIMITS.md) and the [durable evidence](audit/m8-verification.json).
+
+### Requirements and observed evidence
+
+| Requirement | Implementation and verification | Status |
+| --- | --- | --- |
+| Limits API and durable lifecycle | Mounted POST /v1/designs/{id}/limits on the existing RunsService: 202 when new, 200 on replay, 409 for a reused key with a different kind or revision, one pending durable job per owner. The draft is flushed to a saved revision first. e2e covers auth/ownership, replay, every search state, invalid graph, stale revision, second pending job and deletion during a search. A real API kill right after acceptance was reconciled to INTERRUPTED at startup, with no automatic resubmission | [Verified] |
+| Complete Limits tab | Breaking-point cards (bracket, cause, first component, headroom), ramp chart with separate latency/error axes, target lines, the current load and the searched bracket, an accessible data table, saturation order with Edit links, and revision/fingerprint/engine/time. Pending state has no progress percentage. Browser runs at four widths/themes: real search, reload, kind reroute and dashboard labels | [Verified] |
+| Honest search states | found: bracket, with extra precision only where needed (the "152 – 152" case was fixed); headroom = failing ÷ current load, "not applicable" at zero load. failsAtMinimumLoad: minimum tested 1 rps, threshold below unknown, no headroom. notReachedWithinRange: "at least" lower bound, never "never" or ∞. Average and burst peak are separate. Unit tests cover every state; e2e returns each one over HTTP, including zero current load. Six-template numerical parity is unchanged and is still covered by the existing M2 engine fixtures | [Verified] |
+| Separate identities | Simulation and Limits have separate selections, intents and pending flags. Links route by stored kind; a Limits id under `?run=` is redirected to `?limits=`. A lost Limits response retries the same Limits request (browser: one Limits run, zero simulations). Run test and Find limits disable each other while pending. Previews never write runs, dashboard counts or history (asserted in browser and e2e) | [Verified] |
+| Debounced, cancelable live preview | POST /v1/simulation/preview runs on the existing worker; nothing is persisted. The client PreviewSession has a 750 ms debounce over semantic inputs only and one request per editor session. A newer request aborts the older one; a reply is accepted only for the same session, newest sequence and current inputs. It pauses for invalid input, gestures, conflicts and pending durable work; failures stay inline with explicit retry and no loop; logout, navigation and disable cancel; reauthentication renews the identity. Covered by unit tests and browser runs: debounce (≤2 requests for a 15-step slider burst), layout moves ignored, stale reply with abort, two tabs, logout, durable pause/retry, session modal | [Verified] |
+| Scheduling and cancellation over HTTP | Durable work preempts a running preview and evicts queued ones; preview never preempts durable work. Supersession, owner-scoped sequences, a real client disconnect that releases the worker within 1 s, DURABLE_PENDING, a worker crash answered with 503 and then recovery, and the separate throttle bucket are all e2e-tested over real HTTP | [Verified] |
+| Canvas overlay and shared traffic control | Load (L) button and shortcut (ignored while typing). The live bar's traffic control edits the same EditorSession draft as the Traffic tab. Status colours come with text and a legend; utilization above 100% stays numeric while the meter clamps; the bottleneck is tagged only when strained; edge width shows modeled flow. Overlay only when the output matches the current inputs. Browser: overload shows numeric >100% and BOTTLENECK; adding, deleting and undoing components never borrows old metrics; a 50-node/200-edge graph got a 200 preview in about 0.93–0.98 s (debounce included) with frame gaps under 1 s | [Verified] |
+| Traffic live panel | Opt-in "Live preview — unsaved inputs" panel, clearly separate from the recorded run's timeline (browser, four projects) | [Verified] |
+| Recorded Results topology | Read-only "Topology under load" from the selected run's saved snapshot and metrics. Deleted components keep their recorded metrics with a note and no Edit link; the run is marked stale (browser) | [Verified] |
+| Responsive/accessibility | No horizontal overflow at 1024/1440 light and dark in the M8 journeys. Labelled controls, aria text for modeled utilization and flow, keyboard sliders and an accessible ramp table. Reduced-motion CSS; no animation is required | [Verified]; formal AT audit [Untested] |
+| Real outages | Opt-in verify-m8-services.cjs. PostgreSQL stopped: save 503, live preview kept answering, draft kept and saved after recovery. Redis stopped: the app's "Waking up the server." state, then the draft kept and saved. API killed right after a Limits search was accepted: INTERRUPTED shown, no resubmission, new search succeeded | [Verified] |
+
+Main implementation:
+
+- API: `common/decorators/preview-throttle.decorator.ts`, `app.module.ts` (named throttlers), `modules/simulation/preview.{controller,service}.ts`, executor DURABLE_PENDING reason, `designs.controller.ts` limits route, OpenAPI exclusions removed.
+- Web: `lib/{preview-session,load-overlay,limits-presentation,run-links}.ts`, the kind-aware `editor-session.ts`, `components/workspace/{limits-tab,live-preview,recorded-topology,run-results,workspace}.tsx`, the canvas overlay in `graph-nodes`/`graph-canvas`/`canvas-editor` and `styles/m8.css`.
+
+Tests:
+
+- `test/m8.e2e-spec.ts` (15 tests);
+- `web/tests/m8.test.cjs` (19 tests);
+- `web/tests/browser/m8.spec.ts` (12 journeys × 4 projects);
+- the opt-in `web/tests/verify-m8-services.cjs`.
+
+### Existing test changed with user approval
+
+`test/designs.e2e-spec.ts` (M3) asserted that `/v1/simulation/preview` and `/v1/designs/{id}/limits` were absent from the live OpenAPI document. This was correct before M8, but contradicted the approved M8 scope. I stopped and asked. The user approved this: "Replace the two toBeUndefined assertions with assertions that /v1/simulation/preview and /v1/designs/{id}/limits are present and marked implemented, keep the rest of the test, record it in the report". Only those two assertions changed; the rest of the test is unchanged.
+
+### Checks and exact results
+
+Node 22.23.4 and the existing pinned package versions. The isolated stack was:
+
+- labelled containers stressforge-m8-postgres (5551) and stressforge-m8-redis (6398);
+- databases sf_m8_audit and sf_m8_e2e;
+- the compiled API on 5003 with a process-only auth limit of 300;
+- web on 3003 (`.next-audit` production build, or `next dev` for @dev only).
+
+Normal services (3000/5001, the dev Compose services) and their data were not touched. No .env values were read or printed.
+
+| Check | Observed result |
+| --- | --- |
+| API pnpm build / typecheck / lint:check | Exit 0; 0 errors, 22 inherited warnings |
+| API TEST_REDIS_COMPOSE=1 pnpm test --runInBand | Exit 0; 176/176, 12 suites, 62.5 s (174 before M8 + 2 contract tests) |
+| API DB_TEST_DATABASE=sf_m8_e2e pnpm test:e2e | Exit 0; 59/59, 3 suites, 41.4 s (44 earlier + 15 M8) |
+| API pnpm contract:phase2:check | Exit 0; regenerated OpenAPI/examples/types in sync |
+| WEB pnpm typecheck / lint / production build | Exit 0 (all three) |
+| WEB pnpm test | Exit 0; 120/120 (101 earlier + 19 M8) |
+| WEB check:routes; live openapi-typescript /docs-json --check | Exit 0; 35 routes; generated API types equal the mounted API |
+| Initial M8 browser pilot (1440-light) | Exit 1; 3 passed, 3 failed (see corrections 6–7). After fixes: 6/6, 34.7 s |
+| Added durable-pending browser journey | First run Exit 1 (real defect, correction 8); after the fix 1/1 |
+| M8 browser matrix, 11 journeys × 4 projects | Exit 0; 44/44 |
+| Full Chrome regression (Foundation, M3–M8; @dev excluded) | Exit 0; 216 passed, 0 failed, 16.2 min |
+| Overlay-editing journey (added after the full run started) | Exit 0; 4/4 |
+| After the flow-label fix (correction 9), production rebuild: M5, M5-boundary, M6, M8 | Exit 0; 116/116, 7.8 min |
+| After the flow-label fix: Foundation, M3, M3-deep, M4, M4-recovery, M7 | Exit 0; 104/104, 6.8 min (with the 116 above, all 220 Chrome production cases rerun after the final application change) |
+| Edge: m8.spec.ts --project=1440-light | Exit 0; 12/12, 46.3 s |
+| next dev with SF_DEV_STATES=1: --grep @dev | Exit 0; 4/4, 46.2 s; all ten demo states at each width/theme |
+| SF_M8_REAL_OUTAGES=1 node tests/verify-m8-services.cjs | First five attempts Exit 1 (harness corrections 10–12); then three consecutive Exit 0 runs with revision logging |
+| Mutation checks (each restored afterwards) | Each of these, when removed, made a test fail: the abort wiring, the separate preview throttle bucket, the DURABLE_PENDING reason, the reply-acceptance rule, the paused-state Retry and the flow-label layering |
+
+Logs are kept locally and are not committed. The m8-* screenshots in docs/audit (Edit overlay, Limits, Results topology at 1440 light/dark) were inspected. Earlier milestone screenshots that the regression runs regenerate were restored from HEAD.
+
+### Initial failures and corrections
+
+1. **Normal previews returned 409 (application).** The disconnect handler checked `req.destroyed`, which Node sets once the request body has been read, so every preview looked aborted. It now aborts on the response `close` event when the response is unfinished, or when the socket or response is already destroyed. An e2e test fails if this wiring is removed.
+2. **Disconnect test too weak (test).** It first passed even without the abort wiring. It now requires the worker to be released within 1 s. Mutation confirmed.
+3. **Fault injection had no effect (test harness).** The persistent worker ignored injected faults. The e2e `inject()` helper retires the worker before injecting a fault; this is test-only.
+4. **Existing M3 assertion (test, user-approved).** See above.
+5. **Narrow bracket rounding (application).** A narrow found bracket displayed as "152 – 152". `bracketText` now adds precision until the bounds differ, with a unit test.
+6. **M7 render fixture without flows (application hardening).** The existing M7 render test's summary has no `flows`, which crashed the new topology view. The overlay now treats a missing list as empty; the M7 test was not edited.
+7. **Preview never sent in the browser (application).** React's development double-invoked effect cleanup permanently disposed the PreviewSession. Unmount now disables instead of disposing. The initial pilot also had a test-only strict-mode locator ambiguity (fixed with `.first()`).
+8. **No Retry after a server-side durable-pending pause (application, found by a new browser test).** The DURABLE_PENDING reply set a paused, retryable state, but Retry rendered only for errors, so preview stayed paused until the next edit. Retry now renders for retryable paused or error states (commit c20f2d4).
+9. **Flow labels hidden on short edges (application, found by screenshot review).** Edge flow labels were drawn under node bodies ("491/s mode…"). They now render in a layer above all nodes, showing only the rate; the connection's accessible name carries "modeled flow N/s". A unit assertion fails on the old markup (commit 231f9ba).
+10. **Outage harness: design id read too early (harness).** The id was taken from the URL before navigation away from /new/template, giving GET /designs/template 422. The harness now waits for the editor URL.
+11. **Outage harness: wrong Redis expectation (harness).** With Redis stopped, requests wait for the cache instead of failing with 503. As in M7, the observable signal is the app's unavailable state. On one PostgreSQL attempt the PATCH took about 32 s to fail because the stopped container held the connection attempt until its timeout (other attempts: 16–49 ms), so the wait is now 60 s.
+12. **Outage harness: kill too late and restart unobservable (harness).** Two PowerShell lookups before the kill let the roughly 1 s Limits search finish first. The process identity is now verified before submission, and only `taskkill` runs at acceptance. One detached restart produced no output; the restart now logs to a temp file and retries the start once. The passing runs needed one retry attempt to catch a running search (attempt 1 had completed before the kill).
+13. **Unreproduced 409 after Redis recovery (observation).** In one harness attempt, the first autosave after Redis recovered returned 409. The client kept the draft behind the existing conflict UI, so no data was lost. Three later instrumented runs showed clean revision sequences (1 → 2 → 3) with no conflict, and the cause was not established. The save path was not changed in M8. [Untested root cause]
+
+### Decisions, limitations and remaining Phase 2 work
+
+- [Verified] No new runtime dependency, migration, environment value, engine formula or persistent storage was added. Contracts changed only by adding the frozen preview error-details schema, with regenerated documents and types.
+- [Verified] Preview is a model summary of possibly unsaved inputs. The Traffic timeline remains the recorded run's illustrative samples; no hidden extra simulation is run. Overlay and edge widths are modeled values, not observed traffic.
+- [Verified] The single worker and single-instance job rules remain. Restart recovery marks jobs INTERRUPTED rather than resuming them.
+- [Inferred] With Redis down, requests wait instead of failing quickly; with PostgreSQL stopped, a connection attempt can take up to about 30 s to fail. Both are existing backend timeout behaviour; drafts are retained in both cases.
+- [Untested] Firefox/WebKit, a formal assistive-technology audit, long-duration soak and storage growth, and multi-instance deployment. Existing backend advisories remain as triaged in section 14.
+- [Verified] The pre-existing modification to docs/audit/m2-profile-source.json was never staged, committed or reverted.
+- M9 must still complete integration acceptance, prototype comparison, Phase 1 reassessment and final documentation and publication review. Real AI remains a later course requirement. M8 completion does not authorize M9.
+
+**M8 verdict: COMPLETE for the approved Limits, live preview, overlay and topology scope. No mandatory M8 item is unverified, and no M8 functional failure remains unresolved in the completed gates.** Commits are local on codex/phase2-contracts: 77add0d, 3cfe703, 960599d, ddc745c, c20f2d4, 231f9ba, plus this documentation commit. No push, merge or deployment was made. Future milestones must update this same report and preserve its history.
