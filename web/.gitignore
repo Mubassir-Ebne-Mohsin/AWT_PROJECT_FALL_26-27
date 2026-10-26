@@ -46,3 +46,6 @@ next-env.d.ts
 /playwright-report/
 
 /.next-audit/
+
+# Separate output directories for concurrent isolated browser checks
+/test-results-*/

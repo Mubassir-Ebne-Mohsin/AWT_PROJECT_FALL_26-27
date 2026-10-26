@@ -33,7 +33,7 @@ test("M6 blank design becomes a saved connected runnable graph; validation gives
  await addEdge(page,client.id,app.id);await addEdge(page,app.id,db.id);await check(page);
  await expect(page.getByText("Ready to run",{exact:true})).toBeVisible();
  await page.getByRole("button",{name:"Run test",exact:true}).click();await expect(page.getByRole("heading",{name:"Model results",exact:true})).toBeVisible();
- await page.getByRole("link",{name:"Edit",exact:true}).click();await page.reload();d=await read();expect(d.graph.edges).toHaveLength(2);
+ await expect(page).toHaveURL(/\/results\?run=/);await page.getByRole("link",{name:"Edit",exact:true}).click();await expect(page).toHaveURL(/\/edit(?:\?|$)/);await page.reload({waitUntil:"domcontentloaded"});d=await read();expect(d.graph.edges).toHaveLength(2);
  await expect(page.getByLabel("Connection",{exact:true}).locator("option")).toHaveCount(3);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);expect(errors).toEqual([]);
 });

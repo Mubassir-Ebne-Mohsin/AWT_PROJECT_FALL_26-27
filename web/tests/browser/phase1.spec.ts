@@ -229,6 +229,9 @@ test("all ten developer demo states render and recover @dev", async ({ page }) =
   // Demo controls are UI-only: leaving the anonymous session demo must not depend on API uptime.
   await page.route(`${apiBase}/auth/logout`, route => route.fulfill({ status: 204 }));
   await page.goto("/login");
+  // Prove a client handler is active before sending a window shortcut on a cold dev load.
+  await page.locator("form").getByRole("button", {name:"Log in",exact:true}).click();
+  await expect(page.locator("#login-email")).toHaveAttribute("aria-invalid","true");
   for (const state of SYSTEM_STATES) {
     await test.step(state.id, async () => {
       await page.keyboard.press("Control+Shift+d");

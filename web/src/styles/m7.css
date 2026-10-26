@@ -1,0 +1,117 @@
+.m7-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.m7-split > * {
+  min-width: 0;
+}
+.m3-body .readouts.m7-readouts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.m7-readouts .v {
+  font-size: clamp(18px, 2.2vw, 30px);
+  overflow-wrap: anywhere;
+}
+.m7-reasons {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.m7-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.m7-chart text {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 10px;
+  fill: var(--ink-3);
+}
+.m7-chart .gl {
+  stroke: var(--line-soft);
+  stroke-width: 1;
+}
+.m7-chart .a-rps {
+  fill: var(--ink-4);
+  opacity: 0.18;
+}
+.m7-chart .l-p95 {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.m7-chart .slo {
+  stroke: var(--warn);
+  stroke-dasharray: 5 4;
+}
+.m7-chart .slo-t {
+  fill: var(--warn);
+}
+.m7-results {
+  grid-template-columns: minmax(0, 1.8fr) minmax(260px, 1fr);
+}
+.m7-results .tbl {
+  font-size: 12px;
+}
+.m7-results .tbl td {
+  vertical-align: top;
+}
+.m7-results .meter {
+  display: block;
+  width: 70px;
+  margin-bottom: 4px;
+}
+.m7-row-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.m7-selected {
+  background: var(--accent-soft);
+}
+.m7-path {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1100px) {
+  .m7-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .m3-body .readouts.m7-readouts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .m3-body .readouts.m7-readouts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.m7-kv-pair {
+  display: contents;
+}
+
+.m7-traffic-field input {
+  width: 140px;
+  max-width: 100%;
+}
+.m7-traffic-field > .row {
+  flex-wrap: nowrap;
+}
+.m7-split .panel-b > .m7-traffic-field:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

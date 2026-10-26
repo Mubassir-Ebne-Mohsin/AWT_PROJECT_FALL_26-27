@@ -106,6 +106,7 @@ test("M4 lost creation response retains inputs and prevents duplicate submission
  await expect(page.getByRole("button",{name:"Use Single-server MVP",exact:true})).toBeDisabled();
  expect(calls).toBe(1);
  await page.getByRole("link",{name:"Check dashboard",exact:true}).click();
- await expect(page.getByRole("heading",{name:"Single-server MVP",exact:true})).toBeVisible();
+ await expect(page).toHaveURL(/\/dashboard$/);
+ await expect(page.getByRole("article").getByRole("heading",{name:"Single-server MVP",exact:true})).toBeVisible();
  expect((await(await page.request.get(api+"/dashboard",{headers})).json()).data.counts.designs).toBe(1);
 });
