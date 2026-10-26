@@ -22,12 +22,7 @@ export function createComputeWorker(): Worker {
       env: runtimeEnv,
     });
   return new Worker(resolve(__dirname, "compute.worker.ts"), {
-    execArgv: [
-      "-r",
-      require.resolve("ts-node/register/transpile-only"),
-      "-r",
-      require.resolve("tsconfig-paths/register"),
-    ],
+    execArgv: ["-r", resolve(__dirname, "register-source.cjs")],
     env: {
       ...runtimeEnv,
       TS_NODE_PROJECT: resolve(__dirname, "../../../../tsconfig.json"),
