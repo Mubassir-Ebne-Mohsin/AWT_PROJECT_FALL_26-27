@@ -74,7 +74,14 @@ export class RunsService implements OnApplicationBootstrap, OnModuleDestroy {
     kind: Kind,
     request: RunRequestDto,
   ) {
-    await this.designs.owned(owner, designId);
+    const current = await this.designs.owned(owner, designId);
+    // Retained keys win even after edits. Invalid new revisions must not claim
+    // a provisional key and reject a concurrent valid submission.
+    const existing = await this.db.getRepository(SavedRun).findOneBy({
+      designId,
+      requestId: request.requestId,
+    });
+    if (existing) return this.match(existing.payload, kind, request);
     const key = designId + ":" + request.requestId;
     const pending = this.submitting.get(key);
     if (pending) {
@@ -89,6 +96,7 @@ export class RunsService implements OnApplicationBootstrap, OnModuleDestroy {
         );
       return pending.promise;
     }
+    this.designs.revision(current, request.expectedRevision);
     if (this.submitting.size >= 128)
       throw new AppException(
         "RATE_LIMITED",
