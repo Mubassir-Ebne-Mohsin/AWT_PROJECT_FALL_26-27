@@ -82,7 +82,7 @@ export function LiveBar({ session, v, onSelect, disabled }: { session: EditorSes
       <span className="sep" />
       <span className={"tag " + (v.enabled ? "accent" : "")} role="status">{statusText(v)}</span>
       <Readouts v={v} onSelect={onSelect} />
-      {v.enabled && v.state.status === "error" && v.state.retryable && (
+      {v.enabled && v.state.retryable && (v.state.status === "error" || v.state.status === "paused") && (
         <button className="btn btn-sm" onClick={v.onRetry}>Retry preview</button>
       )}
     </div>
@@ -102,7 +102,7 @@ export function LivePreviewPanel({ v }: { v: LivePreviewView }) {
       <div className="panel-b stack">
         <p className="hint" role="status">{statusText(v)}</p>
         <Readouts v={v} />
-        {v.enabled && v.state.status === "error" && v.state.retryable && (
+        {v.enabled && v.state.retryable && (v.state.status === "error" || v.state.status === "paused") && (
           <button className="btn btn-sm" style={{ justifySelf: "start" }} onClick={v.onRetry}>Retry preview</button>
         )}
         <p className="hint">

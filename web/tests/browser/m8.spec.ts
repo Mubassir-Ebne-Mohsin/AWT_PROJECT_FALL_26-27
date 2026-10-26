@@ -178,3 +178,103 @@ test("M8 logout stops live preview requests", async ({ page }, info) => {
   await page.waitForTimeout(2000);
   expect(count).toBe(after);
 });
+
+test("M8 Traffic tab live panel is opt-in and separate from the recorded run", async ({ page }, info) => {
+  const { errors } = await setup(page, "traffic-" + info.project.name);
+  await page.getByRole("link", { name: /^Traffic/ }).click();
+  const panel = page.getByRole("region", { name: "Live preview" });
+  await expect(panel.getByRole("checkbox", { name: "Live preview" })).not.toBeChecked();
+  await expect(panel.getByText("Live preview off")).toBeVisible();
+  await panel.getByRole("checkbox", { name: "Live preview" }).check();
+  await expect(panel.locator(".m8-readouts")).toBeVisible({ timeout: 15_000 });
+  await expect(panel.getByText(/never replaces a recorded run/)).toBeVisible();
+  await noOverflow(page);
+  expect(errors).toEqual([]);
+});
+
+test("M8 two tabs keep independent preview identities and never supersede each other", async ({ page, context }, info) => {
+  const { id } = await setup(page, "tabs-" + info.project.name);
+  const second = await context.newPage();
+  await second.goto(`/designs/${id}/edit`);
+  const bodies: { editorSessionId: string; status: number }[] = [];
+  for (const p of [page, second])
+    p.on("response", async (r) => {
+      if (r.url().endsWith("/simulation/preview")) bodies.push({ editorSessionId: r.request().postDataJSON().editorSessionId, status: r.status() });
+    });
+  await page.getByRole("button", { name: "Load (L)" }).click();
+  await second.getByRole("button", { name: "Load (L)" }).click();
+  for (const p of [page, second]) await expect(p.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
+  expect(new Set(bodies.map((b) => b.editorSessionId)).size).toBe(2);
+  expect(bodies.every((b) => b.status === 200)).toBe(true);
+  await second.close();
+});
+
+test("M8 50-node/200-edge graph: preview stays bounded and the canvas stays usable", async ({ page }, info) => {
+  const { headers, errors } = await setup(page, "bounds-" + info.project.name);
+  const catalog = (await (await page.request.get(api + "/simulation/catalog", { headers })).json()).data;
+  const nodes = Array.from({ length: 50 }, (_, i) => ({ id: "node" + i, type: i === 0 ? "client" : "app", label: "Node " + i, x: (i % 10) * 240 - 480, y: Math.floor(i / 10) * 110 - 220, props: {} }));
+  const edges: { id: string; from: string; to: string }[] = [];
+  for (let a = 0; a < 50 && edges.length < 200; a++) for (let b = a + 1; b < 50 && edges.length < 200; b++) edges.push({ id: "edge" + edges.length, from: "node" + a, to: "node" + b });
+  const created = await page.request.post(api + "/designs", { headers, data: { schemaVersion: 1, name: "M8 bounded graph", description: "", source: "blank", templateId: null, graph: { nodes, edges }, traffic: catalog.trafficDefaults } });
+  expect(created.status()).toBe(201);
+  await page.goto("/designs/" + (await created.json()).data.id + "/edit");
+  await expect(page.locator("[data-node]")).toHaveCount(50);
+  const reply = page.waitForResponse((r) => r.url().endsWith("/simulation/preview"));
+  const started = Date.now();
+  await page.getByRole("button", { name: "Load (L)" }).click();
+  const status = (await reply).status();
+  await info.attach("bounded-preview", { body: JSON.stringify({ status, ms: Date.now() - started }), contentType: "application/json" });
+  // Either a modeled overlay or an inline, honest budget message; never a hang or a system screen.
+  expect([200, 422, 503]).toContain(status);
+  if (status === 200) await expect(page.locator(".cv-node.overlay")).toHaveCount(50);
+  else await expect(page.locator(".m8-live [role=status]")).toContainText(/budget|did not finish|unavailable/);
+  const sample = await page.evaluate(() => new Promise<number>((resolve) => { let frames = 0, prev = performance.now(), gap = 0; const tick = (now: number) => { gap = Math.max(gap, now - prev); prev = now; if (++frames >= 12) resolve(gap); else requestAnimationFrame(tick); }; requestAnimationFrame(tick); }));
+  expect(sample).toBeLessThan(1000);
+  await page.getByRole("button", { name: "Fit to screen", exact: true }).click();
+  await noOverflow(page);
+  expect(errors).toEqual([]);
+});
+
+test("M8 preview blocked by the owner's pending saved calculation pauses inline with explicit retry", async ({ page }, info) => {
+  await setup(page, "durable-" + info.project.name);
+  let block = true;
+  // Server-side DURABLE_PENDING is verified in test/m8.e2e-spec.ts; here the UI mapping is checked.
+  await page.route("**/simulation/preview", (route) =>
+    block
+      ? route.fulfill({ status: 429, json: { error: { code: "RATE_LIMITED", message: "pending", details: { reason: "DURABLE_PENDING" } } } })
+      : route.continue(),
+  );
+  await page.getByRole("button", { name: "Load (L)" }).click();
+  await expect(page.locator(".m8-live [role=status]")).toHaveText("Live preview pauses while your saved calculation runs.");
+  block = false;
+  await page.waitForTimeout(1200);
+  await expect(page.locator(".m8-live [role=status]")).toHaveText("Live preview pauses while your saved calculation runs.");
+  await page.getByRole("button", { name: "Retry preview" }).click();
+  await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
+});
+
+test("M8 session-modal reauthentication keeps the draft and renews the preview identity", async ({ page }, info) => {
+  const { id } = await setup(page, "reauth-" + info.project.name);
+  const ids: string[] = [];
+  page.on("request", (r) => {
+    if (r.url().endsWith("/simulation/preview")) ids.push(r.postDataJSON().editorSessionId);
+  });
+  await page.getByRole("button", { name: "Load (L)" }).click();
+  await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
+  const before = ids.at(-1);
+  await page.route(api + "/designs/" + id, (route) => (route.request().method() === "PATCH" ? route.fulfill({ status: 401, json: { error: { code: "SESSION_EXPIRED", message: "M8 expiry" } } }) : route.continue()));
+  await page.route(api + "/auth/refresh", (route) => route.fulfill({ status: 401, json: { error: { code: "SESSION_EXPIRED", message: "M8 expiry" } } }));
+  const slider = page.getByLabel("Traffic", { exact: true });
+  await slider.focus();
+  await page.keyboard.press("PageUp");
+  const drafted = await slider.inputValue();
+  await expect(page.getByRole("alertdialog", { name: "Your session expired" })).toBeVisible();
+  await page.unroute(api + "/designs/" + id);
+  await page.unroute(api + "/auth/refresh");
+  await page.locator("#sess-pw").fill("M8-Limits-2026!");
+  await page.getByRole("button", { name: "Log in again", exact: true }).click();
+  await expect(page.getByRole("alertdialog", { name: "Your session expired" })).toHaveCount(0);
+  await expect(slider).toHaveValue(drafted);
+  await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
+  expect(ids.at(-1)).not.toBe(before);
+});
