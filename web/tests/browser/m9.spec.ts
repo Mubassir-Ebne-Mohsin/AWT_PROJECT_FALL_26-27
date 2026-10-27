@@ -20,8 +20,11 @@ async function setup(page: Page, tag: string) {
   await expect(
     page.getByRole("button", { name: "Account menu", exact: true }),
   ).toBeVisible();
+  await expect(page.getByTestId("me-card")).toContainText("M9 Acceptance");
+  await expect(page.locator(".readouts .readout .v").first()).toHaveText("0");
   await page.screenshot({ path: "../docs/audit/m9-dashboard-" + tag + ".png" });
   await page.goto("/new/template");
+  await expect(page.getByRole("button", { name: "Use Single-server MVP", exact: true })).toBeVisible();
   await page.screenshot({ path: "../docs/audit/m9-templates-" + tag + ".png" });
   await page
     .getByRole("button", { name: "Use Single-server MVP", exact: true })
@@ -123,6 +126,7 @@ test("M9 complete saved simulation, improvement, live overlay and Limits journey
     .getByLabel("Average requests per second", { exact: true })
     .fill("400");
   await page.getByLabel("Burst multiplier", { exact: true }).fill("1.2");
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: "../docs/audit/m9-traffic-" + info.project.name + ".png" });
   const first = await calculate(page, "simulation");
   const before = await fetchRun(first.id);
