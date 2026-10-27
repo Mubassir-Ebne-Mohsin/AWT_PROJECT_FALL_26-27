@@ -7,7 +7,7 @@
   "applicationVerdict": "PASS",
   "overallVerdict": "PARTIAL: historical artifact-preservation exception awaits user decision",
   "applicationCommit": "bea8321d83c0ba4c17760ad4783ea70bf7608985",
-  "verificationHarnessCommit": "ebdfb066fb8e6de23ffc3cea4836b6eb01c43871",
+  "verificationHarnessCommit": "fd631fde49dc7d914d3bc637f182b7b1d818dd36",
   "branch": "codex/phase2-contracts",
   "pushed": false,
   "normalEnvironmentFilesRead": false,
@@ -490,6 +490,8 @@
     "Real AI and later phases remain unimplemented"
   ],
   "codeCommits": [
+    "fd631fde49dc7d914d3bc637f182b7b1d818dd36 test: include isolated M9 service verification harnesses",
+    "b1e358b4850cf5a524f5e7e1ed1df2e41d3d75ac docs: record M9 acceptance evidence and preservation exception",
     "ebdfb066fb8e6de23ffc3cea4836b6eb01c43871 test: wait for settled M9 screenshot content",
     "bea8321d83c0ba4c17760ad4783ea70bf7608985 fix: avoid promising saves during preview outages",
     "78fae541f3521cf402cc91bd1a73b5fc9cb6914f chore: isolate developer acceptance build output",
