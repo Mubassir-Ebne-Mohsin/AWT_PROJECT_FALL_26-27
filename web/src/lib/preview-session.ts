@@ -199,5 +199,5 @@ function failureState(error: unknown): Partial<PreviewState> {
     return { status: "error", message: "This design exceeds the supported calculation budget. Simplify its branching.", retryable: false };
   if (reason === "PREVIEW_TIMEOUT")
     return { status: "error", message: "The preview did not finish in time. Retry, or run a saved test.", retryable: true };
-  return { status: "error", message: "Live preview is unavailable right now. Editing and saving still work.", retryable: true };
+  return { status: "error", message: "Live preview is unavailable right now. You can keep editing and retry shortly.", retryable: true };
 }
