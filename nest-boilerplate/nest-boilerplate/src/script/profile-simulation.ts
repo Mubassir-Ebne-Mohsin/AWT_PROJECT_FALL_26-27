@@ -141,8 +141,15 @@ async function main() {
       heartbeat: { ticks, maxTickGapMs },
       records,
     };
+    // Later acceptance runs must not overwrite an earlier milestone's evidence.
+    const evidenceName =
+      process.env.SF_PROFILE_OUTPUT ?? `m2-profile-${mode}.json`;
+    if (!/^[a-z0-9][a-z0-9-]*\.json$/.test(evidenceName))
+      throw new Error(
+        "SF_PROFILE_OUTPUT must be a JSON basename inside docs/audit",
+      );
     writeFileSync(
-      resolve(__dirname, "../../../../docs/audit/m2-profile-" + mode + ".json"),
+      resolve(__dirname, "../../../../docs/audit/", evidenceName),
       JSON.stringify(output, null, 2) + "\n",
     );
     console.log(
