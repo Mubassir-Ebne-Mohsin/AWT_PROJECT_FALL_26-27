@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 and M9 are COMPLETE for the approved local scope, with the explicitly accepted historical benchmark exception; see section21. M9 has not been pushed.
+> **Publication scope:** Phase1 baseline **9e8bb00** remains on GitHub main. M1–M9, including the completed Phase2 core loop, M9 fixes and this report, are published on **codex/phase2-contracts**. Verified code/closure checkpoint **7bdc41d** was pushed on2026-10-27 under explicit user authorization; a documentation-only publication update follows it. No main merge or deployment occurred. Phase2 is complete for the approved local scope with the accepted historical benchmark exception; see section21.
 
 ## 1. Maintenance instructions
 
@@ -45,7 +45,7 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Complete (2026-10-27): M0–M9 verified for the approved local scope; historical benchmark exception explicitly accepted. See sections13–21. M7–M9 local; M1–M6 published on codex/phase2-contracts |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Complete (2026-10-27): M0–M9 verified for the approved local scope; historical benchmark exception explicitly accepted. See sections13–21. M1–M9 published on codex/phase2-contracts; main remains the Phase1 baseline |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
@@ -306,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-27 — GitHub publication:** user explicitly requested pushing to Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27. Fast-forward push published M7–M9 through7bdc41d on codex/phase2-contracts, including the closure report. Main was not merged; the benchmark remains unstaged. Earlier no-push statements describe the implementation/closure stage before this authorization.
 
 - **2026-10-27 — M9 / Phase2 closure accepted:** user explicitly said “Accept exception and close M9.” All functional verification remains green. The unrecovered historical M2 benchmark is an accepted preservation exception and stays unstaged. Earlier failures and the prior partial verdict remain preserved below. No push, deployment or Phase3.
 
@@ -1279,3 +1281,7 @@ The final soak has317 two-second samples, preview entries≤2, and after lazy TT
 **Closure accepted on2026-10-27:** the user said “Accept exception and close M9.” All required application implementation, functional checks, documentation and cleanup are complete. No M9 work remains within the approved local scope. The historical benchmark loss remains documented as an accepted exception, and that file remains unstaged. Publication and Phase3 are separate and have not been started.
 
 Future phase-completion work must update this same report, preserve earlier phase history, record fresh verification evidence and reassess affected earlier requirements. Updates do not happen automatically.
+
+### Publication after closure (2026-10-27)
+
+The user subsequently authorized the GitHub push. M7–M9 and the closure report were published by a fast-forward push to codex/phase2-contracts through7bdc41d; this documentation update follows that checkpoint. Earlier no-push statements above are historical. No main merge, deployment or Phase3 work occurred. The accepted benchmark exception and unstaged-file instruction remain unchanged.
