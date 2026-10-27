@@ -47,6 +47,7 @@ export function ComponentPalette({
     <aside className="ed-palette" aria-label="Component palette"
       onKeyDown={e => { if (e.key === "Escape" && ref.current) { e.preventDefault(); e.stopPropagation(); cancel(); } }}
       onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) cancel(); }}>
+      <p className="m9-palette-note">{catalog.components.length} component types · Scroll for more</p>
       {groups.map((group) => (
         <div className="pal-group" key={group}>
           <h2 className="eyebrow">{group}</h2>

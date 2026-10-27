@@ -111,7 +111,7 @@ function LimitsResult({
           still describes that saved snapshot. Find limits again to search your current design.
         </div>
       )}
-      <div className="readouts">
+      <div className="readouts m9-limits-readouts">
         <div className="readout">
           <div className="eyebrow">{head.label}</div>
           <div className={"v c-" + head.tone} style={{ fontSize: 19 }}>{head.value}</div>

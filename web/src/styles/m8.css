@@ -15,3 +15,6 @@
   .cv-edge.flow { animation: none; }
   .cv-bneck { animation: none; }
 }
+
+/* Search bounds/reasons must remain readable rather than ellipsized in laptop cards. */
+.m3-body .m9-limits-readouts .readout .v { white-space:normal; overflow:visible; text-overflow:clip; overflow-wrap:anywhere; }

@@ -75,13 +75,13 @@
 @media (max-width: 1200px) {
   .ed.m5-editor {
   display: grid;
-    grid-template-columns: 62px minmax(0, 1fr) 248px;
+    grid-template-columns: 168px minmax(0, 1fr) 248px;
   }
   .m5-editor .pal-item .txt {
-    display: none;
+    display: block;
   }
   .m5-editor .ed-palette .hint {
-    display: none;
+    display: block;
   }
   .m5-editor .props-sec {
     padding: 12px;
@@ -115,3 +115,12 @@
 .m6-link-preview {fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4;}
 .m6-connect-hint {position:absolute;bottom:12px;left:12px;right:12px;margin:0;padding:8px;background:var(--surface);color:var(--ink);font-size:11px;pointer-events:none;}
 .m5-editor .ed-props select {width:100%;min-width:0;}
+
+/* Keep the twelve-type inventory discoverable within the independently scrolling palette. */
+.m9-palette-note { position:sticky; top:-12px; z-index:2; margin:0; padding:8px 0; background:var(--surface); color:var(--ink-3); border-bottom:1px solid var(--line-soft); font-size:11px; }
+
+/* Preserve the full load-state legend beside the properties panel. */
+.m5-editor .cv-legend { max-width:calc(100% - 208px); flex-wrap:wrap; gap:4px 12px; }
+@media (max-width:1200px) { .m5-editor .pal-item { grid-template-columns:32px minmax(0,1fr); justify-items:stretch; } .m5-editor .pal-group .eyebrow { display:block; } }
+
+@media (max-width:1200px) { .m5-editor .cv-legend { max-width:calc(100% - 166px); } }
