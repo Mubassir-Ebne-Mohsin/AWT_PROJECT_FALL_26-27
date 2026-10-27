@@ -1,6 +1,8 @@
 # M9 — Phase 2 acceptance, reliability closure and documentation
 
-**Date:** 2026-10-27 (Asia/Dhaka). **Status:** APPROVED; application acceptance PASS. Formal M9/Phase2 closure PARTIAL only for the historical benchmark-preservation decision. Final evidence is in progress-report section21.
+**Date:** 2026-10-27 (Asia/Dhaka). **Status:** COMPLETE for the approved local M9/Phase2 scope. Application acceptance PASS; historical benchmark-preservation exception explicitly accepted by the user. Final evidence is in progress-report section21.
+
+**Accepted exception (2026-10-27):** the user said “Accept exception and close M9” after reviewing the unrecoverable original M2 benchmark incident. Only that historical preservation requirement is excepted; the file remains unstaged and original recovery is not claimed. No functional gate, publication restriction or later-phase boundary was waived.
 
 ## Purpose
 

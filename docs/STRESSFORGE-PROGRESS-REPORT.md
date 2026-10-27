@@ -2,7 +2,7 @@
 
 > **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 functional acceptance passes locally. Formal M9/Phase2 closure is PARTIAL only for the unrecovered historical benchmark exception; see section21. M9 has not been pushed.
+> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 and M9 are COMPLETE for the approved local scope, with the explicitly accepted historical benchmark exception; see section21. M9 has not been pushed.
 
 ## 1. Maintenance instructions
 
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Partial formal closure (2026-10-27): M0–M8 and M9 functional acceptance verified; only M2 historical benchmark-preservation decision remains. See sections13–21. M7–M9 local; M1–M6 published on codex/phase2-contracts |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Complete (2026-10-27): M0–M9 verified for the approved local scope; historical benchmark exception explicitly accepted. See sections13–21. M7–M9 local; M1–M6 published on codex/phase2-contracts |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; all M9 application gates now pass; formal Phase2 closure awaits the preservation decision documented in section21.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; all M9 application gates pass and the user accepted the historical benchmark exception; Phase2 is complete for the local scope documented in section21.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,8 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-27 — M9 / Phase2 closure accepted:** user explicitly said “Accept exception and close M9.” All functional verification remains green. The unrecovered historical M2 benchmark is an accepted preservation exception and stays unstaged. Earlier failures and the prior partial verdict remain preserved below. No push, deployment or Phase3.
 
 - **2026-10-27 — M9 verified locally:**187backend unit/59e2e,120web unit,232Chrome,14scoped Edge,4dev-state cases,636s soak and real outage/restart/fresh-setup/retention checks pass. Final evidence and code checkpoints are in section21. Formal closure remains PARTIAL solely for the unrecovered original M2 benchmark; current file unstaged. No push or Phase3.
 
@@ -1163,9 +1165,9 @@ Logs are kept locally and are not committed. The m8-* screenshots in docs/audit 
 
 **Authorization and boundaries.** The user approved M9 with “Start M9.” Planning baseline: `8449253`; application baseline: `88ec239`; branch: `codex/phase2-contracts`. M9 permits targeted fixes and verification. No pre-M9 test assertions were changed. No push, merge, deployment, or Phase 3 work was performed.
 
-**Current verdict: application acceptance PASS; formal M9/Phase 2 closure PARTIAL solely for the historical artifact-preservation decision.** All required functional gates pass: backend187 unit/59 integration, frontend120 unit, final Chrome232, scoped Edge14, dev states4 and the636-second soak. Final real outages/restart, live API types, fresh DB, retention, diff and cleanup checks pass. Application checkpoint:`bea8321`; verification-harness checkpoint:`fd631fd` (browser-readiness checkpoint:`ebdfb06`). The additional12-case screenshot-readiness run passed59.8s on the unchanged application; it is overlapping coverage, not12 extra unique cases. No implementation fixes remain from the demonstrated findings below.
+**Current verdict: COMPLETE for the approved local M9/Phase 2 scope, with the user-accepted historical benchmark-preservation exception.** All required functional gates pass: backend187 unit/59 integration, frontend120 unit, final Chrome232, scoped Edge14, dev states4 and the636-second soak. Final real outages/restart, live API types, fresh DB, retention, diff and cleanup checks pass. Application checkpoint:`bea8321`; verification-harness checkpoint:`fd631fd` (browser-readiness checkpoint:`ebdfb06`). The additional12-case screenshot-readiness run passed59.8s on the unchanged application; it is overlapping coverage, not12 extra unique cases. No implementation fixes remain from the demonstrated findings below.
 
-**Open preservation incident.** An audit command overwrote the pre-existing, uncommitted `docs/audit/m2-profile-source.json`. Its exact original bytes remain unrecovered. The user instructed leaving it unstaged and subsequently asked for an independent backup search. It remains unstaged; neither HEAD nor an approximate reconstruction has been substituted. Formal M9 closure requires an exact backup or an explicitly accepted preservation exception.
+**Accepted preservation exception — original measurement not recovered.** An audit command overwrote the pre-existing, uncommitted `docs/audit/m2-profile-source.json`. Its exact original bytes remain unrecovered. The user instructed leaving it unstaged and subsequently asked for an independent backup search. It remains unstaged; neither HEAD nor an approximate reconstruction has been substituted. On 2026-10-27 (Asia/Dhaka), the user explicitly authorized: “Accept exception and close M9.” This closes the preservation requirement by an accepted scope exception, not by restoring the original measurement. The file stays unstaged; no functional verification requirement was waived.
 
 ### Sources and requirement mapping
 
@@ -1204,7 +1206,7 @@ The checklist maps implementation to current observed evidence. The full browser
 | Production dependency reassessment | Narrow pnpm overrides and committed backend lockfile | **Verified:** initial 2 high/1 moderate advisories become 0 backend and 0 web production advisories; no framework upgrade or new runtime dependency |
 | Future features remain honest placeholders | Typed registry and existing placeholder screens | **Verified:** 35 mapped routes, titles/breadcrumbs and navigation; no real AI, History/Compare/Report or Phase 3 feature added |
 | Living docs and local reviewable commits | This report, README/architecture/model/contracts/test guides | **Verified:** current report/guides, sanitized JSON/screenshots, reviewed local code commits and completed cleanup; no automatic updates or publication |
-| Preserve unrelated work | Initially dirty M2 source measurement | **Partial — open incident:** overwritten; exact backup not found; file remains unstaged |
+| Preserve unrelated work | Initially dirty M2 source measurement | **Partial — accepted exception:** overwritten and not recovered; user explicitly accepted closure on2026-10-27; file remains unstaged |
 
 ### Findings, impact, reproduction and fixes
 
@@ -1268,12 +1270,12 @@ The final soak has317 two-second samples, preview entries≤2, and after lazy TT
 - New audit runner originally left its caller in the temporary cwd, breaking a later relative command/log path. It now restores location in finally; explicit isolated e2e rerun passes.
 - New restart helper initially failed to observe detached PowerShell startup, then retained an occupied-port failed process. Direct Node startup with explicit disposable configuration and checked identity is now observable; failed boot closes/exits, and controlled cleanup leaves one API process. These were harness repairs, not evidence of multi-instance support.
 - Some early setup screenshots captured session restoration rather than the loaded template gallery. New M9 tests now wait for authoritative user/count/catalog content and set the Traffic scroll position before capturing. Types/lint and12 focused Chrome cases pass (59.8s); application source is unchanged and these cases are not added to the232 total.
-- Legacy profiler overwrote unrelated M2 evidence. This mistake remains an open preservation incident; leaving it unstaged is not a restoration.
+- Legacy profiler overwrote unrelated M2 evidence. This was an open preservation incident until explicit user acceptance on2026-10-27; leaving it unstaged is not a restoration.
 
 ### Boundaries, remaining work and continuity
 
 [Untested/out of scope] Managed Firefox/WebKit engines are unavailable; Chrome and Edge share Chromium. Formal assistive-technology certification, real infrastructure calibration, long-duration storage/load growth, production hosting and distributed/multi-instance execution are not certified. Memory-only unsaved drafts cannot survive closing/reloading a tab during failed persistence. Real AI remains essential later course work; labelled scripted mocks do not satisfy that final course requirement.
 
-**Only remaining closure item:** recover the exact original M2 benchmark or obtain explicit user acceptance of the documented preservation exception, leaving that file unstaged as instructed. Application implementation, required functional checks and cleanup are complete. Formal M9/Phase2 remains PARTIAL until that decision; publication and Phase3 are separate, unauthorized work.
+**Closure accepted on2026-10-27:** the user said “Accept exception and close M9.” All required application implementation, functional checks, documentation and cleanup are complete. No M9 work remains within the approved local scope. The historical benchmark loss remains documented as an accepted exception, and that file remains unstaged. Publication and Phase3 are separate and have not been started.
 
 Future phase-completion work must update this same report, preserve earlier phase history, record fresh verification evidence and reassess affected earlier requirements. Updates do not happen automatically.

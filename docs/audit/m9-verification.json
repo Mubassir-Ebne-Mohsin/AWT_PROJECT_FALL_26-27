@@ -5,7 +5,7 @@
   "milestone": "M9",
   "scope": "Local course-project Phase2 acceptance, not whole-project or production certification",
   "applicationVerdict": "PASS",
-  "overallVerdict": "PARTIAL: historical artifact-preservation exception awaits user decision",
+  "overallVerdict": "COMPLETE for approved local Phase2 scope, with user-accepted historical benchmark preservation exception",
   "applicationCommit": "bea8321d83c0ba4c17760ad4783ea70bf7608985",
   "verificationHarnessCommit": "fd631fde49dc7d914d3bc637f182b7b1d818dd36",
   "branch": "codex/phase2-contracts",
@@ -464,7 +464,7 @@
     "chromeScreenshots": 48
   },
   "preservation": {
-    "action": "current file remains unstaged; no approximate replacement accepted as original",
+    "action": "User accepted the documented historical benchmark exception; current file remains unstaged and original bytes remain unrecovered",
     "searched": [
       "project and nearby course folders",
       "Documents, Downloads, OneDrive and Temp filenames",
@@ -477,11 +477,18 @@
     "currentSHA256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
     "exactBackupFound": false,
     "originalSHA256": "E11763AE32086355FF6EB9EE02E2023CD80A4A6D147F5D6C6AE79F3748EFE3FA",
-    "date": "2026-10-27"
+    "date": "2026-10-27",
+    "closureException": {
+      "accepted": true,
+      "date": "2026-10-27",
+      "timezone": "Asia/Dhaka",
+      "authorizedBy": "user",
+      "exactAuthorization": "Accept exception and close M9",
+      "scope": "Historical M2 benchmark preservation only; file remains unstaged",
+      "originalRecovered": false
+    }
   },
-  "remaining": [
-    "Recover exact original M2 benchmark or receive explicit preservation exception; current file remains unstaged"
-  ],
+  "remaining": [],
   "limitations": [
     "Original M8 post-Redis409 cause unreproduced; current lost-ack and conflict paths tested, never labelled original cause fixed",
     "Chrome and Edge share Chromium; managed Firefox/WebKit unavailable",
@@ -513,5 +520,14 @@
     ],
     "recheckedOnLocalDate": "2026-10-27",
     "recheckHeadsUnchanged": true
+  },
+  "closure": {
+    "accepted": true,
+    "date": "2026-10-27",
+    "timezone": "Asia/Dhaka",
+    "authorizedBy": "user",
+    "exactAuthorization": "Accept exception and close M9",
+    "scope": "Historical M2 benchmark preservation only; file remains unstaged",
+    "originalRecovered": false
   }
 }

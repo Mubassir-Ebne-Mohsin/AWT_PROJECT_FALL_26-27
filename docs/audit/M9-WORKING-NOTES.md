@@ -15,3 +15,5 @@ No existing test will be changed without user approval. No .env values will be i
 Subsequent correction: the preservation promise above was broken when the legacy source profiling command overwrote the initial dirty M2 profile. Exact recovery has not succeeded; user decision requested. It remains unstaged. Report section21 records the original hash, recovery attempts and proposed disposition. Later profile commands must set SF_PROFILE_OUTPUT.
 
 Final functional result: PASS. Report section21 and m9-verification.json hold the final evidence; formal closure remains partial only for the original benchmark-preservation decision. All audit services are stopped; normal containers/data are retained. No push.
+
+Closure update (2026-10-27): user explicitly accepted the historical benchmark exception and authorized closing M9. M9/Phase2 is complete for the approved local scope; the original benchmark remains unrecovered and unstaged. Earlier pending notes remain as history. No push or Phase3.

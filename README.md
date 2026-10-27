@@ -2,11 +2,11 @@
 
 Draw a system architecture on a canvas, let a simulator find its bottlenecks under a traffic profile, and let AI draft, fix and explain designs. Everything runs free: local Postgres and Redis in Docker, no paid services, no AI calls yet.
 
-**Status: Phase 2 core loop and M9 functional acceptance verified locally; formal closure awaits one historical benchmark-preservation decision.** Register/login, create a design from a template, blank graph, JSON or labelled scripted mock; draw/connect/configure components; save/reopen; set Traffic; run the backend model; inspect recorded Results, transient Load preview and saved Limits. Foundation auth, shell and system-state screens remain available. Later features remain labelled placeholders. The design reference is a clickable prototype in `nest-boilerplate/nest-boilerplate/docs/stressforge/reference/`.
+**Status: Phase 2 complete for the approved local scope, including M9 acceptance, with a documented user-accepted historical benchmark exception.** Register/login, create a design from a template, blank graph, JSON or labelled scripted mock; draw/connect/configure components; save/reopen; set Traffic; run the backend model; inspect recorded Results, transient Load preview and saved Limits. Foundation auth, shell and system-state screens remain available. Later features remain labelled placeholders. The design reference is a clickable prototype in `nest-boilerplate/nest-boilerplate/docs/stressforge/reference/`.
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and the latest dependency reassessment.
 
-Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M8 implemented; M9 functional checks pass; see the report for the remaining preservation decision). See the [M9 acceptance/reproduction guide](docs/M9-ACCEPTANCE.md) for isolated reliability checks and the current report verdict. See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
+Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M9 complete locally; see the report for verified results and the accepted historical benchmark exception). See the [M9 acceptance/reproduction guide](docs/M9-ACCEPTANCE.md) for isolated reliability checks and the current report verdict. See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
 
