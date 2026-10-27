@@ -49,3 +49,6 @@ next-env.d.ts
 
 # Separate output directories for concurrent isolated browser checks
 /test-results-*/
+
+# Isolated M9 developer-state checks never share a normal dev build folder.
+/.next-audit-dev/
