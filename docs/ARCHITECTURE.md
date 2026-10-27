@@ -1,4 +1,4 @@
-# StressForge architecture (Foundation + Phase 2 through M7)
+# StressForge architecture (Foundation + Phase 2 core loop)
 
 ## Modules
 
@@ -17,7 +17,7 @@ nest-boilerplate/nest-boilerplate/src
   providers/                     Postgres (TypeORM), Redis client
   database/                      migrations, seeders
 web/src
-  app/                           one page per registry route; auth, dashboard, template picker and minimum Edit/Results workspace are real
+  app/                           one page per registry route; auth, dashboard, four creation flows and Edit/Traffic/Results/Limits workspace are real
   lib/routes.ts                  the route registry (path, title, area, phase, fidelity, description)
   lib/api/                       typed fetch client, ApiError, refresh, generated schema.d.ts
   components/shell/              top bar, command palette, AI panel, help, shortcuts, feedback, dev switcher
@@ -33,6 +33,7 @@ sequenceDiagram
   participant W as Next proxy
   participant A as API
   participant R as Redis
+  participant P as Postgres
   B->>A: POST /auth/login {email, password}
   A-->>B: 200 {data:{accessToken, user}} + Set-Cookie sf_refresh (httpOnly, Lax, Path=/v1/auth)
   B->>B: sets sf_session hint cookie (non-secret)
@@ -42,6 +43,8 @@ sequenceDiagram
   B->>A: GET /auth/me (expired)
   A-->>B: 401 SESSION_EXPIRED
   B->>A: POST /auth/refresh (cookie)
+  A->>R: Check family revocation
+  A->>P: Find user (a lookup failure leaves the token unspent)
   A->>R: SET rt:<jti> NX (spend the old token)
   A-->>B: 200 new access + rotated refresh cookie (same signed exp; remaining maxAge)
   B->>A: GET /auth/me (retry once)
@@ -80,7 +83,7 @@ Success: `{ "data": ..., "meta"?: ... }`. Errors: `{ "error": { "code", "message
 | `UNAVAILABLE` | 503 | "Waking up" page; polls `/v1/health` and returns by itself |
 | (no response) | n/a | Same "waking up" page |
 
-## Phase 2 through M6
+## Phase 2 persistence and editor
 
 The pure TypeScript model and bounded worker live in modules/simulation; the engine has no Nest/database dependencies. DesignsModule owns JSONB graph/traffic, revisions and immutable run payloads, authorized through the existing CurrentUser identity. See [M3 lifecycle/run guide](M3-SAVED-DESIGNS.md) and [model limits](SIMULATION-MODEL.md).
 
@@ -88,12 +91,19 @@ POST /v1/designs/:id/simulate commits pending inputs before returning202 and a s
 
 The frontend ports the template picker and minimum workspace into existing URLs. Memory-only EditorSession state above the system-screen boundary protects serialized saves, newer in-flight edits, conflicts and uncertain run acceptance. Owned dashboard cards reopen stored designs/results; model estimates are explicitly labelled. Access tokens remain memory-only and existing refresh/session behavior is reused.
 
-Live /docs-json exposes only mounted M3 operations using the frozen Zod contracts. Full planned Phase2 contracts/types remain in docs/contracts and phase2-schema.d.ts; frontend production calls use schema.d.ts generated from the running API. Preview/Limits HTTP routes and the Limits tab remain later milestones; M7 now provides the Traffic and recorded Results tabs. No new runtime dependencies or real AI calls.
+Live /docs-json exposes the mounted Designs, prepare, simulation, Limits and preview operations using the canonical Zod contracts. Full contracts/types remain in docs/contracts and phase2-schema.d.ts; frontend production calls use schema.d.ts generated from the running API. Traffic/recorded Results (M7) and Limits/transient preview/load overlay/recorded topology (M8) are implemented. No real AI calls are made.
 
 M4 adds authenticated POST /v1/designs/prepare as a pure import/blank/scripted preparation boundary, returning a validated CreateDesign snapshot without persistence or simulation. The existing POST /designs persists reviewed inputs. Scripted keyword rules port the reference MockAI draft; assumptions are explicitly stored with the description, and no provider/quota is used. CreationProvider keeps per-user/per-screen forms in memory above system screens, rejects concurrent submissions, retains uncertain acceptance and guards late navigation. Dashboard verdicts are saved results with explicit earlier-revision/pending/calculation-failure states. See [M4 guide](M4-CREATION-DASHBOARD.md).
 
-M5 adds catalog-driven SVG canvas components and pure geometry/model helpers under web/src/components/canvas and web/src/lib/canvas. Pointer movement is temporary local preview; release commits through EditorSession. Gesture/invalid-field flags pause autosave and protect against remote replacement. View changes cause no writes. Result-input comparison excludes layout/title while retaining semantic graph/traffic fields; immutable run provenance remains visible. Dashboard summaries say Earlier revision where semantic equality is unknown. All twelve types can be added/configured; existing edges follow movement. New connections and undo remain M6. No new runtime package, endpoint, migration or engine change. See [canvas guide](M5-CANVAS.md).
+M5 adds catalog-driven SVG canvas components and pure geometry/model helpers under web/src/components/canvas and web/src/lib/canvas. Pointer movement is temporary local preview; release commits through EditorSession. Gesture/invalid-field flags pause autosave and protect against remote replacement. View changes cause no writes. Result-input comparison excludes layout/title while retaining semantic graph/traffic fields; immutable run provenance remains visible. Dashboard summaries say Earlier revision where semantic equality is unknown. All twelve types can be added/configured; existing edges follow movement. M6 subsequently adds connections and undo (below). No new runtime package, endpoint, migration or engine change. See [canvas guide](M5-CANVAS.md).
 
 M6 adds immutable graph commands and a capped60-step EditorHistory per user/design session. History stores input snapshots, never server revisions/run identities/view state. Saved acknowledgements preserve newer undo/edits; explicit remote adoption/discard/rebase starts a new history boundary. Existing POST /designs/:id/validate runs after the save barrier. Checks and Run422 responses populate a revision/input-bound repair panel; edits mark checks outdated and late responses are ignored. SVG ports, click connections, edge selection and labelled connection controls share the same constraints. No endpoint/schema/engine/dependency change. See [M6 guide](M6-CONNECTIONS-HISTORY.md).
 
 M7 extends the existing EditorSession input history with validated traffic edits and atomic all-Clients region updates. Traffic/Results reuse owned Designs/Run APIs and immutable backend outputs; plots, targets, labels and explanations read the selected run snapshot. Semantic edits mark it stale. No client numerical engine, automatic preview or new backend contract was added. See [M7 guide](M7-TRAFFIC-RESULTS.md).
+
+
+## M8 preview and M9 failure boundaries
+
+Explicit simulation and Limits runs persist their own immutable snapshots and use separate URL identities. Preview is opt-in, debounced, latest-only and lower priority, keyed by user/editor/sequence; it creates no run rows. Layout-only edits do not compute. Recorded topology reads the selected run, while live output is clearly labelled possibly unsaved. One worker, bounded admission/TTL and single-instance reconciliation remain the deployment boundary.
+
+M9 bounds throttler connection/commands to1s without offline replay. The separate node-redis client has1s queue/socket-inactivity bounds and500ms idle pings; continuous replies can extend socket inactivity, so it is not an absolute per-command deadline. PostgreSQL acquisition/statement/client-query/idle-transaction limits are1s/2s/2.2s/5s; server cancellation prevents delayed lock-blocked writes from committing after timeout. Availability errors become503, while programming/schema defects are not hidden. Refresh reads its user before atomically consuming the credential, so failed DB lookup is recoverable without weakening replay rejection. See [M9 guide](M9-ACCEPTANCE.md) and the living report for measured local evidence and limitations.

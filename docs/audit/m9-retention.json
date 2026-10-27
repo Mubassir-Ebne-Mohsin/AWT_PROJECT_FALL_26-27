@@ -1,0 +1,9 @@
+{
+  "seeded": 62,
+  "terminalBefore": 61,
+  "terminalAfter": 50,
+  "protectedPending": true,
+  "protectedRecent": true,
+  "removedAged": 11,
+  "method": "Production RunsService.prune on dedicated aged fixtures"
+}

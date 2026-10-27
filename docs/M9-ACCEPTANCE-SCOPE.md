@@ -1,6 +1,6 @@
 # M9 — Phase 2 acceptance, reliability closure and documentation
 
-**Date:** 2026-10-27 (Asia/Dhaka). **Status:** PROPOSED — awaiting user approval. Planning only. M8 is recorded complete; M9 execution has not started and Phase2 remains in progress.
+**Date:** 2026-10-27 (Asia/Dhaka). **Status:** APPROVED; application acceptance PASS. Formal M9/Phase2 closure PARTIAL only for the historical benchmark-preservation decision. Final evidence is in progress-report section21.
 
 ## Purpose
 
@@ -107,4 +107,4 @@ New AI integrations, new component types, numerical-model redesign, real infrast
 
 ## Recommendation
 
-Approve M9 as an acceptance-and-closure milestone, with narrowly justified application fixes included. Prioritize recovery/revision integrity before visual refinements and final regression. The scope should end in a credible Phase2 verdict and reproducible local project, not merely a larger test count. M9 execution must wait for user approval.
+Approve M9 as an acceptance-and-closure milestone, with narrowly justified application fixes included. Prioritize recovery/revision integrity before visual refinements and final regression. The scope should end in a credible Phase2 verdict and reproducible local project, not merely a larger test count. The user subsequently approved execution with “Start M9”; publication remains separately unauthorized.

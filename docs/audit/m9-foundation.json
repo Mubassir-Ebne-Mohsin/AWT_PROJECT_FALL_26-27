@@ -1,0 +1,14 @@
+{
+  "health": 200,
+  "swagger": 200,
+  "preflight": 204,
+  "register": 201,
+  "login": 200,
+  "me": 200,
+  "refresh": 200,
+  "logout": 204,
+  "revokedRefresh": 401,
+  "protectedWithoutToken": 401,
+  "indistinguishableCredentials": true,
+  "seededDemoLogin": 200
+}

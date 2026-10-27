@@ -80,11 +80,22 @@ Historical M2: SimulationModule was registered without calculation controllers. 
 
 ```powershell
 pnpm test:simulation
+# Pick new evidence filenames; do not overwrite an earlier milestone's measurements.
+$env:SF_PROFILE_OUTPUT='local-profile-source.json'
 pnpm simulation:profile
 pnpm build
+$env:SF_PROFILE_OUTPUT='local-profile-compiled.json'
 pnpm simulation:profile:compiled
+Remove-Item Env:SF_PROFILE_OUTPUT
 # Real Postgres/Redis must be configured first; prefer isolated audit services.
 pnpm simulation:health:verify
 ```
 
 The profiler requires no database and writes local aggregate evidence only. The health verifier creates no users or schema; its crash/CPU-loop fixture is a development test, never an API feature.
+
+
+## Phase 2 core loop and M9 acceptance
+
+DesignsModule owns user-scoped designs, revisions, prepare/validation, durable simulation/limits records and dashboard summaries. SimulationModule owns the pure model and bounded worker; live previews are transient and never add history rows. Real AI remains later scope. [M9 acceptance guide](../../docs/M9-ACCEPTANCE.md) documents isolated service failures, lock cancellation, auth recovery, bounded soak and retention. Do not run interruption tests against normal services/data or overlap them with integration/browser suites.
+
+M9 uses narrow production transitive overrides for multer2.5.0, Bull's uuid11.1.1 and the seeder's faker10.5.0; Node22 and the committed pnpm lockfile are required. Database and Redis deadlines are documented in the architecture/acceptance guide. These are local defaults, not production latency guarantees.

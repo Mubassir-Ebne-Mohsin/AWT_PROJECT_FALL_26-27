@@ -1,0 +1,10 @@
+{
+  "mode": "fixed",
+  "write": {
+    "status": 503,
+    "code": "UNAVAILABLE",
+    "ms": 2010
+  },
+  "revisionAfterUnlock": 1,
+  "retryStatus": 200
+}

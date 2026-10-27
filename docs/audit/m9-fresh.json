@@ -1,0 +1,14 @@
+{
+  "database": "sf_m9_fresh",
+  "migrations": [
+    "CreateUsers1761000000000",
+    "CreateDesigns1792800000000"
+  ],
+  "seedStatuses": [
+    0,
+    0
+  ],
+  "demoUsers": 1,
+  "synchronize": false,
+  "configuredStatementDeadlineMs": 2000
+}

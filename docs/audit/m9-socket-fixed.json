@@ -1,0 +1,7 @@
+{
+  "operation": "disconnect only own blocked audit Redis connection",
+  "name": "Error",
+  "errorClass": "SocketClosedUnexpectedlyError",
+  "status": 503,
+  "code": "UNAVAILABLE"
+}

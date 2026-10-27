@@ -1,0 +1,33 @@
+name: stressforge-m9
+services:
+  postgres:
+    image: postgres:16
+    container_name: stressforge-m9-postgres
+    labels:
+      stressforge.audit: m9
+    environment:
+      POSTGRES_USER: sf_audit
+      POSTGRES_PASSWORD: sf_m9_disposable
+      POSTGRES_DB: sf_m9_audit
+    ports: ["127.0.0.1:5552:5432"]
+    volumes: ["m9-postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sf_audit -d sf_m9_audit"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+  redis:
+    image: redis:7
+    container_name: stressforge-m9-redis
+    labels:
+      stressforge.audit: m9
+    ports: ["127.0.0.1:6399:6379"]
+    volumes: ["m9-redis:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+volumes:
+  m9-postgres:
+  m9-redis:

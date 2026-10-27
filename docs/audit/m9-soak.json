@@ -1,0 +1,31 @@
+{
+  "durationSeconds": 636,
+  "ticks": 198,
+  "actors": [
+    {
+      "previews": 198,
+      "saves": 50,
+      "durableJobs": 20,
+      "pressure": 0
+    },
+    {
+      "previews": 198,
+      "saves": 50,
+      "durableJobs": 20,
+      "pressure": 0
+    }
+  ],
+  "samples": 317,
+  "maxActive": 0,
+  "maxQueued": 0,
+  "maxReservations": 0,
+  "maxPreviewEntries": 2,
+  "rssStart": 134131712,
+  "rssEnd": 87687168,
+  "rssPeak": 134131712,
+  "noPreviewRows": true,
+  "maxExpiredPreviewEntriesObserved": 2,
+  "postExpiryAdmissionPreviewEntries": 1,
+  "postExpiryAdmissionExpiredEntries": 0,
+  "capacityReleasedAfterSoak": true
+}

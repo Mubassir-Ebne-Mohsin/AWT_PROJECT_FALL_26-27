@@ -1,0 +1,8 @@
+{
+  "engines": {
+    "firefox": false,
+    "webkit": false
+  },
+  "method": "Playwright executablePath plus existsSync; no download attempted",
+  "chromiumChannels": "Chrome and Edge acceptance are separate channels of the same rendering engine"
+}

@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-27",
+  "timezone": "Asia/Dhaka",
+  "milestone": "M9",
+  "scope": "Local course-project Phase2 acceptance, not whole-project or production certification",
+  "applicationVerdict": "PASS",
+  "overallVerdict": "PARTIAL: historical artifact-preservation exception awaits user decision",
+  "applicationCommit": "bea8321d83c0ba4c17760ad4783ea70bf7608985",
+  "verificationHarnessCommit": "ebdfb066fb8e6de23ffc3cea4836b6eb01c43871",
+  "branch": "codex/phase2-contracts",
+  "pushed": false,
+  "normalEnvironmentFilesRead": false,
+  "trackedPrivateEnvironmentFiles": 0,
+  "preM9TestsModified": false,
+  "numericalEngineFilesChanged": false,
+  "newRuntimeDependencies": 0,
+  "guardsDisabledByThisWork": false,
+  "runtime": {
+    "node": "22.23.4",
+    "webPnpm": "12.14.0",
+    "backendPnpm": "10.34.7"
+  },
+  "backend": {
+    "profiles": {
+      "compiled": {
+        "completed": 15,
+        "cases": 16,
+        "exitCode": 0,
+        "heartbeat": {
+          "ticks": 44,
+          "maxTickGapMs": 40.95219999999995
+        },
+        "complexityRejected": 1
+      },
+      "source": {
+        "completed": 15,
+        "cases": 16,
+        "exitCode": 0,
+        "heartbeat": {
+          "ticks": 249,
+          "maxTickGapMs": 163.04290000000037
+        },
+        "complexityRejected": 1
+      }
+    },
+    "lint": {
+      "classification": {
+        "emptyTestDoubleLifecycleMethods": 2,
+        "legacyLooseEquality": 10,
+        "legacyUnusedBindings": 10
+      },
+      "command": "pnpm lint:check",
+      "inheritedWarnings": 22,
+      "exitCode": 0,
+      "errors": 0
+    },
+    "build": {
+      "command": "pnpm build",
+      "exitCode": 0,
+      "log": "m9-build-resume.log"
+    },
+    "unit": {
+      "suites": 15,
+      "seconds": 64.235,
+      "log": "m9-unit-resume.log",
+      "exitCode": 0,
+      "realRedisAuthenticationOptIn": true,
+      "passed": 187,
+      "command": "./docs/audit/m9-run.ps1 unit"
+    },
+    "typecheck": {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "log": "m9-types-resume.log"
+    },
+    "e2e": {
+      "suites": 3,
+      "seconds": 62.273,
+      "log": "m9-e2e-resume.log",
+      "exitCode": 0,
+      "passed": 59,
+      "command": "./docs/audit/m9-run.ps1 e2e"
+    },
+    "contracts": {
+      "exitCode": 0,
+      "command": "pnpm contract:phase2:check"
+    },
+    "fixtures": {
+      "command": "pnpm fixtures:phase2",
+      "completeTemplates": 6,
+      "exitCode": 0,
+      "minimumLoadCounterexample": true
+    },
+    "coldSourceWorkers": {
+      "mode": "fixed",
+      "previewDeadlineMs": 2000,
+      "records": [
+        {
+          "status": "completed",
+          "ms": 587
+        },
+        {
+          "status": "completed",
+          "ms": 307
+        },
+        {
+          "status": "completed",
+          "ms": 328
+        },
+        {
+          "status": "completed",
+          "ms": 262
+        }
+      ]
+    }
+  },
+  "frontend": {
+    "browser": {
+      "engines": {
+        "engines": {
+          "firefox": false,
+          "webkit": false
+        },
+        "method": "Playwright executablePath plus existsSync; no download attempted",
+        "chromiumChannels": "Chrome and Edge acceptance are separate channels of the same rendering engine"
+      },
+      "settledCaptureRerun": {
+        "includedIn232UniqueCaseCombinations": true,
+        "log": "m9-capture-final.log",
+        "change": "Readiness waits and scroll position only in new M9 tests; application unchanged",
+        "cases": 12,
+        "durationSeconds": 59.8,
+        "exitCode": 0
+      },
+      "edge": {
+        "m9Cases": 12,
+        "foundationDurationSeconds": 20.3,
+        "m9Projects": 4,
+        "logs": [
+          "m9-edge-final-source.log",
+          "m9-edge-foundation-final-source.log"
+        ],
+        "m9DurationSeconds": 55.1,
+        "exitCode": 0,
+        "foundationCases": 2,
+        "foundationProject": "1024-dark",
+        "totalScopedCases": 14
+      },
+      "chrome": {
+        "projects": [
+          "1024-light",
+          "1024-dark",
+          "1440-light",
+          "1440-dark"
+        ],
+        "log": "m9-chrome-final-source.log",
+        "logicalCases": 58,
+        "cases": 232,
+        "duration": "13.9m",
+        "exitCode": 0
+      },
+      "development": {
+        "unaffectedByFinalPreviewMessage": true,
+        "projects": 4,
+        "forcedStatesPerCase": 10,
+        "log": "m9-dev.log",
+        "cases": 4,
+        "duration": "7.1m",
+        "exitCode": 0
+      }
+    },
+    "routes": {
+      "registered": 35,
+      "exitCode": 0,
+      "log": "m9-routes-final-source.log"
+    },
+    "lint": {
+      "log": "m9-lint-capture.log",
+      "exitCode": 0
+    },
+    "build": {
+      "log": "m9-build-final-source.log",
+      "exitCode": 0
+    },
+    "unit": {
+      "durationMs": 30937.3597,
+      "exitCode": 0,
+      "passed": 120,
+      "log": "m9-unit-final-source.log"
+    },
+    "typecheck": {
+      "log": "m9-types-capture.log",
+      "exitCode": 0
+    },
+    "tokens": {
+      "tokenOccurrences": 97,
+      "lightAndDarkValuesMatch": true,
+      "fontFamiliesViaNextFont": [
+        "Archivo",
+        "Instrument Sans",
+        "JetBrains Mono"
+      ],
+      "scope": "CSS source equality excluding intentional next/font variable substitution; visual acceptance recorded separately"
+    },
+    "liveTypes": {
+      "sha256": "3FCD702C6F760361082F59AE74256CA61FD289738E0A1EA81464DAACB8926816",
+      "source": "http://localhost:5003/docs-json",
+      "matchesTracked": true
+    },
+    "screenshots": {
+      "brokenLayoutBeforeImages": 2,
+      "settledChromeCaptures": 48,
+      "actualApiUnreachableCapture": true,
+      "manifest": "m9-chrome-screenshots.json"
+    }
+  },
+  "liveFoundation": {
+    "health": 200,
+    "swagger": 200,
+    "preflight": 204,
+    "register": 201,
+    "login": 200,
+    "me": 200,
+    "refresh": 200,
+    "logout": 204,
+    "revokedRefresh": 401,
+    "protectedWithoutToken": 401,
+    "indistinguishableCredentials": true,
+    "seededDemoLogin": 200
+  },
+  "realServices": {
+    "pausedRequests": {
+      "redisHealth": {
+        "status": 503,
+        "ms": 1210,
+        "code": "UNAVAILABLE"
+      },
+      "redisPatch": {
+        "status": 503,
+        "ms": 1012,
+        "code": "UNAVAILABLE"
+      },
+      "redisRefresh": {
+        "status": 503,
+        "ms": 1007,
+        "code": "UNAVAILABLE"
+      },
+      "refreshAfterRedisPause": 200,
+      "postgresRead": {
+        "status": 503,
+        "ms": 2211,
+        "code": "UNAVAILABLE"
+      },
+      "postgresPatch": {
+        "status": 503,
+        "ms": 4410,
+        "code": "UNAVAILABLE"
+      },
+      "postgresHealth": {
+        "status": 503,
+        "ms": 2017,
+        "code": "UNAVAILABLE"
+      },
+      "revisionAfterAllRecovery": 1
+    },
+    "socketDisconnect": {
+      "operation": "disconnect only own blocked audit Redis connection",
+      "name": "Error",
+      "errorClass": "SocketClosedUnexpectedlyError",
+      "status": 503,
+      "code": "UNAVAILABLE"
+    },
+    "blockedWrite": {
+      "mode": "fixed",
+      "write": {
+        "status": 503,
+        "code": "UNAVAILABLE",
+        "ms": 2010
+      },
+      "revisionAfterUnlock": 1,
+      "retryStatus": 200
+    },
+    "browserOutagesAndApiRestart": {
+      "postgres": {
+        "health": 503,
+        "signal": "Save failed — unsaved changes · revision 1",
+        "previewDuringOutage": "Live preview — unsaved inputs",
+        "draftKept": true,
+        "recovered": true,
+        "savedAfterRecovery": 701
+      },
+      "redis": {
+        "health": 503,
+        "signal": "Save failed — unsaved changes · revision 2",
+        "previewDuringOutage": "Live preview is unavailable right now. You can keep editing and retry shortly.",
+        "draftKept": true,
+        "recovered": true,
+        "savedAfterRecovery": 1643
+      },
+      "limitsRestart": {
+        "attempt": 1,
+        "runId": "542d40ff-13e6-46b1-803c-3d831ec554b9",
+        "interruptedShown": true,
+        "noAutomaticResubmit": true,
+        "newSearchAfterRecovery": true
+      },
+      "apiUnreachable": {
+        "actualApiStopped": true,
+        "wakingScreen": true,
+        "restoredSavedLimits": true
+      }
+    },
+    "recovery": {
+      "mode": "fixed",
+      "initialRevision": 1,
+      "redisWrite": {
+        "status": 503,
+        "ms": 3
+      },
+      "authDuringRedisOutage": [
+        {
+          "route": "/auth/me",
+          "status": 503,
+          "code": "UNAVAILABLE",
+          "ms": 2
+        },
+        {
+          "route": "/auth/login",
+          "status": 503,
+          "code": "UNAVAILABLE",
+          "ms": 3
+        },
+        {
+          "route": "/auth/refresh",
+          "status": 503,
+          "code": "UNAVAILABLE",
+          "ms": 3
+        },
+        {
+          "route": "/auth/logout",
+          "status": 503,
+          "code": "UNAVAILABLE",
+          "ms": 3
+        }
+      ],
+      "revisionAfterRecovery": 1,
+      "retry": {
+        "status": 200,
+        "currentRevision": 2
+      },
+      "postgresRead": {
+        "status": 503,
+        "code": "UNAVAILABLE",
+        "ms": 6
+      },
+      "refreshWhilePostgresDown": {
+        "status": 503,
+        "code": "UNAVAILABLE",
+        "ms": 17
+      },
+      "refreshAfterPostgresRecovery": 200,
+      "finalRevision": 2
+    }
+  },
+  "soak": {
+    "durationSeconds": 636,
+    "ticks": 198,
+    "actors": [
+      {
+        "previews": 198,
+        "saves": 50,
+        "durableJobs": 20,
+        "pressure": 0
+      },
+      {
+        "previews": 198,
+        "saves": 50,
+        "durableJobs": 20,
+        "pressure": 0
+      }
+    ],
+    "samples": 317,
+    "maxActive": 0,
+    "maxQueued": 0,
+    "maxReservations": 0,
+    "maxPreviewEntries": 2,
+    "rssStart": 134131712,
+    "rssEnd": 87687168,
+    "rssPeak": 134131712,
+    "noPreviewRows": true,
+    "maxExpiredPreviewEntriesObserved": 2,
+    "postExpiryAdmissionPreviewEntries": 1,
+    "postExpiryAdmissionExpiredEntries": 0,
+    "capacityReleasedAfterSoak": true
+  },
+  "soakCountNote": "396 workload previews plus one TTL/admission probe; two-second sampling can miss brief active jobs",
+  "freshDatabase": {
+    "database": "sf_m9_fresh",
+    "migrations": [
+      "CreateUsers1761000000000",
+      "CreateDesigns1792800000000"
+    ],
+    "seedStatuses": [
+      0,
+      0
+    ],
+    "demoUsers": 1,
+    "synchronize": false,
+    "configuredStatementDeadlineMs": 2000
+  },
+  "retention": {
+    "seeded": 62,
+    "terminalBefore": 61,
+    "terminalAfter": 50,
+    "protectedPending": true,
+    "protectedRecent": true,
+    "removedAged": 11,
+    "method": "Production RunsService.prune on dedicated aged fixtures"
+  },
+  "lockfiles": {
+    "backendExitCode": 0,
+    "backendSHA256": "915DAC65A1D331C1F68999B89A13995B75C12D4BADE761A26C6640941A446BD7",
+    "unchanged": true,
+    "webSHA256": "4145CC00D300C7DCCE2637EDD57E88A93169FC70BB18307475F1B0922ACC261F",
+    "validationCommand": "pnpm install --frozen-lockfile --lockfile-only --ignore-scripts",
+    "cleanNodeModulesReinstall": false,
+    "webExitCode": 0
+  },
+  "productionAdvisories": {
+    "initialBackendHigh": 2,
+    "notAProofOfNoVulnerabilities": true,
+    "web": 0,
+    "initialBackendModerate": 1,
+    "backend": 0,
+    "scope": "pnpm audit --prod"
+  },
+  "helperSyntax": {
+    "javascriptFiles": 14,
+    "allPass": true,
+    "powershellParsePass": true
+  },
+  "cleanup": {
+    "capacityReleased": true,
+    "date": "2026-10-27",
+    "afterSettledCaptureRefresh": true,
+    "auditWebStopped": true,
+    "historicalArtifactsRestored": 39,
+    "normalContainers": [
+      "stressforge-dev-redis-1 Up About an hour (healthy)",
+      "sf-qa-p1-postgres-1 Up About an hour (healthy)",
+      "sf-qa-p1-redis-1 Up About an hour (healthy)",
+      "stressforge-dev-postgres-1 Up About an hour (healthy)"
+    ],
+    "auditApiStopped": true,
+    "auditVolumesAndDataRetained": true,
+    "preCleanupHealth": 200,
+    "protectedSourceSHA256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+    "stoppedContainers": [
+      "stressforge-m9-postgres",
+      "stressforge-m9-redis"
+    ],
+    "taskCreatedLabStagingFilesRemoved": 30,
+    "chromeScreenshots": 48
+  },
+  "preservation": {
+    "action": "current file remains unstaged; no approximate replacement accepted as original",
+    "searched": [
+      "project and nearby course folders",
+      "Documents, Downloads, OneDrive and Temp filenames",
+      "VS Code/Cursor editor History entries and Code unsaved Backups",
+      "prior tool-result profile-shaped JSON in Codex/Claude session records",
+      "earlier audit: Git historical version and unreachable blobs",
+      "Downloaded nest-boilerplate.zip: no audit/profile entries",
+      "Claude file-history snapshot metadata: zero mapped M2 source versions"
+    ],
+    "currentSHA256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+    "exactBackupFound": false,
+    "originalSHA256": "E11763AE32086355FF6EB9EE02E2023CD80A4A6D147F5D6C6AE79F3748EFE3FA",
+    "date": "2026-10-27"
+  },
+  "remaining": [
+    "Recover exact original M2 benchmark or receive explicit preservation exception; current file remains unstaged"
+  ],
+  "limitations": [
+    "Original M8 post-Redis409 cause unreproduced; current lost-ack and conflict paths tested, never labelled original cause fixed",
+    "Chrome and Edge share Chromium; managed Firefox/WebKit unavailable",
+    "No formal assistive-technology, production, multi-instance, long-duration or real-infrastructure calibration certification",
+    "Memory-only failed-save drafts do not survive closing/reloading a tab",
+    "Real AI and later phases remain unimplemented"
+  ],
+  "codeCommits": [
+    "ebdfb066fb8e6de23ffc3cea4836b6eb01c43871 test: wait for settled M9 screenshot content",
+    "bea8321d83c0ba4c17760ad4783ea70bf7608985 fix: avoid promising saves during preview outages",
+    "78fae541f3521cf402cc91bd1a73b5fc9cb6914f chore: isolate developer acceptance build output",
+    "9014f760d71163042bff4a247f6661ad0cf69f8a fix: keep canvas palette and model readouts readable",
+    "addf5dff46570885877805b2342ec9779dc5e583 chore: allow separate simulation profile evidence files",
+    "9f3875ad20ea74c13161bd42c9d59ee0af99387f fix: classify Redis connection errors by constructor",
+    "a9f9b10aeb8d9c07c62225f9235d752f7c9d904a fix: compile source workers with existing SWC loader",
+    "2bf9dd206e60bddb1dd23e8ffd51d5b8a36b940a fix: reject invalid revisions before claiming run request keys",
+    "1e1ae2ebbd04cda8ea0b9bc72dd2039f02ccc9c7 fix: bound paused database and Redis socket failures",
+    "10c7ff0a4f3c4bbcc800f65d59ce5d284089d333 fix: patch scoped production dependency advisories",
+    "7b119f3fcff92e46aee80e1977f9ef5dbdb4285a fix: bound dependency failures and preserve refresh recovery"
+  ],
+  "remoteRefs": {
+    "checkedAtUtc": "2026-10-26T20:32:53.0565203Z",
+    "method": "git ls-remote --heads (read only)",
+    "refs": [
+      "44a7f23aacab8369bc22ae409e8e0a5febbd205e\trefs/heads/codex/phase2-contracts",
+      "9e8bb00226fb271a4666aa6ff78db3e53f985ee6\trefs/heads/main"
+    ],
+    "recheckedOnLocalDate": "2026-10-27",
+    "recheckHeadsUnchanged": true
+  }
+}

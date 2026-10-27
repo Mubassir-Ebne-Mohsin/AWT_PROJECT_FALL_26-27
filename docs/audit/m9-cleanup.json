@@ -1,0 +1,23 @@
+{
+  "capacityReleased": true,
+  "date": "2026-10-27",
+  "afterSettledCaptureRefresh": true,
+  "auditWebStopped": true,
+  "historicalArtifactsRestored": 39,
+  "normalContainers": [
+    "stressforge-dev-redis-1 Up About an hour (healthy)",
+    "sf-qa-p1-postgres-1 Up About an hour (healthy)",
+    "sf-qa-p1-redis-1 Up About an hour (healthy)",
+    "stressforge-dev-postgres-1 Up About an hour (healthy)"
+  ],
+  "auditApiStopped": true,
+  "auditVolumesAndDataRetained": true,
+  "preCleanupHealth": 200,
+  "protectedSourceSHA256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+  "stoppedContainers": [
+    "stressforge-m9-postgres",
+    "stressforge-m9-redis"
+  ],
+  "taskCreatedLabStagingFilesRemoved": 30,
+  "chromeScreenshots": 48
+}

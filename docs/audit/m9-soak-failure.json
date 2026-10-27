@@ -1,0 +1,21 @@
+{
+  "controlledReproduction": {
+    "errorClass": "SocketClosedUnexpectedlyError",
+    "afterStatus": 503,
+    "beforeStatus": 500
+  },
+  "previewStatus": 500,
+  "lastSuccessfulTick": 120,
+  "rootCauseOfHistoricalAttempt": "unproven",
+  "newRegressionAfter": "included in 187 passing unit tests",
+  "serverObservation": "Redis reconnect at the same time; exception class not recorded",
+  "lastSuccessfulElapsedSeconds": 375,
+  "date": "2026-10-27",
+  "bothActorsAffected": true,
+  "newRegressionBefore": {
+    "failed": 4,
+    "passed": 5
+  },
+  "status": "failed",
+  "check": "final soak before Redis class fix"
+}

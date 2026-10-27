@@ -1,0 +1,16 @@
+{
+  "action": "current file remains unstaged; no approximate replacement accepted as original",
+  "searched": [
+    "project and nearby course folders",
+    "Documents, Downloads, OneDrive and Temp filenames",
+    "VS Code/Cursor editor History entries and Code unsaved Backups",
+    "prior tool-result profile-shaped JSON in Codex/Claude session records",
+    "earlier audit: Git historical version and unreachable blobs",
+    "Downloaded nest-boilerplate.zip: no audit/profile entries",
+    "Claude file-history snapshot metadata: zero mapped M2 source versions"
+  ],
+  "currentSHA256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+  "exactBackupFound": false,
+  "originalSHA256": "E11763AE32086355FF6EB9EE02E2023CD80A4A6D147F5D6C6AE79F3748EFE3FA",
+  "date": "2026-10-27"
+}

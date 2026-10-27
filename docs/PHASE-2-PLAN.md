@@ -1,6 +1,6 @@
 # STRESSFORGE — refined Phase 2 plan
 
-**Revised:** 2026-10-27 (Asia/Dhaka). **Status:** M0–M8 completed for their user-approved scopes; M8 Limits/live preview/overlay verified locally on 2026-10-27. M9 remains not started and requires subsequent authorization. M1–M6 published on codex/phase2-contracts; M7–M8 remain local. Earlier planning/history is retained below and in the living report; the original draft remains in [the archive](archive/PHASE-2-PLAN-2026-10-22.md).
+**Revised:** 2026-10-27 (Asia/Dhaka). **Status:** M0–M8 completed for their user-approved scopes; M8 Limits/live preview/overlay verified locally on 2026-10-27. M9 was explicitly authorized on 2026-10-27; all application acceptance checks pass locally. Formal closure awaits only the historical benchmark-preservation decision in report section21. M1–M6 published on codex/phase2-contracts; M7–M8 remain local. Earlier planning/history is retained below and in the living report; the original draft remains in [the archive](archive/PHASE-2-PLAN-2026-10-22.md).
 
 ## 1. Target and recommendation
 
@@ -155,7 +155,7 @@ Preview debounces semantic edits, carries editor-session UUID + sequence/fingerp
 
 ## 8. Milestones, dependencies and exit gates
 
-M9 proposed detail: [Phase 2 acceptance and closure scope](M9-ACCEPTANCE-SCOPE.md), dated 2026-10-27. Awaiting user approval; M9 execution has not started.
+M9 proposed detail: [Phase 2 acceptance and closure scope](M9-ACCEPTANCE-SCOPE.md), dated 2026-10-27. Approved by the user on 2026-10-27; functional verification passes locally. Formal closure awaits the preservation decision in report section21.
 
 
 M8 detail: [Limits, live preview and overlay scope](M8-LIMITS-PREVIEW-SCOPE.md), approved 2026-10-26 and completed 2026-10-27; see the [M8 guide](M8-LIVE-PREVIEW-LIMITS.md) and report section20.
@@ -270,3 +270,5 @@ Archive formatting note: the original plan text is retained; three Markdown trai
 - 2026-10-26 M7: user approved the reviewed Traffic/Results scope. Completed server-catalog settings, traffic history/save integration, recorded metric/path/timeline/inspection views and snapshot-safe verdicts. See [M7 guide](M7-TRAFFIC-RESULTS.md) and report section19 for full passing regression, separate edge-case/dev/Edge checks, actual outages and retained initial failures. M8–M9 remain; M7 is local with no new GitHub push.
 
 - 2026-10-27 M8: user approved the reviewed scope and Stage2 defaults (409 PREVIEW_SUPERSEDED, 429 DURABLE_PENDING, separate 90/min preview bucket, ?limits= selection). Completed saved Limits, live preview, Load overlay and recorded topology. See [M8 guide](M8-LIVE-PREVIEW-LIMITS.md) and report section20 for regression, Edge/dev checks, real outages including API restart reconciliation, initial failures and the user-approved M3 assertion change. M9 remains; M8 is local with no GitHub push.
+
+- 2026-10-27 M9: user explicitly authorized implementation. Reliability/security/layout fixes and integrated acceptance are underway; see report section21 and M9-ACCEPTANCE.md. No push/merge/Phase3 authorization is implied.

@@ -1,0 +1,203 @@
+{
+  "fullMatrixLog": "web/m9-chrome-final-source.log",
+  "date": "2026-10-27",
+  "files": [
+    {
+      "sha256": "11036B850A2982F6EEBE15B3E5163023C529A9A5A720FF68C211A41E3179CD2A",
+      "name": "m9-dashboard-journey-1024-dark.png"
+    },
+    {
+      "sha256": "D95794C850D11CD52282A3801C4B7662DDBE49A1864F16173CFEC166860E260F",
+      "name": "m9-dashboard-journey-1024-light.png"
+    },
+    {
+      "sha256": "A36A88767746A2133C9F8A759D9DC3DD3C1CF488CC2BDBC6495AD9C618BAF637",
+      "name": "m9-dashboard-journey-1440-dark.png"
+    },
+    {
+      "sha256": "7BC91710D0085BE77CF945DA6A0ABDD669A648D5C17AE0F9436FD2435FB81261",
+      "name": "m9-dashboard-journey-1440-light.png"
+    },
+    {
+      "sha256": "C4FE333B00B40DA164EBC71DC00F85D5995866B9A10E80F9C67C82F3E4BAC8C6",
+      "name": "m9-dashboard-lost-ack-1024-dark.png"
+    },
+    {
+      "sha256": "134C15C3F4A58D3680A371DB2BAF7E1E405DDA9347863ABB18FF3933EC9138DA",
+      "name": "m9-dashboard-lost-ack-1024-light.png"
+    },
+    {
+      "sha256": "27F4234A8F3321F39528F3B35CE704B0DDBD28C08A7675EFCF14303CDEA91376",
+      "name": "m9-dashboard-lost-ack-1440-dark.png"
+    },
+    {
+      "sha256": "B05A34C00F163F1C13F9310A61FEBB7EC1C982F4142BDEBB4B20A6CFD2BDD730",
+      "name": "m9-dashboard-lost-ack-1440-light.png"
+    },
+    {
+      "sha256": "CAAA10A49B07A04A46AE4159CB91AF8C0D32EA9CB1A76EE773F0000E4E2E34A9",
+      "name": "m9-dashboard-palette-1024-dark.png"
+    },
+    {
+      "sha256": "E5AB1965A54ED5CC27183319E6C3F7AB62F4BEC174C05E18DC00A89BE523C3F9",
+      "name": "m9-dashboard-palette-1024-light.png"
+    },
+    {
+      "sha256": "004E4A971FD88563E15283D34010DB9F301EF578C41D004A0336DD6A41F12ADF",
+      "name": "m9-dashboard-palette-1440-dark.png"
+    },
+    {
+      "sha256": "0722F7A42530A703E12035A9E2121E412555BF6FCB6381FBEF1340B7376B23B2",
+      "name": "m9-dashboard-palette-1440-light.png"
+    },
+    {
+      "sha256": "1198BD663E354DEED65A379E4017525F09BED16C6F160DDC3D7ECA809B889CE4",
+      "name": "m9-dashboard-populated-1024-dark.png"
+    },
+    {
+      "sha256": "BDE8877DB6A8B6E788432CEB4C3A299F9ED9A0206D6A678DC46877ADE72864CD",
+      "name": "m9-dashboard-populated-1024-light.png"
+    },
+    {
+      "sha256": "A06683C5C1E7DBABECFF407C70C7F28105FFAD868017B29544012AE3B727F3CD",
+      "name": "m9-dashboard-populated-1440-dark.png"
+    },
+    {
+      "sha256": "7BEE911B8446F279F4876798A58AB4A62272FCFB49410BF73A19EA8379FAFB12",
+      "name": "m9-dashboard-populated-1440-light.png"
+    },
+    {
+      "sha256": "C316A931787EFC9CDA84A962202889F7377DCBFCEA56FD040C8302418F6C82F4",
+      "name": "m9-edit-1024-dark.png"
+    },
+    {
+      "sha256": "557F17D962054A04FDC424DEAC3048E889F7FAE5250184110F31FAB0113AFEE0",
+      "name": "m9-edit-1024-light.png"
+    },
+    {
+      "sha256": "0510795F5B5E49B37895068305B3CF50C87648BDFF4DC202A8D65E976204D77B",
+      "name": "m9-edit-1440-dark.png"
+    },
+    {
+      "sha256": "5116DBB771611562C46E86DE6A8C87F8A5431E6D12068AB3235CF5C8E6812735",
+      "name": "m9-edit-1440-light.png"
+    },
+    {
+      "sha256": "AB42BE02FFAE226EEFF2909CF9BFABBD14C8F0AD8B8735C772B26E8C87B47F56",
+      "name": "m9-limits-1024-dark.png"
+    },
+    {
+      "sha256": "AC3743B347BF6A5F2B8C7C26ED7987DDE91EAFCC16746AD229E2055BC3883F0C",
+      "name": "m9-limits-1024-light.png"
+    },
+    {
+      "sha256": "2FD7CC509DBC4ADF5DF90CACDBFF0F1AC84B1AC0E2CBCCA671551898EBCFEA94",
+      "name": "m9-limits-1440-dark.png"
+    },
+    {
+      "sha256": "C61B26F75DC6F8DFDD28FF43A2E412A07D568CBFC1DDEE8743AC0EB2D93DD77C",
+      "name": "m9-limits-1440-light.png"
+    },
+    {
+      "sha256": "2F11D5678E6988EA7EEFA54C36E721052F2BFD7C839E71AF7C0F8F0D79B157AB",
+      "name": "m9-palette-1024-dark.png"
+    },
+    {
+      "sha256": "9B2E4B08419E7E020D2B99A4B702B82A5FCA179530066FB83C9663053E49FE42",
+      "name": "m9-palette-1024-light.png"
+    },
+    {
+      "sha256": "0ACFC8A6CBFA3B44F4A008ECCE752CED0AA709EA5218B675C8190E50756B6B3C",
+      "name": "m9-palette-1440-dark.png"
+    },
+    {
+      "sha256": "C8C3ACA453E1DD4393CBD8441E2F3195FE37EE985BDBC4A6FAB61693B09F33A3",
+      "name": "m9-palette-1440-light.png"
+    },
+    {
+      "sha256": "CB6DB82932925BB95DA05C910EAE8C0A54D1D0F02B5635D5958287C173D8E7CF",
+      "name": "m9-results-1024-dark.png"
+    },
+    {
+      "sha256": "EBE5FB40BABA62531B2C6144E38E294429A826384044CF8F5D0B9A73D1B8FC46",
+      "name": "m9-results-1024-light.png"
+    },
+    {
+      "sha256": "727BAF67BC24209EBA43AABC573F4B0EC9C213E579709107C64021F331D0FF79",
+      "name": "m9-results-1440-dark.png"
+    },
+    {
+      "sha256": "5C8A64A98C241FEF9016206B2053FD60724E10430AF1CF0708B7B759BCC9F1D8",
+      "name": "m9-results-1440-light.png"
+    },
+    {
+      "sha256": "C52853234E6E17AC26CE1BD3D5FA1AD3E816DA1B0EADB8ADF17925CDA11F7BD4",
+      "name": "m9-templates-journey-1024-dark.png"
+    },
+    {
+      "sha256": "075E451D14ECD0E7323A51D91D789DD7173035AFD7071DF12CDB91788059D1D9",
+      "name": "m9-templates-journey-1024-light.png"
+    },
+    {
+      "sha256": "FAF265E3B7EE9F1188A3FE833D0890DD6A0F7710C6000A371CB7A1EA961A4947",
+      "name": "m9-templates-journey-1440-dark.png"
+    },
+    {
+      "sha256": "47879D43A51B74D004FAF01E342CD889C152F88485CABA3531CCB287910E8E8A",
+      "name": "m9-templates-journey-1440-light.png"
+    },
+    {
+      "sha256": "C52853234E6E17AC26CE1BD3D5FA1AD3E816DA1B0EADB8ADF17925CDA11F7BD4",
+      "name": "m9-templates-lost-ack-1024-dark.png"
+    },
+    {
+      "sha256": "075E451D14ECD0E7323A51D91D789DD7173035AFD7071DF12CDB91788059D1D9",
+      "name": "m9-templates-lost-ack-1024-light.png"
+    },
+    {
+      "sha256": "FAF265E3B7EE9F1188A3FE833D0890DD6A0F7710C6000A371CB7A1EA961A4947",
+      "name": "m9-templates-lost-ack-1440-dark.png"
+    },
+    {
+      "sha256": "47879D43A51B74D004FAF01E342CD889C152F88485CABA3531CCB287910E8E8A",
+      "name": "m9-templates-lost-ack-1440-light.png"
+    },
+    {
+      "sha256": "C52853234E6E17AC26CE1BD3D5FA1AD3E816DA1B0EADB8ADF17925CDA11F7BD4",
+      "name": "m9-templates-palette-1024-dark.png"
+    },
+    {
+      "sha256": "075E451D14ECD0E7323A51D91D789DD7173035AFD7071DF12CDB91788059D1D9",
+      "name": "m9-templates-palette-1024-light.png"
+    },
+    {
+      "sha256": "FAF265E3B7EE9F1188A3FE833D0890DD6A0F7710C6000A371CB7A1EA961A4947",
+      "name": "m9-templates-palette-1440-dark.png"
+    },
+    {
+      "sha256": "47879D43A51B74D004FAF01E342CD889C152F88485CABA3531CCB287910E8E8A",
+      "name": "m9-templates-palette-1440-light.png"
+    },
+    {
+      "sha256": "2E94A1E1F3F1D88E80D9A08A58515D7D5CA510EC9BEB3423FF2E559E910D3ACA",
+      "name": "m9-traffic-1024-dark.png"
+    },
+    {
+      "sha256": "8879AE4AC930F7602F1FBC24C392C55EA437B2C5D1A691429DF8262D4DFEB112",
+      "name": "m9-traffic-1024-light.png"
+    },
+    {
+      "sha256": "84BB572CE630B37796C2AB97310F721252C139D98340F29FCE136C72E1B0C759",
+      "name": "m9-traffic-1440-dark.png"
+    },
+    {
+      "sha256": "F4DFC2459E5C8EC51B61D2E9FAB733DDC01C17EA5BE1ED6D2363852C3922D2DC",
+      "name": "m9-traffic-1440-light.png"
+    }
+  ],
+  "harnessCommit": "ebdfb066fb8e6de23ffc3cea4836b6eb01c43871",
+  "settledCaptureLog": "web/m9-capture-final.log",
+  "applicationCommit": "bea8321d83c0ba4c17760ad4783ea70bf7608985",
+  "channel": "chrome",
+  "count": 48
+}

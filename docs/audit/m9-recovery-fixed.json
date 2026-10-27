@@ -1,0 +1,51 @@
+{
+  "mode": "fixed",
+  "initialRevision": 1,
+  "redisWrite": {
+    "status": 503,
+    "ms": 3
+  },
+  "authDuringRedisOutage": [
+    {
+      "route": "/auth/me",
+      "status": 503,
+      "code": "UNAVAILABLE",
+      "ms": 2
+    },
+    {
+      "route": "/auth/login",
+      "status": 503,
+      "code": "UNAVAILABLE",
+      "ms": 3
+    },
+    {
+      "route": "/auth/refresh",
+      "status": 503,
+      "code": "UNAVAILABLE",
+      "ms": 3
+    },
+    {
+      "route": "/auth/logout",
+      "status": 503,
+      "code": "UNAVAILABLE",
+      "ms": 3
+    }
+  ],
+  "revisionAfterRecovery": 1,
+  "retry": {
+    "status": 200,
+    "currentRevision": 2
+  },
+  "postgresRead": {
+    "status": 503,
+    "code": "UNAVAILABLE",
+    "ms": 6
+  },
+  "refreshWhilePostgresDown": {
+    "status": 503,
+    "code": "UNAVAILABLE",
+    "ms": 17
+  },
+  "refreshAfterPostgresRecovery": 200,
+  "finalRevision": 2
+}

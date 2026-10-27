@@ -1,0 +1,34 @@
+{
+  "redisHealth": {
+    "status": 503,
+    "ms": 2079,
+    "code": "UNAVAILABLE"
+  },
+  "redisPatch": {
+    "status": 503,
+    "ms": 1014,
+    "code": "UNAVAILABLE"
+  },
+  "redisRefresh": {
+    "status": 503,
+    "ms": 1014,
+    "code": "UNAVAILABLE"
+  },
+  "refreshAfterRedisPause": 200,
+  "postgresRead": {
+    "status": 503,
+    "ms": 2529,
+    "code": "UNAVAILABLE"
+  },
+  "postgresPatch": {
+    "status": 503,
+    "ms": 5033,
+    "code": "UNAVAILABLE"
+  },
+  "postgresHealth": {
+    "status": 503,
+    "ms": 2021,
+    "code": "UNAVAILABLE"
+  },
+  "revisionAfterAllRecovery": 1
+}

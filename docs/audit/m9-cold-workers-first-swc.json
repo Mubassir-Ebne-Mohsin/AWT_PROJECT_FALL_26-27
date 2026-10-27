@@ -1,0 +1,22 @@
+{
+  "mode": "fixed",
+  "previewDeadlineMs": 2000,
+  "records": [
+    {
+      "status": "TIMEOUT",
+      "ms": 2016
+    },
+    {
+      "status": "completed",
+      "ms": 993
+    },
+    {
+      "status": "completed",
+      "ms": 558
+    },
+    {
+      "status": "completed",
+      "ms": 579
+    }
+  ]
+}

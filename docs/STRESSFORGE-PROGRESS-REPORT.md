@@ -1,8 +1,8 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope, with documented dependency follow-ups. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 remains in progress: M9 final acceptance is unfinished.
+> **Publication scope:** Phase1 baseline **9e8bb00** is on GitHub main. M1–M6 are published on **codex/phase2-contracts** (documentation checkpoint44a7f23). M7 Traffic/Results and M8 Limits/live preview/overlay are complete locally with evidence in sections19–20; no M7/M8 push or main merge occurred. Phase2 functional acceptance passes locally. Formal M9/Phase2 closure is PARTIAL only for the unrecovered historical benchmark exception; see section21. M9 has not been pushed.
 
 ## 1. Maintenance instructions
 
@@ -45,12 +45,12 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | Phase | Name | Status |
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
-| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | In progress (2026-10-27): M0–M8 complete for their approved scopes; M9 final acceptance not started. See sections13–20. M7–M8 remain local; earlier M1–M6 published on codex/phase2-contracts |
+| 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Partial formal closure (2026-10-27): M0–M8 and M9 functional acceptance verified; only M2 historical benchmark-preservation decision remains. See sections13–21. M7–M9 local; M1–M6 published on codex/phase2-contracts |
 | 3 | Improve and history | Not started |
 | 4 | Public and learning pages | Not started |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
-Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; full Phase2 completion still requires M9.
+Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; all M9 application gates now pass; formal Phase2 closure awaits the preservation decision documented in section21.
 
 ## 4. Phase 1 checklist — original 2026-10-22 baseline
 
@@ -306,6 +306,10 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-27 — M9 verified locally:**187backend unit/59e2e,120web unit,232Chrome,14scoped Edge,4dev-state cases,636s soak and real outage/restart/fresh-setup/retention checks pass. Final evidence and code checkpoints are in section21. Formal closure remains PARTIAL solely for the unrecovered original M2 benchmark; current file unstaged. No push or Phase3.
+
+- **2026-10-27 — M9 authorized/in progress:** demonstrated dependency/refresh/laptop-layout defects repaired;181 unit/59 API/120 web checks, real recovery, bounded soak and retention observed. Full browser/channel/dev acceptance is in progress. Section21 records initial failures and the accidental overwrite of the unrelated M2 source-profile artifact; preservation closure remains open.
 
 - **2026-10-27 — M8 completed locally:** Saved Limits (all three honest search states), debounced cancelable live preview, Load overlay with the shared traffic control, Traffic live panel and recorded Results topology. Simulation, Limits and preview identities are separate.176 backend unit/59 e2e/120 frontend unit tests pass. Full Chrome regression216/216; later fixes reverified by focused reruns (M5/M6/M8116/116, remaining suites in section20); M8 Chrome48 combinations, Edge12/12, dev4/4. Real PostgreSQL/Redis outages and an API restart during a pending Limits search (INTERRUPTED, no resubmission) verified. Initial failures, three application fixes found by new tests/screenshots, one user-approved M3 assertion change and one unreproduced 409 observation are recorded in section20. M9 remains; no push.
 
@@ -1153,3 +1157,123 @@ Logs are kept locally and are not committed. The m8-* screenshots in docs/audit 
 - M9 must still complete integration acceptance, prototype comparison, Phase 1 reassessment and final documentation and publication review. Real AI remains a later course requirement. M8 completion does not authorize M9.
 
 **M8 verdict: COMPLETE for the approved Limits, live preview, overlay and topology scope. No mandatory M8 item is unverified, and no M8 functional failure remains unresolved in the completed gates.** Commits are local on codex/phase2-contracts: 77add0d, 3cfe703, 960599d, ddc745c, c20f2d4, 231f9ba, plus this documentation commit. No push, merge or deployment was made. Future milestones must update this same report and preserve its history.
+
+
+## 21. M9 — Phase 2 integrated acceptance (2026-10-27)
+
+**Authorization and boundaries.** The user approved M9 with “Start M9.” Planning baseline: `8449253`; application baseline: `88ec239`; branch: `codex/phase2-contracts`. M9 permits targeted fixes and verification. No pre-M9 test assertions were changed. No push, merge, deployment, or Phase 3 work was performed.
+
+**Current verdict: application acceptance PASS; formal M9/Phase 2 closure PARTIAL solely for the historical artifact-preservation decision.** All required functional gates pass: backend187 unit/59 integration, frontend120 unit, final Chrome232, scoped Edge14, dev states4 and the636-second soak. Final real outages/restart, live API types, fresh DB, retention, diff and cleanup checks pass. Application checkpoint:`bea8321`; verification-harness checkpoint:`ebdfb06`. The additional12-case screenshot-readiness run passed59.8s on the unchanged application; it is overlapping coverage, not12 extra unique cases. No implementation fixes remain from the demonstrated findings below.
+
+**Open preservation incident.** An audit command overwrote the pre-existing, uncommitted `docs/audit/m2-profile-source.json`. Its exact original bytes remain unrecovered. The user instructed leaving it unstaged and subsequently asked for an independent backup search. It remains unstaged; neither HEAD nor an approximate reconstruction has been substituted. Formal M9 closure requires an exact backup or an explicitly accepted preservation exception.
+
+### Sources and requirement mapping
+
+Sources: the original Phase 1 prompt, [Phase 2 plan](PHASE-2-PLAN.md), approved M4–M9 scopes, M1 contracts/fixtures, selected prototype Sections 3/6/10–16 and `:root`, inspected code, historical sections 9–20 and newly observed checks. **API/** means `nest-boilerplate/nest-boilerplate/`; **WEB/** means `web/`. Operating commands and safety identities are in the [M9 guide](M9-ACCEPTANCE.md).
+
+The checklist maps implementation to current observed evidence. The full browser matrix covers the final application, with a later focused rerun for test-only screenshot readiness. Overlapping runs are not added into a fictitious unique total. A passing build alone does not establish completion.
+
+| Requirement | Inspected implementation | Evidence and status |
+| --- | --- | --- |
+| Preserve stack, folders and free local runtime | Existing Nest/Next apps, pnpm pins, explicit migrations | **Verified:** same applications; no paid calls; no normal data/configuration changed. Only labelled M9 services were interrupted |
+| Canonical graph/traffic/import contracts and strict validation | API/common/contracts/phase2, DTOs, exporter, wire adapters | **Verified:** contract check, examples, fixtures and backend unit/API checks; no formula or public DTO changes |
+| Six templates and twelve component types | API simulation catalog/templates/builders | **Verified:** six full-precision source fixtures; M4/M5 browser coverage of templates/types |
+| Owned CRUD, CAS revisions and deletion | API/modules/designs, users, migrations/entities | **Verified:** 59 integration tests include ownership, concurrent revisions, invalid drafts, idempotency and deletion |
+| Four creation paths and honest scripted mode | Prepare/create services; WEB creation provider/screens | **Verified:** M4 browser/API/unit cases; invalid preparation creates nothing; scripted mock remains labelled |
+| Draft validity versus runnable graph | Graph schemas, validate service, repair panel | **Verified:** cycles/invalid drafts save safely; errors block calculations, warnings do not; repair browser cases |
+| Canvas add/select/move/configure, pan/zoom/fit/minimap | WEB/components/canvas and lib/canvas | **Verified:** M5/M9 at both widths/themes, all types and zoomed coordinates; no view-triggered request storm |
+| Arrows, reverse/remove, duplicate/delete | SVG ports/edges and shared graph commands | **Verified:** M6 keyboard/click/drag/reversal/deletion cases and unit checks |
+| Grouped undo/redo and serialized saves | EditorHistory, EditorSession, CAS API | **Verified:** delayed acknowledgements, undo during save, conflicts, reapply and two-tab cases |
+| Dirty drafts, late replies and account boundaries | Providers above shared system screens; scoped sessions | **Verified:** web unit and Foundation/M3/M6/M7/M8/M9 browser cases; explicit logout/account switch clears local state |
+| Traffic presets and every supported control | Traffic UI and canonical server catalog | **Verified:** M7 persistence/history/region/settings, invalid, zero and maximum-load cases |
+| Durable Run/Limits and immutable inputs/results | RunsService, design_runs and worker admission | **Verified:** acceptance/polling/revision/kind/idempotency, restart and deletion tests; no computation inside long DB transactions |
+| Correct simulation versus Limits selection | Separate `?run=`/`?limits=` and shared run-link helpers | **Verified:** M8/M9 workspace/reload/direct-result/dashboard cases; improvement returns to the selected simulation |
+| Results metrics, plots, paths and stale snapshots | M7/M8 result components and wire schemas | **Verified:** snapshot-bound inputs/labels/topology/targets and illustrative timeline; model estimates remain explicit |
+| Honest Limits brackets, minimum/cap/headroom | Limits engine, wire adapter and renderer | **Verified:** lower-bound/cap/finite-unbounded cases; browser reload and kind-aware selection; full headline values wrap |
+| Latest-only transient preview | Preview controller/service, executor, PreviewSession | **Verified:** abort/supersession/independent sessions, saved-job priority and retries; soak proves no preview history rows |
+| Load overlay and recorded topology | Canvas overlay and selected-run snapshot renderer | **Verified:** M8/M9 stale/new/deleted component metrics, undo and legend/minimap clearance |
+| Bounded worker, queue, cancellation and TTL | SimulationExecutor, worker factory, pure engine budgets | **Verified:** worker unit/API cases; source/compiled profiles each 15 completions and one expected complexity rejection; final bookkeeping clears on admission |
+| Real service/restart/finalization recovery | RunsService reconciliation/cancellation and dependency handling | **Verified:** actual Redis/Postgres stops/pauses, blocked write cancellation, preserved drafts and API restart; no automatic Limits resubmission |
+| Retention and request-key protection | RunsService.prune | **Verified:** disposable aged fixtures: 61 terminal rows become 50; 11 eligible rows removed; recent and pending rows protected |
+| Prototype fonts/tokens and practical fidelity | next/font, proto.css, canvas/Traffic/Results/Limits UI | **Verified:** 97 light/dark token occurrences match; three fonts; source/reference and current screenshots inspected. Functional save/validation/progress controls differ from the scripted prototype; no pixel-identity claim |
+| Keyboard, focus, labels, reduced motion and overflow | Existing shell/dialog/canvas controls and CSS | **Verified:** practical Foundation/M5–M9 assertions and screenshot review at 1024/1440, light/dark. Formal screen-reader/contrast certification is untested |
+| Foundation auth/JWT/roles/current-user/public | AuthService, guards, TokenStore | **Verified:** unit/API tests and live register/login/me/refresh/logout/revocation/401 walkthrough; hashes never returned; wrong-credential messages match |
+| Fail closed without false session expiry | Separate Redis clients, refresh ordering, availability filter | **Verified:** real outages return 503; same refresh cookie recovers after failed DB lookup; true replay still revokes its family |
+| CORS, validation/errors, health/docs and safe logs | app.setup, exception filter, request logger, config | **Verified:** credentialed OPTIONS204, health/docs200, error-envelope tests and live schema equality; no normal .env values inspected or recorded |
+| Fresh setup, seed, Node22 and lockfiles | Migration glob, seeder, env schemas, audit runner | **Verified:** fresh isolated DB has both migrations; seed twice leaves one demo user; demo login200; Node22/pnpm pins and unchanged frozen lockfiles. No clean node_modules reinstall claim |
+| Production dependency reassessment | Narrow pnpm overrides and committed backend lockfile | **Verified:** initial 2 high/1 moderate advisories become 0 backend and 0 web production advisories; no framework upgrade or new runtime dependency |
+| Future features remain honest placeholders | Typed registry and existing placeholder screens | **Verified:** 35 mapped routes, titles/breadcrumbs and navigation; no real AI, History/Compare/Report or Phase 3 feature added |
+| Living docs and local reviewable commits | This report, README/architecture/model/contracts/test guides | **Verified:** current report/guides, sanitized JSON/screenshots, reviewed local code commits and completed cleanup; no automatic updates or publication |
+| Preserve unrelated work | Initially dirty M2 source measurement | **Partial — open incident:** overwritten; exact backup not found; file remains unstaged |
+
+### Findings, impact, reproduction and fixes
+
+1. **High — a lock-blocked save could commit after the client abandoned it (fixed).** Hold an exclusive lock on `designs`, PATCH revision1, abort after5.5s, then unlock: baseline commits revision2 and a retry conflicts. API/src/config/database.config.ts:97 now sets acquisition1s, server statement2s, client query2.2s and idle transaction5s. The same final experiment returns503 in2010ms, remains revision1 and retries200. Server cancellation prevents the late write. [Baseline](audit/m9-lock-baseline.json), [final proof](audit/m9-lock-fixed.json). This proves a mechanism, not the original M8 Redis incident's cause.
+2. **High — dependency waits exceeded the local failure target (fixed).** Redis-down PATCH initially took10203ms. The throttler owns a separate ioredis client, so node-redis settings did not constrain it. `API/src/providers/cache/redis/reliable-throttler-storage.ts` disables offline queue/resend and bounds connect/commands; `redis-cache.service.ts` bounds queue/socket inactivity. Pausing sockets also exposed a5033ms transaction/rollback path; the2.2s PG client bound brings final paused PATCH to4410ms. Final paused Redis write1012ms, refresh1007ms; all measured failures are503UNAVAILABLE below5s. [Recovery](audit/m9-recovery-fixed.json), [paused sockets](audit/m9-inflight.json). Socket inactivity is not an absolute command deadline if replies keep arriving.
+3. **High — a failed DB lookup spent the refresh token (fixed).** Fail `UsersService.findById` once, then retry the same cookie: baseline treated it as replay and revoked the family. API/src/modules/auth/auth.service.ts:79 now looks up the user before atomic consumption. New regression fails before/passes after; a real DB outage returns503 then the same cookie200. Real replay still revokes family/descendant. Loss of a successful refresh response can still require login; no replay bypass was added.
+4. **High/moderate — transitive production advisories (patched).** Narrow overrides replace multer2.4.0→2.5.0, Bull's uuid8.3.2→11.1.1 and seeder faker8.4.1→10.5.0. Build/tests, repeated seed and demo login pass; production audits now report0/0. Primary advisories: [multer](https://github.com/advisories/GHSA-q7qp-rjg7-q26m), [UUID](https://github.com/advisories/GHSA-w5hq-g745-h8pq), [Faker](https://github.com/advisories/GHSA-qxc2-j82w-r537). Zero reported advisories is not proof of zero vulnerabilities; Bull job-load testing is outside this phase's used runtime path.
+5. **Medium — rejected revisions could poison a concurrent request key (fixed).** Concurrent valid revision1/invalid revision2 submissions using one new key could both return409. API/src/modules/designs/runs.service.ts:71 now validates a new revision before claiming its provisional key; retained idempotency still takes precedence after edits. The deterministic new regression failed before and passes after; existing integration tests remain unchanged.
+6. **Medium — source worker startup approached the preview deadline (fixed with bounded evidence).** Earlier source/Jest recovery runs intermittently returned503; exact worker errors for every HTTP failure were not captured. Cold startup contributing is an inference. The first ts-node/SWC attempt still timed out at2016ms. The final worker-only `register-source.cjs` uses existing SWC and actual aliases without TypeScript compiler initialization; compiled production still loads emitted JS. Four final cold source previews took587/307/328/262ms. Deadlines/resources/formulas stayed unchanged; final187 unit/59 API tests pass. [Attempts and final evidence](audit/m9-cold-workers-fixed.json).
+7. **Medium — Redis connection failures became500 (fixed).** A previous final soak stopped after tick120/375s when both previews returned500 alongside a Redis reconnect; its exact exception class was not recorded. Separately, killing only an audit helper's blocked Redis connection proves `SocketClosedUnexpectedlyError.name === "Error"` and baseline filter500. Four new class regressions failed before actual constructor matching in `API/src/common/filters/all-exceptions.filter.ts`; installed offline/closed/connect/socket classes now return503. Real socket-disconnect proof passes. Unexpected Lua/programming errors stay visible. [Failed soak](audit/m9-soak-failure.json), [controlled proof](audit/m9-socket-fixed.json). The historical soak's exact cause remains an inference.
+8. **Medium — laptop palette and readouts hid information (fixed).** Below1200px, a62px palette hid names/categories; a legend overlapped the minimap; Limits ellipsized bounds/reasons. `WEB/src/styles/m5.css`, `m8.css`, palette and Limits components now provide168px labelled rows, a scroll cue, minimap clearance and wrapped values. New regressions failed on the old layouts and pass in Chrome/Edge; screenshots were inspected. No graph/model behavior changed.
+9. **Low — preview outage copy promised successful saving (fixed in final source).** A real Redis outage produced save503 while the generic preview message said saving “still works.” `WEB/src/lib/preview-session.ts` now says users can keep editing and retry. Final Chrome and real Redis-outage UI checks confirm the corrected message; no pre-M9 test was changed and no implementation-mirroring copy test was added.
+
+**Original M8 post-Redis409 observation: cause unproven.** A bounded campaign with complete outage and client aborts at1/4/7s preserved revision1 and retry200. The separate DB-lock experiment above does not establish its cause. Actual lost-save acknowledgement intentionally yields a legitimate409 while retaining the local draft until explicit inspection/reload/reapply. Current CAS, tab/save/recovery tests pass; no silent merge or unsafe retry exemption was introduced. Treat the old observation as unreproduced, not “fixed.”
+
+**Preservation failure and recovery search.** Original M2 SHA256: `E11763AE32086355FF6EB9EE02E2023CD80A4A6D147F5D6C6AE79F3748EFE3FA`; overwritten current SHA256: `D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC`. Searches covered project/course folders, Documents/Downloads/OneDrive/Temp, VS Code/Cursor history and unsaved backups, Git history/unreachable blobs, relevant prior tool outputs, downloaded nest-boilerplate.zip, and Claude file-history metadata (no mapped version). No exact copy was found. [Search evidence](audit/m9-preservation-search.json). The optional `SF_PROFILE_OUTPUT` basename and updated commands avoid historical filenames in future audits when used as documented. This safeguard does not recover the lost measurement. The file remains unstaged under the user's instruction.
+
+### Checks and final gates
+
+Commands were run with Node22.23.4, backend pnpm10.34.7 and web pnpm12.14.0. API commands use the nested backend directory; web commands use `web`; audit runner commands use the root. `.env` values were not read/copied/printed. M9 used only Postgres5552/Redis6399/API5003/web3003; dev states used3004. Docker Desktop startup also resumed normal containers automatically; their data/configuration were not modified or used for tests.
+
+| Gate | Observed result |
+| --- | --- |
+| API `pnpm build`, `pnpm typecheck`, `pnpm lint:check` | exit0; lint0errors/22 inherited warnings |
+| `./docs/audit/m9-run.ps1 unit` | exit0;187/187,15suites,64.235s; includes opt-in real Redis authentication coverage |
+| `./docs/audit/m9-run.ps1 e2e` | exit0;59/59,3suites,62.273s; isolated DB |
+| `pnpm contract:phase2:check`, `pnpm fixtures:phase2` | exit0; canonical OpenAPI/examples match; six complete fixtures plus minimum-load counterexample match |
+| Source/compiled profiler with distinct `SF_PROFILE_OUTPUT` names | exit0;16cases each,15completed/1expected complexity rejection; heartbeat observations are local, not SLAs |
+| Web `pnpm build`, `pnpm typecheck`, `pnpm lint`, `pnpm check:routes` | exit0 on final wording;35 routes all have page files |
+| Web `pnpm test` | exit0;120/120,30937.3597ms on final wording |
+| Live `openapi-typescript` against API5003 `/docs-json` | exit0; byte-identical tracked schema; SHA256 `3FCD702C6F760361082F59AE74256CA61FD289738E0A1EA81464DAACB8926816` |
+| Final Chrome production matrix | exit0;232passed,13.9m across1024/1440 light/dark on final application; see m9-chrome-final-source.log |
+| Final Edge scoped acceptance | exit0;12M9 cases across4projects (55.1s), plus2Foundation cases at1024-dark (20.3s);14 scoped channel cases, not a full Edge matrix |
+| Separate dev-state matrix | exit0;4cases, ten forced states each at1024/1440 light/dark; forced-state implementation is unaffected by final preview copy |
+| Fresh isolated database/setup | both migrations; seed twice; one demo user; synchronize:false; live seeded login200 |
+| Frozen lockfile validation | both pinned managers succeed; lock hashes unchanged; lockfile-only/ignore-scripts validation, not clean dependency reinstall |
+| Production audits |0 backend/0 web production advisories after scoped patches |
+| Actual dependency stops/pauses, lock cancellation and restart | final backend checks exit0; measured failures503 within4.41s, no late revision; same refresh cookie recovers; interrupted Limits requires explicit retry |
+| Browser API-unreachable and preview-outage wording | exit0 on final copy; actual API stop shows waking screen and restores saved Limits; Redis-outage preview now promises only editing/retry |
+| Bounded soak | exit0;636s,2actors,396workload previews (+1TTL/admission probe)/100saves/40completed durable jobs; zero request errors/pressure and no preview history rows |
+| Retention | exit0;61terminal→50,11eligible aged rows pruned, recent/pending protected |
+| Helper syntax and token checks |14JS helpers and PowerShell parse pass;97light/dark token occurrences match |
+| Diff/preservation/cleanup/local commits | verified:39 historical artifacts restored,48 settled Chrome screenshots,30 temporary Lab task staging files removed; identified M9 services stopped with volumes retained; normal containers healthy; M2 source unstaged; no push |
+
+[Machine-readable verification packet](audit/m9-verification.json), [final screenshots manifest](audit/m9-chrome-screenshots.json), [cleanup evidence](audit/m9-cleanup.json). Local code commits are listed in the packet; published heads were rechecked read-only and remain main9e8bb00 / codex44a7f23.
+
+Inherited lint warnings are classified, not hidden:10loose-equality and10unused-binding warnings in the unchanged legacy requestParser.ts/QueryParserPipe.ts;2intentional empty lifecycle methods in test/fake-redis.ts. No lint rule was weakened for these. The isolated generated dev-build directory is excluded just like other generated builds.
+
+The final soak has317 two-second samples, preview entries≤2, and after lazy TTL expiry the next admission leaves one non-expired entry and zero capacity held. Sampling missed short-lived active/queued work (sampled maxima0); it does not prove no work ran. API RSS start/peak134131712bytes, end87687168bytes. This is a bounded local observation, not a leak-free, peak-worker-memory, long-duration or distributed-load guarantee. The earlier passing634s attempt is retained separately in `m9-soak-first-fix.json`.
+
+### Initial failures and verification corrections
+
+- Unit baseline176pass/5fail: two pre-existing tests resolve public fixtures from cwd. The isolated runner mirrors only those public files; tests unchanged. Intermediate181 then183 passes, final187 after focused regressions.
+- Initial API57pass/2fail: tests expect CORS3000 but audit runner supplied3003. Only runner configuration changed. Some later source-worker attempts overlapped heavy work; one overlapped outages and is invalid isolated evidence. Those failures are retained; startup contribution is labelled inference above.
+- First frontend build used developmentNODE_ENV and failed prerender with nulluseContext. Runner now explicitly builds/starts in production; final build passes.
+- New walkthrough assumed logout JSON/200; the actual contract is empty204. Corrected only the new helper.
+- First browser attempt stopped after27passes for a visible legend defect. A stronger new minimap-clearance assertion failed before the final layout correction.
+- Second attempt stopped after148cases (147pass/1fail). Foundation1024-dark timed out on an Evaluation runner palette option becoming actionable. Cause unproven; existing test unchanged. Subsequent full pre-wording Chrome and Edge1024-dark checks passed that case. Do not count an interrupted attempt as a final gate.
+- A complete pre-wording Chrome232 and scoped Edge14 passed. Actual outage review then found the misleading generic save promise; final frontend gates were repeated after that copy correction instead of reusing a stale final-build claim.
+- Separate dev output initially made ESLint scan generated chunks:547errors/5800warnings. Only `.next-audit-dev/**` was added to existing generated-build ignores; source rules remain intact and lint passes.
+- New audit runner originally left its caller in the temporary cwd, breaking a later relative command/log path. It now restores location in finally; explicit isolated e2e rerun passes.
+- New restart helper initially failed to observe detached PowerShell startup, then retained an occupied-port failed process. Direct Node startup with explicit disposable configuration and checked identity is now observable; failed boot closes/exits, and controlled cleanup leaves one API process. These were harness repairs, not evidence of multi-instance support.
+- Some early setup screenshots captured session restoration rather than the loaded template gallery. New M9 tests now wait for authoritative user/count/catalog content and set the Traffic scroll position before capturing. Types/lint and12 focused Chrome cases pass (59.8s); application source is unchanged and these cases are not added to the232 total.
+- Legacy profiler overwrote unrelated M2 evidence. This mistake remains an open preservation incident; leaving it unstaged is not a restoration.
+
+### Boundaries, remaining work and continuity
+
+[Untested/out of scope] Managed Firefox/WebKit engines are unavailable; Chrome and Edge share Chromium. Formal assistive-technology certification, real infrastructure calibration, long-duration storage/load growth, production hosting and distributed/multi-instance execution are not certified. Memory-only unsaved drafts cannot survive closing/reloading a tab during failed persistence. Real AI remains essential later course work; labelled scripted mocks do not satisfy that final course requirement.
+
+**Only remaining closure item:** recover the exact original M2 benchmark or obtain explicit user acceptance of the documented preservation exception, leaving that file unstaged as instructed. Application implementation, required functional checks and cleanup are complete. Formal M9/Phase2 remains PARTIAL until that decision; publication and Phase3 are separate, unauthorized work.
+
+Future phase-completion work must update this same report, preserve earlier phase history, record fresh verification evidence and reassess affected earlier requirements. Updates do not happen automatically.

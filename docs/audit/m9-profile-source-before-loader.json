@@ -1,0 +1,260 @@
+{
+  "date": "2026-10-26T19:27:08.376Z",
+  "node": "v22.23.4",
+  "platform": "win32",
+  "arch": "x64",
+  "mode": "source",
+  "engineBounds": {
+    "pairAttempts": 2000000,
+    "walkCalls": 200000,
+    "liveComponents": 4096,
+    "responseBytes": 524288,
+    "maximumRps": 10000000,
+    "searchIterations": 24
+  },
+  "workerResources": {
+    "maxOldGenerationSizeMb": 128,
+    "maxYoungGenerationSizeMb": 16,
+    "stackSizeMb": 4
+  },
+  "note": "Local measurements, not portable guarantees. Worker heap is post-calculation, not peak/RSS. First case includes startup. Dense valid drafts may exceed supported compute complexity.",
+  "heartbeat": {
+    "ticks": 165,
+    "maxTickGapMs": 60.607600000000275
+  },
+  "records": [
+    {
+      "name": "three-tier",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 1706.4101,
+      "nodes": 5,
+      "edges": 4,
+      "resultBytes": 7903,
+      "pairAttempts": 500,
+      "walkCalls": 450,
+      "worker": {
+        "elapsedMs": 44.66690000000017,
+        "postCalculationHeapBytes": 47752152
+      }
+    },
+    {
+      "name": "three-tier",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 39.58590000000004,
+      "nodes": 5,
+      "edges": 4,
+      "resultBytes": 12631,
+      "pairAttempts": 740,
+      "walkCalls": 666,
+      "worker": {
+        "elapsedMs": 24.293399999999565,
+        "postCalculationHeapBytes": 35641360
+      }
+    },
+    {
+      "name": "content",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 39.87660000000051,
+      "nodes": 7,
+      "edges": 6,
+      "resultBytes": 10045,
+      "pairAttempts": 950,
+      "walkCalls": 600,
+      "worker": {
+        "elapsedMs": 30.041799999999967,
+        "postCalculationHeapBytes": 42313136
+      }
+    },
+    {
+      "name": "content",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 60.51769999999942,
+      "nodes": 7,
+      "edges": 6,
+      "resultBytes": 15146,
+      "pairAttempts": 1444,
+      "walkCalls": 912,
+      "worker": {
+        "elapsedMs": 47.83550000000014,
+        "postCalculationHeapBytes": 35993288
+      }
+    },
+    {
+      "name": "ingest",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 46.83530000000064,
+      "nodes": 6,
+      "edges": 6,
+      "resultBytes": 8102,
+      "pairAttempts": 300,
+      "walkCalls": 400,
+      "worker": {
+        "elapsedMs": 26.170900000000074,
+        "postCalculationHeapBytes": 41602688
+      }
+    },
+    {
+      "name": "ingest",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 34.407500000000255,
+      "nodes": 6,
+      "edges": 6,
+      "resultBytes": 14227,
+      "pairAttempts": 450,
+      "walkCalls": 600,
+      "worker": {
+        "elapsedMs": 25.119300000000294,
+        "postCalculationHeapBytes": 40566992
+      }
+    },
+    {
+      "name": "checkout",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 37.61200000000008,
+      "nodes": 10,
+      "edges": 10,
+      "resultBytes": 11957,
+      "pairAttempts": 1600,
+      "walkCalls": 650,
+      "worker": {
+        "elapsedMs": 29.450300000000425,
+        "postCalculationHeapBytes": 39743368
+      }
+    },
+    {
+      "name": "checkout",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 91.5596000000005,
+      "nodes": 10,
+      "edges": 10,
+      "resultBytes": 18397,
+      "pairAttempts": 2368,
+      "walkCalls": 962,
+      "worker": {
+        "elapsedMs": 77.87029999999959,
+        "postCalculationHeapBytes": 41929584
+      }
+    },
+    {
+      "name": "mvp",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 18.587499999999636,
+      "nodes": 3,
+      "edges": 2,
+      "resultBytes": 6348,
+      "pairAttempts": 200,
+      "walkCalls": 300,
+      "worker": {
+        "elapsedMs": 12.41780000000017,
+        "postCalculationHeapBytes": 44394072
+      }
+    },
+    {
+      "name": "mvp",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 11.654300000000148,
+      "nodes": 3,
+      "edges": 2,
+      "resultBytes": 10533,
+      "pairAttempts": 300,
+      "walkCalls": 450,
+      "worker": {
+        "elapsedMs": 7.700300000000425,
+        "postCalculationHeapBytes": 40174104
+      }
+    },
+    {
+      "name": "media",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 30.92450000000008,
+      "nodes": 7,
+      "edges": 6,
+      "resultBytes": 10101,
+      "pairAttempts": 1300,
+      "walkCalls": 600,
+      "worker": {
+        "elapsedMs": 20.730099999999766,
+        "postCalculationHeapBytes": 37400688
+      }
+    },
+    {
+      "name": "media",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 31.287100000000464,
+      "nodes": 7,
+      "edges": 6,
+      "resultBytes": 14668,
+      "pairAttempts": 1976,
+      "walkCalls": 912,
+      "worker": {
+        "elapsedMs": 26.333300000000236,
+        "postCalculationHeapBytes": 36894016
+      }
+    },
+    {
+      "name": "50-node-chain",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 89.16659999999956,
+      "nodes": 50,
+      "edges": 49,
+      "resultBytes": 29868,
+      "pairAttempts": 4900,
+      "walkCalls": 5000,
+      "worker": {
+        "elapsedMs": 76.84900000000016,
+        "postCalculationHeapBytes": 41402576
+      }
+    },
+    {
+      "name": "49-node-chain-limits",
+      "kind": "limits",
+      "status": "completed",
+      "elapsedMs": 59.13770000000113,
+      "nodes": 49,
+      "edges": 48,
+      "resultBytes": 30748,
+      "pairAttempts": 6144,
+      "walkCalls": 6272,
+      "worker": {
+        "elapsedMs": 47.63500000000022,
+        "postCalculationHeapBytes": 45971952
+      }
+    },
+    {
+      "name": "13-node-branching",
+      "kind": "simulation",
+      "status": "completed",
+      "elapsedMs": 76.78790000000117,
+      "nodes": 13,
+      "edges": 30,
+      "resultBytes": 14994,
+      "pairAttempts": 20052,
+      "walkCalls": 3280,
+      "worker": {
+        "elapsedMs": 61.84410000000025,
+        "postCalculationHeapBytes": 43832528
+      }
+    },
+    {
+      "name": "49-node-dense-branching",
+      "kind": "simulation",
+      "status": "COMPLEXITY_LIMIT",
+      "elapsedMs": 385.0472000000009,
+      "nodes": 49,
+      "edges": 138
+    }
+  ]
+}

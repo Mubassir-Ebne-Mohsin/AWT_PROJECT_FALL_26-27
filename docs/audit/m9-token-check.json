@@ -1,0 +1,10 @@
+{
+  "tokenOccurrences": 97,
+  "lightAndDarkValuesMatch": true,
+  "fontFamiliesViaNextFont": [
+    "Archivo",
+    "Instrument Sans",
+    "JetBrains Mono"
+  ],
+  "scope": "CSS source equality excluding intentional next/font variable substitution; visual acceptance recorded separately"
+}

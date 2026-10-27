@@ -1,0 +1,22 @@
+{
+  "mode": "fixed",
+  "previewDeadlineMs": 2000,
+  "records": [
+    {
+      "status": "completed",
+      "ms": 1278
+    },
+    {
+      "status": "completed",
+      "ms": 956
+    },
+    {
+      "status": "completed",
+      "ms": 998
+    },
+    {
+      "status": "completed",
+      "ms": 557
+    }
+  ]
+}

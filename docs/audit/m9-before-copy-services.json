@@ -1,0 +1,30 @@
+{
+  "postgres": {
+    "health": 503,
+    "signal": "Save failed — unsaved changes · revision 1",
+    "previewDuringOutage": "Live preview — unsaved inputs",
+    "draftKept": true,
+    "recovered": true,
+    "savedAfterRecovery": 701
+  },
+  "redis": {
+    "health": 503,
+    "signal": "Save failed — unsaved changes · revision 2",
+    "previewDuringOutage": "Live preview is unavailable right now. Editing and saving still work.",
+    "draftKept": true,
+    "recovered": true,
+    "savedAfterRecovery": 1643
+  },
+  "limitsRestart": {
+    "attempt": 1,
+    "runId": "8acd8f73-463a-4407-a284-74e70056271c",
+    "interruptedShown": true,
+    "noAutomaticResubmit": true,
+    "newSearchAfterRecovery": true
+  },
+  "apiUnreachable": {
+    "actualApiStopped": true,
+    "wakingScreen": true,
+    "restoredSavedLimits": true
+  }
+}

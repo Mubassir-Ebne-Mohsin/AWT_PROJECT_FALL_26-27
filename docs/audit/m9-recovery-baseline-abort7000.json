@@ -1,0 +1,19 @@
+{
+  "mode": "baseline",
+  "initialRevision": 1,
+  "redisWrite": {
+    "status": 0,
+    "ms": 7012
+  },
+  "revisionAfterRecovery": 1,
+  "retry": {
+    "status": 200,
+    "currentRevision": 2
+  },
+  "postgresRead": {
+    "status": 503,
+    "code": "UNAVAILABLE",
+    "ms": 6
+  },
+  "finalRevision": 2
+}

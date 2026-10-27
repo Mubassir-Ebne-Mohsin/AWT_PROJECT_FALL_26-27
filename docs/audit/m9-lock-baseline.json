@@ -1,0 +1,9 @@
+{
+  "mode": "baseline",
+  "write": {
+    "status": 0,
+    "ms": 5510
+  },
+  "revisionAfterUnlock": 2,
+  "retryStatus": 409
+}

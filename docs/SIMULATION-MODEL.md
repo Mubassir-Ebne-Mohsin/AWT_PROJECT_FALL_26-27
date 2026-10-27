@@ -78,3 +78,10 @@ Profiles require no database or Redis. They run the real worker, write only docs
 pnpm simulation:health:verify requires configured real Postgres/Redis. Use the documented isolated audit services/database; it uses AppModule/HealthController on a random local port and a test-only fault worker. It checks health during a CPU loop, timeout, crash and replacement. It performs no account/DDL changes and closes its own app/workers. Fault modes exist only in test/fixtures/compute-fault.cjs and are never production calculation options.
 
 [Source profile](audit/m2-profile-source.json), [compiled profile](audit/m2-profile-compiled.json), [real-service health evidence](audit/m2-worker-health.json), [M1 contract guide](contracts/README.md), and [living progress report](STRESSFORGE-PROGRESS-REPORT.md) preserve the dated evidence and limitations. Future work must update that same progress report; nothing publishes automatically.
+
+
+## M9 acceptance clarification (2026-10-27)
+
+The earlier controller-free/M3-future descriptions above record the M2 boundary. M3–M8 now provide owned persistence, durable simulation/limits, transient preview and the canvas/tabs; numerical formulas and declared parity exceptions are unchanged. M9 rechecks all six fixtures, unit edge cases and source/compiled profiles (16cases:15complete,1complexity rejection). Model outputs remain estimates rather than actual infrastructure stress measurements.
+
+**Protect historical evidence:** profiles default to the legacy M2 filenames. For every later audit, first set SF_PROFILE_OUTPUT to a distinct JSON basename, e.g. m9-profile-source.json or m9-profile-compiled.json. The script constrains output to docs/audit. M9's accidental overwrite of a pre-existing dirty M2 source artifact is recorded openly in report section21; new measurements do not recover old bytes. See [M9 guide](M9-ACCEPTANCE.md) for commands and bounded-soak limits.

@@ -91,3 +91,8 @@ The typed engine/wire adapter and controller-free worker module now implement th
 ## M3 live subset (2026-10-24)
 
 Owned design CRUD/validation/simulation/run polling, catalog/templates and dashboard are now mounted. Live /docs-json uses their canonical schemas with implemented operation markers and OpenAPI3.1; web schema.d.ts is regenerated from it. Preview and Limits HTTP operations remain planned/unmounted; phase2.openapi.json and phase2-schema.d.ts remain the full planned contract. See [M3 guide](../M3-SAVED-DESIGNS.md).
+
+
+## Current mounted subset through M8 / M9 reassessment
+
+The earlier M2/M3 paragraphs are historical. Prepare, saved Limits and transient Preview are now mounted alongside the Designs/simulation operations. Live docs-json generation exactly matches web/src/lib/api/schema.d.ts in M9; canonical contract/fixture checks pass. M9 reliability fixes change deadlines/availability handling and refresh operation ordering, not public DTO shapes or model formulas. See [M9 guide](../M9-ACCEPTANCE.md) and report section21 for final acceptance status.
