@@ -1,3 +1,4 @@
+import { DesignVersionsService } from "@/modules/designs/design-versions.service";
 import {
   Body,
   Controller,
@@ -36,6 +37,7 @@ import { prepareDesign } from "@/modules/designs/creation";
 export class DesignsController {
   constructor(
     private readonly designs: DesignsService,
+    private readonly versions: DesignVersionsService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
@@ -55,6 +57,9 @@ export class DesignsController {
     @Param("id", ParseUUIDPipe) id: string,
   ) {
     return this.designs.get(u.id, id);
+  }
+  @Get(":id/versions") versionsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
+    return this.versions.list(u.id, id, q);
   }
   @Patch(":id") patch(
     @CurrentUser() u: AuthUser,

@@ -1,3 +1,4 @@
+import { recordVersion } from "@/modules/designs/record-version";
 import { Injectable } from "@nestjs/common";
 import { DataSource, EntityManager } from "typeorm";
 import { AppException } from "@/common/errors";
@@ -48,19 +49,14 @@ export class DesignsService {
     });
   }
   async create(ownerId: string, dto: CreateDesignDto) {
-    const now = new Date(),
-      repo = this.db.getRepository(SavedDesign);
-    return this.dto(
-      await repo.save(
-        repo.create({
-          ...dto,
-          ownerId,
-          revision: 1,
-          createdAt: now,
-          updatedAt: now,
-        }),
-      ),
-    );
+    return this.db.transaction(async (m) => {
+      const now = new Date();
+      const repo = m.getRepository(SavedDesign);
+      const design = await repo.save(repo.create({ ...dto, ownerId, revision: 1, createdAt: now, updatedAt: now }));
+      const value = this.dto(design);
+      await recordVersion(m, value, "create");
+      return value;
+    });
   }
   async get(owner: string, id: string) {
     return this.dto(await this.owned(owner, id));
@@ -74,7 +70,9 @@ export class DesignsService {
         revision: d.revision + 1,
         updatedAt: new Date(),
       });
-      return this.dto(await m.save(d));
+      const value = this.dto(await m.save(d));
+      await recordVersion(m, value, "edit");
+      return value;
     });
   }
   async remove(owner: string, id: string) {

@@ -40,6 +40,13 @@ export const envSchema = z
     THROTTLE_LIMIT: z.coerce.number().int().positive().default(120),
     AUTH_THROTTLE_LIMIT: z.coerce.number().int().positive().default(10),
 
+    // M10 did not pass its quality/resource gate. Enabling is an explicit local experiment.
+    AI_ENABLED: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
+    OLLAMA_BASE_URL: z.enum(["http://127.0.0.1:11434", "http://localhost:11434"]).default("http://127.0.0.1:11434"),
+    OLLAMA_MODEL: z.enum(["qwen2.5:1.5b", "llama3.2:3b"]).default("qwen2.5:1.5b"),
+    AI_DEADLINE_MS: z.coerce.number().int().min(1000).max(65000).default(60000),
+    AI_MIN_FREE_MIB: z.coerce.number().int().min(1536).default(1536),
+    AI_MIN_COMMIT_MIB: z.coerce.number().int().min(4096).default(4096),
     DEMO_USER_PASSWORD: z.string().min(8).default("Demo-Pass-123!"),
   })
   .superRefine((envs, ctx) => {
