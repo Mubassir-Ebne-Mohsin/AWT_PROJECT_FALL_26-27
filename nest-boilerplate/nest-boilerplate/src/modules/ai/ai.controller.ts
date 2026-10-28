@@ -39,6 +39,12 @@ export class AiController {
   ) {
     return this.ai.get(user.id, id);
   }
+  @Get("jobs/:id/evidence") evidence(
+    @CurrentUser() user: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+  ) {
+    return this.ai.evidence(user.id, id);
+  }
   @Post("jobs/:id/cancel") @HttpCode(200) cancel(
     @CurrentUser() user: AuthUser,
     @Param("id", ParseUUIDPipe) id: string,

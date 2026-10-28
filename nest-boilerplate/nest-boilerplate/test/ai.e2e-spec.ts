@@ -17,6 +17,7 @@ import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import { AiMemory } from "@/modules/ai/ai-memory";
 import { getTemplates } from "@/modules/simulation/engine/templates";
 import {
+  aiEvidenceSchema,
   aiJobSchema,
   designVersionSchema,
 } from "@/common/contracts/phase3/ai.schema";
@@ -55,7 +56,10 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
         mode === "invalid"
           ? "not json"
           : JSON.stringify({
-              summary: "The saved model has an inspectable verdict.",
+              summary:
+                mode === "bad-figure"
+                  ? "The recorded p95 is 31 ms."
+                  : "The saved model has an inspectable verdict.",
               evidenceIds: [mode === "bad-ref" ? "invented" : "verdict"],
             }),
     },
@@ -385,6 +389,69 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       .post(a.statusUrl + "/cancel")
       .set({ Authorization: "Bearer " + foreign })
       .expect(403);
+  });
+  it("serves owner-only verified facts with explicit units that match the recorded run", async () => {
+    const { request: d } = await designRun();
+    const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+    const job = await terminal(a.job.id);
+    expect(job.promptVersion).toBe("m12-explain-v1");
+    const evidence = aiEvidenceSchema.parse(
+      (await http.get(`/v1/ai/jobs/${job.id}/evidence`).set(auth()).expect(200)).body.data,
+    );
+    const run = (await http.get(`/v1/designs/${d.designId}/runs/${d.runId}`).set(auth()).expect(200)).body.data;
+    const summary = run.result.summary;
+    expect(evidence).toMatchObject({ jobId: job.id, runId: d.runId, designRevision: 1, structured: true });
+    expect(evidence.facts).toMatchObject({
+      verdict: summary.verdict,
+      p95Ms: summary.p95,
+      p95TargetMs: summary.traffic.sloP95,
+      errorRateFraction: summary.errorRate,
+      errorBudgetFraction: summary.traffic.errorBudget,
+    });
+    // A missing bottleneck is JSON null with its own evidence id, never a string.
+    if (summary.bottleneckId === null) {
+      expect(evidence.facts!.bottleneck).toBeNull();
+      expect(evidence.evidenceIds).toContain("noBottleneck");
+      expect(evidence.evidenceIds).not.toContain("bottleneck");
+    } else {
+      expect(evidence.facts!.bottleneck!.id).toBe(summary.bottleneckId);
+      expect(evidence.evidenceIds).toContain("bottleneck");
+    }
+    expect(evidence.limitations.join(" ")).toMatch(/not measured/i);
+    await http.get(`/v1/ai/jobs/${job.id}/evidence`).expect(401);
+    await http
+      .get(`/v1/ai/jobs/${job.id}/evidence`)
+      .set({ Authorization: "Bearer " + foreign })
+      .expect(403);
+    await http.get(`/v1/ai/jobs/${randomUUID()}/evidence`).set(auth()).expect(404);
+  });
+  it("rejects generated prose that cites a figure absent from the verified facts", async () => {
+    const { request: d } = await designRun();
+    mode = "bad-figure";
+    const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+    const job = await terminal(a.job.id);
+    expect(job.status).toBe("failed");
+    expect(job.result).toBeNull();
+    expect(job.failure?.reason).toBe("INVALID_OUTPUT");
+  });
+  it("keeps M11 artifacts readable, labelled unstructured and never reinterpreted as verified", async () => {
+    const { request: d } = await designRun();
+    const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+    const job = await terminal(a.job.id);
+    await db.query(
+      `UPDATE ai_jobs SET payload = jsonb_set(payload, '{promptVersion}', '"m11-foundation-v1"'),
+        facts = '{"revision":1,"verdict":"fail","bottleneckId":null,"evidenceIds":["verdict"]}'::jsonb WHERE id = $1`,
+      [job.id],
+    );
+    const evidence = aiEvidenceSchema.parse(
+      (await http.get(`/v1/ai/jobs/${job.id}/evidence`).set(auth()).expect(200)).body.data,
+    );
+    expect(evidence.structured).toBe(false);
+    expect(evidence.facts).toBeNull();
+    expect(evidence.limitations.join(" ")).toMatch(/predates verified facts/);
+    const legacy = (await http.get(`/v1/ai/jobs/${job.id}`).set(auth()).expect(200)).body.data;
+    expect(legacy.promptVersion).toBe("m11-foundation-v1");
+    expect(legacy.experimental).toBe(true);
   });
   it.each(["invalid", "truncated", "bad-ref", "oversize", "model-change"])(
     "fails closed on provider %s",

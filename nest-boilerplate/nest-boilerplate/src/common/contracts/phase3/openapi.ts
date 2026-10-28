@@ -1,6 +1,7 @@
 import { z } from "zod";
 import {
   aiAcceptedSchema,
+  aiEvidenceSchema,
   aiJobSchema,
   aiReadinessSchema,
   aiRequestSchema,
@@ -13,6 +14,7 @@ export function phase3OpenApi() {
     AiRequest: aiRequestSchema,
     AiResult: aiResultSchema,
     AiJob: aiJobSchema,
+    AiEvidence: aiEvidenceSchema,
     AcceptedAiJob: aiAcceptedSchema,
     AiReadiness: aiReadinessSchema,
     DesignVersion: designVersionSchema,
@@ -82,6 +84,12 @@ export function phase3OpenApi() {
       "/v1/ai/jobs": { post: operation("submitAiJob", "AcceptedAiJob", true) },
       "/v1/ai/jobs/{id}": {
         get: { ...operation("getAiJob", "AiJob"), parameters: [parameter] },
+      },
+      "/v1/ai/jobs/{id}/evidence": {
+        get: {
+          ...operation("getAiJobEvidence", "AiEvidence"),
+          parameters: [parameter],
+        },
       },
       "/v1/ai/jobs/{id}/cancel": {
         post: { ...operation("cancelAiJob", "AiJob"), parameters: [parameter] },

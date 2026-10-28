@@ -8,11 +8,15 @@ import { DataSource, QueryRunner } from "typeorm";
 import { randomUUID } from "node:crypto";
 import { AppException } from "@/common/errors";
 import {
+  aiEvidenceSchema,
+  aiFactsSchema,
   aiJobSchema,
+  AiFacts,
   AiJob,
   AiRequest,
   AI_PROMPT_VERSION,
   AI_SCHEMA_VERSION,
+  LEGACY_AI_PROMPT_VERSION,
 } from "@/common/contracts/phase3/ai.schema";
 import { inputFingerprint } from "@/common/contracts/phase2/fingerprint";
 import { DesignsService } from "@/modules/designs/designs.service";
@@ -25,6 +29,12 @@ import {
 } from "@/modules/ai/ollama.provider";
 import { AiMemory } from "@/modules/ai/ai-memory";
 import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
+import {
+  EXPLANATION_LIMITATIONS,
+  LEGACY_LIMITATIONS,
+  evidenceIdsFor,
+  groundingViolation,
+} from "@/modules/ai/grounding";
 type Failure = NonNullable<AiJob["failure"]>["reason"];
 type Active = {
   id: string;
@@ -152,6 +162,41 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     await this.designs.owned(owner, row.designId);
     return aiJobSchema.parse(row.payload);
   }
+  /** Verified facts stored with a job; null for M11 artifacts, which predate the contract. */
+  private verifiedFacts(facts: Record<string, unknown>): AiFacts | null {
+    const parsed = aiFactsSchema.safeParse({
+      verdict: facts.verdict,
+      p95Ms: facts.p95Ms,
+      p95TargetMs: facts.p95TargetMs,
+      errorRateFraction: facts.errorRateFraction,
+      errorBudgetFraction: facts.errorBudgetFraction,
+      bottleneck: facts.bottleneck,
+    });
+    return parsed.success ? parsed.data : null;
+  }
+  /** Owner-only server evidence for one job: what the explanation is about and what it may cite. */
+  async evidence(owner: string, id: string) {
+    const row = await this.db.getRepository(AiJobRecord).findOneBy({ id });
+    if (!row) throw new AppException("NOT_FOUND", "AI job not found");
+    await this.designs.owned(owner, row.designId);
+    const job = aiJobSchema.parse(row.payload);
+    const legacy = job.promptVersion === LEGACY_AI_PROMPT_VERSION;
+    const facts = legacy ? null : this.verifiedFacts(row.facts);
+    return aiEvidenceSchema.parse({
+      jobId: job.id,
+      designId: job.designId,
+      runId: job.runId,
+      designRevision: job.designRevision,
+      fingerprint: job.fingerprint,
+      engineVersion: String(row.facts.engine ?? row.facts.model ?? "unknown"),
+      structured: facts !== null,
+      facts,
+      evidenceIds: Array.isArray(row.facts.evidenceIds)
+        ? (row.facts.evidenceIds as string[])
+        : [],
+      limitations: [...(facts ? EXPLANATION_LIMITATIONS : LEGACY_LIMITATIONS)],
+    });
+  }
   async submit(owner: string, request: AiRequest) {
     const current = await this.designs.owned(owner, request.designId);
     const repository = this.db.getRepository(AiJobRecord);
@@ -204,14 +249,30 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
           { reason: "AI_STALE_RUN" },
         );
       const s = payload.result.summary;
-      const facts = {
-        revision: current.revision,
+      const bottleneck = s.bottleneckId
+        ? s.nodes.find((n) => n.id === s.bottleneckId)
+        : undefined;
+      // Units are explicit; a missing bottleneck is JSON null and has its own evidence id.
+      const verified: AiFacts = {
         verdict: s.verdict,
-        p95: s.p95,
-        errorRate: s.errorRate,
-        bottleneckId: s.bottleneckId,
-        model: payload.engineVersion,
-        evidenceIds: ["verdict", "p95", "errorRate", "bottleneckId"],
+        p95Ms: s.p95,
+        p95TargetMs: s.traffic.sloP95,
+        errorRateFraction: s.errorRate,
+        errorBudgetFraction: s.traffic.errorBudget,
+        bottleneck: bottleneck
+          ? {
+              id: bottleneck.id,
+              // Labels are untrusted data: bounded and stripped of control characters.
+              label: bottleneck.label.replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, 40) || bottleneck.id,
+              utilizationFraction: bottleneck.rho,
+            }
+          : null,
+      };
+      const facts = {
+        ...verified,
+        revision: current.revision,
+        engine: payload.engineVersion,
+        evidenceIds: evidenceIdsFor(verified),
         limitation: "Mathematical estimates, not measured performance",
       };
       const messages = [
@@ -394,6 +455,16 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         slot.controller.signal,
       );
       if (slot.controller.signal.aborted) throw new Error("Aborted");
+      const verified = this.verifiedFacts(row.facts);
+      const violation = verified
+        ? groundingViolation(result.summary, verified, row.payload.designRevision)
+        : null;
+      if (violation)
+        throw new AppException(
+          "VALIDATION_FAILED",
+          "Generated explanation contradicts the verified facts: " + violation,
+          { reason: "INVALID_OUTPUT" },
+        );
       await this.finish(row.id, "completed", result);
     } catch (e) {
       let reason: Failure = slot.reason ?? "PROVIDER_UNAVAILABLE";

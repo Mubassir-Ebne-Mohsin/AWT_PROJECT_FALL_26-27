@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { designSchema } from "@/common/contracts/phase2/api.schema";
-export const AI_SCHEMA_VERSION = "m11-summary-v1";
-export const AI_PROMPT_VERSION = "m11-foundation-v1";
+// New jobs use the M12 explanation versions. M11 artifacts keep their stored versions and stay readable.
+export const AI_SCHEMA_VERSION = "m12-explanation-v1";
+export const AI_PROMPT_VERSION = "m12-explain-v1";
+export const LEGACY_AI_PROMPT_VERSION = "m11-foundation-v1";
 export const aiRequestSchema = z.strictObject({
   requestId: z.uuid(),
   designId: z.uuid(),
@@ -57,6 +59,41 @@ export const aiAcceptedSchema = z.strictObject({
   job: aiJobSchema,
   statusUrl: z.string(),
 });
+/**
+ * Server-owned facts behind an explanation. Units are explicit in every name:
+ * latency in milliseconds, error and utilization as fractions (0.01 = 1%).
+ * A missing bottleneck is JSON null, never a string or an invented target.
+ */
+export const aiFactsSchema = z.strictObject({
+  verdict: z.enum(["pass", "strained", "fail"]),
+  p95Ms: z.number().nonnegative(),
+  p95TargetMs: z.number().positive(),
+  errorRateFraction: z.number().min(0).max(1),
+  errorBudgetFraction: z.number().min(0).max(1),
+  bottleneck: z
+    .strictObject({
+      id: z.string().min(1).max(64),
+      label: z.string().min(1).max(40),
+      utilizationFraction: z.number().nonnegative(),
+    })
+    .nullable(),
+});
+export type AiFacts = z.infer<typeof aiFactsSchema>;
+export const aiEvidenceSchema = z.strictObject({
+  jobId: z.uuid(),
+  designId: z.uuid(),
+  runId: z.uuid(),
+  designRevision: z.number().int().positive(),
+  fingerprint: z.string().regex(/^[a-f0-9]{64}$/),
+  engineVersion: z.string(),
+  /** False for M11 artifacts: they predate the verified-facts contract and carry none. */
+  structured: z.boolean(),
+  facts: aiFactsSchema.nullable(),
+  /** The only evidence ids a generated explanation may cite for this job. */
+  evidenceIds: z.array(z.string().min(1).max(64)).max(8),
+  limitations: z.array(z.string().max(200)).max(4),
+});
+export type AiEvidence = z.infer<typeof aiEvidenceSchema>;
 export const aiReadinessSchema = z.strictObject({
   enabled: z.boolean(),
   ready: z.boolean(),

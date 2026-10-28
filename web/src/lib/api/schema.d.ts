@@ -351,6 +351,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ai/jobs/{id}/evidence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAiJobEvidence"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/ai/jobs/{id}/cancel": {
         parameters: {
             query?: never;
@@ -2821,6 +2837,33 @@ export interface components {
             /** @constant */
             experimental: true;
         };
+        AiEvidence: {
+            /** Format: uuid */
+            jobId: string;
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            designRevision: number;
+            fingerprint: string;
+            engineVersion: string;
+            structured: boolean;
+            facts: {
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                p95Ms: number;
+                p95TargetMs: number;
+                errorRateFraction: number;
+                errorBudgetFraction: number;
+                bottleneck: {
+                    id: string;
+                    label: string;
+                    utilizationFraction: number;
+                } | null;
+            } | null;
+            evidenceIds: string[];
+            limitations: string[];
+        };
         AcceptedAiJob: {
             job: {
                 /** Format: uuid */
@@ -5114,6 +5157,102 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AiJob"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getAiJobEvidence: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiEvidence"];
                     };
                 };
             };
