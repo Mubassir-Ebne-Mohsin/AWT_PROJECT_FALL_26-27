@@ -13,6 +13,7 @@
     "test": "node --require ./tests/register.cjs --test tests/*.test.cjs",
     "test:browser": "playwright test",
     "test:browser:list": "playwright test --list",
+    "gen:phase3": "openapi-typescript ../docs/contracts/phase3.openapi.json -o src/lib/api/phase3-schema.d.ts",
     "gen:phase2": "openapi-typescript ../docs/contracts/phase2.openapi.json -o src/lib/api/phase2-schema.d.ts"
   },
   "dependencies": {

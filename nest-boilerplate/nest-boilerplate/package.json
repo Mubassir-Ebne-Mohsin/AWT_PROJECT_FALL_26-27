@@ -30,6 +30,8 @@
     "db:up": "docker compose -f docker-compose.dev.yml up -d --wait",
     "db:down": "docker compose -f docker-compose.dev.yml down",
     "typecheck": "tsc --project tsconfig.test.json --noEmit",
+    "contract:phase3": "ts-node -r tsconfig-paths/register src/script/export-phase3-contract.ts",
+    "contract:phase3:check": "pnpm contract:phase3 --check",
     "contract:phase2": "ts-node -r tsconfig-paths/register src/script/export-phase2-contract.ts",
     "contract:phase2:check": "pnpm contract:phase2 --check",
     "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check",
