@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-28",
+  "milestone": "M11",
+  "status": "backend foundation implemented; real inference disabled by default",
+  "backend": {
+    "contract": "canonical Zod/OpenAPI check pass",
+    "inheritedLintWarnings": 22,
+    "build": "pass: Nest, final isolated output",
+    "e2eSeconds": 85.675,
+    "lintErrors": 0,
+    "e2ePassed": 76,
+    "unitPassed": 201,
+    "newM11E2eCases": 17,
+    "typecheck": "pass",
+    "unitSkipped": 2
+  },
+  "frontend": {
+    "lint": "pass",
+    "browser": "not repeated: no UI changes in M11",
+    "liveTypesStable": true,
+    "build": "pass",
+    "typecheck": "pass",
+    "liveTypesSha256": "50EF422C70F009BAAEFE459C679D37ED4B7E47F829471F98E28ABB768C8928F0"
+  },
+  "api": {
+    "data": {
+      "status": "ok",
+      "postgres": "up",
+      "redis": "up",
+      "timestamp": "2026-10-28T17:15:09.413Z"
+    }
+  },
+  "webHttp": 200,
+  "ollama": {
+    "models": []
+  },
+  "protectedProfileSha256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+  "realModelGenerationPerformed": false,
+  "developmentMigration": {
+    "at": "2026-10-28T16:53:21.352Z",
+    "migrations": [
+      "AiFoundation1793200000000"
+    ],
+    "before": {
+      "count": 5,
+      "digest": "6c7ff0d4c3345f7ee3e50b178052c0d2"
+    },
+    "after": {
+      "count": 5,
+      "digest": "6c7ff0d4c3345f7ee3e50b178052c0d2"
+    },
+    "designsPreserved": true,
+    "counts": {
+      "versions": 5,
+      "jobs": 0
+    },
+    "aiEnabled": false
+  },
+  "testService": "M11 disposable Postgres stopped; volume retained",
+  "commit": false,
+  "push": false,
+  "anonymousAiStatus": 401
+}

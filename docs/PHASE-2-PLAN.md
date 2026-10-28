@@ -2,6 +2,8 @@
 
 **Revised:** 2026-10-27 (Asia/Dhaka). **Status:** M0–M8 completed for their user-approved scopes; M8 Limits/live preview/overlay verified locally on 2026-10-27. M9 was explicitly authorized and completed on 2026-10-27; all application acceptance checks pass locally, and the user accepted the historical benchmark-preservation exception recorded in report section21. M1–M9 published on codex/phase2-contracts on2026-10-27 under explicit user authorization; main remains the Phase1 baseline. Earlier planning/history is retained below and in the living report; the original draft remains in [the archive](archive/PHASE-2-PLAN-2026-10-22.md).
 
+> Future scope update (2026-10-28): the approved four-role direction is User, Instructor, Reviewer and Admin. See [the overall project plan](PROJECT-PLAN.md). Instructor/Reviewer and their sharing workflows are future work; completed Phase 2 scope and evidence remain unchanged.
+
 ## 1. Target and recommendation
 
 Build the first real end-to-end loop before completing every editor interaction:

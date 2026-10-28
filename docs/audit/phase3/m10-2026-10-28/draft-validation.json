@@ -1,0 +1,28 @@
+[
+  {
+    "file": "results.json",
+    "model": "llama3.2:3b",
+    "doneReason": "stop",
+    "contractValid": true,
+    "graphValidation": {
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    "requestedTopology": true,
+    "exactRequestedLabels": false
+  },
+  {
+    "file": "results-followup.json",
+    "model": "qwen2.5:1.5b",
+    "doneReason": "stop",
+    "contractValid": true,
+    "graphValidation": {
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    "requestedTopology": true,
+    "exactRequestedLabels": false
+  }
+]

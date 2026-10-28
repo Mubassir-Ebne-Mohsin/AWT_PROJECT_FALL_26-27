@@ -1,8 +1,12 @@
 # StressForge
 
-Draw a system architecture on a canvas, let a simulator find its bottlenecks under a traffic profile, and let AI draft, fix and explain designs. Everything runs free: local Postgres and Redis in Docker, no paid services, no AI calls yet.
+Draw a system architecture on a canvas, let a simulator find its bottlenecks under a traffic profile, and let AI draft, fix and explain designs. Everything runs free: local Postgres and Redis in Docker, no paid services. The experimental M11 AI backend defaults disabled; the existing assistant UI remains scripted.
 
 **Status: Phase 2 complete for the approved local scope, including M9 acceptance, with a documented user-accepted historical benchmark exception.** Register/login, create a design from a template, blank graph, JSON or labelled scripted mock; draw/connect/configure components; save/reopen; set Traffic; run the backend model; inspect recorded Results, transient Load preview and saved Limits. Foundation auth, shell and system-state screens remain available. Later features remain labelled placeholders. The design reference is a clickable prototype in `nest-boilerplate/nest-boilerplate/docs/stressforge/reference/`.
+
+Public entry: `/` now introduces the architecture lab with a responsive scroll-driven specimen and links to the existing login/register flow. See the [landing-page guide](docs/LANDING-PAGE.md).
+
+Phase3 checkpoint: [M11 backend foundation](docs/M11-AI-FOUNDATION.md) is implemented and tested. Real inference remains disabled pending the [M10 quality/memory follow-up](docs/M10-LOCAL-AI-FEASIBILITY.md); result-explanation UI is M12.
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and the latest dependency reassessment.
 

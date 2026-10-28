@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-28T16:53:21.352Z",
+  "migrations": [
+    "AiFoundation1793200000000"
+  ],
+  "before": {
+    "count": 5,
+    "digest": "6c7ff0d4c3345f7ee3e50b178052c0d2"
+  },
+  "after": {
+    "count": 5,
+    "digest": "6c7ff0d4c3345f7ee3e50b178052c0d2"
+  },
+  "designsPreserved": true,
+  "counts": {
+    "versions": 5,
+    "jobs": 0
+  },
+  "aiEnabled": false
+}

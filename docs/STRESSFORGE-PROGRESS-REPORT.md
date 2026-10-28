@@ -1,8 +1,8 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-27 (Asia/Dhaka). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-10-28 (Asia/Dhaka). Phase3: in progress; M10 inference gate failed, M11 backend foundation verified with real AI disabled (sections25–26). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
-> **Publication scope:** Phase1 baseline **9e8bb00** remains on GitHub main. M1–M9, including the completed Phase2 core loop, M9 fixes and this report, are published on **codex/phase2-contracts**. Verified code/closure checkpoint **7bdc41d** was pushed on2026-10-27 under explicit user authorization; a documentation-only publication update follows it. No main merge or deployment occurred. Phase2 is complete for the approved local scope with the accepted historical benchmark exception; see section21.
+> **Publication scope as of 2026-10-27:** Phase1 baseline **9e8bb00** remains on GitHub main. M1–M9, including the completed Phase2 core loop, M9 fixes and this report, are published on **codex/phase2-contracts**. Verified code/closure checkpoint **7bdc41d** was pushed on2026-10-27 under explicit user authorization; a documentation-only publication update follows it. No main merge or deployment occurred. Phase2 is complete for the approved local scope with the accepted historical benchmark exception; see section21.
 
 ## 1. Maintenance instructions
 
@@ -46,8 +46,8 @@ No CLAUDE.md, CONTRIBUTING file or earlier progress report exists. `web/AGENTS.m
 | --- | --- | --- |
 | 1 | Foundation | Complete (2026-10-23): functional findings closed; dependency reachability triaged; evidence and limits in section 9 |
 | 2 | Core loop (designs API, simulation module, canvas editor, Traffic / Results / Limits) | Complete (2026-10-27): M0–M9 verified for the approved local scope; historical benchmark exception explicitly accepted. See sections13–21. M1–M9 published on codex/phase2-contracts; main remains the Phase1 baseline |
-| 3 | Improve and history | Not started |
-| 4 | Public and learning pages | Not started |
+| 3 | Improve and history | In progress (2026-10-28): M10 evaluated, real-inference gate NO-GO; M11 backend foundation verified, AI disabled by default; M12–M17 remain. Sections24–26 |
+| 4 | Public and learning pages | Partial: public landing verified locally (section23); remaining public/learning features remain placeholders |
 | 5 | Evaluation, settings, onboarding, developer screens | Not started |
 
 Phase 1 has a complete Foundation audit; Phase 2 verification includes M3 saved designs, M4 creation/dashboard, M5 canvas and M6 connections/history/repair; M7 Traffic/Results is verified in section19; M8 Limits/live preview/overlay is verified in section20; all M9 application gates pass and the user accepted the historical benchmark exception; Phase2 is complete for the local scope documented in section21.
@@ -306,6 +306,10 @@ No phase beyond Foundation is complete. Designs CRUD, canvas, SimulationModule a
 
 
 ## 8. Dated update history
+
+- **2026-10-28 — M11 foundation verified:** explicit approval after M10;201 backend unit tests pass (2 existing opt-in skips),76 e2e pass, backend/frontend build/types/lint pass. Additive migration preserved5 existing designs. AI stays disabled; no M12 UI or real-model approval. Local changes are not committed/pushed; see section26.
+
+- **2026-10-28 — M10 / public entry / role planning:** four-role direction recorded, landing implemented/verified, Ollama models inspected and benchmarked; current inference configuration NO-GO due quality/resource failures. See sections22–25; all prior phase history retained.
 
 - **2026-10-27 — GitHub publication:** user explicitly requested pushing to Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27. Fast-forward push published M7–M9 through7bdc41d on codex/phase2-contracts, including the closure report. Main was not merged; the benchmark remains unstaged. Earlier no-push statements describe the implementation/closure stage before this authorization.
 
@@ -1285,3 +1289,73 @@ Future phase-completion work must update this same report, preserve earlier phas
 ### Publication after closure (2026-10-27)
 
 The user subsequently authorized the GitHub push. M7–M9 and the closure report were published by a fast-forward push to codex/phase2-contracts through7bdc41d; this documentation update follows that checkpoint. Earlier no-push statements above are historical. No main merge, deployment or Phase3 work occurred. The accepted benchmark exception and unstaged-file instruction remain unchanged.
+
+## 22. Planning update: four account roles (2026-10-28)
+
+[User-approved direction] Future project planning now includes User, Instructor, Reviewer and Admin. Guest remains an unauthenticated access state. The [overall project plan](PROJECT-PLAN.md) defines their proposed responsibilities, a recommended delivery sequence and permission-test requirements.
+
+[Not implemented by this update] Instructor/Reviewer roles, sharing grants, feedback, challenges and administration tools are future scope. Faculty may need both Instructor and Reviewer capabilities; multi-role storage and hierarchy remain technical decisions for scoping. Existing private designs must not become accessible solely because an account receives either role.
+
+This is a documentation-only change. It does not reopen completed Phase 1/2 requirements, start Phase 3 or establish new verification evidence for application behavior. Future milestone work must update this same report and reassess affected auth/ownership requirements. No automatic updates are promised.
+
+## 23. Public landing experience (2026-10-28)
+
+[Implemented and verified locally] `/` now presents a public architecture-lab story before account entry. The user's supplied Vite/Inspo reference informed midnight surfaces, restrained violet accents, generous spacing, geometric hierarchy and a technical specimen composition. Existing Archivo/Instrument Sans/JetBrains Mono fonts and Next conventions are reused; no runtime dependencies added. [Design reference](../DESIGN.md), [implementation guide](LANDING-PAGE.md), [verification evidence](audit/landing/evidence.json).
+
+The custom SVG architecture opens into clients/routing/compute/data layers, holds for inspection and reassembles with reversible scroll-position transforms. Text remains readable, header login stays reachable and account creation uses the existing register route. Mobile has a readable component key. Reduced motion uses a shorter nonsticky narrative/static exploded specimen. Server-rendered content and links work without JavaScript. The illustration is explicitly not a live simulation; real AI remains planned and current scripted interactions are identified honestly.
+
+Verification: final isolated production build, TypeScript and full frontend lint pass. Existing frontend unit tests passed120/120 during implementation; all35 registry patterns retain page files. Final production Chrome landing checks16/16 (19.6s), Edge1440-dark subset4/4 (4.3s), including320/390/768 phone/tablet widths within tests,1024/1440 light/dark projects, reverse/fast scroll state, reduced motion, JavaScript-disabled output, auth links/forms and protected return-to. Four-size screenshot capture1440x1000/1024x900/390x844/320x700 found no horizontal overflow or console/page errors. Nine final screenshots are isolated in docs/audit/landing. Edge is not an independent engine.
+
+An initial browser run found that the existing search-parameter auth boundary hid public content without JavaScript. Public `/` now bypasses that boundary; protected routes retain it. Real session/network failures also no longer replace the public introduction, while dev-forced states remain available. The failing fallback cases passed after correction. Screenshot review led to readable phone labels and removal of an overlapping decorative label.
+
+[Limits] No real login/register was submitted, backend tests/full authenticated editor matrix were not rerun, and no screen-reader certification, physical-device, Firefox/WebKit or formal animation-performance claim is made. Backend/auth service, simulator, package/lock files and private data are unchanged. Existing four-role planning edits are preserved; no Instructor/Reviewer implementation or real-AI phase was started. The protected M2 historical measurement retains its prior hash and remains unstaged. Changes are local, not committed/pushed.
+
+Future phase-completion work must update this same report, preserve earlier history, record fresh evidence and reassess affected public entry/auth requirements; updates do not happen automatically.
+
+### Landing lighting and motion refinement (2026-10-28)
+
+User-requested follow-up adds scoped violet specimen atmosphere, button hover/focus lighting, staggered hero entrance, a gentle specimen settling movement and brief traffic pulses along the illustrated connections. Automatic motion is finite (longest4.8s) and disabled under prefers-reduced-motion; scroll-driven layer separation remains reversible. No new dependency or backend change. Production Chrome landing matrix16/16 passes (29.0s); direct browser inspection confirms reduced-motion SVG/heading animations are none and phone layout has no overflow. Additional screenshots and [effect observations](audit/landing/effects.json) are saved separately from the earlier baseline captures. The production preview remains on3011; no commit or push performed.
+
+## 24. Phase 3 planning and local Ollama inspection (2026-10-28)
+
+[Verified read-only] Ollama CLI and local API version0.40.12 are reachable. Installed qwen2.5:1.5b (986MB,65ec06548149) and llama3.2:3b (2.0GB,a80c4f17acd5); no loaded model. RTX2050 reports4096MiB total/2944MiB free, driver596.21. Windows reports7.73GB usable RAM/0.78GB free and217.5GB free on C: at inspection. These are transient observations, not inference benchmarks. No model was loaded/downloaded and no prompt was generated.
+
+[Proposed] [Phase3 plan](PHASE-3-PLAN.md) defines M10–M17: feasibility, local provider/contracts/version foundation, grounded explanations, approved improvement/rerun, reviewed drafting, Designs/History/Notes/Compare, report/read-only sharing, and integrated acceptance. Existing route/catalog Phase3 commitments are retained rather than silently reducing the phase to AI. The earlier recommendation to download qwen3:1.7b is replaced by benchmarking already installed models first. GPU placement, memory fit, speed and domain quality remain unverified until M10.
+
+User/Instructor/Reviewer/Admin remain the approved project direction; Instructor/Reviewer and full administrative workflows remain a separate later implementation track. Shared access must remain explicit. The plan records print-to-PDF and validated nonstreaming-first responses as proposed simplifications, with no application behavior changed. Phase3 and M10 are awaiting approval; planning does not count as implementation or completion. Future milestone work must update this same report, preserve history and reassess affected earlier requirements.
+
+## 25. M10 approved model feasibility evaluation (2026-10-28)
+
+[Completed experiment; integration gate NO-GO] User explicitly approved M10. Both installed models were tested sequentially with synthetic inputs,2048 context,256 explanation-output tokens/512 draft tokens, temperature0/seed42 and65s request cutoff. No model downloads, application behavior changes, account/design writes or global Ollama configuration changes. [Full verdict](M10-LOCAL-AI-FEASIBILITY.md); [new isolated evidence folder](audit/phase3/m10-2026-10-28/README.md).
+
+Qwen first cold request timed out65.019s. Repeat cold30.970s, warm3.370–4.135s;1/8 complete schema-valid explanations,7 truncated,0/8 complete expected-field matches. Llama first cold43.446s, warm2.300–2.963s;8/8 schema-valid but0/8 complete expected-field matches, including false stale-revision claims and string-null bottlenecks. Both tiny draft probes passed existing backend schema/graph validation/topology but changed exact requested labels; this is not general draft-quality certification. Reported GPU-resident allocations were approximately1057MiB Qwen/2216MiB Llama at2048 context.
+
+The Llama repeat failed with explicit insufficient-system-resources HTTP500; unload also initially failed. Observed free virtual memory418MiB and physical371MiB. Further inference stopped; explicit stop of only the benchmark model succeeded, Ollama ps empty, memory recovered. The prepared server-grounded prompt diagnostic was not executed. Physical-only monitoring did not prevent commit-memory pressure and needs revision before a rerun.
+
+Initial API probes had26 connection failures/34 while frontend stayed34/34 healthy; API PID changed externally, cause unknown. Repeat probes19/19 HTTP200 for each endpoint (API max50ms, frontend max22ms). Do not attribute the first interruption to AI without evidence or treat health probes as full authenticated-workflow testing. Final API/PG/Redis and web health pass; benchmark models unloaded. Historical protected M2 file retains its pre-M10 hash and unstaged state. Existing unrelated film/ and landing/planning work preserved.
+
+No model/budget approved for integration, and M11 has not started. Recommended next step is an M10 follow-up with sustainable physical/commit headroom, safer preflight/monitoring and server-grounded short explanations; forced fields cannot count as model reasoning. No claim that local AI is impossible or that a hardware purchase is required. Preserve these failures when updating this same living report with subsequent evidence.
+
+## 26. M11 approved backend foundation (2026-10-28)
+
+[Implemented and verified locally] User explicitly said to proceed with M11 after M10's no-go. This delivers the opt-in backend/provider/version foundation; it does not pass M10 retroactively or implement M12's real-AI UI. [M11 guide](M11-AI-FOUNDATION.md) records contracts, commands, lifecycle/retention choices and limitations.
+
+Added canonical Zod/OpenAPI and live-generated frontend types; fixed-loopback native-fetch Ollama adapter; authenticated owned jobs/readiness; bounded context/output/deadline; physical and host commit/virtual preflight plus runtime guard; global single-inference admission, durable idempotency, cancel/restart interruption, immutable provenance and bounded retention. AI defaultsfalse and core health/save/simulation work independently. Cancellation is not treated as proof of GPU shutdown: capacity stays occupied until upstream promise settlement and idle observation. Accepted202 jobs survive browser disconnect/lost acknowledgement and require explicit cancellation—an intentional clarification of the initial plan wording.
+
+Design create/edit transactions now append immutable versions. Migration backfills only each current revision as baseline, never fictional history. Retain100 newest/design plus AI-pinned versions; retain AI artifacts at least24h with500-row admission cap. Jobs copy bounded numerical evidence rather than pinning Phase2 run rows. No restore/history/Compare interface, automated graph edits, arbitrary prompts/tools or extra user-role workflows added.
+
+Verification: backend build/types/lint pass (22 inherited warnings,0 errors);201 unit tests pass and2 existing opt-in Redis-compose cases skip. Full e2e76/76 pass in85.675s, including17 M11 cases with isolated Postgres and actual mock HTTP transport. Covers migrations/backfill/rollback, snapshots, conflicts/ownership, replay, provider faults, context/response bounds, digest changes, cancellation while upstream still reports loaded, deadline/runtime memory pressure, pinned retention/deletion, duplicate instance lease, expiry and interruption recovery. A final admission review added explicit429 for retained pending work instead of exposing its uniqueness constraint; the full suite passed afterward. Initial test-only Postgres union narrowing and reused Response fixtures were corrected before acceptance.
+
+Frontend production build/typecheck/lint pass after regenerating primary types from the actual development /docs-json and separate canonical Phase3 types. UI unchanged in M11; browser/editor suites were not repeated. Existing Foundation/Phase2 backend flows are in the full e2e suite. Canonical contract check passes; no new dependencies or dependency-lockfile changes.
+
+Development migration AiFoundation1793200000000 applied:5 designs before/after, identical aggregate design-state hash,5 current-version baselines,0 AI jobs. Existing .env untouched. New audit evidence lives in docs/audit/phase3/m11-2026-10-28; normal service/data resets were not performed. Historical M2 artifact and unrelated landing/film work preserved.
+
+[Limits/next] No real inference or GPU cancellation benchmark was run, model prose is not semantically certified, actual hardware performance and M10 memory/quality follow-up remain open. AI is disabled by default. The infrastructure is a local single-active-API design, not distributed production certification. M12–M17 remain unapproved/unstarted. No commit/push/deployment performed. Future work must update this same report, preserve prior evidence and reassess affected auth/ownership/save requirements.
+
+A final readiness review added single-flight, one-second-cached host memory telemetry so concurrent polling cannot spawn one Windows process per request. Twenty concurrent callers share a single probe; failed telemetry is not cached as success. Two focused regressions pass, bringing the backend unit total to201 passed/2 existing skipped. The final Nest build uses separate temporary output to avoid disturbing the development watcher's dist files. A live type-generation attempt during watcher restart was refused; generation succeeded once the existing watcher recovered. No duplicate backend was launched.
+
+## 27. M12 scope proposal (2026-10-28)
+
+[Planning only] [M12 explanation scope](M12-EXPLANATION-SCOPE.md) defines saved-result context, verified-facts/AI-interpretation separation, versioned grounding, idempotent job recovery, inline optional-AI failures, stale-result protection and tests. M12A is functional integration with controlled responses and AI disabled; M12B requires real-model quality/memory acceptance after the still-open M10 follow-up. Neither stage is implemented or approved by this planning request. M12 cannot be called complete using mock results alone.
+
+The existing API client's network-error path still opens a global unreachable state even when silent is set. Scoped AI error handling is a required, regression-tested M12 change, not claimed present behavior. New generation initially preserves M11's current saved-revision rule; older artifacts remain historical and unsaved drafts remain untouched. The four-role direction remains unchanged; no role-management scope is added. Future work must update this same report with actual verification evidence.

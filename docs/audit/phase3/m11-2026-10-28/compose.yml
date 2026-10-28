@@ -1,0 +1,20 @@
+name: stressforge-m11
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: stressforge-m11-postgres
+    labels:
+      stressforge.audit: m11
+    environment:
+      POSTGRES_USER: sf_m11
+      POSTGRES_PASSWORD: m11-disposable-only
+      POSTGRES_DB: sf_m11_e2e
+    ports: ["127.0.0.1:5553:5432"]
+    volumes: ["m11-postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sf_m11 -d sf_m11_e2e"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+volumes:
+  m11-postgres:

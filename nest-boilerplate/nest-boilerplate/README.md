@@ -99,3 +99,7 @@ The profiler requires no database and writes local aggregate evidence only. The 
 DesignsModule owns user-scoped designs, revisions, prepare/validation, durable simulation/limits records and dashboard summaries. SimulationModule owns the pure model and bounded worker; live previews are transient and never add history rows. Real AI remains later scope. [M9 acceptance guide](../../docs/M9-ACCEPTANCE.md) documents isolated service failures, lock cancellation, auth recovery, bounded soak and retention. Do not run interruption tests against normal services/data or overlap them with integration/browser suites.
 
 M9 uses narrow production transitive overrides for multer2.5.0, Bull's uuid11.1.1 and the seeder's faker10.5.0; Node22 and the committed pnpm lockfile are required. Database and Redis deadlines are documented in the architecture/acceptance guide. These are local defaults, not production latency guarantees.
+
+## M11 optional AI/version backend
+
+The backend now provides experimental local AI job/readiness contracts and immutable version baselines. `AI_ENABLED` defaultsfalse; no real-AI UI is added and M10's quality/memory gate remains open. Run `pnpm migration:run` before using the updated backend. Existing design data is preserved; the additive migration records each current revision only. See [M11 setup, limits and evidence](../../docs/M11-AI-FOUNDATION.md). No new runtime dependencies.

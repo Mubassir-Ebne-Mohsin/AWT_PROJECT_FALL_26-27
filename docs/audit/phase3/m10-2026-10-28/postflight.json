@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-28T16:29:13.4452976Z",
+  "modelState": {
+    "models": []
+  },
+  "api": {
+    "data": {
+      "status": "ok",
+      "postgres": "up",
+      "redis": "up",
+      "timestamp": "2026-10-28T16:29:15.724Z"
+    }
+  },
+  "webStatus": 200,
+  "historicalProfileSha256": "D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC",
+  "groundedExperimentExecuted": false,
+  "inferenceStoppedForResourceSafety": true
+}

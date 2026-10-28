@@ -1,0 +1,407 @@
+{
+  "results.json": {
+    "startedAt": "2026-10-28T16:20:00.321Z",
+    "completedAt": "2026-10-28T16:22:17.575Z",
+    "models": [
+      {
+        "model": "qwen2.5:1.5b",
+        "requests": 1,
+        "explanationAttempts": 1,
+        "schemaValid": 0,
+        "expectedMatch": 0,
+        "referencesValid": 0,
+        "errors": 1,
+        "truncated": 0,
+        "coldMs": 65019,
+        "warmMs": [],
+        "warmP95Ms": null,
+        "tokensPerSecond": []
+      },
+      {
+        "model": "llama3.2:3b",
+        "requests": 9,
+        "explanationAttempts": 8,
+        "schemaValid": 8,
+        "expectedMatch": 0,
+        "referencesValid": 4,
+        "errors": 0,
+        "truncated": 0,
+        "coldMs": 43446,
+        "warmMs": [
+          2910,
+          2917,
+          2300,
+          2510,
+          2963,
+          2506,
+          2806
+        ],
+        "warmP95Ms": 2963,
+        "tokensPerSecond": [
+          43.1,
+          43.6,
+          41.4,
+          43.2,
+          43.5,
+          41.2,
+          37.2,
+          43.1
+        ],
+        "placement": {
+          "models": [
+            {
+              "name": "llama3.2:3b",
+              "model": "llama3.2:3b",
+              "size": 2324021902,
+              "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+              "details": {
+                "parent_model": "",
+                "format": "gguf",
+                "family": "llama",
+                "families": [
+                  "llama"
+                ],
+                "parameter_size": "3.2B",
+                "quantization_level": "Q4_K_M"
+              },
+              "expires_at": "2026-10-28T22:22:51.421703+06:00",
+              "size_vram": 2324021902,
+              "context_length": 2048,
+              "runner": "llamacpp"
+            }
+          ]
+        }
+      }
+    ],
+    "memory": {
+      "minFreePhysicalMiB": 261,
+      "maxBenchmarkRssMiB": 63,
+      "gpuSamples": [
+        "1024, 2939",
+        "1019, 2944",
+        "1022, 2941",
+        "1021, 2942",
+        "2021, 1942",
+        "2151, 1812",
+        "2155, 1808",
+        "2151, 1812",
+        "2155, 1808",
+        "2151, 1812",
+        "2155, 1808",
+        "2150, 1813",
+        "2154, 1809",
+        "2154, 1809",
+        "2155, 1808",
+        "2151, 1812",
+        "2155, 1808",
+        "2144, 1819",
+        "2153, 1810",
+        "2145, 1818",
+        "2153, 1810",
+        "2147, 1816",
+        "2154, 1809",
+        "2145, 1818",
+        "2154, 1809",
+        "2145, 1818",
+        "2154, 1809",
+        "2145, 1818",
+        "2154, 1809",
+        "2145, 1818",
+        "2154, 1809",
+        "2160, 1803",
+        "2149, 1814",
+        "1013, 2950",
+        "1013, 2950",
+        "1065, 2898",
+        "2985, 978",
+        "3295, 668",
+        "3316, 647",
+        "3304, 659",
+        "3304, 659",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3296, 667",
+        "3296, 667",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3295, 668",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3301, 662",
+        "3303, 660",
+        "3305, 658",
+        "3305, 658",
+        "3305, 658",
+        "3305, 658",
+        "3305, 658",
+        "1004, 2959"
+      ]
+    },
+    "probes": [
+      {
+        "kind": "baseline",
+        "urls": [
+          {
+            "url": "http://localhost:5001/v1/health",
+            "count": 5,
+            "success": 5,
+            "errors": 0,
+            "p95Ms": 192,
+            "maxSuccessfulMs": 192
+          },
+          {
+            "url": "http://localhost:3011/",
+            "count": 5,
+            "success": 5,
+            "errors": 0,
+            "p95Ms": 632,
+            "maxSuccessfulMs": 632
+          }
+        ]
+      },
+      {
+        "kind": "probes",
+        "urls": [
+          {
+            "url": "http://localhost:5001/v1/health",
+            "count": 34,
+            "success": 8,
+            "errors": 26,
+            "p95Ms": 34,
+            "maxSuccessfulMs": 34
+          },
+          {
+            "url": "http://localhost:3011/",
+            "count": 34,
+            "success": 34,
+            "errors": 0,
+            "p95Ms": 58,
+            "maxSuccessfulMs": 113
+          }
+        ]
+      }
+    ],
+    "failures": [
+      {
+        "model": "qwen2.5:1.5b",
+        "error": "65s benchmark deadline"
+      }
+    ]
+  },
+  "results-followup.json": {
+    "startedAt": "2026-10-28T16:22:56.544Z",
+    "completedAt": "2026-10-28T16:24:10.539Z",
+    "models": [
+      {
+        "model": "qwen2.5:1.5b",
+        "requests": 9,
+        "explanationAttempts": 8,
+        "schemaValid": 1,
+        "expectedMatch": 0,
+        "referencesValid": 0,
+        "errors": 0,
+        "truncated": 7,
+        "coldMs": 30970,
+        "warmMs": [
+          3589,
+          3370,
+          4002,
+          3572,
+          3746,
+          4135,
+          3488
+        ],
+        "warmP95Ms": 4135,
+        "tokensPerSecond": [
+          20.1,
+          73.7,
+          78.1,
+          65.6,
+          69.3,
+          70.5,
+          63.3,
+          75.7
+        ],
+        "placement": {
+          "models": [
+            {
+              "name": "qwen2.5:1.5b",
+              "model": "qwen2.5:1.5b",
+              "size": 1108565032,
+              "digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+              "details": {
+                "parent_model": "",
+                "format": "gguf",
+                "family": "qwen2",
+                "families": [
+                  "qwen2"
+                ],
+                "parameter_size": "1.5B",
+                "quantization_level": "Q4_K_M"
+              },
+              "expires_at": "2026-10-28T22:24:27.9522702+06:00",
+              "size_vram": 1108565032,
+              "context_length": 2048,
+              "runner": "llamacpp"
+            }
+          ]
+        }
+      },
+      {
+        "model": "llama3.2:3b",
+        "requests": 4,
+        "explanationAttempts": 4,
+        "schemaValid": 2,
+        "expectedMatch": 0,
+        "referencesValid": 2,
+        "errors": 1,
+        "truncated": 0,
+        "coldMs": 8909,
+        "warmMs": [
+          2979,
+          766
+        ],
+        "warmP95Ms": 2979,
+        "tokensPerSecond": [
+          42.5,
+          42.4
+        ],
+        "placement": {
+          "models": [
+            {
+              "name": "llama3.2:3b",
+              "model": "llama3.2:3b",
+              "size": 2324021902,
+              "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+              "details": {
+                "parent_model": "",
+                "format": "gguf",
+                "family": "llama",
+                "families": [
+                  "llama"
+                ],
+                "parameter_size": "3.2B",
+                "quantization_level": "Q4_K_M"
+              },
+              "expires_at": "2026-10-28T22:25:06.6782621+06:00",
+              "size_vram": 2324021902,
+              "context_length": 2048,
+              "runner": "llamacpp"
+            }
+          ]
+        }
+      }
+    ],
+    "memory": {
+      "minFreePhysicalMiB": 326,
+      "maxBenchmarkRssMiB": 55,
+      "gpuSamples": [
+        "1005, 2958",
+        "1023, 2940",
+        "2003, 1960",
+        "2145, 1818",
+        "2145, 1818",
+        "2145, 1818",
+        "2145, 1818",
+        "2145, 1818",
+        "2145, 1818",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2149, 1814",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "2151, 1812",
+        "1005, 2958",
+        "1067, 2896",
+        "2987, 976",
+        "2984, 979",
+        "3299, 664",
+        "3300, 663",
+        "3301, 662",
+        "unavailable"
+      ]
+    },
+    "probes": [
+      {
+        "kind": "baseline",
+        "urls": [
+          {
+            "url": "http://localhost:5001/v1/health",
+            "count": 5,
+            "success": 5,
+            "errors": 0,
+            "p95Ms": 20,
+            "maxSuccessfulMs": 20
+          },
+          {
+            "url": "http://localhost:3011/",
+            "count": 5,
+            "success": 5,
+            "errors": 0,
+            "p95Ms": 78,
+            "maxSuccessfulMs": 78
+          }
+        ]
+      },
+      {
+        "kind": "probes",
+        "urls": [
+          {
+            "url": "http://localhost:5001/v1/health",
+            "count": 19,
+            "success": 19,
+            "errors": 0,
+            "p95Ms": 50,
+            "maxSuccessfulMs": 50
+          },
+          {
+            "url": "http://localhost:3011/",
+            "count": 19,
+            "success": 19,
+            "errors": 0,
+            "p95Ms": 22,
+            "maxSuccessfulMs": 22
+          }
+        ]
+      }
+    ],
+    "failures": [
+      {
+        "model": "llama3.2:3b",
+        "error": "HTTP 500: {\"error\":\"Insufficient system resources exist to complete the requested service.\"}"
+      },
+      {
+        "model": "llama3.2:3b",
+        "cleanup": "HTTP 500: {\"error\":\"Insufficient system resources exist to complete the requested service.\"}"
+      }
+    ]
+  }
+}
