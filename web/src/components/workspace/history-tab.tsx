@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
+import { ComparePanel } from "@/components/workspace/compare-panel";
+import { orderPair } from "@/lib/compare-presentation";
 import type { Design } from "@/lib/api/designs";
 import { ApiError } from "@/lib/api/errors";
 import { VERSIONS_PAGE, fetchRunSummaries, fetchVersions, restoreVersion, type DesignVersion } from "@/lib/api/history";
@@ -53,6 +55,10 @@ export function HistoryTab({
   const [open, setOpen] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<Notice>(null);
+  // At most two versions can be picked for a side-by-side comparison.
+  const [picked, setPicked] = useState<number[]>([]);
+  const togglePick = (revision: number) =>
+    setPicked((now) => (now.includes(revision) ? now.filter((r) => r !== revision) : now.length < 2 ? [...now, revision] : now));
 
   const versions = useInfiniteQuery({
     queryKey: ["versions", user?.id, designId, saved.revision],
@@ -123,6 +129,18 @@ export function HistoryTab({
           {items.length === 1 && items[0].revision === saved.revision && (
             <p className="hint">Only the current version exists so far. Every save adds a version you can return to.</p>
           )}
+          {items.length > 1 && picked.length < 2 && (
+            <p className="small muted">Select two versions below to compare them side by side.</p>
+          )}
+          {picked.length === 2 &&
+            (() => {
+              const [lo, hi] = orderPair(picked[0], picked[1]);
+              const older = items.find((v) => v.revision === lo);
+              const newer = items.find((v) => v.revision === hi);
+              return older && newer ? (
+                <ComparePanel designId={designId} older={older} newer={newer} runs={runs.data ?? []} onClose={() => setPicked([])} />
+              ) : null;
+            })()}
           <ol className="m15-timeline" aria-label="Versions, newest first">
             {items.map((v) => {
               const origin = versionOrigin(v);
@@ -160,6 +178,15 @@ export function HistoryTab({
                       ))}
                     </ul>
                   )}
+                  <label className="m15-pick small">
+                    <input
+                      type="checkbox"
+                      checked={picked.includes(v.revision)}
+                      disabled={!picked.includes(v.revision) && picked.length >= 2}
+                      onChange={() => togglePick(v.revision)}
+                    />
+                    Select revision {v.revision} to compare
+                  </label>
                   {!isCurrent && (
                     <div className="row tight">
                       <button

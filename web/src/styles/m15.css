@@ -13,7 +13,14 @@
 .m15-field { display: grid; gap: 4px; }
 .m15-field textarea, .m15-field select { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); color: var(--ink); }
 .m15-field textarea:focus-visible, .m15-field select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.m15-pick { display: flex; gap: 6px; align-items: center; }
+.m15-pickers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.m15-changes { margin: 4px 0 0; padding-left: 18px; }
+.m15-table { width: 100%; border-collapse: collapse; }
+.m15-table caption { text-align: left; font-weight: 650; padding-bottom: 6px; }
+.m15-table th, .m15-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
 @media (max-width: 480px) {
+  .m15-table { display: block; overflow-x: auto; }
   .m15-version, .m15-note { padding: 10px; }
   .m15-confirm .row { flex-wrap: wrap; }
 }

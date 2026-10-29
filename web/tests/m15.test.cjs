@@ -112,3 +112,47 @@ test("M15.3 notes: labels and the 100-note limit read plainly", () => {
   assert.equal(notesFull(99), false);
   assert.equal(notesFull(100), true);
 });
+
+const { METRIC_ROWS, deltaTag, orderPair, reasonText, verdictTag, verdictText, NOT_COMPARABLE_GUIDANCE } = require("../src/lib/compare-presentation.ts");
+
+test("M15.4 compare: every reason is explained plainly and names the right revision", () => {
+  const reasons = ["RUN_MISSING_A", "RUN_MISSING_B", "RUN_NOT_FOR_VERSION_A", "RUN_NOT_FOR_VERSION_B", "RUN_NOT_COMPLETED_A", "RUN_NOT_COMPLETED_B", "RUN_NOT_SIMULATION_A", "RUN_NOT_SIMULATION_B", "TRAFFIC_DIFFERS", "ENGINE_DIFFERS"];
+  for (const r of reasons) assert.ok(reasonText(r, 3, 7).length > 20, r);
+  assert.match(reasonText("RUN_MISSING_A", 3, 7), /Revision 3/);
+  assert.match(reasonText("RUN_MISSING_B", 3, 7), /Revision 7/);
+  assert.match(reasonText("TRAFFIC_DIFFERS", 3, 7), /different traffic/);
+  assert.match(reasonText("RUN_NOT_SIMULATION_B", 3, 7), /Limits search/);
+  assert.match(NOT_COMPARABLE_GUIDANCE, /Nothing was subtracted/);
+});
+
+test("M15.4 compare: better, worse and no change follow each metric's own direction", () => {
+  const p95 = METRIC_ROWS.find((r) => r.key === "p95");
+  const throughput = METRIC_ROWS.find((r) => r.key === "throughput");
+  const errors = METRIC_ROWS.find((r) => r.key === "errorRate");
+  assert.deepEqual(deltaTag(p95, 300, -50), { label: "Better", tone: "better" }, "lower latency is better");
+  assert.deepEqual(deltaTag(p95, 300, 50), { label: "Worse", tone: "worse" });
+  assert.deepEqual(deltaTag(throughput, 100, 40), { label: "Better", tone: "better" }, "higher throughput is better");
+  assert.deepEqual(deltaTag(throughput, 100, -40), { label: "Worse", tone: "worse" });
+  assert.deepEqual(deltaTag(errors, 0.2, -0.1), { label: "Better", tone: "better" });
+  assert.deepEqual(deltaTag(p95, 300, 0), { label: "No change", tone: "same" });
+  assert.deepEqual(deltaTag(p95, 1000, 2), { label: "No change", tone: "same" }, "a change under half a percent is not an improvement");
+  assert.deepEqual(deltaTag(errors, 0, 0), { label: "No change", tone: "same" });
+  assert.deepEqual(deltaTag(errors, 0, 0.01), { label: "Worse", tone: "worse" }, "errors appearing from zero are worse");
+  assert.deepEqual(verdictTag("fail", "pass"), { label: "Better", tone: "better" });
+  assert.deepEqual(verdictTag("pass", "strained"), { label: "Worse", tone: "worse" });
+  assert.deepEqual(verdictTag("fail", "fail"), { label: "No change", tone: "same" });
+  assert.equal(verdictText("fail"), "Breaks");
+});
+
+test("M15.4 compare: values and changes are formatted with explicit units and signs, older revision first", () => {
+  const byKey = Object.fromEntries(METRIC_ROWS.map((r) => [r.key, r]));
+  assert.equal(byKey.p95.format(2068.67), "2,068.67 ms");
+  assert.equal(byKey.p95.formatDelta(-1500.5), "−1,500.5 ms");
+  assert.equal(byKey.p95.formatDelta(12), "+12 ms");
+  assert.equal(byKey.errorRate.format(0.99012), "99.012%");
+  assert.equal(byKey.errorRate.formatDelta(-0.5), "−50 percentage points");
+  assert.equal(byKey.throughput.format(489.63), "490 rps");
+  assert.equal(byKey.throughput.formatDelta(0), "0 rps");
+  assert.deepEqual(orderPair(7, 3), [3, 7]);
+  assert.deepEqual(orderPair(3, 7), [3, 7]);
+});
