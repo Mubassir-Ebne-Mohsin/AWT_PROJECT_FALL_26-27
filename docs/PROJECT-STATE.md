@@ -18,7 +18,7 @@ Update this file at the end of every session. Keep it short; put detail in the h
 | M12A explanation UI and grounding | **Built, parked** | Backend committed (`fe5c01a`). Frontend and typed claims finished but uncommitted until the regression passes. Hidden unless the backend enables AI. See below |
 | M12B real-model acceptance | **Parked** (user is planning AI) | Approved direction: [Groq roadmap](GROQ-IMPLEMENTATION-ROADMAP.md) (free plan, GPT-OSS 20B first) |
 | M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
-| M15 History / Compare / Notes | Plan written, **awaiting your decisions** ([scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md)) | M11's immutable `design_versions` is the data foundation. Needs no AI. Next milestone to build |
+| M15 History / Restore / Notes / Compare / Designs list | **M15.1 History and M15.2 Restore done** (`0570294`, `7f6ed8d`); M15.3-M15.5 not started | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases |
 | M16 Reports / Sharing | Not started, not approved | Needs no AI |
 | Roles (Instructor, Reviewer, Admin) | Planning only | Decisions needed first: [PROJECT-PLAN](PROJECT-PLAN.md) |
 | Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders | Landing page work exists, uncommitted (not Claude's) |
@@ -30,11 +30,19 @@ Update this file at the end of every session. Keep it short; put detail in the h
 - **Behaviour:** with the default `AI_ENABLED=false` the UI shows no AI at all. Switching AI on later is a backend setting; see [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md).
 - **Not done (parked by the user):** M12B real-model gate. Not Claude's, still uncommitted: `groq.provider.ts` and its spec, `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md`. The report contains Codex checkpoints (one says M12B was authorized); this conflicts with the later "AI parked" decision and needs the user to reconcile.
 
+## M15 detail (History and Restore, finished)
+
+- **Committed:** `0570294` (restore endpoint, run list, migration `VersionRestore`, contracts, 7 e2e tests) and `7f6ed8d` (History tab, safe Restore, 5 unit tests, 7 browser journeys x 4 projects).
+- **Evidence (final code):** backend unit 214 (2 opt-in skips), e2e 87/87, lint 0 errors, phase 2 and phase 3 contract checks identical (phase 2 frozen contract unchanged); web unit 152, tsc and lint clean; M15 browser 28/28; full Chrome regression 296/296 (landing and dev-only excluded). Mutation checks caught: stale-revision check, no-op check, remembered source revision, unsaved-edits guard, editor adopting the new revision.
+- **Behaviour:** restore saves an old version as a NEW revision (never edits history), blocked while a draft is unsaved. Works with AI off.
+- **Not done:** Compare picker (needs M15.4), Notes (M15.3), Designs list (M15.5).
+- **Operator step:** run `pnpm migration:run` in the backend before using this build on an existing database.
+
 ## Active claims (edit only what you have claimed)
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
-| Claude Code | M15 planning only (docs/M15-HISTORY-COMPARE-NOTES-SCOPE.md); M12A claim released | 2026-10-29 | Waiting for the user's M15 decisions |
+| Claude Code | M15 (History, Restore done; Notes, Compare, Designs list next): history/restore files, `design-versions.service.ts`, `designs.service.ts`, workspace History wiring | 2026-10-29 | Paused after M15.2 for the user's go-ahead |
 | Codex (unconfirmed) | Groq provider and roadmap: `groq.provider*.ts`, `GROQ-IMPLEMENTATION-ROADMAP.md`; typed claims in `grounding*.ts` | 2026-10-29 | Appeared in the tree during the Claude session; Codex should confirm or correct this row |
 | Nobody | Landing page, `DESIGN.md`, `film/` | | Origin unknown. Do not touch or stage |
 

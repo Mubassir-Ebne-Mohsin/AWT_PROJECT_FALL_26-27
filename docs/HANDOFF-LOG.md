@@ -15,6 +15,15 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-10-29 (M15), Claude Code
+**Goal:** build M15.1 History and M15.2 Restore after the user approved all six M15 decisions.
+**Done:** `0570294` backend (POST /designs/:id/versions/:revision/restore, GET /designs/:id/runs, migration VersionRestore, phase 3 contracts) and `7f6ed8d` web (History tab, Restore preview and guards). Details and numbers: PROJECT-STATE "M15 detail".
+**Evidence:** see PROJECT-STATE. Notes: the shell heredoc kept failing on long scripts, so edit scripts were written as files in the session scratchpad; a first mutation of the editor-adoption line was not caught because the cache update also makes the editor adopt the revision, so both were removed in the second mutation and that was caught.
+**Uncommitted:** not Claude's: landing page, `film/`, `DESIGN.md`, `groq.provider*`, GROQ roadmap, M12 scope doc, protected `docs/audit/m2-profile-source.json`.
+**Decisions by the user:** approved all six M15 decisions as recommended (restore as new revision; compare same-design versions first; pick runs with latest preselected; notes 2,000 chars and 100 per design; archive hides and keeps evidence; retention line "latest 100 versions are kept").
+**Next:** M15.3 Notes, then M15.4 Compare (adds the pick-two control to History), then M15.5 Designs list, each with its own gates. Run `pnpm migration:run` on any existing database first.
+**Warnings:** the cursor for GET /designs/:id/runs is createdAt, so two runs created in the same millisecond across a page boundary could be skipped. AI remains parked; History does not render any AI surface.
+
 ## 2026-10-29 (later), Claude Code
 **Goal:** finish M12A, then make AI deferrable and plan the non-AI track.
 **Done:** `4ad4481` typed claims and version-schema split; `4aa48c1` explanation drawer and the AI-hidden gate; docs: [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md), [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md), updated AGENTS.md and this board.

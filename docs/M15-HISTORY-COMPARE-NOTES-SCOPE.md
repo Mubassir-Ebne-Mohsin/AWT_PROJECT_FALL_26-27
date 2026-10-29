@@ -1,6 +1,6 @@
 # M15 plan: Designs, History, Notes and Compare
 
-Prepared: 2026-10-29 (Asia/Dhaka) by Claude Code. Status: **proposed; awaiting implementation approval.** This document changes no application behaviour. It needs no AI, so it can proceed while the AI provider track waits for its key and quality gate. Outline source: [Phase 3 plan, M15](PHASE-3-PLAN.md).
+Prepared: 2026-10-29 (Asia/Dhaka) by Claude Code. Status: **decisions approved by the user 2026-10-29; M15.1 History and M15.2 Restore built and verified (see PROJECT-STATE); M15.3-M15.5 not started.** This document changes no application behaviour. It needs no AI, so it can proceed while the AI provider track waits for its key and quality gate. Outline source: [Phase 3 plan, M15](PHASE-3-PLAN.md).
 
 ## Goal
 
@@ -33,7 +33,7 @@ A user can open an owned design, see every saved version and recorded run, resto
 
 Suggested order: M15.1, M15.2, M15.3, M15.4, M15.5. Contracts and generated types come first for each slice.
 
-## Decisions needed from the user before building
+## Decisions (all six approved as recommended, 2026-10-29)
 
 1. **Restore semantics:** new revision from the old snapshot (recommended), or something else?
 2. **Compare scope:** versions of the same design only (simpler, recommended first), or also two different designs?
