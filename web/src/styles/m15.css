@@ -1,0 +1,13 @@
+/* M15 History. Reuses prototype tokens and classes; only the timeline layout lives here. */
+.m15-timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.m15-version { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); padding: 12px; display: grid; gap: 6px; overflow-wrap: anywhere; }
+.m15-version.is-current { border-color: var(--accent-line); background: var(--accent-soft); }
+.m15-vh { align-items: center; flex-wrap: wrap; gap: 8px; }
+.m15-vh .h4 { margin: 0; }
+.m15-runs { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+.m15-confirm { margin-top: 4px; }
+.m15-confirm ul { margin: 6px 0; padding-left: 18px; }
+@media (max-width: 480px) {
+  .m15-version { padding: 10px; }
+  .m15-confirm .row { flex-wrap: wrap; }
+}

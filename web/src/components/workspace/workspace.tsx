@@ -12,6 +12,8 @@ import { RunResults } from "@/components/workspace/run-results";
 import { LimitsTab } from "@/components/workspace/limits-tab";
 import { workspaceHref } from "@/lib/run-links";
 import { useUi } from "@/components/shell/ui-provider";
+import { HistoryTab } from "@/components/workspace/history-tab";
+import { restoreBlockedReason } from "@/lib/history-presentation";
 import { ExplainTrigger } from "@/components/workspace/explain-panel";
 import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
 import { PreviewSession } from "@/lib/preview-session";
@@ -23,7 +25,7 @@ import { WS_TABS } from "@/lib/catalog";
 import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
 import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
-const LIVE_TABS = ["edit", "traffic", "results", "limits"];
+const LIVE_TABS = ["edit", "traffic", "results", "limits", "history"];
 export function Workspace({ id, tab }: { id: string; tab: string }) {
   const { user } = useAuth();
   const design = useQuery({
@@ -125,6 +127,19 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
           };
         })()
       : null;
+  // M15 History: restore is offered only when no unsaved draft, conflict or calculation could be lost or confused.
+  const restoreBlocked = restoreBlockedReason({
+    dirty: session.dirty,
+    saving: state.saving,
+    gesture: state.gesture,
+    conflict: state.conflict,
+    busyWithCalculation: state.running || state.limitsRunning || displayedRun?.status === "pending" || displayedLimits?.status === "pending",
+  });
+  const restored = (next: Design) => {
+    queries.setQueryData(["design", user?.id, initial.id], next);
+    session.reload(next);
+    void queries.invalidateQueries({ queryKey: ["dashboard"] });
+  };
   const explainKey = JSON.stringify(explainContext);
   useEffect(() => {
     explainView.publish(explainContext);
@@ -506,7 +521,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             focusNode={search.get("node") ?? undefined}
             live={live}
           />
-        ) : (
+        ) : tab === "history" ? null : (
           <ValidationPanel session={session} />
         )}
         {state.design.description && (
@@ -531,7 +546,14 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             </button>
           </div>
         )}
-        {tab === "limits" ? (
+        {tab === "history" ? (
+          <HistoryTab
+            designId={initial.id}
+            saved={state.saved}
+            blocked={restoreBlocked}
+            onRestored={restored}
+          />
+        ) : tab === "limits" ? (
           <LimitsTab
             designId={initial.id}
             run={displayedLimits}

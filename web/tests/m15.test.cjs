@@ -1,0 +1,88 @@
+const { test } = require("node:test");
+const assert = require("node:assert/strict");
+const {
+  RETENTION_TEXT,
+  versionOrigin,
+  snapshotSummary,
+  verdictLabel,
+  runLabel,
+  groupRunsByRevision,
+  restoreChanges,
+  restoreBlockedReason,
+} = require("../src/lib/history-presentation.ts");
+
+const node = (id, label, over = {}) => ({ id, type: "app", label, x: 0, y: 0, props: { replicas: 1 }, ...over });
+const design = (over = {}) => ({
+  id: "d", name: "Single-server MVP", description: "", revision: 3,
+  graph: { nodes: [node("a", "Users", { type: "client" }), node("b", "App servers")], edges: [{ id: "e1", from: "a", to: "b" }] },
+  traffic: { preset: "custom", rps: 500, burst: 1.5, readRatio: 0.8, sloP95: 300, errorBudget: 0.01, durationMin: 10, shape: "steady" },
+  ...over,
+});
+
+test("M15 history: every version origin is labelled honestly, baseline as an imported snapshot", () => {
+  assert.equal(versionOrigin({ origin: "create", restoredFromRevision: null }).label, "Created");
+  assert.equal(versionOrigin({ origin: "edit", restoredFromRevision: null }).label, "Saved edit");
+  assert.equal(versionOrigin({ origin: "restore", restoredFromRevision: 2 }).label, "Restored from revision 2");
+  const baseline = versionOrigin({ origin: "baseline", restoredFromRevision: null });
+  assert.equal(baseline.label, "Imported current snapshot");
+  assert.match(baseline.note, /Earlier history was not recorded/, "never presented as reconstructed history");
+  assert.match(RETENTION_TEXT, /latest 100 versions are kept/i);
+  assert.match(RETENTION_TEXT, /older ones may be removed/i);
+});
+
+test("M15 history: summaries and run labels use plain, singular/plural-correct wording", () => {
+  assert.equal(snapshotSummary(design()), "2 components · 1 connection · 500 rps");
+  assert.equal(snapshotSummary({ graph: { nodes: [node("a", "A")], edges: [] }, traffic: { rps: 0 } }), "1 component · 0 connections · 0 rps");
+  assert.equal(verdictLabel("pass"), "Passes");
+  assert.equal(verdictLabel("fail"), "Breaks");
+  assert.equal(verdictLabel(null), "No verdict");
+  assert.equal(runLabel({ kind: "limits", status: "completed" }), "Limits search");
+  assert.equal(runLabel({ kind: "simulation", status: "pending" }), "Test run (running)");
+  const runs = [{ id: "1", designRevision: 2 }, { id: "2", designRevision: 1 }, { id: "3", designRevision: 2 }];
+  const grouped = groupRunsByRevision(runs);
+  assert.deepEqual(grouped.get(2).map((r) => r.id), ["1", "3"]);
+  assert.equal(grouped.get(5), undefined);
+});
+
+test("M15 restore preview lists exactly what would change, in plain language", () => {
+  const current = design();
+  const target = design({
+    name: "Earlier name",
+    traffic: { ...current.traffic, rps: 300, errorBudget: 0.05 },
+    graph: {
+      nodes: [node("a", "Users", { type: "client" }), node("b", "App servers", { props: { replicas: 4 } }), node("c", "Cache"), node("d", "CDN"), node("e", "Queue"), node("f", "Worker")],
+      edges: [{ id: "e1", from: "a", to: "b" }, { id: "e2", from: "b", to: "c" }],
+    },
+  });
+  const lines = restoreChanges(current, target);
+  assert.ok(lines.includes("Name: “Single-server MVP” → “Earlier name”"));
+  assert.ok(lines.includes("Traffic: 500 rps → 300 rps"));
+  assert.ok(lines.includes("Error budget: 1% → 5%"));
+  assert.ok(lines.includes("Adds 4 components: Cache, CDN, Queue and 1 more"), lines.join("|"));
+  assert.ok(lines.includes("Changes settings of 1 component"));
+  assert.ok(lines.includes("Adds 1 connection"));
+  const reverse = restoreChanges(target, current);
+  assert.ok(reverse.includes("Removes 4 components: Cache, CDN, Queue and 1 more"));
+  assert.ok(reverse.includes("Removes 1 connection"));
+});
+
+test("M15 restore preview separates layout-only moves from real changes and reports identical content", () => {
+  const current = design();
+  const moved = design({ graph: { ...current.graph, nodes: current.graph.nodes.map((n) => (n.id === "b" ? { ...n, x: 90 } : n)) } });
+  assert.deepEqual(restoreChanges(current, moved), ["Moves 1 component (layout only)"]);
+  assert.deepEqual(restoreChanges(current, design()), [], "identical content has no differences");
+  const descOnly = design({ description: "New words" });
+  assert.deepEqual(restoreChanges(current, descOnly), ["Description changes"]);
+});
+
+test("M15 restore is blocked, with a reason, whenever a draft could be lost or confused", () => {
+  const free = { dirty: false, saving: false, gesture: false, conflict: false, busyWithCalculation: false };
+  assert.equal(restoreBlockedReason(free), null);
+  assert.match(restoreBlockedReason({ ...free, dirty: true }), /unsaved changes/);
+  assert.match(restoreBlockedReason({ ...free, saving: true }), /unsaved changes/);
+  assert.match(restoreBlockedReason({ ...free, conflict: true }), /conflict/);
+  assert.match(restoreBlockedReason({ ...free, gesture: true }), /Finish the current edit/);
+  assert.match(restoreBlockedReason({ ...free, busyWithCalculation: true }), /calculation is running/);
+  // A conflict is explained before an unsaved draft, because it needs a deliberate choice first.
+  assert.match(restoreBlockedReason({ ...free, dirty: true, conflict: true }), /conflict/);
+});
