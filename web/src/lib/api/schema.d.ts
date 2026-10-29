@@ -182,6 +182,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/compare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["compareDesignVersions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/runs": {
         parameters: {
             query?: never;
@@ -3242,6 +3258,73 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
         };
+        Comparison: {
+            /** Format: uuid */
+            designId: string;
+            a: {
+                revision: number;
+                run: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    kind: "simulation" | "limits";
+                    /** @enum {string} */
+                    status: "pending" | "completed" | "failed";
+                    designRevision: number;
+                    engineVersion: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    metrics: {
+                        /** @enum {string} */
+                        verdict: "pass" | "strained" | "fail";
+                        p50: number;
+                        p95: number;
+                        p99: number;
+                        errorRate: number;
+                        throughput: number;
+                        p95Target: number;
+                        errorBudget: number;
+                        bottleneckLabel: string | null;
+                    } | null;
+                } | null;
+            };
+            b: {
+                revision: number;
+                run: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    kind: "simulation" | "limits";
+                    /** @enum {string} */
+                    status: "pending" | "completed" | "failed";
+                    designRevision: number;
+                    engineVersion: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    metrics: {
+                        /** @enum {string} */
+                        verdict: "pass" | "strained" | "fail";
+                        p50: number;
+                        p95: number;
+                        p99: number;
+                        errorRate: number;
+                        throughput: number;
+                        p95Target: number;
+                        errorBudget: number;
+                        bottleneckLabel: string | null;
+                    } | null;
+                } | null;
+            };
+            comparable: boolean;
+            reasons: ("RUN_MISSING_A" | "RUN_MISSING_B" | "RUN_NOT_FOR_VERSION_A" | "RUN_NOT_FOR_VERSION_B" | "RUN_NOT_COMPLETED_A" | "RUN_NOT_COMPLETED_B" | "RUN_NOT_SIMULATION_A" | "RUN_NOT_SIMULATION_B" | "TRAFFIC_DIFFERS" | "ENGINE_DIFFERS")[];
+            deltas: {
+                p50: number;
+                p95: number;
+                p99: number;
+                errorRate: number;
+                throughput: number;
+            } | null;
+        };
         CreateNoteRequest: {
             /** @enum {string} */
             kind: "decision" | "assumption";
@@ -4491,6 +4574,107 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["DesignVersion"][];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    compareDesignVersions: {
+        parameters: {
+            query: {
+                a: number;
+                b: number;
+                runA?: string;
+                runB?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Comparison"];
                     };
                 };
             };

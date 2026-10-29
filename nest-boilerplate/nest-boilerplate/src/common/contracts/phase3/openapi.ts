@@ -12,6 +12,7 @@ import {
   restoreVersionRequestSchema,
   runSummarySchema,
 } from "@/common/contracts/phase3/history.schema";
+import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import {
   createNoteRequestSchema,
   designNoteSchema,
@@ -31,6 +32,7 @@ export function phase3OpenApi() {
     RestoreVersionRequest: restoreVersionRequestSchema,
     RunSummary: runSummarySchema,
     DesignNote: designNoteSchema,
+    Comparison: comparisonSchema,
     CreateNoteRequest: createNoteRequestSchema,
     PatchNoteRequest: patchNoteRequestSchema,
     // A distinct component name keeps the frozen phase 2 "Design" schema untouched.
@@ -115,6 +117,18 @@ export function phase3OpenApi() {
       },
       "/v1/ai/jobs/{id}/cancel": {
         post: { ...operation("cancelAiJob", "AiJob"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/compare": {
+        get: {
+          ...operation("compareDesignVersions", "Comparison"),
+          parameters: [
+            parameter,
+            { name: "a", in: "query", required: true, schema: { type: "integer", minimum: 1 } },
+            { name: "b", in: "query", required: true, schema: { type: "integer", minimum: 1 } },
+            { name: "runA", in: "query", schema: { type: "string", format: "uuid" } },
+            { name: "runB", in: "query", schema: { type: "string", format: "uuid" } },
+          ],
+        },
       },
       "/v1/designs/{id}/notes": {
         get: {

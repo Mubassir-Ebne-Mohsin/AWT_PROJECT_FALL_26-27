@@ -67,6 +67,9 @@ export class DesignsController {
   @Get(":id/versions") versionsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.versions.list(u.id, id, q);
   }
+  @Get(":id/compare") compareVersions(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
+    return this.versions.compare(u.id, id, q);
+  }
   @Get(":id/runs") runsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.designs.runList(u.id, id, q);
   }
