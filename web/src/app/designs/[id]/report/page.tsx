@@ -1,5 +1,11 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { Suspense } from "react";
+import { ReportView } from "@/components/report/report-view";
 
-export default function Page() {
-  return <RoutePlaceholder />;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return (
+    <Suspense fallback={null}>
+      <ReportView id={id} />
+    </Suspense>
+  );
 }

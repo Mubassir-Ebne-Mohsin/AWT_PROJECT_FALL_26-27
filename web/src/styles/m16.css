@@ -1,0 +1,22 @@
+/* M16 Report. Reuses prototype tokens and the M15 table and field classes; only print rules live here. */
+.m16-doc { overflow-wrap: anywhere; }
+.m16-doc section { break-inside: avoid; }
+.m16-verdict { font-size: 1.25rem; font-weight: 650; margin: 0; }
+.m16-warn { margin: 0; padding: 8px 10px; border: 1px solid var(--line); border-left: 4px solid var(--warn, #b26a00); border-radius: var(--r); }
+.m16-notes { display: grid; gap: 6px; padding-left: 18px; }
+@media (max-width: 480px) {
+  .m16-doc .m15-table { display: block; overflow-x: auto; }
+}
+/* Print: monochrome, only the report itself, readable page breaks. */
+@media print {
+  .shell > :not(main), .m16-noprint, nav, header.topbar, .skip-link { display: none !important; }
+  .shell, .main, .page { display: block !important; margin: 0 !important; padding: 0 !important; max-width: none !important; background: #fff !important; }
+  body { background: #fff !important; color: #000 !important; }
+  .m16-doc, .m16-doc * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+  .m16-doc a { text-decoration: underline; }
+  .m16-doc h2, .m16-doc h3 { break-after: avoid; }
+  .m16-doc table, .m16-doc tr, .m16-doc li { break-inside: avoid; }
+  .m16-doc .m15-table { display: table !important; overflow: visible !important; }
+  .m16-warn { border: 1px solid #000 !important; border-left-width: 4px !important; }
+  @page { margin: 16mm; }
+}
