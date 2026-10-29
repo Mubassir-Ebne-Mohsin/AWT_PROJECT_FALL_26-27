@@ -86,3 +86,29 @@ test("M15 restore is blocked, with a reason, whenever a draft could be lost or c
   // A conflict is explained before an unsaved draft, because it needs a deliberate choice first.
   assert.match(restoreBlockedReason({ ...free, dirty: true, conflict: true }), /conflict/);
 });
+
+const { NOTE_MAX_CHARS, NOTES_MAX, noteDraft, noteKindLabel, notesCountText, notesFull } = require("../src/lib/notes-presentation.ts");
+
+test("M15.3 notes: the draft counter follows the server rules (trimmed, 2,000 characters, no NUL)", () => {
+  assert.equal(NOTE_MAX_CHARS, 2000);
+  assert.equal(NOTES_MAX, 100);
+  assert.deepEqual(noteDraft(""), { remaining: 2000, canSave: false, problem: null }, "an untouched form is not an error");
+  assert.equal(noteDraft("   \n  ").canSave, false, "whitespace only cannot be saved");
+  assert.equal(noteDraft("  hello  ").remaining, 1995, "the server trims, so the counter does too");
+  assert.equal(noteDraft("x".repeat(2000)).canSave, true);
+  const over = noteDraft("x".repeat(2001));
+  assert.equal(over.canSave, false);
+  assert.match(over.problem, /Too long by 1 character\./);
+  assert.match(noteDraft("y".repeat(2005)).problem, /by 5 characters\./);
+  assert.match(noteDraft("bad\u0000text").problem, /unsupported character/);
+  assert.equal(noteDraft("<script>alert(1)</script>").canSave, true, "hostile text is data, saved as typed");
+});
+
+test("M15.3 notes: labels and the 100-note limit read plainly", () => {
+  assert.equal(noteKindLabel("decision"), "Decision");
+  assert.equal(noteKindLabel("assumption"), "Assumption");
+  assert.equal(notesCountText(0), "0 of 100 notes");
+  assert.equal(notesCountText(100), "100 of 100 notes");
+  assert.equal(notesFull(99), false);
+  assert.equal(notesFull(100), true);
+});

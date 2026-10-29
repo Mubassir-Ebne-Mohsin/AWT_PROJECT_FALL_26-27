@@ -13,6 +13,7 @@ import { LimitsTab } from "@/components/workspace/limits-tab";
 import { workspaceHref } from "@/lib/run-links";
 import { useUi } from "@/components/shell/ui-provider";
 import { HistoryTab } from "@/components/workspace/history-tab";
+import { NotesTab } from "@/components/workspace/notes-tab";
 import { restoreBlockedReason } from "@/lib/history-presentation";
 import { ExplainTrigger } from "@/components/workspace/explain-panel";
 import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
@@ -25,7 +26,7 @@ import { WS_TABS } from "@/lib/catalog";
 import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
 import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
-const LIVE_TABS = ["edit", "traffic", "results", "limits", "history"];
+const LIVE_TABS = ["edit", "traffic", "results", "limits", "history", "notes"];
 export function Workspace({ id, tab }: { id: string; tab: string }) {
   const { user } = useAuth();
   const design = useQuery({
@@ -521,7 +522,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             focusNode={search.get("node") ?? undefined}
             live={live}
           />
-        ) : tab === "history" ? null : (
+        ) : tab === "history" || tab === "notes" ? null : (
           <ValidationPanel session={session} />
         )}
         {state.design.description && (
@@ -546,7 +547,9 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             </button>
           </div>
         )}
-        {tab === "history" ? (
+        {tab === "notes" ? (
+          <NotesTab designId={initial.id} currentRevision={state.saved.revision} />
+        ) : tab === "history" ? (
           <HistoryTab
             designId={initial.id}
             saved={state.saved}

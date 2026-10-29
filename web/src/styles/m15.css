@@ -7,7 +7,13 @@
 .m15-runs { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
 .m15-confirm { margin-top: 4px; }
 .m15-confirm ul { margin: 6px 0; padding-left: 18px; }
+.m15-notes { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.m15-note { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); padding: 12px; display: grid; gap: 8px; overflow-wrap: anywhere; }
+.m15-note-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.5; }
+.m15-field { display: grid; gap: 4px; }
+.m15-field textarea, .m15-field select { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); color: var(--ink); }
+.m15-field textarea:focus-visible, .m15-field select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 @media (max-width: 480px) {
-  .m15-version { padding: 10px; }
+  .m15-version, .m15-note { padding: 10px; }
   .m15-confirm .row { flex-wrap: wrap; }
 }
