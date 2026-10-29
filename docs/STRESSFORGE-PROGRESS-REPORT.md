@@ -1359,3 +1359,40 @@ A final readiness review added single-flight, one-second-cached host memory tele
 [Planning only] [M12 explanation scope](M12-EXPLANATION-SCOPE.md) defines saved-result context, verified-facts/AI-interpretation separation, versioned grounding, idempotent job recovery, inline optional-AI failures, stale-result protection and tests. M12A is functional integration with controlled responses and AI disabled; M12B requires real-model quality/memory acceptance after the still-open M10 follow-up. Neither stage is implemented or approved by this planning request. M12 cannot be called complete using mock results alone.
 
 The existing API client's network-error path still opens a global unreachable state even when silent is set. Scoped AI error handling is a required, regression-tested M12 change, not claimed present behavior. New generation initially preserves M11's current saved-revision rule; older artifacts remain historical and unsaved drafts remain untouched. The four-role direction remains unchanged; no role-management scope is added. Future work must update this same report with actual verification evidence.
+
+## M12A implementation checkpoint — 2026-10-29
+
+M12A approved; implementation and verification are in progress. Existing explanation UI, session controller and local API error scope were inspected. This checkpoint does not certify M12A completion or real-model quality.
+
+Verified this session: frontend typecheck and lint passed; all 145 frontend tests passed. Added regression coverage and fixes for rejecting wrong-revision jobs, rejecting evidence with a mismatched fingerprint, preventing generation during provider cleanup, and resuming cleanup checks when reopening the panel. Reopening a completed job also retries evidence loading if it was interrupted by closing the panel.
+
+Remaining acceptance work: versioned typed-claim grounding (existing numeric prose filter is insufficient), account/context and reload recovery review, full backend gates, production build, authenticated browser integration and responsive/accessibility/failure-path checks. Real inference remains outside M12A; M12B is not certified. No publication performed in this session. Preserve earlier evidence and reassess these requirements when completing this same report.
+
+### M12A continuation — 2026-10-29
+
+Fixed immediate account-switch invalidation in the explanation store and removed retained session listeners during test reset. Added a regression proving a different authenticated account clears both the explanation context and published view.
+
+Observed checks: 19 focused explanation tests passed; frontend TypeScript and ESLint passed; backend unit suite 206 passed / 2 existing optional tests skipped; backend e2e 79 passed across four suites against isolated stressforge-m11-postgres on port5553. Docker Desktop was started for these checks. No real inference was requested. Build and browser acceptance are not certified by these test results. Typed-claim grounding and the previously listed recovery/browser acceptance work remain open, so M12A is still in progress.
+Production frontend build subsequently passed using STRESSFORGE_AUDIT_BUILD=1. The isolated Postgres container was stopped after verification; its volume was retained. Browser acceptance remains unverified.
+
+### M12A grounding / M12B preflight — 2026-10-29
+
+User authorized finishing M12A and then starting M12B. Added typed claim predicates for latency/target, error/budget and bottleneck presence, with rejection of unknown claims and equality-boundary tests. Focused grounding suite: 7/7 passed. The initial relative test path did not resolve from the isolated runner; rerunning with the absolute test path passed. These helpers are not yet wired into the provider contract or rendered interpretation, and do not certify M12A completion.
+
+Read-only memory preflight observed 813 MiB free physical RAM and 12122 MiB free commit/virtual memory. Physical RAM was below the configured 1536 MiB admission minimum. No Llama inference was started, no settings were relaxed, and no user processes were stopped. M12B evaluation remains pending M12A completion and sufficient measured headroom. Outstanding work remains provider/schema integration, recovery review and controlled browser acceptance. Preserve this incomplete status until verified.
+
+### Groq research proposal — 2026-10-29
+
+Researched official Groq models, strict structured output, organization-wide free quotas and data retention. See [Groq implementation roadmap](GROQ-IMPLEMENTATION-ROADMAP.md). Conditional recommendation: evaluate GPT-OSS20B versus120B after provider-independent M12A, with explicit cloud consent, free-account verification and backend-only keys. No provider switch, account action, paid usage or remote inference performed. M12A remains incomplete; Groq suitability is an evidence-informed proposal, not observed domain performance. Original local-provider history is preserved.
+
+### Groq transport checkpoint — 2026-10-29
+
+User authorized implementation without live calls because no Groq key is configured yet. Added groq.provider.ts and four controlled transport tests: missing key sends nothing, fixed HTTPS strict nonstreaming request, quota retry metadata without upstream-content disclosure or automatic retries, and truncated-response rejection. Four tests passed. No external inference performed. Transport bounds input and response sizes and requires the configured returned model. It is not yet registered in AiModule or connected to durable jobs; provider selection, hosted provenance, cancellation/admission separation, typed-claim integration and browser acceptance remain outstanding. Do not call Groq integration or M12A complete at this checkpoint.
+
+### M12A completion — 2026-10-29 (Claude Code)
+
+**M12A (provider-independent explanation) is built and verified; M12B (real-model gate) is not started and AI is parked by the user, so M12 as a whole remains partial.** Commits `fe5c01a`, `4ad4481`, `4aa48c1`. Final-code evidence: backend unit 214 (2 opt-in skips), e2e 80/80, lint 0 errors, phase 2 and phase 3 contract checks identical; web unit 147, tsc and lint clean; M12 browser 36/36 across 1024/1440 light/dark; full Chrome regression 268/268 (landing and dev-only specs excluded, so not comparable with earlier totals). [Verified]
+
+Defects found and fixed: relative-tolerance bug letting 0.99 pass as a 1% budget; readiness reply overwriting an earlier-revision notice; panel close stranding an in-flight submit; claims prompt breaking the M11 500-character guard (test unchanged). One existing fixture changed with disclosure: the e2e mock model now returns claims true for the run it computed; no assertion was altered. Mutation checks caught: claim check off, new request id per retry, earlier-revision guard, local error scope, AI-hidden gate. [Verified]
+
+Design: server owns facts, units and the wording of checked statements; the model only phrases interpretation. With `AI_ENABLED=false` (default) the UI shows no AI. Not verified: any real model output (none was generated), hosted provider behaviour, accessibility audit beyond keyboard and 390 px checks. [Untested] See [AI deferral plan](AI-DEFERRAL-PLAN.md).

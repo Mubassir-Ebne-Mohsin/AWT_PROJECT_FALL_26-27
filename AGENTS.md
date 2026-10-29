@@ -19,6 +19,7 @@ Read this file, then [docs/PROJECT-STATE.md](docs/PROJECT-STATE.md), before touc
 - Windows: edits may involve CRLF line endings. Preserve each file's existing line endings.
 
 ## AI work rules
+- **AI integration is parked by the user.** Follow [docs/AI-DEFERRAL-PLAN.md](docs/AI-DEFERRAL-PLAN.md): no new AI features, no provider or key work, no enabling inference. Non-AI code must not import AI modules. Every screen must work completely with AI off.
 - AI is **disabled by default** and must never silently fall back to a mock or another provider.
 - The simulator stays the numerical authority. Facts, units and verdicts are computed by the server; models only phrase interpretation, and the server validates it.
 - No paid services, paid upgrades or model downloads without the user's explicit approval. Hosted AI (Groq) uses the free plan only; the key is server-side only.

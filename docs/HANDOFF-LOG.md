@@ -15,6 +15,15 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-10-29 (later), Claude Code
+**Goal:** finish M12A, then make AI deferrable and plan the non-AI track.
+**Done:** `4ad4481` typed claims and version-schema split; `4aa48c1` explanation drawer and the AI-hidden gate; docs: [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md), [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md), updated AGENTS.md and this board.
+**Evidence:** see PROJECT-STATE "M12A detail". Defects found and fixed this stretch: a 0.5 absolute tolerance let 0.99 pass as a 1% budget; a slow readiness reply overwrote an earlier-revision notice; closing the panel mid-submit stranded state; my claims prompt grew to 534 chars and broke the existing under-500 guard test (prompt shortened to 446, test untouched); the audit database lacked the M11 migration (applied to the disposable DB only).
+**Uncommitted:** not Claude's: landing page, `film/`, `DESIGN.md`, `groq.provider*`, GROQ roadmap, M12 scope doc, protected `docs/audit/m2-profile-source.json`. The report holds Codex's M12A/Groq checkpoints, committed together with Claude's note because the file cannot be split.
+**Decisions by the user:** AI integration is parked until they finish planning it; finish M12A then two tracks.
+**Next:** the user answers the six M15 decisions, then M15.1 History and M15.2 Restore. Codex should reconcile the report's "M12B authorized" note with the AI pause and commit its own untracked files.
+**Warnings:** the two M12 docs linked from this board are untracked until Codex commits them (dead links meanwhile). Do not touch `modules/ai`, `explain-*` or `groq.provider*` while AI is parked.
+
 ## 2026-10-29, Claude Code
 **Goal:** continue M12A (result explanation) after committing the M11 backend; then set up shared tracking for Codex and Claude Code.
 **Done:**
