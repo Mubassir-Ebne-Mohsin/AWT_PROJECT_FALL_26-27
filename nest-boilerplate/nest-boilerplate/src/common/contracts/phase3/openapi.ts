@@ -12,6 +12,11 @@ import {
   restoreVersionRequestSchema,
   runSummarySchema,
 } from "@/common/contracts/phase3/history.schema";
+import {
+  createNoteRequestSchema,
+  designNoteSchema,
+  patchNoteRequestSchema,
+} from "@/common/contracts/phase3/notes.schema";
 import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 export function phase3OpenApi() {
@@ -25,6 +30,9 @@ export function phase3OpenApi() {
     DesignVersion: designVersionSchema,
     RestoreVersionRequest: restoreVersionRequestSchema,
     RunSummary: runSummarySchema,
+    DesignNote: designNoteSchema,
+    CreateNoteRequest: createNoteRequestSchema,
+    PatchNoteRequest: patchNoteRequestSchema,
     // A distinct component name keeps the frozen phase 2 "Design" schema untouched.
     RestoredDesign: designSchema,
     Error: errorResponseSchema,
@@ -107,6 +115,57 @@ export function phase3OpenApi() {
       },
       "/v1/ai/jobs/{id}/cancel": {
         post: { ...operation("cancelAiJob", "AiJob"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/notes": {
+        get: {
+          ...operation("listDesignNotes", "DesignNote"),
+          parameters: [parameter],
+          responses: {
+            ...operation("listDesignNotes", "DesignNote").responses,
+            200: {
+              description: "Notes for this design, newest first (at most 100)",
+              content: content({
+                type: "object",
+                required: ["data"],
+                properties: { data: { type: "array", items: ref("DesignNote"), maxItems: 100 } },
+              }),
+            },
+          },
+        },
+        post: {
+          ...operation("createDesignNote", "DesignNote", "CreateNoteRequest"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(
+              Object.entries(operation("createDesignNote", "DesignNote", "CreateNoteRequest").responses).filter(
+                ([code]) => code !== "200",
+              ),
+            ),
+            201: { description: "The saved note", content: content(envelope("DesignNote")) },
+          },
+        },
+      },
+      "/v1/designs/{id}/notes/{noteId}": {
+        patch: {
+          ...operation("patchDesignNote", "DesignNote", "PatchNoteRequest"),
+          parameters: [
+            parameter,
+            { name: "noteId", in: "path", required: true, schema: { type: "string", format: "uuid" } },
+          ],
+        },
+        delete: {
+          ...operation("deleteDesignNote", "DesignNote"),
+          parameters: [
+            parameter,
+            { name: "noteId", in: "path", required: true, schema: { type: "string", format: "uuid" } },
+          ],
+          responses: {
+            ...Object.fromEntries(
+              Object.entries(operation("deleteDesignNote", "DesignNote").responses).filter(([code]) => code !== "200"),
+            ),
+            204: { description: "Deleted" },
+          },
+        },
       },
       "/v1/designs/{id}/runs": {
         get: {

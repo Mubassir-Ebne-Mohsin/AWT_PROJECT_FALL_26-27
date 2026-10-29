@@ -1,4 +1,5 @@
 import { DesignVersionsService } from "@/modules/designs/design-versions.service";
+import { DesignNotesService } from "@/modules/designs/design-notes.service";
 import {
   Body,
   Controller,
@@ -21,6 +22,8 @@ import { DesignsService } from "@/modules/designs/designs.service";
 import { RunsService } from "@/modules/designs/runs.service";
 import {
   CreateDesignDto,
+  CreateNoteDto,
+  PatchNoteDto,
   PrepareDesignDto,
   PatchDesignDto,
   RestoreVersionDto,
@@ -40,6 +43,7 @@ export class DesignsController {
   constructor(
     private readonly designs: DesignsService,
     private readonly versions: DesignVersionsService,
+    private readonly notes: DesignNotesService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
@@ -73,6 +77,33 @@ export class DesignsController {
     @Body() dto: RestoreVersionDto,
   ) {
     return this.versions.restore(u.id, id, revision, dto.expectedRevision);
+  }
+  @Get(":id/notes") notesList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.notes.list(u.id, id);
+  }
+  @Post(":id/notes") createNote(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() dto: CreateNoteDto,
+  ) {
+    return this.notes.create(u.id, id, dto);
+  }
+  @Patch(":id/notes/:noteId") patchNote(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Param("noteId", ParseUUIDPipe) noteId: string,
+    @Body() dto: PatchNoteDto,
+  ) {
+    return this.notes.patch(u.id, id, noteId, dto);
+  }
+  @Delete(":id/notes/:noteId")
+  @HttpCode(204)
+  async deleteNote(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Param("noteId", ParseUUIDPipe) noteId: string,
+  ) {
+    await this.notes.remove(u.id, id, noteId);
   }
   @Patch(":id") patch(
     @CurrentUser() u: AuthUser,
