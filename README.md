@@ -10,6 +10,8 @@ Phase3 checkpoint: [M11 backend foundation](docs/M11-AI-FOUNDATION.md) is implem
 
 Progress and audit: [STRESSFORGE progress report](docs/STRESSFORGE-PROGRESS-REPORT.md). Phase 1 is **complete for the local Foundation scope** after the 2026-10-23 fixes and verification. See the report for evidence, the original audit history, and the latest dependency reassessment.
 
+Working on this repo with Codex or Claude Code? Read [AGENTS.md](AGENTS.md), then [docs/PROJECT-STATE.md](docs/PROJECT-STATE.md) and [docs/HANDOFF-LOG.md](docs/HANDOFF-LOG.md) first.
+
 Next: [Phase 2 plan and planning review](docs/PHASE-2-PLAN.md) (M0–M9 complete locally; see the report for verified results and the accepted historical benchmark exception). See the [M9 acceptance/reproduction guide](docs/M9-ACCEPTANCE.md) for isolated reliability checks and the current report verdict. See the [contract guide](docs/contracts/README.md) for schemas, fixtures and generation commands.
 
 ## Layout
