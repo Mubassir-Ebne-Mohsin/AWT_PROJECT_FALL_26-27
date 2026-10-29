@@ -52,7 +52,7 @@ const app = (
 ): RouteDef => ({ id, path, area: "app", phase, fidelity, title, description, planned, ...extra });
 
 export const ROUTES: RouteDef[] = [
-  pub("/", "landing", "Architecture Stress Test", 4, "C", "The public front door: what the product does, shown with a design that breaks as you drag the traffic up.", ["A live hero design with a traffic slider", "Draw, stress, improve: three steps with real screenshots", "Try an example without an account, or sign up"]),
+  pub("/", "landing", "Architecture Stress Test", 4, "C", "The public architecture lab introduction: draw, model and refine a system, with an illustrated scroll-driven anatomy and account entry.", ["Exploded architecture illustration (not a live simulation)", "Available simulation features and model limitations", "Create an account or log in"]),
   pub("/login", "login", "Log in", 1, "C"),
   pub("/register", "register", "Sign up", 1, "C"),
   pub("/examples", "examples", "Examples", 4, "P", "Example designs anyone can open and stress-test without an account.", ["Six examples, each with its breaking point", "Open an example read-only and move the traffic slider", "Copy it to your account after signing up"]),

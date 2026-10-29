@@ -126,17 +126,18 @@ export function AppShell({ children }: { children: ReactNode }) {
     };
   }, [router, setUI]);
 
-  const showSystem = ui.system && ui.system !== "session";
+  // The public introduction remains usable when a stale session cannot reach the API.
+  const showSystem = ui.system && ui.system !== "session" && (pathname !== "/" || ui.systemFromDev);
 
   return (
-    <div className="shell">
+    <div className={pathname === "/" ? "shell sf-landing-shell" : "shell"}>
       {/* React 19 hoists this into <head>; it survives client navigations, unlike a document.title write. */}
       <title>{`${showSystem && ui.system === "404" ? "Page not found" : resolved.title} · StressForge`}</title>
-      <TopBar pathname={pathname} />
-      <main className="main" id="main" tabIndex={-1}>
+      {pathname !== "/" && <TopBar pathname={pathname} />}
+      <main className={pathname === "/" ? "main sf-landing-main" : "main"} id="main" tabIndex={-1}>
         {showSystem ? (
           <SystemScreen key={`sys-${ui.system}`} kind={ui.system!} fromDev={ui.systemFromDev} />
-        ) : (
+        ) : pathname === "/" ? children : (
           <Suspense fallback={null}>
             <AuthGate>{children}</AuthGate>
           </Suspense>
@@ -147,7 +148,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {ui.palette && <CommandPalette />}
       {ui.shortcuts && <ShortcutsSheet />}
       {ui.feedback && <FeedbackModal path={pathname} />}
-      {ui.system === "session" && <SessionModal />}
+      {ui.system === "session" && pathname !== "/" && <SessionModal />}
       <DevSwitcher />
     </div>
   );

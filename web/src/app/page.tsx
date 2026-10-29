@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { default as LandingPage } from "@/components/landing/landing-page";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return <LandingPage />;
 }
