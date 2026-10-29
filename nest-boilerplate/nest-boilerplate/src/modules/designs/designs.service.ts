@@ -1,6 +1,6 @@
 import { recordVersion } from "@/modules/designs/record-version";
 import { Injectable } from "@nestjs/common";
-import { DataSource, EntityManager, LessThan } from "typeorm";
+import { DataSource, EntityManager, IsNull, LessThan } from "typeorm";
 import { runListQuerySchema, runSummarySchema } from "@/common/contracts/phase3/history.schema";
 import { AppException } from "@/common/errors";
 import { WithMeta } from "@/common/interceptors/response-envelope.interceptor";
@@ -42,7 +42,7 @@ export class DesignsService {
       );
   }
   dto(d: SavedDesign) {
-    const { ownerId: _owner, ...value } = d;
+    const { ownerId: _owner, archivedAt: _archived, ...value } = d;
     return designSchema.parse({
       ...value,
       createdAt: d.createdAt.toISOString(),
@@ -86,7 +86,7 @@ export class DesignsService {
     const [designs, total] = await this.db
       .getRepository(SavedDesign)
       .findAndCount({
-        where: { ownerId: owner },
+        where: { ownerId: owner, archivedAt: IsNull() },
         order: { updatedAt: "DESC", id: "DESC" },
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -173,7 +173,7 @@ export class DesignsService {
       this.db
         .getRepository(SavedRun)
         .createQueryBuilder("r")
-        .innerJoin(SavedDesign, "d", "d.id=r.design_id AND d.owner_id=:owner", {
+        .innerJoin(SavedDesign, "d", "d.id=r.design_id AND d.owner_id=:owner AND d.archived_at IS NULL", {
           owner,
         });
     // Read the name in the same joined snapshot as the run. A later deletion must

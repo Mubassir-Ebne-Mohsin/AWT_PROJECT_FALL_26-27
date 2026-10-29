@@ -1,5 +1,6 @@
 import { DesignVersionsService } from "@/modules/designs/design-versions.service";
 import { DesignNotesService } from "@/modules/designs/design-notes.service";
+import { DesignLibraryService } from "@/modules/designs/design-library.service";
 import {
   Body,
   Controller,
@@ -44,6 +45,7 @@ export class DesignsController {
     private readonly designs: DesignsService,
     private readonly versions: DesignVersionsService,
     private readonly notes: DesignNotesService,
+    private readonly library: DesignLibraryService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
@@ -80,6 +82,15 @@ export class DesignsController {
     @Body() dto: RestoreVersionDto,
   ) {
     return this.versions.restore(u.id, id, revision, dto.expectedRevision);
+  }
+  @Post(":id/duplicate") duplicate(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.library.duplicate(u.id, id);
+  }
+  @Post(":id/archive") @HttpCode(200) archive(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.library.setArchived(u.id, id, true);
+  }
+  @Post(":id/unarchive") @HttpCode(200) unarchive(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.library.setArchived(u.id, id, false);
   }
   @Get(":id/notes") notesList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
     return this.notes.list(u.id, id);
@@ -184,5 +195,14 @@ export class DesignCatalogController {
   }
   @Get("dashboard") dashboard(@CurrentUser() u: AuthUser) {
     return this.designs.dashboard(u.id);
+  }
+}
+@ApiTags("designs")
+@ApiBearerAuth()
+@Controller("library")
+export class DesignLibraryController {
+  constructor(private readonly library: DesignLibraryService) {}
+  @Get("designs") list(@CurrentUser() u: AuthUser, @Query() q: Record<string, unknown>) {
+    return this.library.list(u.id, q);
   }
 }

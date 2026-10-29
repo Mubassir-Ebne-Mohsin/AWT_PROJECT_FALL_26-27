@@ -15,4 +15,6 @@ export class SavedDesign {
   @Column("integer") revision!: number;
   @Column("timestamptz") createdAt!: Date;
   @Column("timestamptz") updatedAt!: Date;
+  /** M15.5: hidden from the default list when set. Never part of the frozen design contract. */
+  @Column({ type: "timestamptz", nullable: true }) archivedAt!: Date | null;
 }

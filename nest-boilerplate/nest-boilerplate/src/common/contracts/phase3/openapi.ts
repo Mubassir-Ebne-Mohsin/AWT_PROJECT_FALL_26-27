@@ -13,6 +13,7 @@ import {
   runSummarySchema,
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
+import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
   createNoteRequestSchema,
   designNoteSchema,
@@ -33,6 +34,10 @@ export function phase3OpenApi() {
     RunSummary: runSummarySchema,
     DesignNote: designNoteSchema,
     Comparison: comparisonSchema,
+    DesignLibraryList: libraryListSchema,
+    ArchiveState: archiveStateSchema,
+    // Distinct component name keeps the frozen phase 2 "Design" schema untouched.
+    DuplicatedDesign: designSchema,
     CreateNoteRequest: createNoteRequestSchema,
     PatchNoteRequest: patchNoteRequestSchema,
     // A distinct component name keeps the frozen phase 2 "Design" schema untouched.
@@ -117,6 +122,39 @@ export function phase3OpenApi() {
       },
       "/v1/ai/jobs/{id}/cancel": {
         post: { ...operation("cancelAiJob", "AiJob"), parameters: [parameter] },
+      },
+      "/v1/library/designs": {
+        get: {
+          ...operation("listDesignLibrary", "DesignLibraryList"),
+          parameters: [
+            { name: "q", in: "query", schema: { type: "string", maxLength: 100 } },
+            { name: "sort", in: "query", schema: { type: "string", enum: ["updated", "name", "lastRun"], default: "updated" } },
+            { name: "verdict", in: "query", schema: { type: "string", enum: ["pass", "strained", "fail", "none"] } },
+            { name: "archived", in: "query", schema: { type: "string", enum: ["active", "archived", "all"], default: "active" } },
+            { name: "page", in: "query", schema: { type: "integer", minimum: 1, default: 1 } },
+            { name: "pageSize", in: "query", schema: { type: "integer", minimum: 1, maximum: 50, default: 20 } },
+          ],
+          responses: {
+            ...operation("listDesignLibrary", "DesignLibraryList").responses,
+            200: { description: "Owned designs with filters, sorting and paging", content: content(ref("DesignLibraryList")) },
+          },
+        },
+      },
+      "/v1/designs/{id}/duplicate": {
+        post: {
+          ...operation("duplicateDesign", "DuplicatedDesign"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("duplicateDesign", "DuplicatedDesign").responses).filter(([code]) => code !== "200")),
+            201: { description: "A new design with the same content, revision 1", content: content(envelope("DuplicatedDesign")) },
+          },
+        },
+      },
+      "/v1/designs/{id}/archive": {
+        post: { ...operation("archiveDesign", "ArchiveState"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/unarchive": {
+        post: { ...operation("unarchiveDesign", "ArchiveState"), parameters: [parameter] },
       },
       "/v1/designs/{id}/compare": {
         get: {

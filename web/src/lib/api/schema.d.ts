@@ -230,6 +230,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["duplicateDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["archiveDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/unarchive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["unarchiveDesign"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/notes": {
         parameters: {
             query?: never;
@@ -375,6 +423,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getDashboard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/library/designs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDesignLibrary"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3325,6 +3389,251 @@ export interface components {
                 throughput: number;
             } | null;
         };
+        DesignLibraryList: {
+            data: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                description: string;
+                revision: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+                archivedAt: string | null;
+                nodeCount: number;
+                edgeCount: number;
+                latestRun: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    kind: "simulation" | "limits";
+                    /** @enum {string} */
+                    status: "pending" | "completed" | "failed";
+                    designRevision: number;
+                    /** Format: date-time */
+                    createdAt: string;
+                    verdict: ("pass" | "strained" | "fail") | null;
+                    p95: number | null;
+                } | null;
+            }[];
+            meta: {
+                page: number;
+                pageSize: number;
+                total: number;
+            };
+        };
+        ArchiveState: {
+            /** Format: uuid */
+            designId: string;
+            archived: boolean;
+            archivedAt: string | null;
+        };
+        DuplicatedDesign: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+            revision: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** @constant */
+            schemaVersion: 1;
+            graph: {
+                nodes: ({
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "client";
+                    props: {
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "cdn";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "lb";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "gateway";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "app";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "worker";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "cache";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "db";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "replica";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "queue";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        maxDepth?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "storage";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "external";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                })[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
+            traffic: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
+        };
         CreateNoteRequest: {
             /** @enum {string} */
             kind: "decision" | "assumption";
@@ -4952,6 +5261,294 @@ export interface operations {
             };
         };
     };
+    duplicateDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A new design with the same content, revision 1 */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DuplicatedDesign"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    archiveDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ArchiveState"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    unarchiveDesign: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ArchiveState"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     listDesignNotes: {
         parameters: {
             query?: never;
@@ -6033,6 +6630,105 @@ export interface operations {
                 };
             };
             /** @description Stable API error; 409/422/preview pressure stay inline */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listDesignLibrary: {
+        parameters: {
+            query?: {
+                q?: string;
+                sort?: "updated" | "name" | "lastRun";
+                verdict?: "pass" | "strained" | "fail" | "none";
+                archived?: "active" | "archived" | "all";
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Owned designs with filters, sorting and paging */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DesignLibraryList"];
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
             503: {
                 headers: {
                     [name: string]: unknown;
