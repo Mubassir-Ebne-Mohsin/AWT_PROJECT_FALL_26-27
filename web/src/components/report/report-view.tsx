@@ -75,6 +75,9 @@ export function ReportView({ id }: { id: string }) {
           <Link className="btn" href={`/designs/${id}/edit`}>
             Back to the design
           </Link>
+          <Link className="btn" href={`/designs/${id}/share`}>
+            Share
+          </Link>
           <button className="btn btn-primary" type="button" disabled={!data} onClick={print}>
             Print or save as PDF
           </button>

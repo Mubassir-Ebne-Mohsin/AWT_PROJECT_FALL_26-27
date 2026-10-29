@@ -6,7 +6,7 @@ import { dateText, limitsStatement, noteScopeText, runStatement, trafficRows, ve
  * The report itself: pure display of the server's document. It adds no figures of its own, so everything printed
  * or shared comes from the model's recorded output. Reused by the owner's report and the shared snapshot viewer.
  */
-export function ReportDocument({ report }: { report: Report }) {
+export function ReportDocument({ report, designOnly = false }: { report: Omit<Report, "designId">; designOnly?: boolean }) {
   const sim = report.run?.simulation ?? null;
   const status = runStatement(report.run, report.revision);
   const label = new Map(report.graph.nodes.map((n) => [n.id, n.label]));
@@ -19,9 +19,11 @@ export function ReportDocument({ report }: { report: Report }) {
           {report.isCurrentRevision ? " (current)" : " (an earlier revision)"} · saved {dateText(report.versionCreatedAt)} · report made {dateText(report.generatedAt)}
         </p>
         {report.description && <p>{report.description}</p>}
+        {designOnly && <p className="hint">The owner shared the design only, without results, Limits or notes.</p>}
       </header>
 
-      <section className="stack" aria-labelledby="m16-summary">
+      {!designOnly && (
+<section className="stack" aria-labelledby="m16-summary">
         <h3 className="h3" id="m16-summary">
           Result
         </h3>
@@ -78,6 +80,7 @@ export function ReportDocument({ report }: { report: Report }) {
           </>
         )}
       </section>
+      )}
 
       <section className="stack" aria-labelledby="m16-traffic">
         <h3 className="h3" id="m16-traffic">
@@ -150,14 +153,17 @@ export function ReportDocument({ report }: { report: Report }) {
         )}
       </section>
 
-      <section className="stack" aria-labelledby="m16-limits">
+      {!designOnly && (
+<section className="stack" aria-labelledby="m16-limits">
         <h3 className="h3" id="m16-limits">
           Limits
         </h3>
         <p data-testid="report-limits">{limitsStatement(report.limits)}</p>
       </section>
+      )}
 
-      <section className="stack" aria-labelledby="m16-notes">
+      {!designOnly && (
+<section className="stack" aria-labelledby="m16-notes">
         <h3 className="h3" id="m16-notes">
           Decisions and assumptions
         </h3>
@@ -174,6 +180,7 @@ export function ReportDocument({ report }: { report: Report }) {
           </ul>
         )}
       </section>
+      )}
 
       <section className="stack" aria-labelledby="m16-limitations">
         <h3 className="h3" id="m16-limitations">

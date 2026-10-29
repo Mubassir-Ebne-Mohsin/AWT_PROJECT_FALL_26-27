@@ -15,6 +15,14 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-10-29, Codex handoff verification
+**Goal:** read Claude context and confirm M16 publication state.
+**Done:** read context, root instructions, state board, handoff and AI deferral plan; checked branch, status, log and live remote. Both HEAD and remote are 1fcf7c1; M16.3 remains uncommitted; staging area empty. Added a corrective checkpoint to state board without rewriting historical records.
+**Evidence:** read-only Git checks; no test suite rerun. Final regression completion remains unverified. Exact43-character token guard is present in share-presentation.ts.
+**Uncommitted:** preserved Claude share UI/generated types, dirty historical screenshots, protected M2 profile, earlier Codex landing/Groq documents and code, and film/. Only handoff/state documentation updated by this review.
+**Decisions:** user's latest AI-parked instruction supersedes earlier AI approval; no active Codex code claims.
+**Next:** establish final M16.3 regression evidence before completion or a path-scoped commit. No new milestone started.
+
 ## 2026-10-29 (M15), Claude Code
 **Goal:** build M15.1 History and M15.2 Restore after the user approved all six M15 decisions.
 **Done:** `0570294` backend (POST /designs/:id/versions/:revision/restore, GET /designs/:id/runs, migration VersionRestore, phase 3 contracts) and `7f6ed8d` web (History tab, Restore preview and guards). Details and numbers: PROJECT-STATE "M15 detail".
@@ -57,3 +65,10 @@ Entry template:
 **Decisions by the user:** all six M15 decisions approved as recommended.
 **Next:** the user chooses the next milestone; none started. Codex should commit its own untracked files and reconcile "M12B authorized" with AI being parked.
 **Warnings:** run `pnpm migration:run` on existing databases (three new migrations). Rename from the list was deliberately left out.
+
+## 2026-10-29 (end of day), Claude Code
+**Goal:** M16 Report and read-only sharing, then hand over to Codex.
+**Done:** M16 scope (`bdff398`), M16.1 report (`eea8349`, `ca2fd2a`), M16.2 share API (`1fcf7c1`, pushed). M16.3 share settings and public viewer is built and tested; a final full Chrome regression was running, so check `git log` for whether it is committed.
+**Read first:** [CODEX-CONTEXT-2026-10-29.md](CODEX-CONTEXT-2026-10-29.md) has the full picture: commits, evidence, rules, files that are not Claude's, operator notes and next steps.
+**Warnings:** run `pnpm migration:run` (DesignShares is new). Do not stage `docs/audit/m2-profile-source.json`, the landing files or the audit PNGs. AI stays parked.
+**Update (final regression):** M16.3 passed the full Chrome regression, 434 passed, 10 skipped, 0 failed, and is committed. One real defect was found and fixed on the way: the share viewer's token check accepted 20 to 128 characters, so the route audit's sample token caused a 404 console error; real tokens are exactly 43 characters and the check now says so. The existing test was not changed.

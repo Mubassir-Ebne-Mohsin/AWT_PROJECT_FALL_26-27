@@ -1,5 +1,6 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { ShareSettings } from "@/components/share/share-settings";
 
-export default function Page() {
-  return <RoutePlaceholder />;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <ShareSettings id={id} />;
 }
