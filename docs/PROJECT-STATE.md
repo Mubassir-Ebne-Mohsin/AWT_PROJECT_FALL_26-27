@@ -19,7 +19,7 @@ Update this file at the end of every session. Keep it short; put detail in the h
 | M12B real-model acceptance | **Parked** (user is planning AI) | Approved direction: [Groq roadmap](GROQ-IMPLEMENTATION-ROADMAP.md) (free plan, GPT-OSS 20B first) |
 | M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
-| M16 Reports / Sharing | Not started, not approved | Needs no AI |
+| M16 Reports / Sharing | **Approved to start; scope doc written, six-plus decisions pending** | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md) |
 | Roles (Instructor, Reviewer, Admin) | Planning only | Decisions needed first: [PROJECT-PLAN](PROJECT-PLAN.md) |
 | Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders | Landing page work exists, uncommitted (not Claude's) |
 
