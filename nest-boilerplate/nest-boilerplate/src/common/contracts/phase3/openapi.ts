@@ -14,6 +14,7 @@ import {
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
+import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
   createNoteRequestSchema,
@@ -36,6 +37,11 @@ export function phase3OpenApi() {
     DesignNote: designNoteSchema,
     Comparison: comparisonSchema,
     DesignReport: reportSchema,
+    CreateShareRequest: createShareRequestSchema,
+    OpenShareRequest: openShareRequestSchema,
+    ShareLink: shareSchema,
+    ShareCreated: shareCreatedSchema,
+    SharedView: sharedViewSchema,
     DesignLibraryList: libraryListSchema,
     ArchiveState: archiveStateSchema,
     // Distinct component name keeps the frozen phase 2 "Design" schema untouched.
@@ -157,6 +163,39 @@ export function phase3OpenApi() {
       },
       "/v1/designs/{id}/unarchive": {
         post: { ...operation("unarchiveDesign", "ArchiveState"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/shares": {
+        get: {
+          ...operation("listDesignShares", "ShareLink"),
+          parameters: [parameter],
+          responses: {
+            ...operation("listDesignShares", "ShareLink").responses,
+            200: {
+              description: "Links for this design, newest first (at most 50). Never includes a secret.",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("ShareLink"), maxItems: 50 } } }),
+            },
+          },
+        },
+        post: {
+          ...operation("createDesignShare", "ShareCreated", "CreateShareRequest"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("createDesignShare", "ShareCreated", "CreateShareRequest").responses).filter(([code]) => code !== "200")),
+            201: { description: "The new link. The secret is shown only in this response.", content: content(envelope("ShareCreated")) },
+          },
+        },
+      },
+      "/v1/designs/{id}/shares/{shareId}/revoke": {
+        post: {
+          ...operation("revokeDesignShare", "ShareLink"),
+          parameters: [parameter, { name: "shareId", in: "path", required: true, schema: { type: "string", format: "uuid" } }],
+        },
+      },
+      "/v1/shares/open": {
+        post: {
+          ...operation("openSharedView", "SharedView", "OpenShareRequest"),
+          security: [],
+        },
       },
       "/v1/designs/{id}/report": {
         get: {

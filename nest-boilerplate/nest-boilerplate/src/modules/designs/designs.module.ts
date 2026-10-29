@@ -2,6 +2,7 @@ import { DesignVersionsService } from "@/modules/designs/design-versions.service
 import { DesignNotesService } from "@/modules/designs/design-notes.service";
 import { DesignLibraryService } from "@/modules/designs/design-library.service";
 import { ReportService } from "@/modules/designs/report.service";
+import { DesignSharesService } from "@/modules/designs/design-shares.service";
 import { Module } from "@nestjs/common";
 import { DesignsService } from "@/modules/designs/designs.service";
 import { RunsService } from "@/modules/designs/runs.service";
@@ -9,12 +10,13 @@ import {
   DesignsController,
   DesignCatalogController,
   DesignLibraryController,
+  SharesController,
 } from "@/modules/designs/designs.controller";
 import { SimulationModule } from "@/modules/simulation/simulation.module";
 @Module({
   imports: [SimulationModule],
-  providers: [DesignsService, RunsService, DesignVersionsService, DesignNotesService, DesignLibraryService, ReportService],
+  providers: [DesignsService, RunsService, DesignVersionsService, DesignNotesService, DesignLibraryService, ReportService, DesignSharesService],
   exports: [DesignsService],
-  controllers: [DesignsController, DesignCatalogController, DesignLibraryController],
+  controllers: [DesignsController, DesignCatalogController, DesignLibraryController, SharesController],
 })
 export class DesignsModule {}

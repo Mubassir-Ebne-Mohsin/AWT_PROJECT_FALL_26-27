@@ -2,11 +2,16 @@ import { DesignVersionsService } from "@/modules/designs/design-versions.service
 import { DesignNotesService } from "@/modules/designs/design-notes.service";
 import { DesignLibraryService } from "@/modules/designs/design-library.service";
 import { ReportService } from "@/modules/designs/report.service";
+import { DesignSharesService } from "@/modules/designs/design-shares.service";
+import { Throttle } from "@nestjs/throttler";
+import { Public } from "@/common/decorators";
+import { appConfig } from "@/config";
 import {
   Body,
   Controller,
   Delete,
   Get,
+  Header,
   HttpCode,
   Param,
   ParseIntPipe,
@@ -48,6 +53,7 @@ export class DesignsController {
     private readonly notes: DesignNotesService,
     private readonly library: DesignLibraryService,
     private readonly reports: ReportService,
+    private readonly shares: DesignSharesService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
@@ -70,6 +76,19 @@ export class DesignsController {
   }
   @Get(":id/versions") versionsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.versions.list(u.id, id, q);
+  }
+  @Post(":id/shares") createShare(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Body() body: Record<string, unknown>) {
+    return this.shares.create(u.id, id, body);
+  }
+  @Get(":id/shares") listShares(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.shares.list(u.id, id);
+  }
+  @Post(":id/shares/:shareId/revoke") @HttpCode(200) revokeShare(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Param("shareId", ParseUUIDPipe) shareId: string,
+  ) {
+    return this.shares.revoke(u.id, id, shareId);
   }
   @Get(":id/report") report(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.reports.forOwner(u.id, id, q);
@@ -209,5 +228,25 @@ export class DesignLibraryController {
   constructor(private readonly library: DesignLibraryService) {}
   @Get("designs") list(@CurrentUser() u: AuthUser, @Query() q: Record<string, unknown>) {
     return this.library.list(u.id, q);
+  }
+}
+
+/**
+ * Public read-only share links. The bearer secret travels in the POST body, never in the URL, so request logs
+ * cannot record it. Never cached or indexed; stricter rate limit than the rest of the API.
+ */
+@ApiTags("shares")
+@Controller("shares")
+export class SharesController {
+  constructor(private readonly shares: DesignSharesService) {}
+  @Public()
+  @Throttle({ default: { limit: appConfig.env.AUTH_THROTTLE_LIMIT, ttl: 60_000 } })
+  @Post("open")
+  @HttpCode(200)
+  @Header("Cache-Control", "no-store")
+  @Header("Referrer-Policy", "no-referrer")
+  @Header("X-Robots-Tag", "noindex, nofollow")
+  open(@Body() body: Record<string, unknown>) {
+    return this.shares.open(body);
   }
 }
