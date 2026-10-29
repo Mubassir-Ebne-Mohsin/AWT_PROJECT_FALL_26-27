@@ -13,6 +13,7 @@ import {
   runSummarySchema,
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
+import { reportSchema } from "@/common/contracts/phase3/report.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
   createNoteRequestSchema,
@@ -34,6 +35,7 @@ export function phase3OpenApi() {
     RunSummary: runSummarySchema,
     DesignNote: designNoteSchema,
     Comparison: comparisonSchema,
+    DesignReport: reportSchema,
     DesignLibraryList: libraryListSchema,
     ArchiveState: archiveStateSchema,
     // Distinct component name keeps the frozen phase 2 "Design" schema untouched.
@@ -155,6 +157,16 @@ export function phase3OpenApi() {
       },
       "/v1/designs/{id}/unarchive": {
         post: { ...operation("unarchiveDesign", "ArchiveState"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/report": {
+        get: {
+          ...operation("getDesignReport", "DesignReport"),
+          parameters: [
+            parameter,
+            { name: "revision", in: "query", schema: { type: "integer", minimum: 1 } },
+            { name: "run", in: "query", schema: { type: "string", format: "uuid" } },
+          ],
+        },
       },
       "/v1/designs/{id}/compare": {
         get: {

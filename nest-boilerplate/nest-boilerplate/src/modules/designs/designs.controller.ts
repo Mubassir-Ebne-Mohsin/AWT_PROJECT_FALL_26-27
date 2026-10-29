@@ -1,6 +1,7 @@
 import { DesignVersionsService } from "@/modules/designs/design-versions.service";
 import { DesignNotesService } from "@/modules/designs/design-notes.service";
 import { DesignLibraryService } from "@/modules/designs/design-library.service";
+import { ReportService } from "@/modules/designs/report.service";
 import {
   Body,
   Controller,
@@ -46,6 +47,7 @@ export class DesignsController {
     private readonly versions: DesignVersionsService,
     private readonly notes: DesignNotesService,
     private readonly library: DesignLibraryService,
+    private readonly reports: ReportService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
   ) {}
@@ -68,6 +70,9 @@ export class DesignsController {
   }
   @Get(":id/versions") versionsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.versions.list(u.id, id, q);
+  }
+  @Get(":id/report") report(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
+    return this.reports.forOwner(u.id, id, q);
   }
   @Get(":id/compare") compareVersions(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.versions.compare(u.id, id, q);

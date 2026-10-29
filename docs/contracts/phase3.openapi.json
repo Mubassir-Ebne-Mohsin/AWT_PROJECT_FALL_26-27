@@ -1159,6 +1159,144 @@
         ]
       }
     },
+    "/v1/designs/{id}/report": {
+      "get": {
+        "operationId": "getDesignReport",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "x-implementation-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "Success or retained terminal replay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/DesignReport"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "run",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
     "/v1/designs/{id}/compare": {
       "get": {
         "operationId": "compareDesignVersions",
@@ -4484,6 +4622,1438 @@
           "comparable",
           "reasons",
           "deltas"
+        ],
+        "additionalProperties": false
+      },
+      "DesignReport": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "designId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "isCurrentRevision": {
+            "type": "boolean"
+          },
+          "versionCreatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "graph": {
+            "type": "object",
+            "properties": {
+              "nodes": {
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "client"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "share": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1000000
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "cdn"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "hitRatio": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "lb"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "gateway"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "app"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "worker"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "cache"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "hitRatio": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "db"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "replica"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "queue"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "maxDepth": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 1000000000
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "storage"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "share": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "type": {
+                          "type": "string",
+                          "const": "external"
+                        },
+                        "props": {
+                          "type": "object",
+                          "properties": {
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "capacity": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "maximum": 1000000000
+                            },
+                            "latency": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "share": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "type",
+                        "props"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "edges": {
+                "maxItems": 200,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                    },
+                    "from": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                    },
+                    "to": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "from",
+                    "to"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "nodes",
+              "edges"
+            ],
+            "additionalProperties": false
+          },
+          "traffic": {
+            "type": "object",
+            "properties": {
+              "preset": {
+                "type": "string",
+                "enum": [
+                  "custom",
+                  "steady",
+                  "evening",
+                  "flash",
+                  "launch",
+                  "ingest"
+                ]
+              },
+              "rps": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10000000
+              },
+              "burst": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 100
+              },
+              "readRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "sloP95": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 60000
+              },
+              "errorBudget": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "durationMin": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 1440
+              },
+              "shape": {
+                "type": "string",
+                "enum": [
+                  "steady",
+                  "ramp",
+                  "spike"
+                ]
+              }
+            },
+            "required": [
+              "preset",
+              "rps",
+              "burst",
+              "readRatio",
+              "sloP95",
+              "errorBudget",
+              "durationMin",
+              "shape"
+            ],
+            "additionalProperties": false
+          },
+          "run": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "simulation",
+                      "limits"
+                    ]
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "completed",
+                      "failed"
+                    ]
+                  },
+                  "designRevision": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "matchesRevision": {
+                    "type": "boolean"
+                  },
+                  "engineVersion": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "traffic": {
+                    "type": "object",
+                    "properties": {
+                      "preset": {
+                        "type": "string",
+                        "enum": [
+                          "custom",
+                          "steady",
+                          "evening",
+                          "flash",
+                          "launch",
+                          "ingest"
+                        ]
+                      },
+                      "rps": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 10000000
+                      },
+                      "burst": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 100
+                      },
+                      "readRatio": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "sloP95": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 60000
+                      },
+                      "errorBudget": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "durationMin": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 1440
+                      },
+                      "shape": {
+                        "type": "string",
+                        "enum": [
+                          "steady",
+                          "ramp",
+                          "spike"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "preset",
+                      "rps",
+                      "burst",
+                      "readRatio",
+                      "sloP95",
+                      "errorBudget",
+                      "durationMin",
+                      "shape"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "simulation": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "verdict": {
+                            "type": "string",
+                            "enum": [
+                              "pass",
+                              "strained",
+                              "fail"
+                            ]
+                          },
+                          "p50": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "p95": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "p99": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "errorRate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "throughput": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "sloMet": {
+                            "type": "boolean"
+                          },
+                          "p95Target": {
+                            "type": "number",
+                            "exclusiveMinimum": 0
+                          },
+                          "errorBudget": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                          },
+                          "bottleneck": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "rho": {
+                                    "type": "number",
+                                    "minimum": 0
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "type",
+                                  "rho"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "components": {
+                            "maxItems": 50,
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "region": {
+                                  "type": "string"
+                                },
+                                "peak": {
+                                  "type": "number",
+                                  "minimum": 0
+                                },
+                                "rho": {
+                                  "type": "number",
+                                  "minimum": 0
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "enum": [
+                                    "idle",
+                                    "ok",
+                                    "warn",
+                                    "fail"
+                                  ]
+                                },
+                                "errors": {
+                                  "type": "number",
+                                  "minimum": 0,
+                                  "maximum": 1
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "type",
+                                "region",
+                                "peak",
+                                "rho",
+                                "status",
+                                "errors"
+                              ],
+                              "additionalProperties": false
+                            }
+                          }
+                        },
+                        "required": [
+                          "verdict",
+                          "p50",
+                          "p95",
+                          "p99",
+                          "errorRate",
+                          "throughput",
+                          "sloMet",
+                          "p95Target",
+                          "errorBudget",
+                          "bottleneck",
+                          "components"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "failure": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "message"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "kind",
+                  "status",
+                  "designRevision",
+                  "matchesRevision",
+                  "engineVersion",
+                  "createdAt",
+                  "traffic",
+                  "simulation",
+                  "failure"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "limits": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "runId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "found",
+                      "failsAtMinimumLoad",
+                      "notReachedWithinRange"
+                    ]
+                  },
+                  "passingRps": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "failingRps": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "headroom": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "firstComponent": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "cause": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "latency",
+                          "errors",
+                          "both"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "runId",
+                  "createdAt",
+                  "state",
+                  "passingRps",
+                  "failingRps",
+                  "headroom",
+                  "firstComponent",
+                  "cause"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "noteScope": {
+            "type": "string",
+            "enum": [
+              "all",
+              "decisions",
+              "none"
+            ]
+          },
+          "notes": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "revision": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "decision",
+                    "assumption"
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                }
+              },
+              "required": [
+                "revision",
+                "kind",
+                "text",
+                "createdAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "limitations": {
+            "minItems": 1,
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "designId",
+          "name",
+          "description",
+          "revision",
+          "isCurrentRevision",
+          "versionCreatedAt",
+          "generatedAt",
+          "graph",
+          "traffic",
+          "run",
+          "limits",
+          "noteScope",
+          "notes",
+          "limitations"
         ],
         "additionalProperties": false
       },
