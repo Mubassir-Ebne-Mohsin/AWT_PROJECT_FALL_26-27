@@ -35,6 +35,8 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     digest = "a".repeat(64),
     chats = 0,
     aborts = 0;
+  // Claims that are true of the run just computed; the mock model echoes them so jobs can complete.
+  let claims: string[] = [];
   let physical = 10000,
     commit = 10000;
   let held: ServerResponse[] = [];
@@ -61,6 +63,12 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
                   ? "The recorded p95 is 31 ms."
                   : "The saved model has an inspectable verdict.",
               evidenceIds: [mode === "bad-ref" ? "invented" : "verdict"],
+              claims:
+                mode === "no-claims"
+                  ? undefined
+                  : mode === "false-claim"
+                    ? [claims[0] === "latency_above_target" ? "latency_within_target" : "latency_above_target"]
+                    : claims,
             }),
     },
   });
@@ -290,6 +298,13 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     for (let i = 0; i < 150; i++) {
       const r = (await http.get(accepted.statusUrl).set(auth()).expect(200))
         .body.data;
+      if (r.status === "completed") {
+        const sm = r.result.summary;
+        claims = [
+          sm.p95 > sm.traffic.sloP95 ? "latency_above_target" : "latency_within_target",
+          sm.bottleneckId ? "bottleneck_identified" : "no_bottleneck_identified",
+        ];
+      }
       if (r.status === "completed")
         return {
           design: d,
@@ -452,6 +467,28 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     const legacy = (await http.get(`/v1/ai/jobs/${job.id}`).set(auth()).expect(200)).body.data;
     expect(legacy.promptVersion).toBe("m11-foundation-v1");
     expect(legacy.experimental).toBe(true);
+  });
+  it("renders accepted claims server-side and rejects missing or false claims", async () => {
+    const { request: d } = await designRun();
+    const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+    const job = await terminal(a.job.id);
+    expect(job.status).toBe("completed");
+    expect(job.result?.claims?.length).toBeGreaterThan(0);
+    const evidence = aiEvidenceSchema.parse(
+      (await http.get(`/v1/ai/jobs/${job.id}/evidence`).set(auth()).expect(200)).body.data,
+    );
+    expect(evidence.statements).toHaveLength(job.result!.claims!.length);
+    // Wording and numbers come from the facts, never from model text.
+    expect(evidence.statements.join(" ")).toMatch(/p95 latency [\d,.]+ ms is (above|within) the 300 ms target/);
+    for (const fault of ["no-claims", "false-claim"]) {
+      const next = await designRun();
+      mode = fault;
+      const b = (await http.post("/v1/ai/jobs").set(auth()).send(next.request).expect(202)).body.data;
+      const failed = await terminal(b.job.id);
+      expect(failed.status).toBe("failed");
+      expect(failed.result).toBeNull();
+      expect(failed.failure?.reason).toBe("INVALID_OUTPUT");
+    }
   });
   it.each(["invalid", "truncated", "bad-ref", "oversize", "model-change"])(
     "fails closed on provider %s",

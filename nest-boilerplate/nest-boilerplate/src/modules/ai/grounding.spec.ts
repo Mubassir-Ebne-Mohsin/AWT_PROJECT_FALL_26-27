@@ -1,7 +1,9 @@
 import type { AiFacts } from "@/common/contracts/phase3/ai.schema";
 import {
+  claimIsSupported,
   evidenceIdsFor,
   groundingViolation,
+  renderClaim,
 } from "@/modules/ai/grounding";
 
 // Synthetic facts only. Units: ms for latency, fractions for error and utilization.
@@ -39,5 +41,35 @@ describe("M12 deterministic grounding checks", () => {
   });
   it("treats a figure matching only the wrong revision as ungrounded", () => {
     expect(groundingViolation("This is revision 7.", facts, 2)).toMatch(/7/);
+  });
+});
+
+ describe("M12 typed claim predicates", () => {
+  it("rejects schema-shaped false claims and unknown claims", () => {
+    expect(claimIsSupported("latency_within_target", facts)).toBe(false);
+    expect(claimIsSupported("errors_within_budget", facts)).toBe(false);
+    expect(claimIsSupported("bottleneck_identified", none)).toBe(false);
+    expect(claimIsSupported("disable_authentication", facts)).toBe(false);
+  });
+  it("accepts supported claims and treats exact target equality as within target", () => {
+    expect(claimIsSupported("latency_above_target", facts)).toBe(true);
+    expect(claimIsSupported("errors_above_budget", facts)).toBe(true);
+    expect(claimIsSupported("no_bottleneck_identified", none)).toBe(true);
+    expect(claimIsSupported("latency_within_target", { ...facts, p95Ms: 300 })).toBe(true);
+    expect(claimIsSupported("errors_within_budget", { ...facts, errorRateFraction: 0.01 })).toBe(true);
+  });
+});
+
+describe("M12 server-rendered claim wording", () => {
+  const withBottleneck: AiFacts = { ...facts, bottleneck: { id: "app", label: "App servers", utilizationFraction: 0.992 } };
+  it("renders every number from the facts in explicit units", () => {
+    expect(renderClaim("latency_above_target", facts)).toBe("p95 latency 2,068.67 ms is above the 300 ms target.");
+    expect(renderClaim("errors_above_budget", facts)).toBe("Error rate 99.012% is above the 1% budget.");
+    expect(renderClaim("bottleneck_identified", withBottleneck)).toBe("App servers is the bottleneck at 99% utilization.");
+    expect(renderClaim("no_bottleneck_identified", none)).toBe("No bottleneck was identified.");
+  });
+  it("renders nothing for an unknown claim or a bottleneck that does not exist", () => {
+    expect(renderClaim("disable_authentication", facts)).toBe("");
+    expect(renderClaim("bottleneck_identified", none)).toBe("");
   });
 });

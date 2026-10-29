@@ -6,7 +6,7 @@ import { DesignVersion } from "@/modules/designs/entities/design-version.entity"
 import {
   designVersionSchema,
   versionListQuerySchema,
-} from "@/common/contracts/phase3/ai.schema";
+} from "@/common/contracts/phase3/version.schema";
 @Injectable()
 export class DesignVersionsService {
   constructor(

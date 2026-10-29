@@ -6,8 +6,8 @@ import {
   aiReadinessSchema,
   aiRequestSchema,
   aiResultSchema,
-  designVersionSchema,
 } from "@/common/contracts/phase3/ai.schema";
+import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 export function phase3OpenApi() {
   const models = {

@@ -54,3 +54,45 @@ export function groundingViolation(
   }
   return null;
 }
+
+/** Typed, server-checked statements. Values are rendered from facts, never supplied by a model. */
+export type EvidenceClaim =
+  | "latency_within_target" | "latency_above_target"
+  | "errors_within_budget" | "errors_above_budget"
+  | "bottleneck_identified" | "no_bottleneck_identified";
+
+const figure = (n: number, digits = 2) =>
+  n.toLocaleString("en-US", { maximumFractionDigits: digits });
+/** Wording for an accepted claim. Every number comes from the facts, in explicit units. */
+export function renderClaim(claim: string, facts: AiFacts): string {
+  switch (claim) {
+    case "latency_within_target":
+      return "p95 latency " + figure(facts.p95Ms) + " ms is within the " + figure(facts.p95TargetMs) + " ms target.";
+    case "latency_above_target":
+      return "p95 latency " + figure(facts.p95Ms) + " ms is above the " + figure(facts.p95TargetMs) + " ms target.";
+    case "errors_within_budget":
+      return "Error rate " + figure(facts.errorRateFraction * 100, 3) + "% is within the " + figure(facts.errorBudgetFraction * 100, 3) + "% budget.";
+    case "errors_above_budget":
+      return "Error rate " + figure(facts.errorRateFraction * 100, 3) + "% is above the " + figure(facts.errorBudgetFraction * 100, 3) + "% budget.";
+    case "bottleneck_identified":
+      return facts.bottleneck
+        ? facts.bottleneck.label + " is the bottleneck at " + figure(facts.bottleneck.utilizationFraction * 100, 0) + "% utilization."
+        : "";
+    case "no_bottleneck_identified":
+      return "No bottleneck was identified.";
+    default:
+      return "";
+  }
+}
+
+export function claimIsSupported(claim: string, facts: AiFacts): boolean {
+  switch (claim) {
+    case "latency_within_target": return facts.p95Ms <= facts.p95TargetMs;
+    case "latency_above_target": return facts.p95Ms > facts.p95TargetMs;
+    case "errors_within_budget": return facts.errorRateFraction <= facts.errorBudgetFraction;
+    case "errors_above_budget": return facts.errorRateFraction > facts.errorBudgetFraction;
+    case "bottleneck_identified": return facts.bottleneck !== null;
+    case "no_bottleneck_identified": return facts.bottleneck === null;
+    default: return false;
+  }
+}

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { designSchema } from "@/common/contracts/phase2/api.schema";
+// Versions are core product data and live in version.schema.ts; re-exported so existing imports keep working.
+export { designVersionSchema, versionListQuerySchema } from "@/common/contracts/phase3/version.schema";
 // New jobs use the M12 explanation versions. M11 artifacts keep their stored versions and stay readable.
 export const AI_SCHEMA_VERSION = "m12-explanation-v1";
 export const AI_PROMPT_VERSION = "m12-explain-v1";
@@ -11,9 +12,21 @@ export const aiRequestSchema = z.strictObject({
   runId: z.uuid(),
 });
 export type AiRequest = z.infer<typeof aiRequestSchema>;
+/** Statements a model may assert. The server checks each against the facts and renders the wording itself. */
+export const AI_CLAIMS = [
+  "latency_within_target",
+  "latency_above_target",
+  "errors_within_budget",
+  "errors_above_budget",
+  "bottleneck_identified",
+  "no_bottleneck_identified",
+] as const;
+export const aiClaimSchema = z.enum(AI_CLAIMS);
 export const aiResultSchema = z.strictObject({
   summary: z.string().trim().min(1).max(500),
   evidenceIds: z.array(z.string().min(1).max(64)).min(1).max(3),
+  /** Required for m12 jobs (enforced by the service); absent on M11 artifacts, which stay readable. */
+  claims: z.array(aiClaimSchema).min(1).max(3).optional(),
 });
 export type AiResult = z.infer<typeof aiResultSchema>;
 export const aiFailureSchema = z.strictObject({
@@ -91,6 +104,8 @@ export const aiEvidenceSchema = z.strictObject({
   facts: aiFactsSchema.nullable(),
   /** The only evidence ids a generated explanation may cite for this job. */
   evidenceIds: z.array(z.string().min(1).max(64)).max(8),
+  /** Wording for the accepted claims, rendered by the server from the facts (never model text). */
+  statements: z.array(z.string().max(240)).max(3),
   limitations: z.array(z.string().max(200)).max(4),
 });
 export type AiEvidence = z.infer<typeof aiEvidenceSchema>;
@@ -107,16 +122,4 @@ export const aiReadinessSchema = z.strictObject({
     "MEMORY_PRESSURE",
     "INSTANCE_BUSY",
   ]),
-});
-export const designVersionSchema = z.strictObject({
-  id: z.uuid(),
-  designId: z.uuid(),
-  revision: z.number().int().positive(),
-  origin: z.enum(["baseline", "create", "edit"]),
-  createdAt: z.iso.datetime(),
-  snapshot: designSchema,
-});
-export const versionListQuerySchema = z.strictObject({
-  beforeRevision: z.coerce.number().int().positive().optional(),
-  limit: z.coerce.number().int().min(1).max(50).default(20),
 });

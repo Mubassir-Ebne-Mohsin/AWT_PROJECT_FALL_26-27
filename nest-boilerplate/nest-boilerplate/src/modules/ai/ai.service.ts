@@ -32,8 +32,10 @@ import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import {
   EXPLANATION_LIMITATIONS,
   LEGACY_LIMITATIONS,
+  claimIsSupported,
   evidenceIdsFor,
   groundingViolation,
+  renderClaim,
 } from "@/modules/ai/grounding";
 type Failure = NonNullable<AiJob["failure"]>["reason"];
 type Active = {
@@ -193,6 +195,9 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
       facts,
       evidenceIds: Array.isArray(row.facts.evidenceIds)
         ? (row.facts.evidenceIds as string[])
+        : [],
+      statements: facts
+        ? (job.result?.claims ?? []).map((claim) => renderClaim(claim, facts)).filter(Boolean)
         : [],
       limitations: [...(facts ? EXPLANATION_LIMITATIONS : LEGACY_LIMITATIONS)],
     });
@@ -456,8 +461,14 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
       );
       if (slot.controller.signal.aborted) throw new Error("Aborted");
       const verified = this.verifiedFacts(row.facts);
+      // Typed claims are required for m12 jobs and each must be true of the facts; wording is server-rendered.
       const violation = verified
-        ? groundingViolation(result.summary, verified, row.payload.designRevision)
+        ? (!result.claims?.length
+            ? "no typed claims supplied"
+            : result.claims.find((claim) => !claimIsSupported(claim, verified))
+              ? "a claim is not supported by the verified facts"
+              : null) ??
+          groundingViolation(result.summary, verified, row.payload.designRevision)
         : null;
       if (violation)
         throw new AppException(

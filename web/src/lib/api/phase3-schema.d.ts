@@ -116,6 +116,7 @@ export interface components {
         AiResult: {
             summary: string;
             evidenceIds: string[];
+            claims?: ("latency_within_target" | "latency_above_target" | "errors_within_budget" | "errors_above_budget" | "bottleneck_identified" | "no_bottleneck_identified")[];
         };
         AiJob: {
             /** Format: uuid */
@@ -144,6 +145,7 @@ export interface components {
             result: {
                 summary: string;
                 evidenceIds: string[];
+                claims?: ("latency_within_target" | "latency_above_target" | "errors_within_budget" | "errors_above_budget" | "bottleneck_identified" | "no_bottleneck_identified")[];
             } | null;
             failure: {
                 /** @enum {string} */
@@ -178,6 +180,7 @@ export interface components {
                 } | null;
             } | null;
             evidenceIds: string[];
+            statements: string[];
             limitations: string[];
         };
         AcceptedAiJob: {
@@ -208,6 +211,7 @@ export interface components {
                 result: {
                     summary: string;
                     evidenceIds: string[];
+                    claims?: ("latency_within_target" | "latency_above_target" | "errors_within_budget" | "errors_above_budget" | "bottleneck_identified" | "no_bottleneck_identified")[];
                 } | null;
                 failure: {
                     /** @enum {string} */

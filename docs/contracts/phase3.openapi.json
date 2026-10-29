@@ -825,6 +825,22 @@
               "minLength": 1,
               "maxLength": 64
             }
+          },
+          "claims": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "latency_within_target",
+                "latency_above_target",
+                "errors_within_budget",
+                "errors_above_budget",
+                "bottleneck_identified",
+                "no_bottleneck_identified"
+              ]
+            }
           }
         },
         "required": [
@@ -933,6 +949,22 @@
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 64
+                    }
+                  },
+                  "claims": {
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "latency_within_target",
+                        "latency_above_target",
+                        "errors_within_budget",
+                        "errors_above_budget",
+                        "bottleneck_identified",
+                        "no_bottleneck_identified"
+                      ]
                     }
                   }
                 },
@@ -1129,6 +1161,14 @@
               "maxLength": 64
             }
           },
+          "statements": {
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 240
+            }
+          },
           "limitations": {
             "maxItems": 4,
             "type": "array",
@@ -1148,6 +1188,7 @@
           "structured",
           "facts",
           "evidenceIds",
+          "statements",
           "limitations"
         ],
         "additionalProperties": false
@@ -1255,6 +1296,22 @@
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 64
+                        }
+                      },
+                      "claims": {
+                        "minItems": 1,
+                        "maxItems": 3,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "latency_within_target",
+                            "latency_above_target",
+                            "errors_within_budget",
+                            "errors_above_budget",
+                            "bottleneck_identified",
+                            "no_bottleneck_identified"
+                          ]
                         }
                       }
                     },
