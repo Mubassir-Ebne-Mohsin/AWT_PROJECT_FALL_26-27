@@ -5,7 +5,8 @@ export class DesignVersion {
   @PrimaryColumn("uuid") id!: string;
   @Column("uuid") designId!: string;
   @Column("integer") revision!: number;
-  @Column("varchar") origin!: "baseline" | "create" | "edit";
+  @Column("varchar") origin!: "baseline" | "create" | "edit" | "restore";
+  @Column("integer", { nullable: true }) restoredFromRevision!: number | null;
   @Column("jsonb") snapshot!: Design;
   @Column("timestamptz") createdAt!: Date;
 }

@@ -8,6 +8,11 @@ import {
   aiResultSchema,
 } from "@/common/contracts/phase3/ai.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
+import {
+  restoreVersionRequestSchema,
+  runSummarySchema,
+} from "@/common/contracts/phase3/history.schema";
+import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 export function phase3OpenApi() {
   const models = {
@@ -18,6 +23,10 @@ export function phase3OpenApi() {
     AcceptedAiJob: aiAcceptedSchema,
     AiReadiness: aiReadinessSchema,
     DesignVersion: designVersionSchema,
+    RestoreVersionRequest: restoreVersionRequestSchema,
+    RunSummary: runSummarySchema,
+    // A distinct component name keeps the frozen phase 2 "Design" schema untouched.
+    RestoredDesign: designSchema,
     Error: errorResponseSchema,
   };
   const schemas = Object.fromEntries(
@@ -39,14 +48,19 @@ export function phase3OpenApi() {
     required: true,
     schema: { type: "string", format: "uuid" },
   };
-  function operation(operationId: string, result: string, request = false) {
+  function operation(
+    operationId: string,
+    result: string,
+    request: boolean | string = false,
+  ) {
+    const requestName = typeof request === "string" ? request : request ? "AiRequest" : null;
     return {
       operationId,
       security: [{ bearer: [] }],
       "x-implementation-status": "implemented",
-      ...(request
+      ...(requestName
         ? {
-            requestBody: { required: true, content: content(ref("AiRequest")) },
+            requestBody: { required: true, content: content(ref(requestName)) },
           }
         : {}),
       responses: {
@@ -54,7 +68,7 @@ export function phase3OpenApi() {
           description: "Success or retained terminal replay",
           content: content(envelope(result)),
         },
-        ...(request
+        ...(request === true
           ? {
               202: {
                 description: "Accepted durable local job; poll statusUrl",
@@ -93,6 +107,43 @@ export function phase3OpenApi() {
       },
       "/v1/ai/jobs/{id}/cancel": {
         post: { ...operation("cancelAiJob", "AiJob"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/runs": {
+        get: {
+          ...operation("listDesignRuns", "RunSummary"),
+          parameters: [
+            parameter,
+            { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 50, default: 20 } },
+            { name: "before", in: "query", schema: { type: "string", format: "date-time" } },
+          ],
+          responses: {
+            ...operation("listDesignRuns", "RunSummary").responses,
+            200: {
+              description: "Recorded runs of this design, newest first (cursor: before = createdAt)",
+              content: content({
+                type: "object",
+                required: ["data"],
+                properties: { data: { type: "array", items: ref("RunSummary") } },
+              }),
+            },
+          },
+        },
+      },
+      "/v1/designs/{id}/versions/{revision}/restore": {
+        post: {
+          ...operation("restoreDesignVersion", "RestoredDesign", "RestoreVersionRequest"),
+          parameters: [
+            parameter,
+            { name: "revision", in: "path", required: true, schema: { type: "integer", minimum: 1 } },
+          ],
+          responses: {
+            ...operation("restoreDesignVersion", "RestoredDesign", "RestoreVersionRequest").responses,
+            200: {
+              description: "The restored content, saved as a new revision",
+              content: content(envelope("RestoredDesign")),
+            },
+          },
+        },
       },
       "/v1/designs/{id}/versions": {
         get: {

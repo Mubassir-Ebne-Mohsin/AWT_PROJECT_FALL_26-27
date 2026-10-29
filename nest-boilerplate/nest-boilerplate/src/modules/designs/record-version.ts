@@ -6,13 +6,15 @@ import { DesignVersion } from "@/modules/designs/entities/design-version.entity"
 export async function recordVersion(
   m: EntityManager,
   snapshot: Design,
-  origin: "create" | "edit",
+  origin: "create" | "edit" | "restore",
+  restoredFromRevision: number | null = null,
 ) {
   await m.insert(DesignVersion, {
     id: randomUUID(),
     designId: snapshot.id,
     revision: snapshot.revision,
     origin,
+    restoredFromRevision,
     snapshot,
     createdAt: new Date(snapshot.updatedAt),
   });

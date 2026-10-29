@@ -84,6 +84,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listDesignRuns"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/versions/{revision}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["restoreDesignVersion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/versions": {
         parameters: {
             query?: never;
@@ -237,7 +269,9 @@ export interface components {
             designId: string;
             revision: number;
             /** @enum {string} */
-            origin: "baseline" | "create" | "edit";
+            origin: "baseline" | "create" | "edit" | "restore";
+            /** @default null */
+            restoredFromRevision: number | null;
             /** Format: date-time */
             createdAt: string;
             snapshot: {
@@ -444,6 +478,227 @@ export interface components {
                     /** @enum {string} */
                     shape: "steady" | "ramp" | "spike";
                 };
+            };
+        };
+        RestoreVersionRequest: {
+            expectedRevision: number;
+        };
+        RunSummary: {
+            /** Format: uuid */
+            id: string;
+            /** @enum {string} */
+            kind: "simulation" | "limits";
+            /** @enum {string} */
+            status: "pending" | "completed" | "failed";
+            designRevision: number;
+            /** Format: date-time */
+            createdAt: string;
+            verdict: ("pass" | "strained" | "fail") | null;
+            p95: number | null;
+        };
+        RestoredDesign: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted";
+            templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+            revision: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            /** @constant */
+            schemaVersion: 1;
+            graph: {
+                nodes: ({
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "client";
+                    props: {
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "cdn";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "lb";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "gateway";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "app";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "worker";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "cache";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        hitRatio?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "db";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "replica";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "queue";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        maxDepth?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "storage";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                } | {
+                    id: string;
+                    label: string;
+                    x: number;
+                    y: number;
+                    /** @constant */
+                    type: "external";
+                    props: {
+                        replicas?: number;
+                        capacity?: number;
+                        latency?: number;
+                        /** @enum {string} */
+                        region?: "us-east" | "eu-west" | "ap-south";
+                        share?: number;
+                    };
+                })[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
+            traffic: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
             };
         };
         Error: {
@@ -877,6 +1132,206 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AiJob"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listDesignRuns: {
+        parameters: {
+            query?: {
+                limit?: number;
+                before?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Recorded runs of this design, newest first (cursor: before = createdAt) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RunSummary"][];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    restoreDesignVersion: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                revision: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RestoreVersionRequest"];
+            };
+        };
+        responses: {
+            /** @description The restored content, saved as a new revision */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["RestoredDesign"];
                     };
                 };
             };

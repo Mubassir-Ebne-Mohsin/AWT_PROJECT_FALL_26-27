@@ -7,7 +7,9 @@ export const designVersionSchema = z.strictObject({
   id: z.uuid(),
   designId: z.uuid(),
   revision: z.number().int().positive(),
-  origin: z.enum(["baseline", "create", "edit"]),
+  origin: z.enum(["baseline", "create", "edit", "restore"]),
+  /** Set only for origin "restore": the revision whose content was saved again as this new revision. */
+  restoredFromRevision: z.number().int().positive().nullable().default(null),
   createdAt: z.iso.datetime(),
   snapshot: designSchema,
 });

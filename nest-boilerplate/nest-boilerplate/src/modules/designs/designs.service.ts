@@ -1,6 +1,7 @@
 import { recordVersion } from "@/modules/designs/record-version";
 import { Injectable } from "@nestjs/common";
-import { DataSource, EntityManager } from "typeorm";
+import { DataSource, EntityManager, LessThan } from "typeorm";
+import { runListQuerySchema, runSummarySchema } from "@/common/contracts/phase3/history.schema";
 import { AppException } from "@/common/errors";
 import { WithMeta } from "@/common/interceptors/response-envelope.interceptor";
 import {
@@ -113,6 +114,25 @@ export class DesignsService {
       }),
     );
     return { data, total };
+  }
+  /**
+   * Recorded runs of one design, newest first, for the History timeline. The cursor is createdAt, so two
+   * runs created in the same millisecond across a page boundary could be skipped; the retained window is small.
+   */
+  async runList(owner: string, id: string, raw: Record<string, unknown>) {
+    await this.owned(owner, id);
+    const q = runListQuerySchema.safeParse(raw);
+    if (!q.success)
+      throw new AppException("VALIDATION_FAILED", "Invalid run list query");
+    const rows = await this.db.getRepository(SavedRun).find({
+      where: {
+        designId: id,
+        ...(q.data.before ? { createdAt: LessThan(new Date(q.data.before)) } : {}),
+      },
+      order: { createdAt: "DESC", id: "DESC" },
+      take: q.data.limit,
+    });
+    return rows.map((row) => runSummarySchema.parse(this.runSummary(row)));
   }
   runSummary(row: SavedRun) {
     const r = row.payload,

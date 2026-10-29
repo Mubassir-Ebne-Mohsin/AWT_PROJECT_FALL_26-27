@@ -6,6 +6,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
@@ -22,6 +23,7 @@ import {
   CreateDesignDto,
   PrepareDesignDto,
   PatchDesignDto,
+  RestoreVersionDto,
   RunRequestDto,
   ValidateDesignDto,
 } from "@/modules/designs/designs.dto";
@@ -60,6 +62,17 @@ export class DesignsController {
   }
   @Get(":id/versions") versionsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
     return this.versions.list(u.id, id, q);
+  }
+  @Get(":id/runs") runsList(@CurrentUser() u: AuthUser, @Param("id", ParseUUIDPipe) id: string, @Query() q: Record<string, unknown>) {
+    return this.designs.runList(u.id, id, q);
+  }
+  @Post(":id/versions/:revision/restore") @HttpCode(200) restoreVersion(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Param("revision", ParseIntPipe) revision: number,
+    @Body() dto: RestoreVersionDto,
+  ) {
+    return this.versions.restore(u.id, id, revision, dto.expectedRevision);
   }
   @Patch(":id") patch(
     @CurrentUser() u: AuthUser,

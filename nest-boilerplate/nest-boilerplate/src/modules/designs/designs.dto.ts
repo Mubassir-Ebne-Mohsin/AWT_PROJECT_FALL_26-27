@@ -12,6 +12,8 @@ export class RunRequestDto extends createZodDto(runRequestSchema) {}
 export class ValidateDesignDto extends createZodDto(validateRequestSchema) {}
 
 import { prepareDesignSchema } from "@/modules/designs/creation.schema";
+import { restoreVersionRequestSchema } from "@/common/contracts/phase3/history.schema";
+export class RestoreVersionDto extends createZodDto(restoreVersionRequestSchema) {}
 export class PrepareDesignDto extends createZodDto(
   z.strictObject({ input: prepareDesignSchema }),
 ) {}
