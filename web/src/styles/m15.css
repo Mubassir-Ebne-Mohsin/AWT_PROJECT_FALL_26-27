@@ -24,3 +24,18 @@
   .m15-version, .m15-note { padding: 10px; }
   .m15-confirm .row { flex-wrap: wrap; }
 }
+/* M15.5 Designs list */
+.m15-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: end; }
+.m15-grow { grid-column: span 2; }
+.m15-filters input, .m15-filters select { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); color: var(--ink); }
+.m15-filters input:focus-visible, .m15-filters select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.m15-library { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.m15-design { display: grid; gap: 8px; overflow-wrap: anywhere; align-content: start; }
+.m15-design .h4 { margin: 0; }
+.m15-actions { flex-wrap: wrap; gap: 8px; }
+.m15-pager { justify-content: center; align-items: center; gap: 12px; }
+.m15-error { color: var(--fail, #b00020); }
+@media (max-width: 480px) {
+  .m15-grow { grid-column: auto; }
+  .m15-library { grid-template-columns: minmax(0, 1fr); }
+}

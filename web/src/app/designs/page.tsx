@@ -1,5 +1,10 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { Suspense } from "react";
+import { DesignsList } from "@/components/library/designs-list";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return (
+    <Suspense fallback={null}>
+      <DesignsList />
+    </Suspense>
+  );
 }

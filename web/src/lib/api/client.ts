@@ -53,6 +53,8 @@ interface RequestOptions {
    * still announced globally so the existing re-authentication flow keeps working. Default "global".
    */
   scope?: "global" | "local";
+  /** Return the whole `{ data, meta }` envelope instead of only `data` (paged lists). */
+  envelope?: boolean;
   signal?: AbortSignal;
 }
 
@@ -203,7 +205,8 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
 
   if (res.ok) {
     if (res.status === 204) return undefined as T;
-    return ((await res.json()) as { data: T }).data;
+    const body = (await res.json()) as { data: T };
+    return opts.envelope ? (body as T) : body.data;
   }
   const err = await toError(res);
   announce(err, opts.silent, opts.scope);
