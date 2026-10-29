@@ -11,6 +11,9 @@ import { TrafficTab } from "@/components/workspace/traffic-tab";
 import { RunResults } from "@/components/workspace/run-results";
 import { LimitsTab } from "@/components/workspace/limits-tab";
 import { workspaceHref } from "@/lib/run-links";
+import { useUi } from "@/components/shell/ui-provider";
+import { ExplainTrigger } from "@/components/workspace/explain-panel";
+import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
 import { PreviewSession } from "@/lib/preview-session";
 import { LivePreviewPanel, type LivePreviewView } from "@/components/workspace/live-preview";
 import { Crumbs } from "@/components/shell/crumbs";
@@ -70,7 +73,8 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   // ?run= selects a recorded simulation and ?limits= a saved Limits search; each is routed by its stored kind.
   const runId = search.get("run") ?? state.run?.id;
   const limitsId = search.get("limits") ?? state.limitsRun?.id;
-  const selection = { run: runId, limits: limitsId };
+  const explainId = explainParam(search) ?? undefined;
+  const selection = { run: runId, limits: limitsId, explain: explainId };
   const runQuery = useQuery({
     queryKey: ["run", user?.id, initial.id, runId],
     queryFn: ({ signal }) => fetchRun(initial.id, runId!, signal),
@@ -94,6 +98,47 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   };
   const displayedRun = pick(runId, runQuery.data, state.run, "simulation");
   const displayedLimits = pick(limitsId, limitsQuery.data, state.limitsRun, "limits");
+  // M12: publish the saved, completed simulation on screen so the assistant drawer can explain exactly it.
+  const { ui, setUI } = useUi();
+  const aiEnabled = useAiEnabled(); // AI is optional: nothing AI-related renders unless the backend enables it
+  const explainContext: ExplainView | null =
+    aiEnabled && user && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation"
+      ? (() => {
+          const summary = displayedRun.result.summary;
+          const hot = summary.bottleneckId ? summary.nodes.find((n) => n.id === summary.bottleneckId) : undefined;
+          return {
+            userId: user.id,
+            designId: initial.id,
+            designName: state.saved.name,
+            runId: displayedRun.id,
+            runRevision: displayedRun.designRevision,
+            savedRevision: state.saved.revision,
+            unsavedChanges: session.dirty,
+            facts: {
+              verdict: summary.verdict,
+              p95Ms: summary.p95,
+              p95TargetMs: summary.traffic.sloP95,
+              errorRateFraction: summary.errorRate,
+              errorBudgetFraction: summary.traffic.errorBudget,
+              bottleneck: hot ? { label: hot.label, utilizationFraction: hot.rho } : null,
+            },
+          };
+        })()
+      : null;
+  const explainKey = JSON.stringify(explainContext);
+  useEffect(() => {
+    explainView.publish(explainContext);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [explainKey]);
+  // Leaving the workspace removes the context, so the drawer never explains a result that is not on screen.
+  useEffect(() => () => explainView.publish(null), []);
+  // Reload recovery: a retained explanation id in the URL reopens the drawer for the same result.
+  const reopened = explainContext !== null && !!explainId;
+  useEffect(() => {
+    if (reopened && !ui.ai) setUI({ ai: true, help: false });
+    // Only on first availability: the user may close the drawer afterwards.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reopened]);
   const limitsPending =
     state.limitsRunning || displayedLimits?.status === "pending";
   const simulationPending =
@@ -519,12 +564,15 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             <TrafficTab session={session} run={displayedRun} />
           </>
         ) : (
-          <RunResults
-            run={displayedRun}
-            stale={session.isRunStale(displayedRun)}
-            compact={tab === "edit"}
-            currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
-          />
+          <>
+            {tab === "results" && explainContext && <ExplainTrigger view={explainContext} />}
+            <RunResults
+              run={displayedRun}
+              stale={session.isRunStale(displayedRun)}
+              compact={tab === "edit"}
+              currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
+            />
+          </>
         )}
       </div>
     </div>

@@ -164,3 +164,39 @@ for (const data of [null, {}, { accessToken: "invalid", user: null }]) {
     assert.deepEqual(events, ["unreachable"]);
   });
 }
+
+// M12: an explicit local scope keeps optional-feature failures out of the global system screens.
+for (const [status, code] of [[429, "RATE_LIMITED"], [503, "UNAVAILABLE"], [403, "FORBIDDEN"], [404, "NOT_FOUND"], [500, "INTERNAL"]]) {
+  test(`local scope keeps ${status} with the caller; the default scope still announces it`, async () => {
+    client.adoptSession(session);
+    global.fetch = async () => response(status, code);
+    await assert.rejects(client.api("/ai/readiness", { scope: "local" }), { status, code });
+    assert.deepEqual(events, [], "local scope must not open a system screen");
+    await assert.rejects(client.api("/ai/readiness"), { status, code });
+    assert.equal(events.length, 1, "the unchanged default scope still reports it");
+  });
+}
+test("local scope keeps a network failure local while a caller abort stays distinct", async () => {
+  client.adoptSession(session);
+  global.fetch = async () => { throw new TypeError("offline"); };
+  await assert.rejects(client.api("/ai/readiness", { scope: "local" }), { code: "NETWORK" });
+  assert.deepEqual(events, []);
+  await assert.rejects(client.api("/ai/readiness"), { code: "NETWORK" });
+  assert.deepEqual(events, ["unreachable"], "the default scope keeps its global outage behaviour");
+  events.length = 0;
+  const controller = new AbortController();
+  global.fetch = async (_url, init) => { controller.abort(); throw init.signal.reason ?? new DOMException("aborted", "AbortError"); };
+  await assert.rejects(client.api("/ai/readiness", { scope: "local", signal: controller.signal }), (e) => e.code !== "NETWORK");
+  assert.deepEqual(events, []);
+});
+test("local scope does not weaken session expiry or token refresh", async () => {
+  client.adoptSession(session);
+  const replies = [response(401, "UNAUTHENTICATED"), response(200, session), response(200, { ok: true })];
+  global.fetch = async () => replies.shift();
+  assert.deepEqual(await client.api("/ai/readiness", { scope: "local" }), { ok: true });
+  assert.equal(replies.length, 0);
+  const expired = [response(401, "UNAUTHENTICATED"), response(401, "SESSION_EXPIRED")];
+  global.fetch = async () => expired.shift();
+  await assert.rejects(client.api("/ai/readiness", { scope: "local" }), { status: 401 });
+  assert.deepEqual(events, ["session-expired"]);
+});

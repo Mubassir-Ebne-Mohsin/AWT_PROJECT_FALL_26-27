@@ -47,6 +47,12 @@ interface RequestOptions {
   auth?: boolean;
   /** Skip system-state screens for server errors: the caller shows them inline (forms). */
   silent?: boolean;
+  /**
+   * "local": failures of this request (network, 403, 404, 429, 5xx) stay with the caller and never open a
+   * system-state screen, so an optional feature such as AI cannot replace the workspace. Session expiry is
+   * still announced globally so the existing re-authentication flow keeps working. Default "global".
+   */
+  scope?: "global" | "local";
   signal?: AbortSignal;
 }
 
@@ -80,7 +86,7 @@ async function send(path: string, opts: RequestOptions, token: string | null): P
     });
   } catch (e) {
     if (opts.signal?.aborted) throw e; // the caller cancelled: not an outage
-    apiEvents.emit("unreachable");
+    if (opts.scope !== "local") apiEvents.emit("unreachable");
     throw new ApiError("NETWORK", "Could not reach the server", 0);
   }
 }
@@ -101,8 +107,12 @@ async function toError(res: Response): Promise<ApiError> {
   );
 }
 
-function announce(err: ApiError, silent?: boolean) {
+function announce(err: ApiError, silent?: boolean, scope?: "global" | "local") {
   if (silent) return;
+  if (scope === "local") {
+    if (err.code === "SESSION_EXPIRED") apiEvents.emit("session-expired");
+    return;
+  }
   if (err.code === "INTERNAL") apiEvents.emit("server-error");
   else if (err.code === "SESSION_EXPIRED") apiEvents.emit("session-expired");
   else if (err.code === "RATE_LIMITED") apiEvents.emit("rate-limited");
@@ -196,6 +206,6 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
     return ((await res.json()) as { data: T }).data;
   }
   const err = await toError(res);
-  announce(err, opts.silent);
+  announce(err, opts.silent, opts.scope);
   throw err;
 }

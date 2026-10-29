@@ -1,0 +1,28 @@
+/* M12 Result explanation. Reuses prototype tokens and classes; only layout glue and the fact/AI distinction live here. */
+.m12-trigger { align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.m12-title { font: 650 15px var(--font-sans, inherit); margin: 0; outline: none; }
+.m12-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.m12-drawer .drawer-b { overflow-wrap: anywhere; }
+.m12-h { justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+
+/* Verified facts: plain, bordered and neutral. These numbers come from the saved run, not from the model. */
+.m12-facts { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); padding: 12px; }
+.m12-dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 16px; margin: 0; }
+.m12-dl dt { font: 600 10.5px var(--font-mono); color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.m12-dl dd { margin: 2px 0 0; font: 700 13px var(--font-mono); }
+
+/* Generated interpretation: dashed edge and tinted ground keep it visibly different from verified facts. */
+.m12-ai { border: 1px dashed var(--accent-line); border-radius: var(--r); background: var(--accent-soft); padding: 12px; display: grid; gap: 10px; }
+.m12-summary { margin: 0; line-height: 1.5; }
+.m12-refs { display: inline-flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; vertical-align: middle; }
+.m12-refs .chip { cursor: default; height: 24px; }
+.m12-statements { margin: 4px 0 0; padding-left: 18px; }
+.m12-limits { margin: 4px 0 0; padding-left: 18px; color: var(--ink-2); }
+.m12-prov { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 6px 0 0; }
+.m12-prov dt { color: var(--ink-3); }
+.m12-prov dd { margin: 0; font-family: var(--font-mono); }
+.m12-status p { margin: 0 0 6px; }
+@media (max-width: 480px) {
+  .m12-dl { grid-template-columns: 1fr 1fr; }
+  .m12-trigger .btn { width: 100%; justify-content: center; }
+}
