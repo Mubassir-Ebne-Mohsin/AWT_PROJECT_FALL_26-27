@@ -48,3 +48,12 @@ Entry template:
 **Decisions by the user:** M12A approved first; "Commit M11" approved; strategy discussion requested before continuing. The Groq direction was recorded by another agent in the roadmap (approved 2026-10-29).
 **Next:** user confirms claims and order. Then finish M12A (write `m12.spec.ts`, run web regression, review Codex's typed-claim integration, commit by path), then provider abstraction (G2) and, in parallel and only if approved, M15 History / Compare / Notes.
 **Warnings:** `ai.service.ts` and `ollama.provider.ts` will be touched by both M12A claim integration and the G2 provider abstraction. Do not edit them concurrently. Keep `docs/audit/m2-profile-source.json` unstaged.
+
+## 2026-10-29 (M15 finish), Claude Code
+**Goal:** M15.3 Notes, M15.4 Compare, M15.5 Designs list with the same gates.
+**Done:** `f5d8ab0`/`bed8280` Notes; `d4f5496`/`534171d` Compare; `a45b0ec` library API (search, filters, duplicate, archive, migration DesignArchive); `e7158ab` /designs page. API client gained an `envelope` option so paged lists keep meta.
+**Evidence:** see PROJECT-STATE "M15.3-M15.5 detail". Full Chrome regression 390 passed, 10 skipped, 0 failed; web unit 163; mutation checks caught for each slice.
+**Uncommitted:** not Claude's: landing page, `film/`, `DESIGN.md`, `groq.provider*`, GROQ roadmap, M12 scope doc, protected `docs/audit/m2-profile-source.json` (kept unstaged).
+**Decisions by the user:** all six M15 decisions approved as recommended.
+**Next:** the user chooses the next milestone; none started. Codex should commit its own untracked files and reconcile "M12B authorized" with AI being parked.
+**Warnings:** run `pnpm migration:run` on existing databases (three new migrations). Rename from the list was deliberately left out.
