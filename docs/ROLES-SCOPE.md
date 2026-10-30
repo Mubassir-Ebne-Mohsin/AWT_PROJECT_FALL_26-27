@@ -1,6 +1,6 @@
 # Roles track: Instructor, Reviewer and Admin (scope and decisions)
 
-Status: **proposed 2026-10-30, awaiting the user's decisions.** Nothing here is built. It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
+Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations is built and verified (see "R1 result" at the end); R2 to R5 are not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
 
 ## 1. Where the code is today (verified)
 
@@ -67,3 +67,13 @@ Migrations are additive (`pnpm migration:run`). R1 adds the one-time first-Admin
 ## 9. Risks
 
 Multi-role mistakes (a permission check that forgets a role) are the main risk, so permissions are one table in code and every endpoint is tested against it. Reviewer and Instructor data must never leak owner contact details. Role changes must take effect at once (decision 3). The course demo needs all four roles to be demonstrable (decision 9).
+
+## R1 result (2026-10-30)
+
+Built: `user_roles` and append-only `role_audit` (migration `AccountRoles1793700000000`), permission table in code (`@RequirePermission` plus `PermissionGuard`, roles read from the database on every privileged call), `GET /account/roles`, Admin-only lookup, grant, revoke and audit endpoints, last-Admin protection, one-time `pnpm admin:bootstrap -- --email=...`, dev-only `pnpm seed:demo-roles` (refused in production), web `useMyRoles`, `RoleGate`, and the account menu naming granted roles. The legacy `users.role` column is read through and cleared on Admin revoke. The frozen phase 2 contract is unchanged.
+
+Verified: backend unit 222 passed (2 skipped); backend e2e 143 passed (13 new roles tests); web unit 180 passed; Chrome regression 494 passed, 10 skipped, 0 failed (12 new roles journeys across the four projects). Mutation checks: 11 backend and 4 web deliberate breaks, each failed a test.
+
+Deviation: revoking Admin is immediate for privileged endpoints (roles are read from the database), but a revoked account's refresh session is not revoked until R2, as noted under decision 3. No route uses `RoleGate` yet; R2 adds the first role area, and the route registry (35 routes, pinned by phase1.spec) needs the user's say before it grows.
+
+Operator steps: run `pnpm migration:run` on the dev database, then `pnpm admin:bootstrap -- --email=<your account>` once to make the first Admin.

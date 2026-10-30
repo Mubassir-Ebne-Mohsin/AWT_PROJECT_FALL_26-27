@@ -17,6 +17,8 @@ import { RequestLoggerMiddleware } from "@/common/middlewares/request-logger.mid
 import { AuthModule } from "@/modules/auth/auth.module";
 import { HealthModule } from "@/modules/health/health.module";
 import { UsersModule } from "@/modules/users/users.module";
+import { RolesModule } from "@/modules/roles/roles.module";
+import { PermissionGuard } from "@/modules/roles/permission.guard";
 
 import { SimulationModule } from "@/modules/simulation/simulation.module";
 import {
@@ -61,6 +63,7 @@ const { env } = appConfig;
     SimulationModule,
     DesignsModule,
     AiModule,
+    RolesModule,
   ],
   providers: [
     { provide: APP_PIPE, useClass: ZodValidationPipe },
@@ -70,6 +73,8 @@ const { env } = appConfig;
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
+    // R1: database-backed, non-inheriting permissions (@RequirePermission). The ranked RolesGuard above is unchanged.
+    { provide: APP_GUARD, useClass: PermissionGuard },
   ],
 })
 export class AppModule implements NestModule {

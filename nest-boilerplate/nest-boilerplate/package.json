@@ -19,6 +19,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_run.ts",
+    "admin:bootstrap": "ts-node -r tsconfig-paths/register ./src/script/grant-first-admin.ts",
+    "seed:demo-roles": "ts-node -r tsconfig-paths/register ./src/script/seed-demo-roles.ts",
     "migration:rollback": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_rollback.ts",
     "migration:rollbackAll": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_rollback_all.ts",
     "entity:create": "typeorm-ts-node-commonjs entity:create",

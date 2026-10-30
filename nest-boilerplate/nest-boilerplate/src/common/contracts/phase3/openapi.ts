@@ -14,6 +14,7 @@ import {
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
+import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
@@ -42,6 +43,11 @@ export function phase3OpenApi() {
     ShareLink: shareSchema,
     ShareCreated: shareCreatedSchema,
     SharedView: sharedViewSchema,
+    AccountRoles: accountRolesSchema,
+    GrantRoleRequest: grantRoleRequestSchema,
+    AdminUser: adminUserSchema,
+    RoleChange: roleChangeSchema,
+    AuditEntry: auditEntrySchema,
     DesignLibraryList: libraryListSchema,
     ArchiveState: archiveStateSchema,
     // Distinct component name keeps the frozen phase 2 "Design" schema untouched.
@@ -189,6 +195,42 @@ export function phase3OpenApi() {
         post: {
           ...operation("revokeDesignShare", "ShareLink"),
           parameters: [parameter, { name: "shareId", in: "path", required: true, schema: { type: "string", format: "uuid" } }],
+        },
+      },
+      "/v1/account/roles": {
+        get: operation("getAccountRoles", "AccountRoles"),
+      },
+      "/v1/admin/users/lookup": {
+        get: {
+          ...operation("lookupAdminUser", "AdminUser"),
+          parameters: [{ name: "email", in: "query", required: true, schema: { type: "string", minLength: 3, maxLength: 254 } }],
+        },
+      },
+      "/v1/admin/users/{id}/roles": {
+        get: { ...operation("listUserRoles", "RoleChange"), parameters: [parameter] },
+        post: { ...operation("grantUserRole", "RoleChange", "GrantRoleRequest"), parameters: [parameter] },
+      },
+      "/v1/admin/users/{id}/roles/{role}": {
+        delete: {
+          ...operation("revokeUserRole", "RoleChange"),
+          parameters: [parameter, { name: "role", in: "path", required: true, schema: { type: "string", enum: ["instructor", "reviewer", "admin"] } }],
+        },
+      },
+      "/v1/admin/audit": {
+        get: {
+          ...operation("listRoleAudit", "AuditEntry"),
+          parameters: [
+            { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 50, default: 20 } },
+            { name: "before", in: "query", schema: { type: "string", format: "date-time" } },
+            { name: "beforeId", in: "query", schema: { type: "string", format: "uuid" } },
+          ],
+          responses: {
+            ...operation("listRoleAudit", "AuditEntry").responses,
+            200: {
+              description: "Role changes, newest first (at most 50 per page)",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("AuditEntry"), maxItems: 50 } } }),
+            },
+          },
         },
       },
       "/v1/shares/open": {

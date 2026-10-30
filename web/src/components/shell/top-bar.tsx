@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { ThemeSelect } from "@/components/shell/theme-select";
 import { initialsOf, useAuth } from "@/components/auth/auth-provider";
+import { useMyRoles } from "@/components/auth/use-my-roles";
+import { extraRoleText } from "@/lib/roles-presentation";
 import { useUi } from "@/components/shell/ui-provider";
 import { BrandMark, Icon, cx } from "@/components/ui/icon";
 import { sectionOf } from "@/lib/routes";
@@ -22,6 +24,18 @@ const PUBLIC_NAV: Array<[string, string]> = [
   ["/challenges", "Challenges"],
   ["/about", "About"],
 ];
+
+/** Mounted only while the account menu is open, so the roles are read when someone looks, not on every page. */
+function AccountRoleLine() {
+  const { roles } = useMyRoles();
+  const extra = extraRoleText(roles);
+  if (!extra) return null;
+  return (
+    <div className="small" data-testid="account-roles">
+      {extra}
+    </div>
+  );
+}
 
 export function TopBar({ pathname }: { pathname: string }) {
   const { ui, setUI } = useUi();
@@ -133,6 +147,7 @@ export function TopBar({ pathname }: { pathname: string }) {
                 <div className="mh">
                   <div style={{ fontWeight: 650 }}>{user.displayName}</div>
                   <div className="muted small">{user.email}</div>
+                  <AccountRoleLine />
                 </div>
                 <div className="sep" />
                 <Link href="/dashboard" role="menuitem" onClick={() => setUI(close)}>
