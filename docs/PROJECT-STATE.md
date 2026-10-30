@@ -26,7 +26,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
 | M16 Reports / Sharing | **Done** (M16.1 `eea8349`, `ca2fd2a`; M16.2 `1fcf7c1`; M16.3 web, see log) | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md). Needs `pnpm migration:run` (DesignShares). Full Chrome regression 434 passed, 10 skipped, 0 failed |
-| Roles (Instructor, Reviewer, Admin) | Planning only | Decisions needed first: [PROJECT-PLAN](PROJECT-PLAN.md) |
+| Roles (Instructor, Reviewer, Admin) | Planning only; **scope and 10 decisions proposed 2026-10-30** | See [Roles scope](ROLES-SCOPE.md) and [PROJECT-PLAN](PROJECT-PLAN.md) |
 | Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders | Landing page work exists, uncommitted (not Claude's) |
 
 ## M12A detail (finished and parked)
