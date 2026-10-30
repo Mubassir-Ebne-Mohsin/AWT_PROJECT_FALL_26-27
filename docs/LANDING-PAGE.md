@@ -52,3 +52,19 @@ Requested by the user: a drafting-sheet look in the manner of an engineering blu
 **Tests.** `landing.spec.ts` is unchanged and still passes. `landing-fx.spec.ts` covers layer inspect, keyboard pin, hover-open and tilt, the glide offset, reveals, progress and nav, lamp, crosshair and magnetic buttons, reduced motion and touch. Nine mutation checks each made a test fail.
 
 **Not verified.** Frame pacing was measured on a dev server in headless Chrome on a memory-limited laptop, not on a production build or a real GPU. Idle cost is zero long tasks. Screen-reader behaviour and real-device performance were not tested.
+
+## A second, different figure: the pressure core (2026-10-30)
+
+The story section used the same isometric layer stack as the hero, which read as repetition. The hero keeps the stack; the story now has its own illustration, `pressure-core.tsx`.
+
+**What it is.** A radial, radar-style schematic. Clients sit on the outer ring, then routing, then compute, with the shared database as a core at the centre. Requests (twelve spokes, three packets each) spiral inward. A radar sweep rotates over a counter-rotating degree dial, rings carry slow orbiting nodes and utilisation arcs, and heat ripples radiate from the core. It tells the section's story as you scroll: the rings draw in and assemble, then load builds and the core heats from amber toward red, then app replicas multiply on the compute ring while the core stays hot ("more replicas still depend on the same database"). A phase tag, and relative LOAD and HEAT bars (no invented numbers), follow along.
+
+**Interaction.** Hover a ring to inspect it (the others dim and the caption names it); press and hold the core to stress it (load and heat surge and recover on release); tilt follows the pointer. Touch: tap a ring, press and hold the core.
+
+**Contract with the existing test.** The figure keeps the page's scroll contract: a `.sf-specimen--scroll` figure, `--separation` as the exact scroll-driven target (smoothstep up, hold, close), `data-phase`, and `.sf-plate--N` groups whose transform follows `--separation` (here each ring scales about the centre, so the system opens like an orrery and closes again). `landing.spec.ts` is unchanged and passes. Smoothing stays visual only: the eased load, heat, replicas and a per-ring scale ratio glide, while the plate transforms are exact. Shared hooks (`landing-hooks.ts`) give both figures the same pointer tilt and on-screen-only animation.
+
+**Fallbacks.** No JavaScript: the figure shows a finished default state. Reduced motion: a still, finished diagram (no rays, sweep, ripples or rotation). Mobile: the HUD and callouts are replaced by the HTML layer key.
+
+**Tests.** `landing-fx.spec.ts` gained four tests (the figure is genuinely different from the hero; the scroll narrative and its reversal; ring inspection and hold-to-stress; the reduced-motion still). Nine more mutation checks each made a test fail, including one that breaks the existing contract test.
+
+**Measured, not guaranteed.** With the figure on screen and every animation running, idle frames were stable (no long tasks, worst frame about 15 ms). While scrolling, the figure adds roughly 1.3 percentage points of frames over 20 ms in this environment (dev server, headless Chrome, memory-limited laptop); most scroll hitching comes from the page and machine as a whole. The rotating rings are its largest single cost. Not tested: real GPUs, other browsers, screen readers.

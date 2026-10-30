@@ -325,3 +325,44 @@
   .sf-spotlight, .sf-cross, .sf-readout { display: none; }
   .sf-specimen svg { transform: none; }
 }
+
+/* ---- The pressure core (story figure): a radial schematic whose heat, load and replicas follow the scroll ---- */
+.sf-core { --separation: 1; --shown: 1; --build: 1; --load: .7; --heat: .7; --scale-out: 1; --heat-color: color-mix(in srgb, #ff6450 calc(var(--heat) * 100%), #efb03a); }
+.sf-core .sf-plate { transform-box: view-box; transform-origin: 340px 300px; transform: scale(calc(var(--b) + var(--s) * var(--separation))); }
+.sf-core .sf-plate-glide { transform-box: view-box; transform-origin: 340px 300px; transform: scale(calc((var(--b) + var(--s) * var(--shown)) / (var(--b) + var(--s) * var(--separation)))); }
+.sf-core :is(.sf-ray, .sf-sweep, .sf-dial, .sf-ripples, .sf-halo, .sf-layer-annotation, .sf-hud) { pointer-events: none; }
+.sf-spin { transform-box: view-box; transform-origin: 340px 300px; animation: sf-orbit var(--spin, 90s) linear infinite paused; }
+.sf-specimen[data-live="true"] .sf-spin, .sf-specimen[data-live="true"] .sf-pkt, .sf-specimen[data-live="true"] .sf-ripple, .sf-specimen[data-live="true"] .sf-core-disc { animation-play-state: running; }
+.sf-plate--1 .sf-spin, .sf-plate--3 .sf-spin, .sf-dial { animation-direction: reverse; }
+.sf-core .sf-ring { stroke-dasharray: 100; stroke-dashoffset: calc((1 - var(--build)) * 100); transition: stroke-opacity .4s var(--ease), stroke-width .4s var(--ease); }
+.sf-util { stroke-width: 3.4; stroke-linecap: butt; stroke-opacity: .95; stroke-dasharray: calc(var(--u) * 100) 100; }
+.sf-util--0 { --u: calc(var(--load) * .55); } .sf-util--1 { --u: calc(var(--load) * .72); } .sf-util--2 { --u: calc(var(--load) * .96); }
+.sf-util--3 { --u: calc(.18 + var(--heat) * .82); stroke: var(--heat-color); }
+.sf-node { opacity: clamp(0, calc((var(--build) - var(--at)) * 7), 1); }
+.sf-node.sf-replica { opacity: min(clamp(0, calc((var(--build) - var(--at)) * 7), 1), var(--scale-out)); }
+.sf-pop { transform-box: fill-box; transform-origin: center; transform: scale(calc(.2 + var(--scale-out) * .8)); }
+.sf-ray { opacity: clamp(0, calc((var(--load) - var(--need)) * 4), 1); }
+.sf-spoke { fill: none; stroke: #394a92; stroke-opacity: .35; stroke-dasharray: 2 6; }
+.sf-pkt { fill: color-mix(in srgb, #ffb4a8 calc(var(--heat) * 100%), #cfe0ff); animation: sf-pkt 4.6s cubic-bezier(.45, 0, .55, 1) infinite paused; animation-delay: calc(var(--j) * -1.53s - var(--need) * 1s); }
+.sf-ripples { opacity: var(--heat); }
+.sf-ripple { fill: none; stroke: var(--heat-color); stroke-width: 1.4; transform-box: fill-box; transform-origin: center; animation: sf-ripple 3.6s ease-out infinite paused; animation-delay: calc(var(--j) * -1.2s); }
+.sf-core-disc { transform-box: fill-box; transform-origin: center; animation: sf-core-pulse 2.6s ease-in-out infinite paused; }
+.sf-core-glyph { filter: drop-shadow(0 0 calc(3px + var(--heat) * 12px) var(--heat-color)); }
+.sf-core .sf-layer-annotation { opacity: calc(var(--shown) * var(--shown) * var(--shown)); }
+.sf-hud text { font: 12px var(--font-mono); letter-spacing: 1.2px; fill: var(--lp-ink3); }
+.sf-ph { transition: fill .45s var(--ease); }
+.sf-core[data-phase="assemble"] .sf-ph--0, .sf-core[data-phase="inspect"] .sf-ph--1, .sf-core[data-phase="rethink"] .sf-ph--2 { fill: var(--lp-accent); }
+.sf-bar-track { fill: #262f3c; }
+.sf-bar-fill { transform-box: fill-box; transform-origin: left center; }
+.sf-bar-fill--load { fill: var(--lp-accent); transform: scaleX(var(--load)); }
+.sf-bar-fill--heat { fill: var(--heat-color); transform: scaleX(var(--heat)); }
+.sf-core[data-active="0"] .sf-plate--0 .sf-ring, .sf-core[data-active="1"] .sf-plate--1 .sf-ring, .sf-core[data-active="2"] .sf-plate--2 .sf-ring, .sf-core[data-active="3"] .sf-plate--3 .sf-ring { stroke-opacity: 1; stroke-width: 2.6; }
+@keyframes sf-orbit { to { transform: rotate(360deg); } }
+@keyframes sf-pkt { 0% { transform: translateX(262px); opacity: 0; } 10% { opacity: 1; } 88% { opacity: .95; } 100% { transform: translateX(60px); opacity: 0; } }
+@keyframes sf-ripple { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(2.7); opacity: 0; } }
+@keyframes sf-core-pulse { 0%, 100% { transform: scale(.94); } 50% { transform: scale(1.06); } }
+@media (max-width: 760px) { .sf-core .sf-hud, .sf-core .sf-layer-annotation { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .sf-core * { animation: none !important; }
+  .sf-core :is(.sf-ray, .sf-sweep, .sf-ripples) { display: none; }
+}

@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArchitectureSpecimen } from "@/components/landing/architecture-specimen";
 import { LandingEffects } from "@/components/landing/landing-effects";
+import { PressureCore } from "@/components/landing/pressure-core";
 import "@/styles/landing.css";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -57,7 +58,7 @@ export default function LandingPage() {
       <section id="inside" className="sf-story" data-architecture-story aria-labelledby="sf-story-title">
         <div className="sf-story-heading"><span className="sf-eyebrow">ANATOMY OF AN ARCHITECTURE</span><span className="sf-eyebrow">SCROLL TO DISASSEMBLE ↘</span></div>
         <div className="sf-story-layout">
-          <div className="sf-story-visual"><ArchitectureSpecimen animated /><div className="sf-visual-footnote"><span>ONE SYSTEM. CONNECTED CONSEQUENCES.</span><span>01—04</span></div></div>
+          <div className="sf-story-visual"><PressureCore /><div className="sf-visual-footnote"><span>ONE SYSTEM. CONNECTED CONSEQUENCES.</span><span>01—04</span></div></div>
           <div className="sf-story-copy">
             <article className="sf-story-step"><span className="sf-step-number">01 / ASSEMBLE</span><h2 id="sf-story-title">Make the idea<br /><em>tangible.</em></h2><p>Start with a template or a blank canvas. Connect components, adjust their properties and save a design you can come back to.</p><div className="sf-inline-spec sf-spot"><span>CANVAS</span><strong>12 component types</strong><span>FROM CLIENT TO DATA</span></div></article>
             <article className="sf-story-step"><span className="sf-step-number">02 / EXAMINE</span><h2>Look past<br /><em>the boxes.</em></h2><p>Set a traffic profile and run the model. Inspect predicted latency, errors and component utilization to understand where pressure builds.</p><div className="sf-metric-spec sf-spot"><span>READ THE MODEL</span><div><strong>p95</strong><span>Latency</span><strong>%</strong><span>Utilization</span></div><small>Mathematical estimates. Not measured infrastructure performance.</small></div></article>
