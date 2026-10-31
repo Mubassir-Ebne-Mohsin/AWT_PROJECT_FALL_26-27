@@ -79,3 +79,10 @@ Entry template:
 **Evidence:** see ROLES-SCOPE.md "R1 result" and "R2 result". The first full browser run after R2 found a duplicate `h1` in the access-denied panel (fixed); only the affected specs were rerun afterwards.
 **Warnings:** run `pnpm migration:run` on dev and QA databases. Existing tests changed on purpose: phase1.spec route count 35 to 36, R1 lookup allow-list gained `status`, fake-redis gained `del`. Do not stage `docs/audit/m2-profile-source.json`.
 **Next:** R3 review grants (in progress by Claude on 2026-10-31).
+
+## 2026-10-31, Claude Roles R3 review grants
+**Goal:** R3 of the roles track, after the R1/R2 cleanup commit.
+**Done:** R3 `87736b2` (local, not pushed). Owner shares one frozen revision with one named Reviewer; Reviewer inbox and read-only view; permission `review.read`; migration `ReviewGrants1793900000000`.
+**Evidence:** see ROLES-SCOPE.md "R3 result". The full browser run had 4 failures, all the existing M16.3 share-link test clashing with my duplicated sentence; fixed by rewording my text; affected specs rerun green, the rest of the suite was not rerun after that wording change.
+**Warnings:** run `pnpm migration:run` on dev and QA databases. Existing test changed on purpose: phase1.spec route count 36 to 38. Stale servers from an earlier test stack held ports 3003 and 5003 and were stopped; they were mine, not the dev stack.
+**Next:** R4 reviewer comments (not started; scope review given to the user).
