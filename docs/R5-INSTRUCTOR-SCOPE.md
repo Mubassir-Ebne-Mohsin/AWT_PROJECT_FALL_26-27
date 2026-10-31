@@ -65,3 +65,12 @@ Migrations are additive (`pnpm migration:run`). An Instructor is made by an Admi
 ## 9. Risks
 
 Gaming the check is the main risk, which is why the server re-runs the model with the challenge's own traffic (decision 1). A later engine change could make an old pass look different, so the engine version is stored and a pass stays a record. Challenge text is shown to every user, so it is plain text with length limits. Instructor access to learner data must never grow past the submitted revision.
+## R5.1 status (2026-10-31): built, regression incomplete
+
+Built: `challenges` table (migration `Challenges1794100000000`), contracts, `modules/challenges` and the Instructor API (`/instructor/challenges`: create, list, get, patch, publish, archive, duplicate) behind the new `challenge.manage` permission (Instructor only). The starting design is copied from one of the Instructor's own designs and frozen; the challenge's SLO comes from its goal; publishing runs the model on the starting design at the challenge's traffic and stores a baseline (p95, error rate, whether it already passes, engine version); after publishing the goal, traffic and starting design are frozen. Web: `/instructor/challenges` and `/instructor/challenges/:id` behind `RoleGate`, and a "My challenges" menu link for Instructors. Route registry is now 40.
+
+Verified in pieces: backend unit 226 and e2e 205 (19 new in `challenges.e2e-spec.ts`), 19 new web unit tests, 20 backend and 18 web deliberate breaks each failing a test, 12 browser journeys against the real API. **Not verified: the full Chrome regression.** It stopped at about test 226 of 552 when the machine ran out of memory and Docker crashed; it was never completed for R5.1. Existing test changed on purpose: `phase1.spec.ts` route count 38 to 40.
+
+Operator steps: `pnpm migration:run` (adds `Challenges1794100000000`). Give an account the Instructor role at `/admin/users` to use the screens.
+
+Still to do in R5: R5.2 (learner attempts, public list, submit and server judging, starter challenges, real progress) and R5.3 (submissions and feedback).

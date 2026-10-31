@@ -93,3 +93,10 @@ Entry template:
 **Evidence:** see ROLES-SCOPE.md "R4 result". Full Chrome regression 530 passed, 10 skipped, 0 failed.
 **Warnings:** run `pnpm migration:run` on dev and QA databases. Existing tests touched on purpose: two of my own R3 "read-only means no buttons" checks now allow buttons inside the feedback panel only. Docker Desktop had failed to start earlier (stale `docker-secrets-engine` socket; folder renamed, nothing deleted).
 **Next:** R5 Instructor (not started; needs a scope review and decisions first).
+
+## 2026-10-31, Claude Roles R5.1 handoff to Codex
+**Goal:** R5.1 Instructor challenges, then hand over to Codex at the user's request.
+**Done:** R5.1 built and committed locally (not pushed). Backend, web, tests and deliberate-break checks listed in R5-INSTRUCTOR-SCOPE.md "R5.1 status".
+**Not done:** the full Chrome regression did not complete (about 226 of 552 tests ran; free memory fell to about 800 MB of 7.9 GB and Docker Desktop crashed). Restart Docker, run one heavy job at a time, then rerun the full regression with `SF_PG_CONTAINER`, `SF_PG_USER`, `SF_PG_DB` set (see ROLES-SCOPE R3 to R5 notes).
+**Warnings:** run `pnpm migration:run` on dev and QA databases (the user already did on their dev database). Existing test changed on purpose: phase1.spec route count 38 to 40. Postgres quirk handled in the challenges service: `UPDATE ... RETURNING` returns `[rows, count]`, `INSERT ... RETURNING` returns the rows. Do not stage `docs/audit/m2-profile-source.json`.
+**Next:** finish R5.1 verification, then R5.2 (public list, attempts, submit and server judging, starter challenges, real progress page), then R5.3.

@@ -15,6 +15,7 @@ import {
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
+import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
 import { createCommentRequestSchema, createReviewRequestSchema, editCommentRequestSchema, ownerReplyRequestSchema, reviewCommentSchema, reviewGrantSchema, reviewItemSchema, reviewViewSchema } from "@/common/contracts/phase3/reviews.schema";
 import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
@@ -56,6 +57,9 @@ export function phase3OpenApi() {
     EditCommentRequest: editCommentRequestSchema,
     OwnerReplyRequest: ownerReplyRequestSchema,
     ReviewComment: reviewCommentSchema,
+    Challenge: challengeSchema,
+    CreateChallengeRequest: createChallengeRequestSchema,
+    PatchChallengeRequest: patchChallengeRequestSchema,
     RoleChange: roleChangeSchema,
     AuditEntry: auditEntrySchema,
     DesignLibraryList: libraryListSchema,
@@ -243,6 +247,45 @@ export function phase3OpenApi() {
               description: "Designs shared with the signed-in Reviewer, newest first (at most 100)",
               content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("ReviewItem"), maxItems: 100 } } }),
             },
+          },
+        },
+      },
+      "/v1/instructor/challenges": {
+        get: {
+          ...operation("listMyChallenges", "Challenge"),
+          responses: {
+            ...operation("listMyChallenges", "Challenge").responses,
+            200: {
+              description: "The signed-in Instructor's own challenges, most recently changed first (at most 100)",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("Challenge"), maxItems: 100 } } }),
+            },
+          },
+        },
+        post: {
+          ...operation("createChallenge", "Challenge", "CreateChallengeRequest"),
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("createChallenge", "Challenge", "CreateChallengeRequest").responses).filter(([code]) => code !== "200")),
+            201: { description: "The new draft challenge", content: content(envelope("Challenge")) },
+          },
+        },
+      },
+      "/v1/instructor/challenges/{id}": {
+        get: { ...operation("getMyChallenge", "Challenge"), parameters: [parameter] },
+        patch: { ...operation("updateMyChallenge", "Challenge", "PatchChallengeRequest"), parameters: [parameter] },
+      },
+      "/v1/instructor/challenges/{id}/publish": {
+        post: { ...operation("publishChallenge", "Challenge"), parameters: [parameter] },
+      },
+      "/v1/instructor/challenges/{id}/archive": {
+        post: { ...operation("archiveChallenge", "Challenge"), parameters: [parameter] },
+      },
+      "/v1/instructor/challenges/{id}/duplicate": {
+        post: {
+          ...operation("duplicateChallenge", "Challenge"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("duplicateChallenge", "Challenge").responses).filter(([code]) => code !== "200")),
+            201: { description: "The new draft copy", content: content(envelope("Challenge")) },
           },
         },
       },

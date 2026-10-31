@@ -20,3 +20,7 @@
 .r4-replies { margin-top: 4px; padding-left: 14px; border-left: 3px solid var(--accent-line); }
 .r4-reply { border-bottom: 0; padding: 4px 0; }
 .r4-owner { flex-basis: 100%; }
+
+/* R5 Instructor challenges. */
+.r5-item { align-items: flex-start; }
+.r5-item .stack { min-width: 0; }

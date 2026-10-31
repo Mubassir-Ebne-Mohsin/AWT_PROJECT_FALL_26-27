@@ -24,6 +24,8 @@ export enum Permission {
   ADMIN_USERS_SUSPEND = "admin.users.suspend",
   /** R3: read designs that owners have shared with this Reviewer. Reviewer only; Admin never reads design content. */
   REVIEW_READ = "review.read",
+  /** R5: write, publish, archive and duplicate one's own challenges. Instructor only. */
+  CHALLENGE_MANAGE = "challenge.manage",
 }
 
 /**
@@ -33,7 +35,7 @@ export enum Permission {
  */
 export const PERMISSIONS: Record<AccountRole, readonly Permission[]> = {
   [AccountRole.USER]: [],
-  [AccountRole.INSTRUCTOR]: [],
+  [AccountRole.INSTRUCTOR]: [Permission.CHALLENGE_MANAGE],
   [AccountRole.REVIEWER]: [Permission.REVIEW_READ],
   [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ, Permission.ADMIN_USERS_SUSPEND],
 };
