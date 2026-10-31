@@ -108,3 +108,14 @@ Skips: four @dev state cases because this used production web; six per-project l
 Preservation/cleanup:117 pre-existing PNGs restored from pre-run copies; protected M2 SHA256 remains D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC and unstaged. New images created by the tests may remain untracked. No source changes. Audit API/web sessions and m9 containers stopped after testing; volumes retained. Development containers were stopped to free RAM and remain stopped. AI stayed disabled; no paid usage, commits or pushes. Verification notes/evidence are left uncommitted. No active code claims.
 ## R5.2 planning checkpoint — 2026-10-31
 User approved committing R5.1 verification and preparing R5.2 scope/tests. R5.1 evidence committed015e19a, not pushed. Detailed proposal: R5.2-LEARNER-SCOPE.md. Planning only; no implementation started, no active code claims. AI parked. Review one-resumable-attempt, archived submissions, technical-failure cap and best-result rules before implementation.
+
+## R5.2 implementation claim — 2026-10-31
+Approved by user. Codex claims learner attempt/submission contracts, challenges learner backend, additive migration, learner screens/tests and generated contracts. No overlapping active Claude claim reported. AI parked; unrelated dirty files preserved. Implementation in progress.
+
+## R5.2 implementation checkpoint — 2026-10-31
+Partial backend groundwork written: attempts.schema.ts, additive ChallengeAttempts1794200000000 migration, learner-challenges.service.ts, judge-challenge.ts and two specs.15 focused tests passed; deliberate AND→OR judging mutation failed a boundary test and was restored; backend tsc then passed. Initial incorrect validation.valid field was corrected to validation.ok; design DTO now reuses DesignsService.dto. No migration applied. Learner service is deliberately NOT registered and has no controllers yet. No generated contracts, learner UI, progress aggregation, seed or browser acceptance implemented. Remaining lifecycle/resource/retention and full integration acceptance are open; this is not a completed R5.2 slice. All six new backend files and this note remain uncommitted; existing unrelated work preserved. No active file claims after this checkpoint; resume the approved R5.2 objective from here. AI parked; no pushes.
+
+R5.2 resumed under existing approval: Codex claims learner service/controllers/contracts, migrations, learner UI/tests and generated files. No AI work or overlapping agent claim. Implementation active.
+
+## R5.2 complete — 2026-11-01
+Learner challenge loop built and verified (see R5.2-LEARNER-SCOPE.md "R5.2 result"). Committed locally, not pushed. Next: R5.3.

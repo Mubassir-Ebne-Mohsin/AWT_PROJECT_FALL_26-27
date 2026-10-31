@@ -1,5 +1,2 @@
-import { RoutePlaceholder } from "@/components/placeholder";
-
-export default function Page() {
-  return <RoutePlaceholder />;
-}
+import { LearnerProgress } from "@/components/learner/challenges";
+export default function Page(){return <LearnerProgress/>;}

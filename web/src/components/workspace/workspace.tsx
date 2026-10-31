@@ -1,4 +1,5 @@
 "use client";
+import { AttemptWorkspaceContext } from "@/components/learner/attempt-workspace-context";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
@@ -77,7 +78,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   const runId = search.get("run") ?? state.run?.id;
   const limitsId = search.get("limits") ?? state.limitsRun?.id;
   const explainId = explainParam(search) ?? undefined;
-  const selection = { run: runId, limits: limitsId, explain: explainId };
+  const selection = { run: runId, limits: limitsId, explain: explainId, attempt:search.get("attempt")??undefined };
   const runQuery = useQuery({
     queryKey: ["run", user?.id, initial.id, runId],
     queryFn: ({ signal }) => fetchRun(initial.id, runId!, signal),
@@ -212,12 +213,13 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
     if (misfiled && isActive())
       router.replace(
         workspaceHref(initial.id, misfiled.tab, {
+          attempt:selection.attempt,
           run: misfiled.run ?? (misfiled.tab === "limits" ? undefined : runId),
           limits:
             misfiled.limits ?? (misfiled.tab === "results" ? undefined : limitsId),
         }),
       );
-  }, [runQuery.data, limitsQuery.data, runId, limitsId, initial.id, router, isActive]);
+  }, [runQuery.data, limitsQuery.data, runId, limitsId, initial.id, router, isActive, selection.attempt]);
   useEffect(() => {
     session.receiveServer(initial);
   }, [
@@ -272,6 +274,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
       if (!isActive()) return;
       router.replace(
         workspaceHref(initial.id, "results", {
+          attempt:selection.attempt,
           run: accepted.run.id,
           limits: limitsId,
         }),
@@ -289,6 +292,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
       if (!isActive()) return;
       router.replace(
         workspaceHref(initial.id, "limits", {
+          attempt:selection.attempt,
           run: runId,
           limits: accepted.run.id,
         }),
@@ -321,6 +325,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
       <div className="ws-head stack">
         <h1 className="sr-only">{WS_TABS.find((t) => t.id === tab)?.label}</h1>
         <Crumbs resolved={resolveRoute("/designs/" + initial.id + "/" + tab)} />
+        <AttemptWorkspaceContext designId={initial.id} blocked={session.hasUnsettledWork} />
         <div className="row between">
           <div className="grow stack">
             <label className="sr-only" htmlFor="design-name">

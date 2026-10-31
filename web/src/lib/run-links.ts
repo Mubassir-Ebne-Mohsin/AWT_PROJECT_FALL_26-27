@@ -9,6 +9,7 @@ export interface Selection {
   limits?: string;
   /** M12: retained explanation job id, so a reload can find the accepted job. Never a secret. */
   explain?: string;
+  attempt?: string;
 }
 
 /** ?run= selects a recorded simulation; ?limits= selects a saved Limits search. Both survive tab changes. */
@@ -17,6 +18,7 @@ export function workspaceHref(designId: string, tab: string, sel: Selection = {}
   if (sel.run) q.set("run", sel.run);
   if (sel.limits) q.set("limits", sel.limits);
   if (sel.explain) q.set("explain", sel.explain);
+  if (sel.attempt) q.set("attempt",sel.attempt);
   const s = q.toString();
   return `/designs/${designId}/${tab}${s ? "?" + s : ""}`;
 }

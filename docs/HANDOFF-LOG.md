@@ -15,6 +15,17 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude finishes R5.2 learner challenge loop
+**Goal:** take over Codex's uncommitted R5.2 work after its usage limit and finish it.
+**Done:** reviewed and kept Codex's backend and web; added 14 e2e tests; mutation checks, web checks, browser journey and full sequential regression, see R5.2-LEARNER-SCOPE.md "R5.2 result". Codex's reported truncate timeout was memory pressure, not a defect (passes alone and in the full sequential run); no limit was relaxed.
+**Warnings:** run `pnpm migration:run` (ChallengeAttempts is new). Local branch is ahead of origin; nothing pushed. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** R5.3 Instructor submissions and feedback (not started).
+
+## 2026-10-31, Codex R5.2 backend groundwork (incomplete)
+**Done:** approved R5.2 groundwork: attempt/submission schemas, additive migration1794200000000, unregistered learner service and pure judging with two specs.15 tests pass; AND→OR mutation caught and restored; tsc passes. No live endpoints or migration executed.
+**Remaining:** service lifecycle and resource/retention review, controllers/OpenAPI, own progress, learner UI/editor links, dev seed, real isolated integration tests, full gates and Chrome regression. R5.2 remains incomplete. No new feature can be used yet.
+**Uncommitted:** six new backend files under contracts/phase3, database/migrations and modules/challenges; state/handoff notes; existing unrelated files preserved. No active claims, commits or pushes; AI parked.
+
 ## 2026-10-31, Codex R5.2 scope preparation
 **Done:** approved R5.1 verification committed015e19a by explicit paths; protected artifact and images excluded. Drafted R5.2-LEARNER-SCOPE.md using eleven existing decisions plus labelled recommendations. No application code changes or tests rerun for planning.
 **Next:** user reviews detailed scope before implementation; no push authorized. No active claims. AI parked. Unrelated dirty/untracked work preserved.

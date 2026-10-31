@@ -1,3 +1,4 @@
+import { seedDemoChallenges } from "@/modules/challenges/demo-challenges";
 import { dataSourceOptions } from "@/config/database.config";
 import { DataSource } from "typeorm";
 import { seedDemoAccounts } from "@/modules/roles/demo-accounts";
@@ -7,9 +8,14 @@ async function main() {
   const db = new DataSource(dataSourceOptions);
   await db.initialize();
   try {
-    for (const account of await seedDemoAccounts(db, { production: process.env.NODE_ENV === "production" })) {
-      console.log(`${account.email}  roles: ${account.roles.join(", ")}  ${account.password ? `password: ${account.password}` : "(existing account, password unchanged)"}`);
+    for (const account of await seedDemoAccounts(db, {
+      production: process.env.NODE_ENV === "production",
+    })) {
+      console.log(
+        `${account.email}  roles: ${account.roles.join(", ")}  ${account.password ? `password: ${account.password}` : "(existing account, password unchanged)"}`,
+      );
     }
+    await seedDemoChallenges(db, process.env.NODE_ENV === "production");
   } finally {
     await db.destroy();
   }

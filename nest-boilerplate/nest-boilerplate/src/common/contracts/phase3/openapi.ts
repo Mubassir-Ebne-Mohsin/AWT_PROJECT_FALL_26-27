@@ -1,3 +1,12 @@
+import {
+  publicChallengeListSchema,
+  publicChallengeSchema,
+  attemptSchema,
+  attemptViewSchema,
+  submitAttemptSchema,
+  submissionSchema,
+  challengeProgressSchema,
+} from "@/common/contracts/phase3/attempts.schema";
 import { z } from "zod";
 import {
   aiAcceptedSchema,
@@ -28,6 +37,14 @@ import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 export function phase3OpenApi() {
   const models = {
+    PublicChallengeList: publicChallengeListSchema,
+    PublicChallenge: publicChallengeSchema,
+    ChallengeAttempt: attemptSchema,
+    ChallengeAttemptView: attemptViewSchema,
+    SubmitAttempt: submitAttemptSchema,
+    ChallengeSubmission: submissionSchema,
+    ChallengeProgress: challengeProgressSchema,
+
     AiRequest: aiRequestSchema,
     AiResult: aiResultSchema,
     AiJob: aiJobSchema,
@@ -137,6 +154,56 @@ export function phase3OpenApi() {
         "Opt-in backend only. M10 quality gate failed; model prose remains experimental. No AI UI or mutation endpoint.",
     },
     paths: {
+      "/v1/challenges": {
+        get: {
+          ...operation("listPublishedChallenges", "PublicChallengeList"),
+          security: [],
+        },
+      },
+      "/v1/challenges/{id}": {
+        get: {
+          ...operation("getPublishedChallenge", "PublicChallenge"),
+          security: [],
+          parameters: [parameter],
+        },
+      },
+      "/v1/challenges/{id}/attempt": {
+        post: {
+          ...operation("startChallengeAttempt", "ChallengeAttempt"),
+          parameters: [parameter],
+        },
+      },
+      "/v1/attempts/{id}": {
+        get: {
+          ...operation("getChallengeAttempt", "ChallengeAttemptView"),
+          parameters: [parameter],
+        },
+      },
+      "/v1/attempts/{id}/submissions": {
+        post: {
+          ...operation(
+            "submitChallengeAttempt",
+            "ChallengeSubmission",
+            "SubmitAttempt",
+          ),
+          parameters: [parameter],
+          responses: {
+            ...operation(
+              "submitChallengeAttempt",
+              "ChallengeSubmission",
+              "SubmitAttempt",
+            ).responses,
+            202: {
+              description: "Accepted or idempotent replay",
+              content: content(envelope("ChallengeSubmission")),
+            },
+          },
+        },
+      },
+      "/v1/progress/challenges": {
+        get: operation("getChallengeProgress", "ChallengeProgress"),
+      },
+
       "/v1/ai/readiness": { get: operation("aiReadiness", "AiReadiness") },
       "/v1/ai/jobs": { post: operation("submitAiJob", "AcceptedAiJob", true) },
       "/v1/ai/jobs/{id}": {
