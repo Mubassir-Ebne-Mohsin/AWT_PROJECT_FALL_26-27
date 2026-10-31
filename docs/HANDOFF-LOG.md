@@ -86,3 +86,10 @@ Entry template:
 **Evidence:** see ROLES-SCOPE.md "R3 result". The full browser run had 4 failures, all the existing M16.3 share-link test clashing with my duplicated sentence; fixed by rewording my text; affected specs rerun green, the rest of the suite was not rerun after that wording change.
 **Warnings:** run `pnpm migration:run` on dev and QA databases. Existing test changed on purpose: phase1.spec route count 36 to 38. Stale servers from an earlier test stack held ports 3003 and 5003 and were stopped; they were mine, not the dev stack.
 **Next:** R4 reviewer comments (not started; scope review given to the user).
+
+## 2026-10-31, Claude Roles R4 reviewer feedback
+**Goal:** R4 of the roles track (the user said to proceed; they ran `pnpm migration:run` on their dev database and made the first Admin).
+**Done:** R4 `3db9068` (local, not pushed). Comment thread per review; Reviewer API behind `review.read`; owner read and reply API; web panels on the Reviewer view and the share page; migration `ReviewComments1794000000000`.
+**Evidence:** see ROLES-SCOPE.md "R4 result". Full Chrome regression 530 passed, 10 skipped, 0 failed.
+**Warnings:** run `pnpm migration:run` on dev and QA databases. Existing tests touched on purpose: two of my own R3 "read-only means no buttons" checks now allow buttons inside the feedback panel only. Docker Desktop had failed to start earlier (stale `docker-secrets-engine` socket; folder renamed, nothing deleted).
+**Next:** R5 Instructor (not started; needs a scope review and decisions first).
