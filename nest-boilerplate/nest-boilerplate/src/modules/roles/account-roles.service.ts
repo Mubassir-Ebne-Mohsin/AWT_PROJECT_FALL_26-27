@@ -1,6 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Optional } from "@nestjs/common";
 import { DataSource, EntityManager } from "typeorm";
+import { appConfig } from "@/config";
 import { AppException } from "@/common/errors";
+import { TokenStore } from "@/modules/auth/token-store.service";
 import { ACCOUNT_ROLE_ORDER, AccountRole, type GrantableRole } from "@/common/enums/account-role.enum";
 import {
   adminUserSchema,
@@ -10,6 +12,8 @@ import {
   grantableRoleSchema,
   lookupQuerySchema,
   roleChangeSchema,
+  statusChangeSchema,
+  userSearchQuerySchema,
 } from "@/common/contracts/phase3/roles.schema";
 import { User } from "@/modules/users/entities/user.entity";
 import { normalizeEmail } from "@/modules/users/users.service";
@@ -28,7 +32,12 @@ const LOCK = "SELECT pg_advisory_xact_lock(hashtext('sf-account-roles'))";
  */
 @Injectable()
 export class AccountRolesService {
-  constructor(private readonly db: DataSource) {}
+  // The token store is only needed to cut off a suspended account's live access tokens; server-side scripts that never
+  // suspend anyone construct this service with the database alone.
+  constructor(
+    private readonly db: DataSource,
+    @Optional() private readonly tokens?: TokenStore,
+  ) {}
 
   async rolesOf(userId: string, m: EntityManager = this.db.manager): Promise<AccountRole[]> {
     const rows = (await m.query(
@@ -53,13 +62,32 @@ export class AccountRolesService {
     if (!parsed.success) throw new AppException("VALIDATION_FAILED", "Invalid lookup");
     const user = await this.db.manager.findOneBy(User, { email: normalizeEmail(parsed.data.email) });
     if (!user) throw new AppException("NOT_FOUND", "No account with that email");
+    return this.view(user);
+  }
+
+  private async view(user: User) {
     return adminUserSchema.parse({
       id: user.id,
       displayName: user.displayName,
       email: user.email,
       roles: await this.rolesOf(user.id),
+      status: user.accountStatus ?? "active",
       createdAt: user.createdAt.toISOString(),
     });
+  }
+
+  /** Find accounts by part of an email or display name. Account details only, never any design content. */
+  async search(raw: Record<string, unknown>) {
+    const parsed = userSearchQuerySchema.safeParse(raw);
+    if (!parsed.success) throw new AppException("VALIDATION_FAILED", "Invalid search");
+    const pattern = `%${parsed.data.q.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
+    const rows = (await this.db.query(
+      `SELECT id FROM users WHERE email ILIKE $1 ESCAPE '\\' OR display_name ILIKE $1 ESCAPE '\\' ORDER BY created_at DESC, id DESC LIMIT $2`,
+      [pattern, parsed.data.limit],
+    )) as Array<{ id: string }>;
+    const out = [];
+    for (const row of rows) out.push(await this.view(await this.requireUser(row.id, this.db.manager)));
+    return out;
   }
 
   async rolesFor(id: string) {
@@ -75,7 +103,17 @@ export class AccountRolesService {
     return rows[0].n;
   }
 
-  private audit(m: EntityManager, action: "grant" | "revoke" | "bootstrap", role: GrantableRole, actor: Actor, target: User) {
+  /** Admins who can act: a suspended Admin does not count, so suspending or demoting the last working one is refused. */
+  private async activeAdminCount(m: EntityManager) {
+    const rows = (await m.query(
+      `SELECT count(*)::int AS n FROM users u
+        WHERE u.account_status = 'active'
+          AND (u.role = 'admin' OR EXISTS (SELECT 1 FROM user_roles r WHERE r.user_id = u.id AND r.role = 'admin'))`,
+    )) as Array<{ n: number }>;
+    return rows[0].n;
+  }
+
+  private audit(m: EntityManager, action: "grant" | "revoke" | "bootstrap" | "suspend" | "restore", role: GrantableRole | null, actor: Actor, target: User) {
     return m.query(
       `INSERT INTO role_audit(at, action, role, actor_id, actor_email, target_id, target_email)
        VALUES (date_trunc('milliseconds', now()), $1, $2, $3, $4, $5, $6)`,
@@ -110,15 +148,60 @@ export class AccountRolesService {
       const target = await this.requireUser(targetId, m);
       const before = await this.rolesOf(targetId, m);
       if (before.includes(role)) {
-        if (role === AccountRole.ADMIN && (await this.adminCount(m)) <= 1)
+        if (role === AccountRole.ADMIN && target.accountStatus !== "suspended" && (await this.activeAdminCount(m)) <= 1)
           throw new AppException("CONFLICT", "The last admin cannot be removed", { reason: "LAST_ADMIN" });
         await m.query("DELETE FROM user_roles WHERE user_id = $1 AND role = $2", [targetId, role]);
+        // Decision 3: removing a role ends the account's sessions, so it has to sign in again and cannot keep refreshing.
+        await m.query("UPDATE users SET sessions_revoked_at = now() WHERE id = $1", [targetId]);
         // The legacy column is read through, so it must not keep an admin the table no longer has.
         if (role === AccountRole.ADMIN) await m.query("UPDATE users SET role = 'user' WHERE id = $1 AND role = 'admin'", [targetId]);
         await this.audit(m, "revoke", role, actor, target);
       }
       return roleChangeSchema.parse({ userId: targetId, roles: await this.rolesOf(targetId, m) });
     });
+  }
+
+  /**
+   * Suspend: sign-in and refresh are refused, live sessions end, every row is kept. Idempotent. An Admin cannot suspend
+   * themselves, and the last working Admin cannot be suspended.
+   */
+  async suspend(actor: Actor, targetId: string) {
+    if (!this.tokens) throw new AppException("INTERNAL", "Suspending needs the token store");
+    await this.db.transaction(async (m) => {
+      await m.query(LOCK);
+      const target = await this.requireUser(targetId, m);
+      if (target.id === actor.id) throw new AppException("CONFLICT", "You cannot suspend your own account", { reason: "SELF" });
+      if (target.accountStatus === "suspended") return;
+      const roles = await this.rolesOf(targetId, m);
+      if (roles.includes(AccountRole.ADMIN) && (await this.activeAdminCount(m)) <= 1)
+        throw new AppException("CONFLICT", "The last admin cannot be suspended", { reason: "LAST_ADMIN" });
+      await m.query("UPDATE users SET account_status = 'suspended', sessions_revoked_at = now() WHERE id = $1", [targetId]);
+      await this.audit(m, "suspend", null, actor, target);
+    });
+    // After the commit, and repeated on a retry: the database says suspended, this cuts off tokens already issued.
+    try {
+      await this.tokens.blockUser(targetId, appConfig.env.JWT_ACCESS_TTL_SECONDS);
+    } catch {
+      throw new AppException("UNAVAILABLE", "The account is suspended, but live sessions could not be ended yet. Please retry.");
+    }
+    return statusChangeSchema.parse({ userId: targetId, status: "suspended" });
+  }
+
+  /** Restore: the account can sign in again; sessions that were ended stay ended. Idempotent. */
+  async restore(actor: Actor, targetId: string) {
+    await this.db.transaction(async (m) => {
+      await m.query(LOCK);
+      const target = await this.requireUser(targetId, m);
+      if (target.accountStatus !== "suspended") return;
+      await m.query("UPDATE users SET account_status = 'active' WHERE id = $1", [targetId]);
+      await this.audit(m, "restore", null, actor, target);
+    });
+    try {
+      await this.tokens?.unblockUser(targetId);
+    } catch {
+      throw new AppException("UNAVAILABLE", "The account is restored, but its sign-in block could not be cleared yet. Please retry.");
+    }
+    return statusChangeSchema.parse({ userId: targetId, status: "active" });
   }
 
   /** The one-time server command: makes the first Admin, and only while no Admin exists. */
@@ -145,7 +228,7 @@ export class AccountRolesService {
         WHERE ($1::timestamptz IS NULL OR (at, id) < ($1::timestamptz, COALESCE($2::uuid, 'ffffffff-ffff-ffff-ffff-ffffffffffff'::uuid)))
         ORDER BY at DESC, id DESC LIMIT $3`,
       [before ?? null, beforeId ?? null, limit],
-    )) as Array<{ id: string; at: Date; action: "grant" | "revoke" | "bootstrap"; role: GrantableRole; actorId: string | null; actorEmail: string; targetId: string | null; targetEmail: string }>;
+    )) as Array<{ id: string; at: Date; action: "grant" | "revoke" | "bootstrap" | "suspend" | "restore"; role: GrantableRole | null; actorId: string | null; actorEmail: string; targetId: string | null; targetEmail: string }>;
     return rows.map((row) =>
       auditEntrySchema.parse({
         id: row.id,

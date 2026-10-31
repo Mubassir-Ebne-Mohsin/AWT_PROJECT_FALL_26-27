@@ -22,7 +22,7 @@ export function RoleGate({ role, children }: { role: RoleName; children: ReactNo
     return (
       <div className="empty" role="alert" data-testid="role-gate-unavailable">
         <Icon n="lock" s={22} />
-        <h1>We could not check your access</h1>
+        <h2 className="h3">We could not check your access</h2>
         <p className="muted">Nothing was changed. Try again in a moment.</p>
       </div>
     );
@@ -30,7 +30,7 @@ export function RoleGate({ role, children }: { role: RoleName; children: ReactNo
     return (
       <div className="empty" role="alert" data-testid="role-gate-denied">
         <Icon n="lock" s={22} />
-        <h1>This area is for {ROLE_LABEL[role]} accounts</h1>
+        <h2 className="h3">This area is for {ROLE_LABEL[role]} accounts</h2>
         <p className="muted">Your account does not have that role. An Admin can grant it.</p>
         <Link href="/dashboard" className="btn btn-primary btn-sm">
           Back to your dashboard

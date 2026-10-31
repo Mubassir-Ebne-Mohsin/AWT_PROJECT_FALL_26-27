@@ -18,5 +18,7 @@ export interface RefreshTokenPayload {
   jti: string;
   /** Family id; constant across a rotation chain so a reuse can revoke the whole chain. */
   fam: string;
+  /** Issued-at, added by the JWT library; compared with `users.sessions_revoked_at` on refresh. */
+  iat?: number;
   exp: number;
 }

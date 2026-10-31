@@ -14,7 +14,7 @@ import {
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
-import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema } from "@/common/contracts/phase3/roles.schema";
+import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
@@ -46,6 +46,7 @@ export function phase3OpenApi() {
     AccountRoles: accountRolesSchema,
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
+    StatusChange: statusChangeSchema,
     RoleChange: roleChangeSchema,
     AuditEntry: auditEntrySchema,
     DesignLibraryList: libraryListSchema,
@@ -199,6 +200,28 @@ export function phase3OpenApi() {
       },
       "/v1/account/roles": {
         get: operation("getAccountRoles", "AccountRoles"),
+      },
+      "/v1/admin/users": {
+        get: {
+          ...operation("searchAdminUsers", "AdminUser"),
+          parameters: [
+            { name: "q", in: "query", required: true, schema: { type: "string", minLength: 2, maxLength: 100 } },
+            { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 20, default: 10 } },
+          ],
+          responses: {
+            ...operation("searchAdminUsers", "AdminUser").responses,
+            200: {
+              description: "Matching accounts, newest first (at most 20)",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("AdminUser"), maxItems: 20 } } }),
+            },
+          },
+        },
+      },
+      "/v1/admin/users/{id}/suspend": {
+        post: { ...operation("suspendUser", "StatusChange"), parameters: [parameter] },
+      },
+      "/v1/admin/users/{id}/restore": {
+        post: { ...operation("restoreUser", "StatusChange"), parameters: [parameter] },
       },
       "/v1/admin/users/lookup": {
         get: {

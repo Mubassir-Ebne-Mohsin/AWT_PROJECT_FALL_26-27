@@ -26,6 +26,26 @@ export class AccountController {
 export class AdminController {
   constructor(private readonly roles: AccountRolesService) {}
 
+  @Get("users")
+  @RequirePermission(Permission.ADMIN_USERS_READ)
+  search(@Query() query: Record<string, unknown>) {
+    return this.roles.search(query);
+  }
+
+  @Post("users/:id/suspend")
+  @HttpCode(200)
+  @RequirePermission(Permission.ADMIN_USERS_SUSPEND)
+  suspend(@CurrentUser() actor: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.roles.suspend({ id: actor.id, email: actor.email }, id);
+  }
+
+  @Post("users/:id/restore")
+  @HttpCode(200)
+  @RequirePermission(Permission.ADMIN_USERS_SUSPEND)
+  restore(@CurrentUser() actor: AuthUser, @Param("id", ParseUUIDPipe) id: string) {
+    return this.roles.restore({ id: actor.id, email: actor.email }, id);
+  }
+
   @Get("users/lookup")
   @RequirePermission(Permission.ADMIN_USERS_READ)
   lookup(@Query() query: Record<string, unknown>) {

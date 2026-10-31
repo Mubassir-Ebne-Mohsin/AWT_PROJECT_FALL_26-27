@@ -40,7 +40,8 @@ export class AuthGuard implements CanActivate {
 
     if (
       payload.typ !== "access" ||
-      (await this.tokens.isAccessRevoked(payload.jti))
+      (await this.tokens.isAccessRevoked(payload.jti)) ||
+      (await this.tokens.isUserBlocked(payload.sub))
     ) {
       throw new AppException("UNAUTHENTICATED", "Invalid access token");
     }

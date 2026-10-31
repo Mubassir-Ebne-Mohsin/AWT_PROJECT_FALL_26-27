@@ -181,7 +181,7 @@ describe("R1 Roles (isolated Postgres, no AI involved)", () => {
     const res = await http.get(`/v1/admin/users/lookup?email=${encodeURIComponent(target.email.toUpperCase())}`).set(as(admin)).expect(200);
     const view = adminUserSchema.parse(res.body.data);
     expect(view).toMatchObject({ id: target.id, email: target.email, roles: ["user", "reviewer"] });
-    expect(Object.keys(res.body.data).sort()).toEqual(["createdAt", "displayName", "email", "id", "roles"]);
+    expect(Object.keys(res.body.data).sort()).toEqual(["createdAt", "displayName", "email", "id", "roles", "status"]);
     expect(JSON.stringify(res.body)).not.toMatch(/passwordHash|argon2|\$argon/i);
     await http.get(`/v1/admin/users/lookup?email=${encodeURIComponent("nobody-" + randomUUID() + "@example.test")}`).set(as(admin)).expect(404);
   });

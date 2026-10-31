@@ -25,6 +25,14 @@ export class User {
   @Column({ type: "varchar", length: 16, default: Role.USER })
   role!: Role;
 
+  /** R2: a suspended account cannot sign in or refresh; its data is kept. Never part of the user DTO. */
+  @Column({ type: "varchar", length: 12, default: "active" })
+  accountStatus!: "active" | "suspended";
+
+  /** R2: sessions issued at or before this moment are no longer valid (set on suspension and on a role removal). */
+  @Column({ type: "timestamptz", nullable: true })
+  sessionsRevokedAt!: Date | null;
+
   @CreateDateColumn({ type: "timestamptz" })
   createdAt!: Date;
 

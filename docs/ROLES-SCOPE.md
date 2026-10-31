@@ -77,3 +77,13 @@ Verified: backend unit 222 passed (2 skipped); backend e2e 143 passed (13 new ro
 Deviation: revoking Admin is immediate for privileged endpoints (roles are read from the database), but a revoked account's refresh session is not revoked until R2, as noted under decision 3. No route uses `RoleGate` yet; R2 adds the first role area, and the route registry (35 routes, pinned by phase1.spec) needs the user's say before it grows.
 
 Operator steps: run `pnpm migration:run` on the dev database, then `pnpm admin:bootstrap -- --email=<your account>` once to make the first Admin.
+
+## R2 result (2026-10-31)
+
+Built: account suspension (`users.account_status`, `users.sessions_revoked_at`; migration `AccountStatus1793800000000`), `POST /admin/users/:id/suspend` and `/restore`, `GET /admin/users?q=` search, audit actions `suspend` and `restore`, and the `/admin/users` screen (search, roles with confirmation, suspend and restore, audit log with paging) behind `RoleGate`. Suspended accounts are refused at sign-in (only after the password is right), at refresh, and on live access tokens at once. Removing a role or suspending ends the account's refresh sessions, which closes the R1 deviation. An Admin cannot suspend themselves, and the last working Admin cannot be suspended or demoted (suspended Admins do not count).
+
+Verified: backend unit 222 passed, backend e2e 155 passed (12 new in `admin-status.e2e-spec.ts`), web unit 190 passed, Chrome regression: the full run found one real bug (the access-denied panel added a second `h1` on `/admin/users`, which the existing route audit rejects), fixed by making it an `h2`; the full run was 507 passed, 10 skipped, 3 failed (that audit on three projects), and the rerun of the phase1, R1 and R2 specs after the fix was 36 passed, 4 skipped, 0 failed (16 new Admin journeys run against the real API). The rest of the suite was not rerun after the one-tag change. Mutation checks: 14 backend and 8 web deliberate breaks, each failed a test; one survived at first (refresh ignoring suspension), a test was added and it is now caught.
+
+Existing tests changed, on purpose and not loosened: `phase1.spec.ts` route count 35 to 36 (new route `/admin/users`), the R1 lookup allow-list in `roles.e2e-spec.ts` now includes `status`, and `fake-redis.ts` gained `del`.
+
+Operator steps: run `pnpm migration:run` on the dev database. The Admin browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` (they promote a throwaway account directly in Postgres) and skip without them.

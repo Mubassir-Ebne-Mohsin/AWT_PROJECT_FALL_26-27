@@ -21,6 +21,7 @@ export enum Permission {
   ADMIN_USERS_READ = "admin.users.read",
   ADMIN_ROLES_GRANT = "admin.roles.grant",
   ADMIN_AUDIT_READ = "admin.audit.read",
+  ADMIN_USERS_SUSPEND = "admin.users.suspend",
 }
 
 /**
@@ -32,7 +33,7 @@ export const PERMISSIONS: Record<AccountRole, readonly Permission[]> = {
   [AccountRole.USER]: [],
   [AccountRole.INSTRUCTOR]: [],
   [AccountRole.REVIEWER]: [],
-  [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ],
+  [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ, Permission.ADMIN_USERS_SUSPEND],
 };
 
 export const hasPermission = (roles: readonly AccountRole[], permission: Permission) => roles.some((role) => PERMISSIONS[role]?.includes(permission) ?? false);

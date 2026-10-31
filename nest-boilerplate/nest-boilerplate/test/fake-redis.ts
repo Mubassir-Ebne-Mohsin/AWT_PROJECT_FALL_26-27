@@ -35,6 +35,13 @@ class FakeRedisClient {
     return this.live(key) ? 1 : 0;
   }
 
+  async del(key: string) {
+    this.assertOpen();
+    const had = this.live(key) ? 1 : 0;
+    this.store.delete(key);
+    return had;
+  }
+
   async ping() {
     this.assertOpen();
     return "PONG";

@@ -43,6 +43,22 @@ export class TokenStore {
     return res === "OK";
   }
 
+  /**
+   * R2: a suspended account's still-valid access tokens are refused for as long as any of them could live. The database
+   * (`account_status`) stays the source of truth for login and refresh; this marker only covers the access-token window.
+   */
+  blockUser(userId: string, ttlSeconds: number) {
+    return this.mark(`user:${userId}`, ttlSeconds);
+  }
+
+  async unblockUser(userId: string) {
+    await this.client.del(`${PREFIX}:user:${userId}`);
+  }
+
+  isUserBlocked(userId: string) {
+    return this.has(`user:${userId}`);
+  }
+
   revokeFamily(fam: string, ttlSeconds: number) {
     return this.mark(`fam:${fam}`, ttlSeconds);
   }

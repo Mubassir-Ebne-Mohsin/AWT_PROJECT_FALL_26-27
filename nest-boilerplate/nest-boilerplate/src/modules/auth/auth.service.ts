@@ -60,6 +60,10 @@ export class AuthService {
     const ok = await argon2.verify(hash, dto.password);
     if (!user || !ok)
       throw new AppException("UNAUTHENTICATED", BAD_CREDENTIALS);
+    // Said only after the password is right, so it cannot be used to find out which emails have accounts.
+    if (user.accountStatus === "suspended") {
+      throw new AppException("FORBIDDEN", "This account is suspended. Contact an administrator.", { reason: "ACCOUNT_SUSPENDED" });
+    }
     return this.issue(user, randomUUID());
   }
 
@@ -79,6 +83,11 @@ export class AuthService {
     const user = await this.users.findById(payload.sub);
     if (!user)
       throw new AppException("UNAUTHENTICATED", "You are not signed in");
+    // A suspended account, or a session started before an Admin ended all sessions, must sign in again.
+    const endedAt = user.sessionsRevokedAt ? Math.floor(new Date(user.sessionsRevokedAt).getTime() / 1000) : null;
+    if (user.accountStatus === "suspended" || (endedAt !== null && (payload.iat ?? 0) <= endedAt)) {
+      throw new AppException("SESSION_EXPIRED", "Your session has expired");
+    }
     if (!(await this.tokens.consumeRefresh(payload.jti, ttl))) {
       // A spent token came back: assume it was stolen and kill the whole chain.
       await this.tokens.revokeFamily(payload.fam, ttl);
