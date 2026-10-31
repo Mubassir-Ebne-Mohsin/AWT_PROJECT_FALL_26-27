@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude Phase 4/5 scope
+**Goal:** plan the non-AI phases that remain after the roles track (AI parked).
+**Done:** pushed `06f37e4` (report section 28 for R1-R5). Wrote [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md): six slices (honest public pages, learn, examples/templates/components, settings with export and account deletion, evaluation, welcome/progress) and ten decisions with recommendations. No code changed. The landing page was already committed; its 16 browser tests pass.
+**Next:** the user answers the decisions; then build P1 first. No active claims.
+
 ## 2026-11-01, Claude finishes R5.3 and the R5 Instructor track
 **Goal:** R5.3 Instructor submissions and feedback (user: "proceed with the R5.3 and finish it").
 **Done:** built and verified, see R5-INSTRUCTOR-SCOPE.md "R5.3 result". Backend, web panel on the existing challenge page, learner feedback on the attempt page, 11 + 6 + 1 new tests, 17 of 18 deliberate breaks caught (the last is equivalent), full Chrome regression 550 passed, 10 skipped, 0 failed.
