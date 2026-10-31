@@ -1,6 +1,6 @@
 # Phase 4/5 scope: public, learning, settings and evaluation pages
 
-Prepared 2026-11-01. Status: **proposed, awaiting your decisions.** Nothing here is built. Needs no AI (AI stays parked, see [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md)). Sources: the route registry (`web/src/lib/routes.ts`), the fixed vocabularies in `web/src/lib/catalog.ts`, [SIMULATION-MODEL](SIMULATION-MODEL.md), and the planned-content lists already written for each route.
+Prepared 2026-11-01. Status: **all ten decisions approved 2026-11-01 ("Approve all", as recommended).** P1 is built (see the result at the end); P2 to P6 are not. Needs no AI (AI stays parked, see [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md)). Sources: the route registry (`web/src/lib/routes.ts`), the fixed vocabularies in `web/src/lib/catalog.ts`, [SIMULATION-MODEL](SIMULATION-MODEL.md), and the planned-content lists already written for each route.
 
 ## 1. Where the code is today (verified)
 
@@ -56,3 +56,9 @@ AI of any kind (M12 to M17), a CMS, guest simulation, email verification and pas
 ## 6. Risks
 
 Account deletion is the one hard-to-undo feature: it needs the strictest tests and a clear screen. Public pages can drift from the model; the matrix ties their claims to SIMULATION-MODEL. Learn demos can disagree with real results unless they share formulas (decision 2).
+
+## P1 result (2026-11-01)
+**Built:** `/how-it-works`, `/about`, `/privacy` and `/terms` are real, account-free, server-rendered pages (`web/src/components/public/static-pages.tsx`, words in `web/src/lib/public-content.ts`). Registry fidelity for the four routes is now "C"; the registry stays at 40 routes.
+**Honesty rules enforced by tests:** how-it-works repeats only what SIMULATION-MODEL.md says (bounds, 48-point timeline, six paths, 1e7 search cap, Sakasegawa, no calibration); the terms quote the limits the code enforces (50/200, 20 graded submissions, 20 feedback notes); the privacy page matches the code (argon2 password hashes, SHA-256 share-link hashes, no email shown to Reviewers or Instructors, AI off) and says export and deletion are "not available yet", and a test fails as soon as an export or delete route exists so the text must be updated in P4.
+**Evidence:** web tsc and eslint clean; web unit 253 pass (7 new in `tests/p1-public.test.cjs`); 12 browser tests (3 per project) in `tests/browser/p1-public.spec.ts` as a guest at 320, 390, 1024 and 1440 px with no API calls; full Chrome regression 574 passed, 10 skipped, 0 failed; 18 deliberate breaks (wrong numbers, flipped claims, a second h1, a client page, a missing noopener, placeholder text) each failed a test. No backend change.
+**Open item:** the About page links to the GitHub repository; remove that link if the repository should stay private.

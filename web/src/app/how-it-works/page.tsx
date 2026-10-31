@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { HowItWorksPage } from "@/components/public/static-pages";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return <HowItWorksPage />;
 }

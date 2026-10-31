@@ -122,3 +122,6 @@ Learner challenge loop built and verified (see R5.2-LEARNER-SCOPE.md "R5.2 resul
 
 ## R5.3 complete — 2026-11-01
 Instructor submissions and one-way feedback built and verified (see R5-INSTRUCTOR-SCOPE.md "R5.3 result"). The R5 Instructor track is complete. Committed locally, not pushed. Next: AI work (M12 / Groq) on the user's go-ahead.
+
+## Phase 4/5 P1 complete — 2026-11-01
+Decisions in [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) approved. P1 (honest public pages: how-it-works, about, privacy, terms) built and verified, committed locally. Next: P4 settings. When P4 adds export or delete, the P1 privacy test will fail until the privacy text is updated.

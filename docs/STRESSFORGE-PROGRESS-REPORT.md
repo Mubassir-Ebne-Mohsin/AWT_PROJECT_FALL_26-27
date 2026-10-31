@@ -1467,3 +1467,7 @@ Route registry: 35 to 36 (R2), 38 (R3), 40 (R5.1); R4, R5.2 and R5.3 added none.
 
 ### Operator steps
 `pnpm migration:run` on every database (dev already done through `ChallengeFeedback1794300000000`); `pnpm admin:bootstrap -- --email=<account>` once for the first Admin. Browser journeys for Admin, Reviewer and Instructor need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` and skip without them.
+
+## 29. Phase 4/5 P1: public pages (2026-11-01)
+
+Scope and decisions: [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) (all ten approved). `/how-it-works`, `/about`, `/privacy` and `/terms` are now real pages for guests. [Verified] web unit 253 pass; guest browser tests at 320, 390, 1024 and 1440 px with no API calls; full Chrome regression 574 passed, 10 skipped, 0 failed; 18 deliberate breaks each failed a test. [Verified] The copy is tied by tests to SIMULATION-MODEL.md and to the code (limits, password and share-link hashing, AI off). [Untested] Whether the About page's repository link should be public. Next: P4 settings, which must update the privacy text.

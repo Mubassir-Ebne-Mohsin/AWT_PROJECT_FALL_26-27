@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude Phase 4/5 P1 public pages
+**Goal:** build P1 after the user approved all ten Phase 4/5 decisions.
+**Done:** four public pages replace placeholders; content as typed data tied to SIMULATION-MODEL.md and to the code by tests; 7 unit + 12 browser tests; 18 deliberate breaks caught; full Chrome regression 574 passed, 10 skipped, 0 failed. No backend or migration change.
+**Warnings:** the privacy page says export and deletion are not available yet; update `PRIVACY_CONTROL` when P4 ships (a test forces this). The About page links to the GitHub repository. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** P4 settings (profile, password change, export, account deletion).
+
 ## 2026-11-01, Claude Phase 4/5 scope
 **Goal:** plan the non-AI phases that remain after the roles track (AI parked).
 **Done:** pushed `06f37e4` (report section 28 for R1-R5). Wrote [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md): six slices (honest public pages, learn, examples/templates/components, settings with export and account deletion, evaluation, welcome/progress) and ten decisions with recommendations. No code changed. The landing page was already committed; its 16 browser tests pass.

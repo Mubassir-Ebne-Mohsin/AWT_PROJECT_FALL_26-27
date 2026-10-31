@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { TermsPage } from "@/components/public/static-pages";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return <TermsPage />;
 }
