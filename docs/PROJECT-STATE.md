@@ -125,3 +125,6 @@ Instructor submissions and one-way feedback built and verified (see R5-INSTRUCTO
 
 ## Phase 4/5 P1 complete — 2026-11-01
 Decisions in [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) approved. P1 (honest public pages: how-it-works, about, privacy, terms) built and verified, committed locally. Next: P4 settings. When P4 adds export or delete, the P1 privacy test will fail until the privacy text is updated.
+
+## Phase 4/5 P4 complete — 2026-11-01
+Settings (profile, password change that ends other sessions, export, account deletion, appearance) built and verified, committed locally. See [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) "P4 result". Needs `pnpm migration:run` (AccountSelfService). Open: `pnpm fixtures:phase2` byte-drift on this Node version (see the scope doc). Next: P2 Learn.

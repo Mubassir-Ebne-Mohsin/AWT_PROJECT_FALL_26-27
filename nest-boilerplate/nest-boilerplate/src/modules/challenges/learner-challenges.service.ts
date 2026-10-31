@@ -151,8 +151,8 @@ export class LearnerChallengesService implements OnApplicationBootstrap {
     );
     const notes: { id: string; submission_id: string; display_name: string; body: string; created_at: Date }[] =
       await this.db.query(
-        `SELECT f.id, f.submission_id, u.display_name, f.body, f.created_at FROM challenge_feedback f
-         JOIN challenge_submissions s ON s.id = f.submission_id JOIN users u ON u.id = f.instructor_id
+        `SELECT f.id, f.submission_id, COALESCE(u.display_name, 'Former Instructor') AS display_name, f.body, f.created_at FROM challenge_feedback f
+         JOIN challenge_submissions s ON s.id = f.submission_id LEFT JOIN users u ON u.id = f.instructor_id
          WHERE s.attempt_id = $1 ORDER BY f.created_at DESC, f.id DESC`,
         [attemptId],
       );

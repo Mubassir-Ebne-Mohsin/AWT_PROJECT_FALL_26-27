@@ -6,6 +6,8 @@ export interface AccessTokenPayload {
   email: string;
   role: Role;
   jti: string;
+  /** Issued-at, added by the JWT library; compared with the sessions-ended marker. */
+  iat?: number;
   exp: number;
 }
 

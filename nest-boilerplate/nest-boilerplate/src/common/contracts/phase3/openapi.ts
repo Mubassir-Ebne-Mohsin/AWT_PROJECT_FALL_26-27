@@ -9,6 +9,9 @@ import {
 } from "@/common/contracts/phase3/attempts.schema";
 import { createFeedbackRequestSchema, instructorSubmissionDetailSchema, instructorSubmissionListSchema } from "@/common/contracts/phase3/instructor-submissions.schema";
 import { feedbackSchema } from "@/common/contracts/phase3/attempts.schema";
+import { accountExportSchema, deleteAccountSchema, passwordChangeSchema, profileUpdateSchema } from "@/common/contracts/phase3/account.schema";
+import { authSessionSchema } from "@/modules/auth/dto/auth.dto";
+import { userResponseSchema } from "@/modules/users/dto/user.dto";
 import { z } from "zod";
 import {
   aiAcceptedSchema,
@@ -47,6 +50,12 @@ export function phase3OpenApi() {
     ChallengeSubmission: submissionSchema,
     ChallengeProgress: challengeProgressSchema,
     ChallengeFeedback: feedbackSchema,
+    ProfileUpdate: profileUpdateSchema,
+    PasswordChange: passwordChangeSchema,
+    DeleteAccount: deleteAccountSchema,
+    AccountExport: accountExportSchema,
+    AccountUser: userResponseSchema,
+    AccountSession: authSessionSchema,
     CreateChallengeFeedbackRequest: createFeedbackRequestSchema,
     InstructorSubmissionList: instructorSubmissionListSchema,
     InstructorSubmissionDetail: instructorSubmissionDetailSchema,
@@ -351,6 +360,24 @@ export function phase3OpenApi() {
       },
       "/v1/instructor/challenges/{id}/archive": {
         post: { ...operation("archiveChallenge", "Challenge"), parameters: [parameter] },
+      },
+      "/v1/account/profile": {
+        patch: operation("updateMyProfile", "AccountUser", "ProfileUpdate"),
+      },
+      "/v1/account/export": {
+        get: operation("exportMyAccount", "AccountExport"),
+      },
+      "/v1/account/delete": {
+        post: {
+          ...operation("deleteMyAccount", "AccountUser", "DeleteAccount"),
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("deleteMyAccount", "AccountUser", "DeleteAccount").responses).filter(([code]) => code !== "200")),
+            204: { description: "The account and everything that belonged only to it is deleted" },
+          },
+        },
+      },
+      "/v1/auth/password": {
+        post: operation("changeMyPassword", "AccountSession", "PasswordChange"),
       },
       "/v1/instructor/challenges/{id}/submissions": {
         get: { ...operation("listChallengeSubmissions", "InstructorSubmissionList"), parameters: [parameter] },

@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude Phase 4/5 P4 settings
+**Goal:** build P4 (user: "Push and start P4").
+**Done:** pushed `7b08733` (P1). Built Settings end to end: four new API routes, one migration, six settings sections, privacy text updated. Backend e2e 253 pass, web unit 268 pass, Chrome 598 passed / 10 skipped / 0 failed. 24 backend and 28 web deliberate breaks caught. Deviations from the approved decision text are listed in PHASE-4-5-SCOPE.md "P4 result".
+**Warnings:** run `pnpm migration:run` (AccountSelfService is new; the user's dev database has not had it). `pnpm fixtures:phase2` fails on byte-drift under Node 24.14.1 (not caused by this work, no inputs changed). A `git stash -u` was attempted and refused by the classifier; nothing was stashed. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** P2 Learn (eight topic pages with mini-demos), then P3 examples/templates/components, P5 evaluation, P6 welcome and progress.
+
 ## 2026-11-01, Claude Phase 4/5 P1 public pages
 **Goal:** build P1 after the user approved all ten Phase 4/5 decisions.
 **Done:** four public pages replace placeholders; content as typed data tied to SIMULATION-MODEL.md and to the code by tests; 7 unit + 12 browser tests; 18 deliberate breaks caught; full Chrome regression 574 passed, 10 skipped, 0 failed. No backend or migration change.

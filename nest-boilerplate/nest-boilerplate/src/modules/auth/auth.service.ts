@@ -12,6 +12,7 @@ import {
   RefreshTokenPayload,
 } from "@/modules/auth/auth.types";
 import { LoginDto, RegisterDto } from "@/modules/auth/dto/auth.dto";
+import { passwordChangeSchema } from "@/common/contracts/phase3/account.schema";
 
 export interface IssuedSession {
   accessToken: string;
@@ -65,6 +66,32 @@ export class AuthService {
       throw new AppException("FORBIDDEN", "This account is suspended. Contact an administrator.", { reason: "ACCOUNT_SUSPENDED" });
     }
     return this.issue(user, randomUUID());
+  }
+
+  /**
+   * P4: change the password of the signed-in account. The current password must be right; every other session ends
+   * (refresh tokens through sessions_revoked_at, access tokens through the Redis marker); and this device gets a
+   * brand-new session (issue() dates it after the cut-off, so the cut-off does not end it).
+   */
+  async changePassword(userId: string, raw: unknown): Promise<IssuedSession> {
+    const parsed = passwordChangeSchema.safeParse(raw);
+    if (!parsed.success) {
+      throw new AppException("VALIDATION_FAILED", "Validation failed", {
+        fields: parsed.error.issues.map((i) => ({ path: String(i.path[0] ?? "newPassword"), message: i.message })),
+      });
+    }
+    const user = await this.users.findById(userId);
+    if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
+    const bad = (path: string, message: string) => new AppException("VALIDATION_FAILED", "Validation failed", { fields: [{ path, message }] });
+    if (!(await argon2.verify(user.passwordHash, parsed.data.currentPassword))) throw bad("currentPassword", "Incorrect password");
+    if (parsed.data.currentPassword === parsed.data.newPassword) throw bad("newPassword", "Choose a password you are not already using");
+    const passwordHash = await argon2.hash(parsed.data.newPassword);
+    const now = new Date();
+    const cutoff = Math.floor(now.getTime() / 1000);
+    await this.users.setPassword(userId, passwordHash, now);
+    await this.tokens.endSessions(userId, cutoff, Math.max(env.JWT_ACCESS_TTL_SECONDS, 1));
+    const fresh = await this.users.findById(userId);
+    return this.issue(fresh ?? user, randomUUID());
   }
 
   /** Rotates the refresh token: the presented one is spent and a new pair is issued. */
@@ -169,7 +196,12 @@ export class AuthService {
     refreshExpiresAt = Math.floor(Date.now() / 1000) +
       env.JWT_REFRESH_TTL_SECONDS,
   ): Promise<IssuedSession> {
+    // Sessions are cut off at a whole second (sessionsRevokedAt) and tokens carry whole-second issue times, so a session
+    // created in that same second would look like one that was ended. Date it just after the cut-off instead.
+    const cutoff = user.sessionsRevokedAt ? Math.floor(new Date(user.sessionsRevokedAt).getTime() / 1000) : null;
+    const issuedAt = cutoff !== null && Math.floor(Date.now() / 1000) <= cutoff ? cutoff + 1 : undefined;
     const accessPayload: Omit<AccessTokenPayload, "exp"> = {
+      ...(issuedAt ? { iat: issuedAt } : {}),
       typ: "access",
       sub: user.id,
       email: user.email,
@@ -182,6 +214,7 @@ export class AuthService {
       sub: user.id,
       jti: randomUUID(),
       fam: family,
+      ...(issuedAt ? { iat: issuedAt } : {}),
       exp: refreshExpiresAt,
     };
     const [accessToken, refreshToken] = await Promise.all([

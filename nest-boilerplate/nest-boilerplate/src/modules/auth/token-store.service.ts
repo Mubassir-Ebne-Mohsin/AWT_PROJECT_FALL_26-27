@@ -59,6 +59,22 @@ export class TokenStore {
     return this.has(`user:${userId}`);
   }
 
+  /**
+   * P4: after a password change every session issued at or before endedAtSeconds is over. The database
+   * (sessions_revoked_at) decides for refresh tokens; this marker covers access tokens that are still within their
+   * short lifetime on other devices.
+   */
+  async endSessions(userId: string, endedAtSeconds: number, ttlSeconds: number) {
+    if (ttlSeconds < 1) return;
+    await this.client.set(`${PREFIX}:since:${userId}`, String(endedAtSeconds), { EX: Math.ceil(ttlSeconds) });
+  }
+
+  async sessionsEndedAt(userId: string): Promise<number | null> {
+    const raw = await this.client.get(`${PREFIX}:since:${userId}`);
+    const n = raw === null || raw === undefined ? NaN : Number(raw);
+    return Number.isFinite(n) ? n : null;
+  }
+
   revokeFamily(fam: string, ttlSeconds: number) {
     return this.mark(`fam:${fam}`, ttlSeconds);
   }

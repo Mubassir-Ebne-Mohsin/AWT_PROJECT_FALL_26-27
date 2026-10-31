@@ -28,6 +28,11 @@ export function adoptSession(session: AuthSession) {
   sessionListeners.forEach((fn) => fn(session.user));
 }
 
+/** The signed-in person's details changed (for example their display name) but the session did not. */
+export function updateSessionUser(user: User) {
+  sessionListeners.forEach((fn) => fn(user));
+}
+
 /** Explicit sign-out: forget everything and tell the UI. */
 export function dropSession() {
   forgetToken();

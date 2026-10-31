@@ -92,8 +92,8 @@ export class InstructorSubmissionsService {
     );
     if (!row) throw new AppException("NOT_FOUND", "Submission not found");
     const notes: FeedbackRow[] = await this.db.query(
-      `SELECT f.id, f.submission_id, u.display_name, f.body, f.created_at FROM challenge_feedback f
-       JOIN users u ON u.id = f.instructor_id WHERE f.submission_id = $1 ORDER BY f.created_at ASC, f.id ASC`,
+      `SELECT f.id, f.submission_id, COALESCE(u.display_name, 'Former Instructor') AS display_name, f.body, f.created_at FROM challenge_feedback f
+       LEFT JOIN users u ON u.id = f.instructor_id WHERE f.submission_id = $1 ORDER BY f.created_at ASC, f.id ASC`,
       [submissionId],
     );
     return instructorSubmissionDetailSchema.parse({

@@ -45,6 +45,11 @@ export class AuthGuard implements CanActivate {
     ) {
       throw new AppException("UNAUTHENTICATED", "Invalid access token");
     }
+    // P4: a password change ended every session issued before it.
+    const endedAt = await this.tokens.sessionsEndedAt(payload.sub);
+    if (endedAt !== null && (payload.iat ?? 0) <= endedAt) {
+      throw new AppException("UNAUTHENTICATED", "Invalid access token");
+    }
 
     req.user = { id: payload.sub, email: payload.email, role: payload.role };
     return true;

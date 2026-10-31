@@ -99,16 +99,18 @@ test("P1: the privacy page matches what the app does: hashed passwords and links
   assert.equal(doc(html).querySelectorAll("[data-testid='privacy-row']").length, C.PRIVACY_STORED.length);
 });
 
-test("P1: the privacy page does not promise export or deletion that the API does not have", () => {
+test("P1: the privacy page promises export and deletion exactly when the API has them", () => {
   const dir = path.join(root, "nest-boilerplate/nest-boilerplate/src/modules");
   const controllers = [];
   const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).forEach((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : /controller\.ts$/.test(e.name) && controllers.push(fs.readFileSync(path.join(d, e.name), "utf8"))));
   walk(dir);
   const api = controllers.join("\n");
   const hasExport = /@(Get|Post)\("[^"]*export[^"]*"\)/i.test(api);
-  const hasDelete = /@Delete\("(me|account)[^"]*"\)/i.test(api);
-  if (!hasExport && !hasDelete) assert.match(C.PRIVACY_CONTROL, /not available yet/);
-  else assert.doesNotMatch(C.PRIVACY_CONTROL, /not available yet/, "an export or delete route now exists: update the privacy text");
+  const hasDelete = /@Controller\("account"\)[\s\S]*@Post\("delete"\)/.test(api);
+  const promises = /download everything you have stored and delete your account/.test(C.PRIVACY_CONTROL);
+  assert.equal(promises, hasExport && hasDelete, "the privacy text and the API disagree about export and deletion");
+  assert.doesNotMatch(C.PRIVACY_CONTROL, /not available yet|planned for/);
+  assert.match(C.PRIVACY_STORED.find((r) => r.what === "Role history").who, /kept after an account is deleted/);
 });
 
 test("P1: the about page names the real stack and the real roles, and the source link is the repository", () => {

@@ -124,13 +124,13 @@ export const PRIVACY_STORED: Stored[] = [
   { what: "Reviews", detail: "A frozen copy of one revision you share with a named Reviewer, and the comment thread.", who: "You and that Reviewer, who sees your display name but not your email. Access ends when you stop sharing." },
   { what: "Challenges", detail: "As an Instructor: your challenges. As a learner: your private attempt, each submission with its judged result, and any feedback you received.", who: "Learners see their own attempts. Instructors see graded submissions to their own challenges, with your display name but not your email." },
   { what: "Sign-in", detail: "A refresh cookie that keeps you signed in, and a plain marker cookie that only says someone signed in on this browser.", who: "Your browser and the server." },
-  { what: "Role history", detail: "A record of who gave or removed a role, and when.", who: "Admins." },
+  { what: "Role history", detail: "A record of who gave or removed a role, and when, with the email text of the accounts involved.", who: "Admins. It is kept after an account is deleted." },
 ];
 
 export const PRIVACY_AI =
   "The AI features are switched off. Nothing you draw, write or run is sent to any AI service.";
 export const PRIVACY_CONTROL =
-  "You can revoke share links and reviews at any time. Exporting everything you have stored, and deleting your account, are not available yet; they are planned for the Settings page.";
+  "You can revoke share links and reviews at any time. In Settings, under Data, you can download everything you have stored and delete your account. Deleting removes your designs and their results; a challenge other people have attempted is kept without an owner so their results survive, and the history of role changes is kept as an audit log.";
 
 export const TERMS_SECTIONS: Section[] = [
   {

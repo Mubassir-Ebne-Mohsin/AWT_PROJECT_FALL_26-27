@@ -22,6 +22,11 @@ export class UsersService {
     return this.repo.findOneBy({ id });
   }
 
+  /** P4: store a new password hash and end all earlier sessions (refresh tokens older than the given moment stop working). */
+  async setPassword(id: string, passwordHash: string, at: Date) {
+    await this.repo.update({ id }, { passwordHash, sessionsRevokedAt: at });
+  }
+
   async create(input: {
     email: string;
     passwordHash: string;

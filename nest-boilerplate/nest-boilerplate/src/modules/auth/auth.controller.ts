@@ -33,7 +33,7 @@ const { env } = appConfig;
 export const REFRESH_COOKIE = "sf_refresh";
 const AUTH_PATH = "/v1/auth";
 
-const cookieOptions = (): CookieOptions => ({
+export const cookieOptions = (): CookieOptions => ({
   httpOnly: true,
   sameSite: "lax",
   secure: env.IS_PRODUCTION,
@@ -112,6 +112,20 @@ export class AuthController {
     const bearer = (req.headers.authorization ?? "").split(" ")[1];
     await this.auth.logout(req.cookies?.[REFRESH_COOKIE], bearer);
     res.clearCookie(REFRESH_COOKIE, cookieOptions());
+  }
+
+  /** P4: change the signed-in account's password. Ends every other session and returns a fresh one for this device. */
+  @Throttle(authLimit)
+  @Post("password")
+  @HttpCode(200)
+  @ApiBearerAuth()
+  @ApiOkEnvelope(AuthSessionDto)
+  async password(
+    @CurrentUser() current: AuthUser,
+    @Body() body: Record<string, unknown>,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.respond(res, await this.auth.changePassword(current.id, body));
   }
 
   @Get("me")

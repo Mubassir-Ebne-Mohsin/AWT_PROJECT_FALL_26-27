@@ -5,7 +5,7 @@ import { test, expect, type Page } from "@playwright/test";
 const PAGES: Array<{ path: string; title: string; mustSay: RegExp[] }> = [
   { path: "/how-it-works", title: "How it works", mustSay: [/not a measurement of real infrastructure/, /Sakasegawa/, /50 components and 200 connections/, /no real application has been load-tested/] },
   { path: "/about", title: "About", mustSay: [/Advanced Web Technologies/, /Admins cannot read anyone's designs/, /Open the source repository/] },
-  { path: "/privacy", title: "Privacy", mustSay: [/salted hash of your password/, /switched off/, /not available yet/] },
+  { path: "/privacy", title: "Privacy", mustSay: [/salted hash of your password/, /switched off/, /download everything you have stored and delete your account/] },
   { path: "/terms", title: "Terms", mustSay: [/Results are estimates/, /20 graded submissions/, /No warranty/] },
 ];
 const noOverflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);

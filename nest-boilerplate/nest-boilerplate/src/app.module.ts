@@ -20,6 +20,7 @@ import { UsersModule } from "@/modules/users/users.module";
 import { RolesModule } from "@/modules/roles/roles.module";
 import { ReviewsModule } from "@/modules/reviews/reviews.module";
 import { ChallengesModule } from "@/modules/challenges/challenges.module";
+import { AccountModule } from "@/modules/account/account.module";
 import { PermissionGuard } from "@/modules/roles/permission.guard";
 
 import { SimulationModule } from "@/modules/simulation/simulation.module";
@@ -68,6 +69,7 @@ const { env } = appConfig;
     RolesModule,
     ReviewsModule,
     ChallengesModule,
+    AccountModule,
   ],
   providers: [
     { provide: APP_PIPE, useClass: ZodValidationPipe },
