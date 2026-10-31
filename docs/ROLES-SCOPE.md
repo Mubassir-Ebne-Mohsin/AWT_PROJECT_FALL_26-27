@@ -1,6 +1,6 @@
 # Roles track: Instructor, Reviewer and Admin (scope and decisions)
 
-Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations, R2 Admin tools, R3 Review grants and R4 Reviewer feedback are built and verified (see the "result" sections at the end); R5 Instructor is not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
+Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations, R2 Admin tools, R3 Review grants and R4 Reviewer feedback are built and verified (see the "result" sections at the end); R5 Instructor is scoped and approved, see [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md), and not yet built.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
 
 ## 1. Where the code is today (verified)
 
