@@ -26,8 +26,8 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
 | M16 Reports / Sharing | **Done** (M16.1 `eea8349`, `ca2fd2a`; M16.2 `1fcf7c1`; M16.3 web, see log) | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md). Needs `pnpm migration:run` (DesignShares). Full Chrome regression 434 passed, 10 skipped, 0 failed |
-| Roles (Instructor, Reviewer, Admin) | **R1 foundations, R2 admin tools, R3 review grants and R4 reviewer feedback built and tested** (`3f7dbc0`, `9700bb2`, `87736b2` pushed; `3db9068` local); R5.1 Instructor challenges built (`Challenges1794100000000`; full regression not completed), R5.2 and R5.3 next; all 10 decisions approved 2026-10-30 | See [Roles scope](ROLES-SCOPE.md) and [PROJECT-PLAN](PROJECT-PLAN.md) |
-| Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders | Landing page work exists, uncommitted (not Claude's) |
+| Roles (Instructor, Reviewer, Admin) | **Complete and pushed** (R1 `3f7dbc0`, R2 `9700bb2`, R3 `87736b2`, R4 `3db9068`, R5.1 `ace6b64`, R5.2 `dca7218`, R5.3 `a245192`) | Needs no AI. Latest Chrome regression 550 passed, 10 skipped, 0 failed. Run `pnpm migration:run` on every database. Detail: report section 28, [ROLES-SCOPE](ROLES-SCOPE.md), [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md) |
+| Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders; no scope doc yet | The landing page at `/` is committed (`72ab218`, `ba93a83`) and its 16 browser tests pass. `DESIGN.md`, `film/` and `docs/audit/landing/` are still untracked |
 
 ## M12A detail (finished and parked)
 

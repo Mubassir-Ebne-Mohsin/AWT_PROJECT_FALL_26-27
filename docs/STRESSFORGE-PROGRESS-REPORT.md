@@ -1,6 +1,6 @@
 # STRESSFORGE progress report
 
-> **Latest update: 2026-10-28 (Asia/Dhaka). Phase3: in progress; M10 inference gate failed, M11 backend foundation verified with real AI disabled (sections25–26). Phase 1: COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
+> **Latest update: 2026-11-01 (Asia/Dhaka). The roles track (Admin, Reviewer, Instructor, learner challenges) is COMPLETE and pushed: section 28. Phase 3 AI work is parked by the user (sections 24-27 and the M12A notes). Earlier status: Phase 1 COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section 21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
 > **Publication scope as of 2026-10-27:** Phase1 baseline **9e8bb00** remains on GitHub main. M1–M9, including the completed Phase2 core loop, M9 fixes and this report, are published on **codex/phase2-contracts**. Verified code/closure checkpoint **7bdc41d** was pushed on2026-10-27 under explicit user authorization; a documentation-only publication update follows it. No main merge or deployment occurred. Phase2 is complete for the approved local scope with the accepted historical benchmark exception; see section21.
 
@@ -1420,3 +1420,50 @@ Verified against compiled R5.1 code at HEAD ace6b64, existing production audit b
 Skips: four @dev state cases because this used production web; six per-project library/100-note cases skipped by the existing test conditions (the corresponding cases ran at1440-light). No skipped role/Instructor journeys. Full log: docs/audit/r51-2026-10-31/chrome-regression.txt. This closes the previously missing full Chrome gate for R5.1; R5.2/R5.3 remain separate pending work.
 
 Preservation/cleanup:117 pre-existing PNGs restored from pre-run copies; protected M2 SHA256 remains D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC and unstaged. New images created by the tests may remain untracked. No source changes. Audit API/web sessions and m9 containers stopped after testing; volumes retained. Development containers were stopped to free RAM and remain stopped. AI stayed disabled; no paid usage, commits or pushes. Verification notes/evidence are left uncommitted. No active code claims.
+
+## 28. Roles track R1 to R5 (2026-10-30 to 2026-11-01)
+
+Scope and ten decisions: [ROLES-SCOPE](ROLES-SCOPE.md); Instructor decisions: [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md); learner loop: [R5.2-LEARNER-SCOPE](R5.2-LEARNER-SCOPE.md). None of it needs AI. The frozen phase 2 contract is unchanged. Everything below is pushed to `codex/phase2-contracts` (head `a245192`).
+
+### What shipped, with commits
+
+| Slice | Delivers | Commit(s) | Migration |
+| --- | --- | --- | --- |
+| R1 Foundations | Multi-role model, permission table in code, Admin role API, append-only audit log, first-Admin command, dev-only demo accounts | `3f7dbc0` | `AccountRoles1793700000000` |
+| R2 Admin tools | Suspend and restore, sessions end on suspension or role removal, `/admin/users` (search, roles, audit log) | `9700bb2` | `AccountStatus1793800000000` |
+| R3 Review grants | Owner shares one frozen revision with one named Reviewer; Reviewer inbox and read-only view; revoke | `87736b2`, `f73ffec` | `ReviewGrants1793900000000` |
+| R4 Reviewer feedback | One comment thread per review, owner replies, limits, edits and removals | `3db9068`, `17e1f08` | `ReviewComments1794000000000` |
+| R5.1 Instructor challenges | Create, edit, publish with a model-measured baseline, archive, duplicate; published challenges frozen | `ace6b64`, verified `015e19a` | `Challenges1794100000000` |
+| R5.2 Learner loop | Public published list, one resumable private attempt, explicit submission judged on the server, 20 graded per attempt, progress | started by Codex, finished by Claude: `dca7218` | `ChallengeAttempts1794200000000` |
+| R5.3 Instructor submissions and feedback | Instructor reads graded submissions to their own challenges and sends one-way notes; learner reads them | `a245192` | `ChallengeFeedback1794300000000` |
+
+Route registry: 35 to 36 (R2), 38 (R3), 40 (R5.1); R4, R5.2 and R5.3 added none. Doc commits along the way: `e5556b9`, `cd14cb1`, `5783b91`, `1035414`.
+
+### Rules that held in every slice
+- Roles are read from the database on every privileged call; no role inherits another. Admins cannot read designs, reviews, feedback or submissions.
+- Other people appear by display name only; never an email or account id.
+- Judging is on the server, from the model's own numbers, with the challenge's traffic, never the browser's. Pass means p95 and error rate both at or under the goal (inclusive). A technical failure is never recorded as a verdict, and work in flight at a restart is marked interrupted, never replayed.
+- Feedback and comments are plain text, rendered as text.
+
+### Verification evidence
+- [Verified] R1: backend unit 222, e2e 143, web unit 180, Chrome 494 passed, 10 skipped, 0 failed.
+- [Verified] R2: e2e 155, web unit 190; the full browser run found one real defect (a duplicate `h1` on the access-denied panel), fixed; affected specs rerun green.
+- [Verified] R3: e2e 172, web unit 202; the full run's 4 failures were my new sentence clashing with the existing M16.3 test locator; wording changed, test unchanged.
+- [Verified] R4: e2e 186, web unit 217; full Chrome 530 passed, 10 skipped, 0 failed.
+- [Verified] R5.1: e2e 205, 19 new web unit; the first full regression was incomplete (out of memory); Codex's later complete run at `ace6b64` was 542 passed, 10 skipped, 0 failed.
+- [Verified] R5.2 at `dca7218`: backend unit 245 (two timing-sensitive suites failed once under memory contention and passed alone, 23 of 23), e2e 17 suites 225 passed run one at a time, web unit 240, Chrome 546 passed, 10 skipped, 0 failed. 14 new e2e tests added on top of Codex's 6.
+- [Verified] R5.3 at `a245192`: backend unit 243, e2e 18 suites 236 passed (11 new), web unit 246 (6 new), Chrome 550 passed, 10 skipped, 0 failed.
+- [Verified] Deliberate-break checks (each break must fail a test, then be restored): R1 11 backend and 4 web; R2 14 and 8; R3 18 and 8; R4 21 and 14; R5.1 20 and 18; R5.2 13 backend; R5.3 17 of 18 caught (the survivor is an equivalent change: the check before it already refuses non-owners).
+- [Verified] The 10 skips in every Chrome run are the same: four `@dev` state cases that need the development web build, and six per-project library/100-note cases that run on one project only.
+
+### Existing tests changed on purpose (intent kept)
+`phase1.spec` route count (35 to 36 to 38 to 40); R1 lookup allow-list gained `status`; `fake-redis` gained `del`; two R3 "no buttons" checks now allow buttons inside the feedback panel only; the R5.2 draft test's fake attempt response gained `feedback: []`.
+
+### Limits and honest gaps
+- [Untested] Real multi-user load; judging is the in-process model, not measured infrastructure.
+- [Untested] The R5 starter challenges are dev-only; a course demo needs seeded content decided by the user.
+- [Inferred] Deleting an Instructor account who has learner attempts is blocked by design (`ON DELETE RESTRICT`); account deletion has no scope yet.
+- The machine has about 7.9 GB of RAM; heavy checks were run one at a time. Two suites (`app.config`, `worker`) can time out when run alongside other heavy jobs and pass alone.
+
+### Operator steps
+`pnpm migration:run` on every database (dev already done through `ChallengeFeedback1794300000000`); `pnpm admin:bootstrap -- --email=<account>` once for the first Admin. Browser journeys for Admin, Reviewer and Instructor need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` and skip without them.
