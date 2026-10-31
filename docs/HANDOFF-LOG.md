@@ -15,6 +15,10 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-10-31, Codex R5.2 scope preparation
+**Done:** approved R5.1 verification committed015e19a by explicit paths; protected artifact and images excluded. Drafted R5.2-LEARNER-SCOPE.md using eleven existing decisions plus labelled recommendations. No application code changes or tests rerun for planning.
+**Next:** user reviews detailed scope before implementation; no push authorized. No active claims. AI parked. Unrelated dirty/untracked work preserved.
+
 ## 2026-10-31, Codex R5.1 full Chrome verification
 **Done:** full552-test Chrome suite completed:542 passed,10 skipped,0 failed,23.7min,one worker,all4 projects. All role/Instructor tests ran with explicit SF_PG_* variables. See r51-2026-10-31/chrome-regression.txt and R5 scope closure for details.
 **Preserved:**117 earlier PNGs restored; protected M2 hash unchanged,staging empty; source unchanged.
