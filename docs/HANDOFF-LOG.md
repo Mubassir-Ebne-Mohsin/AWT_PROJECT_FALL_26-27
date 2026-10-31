@@ -15,6 +15,34 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-10-31, Codex R5.1 full Chrome verification
+**Done:** full552-test Chrome suite completed:542 passed,10 skipped,0 failed,23.7min,one worker,all4 projects. All role/Instructor tests ran with explicit SF_PG_* variables. See r51-2026-10-31/chrome-regression.txt and R5 scope closure for details.
+**Preserved:**117 earlier PNGs restored; protected M2 hash unchanged,staging empty; source unchanged.
+**Cleanup:** owned API/web sessions and m9 containers stopped; volumes retained. Dev containers remain stopped after freeing RAM. AI disabled.
+**Uncommitted:** verification evidence and tracking/scope/report notes plus all pre-existing unrelated files. No commits/push. No active claims.
+**Next:** user may authorize publication; R5.2 not started. Prior incomplete-regression notes are historical, superseded by this successful run.
+
+## 2026-10-31, Codex R5.1 regression preflight
+**Goal:** rerun full Chrome regression after user said Proceed.
+**Done:** read instructions/scope/hand off, confirmed HEAD ace6b64 and2 commits ahead of cached origin; started Docker Desktop, inspected one-worker Playwright configuration and SF_PG_CONTAINER/SF_PG_USER/SF_PG_DB prerequisites. No source edits.
+**Evidence:** Docker recovered; development containers auto-started healthy. Physical RAM499 then545 MiB free, below prior crash headroom (~800 MiB). One sandbox CIM read failed; successful elevated recheck returned545 MiB (the failed probe's zero output is invalid telemetry). Ports3003/5003 empty. No regression launched and no pass claimed.
+**Next:** user closes unnecessary apps and replies ready; remeasure RAM before starting isolated stack and full Chrome run. Preserve existing screenshots through backup/restore before test writes. No new milestone or push approved.
+**Uncommitted:** state/handoff notes; existing unrelated modifications untouched. No active code claims; AI parked.
+
+## 2026-10-30, Codex R1 handoff reconciliation
+**Goal:** receive Claude's new handoff and inspect publication/current constraints.
+**Done:** local and live remote match3f7dbc0; checked roles scope and bootstrap implementation locations. Added R1 checkpoint to state board. No active code claims.
+**Evidence:** read-only inspection; Claude's test numbers retained as reported, not independently rerun. Refresh-session revocation remains a documented deviation from approved decision3; privileged endpoints instead recheck DB roles.
+**Uncommitted:** tracking docs remain local; supplied handoff and all prior dirty screenshots/protected M2/unknown files preserved. No commit/push/migration/bootstrap performed.
+**Next:** choose explicit existing account before bootstrap; verify migration state before operation. R2 not authorized. AI parked supersedes old authorization.
+
+## 2026-10-30, Codex development connection recovery
+**Goal:** resolve Nest ECONNREFUSED.
+**Done:** existing development PostgreSQL/Redis were stopped; restarted only stressforge-dev-postgres-1 and stressforge-dev-redis-1 with docker start. Verified watcher21896 belonged to this project, stopped it and relaunched pnpm start:dev once under Node22; session28979 left running. A prior source timestamp touch changed no source bytes.
+**Evidence:** container health both healthy, PostgreSQL accepting connections, Nest compilation0 errors and successful startup; GET /v1/health200 with PostgreSQL/Redis up.
+**Uncommitted:** state/handoff operational notes only; all existing dirty work preserved. No migrations, commits or pushes. No active claims.
+**Next:** use existing backend; do not launch a duplicate on5001. Start these development services before Nest next time. AI remains parked.
+
 ## 2026-10-29, Codex handoff verification
 **Goal:** read Claude context and confirm M16 publication state.
 **Done:** read context, root instructions, state board, handoff and AI deferral plan; checked branch, status, log and live remote. Both HEAD and remote are 1fcf7c1; M16.3 remains uncommitted; staging area empty. Added a corrective checkpoint to state board without rewriting historical records.

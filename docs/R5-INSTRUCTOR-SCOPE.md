@@ -74,3 +74,11 @@ Verified in pieces: backend unit 226 and e2e 205 (19 new in `challenges.e2e-spec
 Operator steps: `pnpm migration:run` (adds `Challenges1794100000000`). Give an account the Instructor role at `/admin/users` to use the screens.
 
 Still to do in R5: R5.2 (learner attempts, public list, submit and server judging, starter challenges, real progress) and R5.3 (submissions and feedback).
+
+## R5.1 full regression closure — 2026-10-31 (Codex)
+
+Verified against compiled R5.1 code at HEAD ace6b64, existing production audit build, Chrome, one worker: **542 passed,10 skipped,0 failed (552 total),23.7 minutes**. Four projects:1024/1440 light/dark. Explicit SF_PG_CONTAINER=stressforge-m9-postgres, SF_PG_USER=sf_audit, SF_PG_DB=sf_m9_audit ensured all Admin/Reviewer/Instructor journeys ran. Audit API health200 with PostgreSQL/Redis up. Existing additive migrations were applied only to the disposable audit database. No rebuild, unit or e2e run was performed concurrently or repeated in this session; earlier individual/mutation evidence remains Claude's recorded evidence.
+
+Skips: four @dev state cases because this used production web; six per-project library/100-note cases skipped by the existing test conditions (the corresponding cases ran at1440-light). No skipped role/Instructor journeys. Full log: docs/audit/r51-2026-10-31/chrome-regression.txt. This closes the previously missing full Chrome gate for R5.1; R5.2/R5.3 remain separate pending work.
+
+Preservation/cleanup:117 pre-existing PNGs restored from pre-run copies; protected M2 SHA256 remains D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC and unstaged. New images created by the tests may remain untracked. No source changes. Audit API/web sessions and m9 containers stopped after testing; volumes retained. Development containers were stopped to free RAM and remain stopped. AI stayed disabled; no paid usage, commits or pushes. Verification notes/evidence are left uncommitted. No active code claims.

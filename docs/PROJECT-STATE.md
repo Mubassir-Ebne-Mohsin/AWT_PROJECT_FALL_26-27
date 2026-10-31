@@ -78,6 +78,12 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 Run `git status`, read the newest handoff entry, confirm claims with the user, then continue the claimed track.
 
+## Development service recovery — 2026-10-30
+Codex restarted existing stressforge-dev PostgreSQL (5433) and Redis (6379), which were stopped. Both healthy; existing Nest watcher had exhausted retries, so it was restarted once. GET /v1/health returned200 with database/cache up. No database reset, environment-value inspection, migrations or code changes; no active claims. Backend watcher left running in Codex exec session28979. Tracking notes are uncommitted.
+
+## R1 handoff reconciliation — 2026-10-30
+Codex read CODEX-HANDOFF-2026-10-30.md and verified local HEAD and live origin/codex/phase2-contracts both equal3f7dbc0341731fcf8ce78c93b48accf59e95c4b3. R1 implementation is committed/pushed. Claude reports222 backend unit passes (2 skips),143 e2e,180 web unit and494 Chrome passes (10 skips); these suites were not independently rerun in this review. Approved role-change refresh-session revocation is explicitly deferred to R2, so this requirement remains open despite immediate DB-based privileged authorization. Existing databases require AccountRoles migration; first Admin needs an explicitly selected existing account. Neither operation was performed here. R2 remains not started; route-registry expansion needs approval. AI remains PARKED, superseding historical M12B/Groq approval; no clarification is needed. No active code claims. Only tracking documentation edited; all unrelated files preserved and unstaged.
+
 ## Roles R1 and R2 — 2026-10-31
 R1 (`3f7dbc0`): multi-role model (`user_roles`), permission table in code, Admin role API, append-only audit log, first-Admin command `pnpm admin:bootstrap -- --email=`, dev-only `pnpm seed:demo-roles`. R2 (`9700bb2`): suspend and restore (`users.account_status`), sessions end on suspension or role removal (`users.sessions_revoked_at`), account search, `/admin/users` screen. Migrations `AccountRoles1793700000000` and `AccountStatus1793800000000` must be run on every dev and QA database (`pnpm migration:run`). Evidence at `9700bb2`: backend unit 222, e2e 155, web unit 190, mutation checks all caught; the Admin browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER`, `SF_PG_DB`. Route registry is now 36 routes (`/admin/users`). Details: [ROLES-SCOPE](ROLES-SCOPE.md).
 
@@ -89,3 +95,14 @@ R4 (`3db9068`, not yet pushed): one comment thread per review. A Reviewer writes
 
 ## Roles R5.1 Instructor challenges — 2026-10-31
 R5.1 is built and committed locally (not pushed). Instructors create, edit, publish, archive and duplicate challenges (`/instructor/challenges`); publishing measures the frozen starting design with the model; published challenges are frozen. Migration `Challenges1794100000000` must be run on every dev and QA database. Registry is now 40 routes. Verified in pieces (backend unit 226, e2e 205, web R5 unit 19, 38 deliberate breaks caught, 12 browser journeys) but **the full Chrome regression did not complete** (machine out of memory, Docker crashed at about test 226 of 552). Rerun it first. Details: [R5 scope](R5-INSTRUCTOR-SCOPE.md).
+
+## R5.1 regression preflight — 2026-10-31
+User authorized full regression. Codex restarted Docker Desktop; existing dev containers auto-started and became healthy. Free physical RAM measured499 MiB before recovery and545 MiB afterward (commit headroom12722 MiB). Prior run crashed around800 MiB free; no Chrome/test/API/build workload launched under this lower headroom. Ports3003/5003 unoccupied. Awaiting user to close unnecessary apps; none terminated by Codex. R5.1 remains awaiting full regression, no new passing evidence. No push/R5.2/AI work. No active code claims; documentation-only notes remain uncommitted.
+
+## R5.1 full regression closure — 2026-10-31 (Codex)
+
+Verified against compiled R5.1 code at HEAD ace6b64, existing production audit build, Chrome, one worker: **542 passed,10 skipped,0 failed (552 total),23.7 minutes**. Four projects:1024/1440 light/dark. Explicit SF_PG_CONTAINER=stressforge-m9-postgres, SF_PG_USER=sf_audit, SF_PG_DB=sf_m9_audit ensured all Admin/Reviewer/Instructor journeys ran. Audit API health200 with PostgreSQL/Redis up. Existing additive migrations were applied only to the disposable audit database. No rebuild, unit or e2e run was performed concurrently or repeated in this session; earlier individual/mutation evidence remains Claude's recorded evidence.
+
+Skips: four @dev state cases because this used production web; six per-project library/100-note cases skipped by the existing test conditions (the corresponding cases ran at1440-light). No skipped role/Instructor journeys. Full log: docs/audit/r51-2026-10-31/chrome-regression.txt. This closes the previously missing full Chrome gate for R5.1; R5.2/R5.3 remain separate pending work.
+
+Preservation/cleanup:117 pre-existing PNGs restored from pre-run copies; protected M2 SHA256 remains D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC and unstaged. New images created by the tests may remain untracked. No source changes. Audit API/web sessions and m9 containers stopped after testing; volumes retained. Development containers were stopped to free RAM and remain stopped. AI stayed disabled; no paid usage, commits or pushes. Verification notes/evidence are left uncommitted. No active code claims.
