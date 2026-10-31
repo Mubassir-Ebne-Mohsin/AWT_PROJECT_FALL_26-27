@@ -26,7 +26,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
 | M16 Reports / Sharing | **Done** (M16.1 `eea8349`, `ca2fd2a`; M16.2 `1fcf7c1`; M16.3 web, see log) | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md). Needs `pnpm migration:run` (DesignShares). Full Chrome regression 434 passed, 10 skipped, 0 failed |
-| Roles (Instructor, Reviewer, Admin) | Planning only; **scope and 10 decisions proposed 2026-10-30** | See [Roles scope](ROLES-SCOPE.md) and [PROJECT-PLAN](PROJECT-PLAN.md) |
+| Roles (Instructor, Reviewer, Admin) | **R1 foundations and R2 admin tools built, tested and pushed** (`3f7dbc0`, `9700bb2`); R3 review grants next, then R4 comments and R5 Instructor; all 10 decisions approved 2026-10-30 | See [Roles scope](ROLES-SCOPE.md) and [PROJECT-PLAN](PROJECT-PLAN.md) |
 | Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders | Landing page work exists, uncommitted (not Claude's) |
 
 ## M12A detail (finished and parked)
@@ -77,3 +77,6 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 ## Next step for whoever picks this up
 
 Run `git status`, read the newest handoff entry, confirm claims with the user, then continue the claimed track.
+
+## Roles R1 and R2 — 2026-10-31
+R1 (`3f7dbc0`): multi-role model (`user_roles`), permission table in code, Admin role API, append-only audit log, first-Admin command `pnpm admin:bootstrap -- --email=`, dev-only `pnpm seed:demo-roles`. R2 (`9700bb2`): suspend and restore (`users.account_status`), sessions end on suspension or role removal (`users.sessions_revoked_at`), account search, `/admin/users` screen. Migrations `AccountRoles1793700000000` and `AccountStatus1793800000000` must be run on every dev and QA database (`pnpm migration:run`). Evidence at `9700bb2`: backend unit 222, e2e 155, web unit 190, mutation checks all caught; the Admin browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER`, `SF_PG_DB`. Route registry is now 36 routes (`/admin/users`). Details: [ROLES-SCOPE](ROLES-SCOPE.md).

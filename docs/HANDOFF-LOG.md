@@ -72,3 +72,10 @@ Entry template:
 **Read first:** [CODEX-CONTEXT-2026-10-29.md](CODEX-CONTEXT-2026-10-29.md) has the full picture: commits, evidence, rules, files that are not Claude's, operator notes and next steps.
 **Warnings:** run `pnpm migration:run` (DesignShares is new). Do not stage `docs/audit/m2-profile-source.json`, the landing files or the audit PNGs. AI stays parked.
 **Update (final regression):** M16.3 passed the full Chrome regression, 434 passed, 10 skipped, 0 failed, and is committed. One real defect was found and fixed on the way: the share viewer's token check accepted 20 to 128 characters, so the route audit's sample token caused a 404 console error; real tokens are exactly 43 characters and the check now says so. The existing test was not changed.
+
+## 2026-10-31, Claude Roles R1 and R2
+**Goal:** build the roles track foundations and Admin tools (decisions approved 2026-10-30).
+**Done:** R1 `3f7dbc0` and R2 `9700bb2`, both pushed. Docker Desktop failed to start (stale `docker-secrets-engine\engine.sock`); the folder was renamed to `docker-secrets-engine.stale-20261031` and Docker restarted, nothing deleted.
+**Evidence:** see ROLES-SCOPE.md "R1 result" and "R2 result". The first full browser run after R2 found a duplicate `h1` in the access-denied panel (fixed); only the affected specs were rerun afterwards.
+**Warnings:** run `pnpm migration:run` on dev and QA databases. Existing tests changed on purpose: phase1.spec route count 35 to 36, R1 lookup allow-list gained `status`, fake-redis gained `del`. Do not stage `docs/audit/m2-profile-source.json`.
+**Next:** R3 review grants (in progress by Claude on 2026-10-31).
