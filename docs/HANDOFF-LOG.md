@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P2 Learn, commit one
+**Goal:** build P2 after "Approve all".
+**Done:** shared model + fixtures + parity tests (web `learn-model.ts`, `docs/contracts/learn-fixtures.json`, `pnpm fixtures:learn`). Found and recorded that V8 can print different last digits for the same `Math.pow` in different processes, which explains the older `fixtures:phase2` drift. 24 deliberate breaks, 23 caught (one equivalent).
+**Warnings:** if the engine's formulas or constants change, run `pnpm fixtures:learn` and commit the new fixtures; the specs fail until then. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** commit two: eight topic pages, demos, two-question checks, local progress, 404 for unknown topics, browser journeys.
+
 ## 2026-11-01, Claude P2 Learn scope
 **Goal:** plan P2 (user: "plan scope for P2").
 **Done:** pushed `2c5cd23` (P4). Wrote [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md): eight topics, one demo and a two-question check each, demos kept equal to the simulator by fixtures generated from the backend engine (tests on both sides), progress in the browser, nine decisions with recommendations. No code changed.

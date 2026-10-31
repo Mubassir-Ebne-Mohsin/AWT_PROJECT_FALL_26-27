@@ -131,3 +131,6 @@ Settings (profile, password change that ends other sessions, export, account del
 
 ## Phase 4/5 P2 Learn scope — 2026-11-01
 Scope proposed in [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md): eight topics with one demo and a two-question check each, demos tied to the simulator by generated fixtures, progress in the browser. Awaiting the user's decisions; nothing built.
+
+## P2 Learn commit one — 2026-11-01
+All nine P2 decisions approved. Shared demo model, engine-generated fixtures and parity tests built ([P2-LEARN-SCOPE](P2-LEARN-SCOPE.md) "Commit one result"). Cause of the older fixtures:phase2 byte-drift identified: V8 Math.pow last-digit differences between processes. Next: pages, demos, checks, progress (commit two).

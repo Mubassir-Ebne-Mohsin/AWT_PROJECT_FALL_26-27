@@ -1,0 +1,5271 @@
+{
+  "note": "Generated from the real simulator by `pnpm fixtures:learn`. Do not edit by hand.",
+  "constants": {
+    "statusOk": 0.75,
+    "statusFail": 1,
+    "replicationCost": 0.25,
+    "burstSeconds": 60,
+    "rtt": {
+      "us-east|eu-west": 75,
+      "us-east|ap-south": 190,
+      "eu-west|ap-south": 115
+    }
+  },
+  "cases": {
+    "utilization": [
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 600,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 13,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 1200,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 26,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 2400,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 52,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 600,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 13,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 1200,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 26,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 2400,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 52,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 600,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 13,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 1200,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 26,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 0,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 0,
+          "cap": 2400,
+          "rho": 0,
+          "status": "idle",
+          "S": 22,
+          "Wq": 0,
+          "T": 22,
+          "servers": 52,
+          "reads": 0,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 50,
+          "cap": 600,
+          "rho": 0.08333333333333333,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.00004314780846757742,
+          "T": 22.00004314780847,
+          "servers": 13,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 50,
+          "cap": 1200,
+          "rho": 0.041666666666666664,
+          "status": "ok",
+          "S": 22,
+          "Wq": 1.5265257759439632e-9,
+          "T": 22.000000001526526,
+          "servers": 26,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 50,
+          "cap": 2400,
+          "rho": 0.020833333333333332,
+          "status": "ok",
+          "S": 22,
+          "Wq": 1.017105484640389e-16,
+          "T": 22,
+          "servers": 52,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 75,
+          "cap": 600,
+          "rho": 0.125,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.00025754802763572614,
+          "T": 22.000257548027637,
+          "servers": 13,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 75,
+          "cap": 1200,
+          "rho": 0.0625,
+          "status": "ok",
+          "S": 22,
+          "Wq": 2.0471958821741883e-8,
+          "T": 22.00000002047196,
+          "servers": 26,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 75,
+          "cap": 2400,
+          "rho": 0.03125,
+          "status": "ok",
+          "S": 22,
+          "Wq": 4.455435044476748e-15,
+          "T": 22.000000000000004,
+          "servers": 52,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 150,
+          "cap": 600,
+          "rho": 0.25,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.0058840456529715875,
+          "T": 22.005884045652973,
+          "servers": 13,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 150,
+          "cap": 1200,
+          "rho": 0.125,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.000001787319884190005,
+          "T": 22.000001787319885,
+          "servers": 26,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 50,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 150,
+          "cap": 2400,
+          "rho": 0.0625,
+          "status": "ok",
+          "S": 22,
+          "Wq": 2.8933039280329785e-12,
+          "T": 22.000000000002892,
+          "servers": 52,
+          "reads": 50,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 300,
+          "cap": 600,
+          "rho": 0.5,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.17283763236413638,
+          "T": 22.172837632364136,
+          "servers": 13,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 300,
+          "cap": 1200,
+          "rho": 0.25,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.00016991383451286937,
+          "T": 22.00016991383451,
+          "servers": 26,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 300,
+          "cap": 2400,
+          "rho": 0.125,
+          "status": "ok",
+          "S": 22,
+          "Wq": 1.9481427699982977e-9,
+          "T": 22.00000000194814,
+          "servers": 52,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 450,
+          "cap": 600,
+          "rho": 0.75,
+          "status": "warn",
+          "S": 22,
+          "Wq": 1.9695381797606997,
+          "T": 23.9695381797607,
+          "servers": 13,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 450,
+          "cap": 1200,
+          "rho": 0.375,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.0026749762252586623,
+          "T": 22.002674976225258,
+          "servers": 26,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 450,
+          "cap": 2400,
+          "rho": 0.1875,
+          "status": "ok",
+          "S": 22,
+          "Wq": 9.092528681588513e-8,
+          "T": 22.000000090925287,
+          "servers": 52,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 900,
+          "cap": 600,
+          "rho": 1.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 900,
+          "cap": 1200,
+          "rho": 0.75,
+          "status": "warn",
+          "S": 22,
+          "Wq": 0.5449285967437401,
+          "T": 22.54492859674374,
+          "servers": 26,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 900,
+          "cap": 2400,
+          "rho": 0.375,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.0000742833588723099,
+          "T": 22.000074283358874,
+          "servers": 52,
+          "reads": 300,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 500,
+          "cap": 600,
+          "rho": 0.8333333333333334,
+          "status": "warn",
+          "S": 22,
+          "Wq": 4.643271238216447,
+          "T": 26.643271238216446,
+          "servers": 13,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 500,
+          "cap": 1200,
+          "rho": 0.4166666666666667,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.005594653198040789,
+          "T": 22.00559465319804,
+          "servers": 26,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 500,
+          "cap": 2400,
+          "rho": 0.20833333333333334,
+          "status": "ok",
+          "S": 22,
+          "Wq": 2.484908482058094e-7,
+          "T": 22.00000024849085,
+          "servers": 52,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 750,
+          "cap": 600,
+          "rho": 1.25,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 750,
+          "cap": 1200,
+          "rho": 0.625,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.11417437327008131,
+          "T": 22.11417437327008,
+          "servers": 26,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 750,
+          "cap": 2400,
+          "rho": 0.3125,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.000012401073184950747,
+          "T": 22.000012401073185,
+          "servers": 52,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 600,
+          "rho": 2.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 1200,
+          "rho": 1.25,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 2400,
+          "rho": 0.625,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.014287761967427204,
+          "T": 22.014287761967427,
+          "servers": 52,
+          "reads": 500,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 800,
+          "cap": 600,
+          "rho": 1.3333333333333333,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 800,
+          "cap": 1200,
+          "rho": 0.6666666666666666,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.19349094606105371,
+          "T": 22.193490946061054,
+          "servers": 26,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 800,
+          "cap": 2400,
+          "rho": 0.3333333333333333,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.00002330064160871711,
+          "T": 22.000023300641608,
+          "servers": 52,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1200,
+          "cap": 600,
+          "rho": 2,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1200,
+          "cap": 1200,
+          "rho": 1,
+          "status": "fail",
+          "S": 22,
+          "Wq": 106.2493291743179,
+          "T": 128.2493291743179,
+          "servers": 26,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1200,
+          "cap": 2400,
+          "rho": 0.5,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.0013464363622732818,
+          "T": 22.001346436362272,
+          "servers": 52,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 2400,
+          "cap": 600,
+          "rho": 4,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 2400,
+          "cap": 1200,
+          "rho": 2,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 800,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 2400,
+          "cap": 2400,
+          "rho": 1,
+          "status": "fail",
+          "S": 22,
+          "Wq": 79.50832916000132,
+          "T": 101.50832916000132,
+          "servers": 52,
+          "reads": 800,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1000,
+          "cap": 600,
+          "rho": 1.6666666666666667,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1000,
+          "cap": 1200,
+          "rho": 0.8333333333333334,
+          "status": "warn",
+          "S": 22,
+          "Wq": 1.5955884328108467,
+          "T": 23.595588432810846,
+          "servers": 26,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1000,
+          "cap": 2400,
+          "rho": 0.4166666666666667,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.0002119334289632939,
+          "T": 22.000211933428965,
+          "servers": 52,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 600,
+          "rho": 2.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 1200,
+          "rho": 1.25,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 1500,
+          "cap": 2400,
+          "rho": 0.625,
+          "status": "ok",
+          "S": 22,
+          "Wq": 0.014287761967427204,
+          "T": 22.014287761967427,
+          "servers": 52,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 600,
+          "rho": 5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 1200,
+          "rho": 2.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 2400,
+          "rho": 1.25,
+          "status": "fail",
+          "S": 22,
+          "Wq": 574.5083291600013,
+          "T": 596.5083291600013,
+          "servers": 52,
+          "reads": 1000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 600,
+          "rho": 5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 1200,
+          "rho": 2.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 3000,
+          "cap": 2400,
+          "rho": 1.25,
+          "status": "fail",
+          "S": 22,
+          "Wq": 574.5083291600013,
+          "T": 596.5083291600013,
+          "servers": 52,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1.5,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 4500,
+          "cap": 600,
+          "rho": 7.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1.5,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 4500,
+          "cap": 1200,
+          "rho": 3.75,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 1.5,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 4500,
+          "cap": 2400,
+          "rho": 1.875,
+          "status": "fail",
+          "S": 22,
+          "Wq": 574.5083291600013,
+          "T": 596.5083291600013,
+          "servers": 52,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 3,
+          "replicas": 1,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 9000,
+          "cap": 600,
+          "rho": 15,
+          "status": "fail",
+          "S": 22,
+          "Wq": 655.735210792557,
+          "T": 677.735210792557,
+          "servers": 13,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 3,
+          "replicas": 2,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 9000,
+          "cap": 1200,
+          "rho": 7.5,
+          "status": "fail",
+          "S": 22,
+          "Wq": 601.2493291743178,
+          "T": 623.2493291743178,
+          "servers": 26,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "burst": 3,
+          "replicas": 4,
+          "capacity": 600,
+          "latency": 22
+        },
+        "expected": {
+          "peak": 9000,
+          "cap": 2400,
+          "rho": 3.75,
+          "status": "fail",
+          "S": 22,
+          "Wq": 574.5083291600013,
+          "T": 596.5083291600013,
+          "servers": 52,
+          "reads": 3000,
+          "writes": 0,
+          "async": 0
+        }
+      }
+    ],
+    "queues": [
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 250,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 250,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 100,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 250,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 250,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 200,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 250,
+          "backlog": 9000,
+          "lag": 36,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 250,
+          "backlog": 9000,
+          "lag": 36,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 100,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 100,
+          "peakArrival": 400,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0.49666666666666665,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 500,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 500,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0.49666666666666665,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 500,
+          "backlog": 30000,
+          "lag": 60,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 500,
+          "backlog": 30000,
+          "lag": 60,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 1000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0.49666666666666665,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 250,
+          "backlog": 150000,
+          "lag": 600,
+          "overflow": 0,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 500,
+          "backlog": 90000,
+          "lag": 180,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 500,
+          "backlog": 90000,
+          "lag": 180,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 500,
+          "peakArrival": 2000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.8741666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.4583333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.7491666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.3333333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 1,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 2000,
+          "drain": 2000,
+          "backlog": 0,
+          "lag": 0,
+          "overflow": 0,
+          "state": "clear"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.8741666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.4583333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.7491666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.3333333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 2000,
+          "backlog": 120000,
+          "lag": 60,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 2,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 4000,
+          "drain": 2000,
+          "backlog": 120000,
+          "lag": 60,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.8741666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 1,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 250,
+          "backlog": 1050000,
+          "lag": 4200,
+          "overflow": 0.4583333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.7491666666666666,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 2,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 500,
+          "backlog": 900000,
+          "lag": 1800,
+          "overflow": 0.3333333333333333,
+          "state": "growing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 1000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 2000,
+          "backlog": 360000,
+          "lag": 180,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "burst": 4,
+          "workers": 8,
+          "maxDepth": 500000,
+          "durationMin": 10
+        },
+        "expected": {
+          "arrival": 2000,
+          "peakArrival": 8000,
+          "drain": 2000,
+          "backlog": 360000,
+          "lag": 180,
+          "overflow": 0,
+          "state": "absorbing"
+        }
+      }
+    ],
+    "percentiles": [
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0
+        },
+        "expected": {
+          "p50": 18.877167127320316,
+          "p95": 33.01963919587965,
+          "p99": 41.62781420890915
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.01
+        },
+        "expected": {
+          "p50": 18.958582468348197,
+          "p95": 34.174904340092944,
+          "p99": 99.99279044059242
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.03
+        },
+        "expected": {
+          "p50": 19.12761604963967,
+          "p95": 37.78130859425657,
+          "p99": 437.0756538817982
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.05
+        },
+        "expected": {
+          "p50": 19.30555764780968,
+          "p95": 94.09426941425971,
+          "p99": 502.5951478843322
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.1
+        },
+        "expected": {
+          "p50": 19.795329425576394,
+          "p95": 377.54334254640844,
+          "p99": 583.6692806641308
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.2
+        },
+        "expected": {
+          "p50": 21.036752475433403,
+          "p95": 474.83648144480645,
+          "p99": 660.3927839175966
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 0.5
+        },
+        "expected": {
+          "p50": 84.42125783862265,
+          "p95": 583.6692806641308,
+          "p99": 758.872445202016
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 400,
+          "share": 1
+        },
+        "expected": {
+          "p50": 377.54334254640844,
+          "p95": 660.3927839175966,
+          "p99": 832.5562841781863
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0
+        },
+        "expected": {
+          "p50": 18.877167127320316,
+          "p95": 33.01963919587965,
+          "p99": 41.62781420890915
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.01
+        },
+        "expected": {
+          "p50": 18.95858246834692,
+          "p95": 34.174904003986576,
+          "p99": 73.95504038730205
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.03
+        },
+        "expected": {
+          "p50": 19.127616049635762,
+          "p95": 37.78129971398852,
+          "p99": 218.5378269428432
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.05
+        },
+        "expected": {
+          "p50": 19.30555764780051,
+          "p95": 68.48014746860554,
+          "p99": 251.29757394223526
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.1
+        },
+        "expected": {
+          "p50": 19.795329425545486,
+          "p95": 188.77167127320487,
+          "p99": 291.83464033206644
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.2
+        },
+        "expected": {
+          "p50": 21.036752475177707,
+          "p95": 237.4182407224521,
+          "p99": 330.19639195879944
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 0.5
+        },
+        "expected": {
+          "p50": 59.69484389399023,
+          "p95": 291.83464033206644,
+          "p99": 379.4362226010093
+        }
+      },
+      {
+        "input": {
+          "fast": 20,
+          "slow": 200,
+          "share": 1
+        },
+        "expected": {
+          "p50": 188.77167127320487,
+          "p95": 330.19639195879944,
+          "p99": 416.2781420890938
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0
+        },
+        "expected": {
+          "p50": 47.192917818301545,
+          "p95": 82.54909798970044,
+          "p99": 104.06953552227473
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.01
+        },
+        "expected": {
+          "p50": 47.39645617087126,
+          "p95": 85.43726085022789,
+          "p99": 249.9819761014848
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.03
+        },
+        "expected": {
+          "p50": 47.819040124099985,
+          "p95": 94.45327148563673,
+          "p99": 1092.68913470451
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.05
+        },
+        "expected": {
+          "p50": 48.26389411952498,
+          "p95": 235.2356735356533,
+          "p99": 1256.4878697107692
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.1
+        },
+        "expected": {
+          "p50": 49.48832356394182,
+          "p95": 943.8583563660354,
+          "p99": 1459.1732016602507
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.2
+        },
+        "expected": {
+          "p50": 52.59188118858431,
+          "p95": 1187.0912036120362,
+          "p99": 1650.9819597940136
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 0.5
+        },
+        "expected": {
+          "p50": 211.05314459655983,
+          "p95": 1459.1732016602507,
+          "p99": 1897.181113004944
+        }
+      },
+      {
+        "input": {
+          "fast": 50,
+          "slow": 1000,
+          "share": 1
+        },
+        "expected": {
+          "p50": 943.8583563660354,
+          "p95": 1650.9819597940136,
+          "p99": 2081.3907104455006
+        }
+      }
+    ],
+    "caching": [
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 300,
+            "cap": 1800,
+            "rho": 0.16666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398462,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 160,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "cache": {
+            "peak": 240,
+            "cap": 30000,
+            "rho": 0.008,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 3.845697310401314e-18,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 160,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "hit": 0.5,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 180,
+            "cap": 1800,
+            "rho": 0.1,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00007647800848320823,
+            "T": 6.000076478008483,
+            "servers": 11,
+            "reads": 80,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "cache": {
+            "peak": 240,
+            "cap": 30000,
+            "rho": 0.008,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 3.845697310401314e-18,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 160,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "hit": 0.8,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 107.99999999999997,
+            "cap": 1800,
+            "rho": 0.059999999999999984,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000009992346889980457,
+            "T": 6.00000999234689,
+            "servers": 11,
+            "reads": 31.999999999999993,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "cache": {
+            "peak": 240,
+            "cap": 30000,
+            "rho": 0.008,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 3.845697310401314e-18,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 160,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "hit": 0.95,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 72,
+            "cap": 1800,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0000020134827642283482,
+            "T": 6.0000020134827645,
+            "servers": 11,
+            "reads": 8.000000000000007,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "cache": {
+            "peak": 240,
+            "cap": 30000,
+            "rho": 0.008,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 3.845697310401314e-18,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 160,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 59.999999999999986,
+            "cap": 1800,
+            "rho": 0.033333333333333326,
+            "status": "ok",
+            "S": 6,
+            "Wq": 9.822371415972036e-7,
+            "T": 6.000000982237141,
+            "servers": 11,
+            "reads": 0,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "cache": {
+            "peak": 240,
+            "cap": 30000,
+            "rho": 0.008,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 3.845697310401314e-18,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 160,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 1,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 300,
+            "cap": 1800,
+            "rho": 0.16666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398462,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 300,
+            "cap": 30000,
+            "rho": 0.01,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 2.101807883177412e-17,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 1,
+          "hit": 0.5,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 150,
+            "cap": 1800,
+            "rho": 0.08333333333333333,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000036884303469369454,
+            "T": 6.000036884303469,
+            "servers": 11,
+            "reads": 100,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 300,
+            "cap": 30000,
+            "rho": 0.01,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 2.101807883177412e-17,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 1,
+          "hit": 0.8,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 59.999999999999986,
+            "cap": 1800,
+            "rho": 0.033333333333333326,
+            "status": "ok",
+            "S": 6,
+            "Wq": 9.822371415972036e-7,
+            "T": 6.000000982237141,
+            "servers": 11,
+            "reads": 39.99999999999999,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 300,
+            "cap": 30000,
+            "rho": 0.01,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 2.101807883177412e-17,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 1,
+          "hit": 0.95,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 15.000000000000014,
+            "cap": 1800,
+            "rho": 0.008333333333333342,
+            "status": "ok",
+            "S": 6,
+            "Wq": 4.302370675322882e-9,
+            "T": 6.000000004302371,
+            "servers": 11,
+            "reads": 10.000000000000009,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 300,
+            "cap": 30000,
+            "rho": 0.01,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 2.101807883177412e-17,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 1,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 0,
+            "cap": 1800,
+            "rho": 0,
+            "status": "idle",
+            "S": 6,
+            "Wq": 0,
+            "T": 6,
+            "servers": 11,
+            "reads": 0,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 300,
+            "cap": 30000,
+            "rho": 0.01,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 2.101807883177412e-17,
+            "T": 1.2,
+            "servers": 36,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 1500,
+            "cap": 1800,
+            "rho": 0.8333333333333334,
+            "status": "warn",
+            "S": 6,
+            "Wq": 1.607621336769333,
+            "T": 7.607621336769333,
+            "servers": 11,
+            "reads": 800,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1200,
+            "cap": 30000,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 8.184890289726981e-13,
+            "T": 1.2000000000008184,
+            "servers": 36,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "hit": 0.5,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 900,
+            "cap": 1800,
+            "rho": 0.5,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.07312717279089748,
+            "T": 6.0731271727908975,
+            "servers": 11,
+            "reads": 400,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1200,
+            "cap": 30000,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 8.184890289726981e-13,
+            "T": 1.2000000000008184,
+            "servers": 36,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "hit": 0.8,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 539.9999999999998,
+            "cap": 1800,
+            "rho": 0.2999999999999999,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.007127989050940106,
+            "T": 6.00712798905094,
+            "servers": 11,
+            "reads": 159.99999999999997,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1200,
+            "cap": 30000,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 8.184890289726981e-13,
+            "T": 1.2000000000008184,
+            "servers": 36,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "hit": 0.95,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 359.99999999999994,
+            "cap": 1800,
+            "rho": 0.19999999999999996,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.001283508858136203,
+            "T": 6.001283508858136,
+            "servers": 11,
+            "reads": 40.000000000000036,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1200,
+            "cap": 30000,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 8.184890289726981e-13,
+            "T": 1.2000000000008184,
+            "servers": 36,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 299.9999999999999,
+            "cap": 1800,
+            "rho": 0.1666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398455,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 0,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1200,
+            "cap": 30000,
+            "rho": 0.04,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 8.184890289726981e-13,
+            "T": 1.2000000000008184,
+            "servers": 36,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 1,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 1500,
+            "cap": 1800,
+            "rho": 0.8333333333333334,
+            "status": "warn",
+            "S": 6,
+            "Wq": 1.607621336769333,
+            "T": 7.607621336769333,
+            "servers": 11,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1500,
+            "cap": 30000,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 4.511302308898993e-12,
+            "T": 1.2000000000045112,
+            "servers": 36,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 1,
+          "hit": 0.5,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 750,
+            "cap": 1800,
+            "rho": 0.4166666666666667,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.030789734191402626,
+            "T": 6.030789734191402,
+            "servers": 11,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1500,
+            "cap": 30000,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 4.511302308898993e-12,
+            "T": 1.2000000000045112,
+            "servers": 36,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 1,
+          "hit": 0.8,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 299.9999999999999,
+            "cap": 1800,
+            "rho": 0.1666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398455,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 199.99999999999994,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1500,
+            "cap": 30000,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 4.511302308898993e-12,
+            "T": 1.2000000000045112,
+            "servers": 36,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 1,
+          "hit": 0.95,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 75.00000000000006,
+            "cap": 1800,
+            "rho": 0.0416666666666667,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0000023649755420453267,
+            "T": 6.000002364975542,
+            "servers": 11,
+            "reads": 50.00000000000004,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1500,
+            "cap": 30000,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 4.511302308898993e-12,
+            "T": 1.2000000000045112,
+            "servers": 36,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 1,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "db": {
+            "peak": 0,
+            "cap": 1800,
+            "rho": 0,
+            "status": "idle",
+            "S": 6,
+            "Wq": 0,
+            "T": 6,
+            "servers": 11,
+            "reads": 0,
+            "writes": 0,
+            "async": 0
+          },
+          "cache": {
+            "peak": 1500,
+            "cap": 30000,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 1.2,
+            "Wq": 4.511302308898993e-12,
+            "T": 1.2000000000045112,
+            "servers": 36,
+            "reads": 1000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      }
+    ],
+    "replicas": [
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 300,
+            "cap": 1800,
+            "rho": 0.16666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398462,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 160,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 180,
+            "cap": 1800,
+            "rho": 0.1,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00007647800848320823,
+            "T": 6.000076478008483,
+            "servers": 11,
+            "reads": 80,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 130,
+            "cap": 1800,
+            "rho": 0.07222222222222222,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00002085910384239634,
+            "T": 6.000020859103842,
+            "servers": 11,
+            "reads": 80,
+            "writes": 0,
+            "async": 9.999999999999998
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 139.99999999999997,
+            "cap": 1800,
+            "rho": 0.07777777777777777,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000028015053067789087,
+            "T": 6.000028015053068,
+            "servers": 11,
+            "reads": 53.33333333333333,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 90,
+            "cap": 1800,
+            "rho": 0.05,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000004856749417232226,
+            "T": 6.000004856749417,
+            "servers": 11,
+            "reads": 53.33333333333333,
+            "writes": 0,
+            "async": 9.999999999999998
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.8,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 108,
+            "cap": 1800,
+            "rho": 0.06,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000009992346889980464,
+            "T": 6.00000999234689,
+            "servers": 11,
+            "reads": 32,
+            "writes": 39.99999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 58,
+            "cap": 1800,
+            "rho": 0.03222222222222222,
+            "status": "ok",
+            "S": 6,
+            "Wq": 8.596304158546875e-7,
+            "T": 6.000000859630416,
+            "servers": 11,
+            "reads": 32,
+            "writes": 0,
+            "async": 9.999999999999998
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.95,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 300,
+            "cap": 1800,
+            "rho": 0.16666666666666666,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0006052628930398462,
+            "T": 6.00060526289304,
+            "servers": 11,
+            "reads": 190,
+            "writes": 10.000000000000009,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.95,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 157.50000000000003,
+            "cap": 1800,
+            "rho": 0.08750000000000002,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00004481638217118511,
+            "T": 6.000044816382172,
+            "servers": 11,
+            "reads": 95,
+            "writes": 10.000000000000009,
+            "async": 0
+          },
+          "replica": {
+            "peak": 145,
+            "cap": 1800,
+            "rho": 0.08055555555555556,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00003221972700544751,
+            "T": 6.0000322197270055,
+            "servers": 11,
+            "reads": 95,
+            "writes": 0,
+            "async": 2.500000000000002
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.95,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 110.00000000000001,
+            "cap": 1800,
+            "rho": 0.061111111111111116,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000010746124054470655,
+            "T": 6.000010746124055,
+            "servers": 11,
+            "reads": 63.33333333333333,
+            "writes": 10.000000000000009,
+            "async": 0
+          },
+          "replica": {
+            "peak": 97.5,
+            "cap": 1800,
+            "rho": 0.05416666666666667,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.000006664866054681725,
+            "T": 6.000006664866055,
+            "servers": 11,
+            "reads": 63.33333333333333,
+            "writes": 0,
+            "async": 2.500000000000002
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 200,
+          "readRatio": 0.95,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 72.00000000000001,
+            "cap": 1800,
+            "rho": 0.04000000000000001,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0000020134827642283495,
+            "T": 6.0000020134827645,
+            "servers": 11,
+            "reads": 38,
+            "writes": 10.000000000000009,
+            "async": 0
+          },
+          "replica": {
+            "peak": 59.5,
+            "cap": 1800,
+            "rho": 0.03305555555555555,
+            "status": "ok",
+            "S": 6,
+            "Wq": 9.504331411610465e-7,
+            "T": 6.000000950433141,
+            "servers": 11,
+            "reads": 38,
+            "writes": 0,
+            "async": 2.500000000000002
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 1500,
+            "cap": 1800,
+            "rho": 0.8333333333333334,
+            "status": "warn",
+            "S": 6,
+            "Wq": 1.607621336769333,
+            "T": 7.607621336769333,
+            "servers": 11,
+            "reads": 800,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 900,
+            "cap": 1800,
+            "rho": 0.5,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.07312717279089748,
+            "T": 6.0731271727908975,
+            "servers": 11,
+            "reads": 400,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "replica": {
+            "peak": 650,
+            "cap": 1800,
+            "rho": 0.3611111111111111,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.016091035199776966,
+            "T": 6.016091035199777,
+            "servers": 11,
+            "reads": 400,
+            "writes": 0,
+            "async": 49.999999999999986
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 699.9999999999999,
+            "cap": 1800,
+            "rho": 0.38888888888888884,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0224582835246925,
+            "T": 6.022458283524693,
+            "servers": 11,
+            "reads": 266.66666666666663,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "replica": {
+            "peak": 449.99999999999994,
+            "cap": 1800,
+            "rho": 0.24999999999999997,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0032679676335715282,
+            "T": 6.003267967633572,
+            "servers": 11,
+            "reads": 266.66666666666663,
+            "writes": 0,
+            "async": 49.999999999999986
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.8,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 539.9999999999999,
+            "cap": 1800,
+            "rho": 0.29999999999999993,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.007127989050940112,
+            "T": 6.00712798905094,
+            "servers": 11,
+            "reads": 160,
+            "writes": 199.99999999999994,
+            "async": 0
+          },
+          "replica": {
+            "peak": 290,
+            "cap": 1800,
+            "rho": 0.16111111111111112,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0005268083922533618,
+            "T": 6.000526808392253,
+            "servers": 11,
+            "reads": 160,
+            "writes": 0,
+            "async": 49.999999999999986
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.95,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 1500,
+            "cap": 1800,
+            "rho": 0.8333333333333334,
+            "status": "warn",
+            "S": 6,
+            "Wq": 1.607621336769333,
+            "T": 7.607621336769333,
+            "servers": 11,
+            "reads": 950,
+            "writes": 50.00000000000004,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.95,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 787.5,
+            "cap": 1800,
+            "rho": 0.4375,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.038620407262077834,
+            "T": 6.038620407262078,
+            "servers": 11,
+            "reads": 475,
+            "writes": 50.00000000000004,
+            "async": 0
+          },
+          "replica": {
+            "peak": 725,
+            "cap": 1800,
+            "rho": 0.4027777777777778,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.026350029038692484,
+            "T": 6.026350029038692,
+            "servers": 11,
+            "reads": 475,
+            "writes": 0,
+            "async": 12.50000000000001
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.95,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 550,
+            "cap": 1800,
+            "rho": 0.3055555555555556,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00771788404473447,
+            "T": 6.007717884044735,
+            "servers": 11,
+            "reads": 316.66666666666663,
+            "writes": 50.00000000000004,
+            "async": 0
+          },
+          "replica": {
+            "peak": 487.49999999999994,
+            "cap": 1800,
+            "rho": 0.2708333333333333,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.00459249764381245,
+            "T": 6.004592497643812,
+            "servers": 11,
+            "reads": 316.66666666666663,
+            "writes": 0,
+            "async": 12.50000000000001
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1000,
+          "readRatio": 0.95,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 360.0000000000001,
+            "cap": 1800,
+            "rho": 0.20000000000000007,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.001283508858136206,
+            "T": 6.001283508858136,
+            "servers": 11,
+            "reads": 190,
+            "writes": 50.00000000000004,
+            "async": 0
+          },
+          "replica": {
+            "peak": 297.5,
+            "cap": 1800,
+            "rho": 0.16527777777777777,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.0005848585274016467,
+            "T": 6.000584858527402,
+            "servers": 11,
+            "reads": 190,
+            "writes": 0,
+            "async": 12.50000000000001
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.8,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 4500,
+            "cap": 1800,
+            "rho": 2.5,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 2400,
+            "writes": 599.9999999999999,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.8,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 2700,
+            "cap": 1800,
+            "rho": 1.5,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 1200,
+            "writes": 599.9999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 1900,
+            "cap": 1800,
+            "rho": 1.0555555555555556,
+            "status": "fail",
+            "S": 6,
+            "Wq": 104.83827807178344,
+            "T": 110.83827807178344,
+            "servers": 11,
+            "reads": 1200,
+            "writes": 0,
+            "async": 99.99999999999997
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.8,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 2100,
+            "cap": 1800,
+            "rho": 1.1666666666666667,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 800,
+            "writes": 599.9999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 1328.5714285714284,
+            "cap": 1800,
+            "rho": 0.738095238095238,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.6373648913094483,
+            "T": 6.637364891309448,
+            "servers": 11,
+            "reads": 800,
+            "writes": 0,
+            "async": 128.57142857142853
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.8,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 1620,
+            "cap": 1800,
+            "rho": 0.9,
+            "status": "warn",
+            "S": 6,
+            "Wq": 3.6170211498009563,
+            "T": 9.617021149800957,
+            "servers": 11,
+            "reads": 480,
+            "writes": 599.9999999999999,
+            "async": 0
+          },
+          "replica": {
+            "peak": 870,
+            "cap": 1800,
+            "rho": 0.48333333333333334,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.06200585035482091,
+            "T": 6.062005850354821,
+            "servers": 11,
+            "reads": 480,
+            "writes": 0,
+            "async": 149.99999999999997
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.95,
+          "replicas": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 4500,
+            "cap": 1800,
+            "rho": 2.5,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 2850,
+            "writes": 150.00000000000014,
+            "async": 0
+          },
+          "replica": null
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.95,
+          "replicas": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 2362.5000000000005,
+            "cap": 1800,
+            "rho": 1.3125000000000002,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 1425,
+            "writes": 150.00000000000014,
+            "async": 0
+          },
+          "replica": {
+            "peak": 2166.0714285714284,
+            "cap": 1800,
+            "rho": 1.2033730158730158,
+            "status": "fail",
+            "S": 6,
+            "Wq": 184.28272251622784,
+            "T": 190.28272251622784,
+            "servers": 11,
+            "reads": 1425,
+            "writes": 0,
+            "async": 28.571428571428594
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.95,
+          "replicas": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 1650.0000000000005,
+            "cap": 1800,
+            "rho": 0.916666666666667,
+            "status": "warn",
+            "S": 6,
+            "Wq": 4.662329762897387,
+            "T": 10.662329762897386,
+            "servers": 11,
+            "reads": 950,
+            "writes": 150.00000000000014,
+            "async": 0
+          },
+          "replica": {
+            "peak": 1462.5,
+            "cap": 1800,
+            "rho": 0.8125,
+            "status": "warn",
+            "S": 6,
+            "Wq": 1.2946741039964782,
+            "T": 7.294674103996478,
+            "servers": 11,
+            "reads": 950,
+            "writes": 0,
+            "async": 37.500000000000036
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 3000,
+          "readRatio": 0.95,
+          "replicas": 4,
+          "burst": 1.5
+        },
+        "expected": {
+          "primary": {
+            "peak": 1080.0000000000002,
+            "cap": 1800,
+            "rho": 0.6000000000000001,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.18608649258409712,
+            "T": 6.1860864925840975,
+            "servers": 11,
+            "reads": 570,
+            "writes": 150.00000000000014,
+            "async": 0
+          },
+          "replica": {
+            "peak": 892.5,
+            "cap": 1800,
+            "rho": 0.49583333333333335,
+            "status": "ok",
+            "S": 6,
+            "Wq": 0.07019475420957241,
+            "T": 6.070194754209572,
+            "servers": 11,
+            "reads": 570,
+            "writes": 0,
+            "async": 37.500000000000036
+          }
+        }
+      }
+    ],
+    "loadBalancing": [
+      {
+        "input": {
+          "rps": 300,
+          "servers": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 450,
+            "cap": 600,
+            "rho": 0.75,
+            "status": "warn",
+            "S": 22,
+            "Wq": 1.9695381797606997,
+            "T": 23.9695381797607,
+            "servers": 13,
+            "reads": 300,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 450,
+            "cap": 20000,
+            "rho": 0.0225,
+            "status": "ok",
+            "S": 1,
+            "Wq": 4.759845999383285e-11,
+            "T": 1.0000000000475984,
+            "servers": 20,
+            "reads": 300,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "servers": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 225,
+            "cap": 600,
+            "rho": 0.375,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.04023031005389029,
+            "T": 22.04023031005389,
+            "servers": 13,
+            "reads": 150,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 450,
+            "cap": 20000,
+            "rho": 0.0225,
+            "status": "ok",
+            "S": 1,
+            "Wq": 4.759845999383285e-11,
+            "T": 1.0000000000475984,
+            "servers": 20,
+            "reads": 300,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "servers": 3,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 150,
+            "cap": 600,
+            "rho": 0.25,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.0058840456529715875,
+            "T": 22.005884045652973,
+            "servers": 13,
+            "reads": 100,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 450,
+            "cap": 20000,
+            "rho": 0.0225,
+            "status": "ok",
+            "S": 1,
+            "Wq": 4.759845999383285e-11,
+            "T": 1.0000000000475984,
+            "servers": 20,
+            "reads": 300,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 300,
+          "servers": 6,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 75,
+            "cap": 600,
+            "rho": 0.125,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.00025754802763572614,
+            "T": 22.000257548027637,
+            "servers": 13,
+            "reads": 50,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 450,
+            "cap": 20000,
+            "rho": 0.0225,
+            "status": "ok",
+            "S": 1,
+            "Wq": 4.759845999383285e-11,
+            "T": 1.0000000000475984,
+            "servers": 20,
+            "reads": 300,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1200,
+          "servers": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 1800,
+            "cap": 600,
+            "rho": 3,
+            "status": "fail",
+            "S": 22,
+            "Wq": 655.735210792557,
+            "T": 677.735210792557,
+            "servers": 13,
+            "reads": 1200,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 1800,
+            "cap": 20000,
+            "rho": 0.09,
+            "status": "ok",
+            "S": 1,
+            "Wq": 1.0195369564767803e-7,
+            "T": 1.0000001019536957,
+            "servers": 20,
+            "reads": 1200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1200,
+          "servers": 2,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 900,
+            "cap": 600,
+            "rho": 1.5,
+            "status": "fail",
+            "S": 22,
+            "Wq": 655.735210792557,
+            "T": 677.735210792557,
+            "servers": 13,
+            "reads": 600,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 1800,
+            "cap": 20000,
+            "rho": 0.09,
+            "status": "ok",
+            "S": 1,
+            "Wq": 1.0195369564767803e-7,
+            "T": 1.0000001019536957,
+            "servers": 20,
+            "reads": 1200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1200,
+          "servers": 3,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 600,
+            "cap": 600,
+            "rho": 1,
+            "status": "fail",
+            "S": 22,
+            "Wq": 160.7352107925571,
+            "T": 182.7352107925571,
+            "servers": 13,
+            "reads": 400,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 1800,
+            "cap": 20000,
+            "rho": 0.09,
+            "status": "ok",
+            "S": 1,
+            "Wq": 1.0195369564767803e-7,
+            "T": 1.0000001019536957,
+            "servers": 20,
+            "reads": 1200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 1200,
+          "servers": 6,
+          "burst": 1.5
+        },
+        "expected": {
+          "server": {
+            "peak": 300,
+            "cap": 600,
+            "rho": 0.5,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.17283763236413638,
+            "T": 22.172837632364136,
+            "servers": 13,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          },
+          "lb": {
+            "peak": 1800,
+            "cap": 20000,
+            "rho": 0.09,
+            "status": "ok",
+            "S": 1,
+            "Wq": 1.0195369564767803e-7,
+            "T": 1.0000001019536957,
+            "servers": 20,
+            "reads": 1200,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      }
+    ],
+    "cdn": [
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 0.8,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 750,
+            "cap": 4800,
+            "rho": 0.15625,
+            "status": "ok",
+            "S": 22,
+            "Wq": 3.3319448272658945e-12,
+            "T": 22.000000000003332,
+            "servers": 104,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 0.8,
+          "hit": 0.3,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 570,
+            "cap": 4800,
+            "rho": 0.11875,
+            "status": "ok",
+            "S": 22,
+            "Wq": 7.867264068364936e-14,
+            "T": 22.000000000000078,
+            "servers": 104,
+            "reads": 280,
+            "writes": 99.99999999999997,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 0.8,
+          "hit": 0.6,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 390,
+            "cap": 4800,
+            "rho": 0.08125,
+            "status": "ok",
+            "S": 22,
+            "Wq": 4.510330323400828e-16,
+            "T": 22,
+            "servers": 104,
+            "reads": 160,
+            "writes": 99.99999999999997,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 0.8,
+          "hit": 0.9,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 209.99999999999994,
+            "cap": 4800,
+            "rho": 0.04374999999999999,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.0226825810505436e-19,
+            "T": 22,
+            "servers": 104,
+            "reads": 39.99999999999999,
+            "writes": 99.99999999999997,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 0.8,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 149.99999999999994,
+            "cap": 4800,
+            "rho": 0.03124999999999999,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.0780333812757937e-21,
+            "T": 22,
+            "servers": 104,
+            "reads": 0,
+            "writes": 99.99999999999997,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 400,
+            "writes": 99.99999999999997,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 1,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 750,
+            "cap": 4800,
+            "rho": 0.15625,
+            "status": "ok",
+            "S": 22,
+            "Wq": 3.3319448272658945e-12,
+            "T": 22.000000000003332,
+            "servers": 104,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 1,
+          "hit": 0.3,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 525,
+            "cap": 4800,
+            "rho": 0.109375,
+            "status": "ok",
+            "S": 22,
+            "Wq": 2.5667052841171597e-14,
+            "T": 22.000000000000025,
+            "servers": 104,
+            "reads": 350,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 1,
+          "hit": 0.6,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 300,
+            "cap": 4800,
+            "rho": 0.0625,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.2828672890421502e-17,
+            "T": 22,
+            "servers": 104,
+            "reads": 200,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 1,
+          "hit": 0.9,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 74.99999999999997,
+            "cap": 4800,
+            "rho": 0.015624999999999995,
+            "status": "ok",
+            "S": 22,
+            "Wq": 9.212431372248195e-26,
+            "T": 22,
+            "servers": 104,
+            "reads": 49.999999999999986,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 500,
+          "readRatio": 1,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 0,
+            "cap": 4800,
+            "rho": 0,
+            "status": "idle",
+            "S": 22,
+            "Wq": 0,
+            "T": 22,
+            "servers": 104,
+            "reads": 0,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 750,
+            "cap": 40000,
+            "rho": 0.01875,
+            "status": "ok",
+            "S": 12,
+            "Wq": 3.701271346939775e-54,
+            "T": 12,
+            "servers": 480,
+            "reads": 500,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 0.8,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 3000,
+            "cap": 4800,
+            "rho": 0.625,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.0009942566086770194,
+            "T": 22.000994256608678,
+            "servers": 104,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 0.8,
+          "hit": 0.3,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 2280,
+            "cap": 4800,
+            "rho": 0.475,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.00001751385384352719,
+            "T": 22.000017513853845,
+            "servers": 104,
+            "reads": 1120,
+            "writes": 399.9999999999999,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 0.8,
+          "hit": 0.6,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 1560,
+            "cap": 4800,
+            "rho": 0.325,
+            "status": "ok",
+            "S": 22,
+            "Wq": 8.14179373220369e-8,
+            "T": 22.000000081417937,
+            "servers": 104,
+            "reads": 640,
+            "writes": 399.9999999999999,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 0.8,
+          "hit": 0.9,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 839.9999999999998,
+            "cap": 4800,
+            "rho": 0.17499999999999996,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.572086814842682e-11,
+            "T": 22.00000000001572,
+            "servers": 104,
+            "reads": 159.99999999999997,
+            "writes": 399.9999999999999,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 0.8,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 599.9999999999998,
+            "cap": 4800,
+            "rho": 0.12499999999999996,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.5829020381035359e-13,
+            "T": 22.00000000000016,
+            "servers": 104,
+            "reads": 0,
+            "writes": 399.9999999999999,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 1600,
+            "writes": 399.9999999999999,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 1,
+          "hit": 0,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 3000,
+            "cap": 4800,
+            "rho": 0.625,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.0009942566086770194,
+            "T": 22.000994256608678,
+            "servers": 104,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 1,
+          "hit": 0.3,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 2100,
+            "cap": 4800,
+            "rho": 0.4375,
+            "status": "ok",
+            "S": 22,
+            "Wq": 0.00000538972400311455,
+            "T": 22.000005389724002,
+            "servers": 104,
+            "reads": 1400,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 1,
+          "hit": 0.6,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 1200,
+            "cap": 4800,
+            "rho": 0.25,
+            "status": "ok",
+            "S": 22,
+            "Wq": 2.126718021906028e-9,
+            "T": 22.00000000212672,
+            "servers": 104,
+            "reads": 800,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 1,
+          "hit": 0.9,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 299.9999999999999,
+            "cap": 4800,
+            "rho": 0.06249999999999998,
+            "status": "ok",
+            "S": 22,
+            "Wq": 1.2828672890421445e-17,
+            "T": 22,
+            "servers": 104,
+            "reads": 199.99999999999994,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      },
+      {
+        "input": {
+          "rps": 2000,
+          "readRatio": 1,
+          "hit": 1,
+          "burst": 1.5
+        },
+        "expected": {
+          "origin": {
+            "peak": 0,
+            "cap": 4800,
+            "rho": 0,
+            "status": "idle",
+            "S": 22,
+            "Wq": 0,
+            "T": 22,
+            "servers": 104,
+            "reads": 0,
+            "writes": 0,
+            "async": 0
+          },
+          "edge": {
+            "peak": 3000,
+            "cap": 40000,
+            "rho": 0.075,
+            "status": "ok",
+            "S": 12,
+            "Wq": 4.6291016997608634e-36,
+            "T": 12,
+            "servers": 480,
+            "reads": 2000,
+            "writes": 0,
+            "async": 0
+          }
+        }
+      }
+    ],
+    "regions": [
+      {
+        "input": {
+          "from": "us-east",
+          "to": "us-east"
+        },
+        "expected": {
+          "rtt": 0
+        }
+      },
+      {
+        "input": {
+          "from": "us-east",
+          "to": "eu-west"
+        },
+        "expected": {
+          "rtt": 75
+        }
+      },
+      {
+        "input": {
+          "from": "us-east",
+          "to": "ap-south"
+        },
+        "expected": {
+          "rtt": 190
+        }
+      },
+      {
+        "input": {
+          "from": "eu-west",
+          "to": "us-east"
+        },
+        "expected": {
+          "rtt": 75
+        }
+      },
+      {
+        "input": {
+          "from": "eu-west",
+          "to": "eu-west"
+        },
+        "expected": {
+          "rtt": 0
+        }
+      },
+      {
+        "input": {
+          "from": "eu-west",
+          "to": "ap-south"
+        },
+        "expected": {
+          "rtt": 115
+        }
+      },
+      {
+        "input": {
+          "from": "ap-south",
+          "to": "us-east"
+        },
+        "expected": {
+          "rtt": 190
+        }
+      },
+      {
+        "input": {
+          "from": "ap-south",
+          "to": "eu-west"
+        },
+        "expected": {
+          "rtt": 115
+        }
+      },
+      {
+        "input": {
+          "from": "ap-south",
+          "to": "ap-south"
+        },
+        "expected": {
+          "rtt": 0
+        }
+      }
+    ]
+  }
+}

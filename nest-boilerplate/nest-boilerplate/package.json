@@ -36,6 +36,8 @@
     "contract:phase3:check": "pnpm contract:phase3 --check",
     "contract:phase2": "ts-node -r tsconfig-paths/register src/script/export-phase2-contract.ts",
     "contract:phase2:check": "pnpm contract:phase2 --check",
+    "fixtures:learn": "ts-node -r tsconfig-paths/register src/script/learn-fixtures.ts",
+    "fixtures:learn:check": "pnpm fixtures:learn --check",
     "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check",
     "test:simulation": "jest --runInBand --runTestsByPath src/modules/simulation/engine/engine.spec.ts src/modules/simulation/worker/worker.spec.ts",
     "simulation:profile": "ts-node -r tsconfig-paths/register src/script/profile-simulation.ts",
