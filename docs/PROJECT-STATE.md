@@ -128,3 +128,6 @@ Decisions in [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) approved. P1 (honest public p
 
 ## Phase 4/5 P4 complete — 2026-11-01
 Settings (profile, password change that ends other sessions, export, account deletion, appearance) built and verified, committed locally. See [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md) "P4 result". Needs `pnpm migration:run` (AccountSelfService). Open: `pnpm fixtures:phase2` byte-drift on this Node version (see the scope doc). Next: P2 Learn.
+
+## Phase 4/5 P2 Learn scope — 2026-11-01
+Scope proposed in [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md): eight topics with one demo and a two-question check each, demos tied to the simulator by generated fixtures, progress in the browser. Awaiting the user's decisions; nothing built.

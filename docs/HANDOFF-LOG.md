@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P2 Learn scope
+**Goal:** plan P2 (user: "plan scope for P2").
+**Done:** pushed `2c5cd23` (P4). Wrote [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md): eight topics, one demo and a two-question check each, demos kept equal to the simulator by fixtures generated from the backend engine (tests on both sides), progress in the browser, nine decisions with recommendations. No code changed.
+**Next:** the user answers the decisions; then build P2 in two commits (shared model + parity first). No active claims.
+
 ## 2026-11-01, Claude Phase 4/5 P4 settings
 **Goal:** build P4 (user: "Push and start P4").
 **Done:** pushed `7b08733` (P1). Built Settings end to end: four new API routes, one migration, six settings sections, privacy text updated. Backend e2e 253 pass, web unit 268 pass, Chrome 598 passed / 10 skipped / 0 failed. 24 backend and 28 web deliberate breaks caught. Deviations from the approved decision text are listed in PHASE-4-5-SCOPE.md "P4 result".
