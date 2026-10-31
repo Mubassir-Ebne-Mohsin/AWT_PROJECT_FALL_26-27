@@ -37,6 +37,17 @@ function AccountRoleLine() {
   );
 }
 
+/** Reviewers get a way in to the designs shared with them; everyone else sees no extra menu item. */
+function ReviewerLink({ onNavigate }: { onNavigate: () => void }) {
+  const { roles } = useMyRoles();
+  if (!roles.includes("reviewer")) return null;
+  return (
+    <Link href="/reviews" role="menuitem" onClick={onNavigate}>
+      <Icon n="msg" /> Shared with me
+    </Link>
+  );
+}
+
 export function TopBar({ pathname }: { pathname: string }) {
   const { ui, setUI } = useUi();
   const { user, status, signOut } = useAuth();
@@ -156,6 +167,7 @@ export function TopBar({ pathname }: { pathname: string }) {
                 <Link href="/progress" role="menuitem" onClick={() => setUI(close)}>
                   <Icon n="flag" /> Progress
                 </Link>
+                <ReviewerLink onNavigate={() => setUI(close)} />
                 <Link href="/settings/profile" role="menuitem" onClick={() => setUI(close)}>
                   <Icon n="settings" /> Settings
                 </Link>

@@ -29,7 +29,7 @@ async function register(page: Page, email: string) {
   await expect(page.getByRole("button", { name: "Account menu", exact: true })).toBeVisible();
 }
 
-test("36 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
+test("38 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
   const email = `web-${Date.now()}-${testInfo.project.name}@example.test`;
   const unexpected: string[] = [];
   page.on("pageerror", error => unexpected.push(error.message));
@@ -54,12 +54,12 @@ test("36 registry routes, auth forms, palette, drawers, themes, tab restores and
     await expect(page).toHaveURL(/\/new\/template\?audit=1$/);
   });
 
-  await test.step("all 36 registered patterns resolve with correct document titles and no overflow", async () => {
+  await test.step("all 38 registered patterns resolve with correct document titles and no overflow", async () => {
     await page.goto("/new/template");
     await page.getByRole("button", { name: "Use Single-server MVP", exact: true }).click();
     await expect(page.getByLabel("Replicas (1–200)")).toBeVisible();
     const ownedDesignId = new URL(page.url()).pathname.split("/")[2];
-    expect(ROUTES).toHaveLength(36);
+    expect(ROUTES).toHaveLength(38);
     for (const route of ROUTES) {
       await test.step(route.path, async () => {
         const path = samplePath(route.path, ownedDesignId);

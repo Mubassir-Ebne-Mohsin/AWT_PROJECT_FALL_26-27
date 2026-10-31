@@ -16,7 +16,7 @@ import { SimulationModule } from "@/modules/simulation/simulation.module";
 @Module({
   imports: [SimulationModule],
   providers: [DesignsService, RunsService, DesignVersionsService, DesignNotesService, DesignLibraryService, ReportService, DesignSharesService],
-  exports: [DesignsService],
+  exports: [DesignsService, ReportService],
   controllers: [DesignsController, DesignCatalogController, DesignLibraryController, SharesController],
 })
 export class DesignsModule {}

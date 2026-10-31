@@ -50,7 +50,8 @@ export const openShareRequestSchema = z.strictObject({
   token: z.string().min(20).max(128).regex(/^[A-Za-z0-9_-]+$/),
 });
 
-const sharedReportSchema = reportSchema.omit({ designId: true });
+/** The leak-checked document shape shared with people who are not the owner (public links and R3 review grants). */
+export const sharedReportSchema = reportSchema.omit({ designId: true });
 
 export const sharedViewSchema = z.strictObject({
   scope: shareScopeSchema,

@@ -1,6 +1,6 @@
 # Roles track: Instructor, Reviewer and Admin (scope and decisions)
 
-Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations is built and verified (see "R1 result" at the end); R2 to R5 are not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
+Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations, R2 Admin tools and R3 Review grants are built and verified (see the "result" sections at the end); R4 and R5 are not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
 
 ## 1. Where the code is today (verified)
 
@@ -87,3 +87,13 @@ Verified: backend unit 222 passed, backend e2e 155 passed (12 new in `admin-stat
 Existing tests changed, on purpose and not loosened: `phase1.spec.ts` route count 35 to 36 (new route `/admin/users`), the R1 lookup allow-list in `roles.e2e-spec.ts` now includes `status`, and `fake-redis.ts` gained `del`.
 
 Operator steps: run `pnpm migration:run` on the dev database. The Admin browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` (they promote a throwaway account directly in Postgres) and skip without them.
+
+## R3 result (2026-10-31)
+
+Built: `review_grants` (migration `ReviewGrants1793900000000`). An owner shares ONE frozen revision, and optionally one recorded result, with ONE named Reviewer by email: `POST /designs/:id/reviews`, `GET /designs/:id/reviews`, `POST /designs/:id/reviews/:grantId/revoke`. The Reviewer side is `GET /reviews/shared-with-me` and `GET /reviews/:id`, behind the new `review.read` permission, which only the Reviewer role holds (Admin never reads design content). The document is assembled and frozen at grant time with the same code as the owner's report, with no notes, so later edits never reach it. The Reviewer sees the owner's display name only, never their email or internal ids; a grant that is not theirs, or is revoked, reads as "not found". The owner cannot share with themselves; an unknown, non-Reviewer or suspended account all get one identical answer; one active grant per design, Reviewer and revision; at most 10 active grants per design. Removing the Reviewer role ends access at once with the same token. Web: a "Share with a Reviewer" section on the existing share-settings page, `/reviews` (Shared with me) and `/reviews/:id` (read-only view) behind `RoleGate`, and a "Shared with me" link in the account menu for Reviewers only. Route registry is now 38.
+
+Verified: backend unit 224 passed (2 skipped), backend e2e 172 passed (17 new in `reviews.e2e-spec.ts`), web unit 202 passed, 18 backend and 8 web deliberate breaks each failed a test. Chrome regression: the full run was 518 passed, 10 skipped, 4 failed. The 4 were the existing M16.3 share-link journey on every project: my new reviewers section used nearly the same sentence as the share page, so that test's text locator matched two elements. The test was right and my wording was changed (not the test). The rerun of the share, R1, R2, R3 and phase1 specs afterwards was 72 passed, 4 skipped, 0 failed (12 new R3 journeys run against the real API). The rest of the suite was not rerun after the wording change.
+
+Existing tests changed, on purpose and not loosened: `phase1.spec.ts` route count 36 to 38.
+
+Operator steps: run `pnpm migration:run` on the dev database (adds `ReviewGrants1793900000000`). The Reviewer browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` and skip without them.

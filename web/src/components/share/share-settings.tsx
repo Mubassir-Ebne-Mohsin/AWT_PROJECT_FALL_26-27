@@ -4,6 +4,7 @@ import { useId, useRef, useState } from "react";
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
+import { ReviewShares } from "@/components/review/review-shares";
 import { Crumbs } from "@/components/shell/crumbs";
 import { fetchRunSummaries, fetchVersions } from "@/lib/api/history";
 import { createShare, fetchShares, revokeShare, type ShareLink } from "@/lib/api/shares";
@@ -264,6 +265,8 @@ export function ShareSettings({ id }: { id: string }) {
           </ul>
         )}
       </section>
+
+      <ReviewShares id={id} />
     </div>
   );
 }

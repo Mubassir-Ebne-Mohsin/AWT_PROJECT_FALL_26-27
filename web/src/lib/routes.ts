@@ -82,6 +82,8 @@ export const ROUTES: RouteDef[] = [
   app("/challenges/:id", "challenge", (p) => CHALLENGES[p.id] ?? titleCase(p.id), 4, "P", "A practice workspace with a goal, a budget and a score.", ["A starting design that fails the goal", "Live goal checklist as you edit", "Score and a short debrief when you pass"]),
   app("/progress", "progress", "Progress", 5, "S", "Challenges passed and concepts learned.", ["Challenge results with scores", "Concepts opened and quiz results", "Streak and next suggestion"]),
   app("/admin/users", "admin-users", "Admin: Accounts", 5, "S", "Find accounts, change roles, suspend or restore, and read the audit log. Admins only.", ["Search by part of an email or name", "Give or remove the Instructor, Reviewer and Admin roles", "Suspend or restore an account", "Read the audit log"]),
+  app("/reviews", "reviews", "Shared with me", 5, "S", "Designs that owners have shared with you as a Reviewer. Reviewers only.", ["Frozen, read-only copies chosen by their owners", "The owner's display name only, never their email", "Open a copy to read the design and its recorded result"]),
+  app("/reviews/:id", "review", "Review", 5, "S", "One frozen design shared with you as a Reviewer. Reviewers only.", ["Read-only design, result and model limitations", "Your access ends the moment the owner stops sharing"]),
   app("/evaluation", "evaluation-root", "Evaluation", 5, "C", undefined, undefined, { redirectTo: () => "/evaluation/simulator" }),
   app("/evaluation/:tab", "evaluation", (p) => `Evaluation: ${EVAL_TABS[p.tab] ?? titleCase(p.tab)}`, 5, "C", "The proof page. Every number here will be labelled as illustrative mock data in this prototype.", ["Simulator: formula tests against textbook queueing results", "Calibration: a real app load-tested against the simulator’s prediction", "AI: AI suggestions compared with a rule-based baseline"], { accepts: (p) => p.tab in EVAL_TABS }),
   app("/settings", "settings-root", "Settings", 5, "P", undefined, undefined, { redirectTo: () => "/settings/profile" }),
@@ -182,6 +184,9 @@ export function crumbsFor(r: ResolvedRoute): Crumb[] {
         { label: designName(P.id), to: `/designs/${P.id}/edit` },
         { label: r.title },
       );
+      break;
+    case "review":
+      out.push({ label: "Shared with me", to: "/reviews" }, { label: r.title });
       break;
     case "learn-topic":
       out.push({ label: "Learn", to: "/learn" }, { label: r.title });

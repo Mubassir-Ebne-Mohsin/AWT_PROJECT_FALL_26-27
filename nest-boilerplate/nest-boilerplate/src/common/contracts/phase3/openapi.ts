@@ -15,6 +15,7 @@ import {
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
+import { createReviewRequestSchema, reviewGrantSchema, reviewItemSchema, reviewViewSchema } from "@/common/contracts/phase3/reviews.schema";
 import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
@@ -47,6 +48,10 @@ export function phase3OpenApi() {
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
     StatusChange: statusChangeSchema,
+    CreateReviewRequest: createReviewRequestSchema,
+    ReviewGrant: reviewGrantSchema,
+    ReviewItem: reviewItemSchema,
+    ReviewView: reviewViewSchema,
     RoleChange: roleChangeSchema,
     AuditEntry: auditEntrySchema,
     DesignLibraryList: libraryListSchema,
@@ -197,6 +202,48 @@ export function phase3OpenApi() {
           ...operation("revokeDesignShare", "ShareLink"),
           parameters: [parameter, { name: "shareId", in: "path", required: true, schema: { type: "string", format: "uuid" } }],
         },
+      },
+      "/v1/designs/{id}/reviews": {
+        get: {
+          ...operation("listDesignReviews", "ReviewGrant"),
+          parameters: [parameter],
+          responses: {
+            ...operation("listDesignReviews", "ReviewGrant").responses,
+            200: {
+              description: "Reviews of this design, newest first (at most 50)",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("ReviewGrant"), maxItems: 50 } } }),
+            },
+          },
+        },
+        post: {
+          ...operation("createDesignReview", "ReviewGrant", "CreateReviewRequest"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("createDesignReview", "ReviewGrant", "CreateReviewRequest").responses).filter(([code]) => code !== "200")),
+            201: { description: "The new review grant", content: content(envelope("ReviewGrant")) },
+          },
+        },
+      },
+      "/v1/designs/{id}/reviews/{grantId}/revoke": {
+        post: {
+          ...operation("revokeDesignReview", "ReviewGrant"),
+          parameters: [parameter, { name: "grantId", in: "path", required: true, schema: { type: "string", format: "uuid" } }],
+        },
+      },
+      "/v1/reviews/shared-with-me": {
+        get: {
+          ...operation("listSharedWithMe", "ReviewItem"),
+          responses: {
+            ...operation("listSharedWithMe", "ReviewItem").responses,
+            200: {
+              description: "Designs shared with the signed-in Reviewer, newest first (at most 100)",
+              content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("ReviewItem"), maxItems: 100 } } }),
+            },
+          },
+        },
+      },
+      "/v1/reviews/{id}": {
+        get: { ...operation("getSharedReview", "ReviewView"), parameters: [parameter] },
       },
       "/v1/account/roles": {
         get: operation("getAccountRoles", "AccountRoles"),
