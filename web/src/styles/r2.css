@@ -11,3 +11,12 @@
 @media (max-width: 480px) {
   .r2-row { flex-direction: column; align-items: flex-start; }
 }
+
+/* R4 Reviewer feedback. Plain text only: pre-wrap keeps line breaks, and long words wrap instead of widening the page. */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.r4-comment, .r4-reply { display: grid; gap: 6px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+.r4-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.r4-removed { margin: 0; font-style: italic; }
+.r4-replies { margin-top: 4px; padding-left: 14px; border-left: 3px solid var(--accent-line); }
+.r4-reply { border-bottom: 0; padding: 4px 0; }
+.r4-owner { flex-basis: 100%; }

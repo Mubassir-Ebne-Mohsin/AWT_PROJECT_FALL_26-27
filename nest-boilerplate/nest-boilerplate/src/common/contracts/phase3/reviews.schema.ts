@@ -26,6 +26,35 @@ export const reviewGrantSchema = z.strictObject({
   createdAt: z.iso.datetime(),
   revokedAt: z.iso.datetime().nullable(),
   status: reviewStatusSchema,
+  /** R4: how many comments (including replies and removed placeholders) this review's thread holds. */
+  commentCount: z.number().int().nonnegative(),
+});
+
+// R4 Reviewer feedback. One thread per review: the Reviewer writes top-level comments, the owner replies to them.
+// Plain text only; the server never interprets it as HTML and the web renders it as text.
+export const REVIEW_COMMENT_MAX_CHARS = 2000;
+export const REVIEW_COMMENT_MAX = 50;
+
+const commentText = z
+  .string()
+  .trim()
+  .min(1)
+  .max(REVIEW_COMMENT_MAX_CHARS)
+  .refine((t) => !t.includes("\u0000"), "Text cannot contain a null character");
+
+export const createCommentRequestSchema = z.strictObject({ text: commentText });
+export const ownerReplyRequestSchema = z.strictObject({ text: commentText, parentId: z.uuid() });
+export const editCommentRequestSchema = z.strictObject({ text: commentText });
+
+/** A removed comment keeps its place in the thread but carries no text. Display names only, never emails. */
+export const reviewCommentSchema = z.strictObject({
+  id: z.uuid(),
+  parentId: z.uuid().nullable(),
+  author: z.strictObject({ role: z.enum(["owner", "reviewer"]), displayName: z.string() }),
+  text: z.string().nullable(),
+  removed: z.boolean(),
+  createdAt: z.iso.datetime(),
+  editedAt: z.iso.datetime().nullable(),
 });
 
 /** One row of the Reviewer's "Shared with me" list. Display name only; no email, no internal design id. */

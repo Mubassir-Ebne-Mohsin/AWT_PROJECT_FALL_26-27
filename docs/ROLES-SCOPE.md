@@ -1,6 +1,6 @@
 # Roles track: Instructor, Reviewer and Admin (scope and decisions)
 
-Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations, R2 Admin tools and R3 Review grants are built and verified (see the "result" sections at the end); R4 and R5 are not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
+Status: **all ten decisions approved 2026-10-30 ("Approve all", as recommended). R1 Foundations, R2 Admin tools, R3 Review grants and R4 Reviewer feedback are built and verified (see the "result" sections at the end); R5 Instructor is not started.** It extends the approved four-role direction in [PROJECT-PLAN](PROJECT-PLAN.md) (User, Instructor, Reviewer, Admin) and keeps its rules. Needs no AI. Follows the same method as [M15](M15-HISTORY-COMPARE-NOTES-SCOPE.md) and [M16](M16-REPORT-SHARING-SCOPE.md): decisions first, then gated slices.
 
 ## 1. Where the code is today (verified)
 
@@ -97,3 +97,13 @@ Verified: backend unit 224 passed (2 skipped), backend e2e 172 passed (17 new in
 Existing tests changed, on purpose and not loosened: `phase1.spec.ts` route count 36 to 38.
 
 Operator steps: run `pnpm migration:run` on the dev database (adds `ReviewGrants1793900000000`). The Reviewer browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` and skip without them.
+
+## R4 result (2026-10-31)
+
+Built: `review_comments` (migration `ReviewComments1794000000000`). One thread per review: the Reviewer writes top-level comments and may edit (marked "edited") or remove their own; removing erases the text and leaves a "Comment removed" placeholder so replies still make sense. The owner replies to a Reviewer's live top-level comment and can never change a Reviewer's words. Plain text only, 1 to 2,000 characters, at most 50 per review, counting replies and removed placeholders; the limit is enforced under a row lock so parallel requests cannot pass it. A Reviewer's access ends the moment the owner stops sharing (reads as "not found"); the owner keeps reading the whole thread for good, and replies close with `REVIEW_STOPPED`. Display names only; Admins cannot read feedback. API: Reviewer `GET/POST /reviews/:id/comments`, `PATCH/DELETE /reviews/:id/comments/:commentId` (all behind `review.read`), owner `GET/POST /designs/:id/reviews/:grantId/comments`. The owner's grant list now carries `commentCount`. Web: a feedback panel under the Reviewer's read-only view, and a "Feedback (n)" thread on each row of "Who has a copy" on the share page. No new routes, so the registry stays at 38.
+
+Verified: backend unit 224 passed (2 skipped), backend e2e 186 passed (14 new in `review-comments.e2e-spec.ts`), web unit 217 passed (15 new), 21 backend and 14 web deliberate breaks each failed a test, 8 new browser journeys run against the real API. Full Chrome regression 530 passed, 10 skipped, 0 failed.
+
+Existing tests changed, on purpose and with their intent kept: two of my own R3 checks assumed a Reviewer's page has no buttons at all (`r3-reviews.test.cjs` and `r3-reviews.spec.ts`); they now check there is nothing to press outside the feedback panel, because the panel has real buttons. The fake used by the R3 unit test also gained the new comment calls.
+
+Operator steps: run `pnpm migration:run` on the dev database (adds `ReviewComments1794000000000`). The Reviewer browser journeys need `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` and skip without them.

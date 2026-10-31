@@ -112,7 +112,8 @@ test.describe("R3 Review grants", () => {
     await expect(person.page.getByTestId("review-banner")).toContainText("Shared by R3 Owner");
     await expect(person.page.getByRole("article", { name: "Design report" })).toBeVisible();
     expect(await person.page.locator("main").innerText()).not.toContain(owner.email);
-    await expect(person.page.locator("main").getByRole("button")).toHaveCount(0); // read-only
+    // Read-only: nothing to press on the design itself. The only buttons are inside the feedback panel (R4).
+    expect(await person.page.locator("main button").evaluateAll((els) => els.filter((el) => !el.closest("[data-testid=reviewer-comments]")).length)).toBe(0);
     expect(await noOverflow(person.page)).toBe(true);
 
     // The owner stops sharing; the Reviewer's very next read is refused.

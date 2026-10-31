@@ -56,6 +56,13 @@ require.cache[require.resolve("../src/lib/api/reviews.ts")] = {
       grants = grants.map((g) => (g.id === grantId ? { ...g, status: "revoked", revokedAt: "2026-10-31T10:00:00.000Z" } : g));
       return Promise.resolve(grants.find((g) => g.id === grantId));
     },
+    // R4 feedback calls: this file is about sharing, so the threads are empty here (R4 has its own test file).
+    fetchThread: () => Promise.resolve([]),
+    fetchOwnerThread: () => Promise.resolve([]),
+    addComment: () => Promise.reject(new Error("not used here")),
+    editComment: () => Promise.reject(new Error("not used here")),
+    removeComment: () => Promise.reject(new Error("not used here")),
+    replyToComment: () => Promise.reject(new Error("not used here")),
     fetchSharedWithMe: () => {
       calls.push(["inbox"]);
       const e = fail();
@@ -234,7 +241,8 @@ test("R3 reviewer view: shows the frozen document with who shared it, and no way
   assert.match(view.querySelector("[data-testid=review-banner]").textContent, /Shared by Olivia Owner/);
   assert.match(view.querySelector("[data-testid=report-doc]").textContent, /Checkout service/);
   assert.match(view.textContent, /cannot edit, run or change it/);
-  assert.equal([...view.querySelectorAll("button")].length, 0, "nothing to press: read-only");
+  // Read-only means nothing to press on the design itself; the only buttons are inside the feedback panel (R4).
+  assert.equal([...view.querySelectorAll("button")].filter((b) => !b.closest("[data-testid=reviewer-comments]")).length, 0, "nothing to press outside the feedback panel");
 });
 
 test("R3 reviewer view: a stopped or unknown review reads as unavailable, and a non-Reviewer never asks for it", async () => {

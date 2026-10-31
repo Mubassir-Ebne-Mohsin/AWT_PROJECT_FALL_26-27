@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { RoleGate } from "@/components/auth/role-gate";
 import { ReportDocument } from "@/components/report/report-document";
+import { ReviewerComments } from "@/components/review/reviewer-comments";
 import { Crumbs } from "@/components/shell/crumbs";
 import { ApiError } from "@/lib/api/errors";
 import { fetchReview } from "@/lib/api/reviews";
@@ -69,6 +70,7 @@ function Body({ id }: { id: string }) {
         Shared by {view.data.ownerDisplayName} on {dateText(view.data.sharedAt)}. {REVIEWER_NOTE_TEXT}
       </p>
       <ReportDocument report={view.data.report} />
+      <ReviewerComments id={id} />
     </>
   );
 }

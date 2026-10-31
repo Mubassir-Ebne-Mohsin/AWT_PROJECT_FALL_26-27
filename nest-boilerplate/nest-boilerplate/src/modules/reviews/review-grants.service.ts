@@ -29,8 +29,9 @@ export class ReviewGrantsService {
     private readonly roles: AccountRolesService,
   ) {}
 
-  private dto(row: ReviewGrant, reviewer: { displayName: string; email: string }) {
+  private dto(row: ReviewGrant, reviewer: { displayName: string; email: string }, commentCount = 0) {
     return reviewGrantSchema.parse({
+      commentCount,
       id: row.id,
       designId: row.designId,
       reviewer: { displayName: reviewer.displayName, email: reviewer.email },
@@ -75,7 +76,10 @@ export class ReviewGrantsService {
     const rows = await this.db.getRepository(ReviewGrant).find({ where: { designId }, order: { createdAt: "DESC", id: "DESC" }, take: 50 });
     const people = new Map<string, User>();
     for (const row of rows) if (!people.has(row.reviewerId)) people.set(row.reviewerId, await this.db.manager.findOneByOrFail(User, { id: row.reviewerId }));
-    return rows.map((row) => this.dto(row, people.get(row.reviewerId)!));
+    const counts = new Map<string, number>(
+      ((await this.db.query('SELECT grant_id AS "grantId", count(*)::int AS n FROM review_comments WHERE grant_id = ANY($1::uuid[]) GROUP BY grant_id', [rows.map((r) => r.id)])) as Array<{ grantId: string; n: number }>).map((c) => [c.grantId, c.n]),
+    );
+    return rows.map((row) => this.dto(row, people.get(row.reviewerId)!, counts.get(row.id) ?? 0));
   }
 
   /** Idempotent: revoking twice keeps the first revocation time. */
@@ -89,7 +93,8 @@ export class ReviewGrantsService {
         await m.save(row);
       }
       const reviewer = await m.findOneByOrFail(User, { id: row.reviewerId });
-      return this.dto(row, reviewer);
+      const [{ n }] = (await m.query("SELECT count(*)::int AS n FROM review_comments WHERE grant_id = $1", [row.id])) as Array<{ n: number }>;
+      return this.dto(row, reviewer, n);
     });
   }
 

@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
+import { OwnerFeedback } from "@/components/review/owner-feedback";
 import { fetchRunSummaries, fetchVersions } from "@/lib/api/history";
 import { createReview, fetchReviews, revokeReview } from "@/lib/api/reviews";
 import { verdictLabel } from "@/lib/history-presentation";
@@ -144,6 +145,7 @@ export function ReviewShares({ id }: { id: string }) {
                   </span>
                 )}
                 {g.status === "revoked" && <span className="pill">Stopped</span>}
+                <OwnerFeedback designId={id} grant={g} />
               </li>
             ))}
           </ul>
