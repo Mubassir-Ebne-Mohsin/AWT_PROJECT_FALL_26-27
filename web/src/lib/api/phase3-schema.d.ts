@@ -388,6 +388,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/instructor/challenges/{id}/submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listChallengeSubmissions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/instructor/submissions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getChallengeSubmission"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/instructor/submissions/{id}/feedback": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addSubmissionFeedback"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/instructor/challenges/{id}/duplicate": {
         parameters: {
             query?: never;
@@ -795,6 +843,18 @@ export interface components {
                 createdAt: string;
                 completedAt: string | null;
             }[];
+            feedback: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                submissionId: string;
+                author: {
+                    displayName: string;
+                };
+                text: string;
+                /** Format: date-time */
+                createdAt: string;
+            }[];
         };
         SubmitAttempt: {
             /** Format: uuid */
@@ -871,6 +931,273 @@ export interface components {
                     createdAt: string;
                     completedAt: string | null;
                 }[];
+            }[];
+        };
+        ChallengeFeedback: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            submissionId: string;
+            author: {
+                displayName: string;
+            };
+            text: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        CreateChallengeFeedbackRequest: {
+            text: string;
+        };
+        InstructorSubmissionList: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            attemptId: string;
+            learner: {
+                displayName: string;
+            };
+            designRevision: number;
+            passes: boolean;
+            p95: number;
+            errorRate: number;
+            engineVersion: string;
+            /** Format: date-time */
+            createdAt: string;
+            completedAt: string | null;
+            feedbackCount: number;
+        }[];
+        InstructorSubmissionDetail: {
+            submission: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                attemptId: string;
+                learner: {
+                    displayName: string;
+                };
+                designRevision: number;
+                passes: boolean;
+                p95: number;
+                errorRate: number;
+                engineVersion: string;
+                /** Format: date-time */
+                createdAt: string;
+                completedAt: string | null;
+                feedbackCount: number;
+            };
+            challenge: {
+                /** Format: uuid */
+                id: string;
+                title: string;
+                goal: {
+                    p95Ms: number;
+                    errorRate: number;
+                };
+            };
+            snapshot: {
+                /** @constant */
+                schemaVersion: 1;
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+                traffic: {
+                    /** @enum {string} */
+                    preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                    rps: number;
+                    burst: number;
+                    readRatio: number;
+                    sloP95: number;
+                    errorBudget: number;
+                    durationMin: number;
+                    /** @enum {string} */
+                    shape: "steady" | "ramp" | "spike";
+                };
+            };
+            feedback: {
+                /** Format: uuid */
+                id: string;
+                /** Format: uuid */
+                submissionId: string;
+                author: {
+                    displayName: string;
+                };
+                text: string;
+                /** Format: date-time */
+                createdAt: string;
             }[];
         };
         AiRequest: {
@@ -5537,6 +5864,298 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["Challenge"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listChallengeSubmissions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InstructorSubmissionList"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getChallengeSubmission: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InstructorSubmissionDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    addSubmissionFeedback: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateChallengeFeedbackRequest"];
+            };
+        };
+        responses: {
+            /** @description The new feedback note */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ChallengeFeedback"];
                     };
                 };
             };

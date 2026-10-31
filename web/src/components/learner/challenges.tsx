@@ -307,6 +307,23 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
               </li>
             ))}
           </ul>
+          {q.data.feedback.length > 0 && (
+            <section className="stack" aria-label="Instructor feedback" data-testid="attempt-feedback">
+              <h3 className="h3">Instructor feedback</h3>
+              {q.data.feedback.map((f) => {
+                const on = q.data.submissions.find((s) => s.id === f.submissionId);
+                return (
+                  <div className="r4-comment" key={f.id} data-testid="attempt-feedback-item">
+                    <div className="small muted">
+                      {f.author.displayName}
+                      {on ? ` on revision ${on.designRevision}` : ""} · {new Date(f.createdAt).toLocaleDateString()}
+                    </div>
+                    <p className="r4-text">{f.text}</p>
+                  </div>
+                );
+              })}
+            </section>
+          )}
           <p className="small muted">
             Mathematical model estimates, not measured infrastructure
             performance. Twenty graded submissions per challenge.

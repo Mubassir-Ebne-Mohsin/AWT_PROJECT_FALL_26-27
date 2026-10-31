@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import { AppException } from "@/common/errors";
 import {
   publicChallengeSchema,
+  feedbackSchema,
   attemptSchema,
   submitAttemptSchema,
   submissionSchema,
@@ -148,10 +149,26 @@ export class LearnerChallengesService implements OnApplicationBootstrap {
       "SELECT * FROM challenge_submissions WHERE attempt_id=$1 ORDER BY created_at DESC,id DESC",
       [attemptId],
     );
+    const notes: { id: string; submission_id: string; display_name: string; body: string; created_at: Date }[] =
+      await this.db.query(
+        `SELECT f.id, f.submission_id, u.display_name, f.body, f.created_at FROM challenge_feedback f
+         JOIN challenge_submissions s ON s.id = f.submission_id JOIN users u ON u.id = f.instructor_id
+         WHERE s.attempt_id = $1 ORDER BY f.created_at DESC, f.id DESC`,
+        [attemptId],
+      );
     return {
       attempt: this.attempt(row),
       challenge: await this.challengeContext(row.challenge_id),
       submissions: submissions.map((r) => this.submission(r)),
+      feedback: notes.map((n) =>
+        feedbackSchema.parse({
+          id: n.id,
+          submissionId: n.submission_id,
+          author: { displayName: n.display_name },
+          text: n.body,
+          createdAt: n.created_at.toISOString(),
+        }),
+      ),
     };
   }
   async submit(owner: string, attemptId: string, raw: unknown) {

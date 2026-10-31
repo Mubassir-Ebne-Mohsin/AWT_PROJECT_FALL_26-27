@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude finishes R5.3 and the R5 Instructor track
+**Goal:** R5.3 Instructor submissions and feedback (user: "proceed with the R5.3 and finish it").
+**Done:** built and verified, see R5-INSTRUCTOR-SCOPE.md "R5.3 result". Backend, web panel on the existing challenge page, learner feedback on the attempt page, 11 + 6 + 1 new tests, 17 of 18 deliberate breaks caught (the last is equivalent), full Chrome regression 550 passed, 10 skipped, 0 failed.
+**Warnings:** run `pnpm migration:run` (ChallengeFeedback is new). R5.2 was pushed (dca7218); R5.3 is local only. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** the roles track is complete. Next phase is the AI work (M12 explanation, Groq roadmap); needs the user's go-ahead because hosted inference sends data off-machine.
+
 ## 2026-11-01, Claude finishes R5.2 learner challenge loop
 **Goal:** take over Codex's uncommitted R5.2 work after its usage limit and finish it.
 **Done:** reviewed and kept Codex's backend and web; added 14 e2e tests; mutation checks, web checks, browser journey and full sequential regression, see R5.2-LEARNER-SCOPE.md "R5.2 result". Codex's reported truncate timeout was memory pressure, not a defect (passes alone and in the full sequential run); no limit was relaxed.

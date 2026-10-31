@@ -123,3 +123,23 @@ export function challengeErrorText(e: unknown): string {
   }
   return "That did not work. Nothing was changed.";
 }
+
+export const FEEDBACK_MAX = 2000;
+export const FEEDBACK_NOTE = "Feedback is plain text. The learner reads it on their attempt page. You cannot edit or remove a note once sent, and each submission takes up to 20.";
+
+/** One line for a graded submission: the outcome and the model's numbers. */
+export const outcomeText = (s: { passes: boolean; p95: number; errorRate: number }) =>
+  `${s.passes ? "Passed" : "Not passed"} · p95 ${Math.round(s.p95 * 10) / 10} ms · errors ${pct(s.errorRate)}%`;
+
+/** Why feedback could not be sent, in words that say what to do. Nothing is taken from the server's raw message. */
+export function feedbackErrorText(e: unknown): string {
+  if (e instanceof ApiError) {
+    const reason = (e.details as { reason?: string } | undefined)?.reason;
+    if (reason === "FEEDBACK_LIMIT") return "This submission already has 20 notes, the most allowed.";
+    if (e.status === 404) return "That submission is no longer available.";
+    if (e.status === 403) return "Only the Instructor who owns the challenge can send feedback.";
+    if (e.status === 422) return `Write between 1 and ${FEEDBACK_MAX} characters.`;
+    if (e.code === "NETWORK") return "The server could not be reached. Your note was not sent.";
+  }
+  return "That did not work. Your note was not sent.";
+}

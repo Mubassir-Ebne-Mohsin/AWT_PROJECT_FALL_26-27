@@ -119,3 +119,6 @@ R5.2 resumed under existing approval: Codex claims learner service/controllers/c
 
 ## R5.2 complete — 2026-11-01
 Learner challenge loop built and verified (see R5.2-LEARNER-SCOPE.md "R5.2 result"). Committed locally, not pushed. Next: R5.3.
+
+## R5.3 complete — 2026-11-01
+Instructor submissions and one-way feedback built and verified (see R5-INSTRUCTOR-SCOPE.md "R5.3 result"). The R5 Instructor track is complete. Committed locally, not pushed. Next: AI work (M12 / Groq) on the user's go-ahead.

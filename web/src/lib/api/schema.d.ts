@@ -3469,6 +3469,14 @@ export interface components {
                 /** Format: date-time */
                 createdAt: string;
             };
+            challenge: {
+                title: string;
+                archived: boolean;
+                goal: {
+                    p95Ms: number;
+                    errorRate: number;
+                };
+            };
             submissions: {
                 /** Format: uuid */
                 id: string;

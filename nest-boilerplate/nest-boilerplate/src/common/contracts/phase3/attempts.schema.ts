@@ -41,6 +41,16 @@ export const judgedSnapshotSchema = z.strictObject({
   traffic: trafficSchema,
 });
 export type Submission = z.infer<typeof submissionSchema>;
+// R5.3 one-way Instructor feedback on a graded submission: plain text, display name only, the learner reads it.
+export const FEEDBACK_MAX_CHARS = 2000;
+export const FEEDBACK_MAX_PER_SUBMISSION = 20;
+export const feedbackSchema = z.strictObject({
+  id: z.uuid(),
+  submissionId: z.uuid(),
+  author: z.strictObject({ displayName: z.string() }),
+  text: z.string(),
+  createdAt: z.iso.datetime(),
+});
 export const attemptViewSchema = z.strictObject({
   attempt: attemptSchema,
   challenge: z.strictObject({
@@ -49,6 +59,7 @@ export const attemptViewSchema = z.strictObject({
     goal: challengeGoalSchema,
   }),
   submissions: z.array(submissionSchema),
+  feedback: z.array(feedbackSchema),
 });
 export const challengeProgressItemSchema = z.strictObject({
   attemptId: z.uuid(),

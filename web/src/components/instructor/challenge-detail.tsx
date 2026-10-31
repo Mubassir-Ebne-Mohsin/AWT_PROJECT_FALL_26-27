@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { RoleGate } from "@/components/auth/role-gate";
 import { ChallengeForm } from "@/components/instructor/challenge-form";
+import { SubmissionsPanel } from "@/components/instructor/submissions-panel";
 import { Crumbs } from "@/components/shell/crumbs";
 import { ApiError } from "@/lib/api/errors";
 import { archiveChallenge, duplicateChallenge, fetchMyChallenge, patchChallenge, publishChallenge, type Challenge, type PatchChallenge } from "@/lib/api/challenges";
@@ -157,6 +158,8 @@ function Body({ id }: { id: string }) {
           </button>
         </div>
       </section>
+
+      {c.status !== "draft" && <SubmissionsPanel challengeId={id} />}
 
       {mode && (
         <section className="panel stack r2-pad" aria-label="Edit">

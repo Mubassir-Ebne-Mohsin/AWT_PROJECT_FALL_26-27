@@ -7,6 +7,8 @@ import {
   submissionSchema,
   challengeProgressSchema,
 } from "@/common/contracts/phase3/attempts.schema";
+import { createFeedbackRequestSchema, instructorSubmissionDetailSchema, instructorSubmissionListSchema } from "@/common/contracts/phase3/instructor-submissions.schema";
+import { feedbackSchema } from "@/common/contracts/phase3/attempts.schema";
 import { z } from "zod";
 import {
   aiAcceptedSchema,
@@ -44,6 +46,10 @@ export function phase3OpenApi() {
     SubmitAttempt: submitAttemptSchema,
     ChallengeSubmission: submissionSchema,
     ChallengeProgress: challengeProgressSchema,
+    ChallengeFeedback: feedbackSchema,
+    CreateChallengeFeedbackRequest: createFeedbackRequestSchema,
+    InstructorSubmissionList: instructorSubmissionListSchema,
+    InstructorSubmissionDetail: instructorSubmissionDetailSchema,
 
     AiRequest: aiRequestSchema,
     AiResult: aiResultSchema,
@@ -345,6 +351,22 @@ export function phase3OpenApi() {
       },
       "/v1/instructor/challenges/{id}/archive": {
         post: { ...operation("archiveChallenge", "Challenge"), parameters: [parameter] },
+      },
+      "/v1/instructor/challenges/{id}/submissions": {
+        get: { ...operation("listChallengeSubmissions", "InstructorSubmissionList"), parameters: [parameter] },
+      },
+      "/v1/instructor/submissions/{id}": {
+        get: { ...operation("getChallengeSubmission", "InstructorSubmissionDetail"), parameters: [parameter] },
+      },
+      "/v1/instructor/submissions/{id}/feedback": {
+        post: {
+          ...operation("addSubmissionFeedback", "ChallengeFeedback", "CreateChallengeFeedbackRequest"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("addSubmissionFeedback", "ChallengeFeedback", "CreateChallengeFeedbackRequest").responses).filter(([code]) => code !== "200")),
+            201: { description: "The new feedback note", content: content(envelope("ChallengeFeedback")) },
+          },
+        },
       },
       "/v1/instructor/challenges/{id}/duplicate": {
         post: {

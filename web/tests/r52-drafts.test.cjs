@@ -58,6 +58,7 @@ require.cache[require.resolve("@tanstack/react-query")] = {
               attempt: { id, designId: design, challengeId: id },
               challenge: { archived: false },
               submissions: [],
+              feedback: [],
             }
           : {
               id,
