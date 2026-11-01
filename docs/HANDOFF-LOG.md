@@ -260,3 +260,6 @@ Entry template:
 
 ## 2026-11-01, Claude AI commit four part one
 **Done:** rubric doc, pacer, review helpers and `src/script/ai-gate.ts`. **Warnings for Codex:** never run `ai:gate run` with `--confirm-live` (it calls Groq); that flag is only for the user's explicit go. `run --dry` is safe. Results land under `docs/audit/ai-gate/`.
+
+## 2026-11-01, Claude live gate run (gpt-oss-20b)
+**Done:** one live run on the user's go; NO-GO (7/18 accepted). Results under `docs/audit/ai-gate/`. **Warnings for Codex:** do not rerun or tune the prompt to pass; any further live run (120b or a diagnostic) needs a fresh explicit go from the user.

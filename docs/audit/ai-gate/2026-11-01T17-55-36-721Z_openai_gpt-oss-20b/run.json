@@ -1,0 +1,410 @@
+{
+  "run": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-20b",
+    "startedAt": "2026-11-01T17:55:36.721Z",
+    "records": [
+      {
+        "caseId": "healthy",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 782,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 334,
+          "completionTokens": 107,
+          "totalTokens": 441
+        }
+      },
+      {
+        "caseId": "healthy",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 662,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 334,
+          "completionTokens": 107,
+          "totalTokens": 441
+        }
+      },
+      {
+        "caseId": "healthy",
+        "generation": 3,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency well below target, zero errors, no bottleneck.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget",
+            "no_bottleneck_identified"
+          ]
+        },
+        "latencyMs": 599,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 334,
+          "completionTokens": 138,
+          "totalTokens": 472
+        }
+      },
+      {
+        "caseId": "strained",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 1411,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 285,
+          "totalTokens": 635
+        }
+      },
+      {
+        "caseId": "strained",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 671,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 298,
+          "totalTokens": 648
+        }
+      },
+      {
+        "caseId": "strained",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 615,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 270,
+          "totalTokens": 620
+        }
+      },
+      {
+        "caseId": "failed",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 697,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 239,
+          "totalTokens": 589
+        }
+      },
+      {
+        "caseId": "failed",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 864,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 239,
+          "totalTokens": 589
+        }
+      },
+      {
+        "caseId": "failed",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 828,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 350,
+          "completionTokens": 236,
+          "totalTokens": 586
+        }
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 685,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 336,
+          "completionTokens": 208,
+          "totalTokens": 544
+        }
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 2,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, no errors, no bottleneck.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget"
+          ]
+        },
+        "latencyMs": 921,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 336,
+          "completionTokens": 237,
+          "totalTokens": 573
+        }
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 3,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, zero errors, no bottleneck.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget"
+          ]
+        },
+        "latencyMs": 717,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 336,
+          "completionTokens": 237,
+          "totalTokens": 573
+        }
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 1,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, errors within budget, database bottleneck identified.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget",
+            "bottleneck_identified"
+          ]
+        },
+        "latencyMs": 995,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 348,
+          "completionTokens": 211,
+          "totalTokens": 559
+        }
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 854,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 348,
+          "completionTokens": 323,
+          "totalTokens": 671
+        }
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT"
+        },
+        "latencyMs": 840,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 348,
+          "completionTokens": 323,
+          "totalTokens": 671
+        }
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 1,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 2,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 3,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 1,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 2,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 3,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 1,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, errors within budget, bottleneck identified.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget",
+            "bottleneck_identified"
+          ]
+        },
+        "latencyMs": 602,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 357,
+          "completionTokens": 210,
+          "totalTokens": 567
+        }
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 2,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, no errors, but app bottleneck at 90% utilization.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget",
+            "bottleneck_identified"
+          ]
+        },
+        "latencyMs": 757,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 357,
+          "completionTokens": 215,
+          "totalTokens": 572
+        }
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 3,
+        "outcome": "accepted",
+        "result": {
+          "summary": "Latency meets target, no errors, but app bottleneck at 90% utilization.",
+          "evidenceIds": [
+            "verdict"
+          ],
+          "claims": [
+            "latency_within_target",
+            "errors_within_budget",
+            "bottleneck_identified"
+          ]
+        },
+        "latencyMs": 773,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 357,
+          "completionTokens": 202,
+          "totalTokens": 559
+        }
+      }
+    ]
+  },
+  "report": {
+    "total": 24,
+    "accepted": 7,
+    "rejected": 11,
+    "rejectedBy": {
+      "provider_error": 11
+    },
+    "refusedCorrectly": 6,
+    "notRun": 0,
+    "modelAnswers": 18,
+    "judged": 0,
+    "pending": 7,
+    "useful": 6,
+    "usefulModelAnswers": 0,
+    "usefulShare": 0.25,
+    "usefulShareOfModelAnswers": 0,
+    "fabricatedAccepted": 0,
+    "slowerThanDeadline": 0,
+    "slowestMs": 1411,
+    "verdict": "NO-GO",
+    "reasons": [
+      "even if every unjudged answer were useful, fewer than 90% of the model's own answers would be"
+    ]
+  }
+}
