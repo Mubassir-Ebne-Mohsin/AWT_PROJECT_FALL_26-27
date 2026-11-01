@@ -37,8 +37,8 @@ import {
   EXPLANATION_LIMITATIONS,
   LEGACY_LIMITATIONS,
   claimIsSupported,
-  evidenceIdsFor,
   groundingViolation,
+  providerFacts,
   renderClaim,
 } from "@/modules/ai/grounding";
 type Failure = NonNullable<AiJob["failure"]>["reason"];
@@ -285,13 +285,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
             }
           : null,
       };
-      const facts = {
-        ...verified,
-        revision: current.revision,
-        engine: payload.engineVersion,
-        evidenceIds: evidenceIdsFor(verified),
-        limitation: "Mathematical estimates, not measured performance",
-      };
+      const facts = providerFacts(verified, current.revision, payload.engineVersion);
       const messages = explanationMessages(facts);
       if (Buffer.byteLength(JSON.stringify(messages), "utf8") > 1400)
         throw new AppException(

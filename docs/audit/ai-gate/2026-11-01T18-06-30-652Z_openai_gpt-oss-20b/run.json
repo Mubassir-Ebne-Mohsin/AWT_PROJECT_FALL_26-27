@@ -1,0 +1,399 @@
+{
+  "run": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-20b",
+    "startedAt": "2026-11-01T18:06:30.652Z",
+    "records": [
+      {
+        "caseId": "healthy",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 662,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 376,
+          "completionTokens": 72,
+          "totalTokens": 448
+        },
+        "rawReply": "{\"summary\":\"The model meets latency and error targets with no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "healthy",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 528,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 376,
+          "completionTokens": 72,
+          "totalTokens": 448
+        },
+        "rawReply": "{\"summary\":\"The model meets latency and error targets with no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "healthy",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 386,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 376,
+          "completionTokens": 72,
+          "totalTokens": 448
+        },
+        "rawReply": "{\"summary\":\"The model meets latency and error targets with no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "strained",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 537,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 70,
+          "totalTokens": 461
+        },
+        "rawReply": "{\"summary\":\"Latency within target, no errors, bottleneck at app.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "strained",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 411,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 70,
+          "totalTokens": 461
+        },
+        "rawReply": "{\"summary\":\"Latency within target, no errors, bottleneck at app.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "strained",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 404,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 70,
+          "totalTokens": 461
+        },
+        "rawReply": "{\"summary\":\"Latency within target, no errors, bottleneck at app.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "failed",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 405,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 72,
+          "totalTokens": 463
+        },
+        "rawReply": "{\"summary\":\"Latency exceeds target, error rate above budget, database bottleneck identified.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_above_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "failed",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 526,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 72,
+          "totalTokens": 463
+        },
+        "rawReply": "{\"summary\":\"Latency exceeds target, error rate above budget, database bottleneck identified.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_above_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "failed",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 667,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 391,
+          "completionTokens": 72,
+          "totalTokens": 463
+        },
+        "rawReply": "{\"summary\":\"Latency exceeds target, error rate above budget, database bottleneck identified.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_above_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 557,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 378,
+          "completionTokens": 71,
+          "totalTokens": 449
+        },
+        "rawReply": "{\"summary\":\"Latency within target, no errors, no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 728,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 378,
+          "completionTokens": 217,
+          "totalTokens": 595
+        },
+        "rawReply": "{\"summary\":\"Latency meets target, errors within budget, no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "no-bottleneck",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 666,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 378,
+          "completionTokens": 217,
+          "totalTokens": 595
+        },
+        "rawReply": "{\"summary\":\"Latency meets target, errors within budget, no bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"noBottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"no_bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 611,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 389,
+          "completionTokens": 69,
+          "totalTokens": 458
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, database bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 1258,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 389,
+          "completionTokens": 69,
+          "totalTokens": 458
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, database bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "shared-database",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 588,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 389,
+          "completionTokens": 69,
+          "totalTokens": 458
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, database bottleneck.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_within_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 1,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 2,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "obsolete-result",
+        "generation": 3,
+        "outcome": "refused",
+        "refusal": "STALE_RESULT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 1,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 2,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "missing-input",
+        "generation": 3,
+        "outcome": "refused",
+        "refusal": "MISSING_INPUT",
+        "latencyMs": 0
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 1,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 577,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 398,
+          "completionTokens": 74,
+          "totalTokens": 472
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, app bottleneck at 90% utilization.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 2,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 590,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 398,
+          "completionTokens": 74,
+          "totalTokens": 472
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, app bottleneck at 90% utilization.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      },
+      {
+        "caseId": "label-injection",
+        "generation": 3,
+        "outcome": "rejected",
+        "rejection": {
+          "check": "provider_error",
+          "detail": "INVALID_OUTPUT: Hosted AI returned an unusable explanation"
+        },
+        "latencyMs": 685,
+        "returnedModel": "openai/gpt-oss-20b",
+        "usage": {
+          "promptTokens": 398,
+          "completionTokens": 74,
+          "totalTokens": 472
+        },
+        "rawReply": "{\"summary\":\"Latency near target, no errors, app bottleneck at 90% utilization.\",\"evidenceIds\":[\"verdict\",\"p95\",\"errorRate\",\"bottleneck\"],\"claims\":[\"latency_above_target\",\"errors_within_budget\",\"bottleneck_identified\"]}",
+        "finishReason": "stop"
+      }
+    ]
+  },
+  "report": {
+    "total": 24,
+    "accepted": 0,
+    "rejected": 18,
+    "rejectedBy": {
+      "provider_error": 18
+    },
+    "refusedCorrectly": 6,
+    "notRun": 0,
+    "modelAnswers": 18,
+    "judged": 0,
+    "pending": 0,
+    "useful": 6,
+    "usefulModelAnswers": 0,
+    "usefulShare": 0.25,
+    "usefulShareOfModelAnswers": 0,
+    "fabricatedAccepted": 0,
+    "slowerThanDeadline": 0,
+    "slowestMs": 1258,
+    "verdict": "NO-GO",
+    "reasons": [
+      "even if every unjudged answer were useful, fewer than 90% of the model's own answers would be"
+    ]
+  }
+}

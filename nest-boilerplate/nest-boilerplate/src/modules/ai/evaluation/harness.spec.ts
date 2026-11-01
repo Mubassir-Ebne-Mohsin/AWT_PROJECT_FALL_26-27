@@ -2,6 +2,8 @@ import { AppException } from "@/common/errors";
 import type { AiResult } from "@/common/contracts/phase3/ai.schema";
 import { ruleBasedExplanation } from "@/modules/ai/evaluation/baseline";
 import { EVALUATION_CASES } from "@/modules/ai/evaluation/cases";
+import { providerFacts } from "@/modules/ai/grounding";
+import { explanationMessages } from "@/modules/ai/provider";
 import {
   answerKey,
   blindSheet,
@@ -60,6 +62,56 @@ describe("runGate", () => {
     expect(run.records[0]).toMatchObject({ caseId: "healthy", generation: 1, returnedModel: "fake-model", usage: { totalTokens: 120 } });
   });
 
+  it("shows the model exactly what the service shows it: the facts plus the ids it may cite, the revision, the engine and the limitation", async () => {
+    const seen: Record<string, unknown>[] = [];
+    const spy: GateProvider = { generate: async (facts, allowed) => (seen.push({ facts, allowed }), ruleBasedExplanation(factsOf(facts))) };
+    await runGate(spy, EVALUATION_CASES.slice(0, 3), { ...opts, generations: 1 });
+    expect(seen).toHaveLength(3);
+    for (const call of seen) {
+      const facts = call.facts as Record<string, unknown>;
+      expect(facts.evidenceIds).toEqual(call.allowed);
+      expect(facts).toMatchObject({ revision: 1, engine: "reference-port-v1", limitation: "Mathematical estimates, not measured performance" });
+      expect(Object.keys(facts)).toEqual(expect.arrayContaining(["verdict", "p95Ms", "p95TargetMs", "errorRateFraction", "errorBudgetFraction", "bottleneck"]));
+    }
+  });
+
+  it("keeps every case inside the service's message budget (1,400 bytes), so it is never refused for size", () => {
+    for (const c of EVALUATION_CASES.filter((x) => x.facts)) {
+      const bytes = Buffer.byteLength(JSON.stringify(explanationMessages(providerFacts(c.facts!, c.currentRevision, "reference-port-v1"))), "utf8");
+      expect(bytes).toBeLessThanOrEqual(1400);
+    }
+  });
+
+  it("keeps the model's reply text and stop reason for accepted and rejected answers alike", async () => {
+    const replying: GateProvider = {
+      generate: async (facts, _a, _d, _s, observe) => {
+        const answer = { ...ruleBasedExplanation(factsOf(facts)), evidenceIds: ["invented"] };
+        observe?.({ rawReply: JSON.stringify(answer), finishReason: "stop" });
+        throw new AppException("VALIDATION_FAILED", "Hosted AI cited evidence that was not supplied", { reason: "INVALID_OUTPUT" });
+      },
+    };
+    const run = await runGate(replying, EVALUATION_CASES.slice(0, 1), { ...opts, generations: 1 });
+    expect(run.records[0]).toMatchObject({
+      outcome: "rejected",
+      finishReason: "stop",
+      rejection: { check: "provider_error", detail: "INVALID_OUTPUT: Hosted AI cited evidence that was not supplied" },
+    });
+    expect(JSON.parse(run.records[0].rawReply as string).evidenceIds).toEqual(["invented"]);
+    const good = await runGate(new Right(), EVALUATION_CASES.slice(0, 1), { ...opts, generations: 1 });
+    expect(good.records[0].rawReply).toBeUndefined();
+    // Also when the reply arrives but the harness's own checks reject it.
+    const wrong: GateProvider = {
+      generate: async (facts, _a, _d, _s, observe) => {
+        const answer = { ...ruleBasedExplanation(factsOf(facts)), claims: ["latency_above_target" as const] };
+        observe?.({ rawReply: JSON.stringify(answer), finishReason: "stop" });
+        return answer;
+      },
+    };
+    const checked = await runGate(wrong, EVALUATION_CASES.slice(0, 1), { ...opts, generations: 1 });
+    expect(checked.records[0]).toMatchObject({ outcome: "rejected", rejection: { check: "claims" }, finishReason: "stop" });
+    expect(JSON.parse(checked.records[0].rawReply as string).claims).toEqual(["latency_above_target"]);
+  });
+
   it("keeps a wrong answer, says which check rejected it, and keeps going", async () => {
     const cases = [
       { name: "claims", provider: wrap((a) => ({ ...a, claims: ["latency_within_target"] })), check: "claims" },
@@ -94,7 +146,7 @@ describe("runGate", () => {
     };
     const run = await runGate(flaky, EVALUATION_CASES, opts);
     expect(run.records.filter((r) => r.outcome === "rejected")).toHaveLength(1);
-    expect(run.records[1]).toMatchObject({ outcome: "rejected", rejection: { check: "provider_error", detail: "PROVIDER_UNAVAILABLE" } });
+    expect(run.records[1]).toMatchObject({ outcome: "rejected", rejection: { check: "provider_error", detail: "PROVIDER_UNAVAILABLE: x" } });
     expect(run.stoppedBy).toBeUndefined();
     expect(n).toBe(18);
   });

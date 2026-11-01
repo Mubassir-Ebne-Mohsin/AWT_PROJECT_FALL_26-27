@@ -15,6 +15,9 @@ export interface ProviderObservation {
   latencyMs?: number;
   /** Seconds the provider asked us to wait before another request. */
   retryAfterSeconds?: number;
+  /** The model's reply text (bounded) and why it stopped, reported before the reply is judged. For evaluation; never stored on a job. */
+  rawReply?: string;
+  finishReason?: string;
 }
 
 /** Recorded as the digest of a hosted model, which exposes none. An honest marker, not a hash. */

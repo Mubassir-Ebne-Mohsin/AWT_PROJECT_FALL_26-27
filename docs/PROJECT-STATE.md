@@ -192,5 +192,6 @@ Rule-based baseline, the eight benchmark cases and the evaluation harness (gate 
 ## AI commit four, part one — 2026-11-01
 Live-run tooling is ready and tested offline: written rubric ([AI-GATE-RUBRIC](AI-GATE-RUBRIC.md)), pacer, `pnpm ai:gate` (run/sheet/score). **No Groq request has been made.** Next: the live run of `gpt-oss-20b`, which needs the user's explicit go.
 
-## AI live gate, gpt-oss-20b — 2026-11-01: NO-GO
+## AI live gate, gpt-oss-20b — 2026-11-01: first run INVALID (harness error); diagnostic 2026-11-02: 0 of 18 accepted, all for citing 4 evidence ids (limit 3)
 18 requests: 7 accepted, 11 rejected as invalid output (reasons not retained), 0 rate limited, slowest 1.4 s. Fails the 17-of-18 bar regardless of judging. AI remains off. See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit four, part two". Next is the user's choice: diagnose the rejections, try `gpt-oss-120b`, or rely on the rule-based baseline.
+See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Correction and diagnostic". The user chooses: accept NO-GO, a declared run 2 with one stated change, or the 120b comparison. AI stays off.

@@ -1,5 +1,5 @@
 import { aiResultSchema, type AiResult } from "@/common/contracts/phase3/ai.schema";
-import { claimIsSupported, evidenceIdsFor, groundingViolation } from "@/modules/ai/grounding";
+import { claimIsSupported, evidenceIdsFor, groundingViolation, providerFacts } from "@/modules/ai/grounding";
 import type { ProviderObservation } from "@/modules/ai/provider";
 import { admission, type EvaluationCase, type Refusal } from "@/modules/ai/evaluation/cases";
 
@@ -37,6 +37,9 @@ export interface AnswerRecord {
   latencyMs: number;
   returnedModel?: string;
   usage?: ProviderObservation["usage"];
+  /** The model's reply text and why it stopped, kept even when the reply was rejected. */
+  rawReply?: string;
+  finishReason?: string;
 }
 
 export interface GateRun {
@@ -122,7 +125,7 @@ export async function runGate(provider: GateProvider, cases: readonly Evaluation
       const started = now();
       try {
         const result = await withDeadline(deadlineMs, (signal) =>
-          provider.generate(c.facts as Record<string, unknown>, evidenceIdsFor(c.facts!), options.digest ?? "", signal, (o) => {
+          provider.generate(providerFacts(c.facts!, c.currentRevision, "reference-port-v1"), evidenceIdsFor(c.facts!), options.digest ?? "", signal, (o) => {
             seen = { ...seen, ...o };
           }),
         );
@@ -136,6 +139,8 @@ export async function runGate(provider: GateProvider, cases: readonly Evaluation
           latencyMs,
           ...(seen.returnedModel ? { returnedModel: seen.returnedModel } : {}),
           ...(seen.usage ? { usage: seen.usage } : {}),
+          ...(seen.rawReply !== undefined ? { rawReply: seen.rawReply } : {}),
+          ...(seen.finishReason ? { finishReason: seen.finishReason } : {}),
         });
       } catch (e) {
         const latencyMs = now() - started;
@@ -143,7 +148,7 @@ export async function runGate(provider: GateProvider, cases: readonly Evaluation
         const rejection =
           e instanceof Deadline
             ? { check: "timeout" as const, detail: "no answer within " + deadlineMs + " ms" }
-            : { check: "provider_error" as const, detail: reason ?? (e instanceof Error ? e.message : "failed") };
+            : { check: "provider_error" as const, detail: [reason, e instanceof Error ? e.message : null].filter(Boolean).join(": ") || "failed" };
         run.records.push({
           ...base,
           outcome: "rejected",
@@ -151,6 +156,8 @@ export async function runGate(provider: GateProvider, cases: readonly Evaluation
           latencyMs,
           ...(seen.returnedModel ? { returnedModel: seen.returnedModel } : {}),
           ...(seen.usage ? { usage: seen.usage } : {}),
+          ...(seen.rawReply !== undefined ? { rawReply: seen.rawReply } : {}),
+          ...(seen.finishReason ? { finishReason: seen.finishReason } : {}),
         });
         if (reason && STOP_REASONS.has(reason)) run.stoppedBy = reason;
       }

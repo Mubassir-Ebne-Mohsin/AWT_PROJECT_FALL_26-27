@@ -199,6 +199,22 @@ describe("Groq hosted provider", () => {
       expect(details(e)).toMatchObject({ reason: "INVALID_OUTPUT" });
       expect(seen[0].usage).toEqual({ promptTokens: 400, completionTokens: 120, totalTokens: 520 });
     });
+    it("reports the reply text and why it stopped, even when the answer is then rejected, so a rejection can be explained", async () => {
+      const ok = watch();
+      await provider(reply(good, { usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), ok.observe);
+      expect(ok.seen[0]).toMatchObject({ finishReason: "stop", rawReply: JSON.stringify(good) });
+      const bad = watch();
+      await failure(provider(reply({ ...good, evidenceIds: ["invented"] }, { usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), bad.observe));
+      expect(JSON.parse(bad.seen[0].rawReply as string).evidenceIds).toEqual(["invented"]);
+      const cut = watch();
+      await failure(provider(reply(good, { usage }, { finish_reason: "length" })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), cut.observe));
+      expect(cut.seen[0].finishReason).toBe("length");
+    });
+    it("bounds the reply text it reports", async () => {
+      const { seen, observe } = watch();
+      await failure(provider(reply("x".repeat(10_000), { usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe));
+      expect((seen[0].rawReply as string).length).toBe(4096);
+    });
     it("reports the model it actually got when that is not the one configured", async () => {
       const { seen, observe } = watch();
       await failure(provider(reply(good, { model: "openai/gpt-oss-120b", usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe));

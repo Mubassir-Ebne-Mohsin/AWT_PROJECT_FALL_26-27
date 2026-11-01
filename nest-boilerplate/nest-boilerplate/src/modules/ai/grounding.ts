@@ -17,6 +17,17 @@ export function evidenceIdsFor(facts: AiFacts) {
 
 const NUMBER = /(?<![\w.])\d[\d,]*(?:\.\d+)?/g;
 
+/** What a provider is shown for one job: the verified facts plus what it may cite. The service and the evaluation harness both build it here, so a model is measured on exactly what production sends. */
+export function providerFacts(verified: AiFacts, revision: number, engine: string) {
+  return {
+    ...verified,
+    revision,
+    engine,
+    evidenceIds: evidenceIdsFor(verified),
+    limitation: "Mathematical estimates, not measured performance",
+  };
+}
+
 /** Every figure that may appear in generated prose, in the units a reader would see. */
 function allowedFigures(facts: AiFacts, revision: number) {
   return [

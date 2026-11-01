@@ -134,14 +134,16 @@ export class GroqProvider implements ExplanationProvider {
         chunks.push(chunk.value);
       }
       const reply = replySchema.parse(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+      const choice = reply.choices[0];
       // Reported as soon as a reply is understood, before it is judged: the tokens were spent whether or not the answer is accepted.
       observe?.({
         returnedModel: reply.model,
+        finishReason: choice.finish_reason,
+        ...(typeof choice.message.content === "string" ? { rawReply: choice.message.content.slice(0, 4096) } : {}),
         latencyMs: Math.round(performance.now() - started),
         ...(reply.usage ? { usage: { promptTokens: reply.usage.prompt_tokens, completionTokens: reply.usage.completion_tokens, totalTokens: reply.usage.total_tokens } } : {}),
       });
       if (reply.model !== this.settings.model) throw unavailable("The configured model changed during generation", "MODEL_CHANGED");
-      const choice = reply.choices[0];
       if (choice.finish_reason !== "stop" || choice.message.refusal || choice.message.content === null) throw invalid("Hosted AI did not complete the answer");
       const result = aiResultSchema.parse(JSON.parse(choice.message.content));
       if (result.evidenceIds.some((id) => !allowed.includes(id))) throw invalid("Hosted AI cited evidence that was not supplied");
