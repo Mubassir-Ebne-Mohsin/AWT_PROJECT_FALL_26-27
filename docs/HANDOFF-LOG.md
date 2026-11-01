@@ -221,3 +221,6 @@ Entry template:
 
 ## 2026-11-01, Claude P6 done
 **Done:** Progress concepts and next suggestion. All planned non-AI slices (P1 to P6) are built. **Not done:** push; AI (parked). Do not stage `docs/audit/m2-profile-source.json`.
+
+## 2026-11-01, Claude breadcrumb fix
+**Done:** on public pages a signed-in person's first breadcrumb is now "Dashboard" (to `/dashboard`) instead of "Home" (the landing page); guests keep "Home". One existing test (`phase1.spec.ts:32`) now expects that, with the user's approval. **Evidence:** web unit 357 (run one file at a time; the parallel run can fail with module-not-found under memory pressure), 5 deliberate breaks caught, full Chrome regression 757 passed, 9 failed, of which 4 were the intended change (fixed) and 5 single-project failures (m9:112, r53:40, m12:244, m6:63, p1-public:54) passed on rerun on every project.

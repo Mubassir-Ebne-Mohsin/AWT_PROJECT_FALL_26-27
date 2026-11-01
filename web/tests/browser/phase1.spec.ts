@@ -79,7 +79,9 @@ test("40 registry routes, auth forms, palette, drawers, themes, tab restores and
         if (!["login", "register"].includes(expected.route.id)) {
           const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
           await expect(crumbs).toBeVisible();
-          expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(crumbsFor(expected).map(crumb => crumb.label));
+          // Signed in, a public page starts at the person's Dashboard instead of the landing page's "Home".
+          const labels = crumbsFor(expected).map((crumb, i) => (i === 0 && crumb.label === "Home" && crumb.to === "/" ? "Dashboard" : crumb.label));
+          expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(labels);
           await expect(crumbs.locator('[aria-current="page"]')).toHaveText(crumbsFor(expected).at(-1)!.label);
         }
         await expect(page.getByRole("heading", { name: /checking your session/i })).toHaveCount(0);
