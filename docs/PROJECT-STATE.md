@@ -164,3 +164,6 @@ Progress concepts built and verified ([P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PRO
 
 ## Wording review and dev database — 2026-11-01
 The user reviewed the P2 lesson wording, the P5 claims about the model (Simulator, Calibration, AI) and the P6 tour wording and said "all good" (P5 decision 9 and P6 decision 9 are met). The user also confirmed the dev database is up to date with the account-deletion migration. All non-AI slices (P1 to P6) are built, verified and pushed. Open: the About page's GitHub link (keep or remove), and the next major piece: the real calibration experiment or the parked AI work.
+
+## Calibration scope — 2026-11-01
+Scope proposed in [CALIBRATION-SCOPE](CALIBRATION-SCOPE.md): compare the engine's predictions with a purpose-written Node service under an open-loop stepped load, with the model fitted on a subset of steps and compared on the held-out ones, three repeats, no pass mark, expectations committed before measuring. Ten decisions await the user; nothing built.

@@ -233,3 +233,6 @@ Entry template:
 
 ## 2026-11-01, Claude wording review closed
 **Done:** user approved the P2, P5 and P6 wording ("all good") and confirmed the dev database is migrated. **Next:** the user's choice between the real calibration experiment (stepped load test, method already written on `/evaluation/calibration`) and resuming the parked AI work; also the About page GitHub link decision.
+
+## 2026-11-01, Claude calibration scope
+**Done:** scope written ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md)), committed locally. **Next:** the user's decisions (ten, recommendations first), then three commits (generator, runs and analysis, Calibration tab). No code written.
