@@ -257,3 +257,6 @@ Entry template:
 
 ## 2026-11-01, Claude AI commit three
 **Done:** `src/modules/ai/evaluation/` (cases, baseline, harness) with 34 tests; not wired into the service. **Warnings for Codex:** do not run the harness against Groq or any hosted model (the user must say go); the gate counts a rejected answer as not useful and stops on rate limit/auth/changed model. **Next:** rubric file and live-run script (commit four).
+
+## 2026-11-01, Claude AI commit four part one
+**Done:** rubric doc, pacer, review helpers and `src/script/ai-gate.ts`. **Warnings for Codex:** never run `ai:gate run` with `--confirm-live` (it calls Groq); that flag is only for the user's explicit go. `run --dry` is safe. Results land under `docs/audit/ai-gate/`.

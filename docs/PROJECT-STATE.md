@@ -188,3 +188,6 @@ Quota guard, provenance and the hosted-data wording are built and verified ([AI-
 
 ## AI commit three — 2026-11-01
 Rule-based baseline, the eight benchmark cases and the evaluation harness (gate arithmetic, blind review sheet) are built and tested with fake providers ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit three result"). **No model has been called.** Next: the live gate run (commit four), which needs the user's explicit go.
+
+## AI commit four, part one — 2026-11-01
+Live-run tooling is ready and tested offline: written rubric ([AI-GATE-RUBRIC](AI-GATE-RUBRIC.md)), pacer, `pnpm ai:gate` (run/sheet/score). **No Groq request has been made.** Next: the live run of `gpt-oss-20b`, which needs the user's explicit go.
