@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P5 scope
+**Goal:** plan P5 (user: "Push and scope P5").
+**Done:** pushed `44e0c15` (P3). Wrote [P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) from verified facts: the Evaluation routes are placeholders with stale "mock data" text; the real evidence is port fidelity to the prototype, one exact M/M/1 test, behaviour tests, no calibration and an AI NO-GO. A quick experiment against exact Erlang C gave a real finding (see PROJECT-STATE) that the page should state plainly. No code changed.
+**Next:** the user answers the ten decisions (notably: make the page public? how to word the Erlang C finding?); then build P5 in two commits. No active claims.
+
 ## 2026-11-01, Claude P3, commit two
 **Goal:** finish P3 (user: "Approve all").
 **Done:** the three pages, built from `examples-data.json`; two examples that miss their own goal say so; Chrome 674 passed / 10 skipped / 0 failed with 28 new browser tests; web unit 311. Breaks: 21 of 24 caught first time, the rest led to 3 new tests.

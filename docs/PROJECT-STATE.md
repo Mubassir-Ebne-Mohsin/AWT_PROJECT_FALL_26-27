@@ -146,3 +146,6 @@ All ten P3 decisions approved. Engine-generated data file for the examples, temp
 
 ## Phase 4/5 P3 complete — 2026-11-01
 `/examples`, `/templates` and `/components` built and verified from engine-generated data ([P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) "Commit two result"). Committed locally. After any change to templates, the catalog or the engine, run `pnpm fixtures:examples` (and `pnpm fixtures:learn`). Next: P5 evaluation, then P6 welcome and progress.
+
+## Phase 4/5 P5 scope — 2026-11-01
+P3 pushed (`44e0c15`). Scope proposed in [P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md): Simulator tab with an exact-textbook (Erlang C) comparison, port-fidelity numbers and consistency checks, all engine-generated; Calibration "not yet measured" with the method; AI "parked, not evaluated". Preliminary finding: the engine's multi-server waiting formula overestimates small waits in relative terms (worst relative error 15.2% where the wait is at least 20% of service time; largest absolute gap 0.034 service times). Ten decisions await the user; nothing built.
