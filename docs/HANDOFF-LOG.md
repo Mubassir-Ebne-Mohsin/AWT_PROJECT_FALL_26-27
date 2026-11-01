@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P2 Learn, commit two
+**Goal:** finish P2 (user: "Approve all").
+**Done:** `/learn` and eight topic pages with demos, checks and local progress; fixed route checks that accepted inherited names (`constructor`, `__proto__`) for learn, settings and evaluation. Web unit 296, Chrome 646 passed / 10 skipped / 0 failed, 48 new browser tests. Breaks: 21 of 24 caught first time, the rest led to 2 new tests and 1 equivalent change.
+**Warnings:** if the engine's formulas change, run `pnpm fixtures:learn` in the API; the specs fail until the fixtures are regenerated. The lesson wording is mine and is for the user's review. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** P3 examples, templates and components; then P5 evaluation and P6 welcome and progress.
+
 ## 2026-11-01, Claude P2 Learn, commit one
 **Goal:** build P2 after "Approve all".
 **Done:** shared model + fixtures + parity tests (web `learn-model.ts`, `docs/contracts/learn-fixtures.json`, `pnpm fixtures:learn`). Found and recorded that V8 can print different last digits for the same `Math.pow` in different processes, which explains the older `fixtures:phase2` drift. 24 deliberate breaks, 23 caught (one equivalent).

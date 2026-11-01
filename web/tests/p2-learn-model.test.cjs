@@ -96,7 +96,7 @@ test("P2 model: the constants and component figures it quotes are the ones in th
   const catalog = engine("catalog.ts");
   const block = (name) => catalog.split(new RegExp(`\\n  ${name}: \\{`))[1].split(/\n  \w+: \{/)[0];
   const num = (b, key) => Number(new RegExp(key + ": ([0-9.]+)").exec(b)[1]);
-  for (const name of ["app", "db", "replica"]) {
+  for (const name of ["app", "lb", "db", "replica"]) {
     const b = block(name);
     assert.equal(M.COMPONENT[name].capacity, num(b, "capacity"), name + " capacity");
     assert.equal(M.COMPONENT[name].latency, num(b, "latency"), name + " latency");

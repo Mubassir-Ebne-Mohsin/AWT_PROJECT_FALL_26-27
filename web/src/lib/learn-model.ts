@@ -16,6 +16,7 @@ export const REGIONS: Record<Region, string> = { "us-east": "US East", "eu-west"
 /** Capacity per replica (requests/s) and service time (ms) of the components the demos use. */
 export const COMPONENT = {
   app: { capacity: 600, latency: 22 },
+  lb: { capacity: 20000, latency: 1 },
   db: { capacity: 1800, latency: 6 },
   replica: { capacity: 1800, latency: 6 },
 } as const;

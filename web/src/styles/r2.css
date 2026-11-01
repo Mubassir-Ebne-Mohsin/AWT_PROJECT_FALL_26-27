@@ -24,3 +24,15 @@
 /* R5 Instructor challenges. */
 .r5-item { align-items: flex-start; }
 .r5-item .stack { min-width: 0; }
+
+/* P2 Learn. Cards and demo controls wrap on narrow screens; long words wrap instead of widening the page. */
+.lrn-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+.lrn-cards .pill { align-self: flex-start; height: auto; min-height: 22px; padding: 4px 8px; white-space: normal; }
+.lrn-controls { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.lrn-field { display: grid; gap: 4px; min-width: 0; }
+.lrn-value { font-weight: 600; overflow-wrap: anywhere; }
+.lrn-readouts { display: grid; gap: 10px 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); margin: 0; }
+.lrn-readouts dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.lrn-summary { margin: 0; overflow-wrap: anywhere; }
+.lrn-question { border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-width: 0; }
+.lrn-question legend { padding: 0 6px; overflow-wrap: anywhere; }

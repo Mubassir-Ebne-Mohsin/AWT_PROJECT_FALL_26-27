@@ -38,7 +38,8 @@ const pub = (
   fidelity: Fidelity,
   description?: string,
   planned?: string[],
-): RouteDef => ({ id, path, area: "public", phase, fidelity, title, description, planned });
+  extra?: Partial<RouteDef>,
+): RouteDef => ({ id, path, area: "public", phase, fidelity, title, description, planned, ...extra });
 
 const app = (
   path: string,
@@ -57,8 +58,8 @@ export const ROUTES: RouteDef[] = [
   pub("/register", "register", "Sign up", 1, "C"),
   pub("/examples", "examples", "Examples", 4, "P", "Example designs anyone can open and stress-test without an account.", ["Six examples, each with its breaking point", "Open an example read-only and move the traffic slider", "Copy it to your account after signing up"]),
   pub("/how-it-works", "how", "How it works", 4, "C", "The model behind the numbers: assumptions, formulas and what the simulator leaves out.", ["Each component as an M/M/c queue, with one diagram", "How request paths combine into p50, p95 and p99", "Known limits: no GC pauses, cold caches or retry storms"]),
-  pub("/learn", "learn", "Learn", 4, "P", "A concept library for the ideas behind the results.", ["Cards for p95, caching, queues, replicas, load balancing, CDNs and regions", "Each card links to the place it shows up in your results", "Progress marks for concepts you have opened"]),
-  pub("/learn/:topic", "learn-topic", (p) => LEARN_TOPICS[p.topic] ?? titleCase(p.topic), 4, "P", "One concept, explained in plain words, with a live mini-demo you can drag.", ["A slider demo, such as cache hit rate against database load", "Where this concept shows up in your own designs", "A two-question check at the end"]),
+  pub("/learn", "learn", "Learn", 4, "C", "A concept library for the ideas behind the results.", ["Cards for p95, caching, queues, replicas, load balancing, CDNs and regions", "Each card links to the place it shows up in your results", "Progress marks for concepts you have opened"]),
+  pub("/learn/:topic", "learn-topic", (p) => LEARN_TOPICS[p.topic] ?? titleCase(p.topic), 4, "C", "One concept, explained in plain words, with a live mini-demo you can drag.", ["A slider demo, such as cache hit rate against database load", "Where this concept shows up in your own designs", "A two-question check at the end"], { accepts: (p) => Object.hasOwn(LEARN_TOPICS, p.topic) }),
   pub("/challenges", "challenges", "Challenges", 4, "P", "Practice architecture scenarios against fixed latency and error targets.", ["Four starter challenges, from easy to hard", "Each shows its latency and error targets", "Open one to start the practice workspace"]),
   pub("/share/:token", "share-view", "Shared design", 3, "S", "A read-only view of a design or report someone shared with a link.", ["Canvas and latest results, read-only", "Owner, date and the traffic it was tested at", "Copy to your account"]),
   pub("/about", "about", "About", 4, "C", "The project, the stack, credits and the source.", ["Why this exists and who it is for", "Stack: Next.js, NestJS, TypeScript", "Credits and a link to the source"]),
@@ -87,9 +88,9 @@ export const ROUTES: RouteDef[] = [
   app("/instructor/challenges", "instructor-challenges", "My challenges", 5, "S", "Write, publish and manage your architecture challenges. Instructors only.", ["Write a goal, a fixed traffic profile and a starting design", "Publish it to learners, or keep a draft", "Archive it, or duplicate it into a new draft"]),
   app("/instructor/challenges/:id", "instructor-challenge", "Challenge", 5, "S", "One of your challenges: its goal, traffic, measured starting point and actions. Instructors only.", ["See where learners start, as measured by the model", "Fix the wording, archive or duplicate", "Later: submissions to this challenge"]),
   app("/evaluation", "evaluation-root", "Evaluation", 5, "C", undefined, undefined, { redirectTo: () => "/evaluation/simulator" }),
-  app("/evaluation/:tab", "evaluation", (p) => `Evaluation: ${EVAL_TABS[p.tab] ?? titleCase(p.tab)}`, 5, "C", "The proof page. Every number here will be labelled as illustrative mock data in this prototype.", ["Simulator: formula tests against textbook queueing results", "Calibration: a real app load-tested against the simulator’s prediction", "AI: AI suggestions compared with a rule-based baseline"], { accepts: (p) => p.tab in EVAL_TABS }),
+  app("/evaluation/:tab", "evaluation", (p) => `Evaluation: ${EVAL_TABS[p.tab] ?? titleCase(p.tab)}`, 5, "C", "The proof page. Every number here will be labelled as illustrative mock data in this prototype.", ["Simulator: formula tests against textbook queueing results", "Calibration: a real app load-tested against the simulator’s prediction", "AI: AI suggestions compared with a rule-based baseline"], { accepts: (p) => Object.hasOwn(EVAL_TABS, p.tab) }),
   app("/settings", "settings-root", "Settings", 5, "P", undefined, undefined, { redirectTo: () => "/settings/profile" }),
-  app("/settings/:section", "settings", (p) => `Settings: ${SETTINGS_SECTIONS[p.section] ?? titleCase(p.section)}`, 5, "C", "Account settings in six sections.", ["Profile, Security, AI usage, Data, Appearance, Preferences", "AI usage shows calls left today and the reset time", "Data: export everything as JSON, or delete the account"], { accepts: (p) => p.section in SETTINGS_SECTIONS }),
+  app("/settings/:section", "settings", (p) => `Settings: ${SETTINGS_SECTIONS[p.section] ?? titleCase(p.section)}`, 5, "C", "Account settings in six sections.", ["Profile, Security, AI usage, Data, Appearance, Preferences", "AI usage shows calls left today and the reset time", "Data: export everything as JSON, or delete the account"], { accepts: (p) => Object.hasOwn(SETTINGS_SECTIONS, p.section) }),
   app("/dev/ai-logs", "dev-ai-logs", "AI logs", 5, "S", "Every AI call: prompt size, tokens, latency, and failures.", ["Table of calls with status and token counts", "Open any call to see the validated output", "Filter failures"], { area: "dev" }),
   app("/dev/evaluation-runner", "dev-eval-runner", "Evaluation runner", 5, "S", "Re-run the evaluation scenarios and compare with the last run.", ["Run all scenarios", "Diff against the previous run", "Export results"], { area: "dev" }),
 ];

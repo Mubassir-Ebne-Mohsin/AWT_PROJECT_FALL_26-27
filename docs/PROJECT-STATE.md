@@ -134,3 +134,6 @@ Scope proposed in [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md): eight topics with one dem
 
 ## P2 Learn commit one — 2026-11-01
 All nine P2 decisions approved. Shared demo model, engine-generated fixtures and parity tests built ([P2-LEARN-SCOPE](P2-LEARN-SCOPE.md) "Commit one result"). Cause of the older fixtures:phase2 byte-drift identified: V8 Math.pow last-digit differences between processes. Next: pages, demos, checks, progress (commit two).
+
+## Phase 4/5 P2 Learn complete — 2026-11-01
+Eight concept pages with live demos, checks and local progress built and verified ([P2-LEARN-SCOPE](P2-LEARN-SCOPE.md) "Commit two result"). Also fixed: route checks accepted inherited names like `constructor` for settings, learn and evaluation. Committed locally. Next: P3 examples, templates and components.

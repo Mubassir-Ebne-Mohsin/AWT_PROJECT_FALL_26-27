@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { LearnTopic } from "@/components/learn/learn";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return <LearnTopic />;
 }
