@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { useUi } from "@/components/shell/ui-provider";
 import { Icon } from "@/components/ui/icon";
 import { LEARN_TOPICS, PHASE_NAMES, WS_TABS } from "@/lib/catalog";
-import { HELP } from "@/lib/help";
+import { HELP, PLACEHOLDER_ROUTES } from "@/lib/help";
 import type { ResolvedRoute } from "@/lib/routes";
 
 export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
@@ -61,7 +61,6 @@ export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
                     </Link>
                   ))}
                 </div>
-                <p className="hint">Concept pages arrive in phase 4.</p>
               </div>
             )}
           </>
@@ -71,7 +70,7 @@ export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
               <div className="eyebrow">What this screen is for</div>
               <p className="ink2">{desc}</p>
             </div>
-            {phase > 1 && (
+            {phase > 1 && PLACEHOLDER_ROUTES.has(route.id) && (
               <div className="note">
                 <Icon n="clock" />
                 <div>

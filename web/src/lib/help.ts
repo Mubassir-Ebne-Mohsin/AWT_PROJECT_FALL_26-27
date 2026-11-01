@@ -6,6 +6,9 @@ export interface HelpEntry {
   concepts: string[];
 }
 
+/** Routes whose page is still the placeholder. Only these may say "arrives in phase N" (a test ties this list to the pages). */
+export const PLACEHOLDER_ROUTES: ReadonlySet<string> = new Set(["compare", "dev-ai-logs", "dev-eval-runner"]);
+
 export const HELP: Record<string, HelpEntry> = {
   dashboard: {
     what: "Your designs, which ones fail their targets, and recent test runs.",
