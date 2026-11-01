@@ -143,3 +143,6 @@ P2 Learn pushed (`90faeae`). Scope proposed in [P3-EXAMPLES-SCOPE](P3-EXAMPLES-S
 
 ## P3 commit one — 2026-11-01
 All ten P3 decisions approved. Engine-generated data file for the examples, templates and components pages, with a freshness spec, built ([P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) "Commit one result"). If the engine or templates change, run `pnpm fixtures:examples` and commit the result. Next: the three pages (commit two).
+
+## Phase 4/5 P3 complete — 2026-11-01
+`/examples`, `/templates` and `/components` built and verified from engine-generated data ([P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) "Commit two result"). Committed locally. After any change to templates, the catalog or the engine, run `pnpm fixtures:examples` (and `pnpm fixtures:learn`). Next: P5 evaluation, then P6 welcome and progress.

@@ -36,3 +36,8 @@
 .lrn-summary { margin: 0; overflow-wrap: anywhere; }
 .lrn-question { border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px; min-width: 0; }
 .lrn-question legend { padding: 0 6px; overflow-wrap: anywhere; }
+
+/* P3 Examples, Templates, Components. Reuses the Learn card grid and field styles; the preview image never overflows. */
+.chip { display: inline-block; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
+[data-testid="example-panel"] .m4-thumb, [data-testid="template-card"] .m4-thumb { max-width: 100%; overflow: hidden; }
+[data-testid="example-panel"] { scroll-margin-top: 72px; }

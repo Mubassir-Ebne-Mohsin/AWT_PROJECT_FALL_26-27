@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P3, commit two
+**Goal:** finish P3 (user: "Approve all").
+**Done:** the three pages, built from `examples-data.json`; two examples that miss their own goal say so; Chrome 674 passed / 10 skipped / 0 failed with 28 new browser tests; web unit 311. Breaks: 21 of 24 caught first time, the rest led to 3 new tests.
+**Warnings:** keep `examples-data.json` and `learn-fixtures.json` fresh with `pnpm fixtures:examples` and `pnpm fixtures:learn` after any engine, template or catalog change (the backend specs fail otherwise). Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** P5 evaluation (scope first), then P6 welcome and progress.
+
 ## 2026-11-01, Claude P3, commit one
 **Goal:** build P3 after "Approve all".
 **Done:** `pnpm fixtures:examples` generates `web/src/lib/examples-data.json` from the real engine; `examples-data.spec.ts` fails when it goes stale. 10 deliberate breaks caught.
