@@ -16,6 +16,7 @@ import { FakeRedisCacheService } from "../test/fake-redis";
 import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import { AiMemory } from "@/modules/ai/ai-memory";
 import { AppException } from "@/common/errors";
+import type { ProviderObservation } from "@/modules/ai/provider";
 import { EXPLANATION_PROVIDER, ExplanationProvider, HOSTED_DIGEST } from "@/modules/ai/provider";
 import { getTemplates } from "@/modules/simulation/engine/templates";
 import {
@@ -30,7 +31,8 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
   let app: NestExpressApplication,
     db: DataSource,
     http: ReturnType<typeof request>,
-    upstream: Server;
+    upstream: Server,
+    redis: FakeRedisCacheService;
   let owner: string, foreign: string;
   let mode = "success",
     loaded = false,
@@ -82,9 +84,10 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     held = [];
   };
   async function boot(provider?: ExplanationProvider) {
+    redis = new FakeRedisCacheService();
     let builder = Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(RedisCacheService)
-      .useValue(new FakeRedisCacheService())
+      .useValue(redis)
       .overrideProvider(AI_SETTINGS)
       .useValue(settings)
       .overrideProvider(AiMemory)
@@ -715,6 +718,14 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       await db.query("SELECT id FROM ai_jobs WHERE id=$1", [second.job.id]),
     ).toHaveLength(1);
   });
+  it("records the provider on a local job, with no token figures it never measured", async () => {
+    const { request: d } = await designRun();
+    const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+    const job = await terminal(a.job.id);
+    expect(job).toMatchObject({ status: "completed", provider: "ollama", returnedModel: null, usage: null });
+    expect(typeof job.latencyMs).toBe("number");
+    expect((await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data.provider).toBe("ollama");
+  });
   it("reconciles orphan pending work as interrupted on restart without automatic inference", async () => {
     const { request: d } = await designRun();
     const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202))
@@ -748,8 +759,13 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       async idle() {
         return true;
       },
-      async generate() {
+      async generate(_facts, _allowed, _digest, _signal, observe?: (o: ProviderObservation) => void) {
         hostedCalls++;
+        if (hostedMode === "usage") observe?.({ returnedModel: "openai/gpt-oss-20b", usage: { promptTokens: 400, completionTokens: 120, totalTokens: 520 }, latencyMs: 123 });
+        if (hostedMode === "limited") {
+          observe?.({ retryAfterSeconds: 90, latencyMs: 40 });
+          throw new AppException("RATE_LIMITED", "Hosted AI quota is temporarily exhausted", { reason: "PROVIDER_RATE_LIMITED", retryAfterSeconds: 90 });
+        }
         if (hostedMode === "down") throw new TypeError("fetch failed");
         // Longer than the 5 second host memory check, to prove that check does not apply to a hosted model.
         if (hostedMode === "slow") await new Promise((r) => setTimeout(r, 5600));
@@ -774,6 +790,8 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     });
     afterEach(() => {
       hostedMode = "ok";
+      delete settings.quota;
+      redis.reset();
     });
 
     it("explains a result without asking any local runner, and ignores host memory pressure", async () => {
@@ -836,6 +854,94 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       const calls = hostedCalls;
       await http.post("/v1/ai/jobs").set(auth()).send({ ...d, requestId: randomUUID() }).expect(503);
       expect(hostedCalls).toBe(calls);
+    });
+
+    it("records provenance on a hosted job: the provider, the model it reported, the tokens it counted and how long it took", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "usage";
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      expect(a.job).toMatchObject({ provider: "groq", returnedModel: null, usage: null, latencyMs: null });
+      const job = await terminal(a.job.id);
+      expect(job).toMatchObject({ status: "completed", provider: "groq", returnedModel: "openai/gpt-oss-20b", latencyMs: 123 });
+      expect(job.usage).toEqual({ promptTokens: 400, completionTokens: 120, totalTokens: 520 });
+      expect((await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data.provider).toBe("groq");
+    });
+
+    it("stops calling the provider once the account's daily limit is used, and says how long to wait", async () => {
+      settings.quota = { requestsPerMinute: 1000, requestsPerDay: 2, tokensPerMinute: 100000000, tokensPerDay: 1000000000, margin: 1, userPerDay: 100 };
+      const calls = hostedCalls;
+      for (let i = 0; i < 2; i++) {
+        const { request: d } = await designRun();
+        const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+        expect((await terminal(a.job.id)).status).toBe("completed");
+        await available().catch(() => undefined);
+      }
+      const { request: d } = await designRun();
+      const refused = await http.post("/v1/ai/jobs").set(auth()).send(d).expect(429);
+      expect(refused.body.error.details).toMatchObject({ reason: "AI_QUOTA", limit: "requests per day" });
+      expect(refused.body.error.details.retryAfterSeconds).toBeGreaterThan(0);
+      const readiness = (await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data;
+      expect(readiness).toMatchObject({ ready: false, reason: "QUOTA_EXHAUSTED", provider: "groq" });
+      expect(readiness.retryAfterSeconds).toBeGreaterThan(0);
+      expect(hostedCalls).toBe(calls + 2);
+    });
+
+    // After a job ends the slot frees a moment later; wait for that so the next request is not refused as busy.
+    const idleAgain = async () => {
+      for (let i = 0; i < 120; i++) {
+        const r = (await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data;
+        if (r.reason !== "BUSY") return r;
+        await pause();
+      }
+      throw new Error("AI stayed busy");
+    };
+    const tightDay = () => {
+      settings.quota = { requestsPerMinute: 1000, requestsPerDay: 100000, tokensPerMinute: 100000000, tokensPerDay: 6000, margin: 1, userPerDay: 100 };
+    };
+
+    it("counts the tokens the provider really used, so an answer that cost little leaves room for the next", async () => {
+      tightDay();
+      hostedMode = "usage"; // 520 tokens actually used, against an estimate of more than 2,000 each
+      for (let i = 0; i < 3; i++) {
+        const { request: d } = await designRun();
+        const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+        expect((await terminal(a.job.id)).status).toBe("completed");
+        await idleAgain();
+      }
+      expect(hostedCalls).toBeGreaterThanOrEqual(3);
+    });
+
+    it("keeps the estimate when the provider reports no usage, so a daily token limit still holds", async () => {
+      tightDay();
+      hostedMode = "ok"; // no usage figures reported: each request stays counted at its estimate
+      const calls = hostedCalls;
+      for (let i = 0; i < 2; i++) {
+        const { request: d } = await designRun();
+        const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+        expect((await terminal(a.job.id)).status).toBe("completed");
+        await idleAgain();
+      }
+      const { request: d } = await designRun();
+      const refused = await http.post("/v1/ai/jobs").set(auth()).send(d).expect(429);
+      expect(refused.body.error.details).toMatchObject({ reason: "AI_QUOTA", limit: "tokens per day" });
+      expect(hostedCalls).toBe(calls + 2);
+    });
+
+    it("fails a job as rate limited when the provider says so, and refuses further requests until its back-off ends", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "limited";
+      const calls = hostedCalls;
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      const job = await terminal(a.job.id);
+      expect(job.status).toBe("failed");
+      expect(job.failure?.reason).toBe("PROVIDER_RATE_LIMITED");
+      const readiness = (await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data;
+      expect(readiness).toMatchObject({ ready: false, reason: "QUOTA_EXHAUSTED" });
+      expect(readiness.retryAfterSeconds).toBeGreaterThan(60);
+      expect(readiness.retryAfterSeconds).toBeLessThanOrEqual(90);
+      const refused = await http.post("/v1/ai/jobs").set(auth()).send({ ...d, requestId: randomUUID() }).expect(429);
+      expect(refused.body.error.details).toMatchObject({ reason: "AI_QUOTA", limit: "provider back-off" });
+      expect(hostedCalls).toBe(calls + 1);
     });
 
     it("never calls the local runner's endpoints for readiness", async () => {

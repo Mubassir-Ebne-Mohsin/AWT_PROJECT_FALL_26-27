@@ -182,3 +182,6 @@ The user chose Groq free tier with `gpt-oss-20b` and said to proceed. Scope prop
 
 ## AI commit one — 2026-11-01
 All ten AI resume decisions approved. Provider interface, Ollama adapter, reviewed Groq adapter, settings and tests are built ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit one result"). AI is still off (`AI_ENABLED=false`, provider `ollama`) and no hosted call has been made. The user created a free Groq account and reported the limits (30 requests a minute, 1,000 a day, 8,000 tokens a minute, 200,000 a day); the key is not yet in `.env` and Zero Data Retention for inference was still off at the last check. Next: quota, concurrency, provenance and the hosted-data wording (commit two).
+
+## AI commit two — 2026-11-01
+Quota guard, provenance and the hosted-data wording are built and verified ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit two result"). Groq side is ready: free account (no card), Inference APIs ZDR on, limits confirmed, key in the backend `.env`. AI is still off by default and **no hosted call has been made**. Next: the rule-based baseline and the evaluation harness (commit three); the live run needs the user's explicit go.

@@ -26,9 +26,12 @@ import { AiJobRecord } from "@/modules/ai/entities/ai-job.entity";
 import {
   EXPLANATION_PROVIDER,
   ExplanationProvider,
+  ProviderObservation,
   explanationMessages,
 } from "@/modules/ai/provider";
 import { AiMemory } from "@/modules/ai/ai-memory";
+import { AiQuota, QuotaTicket, estimateTokens } from "@/modules/ai/ai-quota";
+import { GROQ_MAX_COMPLETION_TOKENS } from "@/modules/ai/groq.provider";
 import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import {
   EXPLANATION_LIMITATIONS,
@@ -58,6 +61,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     private readonly designs: DesignsService,
     @Inject(EXPLANATION_PROVIDER) private readonly provider: ExplanationProvider,
     private readonly memory: AiMemory,
+    private readonly quota: AiQuota,
     @Inject(AI_SETTINGS) private readonly settings: AiSettings,
   ) {}
   async onApplicationBootstrap() {
@@ -122,6 +126,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     const base = {
       enabled: this.settings.enabled,
       model: this.provider.model,
+      provider: this.provider.kind,
       ready: false,
     };
     if (!this.settings.enabled) return { ...base, reason: "DISABLED" as const };
@@ -137,6 +142,11 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         return { ...base, reason: "MODEL_MISSING" as const };
       if (!(await this.provider.idle()))
         return { ...base, reason: "BUSY" as const };
+      // A hosted free account has limits of its own: say when it cannot take another request instead of failing a click.
+      if (this.provider.kind === "groq") {
+        const wait = await this.quota.waitSeconds(undefined, estimateTokens(1400, GROQ_MAX_COMPLETION_TOKENS));
+        if (wait.seconds > 0) return { ...base, reason: "QUOTA_EXHAUSTED" as const, retryAfterSeconds: wait.seconds };
+      }
       return { ...base, ready: true, reason: "AVAILABLE" as const };
     } catch {
       return { ...base, reason: "PROVIDER_UNAVAILABLE" as const };
@@ -290,6 +300,9 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
           { reason: "AI_CONTEXT_TOO_LARGE" },
         );
       const ready = await this.readinessForAdmission();
+      // Hosted requests are counted before they are made, so a free account is never pushed past its published limits.
+      const estimate = estimateTokens(Buffer.byteLength(JSON.stringify(messages), "utf8"), GROQ_MAX_COMPLETION_TOKENS);
+      const ticket = this.provider.kind === "groq" ? await this.quota.reserve(owner, estimate) : undefined;
       const now = new Date();
       const row = await this.db.transaction(async (m) => {
         const design = await this.designs.owned(
@@ -346,6 +359,10 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
           result: null,
           failure: null,
           experimental: true,
+          provider: this.provider.kind,
+          returnedModel: null,
+          usage: null,
+          latencyMs: null,
         });
         return m.save(AiJobRecord, {
           id: job.id,
@@ -365,7 +382,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         settled: false,
       };
       this.active = slot;
-      slot.promise = this.execute(slot, row);
+      slot.promise = this.execute(slot, row, ticket);
       return this.accepted(row.payload);
     } finally {
       this.admitting = false;
@@ -407,6 +424,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     status: AiJob["status"],
     result: AiJob["result"],
     reason?: Failure,
+    provenance?: Pick<AiJob, "returnedModel" | "usage" | "latencyMs">,
   ) {
     await this.db.transaction(async (m) => {
       const row = await m.findOne(AiJobRecord, {
@@ -420,6 +438,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         status,
         completedAt: new Date().toISOString(),
         result,
+        ...(provenance ?? {}),
         failure: reason
           ? {
               reason,
@@ -431,7 +450,10 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
       await m.save(row);
     });
   }
-  private async execute(slot: Active, row: AiJobRecord) {
+  private async execute(slot: Active, row: AiJobRecord, ticket?: QuotaTicket) {
+    const started = Date.now();
+    let seen: ProviderObservation = {};
+    const provenance = () => ({ returnedModel: seen.returnedModel ?? null, usage: seen.usage ?? null, latencyMs: seen.latencyMs ?? Date.now() - started });
     const deadline = setTimeout(() => {
       slot.reason = "DEADLINE";
       slot.controller.abort();
@@ -458,6 +480,9 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         row.facts.evidenceIds as string[],
         row.payload.modelDigest,
         slot.controller.signal,
+        (observation) => {
+          seen = { ...seen, ...observation };
+        },
       );
       if (slot.controller.signal.aborted) throw new Error("Aborted");
       const verified = this.verifiedFacts(row.facts);
@@ -476,7 +501,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
           "Generated explanation contradicts the verified facts: " + violation,
           { reason: "INVALID_OUTPUT" },
         );
-      await this.finish(row.id, "completed", result);
+      await this.finish(row.id, "completed", result, undefined, provenance());
     } catch (e) {
       let reason: Failure = slot.reason ?? "PROVIDER_UNAVAILABLE";
       if (!slot.reason && e instanceof AppException) {
@@ -484,10 +509,14 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         reason =
           detail?.reason === "MODEL_CHANGED"
             ? "MODEL_CHANGED"
-            : e.code === "VALIDATION_FAILED"
-              ? "INVALID_OUTPUT"
-              : "PROVIDER_UNAVAILABLE";
+            : detail?.reason === "PROVIDER_RATE_LIMITED"
+              ? "PROVIDER_RATE_LIMITED"
+              : e.code === "VALIDATION_FAILED"
+                ? "INVALID_OUTPUT"
+                : "PROVIDER_UNAVAILABLE";
       }
+      // The provider told us to wait: refuse hosted requests until then, so the next click does not hit the same wall.
+      if (reason === "PROVIDER_RATE_LIMITED") await this.quota.backoff(seen.retryAfterSeconds ?? 60).catch(() => undefined);
       await this.finish(
         row.id,
         reason === "CANCELLED"
@@ -497,10 +526,13 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
             : "failed",
         null,
         reason,
+        provenance(),
       ).catch(() => undefined);
     } finally {
       clearTimeout(deadline);
       clearInterval(monitor);
+      // Replace the estimate with what the provider really counted (a failed answer still spent its tokens).
+      if (ticket) await this.quota.settle(ticket, seen.usage?.totalTokens).catch(() => undefined);
       if (slot.controller.signal.aborted)
         await this.provider.unload().catch(() => undefined);
       // An aborted HTTP stream is not proof that GPU work stopped. Keep the slot

@@ -1,7 +1,7 @@
 import { AI_CLAIMS, aiResultSchema } from "@/common/contracts/phase3/ai.schema";
 import { AppException } from "@/common/errors";
 import { GROQ_TRANSPORT_SCHEMA, GROQ_URL, GroqProvider } from "@/modules/ai/groq.provider";
-import { FOUNDATION_PROMPT, HOSTED_DIGEST, explanationMessages } from "@/modules/ai/provider";
+import { FOUNDATION_PROMPT, HOSTED_DIGEST, explanationMessages, type ProviderObservation } from "@/modules/ai/provider";
 
 // The hosted adapter is tested on a mocked network only: no request leaves the machine, and the key is a synthetic string.
 const KEY = "synthetic-test-key-0123456789";
@@ -176,6 +176,63 @@ describe("Groq hosted provider", () => {
       const e = await failure(provider(reply(good, { model: "openai/gpt-oss-120b" })).groq.generate(facts, allowed, HOSTED_DIGEST, signal()));
       expect(e.code).toBe("UNAVAILABLE");
       expect(details(e)).toMatchObject({ reason: "MODEL_CHANGED" });
+    });
+  });
+
+  describe("what it reports about each request", () => {
+    const usage = { prompt_tokens: 400, completion_tokens: 120, total_tokens: 520 };
+    const watch = () => {
+      const seen: ProviderObservation[] = [];
+      return { seen, observe: (o: ProviderObservation) => void seen.push(o) };
+    };
+    it("reports the model, the tokens and the time as soon as a reply is understood", async () => {
+      const { seen, observe } = watch();
+      await provider(reply(good, { usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe);
+      expect(seen).toHaveLength(1);
+      expect(seen[0]).toMatchObject({ returnedModel: "openai/gpt-oss-20b", usage: { promptTokens: 400, completionTokens: 120, totalTokens: 520 } });
+      expect(seen[0].latencyMs).toBeGreaterThanOrEqual(0);
+      expect(seen[0].retryAfterSeconds).toBeUndefined();
+    });
+    it("reports the tokens of an answer it then rejects, because they were spent", async () => {
+      const { seen, observe } = watch();
+      const e = await failure(provider(reply({ ...good, evidenceIds: ["invented"] }, { usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe));
+      expect(details(e)).toMatchObject({ reason: "INVALID_OUTPUT" });
+      expect(seen[0].usage).toEqual({ promptTokens: 400, completionTokens: 120, totalTokens: 520 });
+    });
+    it("reports the model it actually got when that is not the one configured", async () => {
+      const { seen, observe } = watch();
+      await failure(provider(reply(good, { model: "openai/gpt-oss-120b", usage })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe));
+      expect(seen[0].returnedModel).toBe("openai/gpt-oss-120b");
+    });
+    it("never invents token figures when the provider sends none", async () => {
+      const { seen, observe } = watch();
+      await provider(reply(good)).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe);
+      expect(seen[0].usage).toBeUndefined();
+      expect(seen[0].returnedModel).toBe("openai/gpt-oss-20b");
+    });
+    it("rejects token figures that are not whole non-negative numbers, without reporting them", async () => {
+      const { seen, observe } = watch();
+      const e = await failure(provider(reply(good, { usage: { prompt_tokens: -1, completion_tokens: 1.5, total_tokens: "x" } })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), observe));
+      expect(details(e)).toMatchObject({ reason: "INVALID_OUTPUT" });
+      expect(seen).toHaveLength(0);
+    });
+    it("reports how long to wait on a quota refusal, and only then", async () => {
+      const limited = watch();
+      await failure(provider(new Response("", { status: 429, headers: { "retry-after": "45" } })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), limited.observe));
+      expect(limited.seen).toHaveLength(1);
+      expect(limited.seen[0].retryAfterSeconds).toBe(45);
+      const other = watch();
+      await failure(provider(new Response("", { status: 500 })).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), other.observe));
+      expect(other.seen).toHaveLength(0);
+    });
+    it("reports nothing for a reply it cannot understand or a request it never sent", async () => {
+      const garbage = watch();
+      await failure(provider(new Response("<html>gateway</html>")).groq.generate(facts, allowed, HOSTED_DIGEST, signal(), garbage.observe));
+      expect(garbage.seen).toHaveLength(0);
+      const unsent = watch();
+      const groq = new GroqProvider({ apiKey: "", model: settings.model }, jest.fn() as unknown as typeof fetch);
+      await failure(groq.generate(facts, allowed, HOSTED_DIGEST, signal(), unsent.observe));
+      expect(unsent.seen).toHaveLength(0);
     });
   });
 

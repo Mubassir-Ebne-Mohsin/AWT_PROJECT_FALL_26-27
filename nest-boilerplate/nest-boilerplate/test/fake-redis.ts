@@ -47,6 +47,11 @@ class FakeRedisClient {
     return "PONG";
   }
 
+  /** Forget everything, so one test's counters or back-off never reach the next. */
+  clear() {
+    this.store.clear();
+  }
+
   private assertOpen() {
     if (!this.isOpen) throw new Error("fake redis is closed");
   }
@@ -54,6 +59,9 @@ class FakeRedisClient {
 
 export class FakeRedisCacheService {
   readonly client = new FakeRedisClient();
+  reset() {
+    this.client.clear();
+  }
   getClient() {
     return this.client as unknown as ReturnType<RedisCacheService["getClient"]>;
   }

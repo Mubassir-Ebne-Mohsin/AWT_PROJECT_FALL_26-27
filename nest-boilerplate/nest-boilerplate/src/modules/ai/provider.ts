@@ -6,6 +6,17 @@ export interface ModelIdentity {
   digest: string;
 }
 
+/** What a provider learned about one request, reported while it runs so the service can record provenance and spend. */
+export interface ProviderObservation {
+  /** The model name the provider says it used. */
+  returnedModel?: string;
+  /** Tokens the provider counted. Never estimated by the provider adapter. */
+  usage?: { promptTokens: number; completionTokens: number; totalTokens: number };
+  latencyMs?: number;
+  /** Seconds the provider asked us to wait before another request. */
+  retryAfterSeconds?: number;
+}
+
 /** Recorded as the digest of a hosted model, which exposes none. An honest marker, not a hash. */
 export const HOSTED_DIGEST = "hosted-model-digest-unavailable";
 
@@ -22,7 +33,7 @@ export interface ExplanationProvider {
   identity(signal?: AbortSignal): Promise<ModelIdentity | null>;
   /** True when this provider can take a new generation (a local runner is not busy with another client's work). */
   idle(signal?: AbortSignal): Promise<boolean>;
-  generate(facts: Record<string, unknown>, allowed: string[], digest: string, signal: AbortSignal): Promise<AiResult>;
+  generate(facts: Record<string, unknown>, allowed: string[], digest: string, signal: AbortSignal, observe?: (observation: ProviderObservation) => void): Promise<AiResult>;
   /** Release anything held locally after an aborted generation. A hosted provider holds nothing. */
   unload(): Promise<void>;
 }

@@ -10885,7 +10885,8 @@
                       "MEMORY_PRESSURE",
                       "PROVIDER_UNAVAILABLE",
                       "INVALID_OUTPUT",
-                      "MODEL_CHANGED"
+                      "MODEL_CHANGED",
+                      "PROVIDER_RATE_LIMITED"
                     ]
                   },
                   "message": {
@@ -10907,6 +10908,64 @@
           "experimental": {
             "type": "boolean",
             "const": true
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "ollama",
+              "groq"
+            ]
+          },
+          "returnedModel": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "promptTokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "completionTokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "totalTokens": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "promptTokens",
+                  "completionTokens",
+                  "totalTokens"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latencyMs": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -11232,7 +11291,8 @@
                           "MEMORY_PRESSURE",
                           "PROVIDER_UNAVAILABLE",
                           "INVALID_OUTPUT",
-                          "MODEL_CHANGED"
+                          "MODEL_CHANGED",
+                          "PROVIDER_RATE_LIMITED"
                         ]
                       },
                       "message": {
@@ -11254,6 +11314,64 @@
               "experimental": {
                 "type": "boolean",
                 "const": true
+              },
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "ollama",
+                  "groq"
+                ]
+              },
+              "returnedModel": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "usage": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "promptTokens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "completionTokens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "totalTokens": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "promptTokens",
+                      "completionTokens",
+                      "totalTokens"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "latencyMs": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
@@ -11301,6 +11419,18 @@
           "model": {
             "type": "string"
           },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "ollama",
+              "groq"
+            ]
+          },
+          "retryAfterSeconds": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
           "reason": {
             "type": "string",
             "enum": [
@@ -11310,7 +11440,8 @@
               "MODEL_MISSING",
               "PROVIDER_UNAVAILABLE",
               "MEMORY_PRESSURE",
-              "INSTANCE_BUSY"
+              "INSTANCE_BUSY",
+              "QUOTA_EXHAUSTED"
             ]
           }
         },
@@ -11318,6 +11449,7 @@
           "enabled",
           "ready",
           "model",
+          "provider",
           "reason"
         ],
         "additionalProperties": false

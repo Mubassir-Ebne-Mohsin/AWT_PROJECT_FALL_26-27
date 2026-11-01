@@ -3,6 +3,7 @@ import { DesignsModule } from "@/modules/designs/designs.module";
 import { AiController } from "@/modules/ai/ai.controller";
 import { AiService } from "@/modules/ai/ai.service";
 import { AiMemory } from "@/modules/ai/ai-memory";
+import { AiQuota } from "@/modules/ai/ai-quota";
 import { OllamaProvider } from "@/modules/ai/ollama.provider";
 import { EXPLANATION_PROVIDER } from "@/modules/ai/provider";
 import { selectProvider } from "@/modules/ai/provider.factory";
@@ -13,6 +14,7 @@ import { AI_FETCH, AI_SETTINGS, GROQ_CREDENTIALS, AiSettings, aiSettings, groqCr
   providers: [
     AiService,
     AiMemory,
+    AiQuota,
     OllamaProvider,
     { provide: AI_SETTINGS, useFactory: aiSettings },
     { provide: AI_FETCH, useValue: globalThis.fetch.bind(globalThis) },

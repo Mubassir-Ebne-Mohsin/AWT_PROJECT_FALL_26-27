@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { AppException } from "@/common/errors";
 import { AI_CLAIMS, aiResultSchema, AiResult } from "@/common/contracts/phase3/ai.schema";
-import { ExplanationProvider, HOSTED_DIGEST, ModelIdentity, explanationMessages } from "@/modules/ai/provider";
+import { ExplanationProvider, HOSTED_DIGEST, ModelIdentity, ProviderObservation, explanationMessages } from "@/modules/ai/provider";
 
 // Hosted explanation transport (Groq). It turns verified facts into a typed result, or fails. Admission, ownership, durable jobs,
 // grounding and claim checking stay with AiService. Reviewed from the first draft; what changed and why is in docs/AI-RESUME-SCOPE.md.
@@ -30,13 +30,17 @@ export const GROQ_TRANSPORT_SCHEMA = {
   },
 } as const;
 
+/** The most tokens one answer may use. Counted in full against the quota until the provider reports what was really used. */
+export const GROQ_MAX_COMPLETION_TOKENS = 2048;
 const MAX_REQUEST_BYTES = 12000;
 const MAX_RESPONSE_BYTES = 65536;
 const unavailable = (message: string, reason: string, extra: Record<string, unknown> = {}) => new AppException("UNAVAILABLE", message, { reason, ...extra });
 const invalid = (message: string) => new AppException("VALIDATION_FAILED", message, { reason: "INVALID_OUTPUT" });
 
+const count = z.number().int().nonnegative();
 const replySchema = z.object({
   model: z.string(),
+  usage: z.object({ prompt_tokens: count, completion_tokens: count, total_tokens: count }).optional(),
   choices: z
     .array(
       z.object({
@@ -76,12 +80,13 @@ export class GroqProvider implements ExplanationProvider {
     return undefined;
   }
 
-  async generate(facts: Record<string, unknown>, allowed: string[], _digest: string, signal: AbortSignal): Promise<AiResult> {
+  async generate(facts: Record<string, unknown>, allowed: string[], _digest: string, signal: AbortSignal, observe?: (observation: ProviderObservation) => void): Promise<AiResult> {
     if (!this.settings.apiKey) throw unavailable("Hosted AI is not configured", "PROVIDER_NOT_CONFIGURED");
     const messages = explanationMessages(facts);
     if (Buffer.byteLength(JSON.stringify(messages), "utf8") > MAX_REQUEST_BYTES)
       throw new AppException("VALIDATION_FAILED", "Explanation context is too large", { reason: "AI_CONTEXT_TOO_LARGE" });
 
+    const started = performance.now();
     const res = await this.transport(GROQ_URL, {
       method: "POST",
       redirect: "error",
@@ -97,7 +102,7 @@ export class GroqProvider implements ExplanationProvider {
         // A short answer needs little reasoning; the reasoning text is not returned or stored.
         reasoning_effort: "low",
         include_reasoning: false,
-        max_completion_tokens: 2048,
+        max_completion_tokens: GROQ_MAX_COMPLETION_TOKENS,
         response_format: { type: "json_schema", json_schema: { name: "explanation", strict: true, schema: GROQ_TRANSPORT_SCHEMA } },
       }),
     });
@@ -106,6 +111,7 @@ export class GroqProvider implements ExplanationProvider {
       await res.body?.cancel();
       if (res.status === 429) {
         const retry = Number(res.headers.get("retry-after"));
+        observe?.({ latencyMs: Math.round(performance.now() - started), ...(Number.isFinite(retry) && retry > 0 ? { retryAfterSeconds: Math.min(retry, 86400) } : {}) });
         throw new AppException("RATE_LIMITED", "Hosted AI quota is temporarily exhausted", {
           reason: "PROVIDER_RATE_LIMITED",
           ...(Number.isFinite(retry) && retry > 0 ? { retryAfterSeconds: Math.min(retry, 86400) } : {}),
@@ -128,6 +134,12 @@ export class GroqProvider implements ExplanationProvider {
         chunks.push(chunk.value);
       }
       const reply = replySchema.parse(JSON.parse(Buffer.concat(chunks).toString("utf8")));
+      // Reported as soon as a reply is understood, before it is judged: the tokens were spent whether or not the answer is accepted.
+      observe?.({
+        returnedModel: reply.model,
+        latencyMs: Math.round(performance.now() - started),
+        ...(reply.usage ? { usage: { promptTokens: reply.usage.prompt_tokens, completionTokens: reply.usage.completion_tokens, totalTokens: reply.usage.total_tokens } } : {}),
+      });
       if (reply.model !== this.settings.model) throw unavailable("The configured model changed during generation", "MODEL_CHANGED");
       const choice = reply.choices[0];
       if (choice.finish_reason !== "stop" || choice.message.refusal || choice.message.content === null) throw invalid("Hosted AI did not complete the answer");

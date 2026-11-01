@@ -48,6 +48,13 @@ export const envSchema = z
     AI_PROVIDER: z.enum(["ollama", "groq"]).default("ollama"),
     GROQ_API_KEY: z.string().max(200).default(""),
     GROQ_MODEL: z.enum(["openai/gpt-oss-20b", "openai/gpt-oss-120b"]).default("openai/gpt-oss-20b"),
+    // The account's published free limits for the chosen model (as shown on its Groq limits page) and how much of them to use.
+    GROQ_LIMIT_RPM: z.coerce.number().int().min(1).max(100000).default(30),
+    GROQ_LIMIT_RPD: z.coerce.number().int().min(1).max(10000000).default(1000),
+    GROQ_LIMIT_TPM: z.coerce.number().int().min(1).max(100000000).default(8000),
+    GROQ_LIMIT_TPD: z.coerce.number().int().min(1).max(1000000000).default(200000),
+    GROQ_QUOTA_MARGIN: z.coerce.number().min(0.1).max(1).default(0.8),
+    AI_USER_DAILY_LIMIT: z.coerce.number().int().min(1).max(100000).default(50),
     AI_DEADLINE_MS: z.coerce.number().int().min(1000).max(65000).default(60000),
     AI_MIN_FREE_MIB: z.coerce.number().int().min(1536).default(1536),
     AI_MIN_COMMIT_MIB: z.coerce.number().int().min(4096).default(4096),

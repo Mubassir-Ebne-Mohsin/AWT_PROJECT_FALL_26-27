@@ -9,6 +9,7 @@ import {
   type AiJob,
   type AiReadiness,
 } from "@/lib/api/ai";
+import { HOSTED_FAILURE_TEXT, HOSTED_READINESS_TEXT, isHosted, waitText } from "@/lib/explain-wording";
 
 /** Identity of the saved result being explained. Everything a reply must match before it is shown. */
 export interface ExplainContext {
@@ -83,7 +84,7 @@ const fresh = (): ExplainState => ({
 export function explainStatusText(state: ExplainState): string | null {
   if (state.message) return state.message;
   if (state.readinessError) return state.readinessError;
-  if (state.phase === "idle" && state.readiness) return READINESS_TEXT[state.readiness.reason];
+  if (state.phase === "idle" && state.readiness) return readinessText(state.readiness);
   return null;
 }
 
@@ -95,7 +96,14 @@ export const READINESS_TEXT: Record<AiReadiness["reason"], string> = {
   PROVIDER_UNAVAILABLE: "The local model service is not reachable. Start it, then check again.",
   MEMORY_PRESSURE: "There is not enough free memory for local AI right now. Close other programs, then check again.",
   INSTANCE_BUSY: "Another StressForge server instance owns local AI. Core features are unaffected.",
+  QUOTA_EXHAUSTED: "The AI provider's quota is used up for now. Try again later.",
 };
+/** The readiness line, in hosted wording when the server says the provider is hosted and local wording otherwise. */
+export function readinessText(r: { reason: AiReadiness["reason"]; provider?: string | null; retryAfterSeconds?: number }): string {
+  if (!isHosted(r.provider)) return READINESS_TEXT[r.reason];
+  if (r.reason === "QUOTA_EXHAUSTED") return `The free hosted quota is used up for now. You can try again in ${waitText(r.retryAfterSeconds)}.`;
+  return HOSTED_READINESS_TEXT[r.reason] ?? READINESS_TEXT[r.reason];
+}
 const FAILURE_TEXT: Record<string, string> = {
   INTERRUPTED: "The server restarted or lost the request, so this explanation did not finish. Nothing was replayed automatically.",
   CANCELLED: "You cancelled this explanation.",
@@ -104,11 +112,13 @@ const FAILURE_TEXT: Record<string, string> = {
   PROVIDER_UNAVAILABLE: "The local model service stopped responding.",
   INVALID_OUTPUT: "The model's answer was rejected because it did not match the verified facts or the expected format.",
   MODEL_CHANGED: "The installed model changed during generation, so the answer was discarded.",
+  PROVIDER_RATE_LIMITED: "The AI provider's rate limit was reached, so this explanation did not finish.",
 };
-export const failureText = (reason: string | undefined) => FAILURE_TEXT[reason ?? ""] ?? "The explanation did not complete.";
+export const failureText = (reason: string | undefined, provider?: string | null) =>
+  (isHosted(provider) ? HOSTED_FAILURE_TEXT[reason ?? ""] : undefined) ?? FAILURE_TEXT[reason ?? ""] ?? "The explanation did not complete.";
 
 /** Maps a failed request to an inline message. Nothing here opens a global screen. */
-function describe(error: unknown): { message: string; retryable: boolean } {
+function describe(error: unknown, provider?: string | null): { message: string; retryable: boolean } {
   if (!(error instanceof ApiError)) return { message: "Something went wrong. Your results are unaffected.", retryable: true };
   const reason = (error.details as { reason?: string } | undefined)?.reason;
   switch (reason) {
@@ -121,7 +131,13 @@ function describe(error: unknown): { message: string; retryable: boolean } {
     case "MODEL_MISSING":
       return { message: READINESS_TEXT.MODEL_MISSING, retryable: true };
     case "PROVIDER_UNAVAILABLE":
-      return { message: READINESS_TEXT.PROVIDER_UNAVAILABLE, retryable: true };
+      return { message: readinessText({ reason: "PROVIDER_UNAVAILABLE", provider: provider ?? undefined }), retryable: true };
+    case "PROVIDER_NOT_CONFIGURED":
+      return { message: "Hosted AI is not configured on the server (no key is set). Core features are unaffected.", retryable: false };
+    case "AI_QUOTA":
+      return { message: `The free hosted quota is used up for now. You can try again in ${waitText((error.details as { retryAfterSeconds?: number }).retryAfterSeconds)}.`, retryable: true };
+    case "AI_QUOTA_UNAVAILABLE":
+      return { message: "The hosted quota could not be checked, so no request was sent. Try again in a moment.", retryable: true };
     case "AI_BUSY":
       return { message: READINESS_TEXT.BUSY, retryable: true };
     case "AI_STORAGE_LIMIT":
@@ -250,7 +266,7 @@ export class ExplainSession {
       this.set({ readiness, readinessError: null });
     } catch (error) {
       if (!this.live(epoch) || c.signal.aborted) return;
-      const d = describe(error);
+      const d = describe(error, this.state.readiness?.provider);
       this.set({ readiness: null, readinessError: d.message });
     } finally {
       this.controllers.delete(c);
@@ -290,7 +306,7 @@ export class ExplainSession {
           retryable: true,
         });
       } else {
-        const d = describe(error);
+        const d = describe(error, this.state.readiness?.provider);
         this.set({ phase: "error", message: d.message, retryable: d.retryable });
       }
     } finally {
@@ -309,7 +325,7 @@ export class ExplainSession {
       this.adopt(job, epoch);
     } catch (error) {
       if (!this.live(epoch) || c.signal.aborted) return;
-      const d = describe(error);
+      const d = describe(error, this.state.readiness?.provider);
       this.onJob(null);
       this.set({ phase: "error", message: d.message, retryable: false });
     } finally {
@@ -343,7 +359,7 @@ export class ExplainSession {
       phase: "ended",
       job,
       evidence: null,
-      message: job.failure ? failureText(job.failure.reason) : "The explanation did not complete.",
+      message: job.failure ? failureText(job.failure.reason, job.provider) : "The explanation did not complete.",
       retryable: true,
       connectionLost: false,
     });
@@ -383,7 +399,7 @@ export class ExplainSession {
     } catch (error) {
       if (!this.live(epoch) || c.signal.aborted) return;
       if (error instanceof ApiError && (error.status === 403 || error.status === 404)) {
-        const d = describe(error);
+        const d = describe(error, this.state.readiness?.provider);
         this.onJob(null);
         this.set({ phase: "error", message: d.message, retryable: false, job: null });
         return;
@@ -410,7 +426,7 @@ export class ExplainSession {
       this.watchStop(epoch, 0);
     } catch (error) {
       if (!this.live(epoch) || c.signal.aborted) return;
-      this.set({ message: describe(error).message + " Cancel was not confirmed; the job is still being checked.", connectionLost: true });
+      this.set({ message: describe(error, this.state.readiness?.provider).message + " Cancel was not confirmed; the job is still being checked.", connectionLost: true });
       this.poll(epoch, POLL_BACKOFF_MS);
     } finally {
       this.controllers.delete(c);

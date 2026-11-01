@@ -1463,11 +1463,20 @@ export interface components {
             } | null;
             failure: {
                 /** @enum {string} */
-                reason: "INTERRUPTED" | "CANCELLED" | "DEADLINE" | "MEMORY_PRESSURE" | "PROVIDER_UNAVAILABLE" | "INVALID_OUTPUT" | "MODEL_CHANGED";
+                reason: "INTERRUPTED" | "CANCELLED" | "DEADLINE" | "MEMORY_PRESSURE" | "PROVIDER_UNAVAILABLE" | "INVALID_OUTPUT" | "MODEL_CHANGED" | "PROVIDER_RATE_LIMITED";
                 message: string;
             } | null;
             /** @constant */
             experimental: true;
+            /** @enum {string} */
+            provider?: "ollama" | "groq";
+            returnedModel?: string | null;
+            usage?: {
+                promptTokens: number;
+                completionTokens: number;
+                totalTokens: number;
+            } | null;
+            latencyMs?: number | null;
         };
         AiEvidence: {
             /** Format: uuid */
@@ -1529,11 +1538,20 @@ export interface components {
                 } | null;
                 failure: {
                     /** @enum {string} */
-                    reason: "INTERRUPTED" | "CANCELLED" | "DEADLINE" | "MEMORY_PRESSURE" | "PROVIDER_UNAVAILABLE" | "INVALID_OUTPUT" | "MODEL_CHANGED";
+                    reason: "INTERRUPTED" | "CANCELLED" | "DEADLINE" | "MEMORY_PRESSURE" | "PROVIDER_UNAVAILABLE" | "INVALID_OUTPUT" | "MODEL_CHANGED" | "PROVIDER_RATE_LIMITED";
                     message: string;
                 } | null;
                 /** @constant */
                 experimental: true;
+                /** @enum {string} */
+                provider?: "ollama" | "groq";
+                returnedModel?: string | null;
+                usage?: {
+                    promptTokens: number;
+                    completionTokens: number;
+                    totalTokens: number;
+                } | null;
+                latencyMs?: number | null;
             };
             statusUrl: string;
         };
@@ -1542,7 +1560,10 @@ export interface components {
             ready: boolean;
             model: string;
             /** @enum {string} */
-            reason: "DISABLED" | "AVAILABLE" | "BUSY" | "MODEL_MISSING" | "PROVIDER_UNAVAILABLE" | "MEMORY_PRESSURE" | "INSTANCE_BUSY";
+            provider: "ollama" | "groq";
+            retryAfterSeconds?: number;
+            /** @enum {string} */
+            reason: "DISABLED" | "AVAILABLE" | "BUSY" | "MODEL_MISSING" | "PROVIDER_UNAVAILABLE" | "MEMORY_PRESSURE" | "INSTANCE_BUSY" | "QUOTA_EXHAUSTED";
         };
         DesignVersion: {
             /** Format: uuid */

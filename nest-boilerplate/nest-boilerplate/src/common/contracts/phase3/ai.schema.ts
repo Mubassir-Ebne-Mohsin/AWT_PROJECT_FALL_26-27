@@ -38,8 +38,18 @@ export const aiFailureSchema = z.strictObject({
     "PROVIDER_UNAVAILABLE",
     "INVALID_OUTPUT",
     "MODEL_CHANGED",
+    /** The hosted provider's own quota was reached while the request ran. */
+    "PROVIDER_RATE_LIMITED",
   ]),
   message: z.string().max(200),
+});
+/** Where an explanation was generated. A hosted provider receives the job's facts; a local one does not. */
+export const aiProviderSchema = z.enum(["ollama", "groq"]);
+/** Tokens the provider counted for one request, when it reports them. Never estimated here. */
+export const aiUsageSchema = z.strictObject({
+  promptTokens: z.number().int().nonnegative(),
+  completionTokens: z.number().int().nonnegative(),
+  totalTokens: z.number().int().nonnegative(),
 });
 export const aiJobSchema = z.strictObject({
   id: z.uuid(),
@@ -66,6 +76,13 @@ export const aiJobSchema = z.strictObject({
   result: aiResultSchema.nullable(),
   failure: aiFailureSchema.nullable(),
   experimental: z.literal(true),
+  /** Provenance. Absent on artifacts that predate it, which stay readable. */
+  provider: aiProviderSchema.optional(),
+  /** The model name the provider reported, which must equal `model`; null until a reply arrives. */
+  returnedModel: z.string().nullable().optional(),
+  usage: aiUsageSchema.nullable().optional(),
+  /** Time the provider call took, in milliseconds; null when no reply arrived. */
+  latencyMs: z.number().int().nonnegative().nullable().optional(),
 });
 export type AiJob = z.infer<typeof aiJobSchema>;
 export const aiAcceptedSchema = z.strictObject({
@@ -113,6 +130,10 @@ export const aiReadinessSchema = z.strictObject({
   enabled: z.boolean(),
   ready: z.boolean(),
   model: z.string(),
+  /** Which provider will generate. "groq" means the facts of a run are sent to a hosted service. */
+  provider: aiProviderSchema,
+  /** Seconds until a hosted quota or a provider back-off allows another request, when that is the reason. */
+  retryAfterSeconds: z.number().int().positive().optional(),
   reason: z.enum([
     "DISABLED",
     "AVAILABLE",
@@ -121,5 +142,7 @@ export const aiReadinessSchema = z.strictObject({
     "PROVIDER_UNAVAILABLE",
     "MEMORY_PRESSURE",
     "INSTANCE_BUSY",
+    /** The free hosted quota (or a provider back-off) does not allow another request yet. */
+    "QUOTA_EXHAUSTED",
   ]),
 });
