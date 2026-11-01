@@ -10,6 +10,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
+import { ConceptsProgress, NextStep } from "@/components/learner/concepts";
 import { Crumbs } from "@/components/shell/crumbs";
 import { resolveRoute } from "@/lib/routes";
 import { api } from "@/lib/api/client";
@@ -345,8 +346,11 @@ export function LearnerProgress() {
     <div className="page stack lg">
       <Crumbs resolved={resolveRoute("/progress")} />
       <h1 className="h1">Progress</h1>
-      <p className="lede">Your recorded challenge results.</p>
+      <p className="lede">What to do next, the concepts you have opened, and your recorded challenge results.</p>
       <Notice error={q.error} />
+      <NextStep challenges={q.data ? { items: q.data.items } : null} />
+      <ConceptsProgress />
+      <h2 className="h2">Challenges</h2>
       {q.isError && (
         <button className="btn" onClick={() => void q.refetch()}>
           Try again
@@ -362,7 +366,7 @@ export function LearnerProgress() {
           )}
           {q.data.items.map((i) => (
             <article className="card stack" key={i.attemptId}>
-              <h2 className="h2">{i.title}</h2>
+              <h3 className="h3">{i.title}</h3>
               <p>
                 {i.passed ? "Passed" : "Not yet passed"}
                 {i.archived ? " · Archived" : ""}
@@ -383,7 +387,6 @@ export function LearnerProgress() {
           ))}
         </>
       )}
-      <p className="muted">Concepts and quizzes are coming in a later phase.</p>
     </div>
   );
 }

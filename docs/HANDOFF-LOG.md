@@ -218,3 +218,6 @@ Entry template:
 
 ## 2026-11-01, Claude P6 commit one (Welcome)
 **Done:** the Welcome tour, sample design, post-registration redirect. **Warning:** a new account without `?next=` now lands on `/welcome`, so any new browser test that registers and expects the dashboard must register with `/register?next=%2Fdashboard`. **Next:** Progress concepts (commit two). Do not stage `docs/audit/m2-profile-source.json`.
+
+## 2026-11-01, Claude P6 done
+**Done:** Progress concepts and next suggestion. All planned non-AI slices (P1 to P6) are built. **Not done:** push; AI (parked). Do not stage `docs/audit/m2-profile-source.json`.

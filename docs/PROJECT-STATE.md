@@ -158,3 +158,6 @@ The three Evaluation tabs are built and verified ([P5-EVALUATION-SCOPE](P5-EVALU
 
 ## P6 Welcome tour — 2026-11-01
 All nine P6 decisions approved. `/welcome` built: three-step tour, one-time sample design, new registrations land there unless they asked for a page ([P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PROGRESS-SCOPE.md)). Four older browser tests got `?next=%2Fdashboard` on their register URL. Next: Progress concepts (commit two).
+
+## P6 complete — 2026-11-01
+Progress concepts built and verified ([P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PROGRESS-SCOPE.md) "Commit two result"); the last non-AI slice of Phase 4/5 is done. Committed locally, not pushed (ahead of origin by the P6 scope doc and both P6 commits). Open: your review of the P2 lesson, P5 claims and P6 wording; the About page's GitHub link; stale line in the Help drawer ("Concept pages arrive in phase 4").

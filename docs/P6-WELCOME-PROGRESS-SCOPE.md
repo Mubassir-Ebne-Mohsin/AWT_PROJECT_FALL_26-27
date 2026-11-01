@@ -58,3 +58,9 @@ An automatic redirect after registering can annoy people who followed a link (he
 **Evidence:** web unit 338 pass (15 new for Welcome); 7 new browser tests on four widths pass; type check and lint clean; 18 deliberate breaks (redirect, sample template, per-account marker, double create, error text, Skip, wrong design opened, and others): all caught after the double-click guard was strengthened. Breaking the register redirect and the Help link in the real build failed the browser tests.
 **Finding:** a dropped connection while creating the sample is handled by the app-wide "cannot reach the server" screen, not by the tour's own message; the tour's message is for the server answering with an error.
 **Needs your review (decision 9):** the tour wording.
+
+## Commit two result (2026-11-01): Progress concepts
+**Built:** `/progress` now has "What to do next" (one suggestion with its reason), a Concepts section (tally, each topic with its mark and a link) and the unchanged challenge section, which gained a "Challenges" heading. The page says the concept marks are kept in this browser, not on the account. There is no streak, and the registry text no longer promises one. The suggestion follows the approved rule, with one refinement: when every concept is passed and no challenge has been attempted, it points to the challenges list; "You have covered everything here" appears only when every attempted challenge is passed, and never while the challenge results are unknown.
+**Evidence:** web unit 352 pass (14 new); 5 new browser tests on four widths pass (one reload race in my own test was found and fixed, then 24 of 24 repeats passed); type check and lint clean; 13 deliberate breaks to the rule and the component, all caught; **full Chrome regression 758 passed, 10 skipped, 0 failed.**
+**Not built, as agreed:** server-side concept progress, streaks, badges.
+**Needs your review:** the tour and suggestion wording.
