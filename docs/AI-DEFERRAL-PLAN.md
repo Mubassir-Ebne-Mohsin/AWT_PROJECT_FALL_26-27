@@ -54,3 +54,7 @@ AI is required for the course, so revisit this plan after M15 or when you have f
 ## Maintenance
 
 Update this file and [PROJECT-STATE.md](PROJECT-STATE.md) when AI is resumed, with the decisions made.
+
+## Update 2026-11-01: resumed for M12B scoping only
+
+The user chose Groq's free tier with `openai/gpt-oss-20b` and said to proceed. That is the explicit instruction this plan requires, and it is recorded in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md), which narrows the work to M12B (real explanations) and asks ten decisions. **Until the user approves that scope, the rules above stay in force**: nothing is enabled, no key is created, no model is called, and `modules/ai` is not changed. M13 and M14 remain parked. The review point above is met by this update.

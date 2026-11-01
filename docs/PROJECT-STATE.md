@@ -176,3 +176,6 @@ The calibration runs are done and analysed; findings are in [CALIBRATION-FINDING
 
 ## Calibration complete — 2026-11-01
 The Calibration tab shows the first comparison with a real running service ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md) "Commit three result"; [CALIBRATION-FINDINGS](CALIBRATION-FINDINGS.md)). After any engine change that alters predictions, run `pnpm calibration:analyze` in the API and re-read the findings (the stored analysis and the page data are checked by a spec). Open: the How it works sentence "Has it been compared with reality? Not yet" and its two pinning tests (waiting for the user); the About page GitHub link; the parked AI work. Docker Desktop is running again (the dev containers restarted with it).
+
+## AI resumed for scoping — 2026-11-01
+The user chose Groq free tier with `gpt-oss-20b` and said to proceed. Scope proposed in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) (M12B only; ten decisions await the user; nothing built or enabled). The Codex draft `groq.provider.ts` and its spec, `GROQ-IMPLEMENTATION-ROADMAP.md` and `M12-EXPLANATION-SCOPE.md` are still uncommitted and are not mine; the scope proposes reviewing and adopting the draft with tests.

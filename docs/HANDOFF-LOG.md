@@ -245,3 +245,6 @@ Entry template:
 
 ## 2026-11-01, Claude calibration commit three
 **Done:** the Calibration tab, its data file and spec; model doc updated. **Warnings:** `web/src/lib/calibration-data.json` is generated, never hand-edit; regenerate with `pnpm calibration:analyze` after changing the measurements or the engine. The audit stack for the Chrome regression is up again (containers `stressforge-m8-*`, API 5003, web 3003). The production build crashes at about 800 MB free; building with `experimental.cpus` capped at 3 (set temporarily, never committed) works. **Waiting for the user:** whether to update the How it works "Not yet" sentence and its two tests.
+
+## 2026-11-01, Claude AI resume scope
+**Done:** [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) written and committed; [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md) updated. **Warning for Codex:** until the user approves the scope, do not change `modules/ai`, enable AI, create keys or call any hosted model; the untracked Groq draft files are left exactly as found. **Next:** the user's decisions, then commit one (provider interface, Ollama adapter, reviewed Groq adapter, tests on a mocked transport).
