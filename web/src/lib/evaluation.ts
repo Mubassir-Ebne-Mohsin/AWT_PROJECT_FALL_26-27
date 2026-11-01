@@ -1,8 +1,10 @@
+import { CAL, calibrationStatus } from "@/lib/calibration";
 import data from "@/lib/evaluation-data.json";
 
 // P5 Evaluation. Every number on the Simulator tab comes from evaluation-data.json, which is produced by running the real
-// engine (`pnpm fixtures:evaluation`) and checked against it by a backend spec. The Calibration tab shows no numbers at all
-// (none exist) and the AI tab quotes only the recorded M10 results, which a test ties to docs/M10-LOCAL-AI-FEASIBILITY.md.
+// engine (`pnpm fixtures:evaluation`) and checked against it by a backend spec. The Calibration tab (calibration.ts) shows the
+// first comparison with a real running service, from calibration-data.json, or "Not yet measured" and no figure when that file
+// has no data. The AI tab quotes only the recorded M10 results, which a test ties to docs/M10-LOCAL-AI-FEASIBILITY.md.
 
 export type Band = { minWaitShare: number; points: number; worstRelativeError: number };
 export type TypicalRow = { rho: number; exactMs: number; modelMs: number; gapMs: number };
@@ -37,7 +39,7 @@ export const ms = (x: number) => (x < 0.0005 ? "under 0.001" : x < 1 ? x.toFixed
 
 export const TAB_LIST: Array<{ id: "simulator" | "calibration" | "ai"; label: string; status: string }> = [
   { id: "simulator", label: "Simulator", status: "Measured" },
-  { id: "calibration", label: "Calibration", status: "Not yet measured" },
+  { id: "calibration", label: "Calibration", status: calibrationStatus(CAL) },
   { id: "ai", label: "AI", status: "Parked, not evaluated" },
 ];
 
@@ -66,7 +68,7 @@ export function consistencySummary() {
 
 /** What none of the Simulator evidence shows. */
 export const NOT_PROVEN = [
-  "That the model matches real servers. No real application has been load-tested and compared with it (see Calibration).",
+  "That the model matches real servers. It has been compared with one simple test service on one laptop (see Calibration), not with any real application.",
   "That the final p95 and p99 are right. The comparison above checks one part of the model, the waiting time of one component.",
   "That the original prototype's maths is right. The fidelity check shows the app reproduces the prototype, not that the prototype is correct.",
   "Anything about what the model leaves out: pauses, cold caches, retry storms, and differences between real machines and networks.",
@@ -77,20 +79,6 @@ export const COMMANDS: Array<{ dir: string; command: string; script: string; say
   { dir: "nest-boilerplate/nest-boilerplate", command: "pnpm fixtures:evaluation:check", script: "fixtures:evaluation:check", says: "Re-runs the engine and checks the stored evidence is current." },
   { dir: "nest-boilerplate/nest-boilerplate", command: "pnpm fixtures:evaluation", script: "fixtures:evaluation", says: "Recomputes and rewrites the evidence file." },
   { dir: "nest-boilerplate/nest-boilerplate", command: "pnpm test", script: "test", says: "Runs all the backend unit tests, including the model's own." },
-];
-
-// ---------- the Calibration tab ----------
-
-export const CALIBRATION_WHY =
-  "Calibration means building a real, small service, measuring how it behaves as load grows, and checking how closely the model predicts those measurements. Until that is done there is no accuracy figure for the model against real systems, and this page shows none.";
-export const CALIBRATION_STEPS = [
-  "Choose one small real service and write down its hardware and software versions.",
-  "Fix the load-testing tool and its settings, and run a stepped test: hold each load level long enough to settle, from light load to past the breaking point.",
-  "Record p50, p95 and the error rate at every step, and repeat the whole test to see how much it varies by itself.",
-  "Use some of the steps to work out the service's capacity and the time it takes per request.",
-  "Describe the same service as a StressForge design with those numbers, and let the model predict the steps that were held back.",
-  "Report the difference between predicted and measured p95 and errors at each held-back step, including where the model is far off.",
-  "Keep the raw measurements in the repository so anyone can recheck the comparison.",
 ];
 
 // ---------- the AI tab: what was recorded in M10, and nothing more ----------

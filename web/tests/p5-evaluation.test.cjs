@@ -18,6 +18,7 @@ let pathname = "/evaluation/simulator";
 require.cache[require.resolve("next/navigation")] = { exports: { usePathname: () => pathname, useRouter: () => ({ replace() {}, push() {} }), useSearchParams: () => new URLSearchParams(""), notFound() { throw new Error("NEXT_NOT_FOUND"); } } };
 require.cache[require.resolve("next/link")] = { exports: { __esModule: true, default: ({ children, ...props }) => h("a", props, children) } };
 const E = require("../src/lib/evaluation.ts");
+const CAL = require("../src/lib/calibration.ts");
 const { EvaluationPage } = require("../src/components/evaluation/evaluation.tsx");
 const { ROUTES, resolveRoute } = require("../src/lib/routes.ts");
 const { EVAL_TABS } = require("../src/lib/catalog.ts");
@@ -123,7 +124,7 @@ test("P5 AI record: the figures quoted are the ones recorded in the M10 report",
 // ---------- the pages ----------
 
 test("P5 pages: three tabs, each with one heading, a status that says what it is, and no request", async () => {
-  const expected = { simulator: "Measured", calibration: "Not yet measured", ai: "Parked, not evaluated" };
+  const expected = { simulator: "Measured", calibration: "Measured on one machine, one toy service", ai: "Parked, not evaluated" };
   for (const [tab, status] of Object.entries(expected)) {
     document.body.innerHTML = "";
     const view = await render("/evaluation/" + tab);
@@ -202,15 +203,17 @@ test("P5 simulator tab: a failing check is shown as a failure and counted, never
   }
 });
 
-test("P5 calibration tab: says not yet measured, gives the method, and shows no number and no table", async () => {
+test("P5 calibration tab: shows the first comparison with the approved headline, two tables, the expectations and the limits, and never calls it validation", async () => {
   const view = await render("/evaluation/calibration");
   const text = spaced(view);
-  assert.deepEqual(tokens(text), [], "no figures at all on the Calibration tab");
-  assert.equal(view.querySelectorAll("table").length, 0);
-  assert.match(testid(view, "calibration-why").textContent, /no accuracy figure for the model against real systems, and this page shows none/);
-  assert.equal(view.querySelectorAll("[data-testid='method'] ol li").length, E.CALIBRATION_STEPS.length);
-  assert.match(testid(view, "calibration-result").textContent, /There is no result yet/);
-  assert.doesNotMatch(text, /validated|proven|accurate to/i);
+  assert.equal(testid(view, "calibration-headline").querySelector("p").textContent, CAL.headline(CAL.CAL));
+  assert.equal(view.querySelectorAll("[data-testid='calibration-row']").length, 24);
+  assert.equal(view.querySelectorAll("[data-testid='expectation-row']").length, 4);
+  assert.match(testid(view, "calibration-why").textContent, /first such comparison, made against one simple test service on one laptop/);
+  assert.equal(view.querySelectorAll("[data-testid='method'] ol li").length, CAL.CALIBRATION_STEPS.length);
+  assert.match(testid(view, "calibration-not-shown").textContent, /not a validation of the model/);
+  assert.equal(view.querySelector("[data-testid='calibration-result']"), null, "the 'no result yet' box is not shown when there is a result");
+  assert.doesNotMatch(text, /validated|proven|accurate to|mock data|lorem/i);
 });
 
 test("P5 AI tab: says parked, quotes only the recorded test, and compares nothing", async () => {

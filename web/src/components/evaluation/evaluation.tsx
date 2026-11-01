@@ -5,8 +5,6 @@ import { notFound, usePathname } from "next/navigation";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
   AI_RECORD,
-  CALIBRATION_STEPS,
-  CALIBRATION_WHY,
   COMMANDS,
   EVAL,
   LOADS_SHOWN,
@@ -20,9 +18,31 @@ import {
   pct,
   typicalCell,
 } from "@/lib/evaluation";
+import {
+  CAL,
+  CALIBRATION_STEPS,
+  CALIBRATION_WHY,
+  CAL_COMMANDS,
+  NOT_SHOWN,
+  TRUST,
+  breakingText,
+  differenceText,
+  fitText,
+  headline,
+  machineText,
+  ms1,
+  msWhole,
+  noteFor,
+  rangeText,
+  setupText,
+  share,
+  verdictWord,
+  type CalConfig,
+  type CalibrationData,
+} from "@/lib/calibration";
 import { NOT_FOUND_ROUTE, resolveRoute } from "@/lib/routes";
 
-const STATUS_CLASS: Record<string, string> = { Measured: "ok", "Not yet measured": "warn", "Parked, not evaluated": "outline" };
+const STATUS_CLASS: Record<string, string> = { Measured: "ok", "Measured on one machine, one toy service": "warn", "Not yet measured": "warn", "Parked, not evaluated": "outline" };
 
 function Status({ text }: { text: string }) {
   return (
@@ -174,15 +194,154 @@ function Simulator() {
   );
 }
 
+function CalibrationTable({ c, label }: { c: CalConfig; label: string }) {
+  return (
+    <section className="stack" aria-labelledby={`ev-cal-${c.workers}`} data-testid={`calibration-table-${c.workers}`}>
+      <h3 className="h3" id={`ev-cal-${c.workers}`}>
+        {label}
+      </h3>
+      <p>{fitText(c)}</p>
+      <p data-testid={`calibration-breaking-${c.workers}`}>{breakingText(c)}</p>
+      <div className="table-scroll" style={{ overflowX: "auto" }}>
+        <table className="table">
+          <caption>
+            p95 in milliseconds, {label.toLowerCase()}: measured (the range over {c.repeats} repeats) against the model
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Load (share of capacity)</th>
+              <th scope="col">Requests a second</th>
+              <th scope="col">Measured p95</th>
+              <th scope="col">Model p95</th>
+              <th scope="col">Model against measured</th>
+              <th scope="col">Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            {c.rows.map((r) => (
+              <tr key={r.level} data-testid="calibration-row" data-level={r.level} data-censored={r.censored} data-direction={r.direction ?? ""}>
+                <th scope="row">{share(r.level)}</th>
+                <td>{ms1(r.rps)}</td>
+                <td>{rangeText(r)}</td>
+                <td>{msWhole(r.modelP95)}</td>
+                <td>{differenceText(r)}</td>
+                <td>{noteFor(r)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function Measured({ d }: { d: CalibrationData }) {
+  const one = d.configs.find((c) => c.workers === 1);
+  const four = d.configs.find((c) => c.workers === 4);
+  return (
+    <>
+      <section className="panel stack r2-pad" aria-labelledby="ev-cal-head" data-testid="calibration-headline">
+        <h2 className="h3" id="ev-cal-head">
+          What it showed
+        </h2>
+        <p>{headline(d)}</p>
+      </section>
+
+      <section className="stack" aria-labelledby="ev-cal-setup" data-testid="calibration-setup">
+        <h2 className="h2" id="ev-cal-setup">
+          What was measured
+        </h2>
+        <p>{setupText(d)}</p>
+        <p className="hint" data-testid="calibration-machine">
+          {machineText(d)}
+        </p>
+      </section>
+
+      <section className="stack" aria-labelledby="ev-cal-compare" data-testid="calibration-compare">
+        <h2 className="h2" id="ev-cal-compare">
+          The comparison with the model
+        </h2>
+        <p>Where the measured and model figures differ by more than the spread between repeats, the sign shows which is higher. Above the limit the measured latencies cover only requests that were answered within the timeout, so those rows are marked and are not like for like.</p>
+        {one && <CalibrationTable c={one} label="One worker" />}
+        {four && <CalibrationTable c={four} label="Four workers" />}
+      </section>
+
+      <section className="stack" aria-labelledby="ev-cal-expect" data-testid="calibration-expectations">
+        <h2 className="h2" id="ev-cal-expect">
+          What was expected, and whether it held
+        </h2>
+        <p>Four expectations were written down before any measurement. The result column uses the corrected capacity fit (see below); the last three columns show the same verdict under the original rules, with the paging rule dropped, and corrected.</p>
+        <div className="table-scroll" style={{ overflowX: "auto" }}>
+          <table className="table">
+            <caption>The four expectations and their results</caption>
+            <thead>
+              <tr>
+                <th scope="col">Expectation</th>
+                <th scope="col">Result</th>
+                <th scope="col">What it showed</th>
+                <th scope="col">Original rules</th>
+                <th scope="col">Paging rule dropped</th>
+                <th scope="col">Corrected</th>
+              </tr>
+            </thead>
+            <tbody>
+              {d.expectations.map((e) => (
+                <tr key={e.id} data-testid="expectation-row" data-id={e.id} data-held={String(e.held)}>
+                  <th scope="row">
+                    {e.id}. {e.text}
+                  </th>
+                  <td>{verdictWord(e.held)}</td>
+                  <td>{e.evidence}</td>
+                  <td>{verdictWord(e.byVariant.committed)}</td>
+                  <td>{verdictWord(e.byVariant.noExclusions)}</td>
+                  <td>{verdictWord(e.byVariant.corrected)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="stack" aria-labelledby="ev-cal-trust" data-testid="calibration-trust">
+        <h2 className="h2" id="ev-cal-trust">
+          How much to trust this
+        </h2>
+        <ul>
+          {TRUST(d).map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="panel stack r2-pad" aria-labelledby="ev-cal-not" data-testid="calibration-not-shown">
+        <h2 className="h3" id="ev-cal-not">
+          What this does not show
+        </h2>
+        <p>{NOT_SHOWN}</p>
+      </section>
+    </>
+  );
+}
+
 function Calibration() {
   return (
     <>
       <p className="lede" data-testid="calibration-why">
-        {CALIBRATION_WHY}
+        {CAL ? CALIBRATION_WHY : "Calibration means measuring a real service as load grows and checking how closely the model predicts those measurements. There is no comparison yet, so this page shows no figure."}
       </p>
+      {CAL ? (
+        <Measured d={CAL} />
+      ) : (
+        <section className="panel stack r2-pad" aria-labelledby="ev-result" data-testid="calibration-result">
+          <h2 className="h3" id="ev-result">
+            Result
+          </h2>
+          <p>There is no result yet, so no table or figure is shown here.</p>
+        </section>
+      )}
       <section className="stack" aria-labelledby="ev-method" data-testid="method">
         <h2 className="h2" id="ev-method">
-          How it will be measured
+          How it was measured
         </h2>
         <ol className="stack">
           {CALIBRATION_STEPS.map((s) => (
@@ -190,14 +349,22 @@ function Calibration() {
           ))}
         </ol>
       </section>
-      <section className="panel stack r2-pad" aria-labelledby="ev-result" data-testid="calibration-result">
-        <h2 className="h3" id="ev-result">
-          Result
+      <section className="stack" aria-labelledby="ev-cal-repro" data-testid="reproduce-cal">
+        <h2 className="h2" id="ev-cal-repro">
+          How to check or repeat it
         </h2>
-        <p>There is no result yet, so no table or figure is shown here. When the experiment is done, the predicted and measured values for every step will appear on this page, with the raw measurements kept in the repository.</p>
+        <ul className="stack" style={{ listStyle: "none", padding: 0 }}>
+          {CAL_COMMANDS.map((c) => (
+            <li key={c.command}>
+              <code>{c.command}</code> <span className="muted">in {c.dir}</span>
+              <br />
+              <span className="small">{c.says}</span>
+            </li>
+          ))}
+        </ul>
       </section>
       <p className="hint">
-        What has been checked so far is on the <Link href="/evaluation/simulator">Simulator tab</Link>. The limits of the model are described on <Link href="/how-it-works">How it works</Link>.
+        What has been checked about the model&apos;s own maths is on the <Link href="/evaluation/simulator">Simulator tab</Link>. The limits of the model are described on <Link href="/how-it-works">How it works</Link>.
       </p>
     </>
   );

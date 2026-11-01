@@ -24,8 +24,10 @@ export type Attempt = {
   paging: { samples: number; maxPagesPerSec: number | null; minAvailableMb: number | null };
 };
 export type Step = { level: number; rps: number; attempts: Attempt[]; final: number };
+export type MachineRecord = { cpuName?: string; logicalProcessors?: number; totalMb?: number; powerScheme?: string; onAcPower?: boolean | null; node?: string; osVersion?: string; timerTickMs?: number };
 export type Measurements = {
-  config: { workers: number; workMs: number; nominalCapacityRps: number; levels: number[] };
+  machine?: MachineRecord;
+  config: { workers: number; workMs: number; nominalCapacityRps: number; levels: number[]; repeats?: number; stepMs?: number; warmupMs?: number; arrival?: string };
   repeats: Array<{ index: number; steps: Step[] }>;
 };
 
@@ -293,21 +295,90 @@ export function buildAnalysis(one: Measurements, four: Measurements): Analysis {
   return { rules: RULES, generatedFrom: ["calibration/data/w1.json", "calibration/data/w4.json"], oneWorker, fourWorkers, expectations: verdicts };
 }
 
+/** What the Calibration page shows: the corrected analysis, the verdicts under every variant, and the record of the correction. */
+export function buildWebData(a: Analysis, one: Measurements, four: Measurements) {
+  const configs = [a.oneWorker, a.fourWorkers].map((byVariant, i) => {
+    const c = byVariant.corrected;
+    return {
+      workers: c.workers,
+      workMs: c.workMs,
+      fit: { serviceMs: c.fit.serviceMs, capacityRps: c.fit.capacityRps },
+      rows: c.rows.map((r) => ({
+        level: r.level,
+        rps: r.rps,
+        compared: r.compared,
+        censored: r.censored,
+        meaningful: r.meaningful,
+        direction: r.direction,
+        measuredP50: r.measured.p50,
+        measuredP95: r.measured.p95,
+        measuredP95Min: r.measured.p95Min,
+        measuredP95Max: r.measured.p95Max,
+        measuredErrorRate: r.measured.errorRate,
+        modelP50: r.model.p50,
+        modelP95: r.model.p95,
+        modelErrorRate: r.model.errorRate,
+        differencePercent: r.p95DifferencePercent,
+      })),
+      breakingPoint: c.breakingPoint,
+      repeats: [one, four][i].repeats.length,
+    };
+  });
+  const machines = [one.machine, four.machine].filter((m): m is MachineRecord => !!m);
+  const ticks = machines.map((m) => m.timerTickMs).filter(finite);
+  const committedFour = a.fourWorkers.committed;
+  const experiment = one.config;
+  return {
+    generatedFrom: a.generatedFrom,
+    machine: {
+      cpu: machines[0]?.cpuName ?? null,
+      logicalProcessors: machines[0]?.logicalProcessors ?? null,
+      totalMb: machines[0]?.totalMb ?? null,
+      powerScheme: machines[0]?.powerScheme ?? null,
+      onAcPower: machines[0]?.onAcPower ?? null,
+      node: machines[0]?.node ?? null,
+      osVersion: machines[0]?.osVersion ?? null,
+      timerTickMs: ticks.length ? [Math.min(...ticks), Math.max(...ticks)] : null,
+    },
+    experiment: { workMs: experiment.workMs, levels: experiment.levels, repeats: experiment.repeats ?? null, stepSeconds: experiment.stepMs ? experiment.stepMs / 1000 : null, warmupSeconds: experiment.warmupMs ? experiment.warmupMs / 1000 : null, arrival: experiment.arrival ?? null, timeoutSeconds: 3, workerCounts: [one.config.workers, four.config.workers] },
+    configs,
+    expectations: a.expectations.corrected.map((e, i) => ({
+      id: e.id,
+      text: e.text,
+      held: e.held,
+      evidence: e.evidence,
+      byVariant: { committed: a.expectations.committed[i].held, noExclusions: a.expectations.noExclusions[i].held, corrected: e.held },
+    })),
+    correction: {
+      stepsTotal: a.oneWorker.committed.stepsTotal + a.fourWorkers.committed.stepsTotal,
+      stepsExcludedByCommittedRule: a.oneWorker.committed.exclusions.length + a.fourWorkers.committed.exclusions.length,
+      committedFourWorkerCapacityRps: committedFour.fit.capacityRps,
+      committedFourWorkerServers: Math.max(1, Math.round((committedFour.fit.capacityRps * committedFour.fit.serviceMs) / 1000)),
+    },
+  };
+}
+
 const root = resolve(__dirname, "../../../..");
 export const dataPath = (name: string) => resolve(root, "calibration/data", name);
 export const analysisText = (a: Analysis) => JSON.stringify(a, null, 2) + "\n";
 export const loadMeasurements = (name: string): Measurements => JSON.parse(readFileSync(dataPath(name), "utf8")) as Measurements;
 export const currentAnalysis = () => buildAnalysis(loadMeasurements("w1.json"), loadMeasurements("w4.json"));
+export const webDataPath = resolve(root, "web/src/lib/calibration-data.json");
+export const currentWebData = () => buildWebData(currentAnalysis(), loadMeasurements("w1.json"), loadMeasurements("w4.json"));
 
 if (require.main === module) {
   const fresh = currentAnalysis();
+  const web = buildWebData(fresh, loadMeasurements("w1.json"), loadMeasurements("w4.json"));
   const file = dataPath("analysis.json");
   if (process.argv.includes("--check")) {
     const stored = JSON.parse(readFileSync(file, "utf8"));
     if (!fixturesMatch(stored, JSON.parse(analysisText(fresh)))) throw new Error("calibration analysis is stale: run `pnpm calibration:analyze`");
-    console.log("calibration analysis is current");
+    const storedWeb = JSON.parse(readFileSync(webDataPath, "utf8"));
+    if (!fixturesMatch(storedWeb, JSON.parse(JSON.stringify(web)))) throw new Error("web/src/lib/calibration-data.json is stale: run `pnpm calibration:analyze`");
+    console.log("calibration analysis and page data are current");
   } else {
     writeFileSync(file, analysisText(fresh));
-    console.log(`wrote ${file}`);
+    writeFileSync(webDataPath, JSON.stringify(web, null, 2) + "\n");
+    console.log(`wrote ${file} and ${webDataPath}`);
   }
 }

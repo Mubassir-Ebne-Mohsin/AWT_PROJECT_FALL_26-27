@@ -173,3 +173,6 @@ All ten calibration decisions approved. The load generator and its validation ag
 
 ## Calibration commit two — 2026-11-01
 The calibration runs are done and analysed; findings are in [CALIBRATION-FINDINGS](CALIBRATION-FINDINGS.md) (read the dated correction in [CALIBRATION-EXPECTATIONS](CALIBRATION-EXPECTATIONS.md) with it). The Calibration tab still says "Not yet measured": the page, its data file and spec are commit three and wait for the user to read the findings. Docker Desktop, WSL, the Codex app and my audit servers were closed to free memory for the runs; start Docker again for the dev database (Postgres will run crash recovery, the data is on disk).
+
+## Calibration complete — 2026-11-01
+The Calibration tab shows the first comparison with a real running service ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md) "Commit three result"; [CALIBRATION-FINDINGS](CALIBRATION-FINDINGS.md)). After any engine change that alters predictions, run `pnpm calibration:analyze` in the API and re-read the findings (the stored analysis and the page data are checked by a spec). Open: the How it works sentence "Has it been compared with reality? Not yet" and its two pinning tests (waiting for the user); the About page GitHub link; the parked AI work. Docker Desktop is running again (the dev containers restarted with it).

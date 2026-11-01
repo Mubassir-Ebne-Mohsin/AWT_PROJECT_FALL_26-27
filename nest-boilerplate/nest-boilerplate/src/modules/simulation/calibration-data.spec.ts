@@ -5,12 +5,14 @@ import {
   analyzeConfig,
   crossing,
   currentAnalysis,
+  currentWebData,
   dataPath,
   exclusionReason,
   expectations,
   loadMeasurements,
   predict,
   RULES,
+  webDataPath,
   type Attempt,
   type ConfigAnalysis,
   type Measurements,
@@ -263,6 +265,28 @@ describe("the stored analysis, and the measurements it comes from", () => {
     expect(doc).toMatch(/\| 2\. .*\| held \| held \| held \|/);
     expect(doc).toMatch(/\| 3\. .*\| undetermined \(steps missing\) \| not held \| not held \|/);
     expect(doc).toMatch(/\| 4\. .*\| not held \(fit artifact\) \| held \| held \|/);
+  });
+
+  it("the data file behind the Calibration page is current, holds the corrected analysis, and has only real numbers where numbers are shown", () => {
+    const stored = JSON.parse(readFileSync(webDataPath, "utf8"));
+    expect(fixturesMatch(stored, JSON.parse(JSON.stringify(currentWebData())))).toBe(true);
+    expect(stored.configs.map((c: { workers: number }) => c.workers)).toEqual([1, 4]);
+    expect(stored.configs[0].fit.capacityRps).toBeCloseTo(analysis.oneWorker.corrected.fit.capacityRps, 10);
+    expect(stored.configs[1].fit.capacityRps).toBeCloseTo(analysis.fourWorkers.corrected.fit.capacityRps, 10);
+    expect(stored.expectations.map((e: { held: boolean | null }) => e.held)).toEqual([true, true, false, true]);
+    for (const e of stored.expectations) expect(e.byVariant.corrected).toBe(e.held);
+    expect(stored.correction).toEqual({
+      stepsTotal: 72,
+      stepsExcludedByCommittedRule: 42,
+      committedFourWorkerCapacityRps: analysis.fourWorkers.committed.fit.capacityRps,
+      committedFourWorkerServers: 3,
+    });
+    for (const c of stored.configs) {
+      expect(c.rows).toHaveLength(12);
+      for (const r of c.rows) {
+        for (const key of ["modelP50", "modelP95", "modelErrorRate", "measuredP95", "measuredP95Min", "measuredP95Max", "measuredErrorRate"]) expect(Number.isFinite(r[key])).toBe(true);
+      }
+    }
   });
 
   it("the written expectations in the document are the ones the analysis tests", () => {

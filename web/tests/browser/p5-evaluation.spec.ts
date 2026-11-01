@@ -4,7 +4,7 @@ import { test, expect, type Page } from "@playwright/test";
 // is not known.
 const TABS: Array<[string, string, string]> = [
   ["simulator", "Simulator", "Measured"],
-  ["calibration", "Calibration", "Not yet measured"],
+  ["calibration", "Calibration", "Measured on one machine, one toy service"],
   ["ai", "AI", "Parked, not evaluated"],
 ];
 const noOverflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);
@@ -70,12 +70,31 @@ test("P5 simulator: the measured tables are there, every check passes, and what 
   expect(await noOverflow(page)).toBe(true);
 });
 
-test("P5 calibration: not yet measured, the method is written down, and there is no number or table", async ({ page }) => {
+test("P5 calibration: the first comparison, with the approved headline, two tables of twelve loads, the expectations and the limits", async ({ page }) => {
   await page.goto("/evaluation/calibration");
-  await expect(page.getByTestId("calibration-why")).toContainText("this page shows none");
+  const headline = page.getByTestId("calibration-headline");
+  await expect(headline).toContainText("the model was cautious");
+  await expect(headline).toContainText("17.5 against 25.4 requests a second");
+  await expect(headline).toContainText("within 9% for four servers (149 against 164)");
+  await expect(headline).toContainText("20.5% against 56.6%");
+  await expect(headline).toContainText("It does not show how accurate the model is for real applications.");
+  await expect(page.getByTestId("calibration-table-1").getByTestId("calibration-row")).toHaveCount(12);
+  await expect(page.getByTestId("calibration-table-4").getByTestId("calibration-row")).toHaveCount(12);
+  await expect(page.getByTestId("calibration-table-1").locator("[data-censored='true']")).toHaveCount(2);
+  await expect(page.getByTestId("expectation-row")).toHaveCount(4);
+  await expect(page.getByTestId("expectation-row").nth(2)).toContainText("did not hold");
+  await expect(page.getByTestId("calibration-trust")).toContainText("A rule was changed after the first analysis");
+  await expect(page.getByTestId("calibration-trust")).toContainText("42 of 72 steps");
+  await expect(page.getByTestId("calibration-not-shown")).toContainText("not a validation of the model");
   await expect(page.getByTestId("method").locator("ol li")).toHaveCount(7);
-  await expect(page.getByTestId("calibration-result")).toContainText("There is no result yet");
-  await expect(page.locator("main table")).toHaveCount(0);
+  await expect(page.getByTestId("reproduce-cal")).toContainText("pnpm calibration:analyze:check");
+  await expect(page.getByTestId("calibration-result")).toHaveCount(0);
+  await expect(page.getByText(/validated|proven/i)).toHaveCount(0);
+  // The wide tables scroll inside their own box instead of widening the page.
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await noOverflow(page), `${width}px`).toBe(true);
+  }
 });
 
 test("P5 ai: parked, with only the one recorded test and no comparison", async ({ page }) => {
