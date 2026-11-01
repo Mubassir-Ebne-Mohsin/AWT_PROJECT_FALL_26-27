@@ -53,7 +53,17 @@ const output = serialize({
 });
 const destination = resolve(__dirname, "reference-fixtures.json");
 if (process.argv.includes("--check")) {
-  if (readFileSync(destination, "utf8").replace(/\r\n/g, "\n") !== output) throw new Error("Reference fixtures drifted");
+  // Numbers may differ in the last digit between processes (V8 Math.pow), so compare them within 1e-9; everything else is exact.
+  const close = (a, b) => {
+    if (typeof a === "number" && typeof b === "number") return a === b || Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
+    if (Array.isArray(a) || Array.isArray(b)) return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((x, i) => close(x, b[i]));
+    if (a && b && typeof a === "object" && typeof b === "object") {
+      const ka = Object.keys(a), kb = Object.keys(b);
+      return ka.length === kb.length && ka.every(k => Object.hasOwn(b, k) && close(a[k], b[k]));
+    }
+    return a === b;
+  };
+  if (!close(JSON.parse(readFileSync(destination, "utf8")), JSON.parse(output))) throw new Error("Reference fixtures drifted");
   console.log("Six complete reference fixtures and minimum-load counterexample match source");
 } else {
   writeFileSync(destination, output);
