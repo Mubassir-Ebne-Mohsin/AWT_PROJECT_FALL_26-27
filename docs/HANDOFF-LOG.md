@@ -254,3 +254,6 @@ Entry template:
 
 ## 2026-11-01, Claude AI commit two
 **Done:** quota guard (`ai-quota.ts`, Redis get/set only, fails closed), provenance on jobs, provider-aware drawer wording. **Warnings for Codex:** do not call Groq or set `AI_ENABLED=true`/`AI_PROVIDER=groq` (the user must say go for the live run); never read, print or log `.env` values (the Groq key is there); the committed `web/src/lib/api/schema.d.ts` lags the runtime contract (account endpoints) and was patched for the AI blocks only; regenerate it in its own commit. The drawer text depends on `readiness.provider` and `job.provider`; a response with neither keeps the local wording. **Next:** rule-based baseline and harness (commit three).
+
+## 2026-11-01, Claude AI commit three
+**Done:** `src/modules/ai/evaluation/` (cases, baseline, harness) with 34 tests; not wired into the service. **Warnings for Codex:** do not run the harness against Groq or any hosted model (the user must say go); the gate counts a rejected answer as not useful and stops on rate limit/auth/changed model. **Next:** rubric file and live-run script (commit four).

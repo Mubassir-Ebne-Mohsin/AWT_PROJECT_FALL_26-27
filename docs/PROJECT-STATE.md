@@ -185,3 +185,6 @@ All ten AI resume decisions approved. Provider interface, Ollama adapter, review
 
 ## AI commit two — 2026-11-01
 Quota guard, provenance and the hosted-data wording are built and verified ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit two result"). Groq side is ready: free account (no card), Inference APIs ZDR on, limits confirmed, key in the backend `.env`. AI is still off by default and **no hosted call has been made**. Next: the rule-based baseline and the evaluation harness (commit three); the live run needs the user's explicit go.
+
+## AI commit three — 2026-11-01
+Rule-based baseline, the eight benchmark cases and the evaluation harness (gate arithmetic, blind review sheet) are built and tested with fake providers ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit three result"). **No model has been called.** Next: the live gate run (commit four), which needs the user's explicit go.
