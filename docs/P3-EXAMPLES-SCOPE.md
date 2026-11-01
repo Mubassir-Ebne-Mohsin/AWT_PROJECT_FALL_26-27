@@ -1,6 +1,6 @@
 # P3 scope: Examples, Templates and Components pages
 
-Prepared 2026-11-01. Status: **proposed, awaiting your decisions.** Nothing here is built. Needs no AI and no new backend route. Details slice P3 of [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md), where decisions 1 and 4 (content in code; examples are the existing templates, read-only, copy after sign-in, no guest simulation) are already approved.
+Prepared 2026-11-01. Status: **all ten decisions approved 2026-11-01 ("Approve all", as recommended).** Commit one (generator, data file, freshness spec) is built; commit two (the three pages) is not. Needs no AI and no new backend route. Details slice P3 of [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md), where decisions 1 and 4 (content in code; examples are the existing templates, read-only, copy after sign-in, no guest simulation) are already approved.
 
 ## 1. Where the code is today (verified)
 
@@ -55,3 +55,8 @@ New example or template designs, editing or saving a template, guest simulation,
 ## 7. Risks
 
 Static data going stale (guarded by the freshness spec). Readers taking precomputed results for measurements (every figure is labelled). Two examples failing their own goal could look like a bug; the page states it on purpose.
+
+## Commit one result (2026-11-01): the data and its guard
+**Built:** `pnpm fixtures:examples` (and `:check`) runs the real engine on the six templates and reads its catalog, and writes `web/src/lib/examples-data.json` (107 KB): each template's graph and traffic, its result at that traffic, and its Limits result (breaking point, first failing component and cause, saturation order, 45-point load curve); plus the engine's catalog of 12 components, 3 regions and 5 traffic presets. `src/modules/simulation/examples-data.spec.ts` fails if the stored file differs from what the engine produces now (within 1e-9), if the templates or catalog differ from what the API serves, or if an example lacks a breaking point, a named first failure or a full curve.
+**What the data says:** breaking points are 491 (Single-server MVP), 1,155 (E-commerce checkout), 1,199 (Classic three-tier), 1,830 (Write-heavy ingest), 2,483 (Photo sharing) and 4,641 (Read-heavy content site) requests a second. At their own traffic, three pass, one is strained (ingest: meets its goal but is close to the edge) and two fail (Classic three-tier, p95 313 ms against 300; E-commerce checkout, p95 1,572 ms against 300). For two examples the engine reports no single bottleneck at their own traffic; the pages will say "nothing is under strain" for those.
+**Evidence:** backend unit 253 pass (4 new); type check and lint clean; 10 deliberate breaks to the engine, templates, catalog and the stored file itself, all caught. No UI changed, so no browser run for this commit.

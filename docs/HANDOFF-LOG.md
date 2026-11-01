@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P3, commit one
+**Goal:** build P3 after "Approve all".
+**Done:** `pnpm fixtures:examples` generates `web/src/lib/examples-data.json` from the real engine; `examples-data.spec.ts` fails when it goes stale. 10 deliberate breaks caught.
+**Warnings:** after any change to templates, the catalog or the engine, run `pnpm fixtures:examples` and commit the file. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** commit two: `/examples` (guest, load explorer), `/templates` (tags, filter, start), `/components` (catalog, presets), tests, regression.
+
 ## 2026-11-01, Claude P3 scope
 **Goal:** plan P3 (user: "Push and scope P3").
 **Done:** pushed `90faeae` (P2). Wrote [P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) from verified facts: the template and catalog endpoints are signed-in and in the frozen phase 2 contract, so public data must be engine-generated static data checked by a spec; all six templates have real breaking points (491 to 4,641 requests a second) and two fail their own goal at their stated traffic; the registry promised a live traffic slider, product presets and tags the data does not support, and the scope replaces them with honest equivalents. No code changed.

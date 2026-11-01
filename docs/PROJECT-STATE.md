@@ -140,3 +140,6 @@ Eight concept pages with live demos, checks and local progress built and verifie
 
 ## Phase 4/5 P3 scope — 2026-11-01
 P2 Learn pushed (`90faeae`). Scope proposed in [P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md): `/examples` (public, six read-only examples with breaking points and a precomputed load explorer), `/templates` (library with derived tags) and `/components` (catalog and traffic presets), all from engine-generated static data. Ten decisions await the user; nothing built.
+
+## P3 commit one — 2026-11-01
+All ten P3 decisions approved. Engine-generated data file for the examples, templates and components pages, with a freshness spec, built ([P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) "Commit one result"). If the engine or templates change, run `pnpm fixtures:examples` and commit the result. Next: the three pages (commit two).
