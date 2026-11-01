@@ -58,3 +58,6 @@ Update this file and [PROJECT-STATE.md](PROJECT-STATE.md) when AI is resumed, wi
 ## Update 2026-11-01: resumed for M12B scoping only
 
 The user chose Groq's free tier with `openai/gpt-oss-20b` and said to proceed. That is the explicit instruction this plan requires, and it is recorded in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md), which narrows the work to M12B (real explanations) and asks ten decisions. **Until the user approves that scope, the rules above stay in force**: nothing is enabled, no key is created, no model is called, and `modules/ai` is not changed. M13 and M14 remain parked. The review point above is met by this update.
+
+## Update 2026-11-02: hosted model tried, NO-GO accepted
+`openai/gpt-oss-20b` on Groq's free tier was run on the eight synthetic cases (18 requests): 0 of 18 accepted. AI remains off and unreleased; M13 and M14 stay unscoped. Details: [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md), "Decision (2026-11-02)".

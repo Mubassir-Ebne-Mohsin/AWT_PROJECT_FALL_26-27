@@ -266,3 +266,6 @@ Entry template:
 
 ## 2026-11-02, Claude diagnostic run (gpt-oss-20b)
 **Done:** found and fixed my harness error (the model was not shown its allowed evidence ids); corrected the record; one more live run on the user's go. **Warnings for Codex:** do not tune the prompt or schema to make the gate pass; any change must be declared first and run as a separate recorded run on the user's go.
+
+## 2026-11-02, Claude: AI closed as NO-GO
+**Done:** the owner accepted NO-GO for `gpt-oss-20b`; docs updated. **Warnings for Codex:** do not enable AI, call Groq, or build the AI tab or a run 2 without the owner's explicit instruction; do not reword the NO-GO.

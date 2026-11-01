@@ -195,3 +195,6 @@ Live-run tooling is ready and tested offline: written rubric ([AI-GATE-RUBRIC](A
 ## AI live gate, gpt-oss-20b — 2026-11-01: first run INVALID (harness error); diagnostic 2026-11-02: 0 of 18 accepted, all for citing 4 evidence ids (limit 3)
 18 requests: 7 accepted, 11 rejected as invalid output (reasons not retained), 0 rate limited, slowest 1.4 s. Fails the 17-of-18 bar regardless of judging. AI remains off. See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit four, part two". Next is the user's choice: diagnose the rejections, try `gpt-oss-120b`, or rely on the rule-based baseline.
 See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Correction and diagnostic". The user chooses: accept NO-GO, a declared run 2 with one stated change, or the 120b comparison. AI stays off.
+
+## AI decision — 2026-11-02
+**NO-GO accepted** for `gpt-oss-20b` (0 of 18). AI stays off and unreleased; the code groundwork is kept; no AI tab is built. Open for the owner: show the rule-based summary in the UI or not; whether to commit Codex's two roadmap docs; whether to push the local commits.
