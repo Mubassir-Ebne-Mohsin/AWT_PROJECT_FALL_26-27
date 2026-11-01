@@ -25,7 +25,7 @@ Every page below is a one-line `RoutePlaceholder` (it renders the registry's des
 | --- | --- | --- |
 | **P1 Honest public pages** | `/how-it-works` (assumptions, formulas, limits, from SIMULATION-MODEL), `/about`, `/privacy` (what is really stored; AI off), `/terms` (estimates, not measurements) | none |
 | **P2 Learn** | `/learn` cards and `/learn/:topic` pages: plain-words explanation, one draggable mini-demo, "where this shows up in your results", a two-question check. Detailed in [P2-LEARN-SCOPE](P2-LEARN-SCOPE.md) | none (progress marks local, see decision 3) |
-| **P3 Examples, templates, components** | `/templates` and `/components` as real catalogs from existing data; `/examples` as ready designs a visitor can look at | small, see decision 4 |
+| **P3 Examples, templates, components** | `/templates` and `/components` as real catalogs from existing data; `/examples` as ready designs a visitor can look at. Detailed in [P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) | none (static data checked against the engine) |
 | **P4 Settings** | Profile (display name), Security (change password), Appearance and Preferences (local), AI usage (shows "AI is off"), Data (export everything as JSON; delete account) | **yes**: new endpoints and one migration |
 | **P5 Evaluation** | `/evaluation/simulator`: formula tests against textbook queueing results, with real numbers from the test suite; `/calibration` and `/ai` handled honestly (decision 6) | maybe a static results file |
 | **P6 Welcome and progress** | `/welcome` first-run tour with a sample design; `/progress` adds concepts opened | small |

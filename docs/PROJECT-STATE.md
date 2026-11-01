@@ -137,3 +137,6 @@ All nine P2 decisions approved. Shared demo model, engine-generated fixtures and
 
 ## Phase 4/5 P2 Learn complete — 2026-11-01
 Eight concept pages with live demos, checks and local progress built and verified ([P2-LEARN-SCOPE](P2-LEARN-SCOPE.md) "Commit two result"). Also fixed: route checks accepted inherited names like `constructor` for settings, learn and evaluation. Committed locally. Next: P3 examples, templates and components.
+
+## Phase 4/5 P3 scope — 2026-11-01
+P2 Learn pushed (`90faeae`). Scope proposed in [P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md): `/examples` (public, six read-only examples with breaking points and a precomputed load explorer), `/templates` (library with derived tags) and `/components` (catalog and traffic presets), all from engine-generated static data. Ten decisions await the user; nothing built.

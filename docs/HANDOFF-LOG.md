@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P3 scope
+**Goal:** plan P3 (user: "Push and scope P3").
+**Done:** pushed `90faeae` (P2). Wrote [P3-EXAMPLES-SCOPE](P3-EXAMPLES-SCOPE.md) from verified facts: the template and catalog endpoints are signed-in and in the frozen phase 2 contract, so public data must be engine-generated static data checked by a spec; all six templates have real breaking points (491 to 4,641 requests a second) and two fail their own goal at their stated traffic; the registry promised a live traffic slider, product presets and tags the data does not support, and the scope replaces them with honest equivalents. No code changed.
+**Next:** the user answers the ten decisions; then build P3 in two commits (generator + freshness spec first). No active claims.
+
 ## 2026-11-01, Claude P2 Learn, commit two
 **Goal:** finish P2 (user: "Approve all").
 **Done:** `/learn` and eight topic pages with demos, checks and local progress; fixed route checks that accepted inherited names (`constructor`, `__proto__`) for learn, settings and evaluation. Web unit 296, Chrome 646 passed / 10 skipped / 0 failed, 48 new browser tests. Breaks: 21 of 24 caught first time, the rest led to 2 new tests and 1 equivalent change.
