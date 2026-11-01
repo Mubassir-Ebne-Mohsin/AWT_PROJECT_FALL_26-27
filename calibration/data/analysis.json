@@ -12,8 +12,8 @@
     "calibration/data/w4.json"
   ],
   "oneWorker": {
-    "primary": {
-      "variant": "primary",
+    "committed": {
+      "variant": "committed",
       "workers": 1,
       "workMs": 20,
       "stepsTotal": 36,
@@ -154,7 +154,8 @@
           "p95DifferencePercent": 6.978477797203859,
           "direction": "model higher",
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.2,
@@ -178,7 +179,8 @@
           "p95DifferencePercent": 13.833552746902017,
           "direction": "model higher",
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.3,
@@ -202,7 +204,8 @@
           "p95DifferencePercent": 24.205061523155397,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.4,
@@ -226,7 +229,8 @@
           "p95DifferencePercent": 44.21864321910696,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.5,
@@ -250,7 +254,8 @@
           "p95DifferencePercent": 64.19230237455834,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.6,
@@ -274,7 +279,8 @@
           "p95DifferencePercent": null,
           "direction": null,
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.7,
@@ -298,7 +304,8 @@
           "p95DifferencePercent": 78.16781033843979,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.8,
@@ -322,7 +329,8 @@
           "p95DifferencePercent": 100.29666811794567,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.9,
@@ -346,7 +354,8 @@
           "p95DifferencePercent": 75.53389223890925,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.95,
@@ -370,7 +379,8 @@
           "p95DifferencePercent": null,
           "direction": null,
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 1.05,
@@ -394,7 +404,8 @@
           "p95DifferencePercent": 142.8682697015116,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.2,
@@ -418,7 +429,8 @@
           "p95DifferencePercent": 97.01836629425635,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": true
         }
       ],
       "breakingPoint": {
@@ -437,8 +449,8 @@
         "largestRelativeP95": 142.8682697015116
       }
     },
-    "all": {
-      "variant": "all",
+    "noExclusions": {
+      "variant": "noExclusions",
       "workers": 1,
       "workMs": 20,
       "stepsTotal": 36,
@@ -473,7 +485,8 @@
           "p95DifferencePercent": 9.423150453834761,
           "direction": "model higher",
           "meaningful": false,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.2,
@@ -497,7 +510,8 @@
           "p95DifferencePercent": 13.165492949870464,
           "direction": "model higher",
           "meaningful": true,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.3,
@@ -521,7 +535,8 @@
           "p95DifferencePercent": 25.23618974246621,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.4,
@@ -545,7 +560,8 @@
           "p95DifferencePercent": 36.273207155747386,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.5,
@@ -569,7 +585,8 @@
           "p95DifferencePercent": 43.85996376866192,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.6,
@@ -593,7 +610,8 @@
           "p95DifferencePercent": 47.884592162526154,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.7,
@@ -617,7 +635,8 @@
           "p95DifferencePercent": 78.52432774486621,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.8,
@@ -641,7 +660,8 @@
           "p95DifferencePercent": 42.69440215797663,
           "direction": "model higher",
           "meaningful": false,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.9,
@@ -665,7 +685,8 @@
           "p95DifferencePercent": 30.932218340940516,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.95,
@@ -689,7 +710,8 @@
           "p95DifferencePercent": 81.07259250186279,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.05,
@@ -713,7 +735,8 @@
           "p95DifferencePercent": 94.22067889080658,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": true
         },
         {
           "level": 1.2,
@@ -737,7 +760,8 @@
           "p95DifferencePercent": 96.64400663362403,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": true
         }
       ],
       "breakingPoint": {
@@ -755,11 +779,342 @@
         "largestAbsoluteP95Ms": 2894.918071537068,
         "largestRelativeP95": 96.64400663362403
       }
+    },
+    "corrected": {
+      "variant": "corrected",
+      "workers": 1,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 36,
+      "exclusions": [],
+      "fit": {
+        "serviceMs": 20.95753607035901,
+        "capacityRps": 49.43198239814465,
+        "repeatsForServiceTime": 3,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.95753607035901,
+            "p95": 34.50662536825985,
+            "p99": 42.240212243135225,
+            "errorRate": 0,
+            "p95Min": 28.95432081562467,
+            "p95Max": 39.06266748008784
+          },
+          "model": {
+            "p50": 22.08123282480652,
+            "p95": 37.98996419577329,
+            "p99": 47.56650516965301,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 3.4833388275134425,
+          "p95DifferencePercent": 10.094695700720461,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": false,
+          "censored": false
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.892517397209303,
+            "p95": 38.834076561926246,
+            "p99": 54.14756883435863,
+            "errorRate": 0,
+            "p95Min": 36.59116123901913,
+            "p95Max": 40.752540166082326
+          },
+          "model": {
+            "p50": 24.58592698397537,
+            "p95": 44.76098069903654,
+            "p99": 57.37341507512985,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 5.9269041371102915,
+          "p95DifferencePercent": 15.262121986238123,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false,
+          "censored": false
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.85948915395905,
+            "p95": 42.96946729854002,
+            "p99": 59.86438466254913,
+            "errorRate": 0,
+            "p95Min": 40.092192951080506,
+            "p95Max": 48.07997551513836
+          },
+          "model": {
+            "p50": 27.428202388874304,
+            "p95": 55.6563674808553,
+            "p99": 74.6177660955152,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 12.686900182315284,
+          "p95DifferencePercent": 29.52538390613548,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "repeats": 3,
+          "measured": {
+            "p50": 21.269089294888545,
+            "p95": 49.98847233546743,
+            "p99": 71.65005651162937,
+            "errorRate": 0,
+            "p95Min": 48.882073662709445,
+            "p95Max": 52.026592752779834
+          },
+          "model": {
+            "p50": 30.880891509622227,
+            "p95": 71.64146406133193,
+            "p99": 101.52837020031846,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 21.652991725864503,
+          "p95DifferencePercent": 43.31597009117129,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "repeats": 3,
+          "measured": {
+            "p50": 22.30435722882976,
+            "p95": 61.473978997169375,
+            "p99": 87.94735366633783,
+            "errorRate": 0,
+            "p95Min": 56.373490284662694,
+            "p95Max": 71.47714678046759
+          },
+          "model": {
+            "p50": 35.463815038680345,
+            "p95": 94.80547983984954,
+            "p99": 142.48442619724125,
+            "errorRate": 5.750955267558311e-14
+          },
+          "p95DifferenceMs": 33.331500842680164,
+          "p95DifferencePercent": 54.22050335185712,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "repeats": 3,
+          "measured": {
+            "p50": 30.559402460814454,
+            "p95": 79.87833824103775,
+            "p99": 130.29247060225075,
+            "errorRate": 0,
+            "p95Min": 79.73893705866067,
+            "p95Max": 80.01560818776488
+          },
+          "model": {
+            "p50": 42.22096772096907,
+            "p95": 129.85079368974272,
+            "p99": 206.8223632365458,
+            "errorRate": 2.168427659654526e-10
+          },
+          "p95DifferenceMs": 49.97245544870496,
+          "p95DifferencePercent": 62.56070988596437,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "repeats": 3,
+          "measured": {
+            "p50": 35.44111113592711,
+            "p95": 92.37295910448302,
+            "p99": 123.42027626905474,
+            "errorRate": 0,
+            "p95Min": 87.45133752084803,
+            "p95Max": 101.45837829215452
+          },
+          "model": {
+            "p50": 53.596903462221434,
+            "p95": 188.4488028282666,
+            "p99": 317.27337066542015,
+            "errorRate": 7.009592861706437e-8
+          },
+          "p95DifferenceMs": 96.07584372378358,
+          "p95DifferencePercent": 104.0086240120469,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "repeats": 3,
+          "measured": {
+            "p50": 46.51895044980726,
+            "p95": 175.0630210187519,
+            "p99": 217.4458318609201,
+            "errorRate": 0,
+            "p95Min": 133.85126128583215,
+            "p95Max": 238.19360280258115
+          },
+          "model": {
+            "p50": 77.13596904934882,
+            "p95": 307.49537054721526,
+            "p99": 545.3442933331143,
+            "errorRate": 0.000006680722983376519
+          },
+          "p95DifferenceMs": 132.43234952846336,
+          "p95DifferencePercent": 75.64838579717978,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "repeats": 3,
+          "measured": {
+            "p50": 92.82795168606874,
+            "p95": 347.60465118137654,
+            "p99": 430.38341989723267,
+            "errorRate": 0,
+            "p95Min": 325.88424347678665,
+            "p95Max": 363.5098976595327
+          },
+          "model": {
+            "p50": 154.26848800276247,
+            "p95": 691.06096471101,
+            "p99": 1286.2840977825736,
+            "errorRate": 0.0005664830834658519
+          },
+          "p95DifferenceMs": 343.45631352963346,
+          "p95DifferencePercent": 98.8065931690947,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "repeats": 3,
+          "measured": {
+            "p50": 158.8276934614793,
+            "p95": 403.61542117147474,
+            "p99": 470.5792457459611,
+            "errorRate": 0,
+            "p95Min": 374.0054888219456,
+            "p95Max": 443.4040256993612
+          },
+          "model": {
+            "p50": 343.0748707144321,
+            "p95": 1623.7419226410868,
+            "p99": 3091.9693687855374,
+            "errorRate": 0.010883828802804585
+          },
+          "p95DifferenceMs": 1220.126501469612,
+          "p95DifferencePercent": 302.29927734878225,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "repeats": 3,
+          "measured": {
+            "p50": 1456.2926024294381,
+            "p95": 2347.733068853578,
+            "p99": 2437.550263761465,
+            "errorRate": 0.018267651888341545,
+            "p95Min": 1343.3512618775712,
+            "p95Max": 2973.827409369638
+          },
+          "model": {
+            "p50": 1048.9828568269927,
+            "p95": 5105.565173692833,
+            "p99": 9835.464445151705,
+            "errorRate": 0.18778582888383222
+          },
+          "p95DifferenceMs": 2757.832104839255,
+          "p95DifferencePercent": 117.46787321890612,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": true
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "repeats": 3,
+          "measured": {
+            "p50": 2911.642072356442,
+            "p95": 2995.4450072746454,
+            "p99": 3000.4603808680354,
+            "errorRate": 0.3340939542896872,
+            "p95Min": 2994.8393196007237,
+            "p95Max": 2996.5541670658276
+          },
+          "model": {
+            "p50": 1208.1219320111413,
+            "p95": 5890.363078811713,
+            "p99": 11355.500528010614,
+            "errorRate": 0.318249225779056
+          },
+          "p95DifferenceMs": 2894.918071537068,
+          "p95DifferencePercent": 96.64400663362403,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": true
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.87260821107702,
+        "measuredRps": 25.379972265096274,
+        "modelRps": 17.4848903653603,
+        "relativeDifference": 0.31107527688647874
+      },
+      "summary": {
+        "comparedLevels": 10,
+        "modelHigher": 10,
+        "modelLower": 0,
+        "notMeaningful": 0,
+        "unknownSpread": 0,
+        "largestAbsoluteP95Ms": 2894.918071537068,
+        "largestRelativeP95": 302.29927734878225
+      }
     }
   },
   "fourWorkers": {
-    "primary": {
-      "variant": "primary",
+    "committed": {
+      "variant": "committed",
       "workers": 4,
       "workMs": 20,
       "stepsTotal": 36,
@@ -900,7 +1255,8 @@
           "p95DifferencePercent": 51.87506138647523,
           "direction": "model higher",
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.2,
@@ -924,7 +1280,8 @@
           "p95DifferencePercent": 58.28631681943591,
           "direction": "model higher",
           "meaningful": true,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.3,
@@ -948,7 +1305,8 @@
           "p95DifferencePercent": 70.62140269540798,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.4,
@@ -972,7 +1330,8 @@
           "p95DifferencePercent": 64.30990472202434,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.5,
@@ -996,7 +1355,8 @@
           "p95DifferencePercent": 71.96558780671066,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.6,
@@ -1020,7 +1380,8 @@
           "p95DifferencePercent": 107.22191128397738,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.7,
@@ -1044,7 +1405,8 @@
           "p95DifferencePercent": 233.79475127769692,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.8,
@@ -1068,7 +1430,8 @@
           "p95DifferencePercent": 730.099310043344,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.9,
@@ -1092,7 +1455,8 @@
           "p95DifferencePercent": 3250.214445232134,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.95,
@@ -1116,7 +1480,8 @@
           "p95DifferencePercent": 1860.699009530056,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.05,
@@ -1140,7 +1505,8 @@
           "p95DifferencePercent": 39.26568476943688,
           "direction": "model higher",
           "meaningful": null,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.2,
@@ -1164,7 +1530,8 @@
           "p95DifferencePercent": null,
           "direction": null,
           "meaningful": null,
-          "compared": false
+          "compared": false,
+          "censored": false
         }
       ],
       "breakingPoint": {
@@ -1183,8 +1550,8 @@
         "largestRelativeP95": 3250.214445232134
       }
     },
-    "all": {
-      "variant": "all",
+    "noExclusions": {
+      "variant": "noExclusions",
       "workers": 4,
       "workMs": 20,
       "stepsTotal": 36,
@@ -1219,7 +1586,8 @@
           "p95DifferencePercent": 53.1137476563623,
           "direction": "model higher",
           "meaningful": true,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.2,
@@ -1243,7 +1611,8 @@
           "p95DifferencePercent": 55.339941231773416,
           "direction": "model higher",
           "meaningful": true,
-          "compared": false
+          "compared": false,
+          "censored": false
         },
         {
           "level": 0.3,
@@ -1267,7 +1636,8 @@
           "p95DifferencePercent": 59.90287107273181,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.4,
@@ -1291,7 +1661,8 @@
           "p95DifferencePercent": 48.259811703397254,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.5,
@@ -1315,7 +1686,8 @@
           "p95DifferencePercent": 30.215521156215143,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.6,
@@ -1339,7 +1711,8 @@
           "p95DifferencePercent": 22.633426540211968,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.7,
@@ -1363,7 +1736,8 @@
           "p95DifferencePercent": 26.776868826666956,
           "direction": "model higher",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.8,
@@ -1387,7 +1761,8 @@
           "p95DifferencePercent": 10.282982751986092,
           "direction": "model higher",
           "meaningful": false,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.9,
@@ -1411,7 +1786,8 @@
           "p95DifferencePercent": 30.082029159371267,
           "direction": "model higher",
           "meaningful": false,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 0.95,
@@ -1435,7 +1811,8 @@
           "p95DifferencePercent": 0.9857732114980542,
           "direction": "model higher",
           "meaningful": false,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.05,
@@ -1459,7 +1836,8 @@
           "p95DifferencePercent": -49.379198314162245,
           "direction": "model lower",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": false
         },
         {
           "level": 1.2,
@@ -1483,7 +1861,8 @@
           "p95DifferencePercent": -10.860980686200815,
           "direction": "model lower",
           "meaningful": true,
-          "compared": true
+          "compared": true,
+          "censored": true
         }
       ],
       "breakingPoint": {
@@ -1501,10 +1880,341 @@
         "largestAbsoluteP95Ms": 1127.2336902497248,
         "largestRelativeP95": 59.90287107273181
       }
+    },
+    "corrected": {
+      "variant": "corrected",
+      "workers": 4,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 36,
+      "exclusions": [],
+      "fit": {
+        "serviceMs": 20.809308652248244,
+        "capacityRps": 198.43706615524005,
+        "repeatsForServiceTime": 3,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 20,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.809308652248244,
+            "p95": 22.460215190971212,
+            "p99": 23.84420466631006,
+            "errorRate": 0,
+            "p95Min": 22.00324182456825,
+            "p95Max": 22.708486846939195
+          },
+          "model": {
+            "p50": 19.68338045112964,
+            "p95": 34.39499217421286,
+            "p99": 43.34352312042657,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 11.934776983241647,
+          "p95DifferencePercent": 53.13741155979357,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false,
+          "censored": false
+        },
+        {
+          "level": 0.2,
+          "rps": 40,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.65367566197771,
+            "p95": 22.228900640596596,
+            "p99": 23.87111660206089,
+            "errorRate": 0,
+            "p95Min": 22.108577512481133,
+            "p95Max": 22.388285239809193
+          },
+          "model": {
+            "p50": 19.85338803131972,
+            "p95": 34.560490311228264,
+            "p99": 43.48356620895733,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 12.331589670631669,
+          "p95DifferencePercent": 55.47548153645759,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false,
+          "censored": false
+        },
+        {
+          "level": 0.3,
+          "rps": 60,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.6010803943888,
+            "p95": 21.8013941917355,
+            "p99": 27.663440430396196,
+            "errorRate": 0,
+            "p95Min": 21.384255867946194,
+            "p95Max": 22.064454077044502
+          },
+          "model": {
+            "p50": 20.218539184259583,
+            "p95": 34.961152520803076,
+            "p99": 43.86575656934326,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 13.159758329067575,
+          "p95DifferencePercent": 60.362003518363025,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.4,
+          "rps": 80,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.553926990542095,
+            "p95": 23.982937498415897,
+            "p99": 30.42291889055438,
+            "errorRate": 0,
+            "p95Min": 23.3136640698649,
+            "p95Max": 24.659525006922195
+          },
+          "model": {
+            "p50": 20.873199882090475,
+            "p95": 35.84208377082904,
+            "p99": 44.84117908493577,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 11.859146272413145,
+          "p95DifferencePercent": 49.448264096908304,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.5,
+          "rps": 100,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.550453437123604,
+            "p95": 28.428682887596853,
+            "p99": 35.04340835958525,
+            "errorRate": 0,
+            "p95Min": 27.325856792449486,
+            "p95Max": 29.852051184512675
+          },
+          "model": {
+            "p50": 21.96258662233766,
+            "p95": 37.799154546440974,
+            "p99": 47.33450605142518,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 9.37047165884412,
+          "p95DifferencePercent": 32.96132886596854,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.6,
+          "rps": 120,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.5638227534655,
+            "p95": 32.76637076996849,
+            "p99": 43.406990218160594,
+            "errorRate": 0,
+            "p95Min": 31.695350710535422,
+            "p95Max": 33.53967934983666
+          },
+          "model": {
+            "p50": 23.733097184500636,
+            "p95": 42.307396164074845,
+            "p99": 53.757111253488695,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 9.541025394106356,
+          "p95DifferencePercent": 29.118346554422303,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.7,
+          "rps": 140,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.626417458232027,
+            "p95": 37.25293201645642,
+            "p99": 48.943355711729964,
+            "errorRate": 0,
+            "p95Min": 37.12516539345961,
+            "p95Max": 37.46037528780289
+          },
+          "model": {
+            "p50": 26.695174775168294,
+            "p95": 52.9937537341773,
+            "p99": 70.40531327620204,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 15.740821717720877,
+          "p95DifferencePercent": 42.253913626898935,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.8,
+          "rps": 160,
+          "repeats": 3,
+          "measured": {
+            "p50": 24.425496357454296,
+            "p95": 57.46809376830546,
+            "p99": 80.57423971694273,
+            "errorRate": 0,
+            "p95Min": 50.375001705251634,
+            "p95Max": 65.4352586097084
+          },
+          "model": {
+            "p50": 32.41667730045466,
+            "p95": 79.85549272846244,
+            "p99": 116.01805858664179,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 22.38739896015698,
+          "p95DifferencePercent": 38.95622334441163,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.9,
+          "rps": 180,
+          "repeats": 3,
+          "measured": {
+            "p50": 33.81343605516789,
+            "p95": 80.72106431160744,
+            "p99": 98.9628574414334,
+            "errorRate": 0,
+            "p95Min": 69.51102724345401,
+            "p95Max": 101.42957949824631
+          },
+          "model": {
+            "p50": 50.06354384417951,
+            "p95": 170.95701475294317,
+            "p99": 284.3610742569784,
+            "errorRate": 2.108228791541933e-8
+          },
+          "p95DifferenceMs": 90.23595044133573,
+          "p95DifferencePercent": 111.78736456322973,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 0.95,
+          "rps": 190,
+          "repeats": 3,
+          "measured": {
+            "p50": 64.39405223156791,
+            "p95": 154.50681620213436,
+            "p99": 202.65318487472055,
+            "errorRate": 0,
+            "p95Min": 148.16853204747895,
+            "p95Max": 160.1213216696633
+          },
+          "model": {
+            "p50": 90.95634634396646,
+            "p95": 377.19703973024036,
+            "p99": 679.9978428596282,
+            "errorRate": 0.00002642486176540615
+          },
+          "p95DifferenceMs": 222.690223528106,
+          "p95DifferencePercent": 144.12970832093927,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 1.05,
+          "rps": 210,
+          "repeats": 3,
+          "measured": {
+            "p50": 1357.3637778058376,
+            "p95": 2282.8108368183603,
+            "p99": 2444.565174504843,
+            "errorRate": 0,
+            "p95Min": 1952.4974890934536,
+            "p95Max": 2725.7535734619014
+          },
+          "model": {
+            "p50": 389.46403717272557,
+            "p95": 1853.1381609312705,
+            "p99": 3536.584387069831,
+            "errorRate": 0.06986487113626594
+          },
+          "p95DifferenceMs": -429.6726758870898,
+          "p95DifferencePercent": -18.82208849533678,
+          "direction": "model lower",
+          "meaningful": false,
+          "compared": true,
+          "censored": false
+        },
+        {
+          "level": 1.2,
+          "rps": 240,
+          "repeats": 3,
+          "measured": {
+            "p50": 2513.8811354707773,
+            "p95": 2997.240929794711,
+            "p99": 3002.646751776105,
+            "errorRate": 0.5655444754944635,
+            "p95Min": 2997.04865839635,
+            "p95Max": 2997.6120132124634
+          },
+          "model": {
+            "p50": 555.6750914576169,
+            "p95": 2673.0894516512985,
+            "p99": 5124.583949103525,
+            "errorRate": 0.20519802868274695
+          },
+          "p95DifferenceMs": -324.15147814341253,
+          "p95DifferencePercent": -10.814995715596828,
+          "direction": "model lower",
+          "meaningful": true,
+          "compared": true,
+          "censored": true
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.42792595674473,
+        "measuredRps": 164.26597726875627,
+        "modelRps": 149.3776114705033,
+        "relativeDifference": 0.09063572412133802
+      },
+      "summary": {
+        "comparedLevels": 10,
+        "modelHigher": 8,
+        "modelLower": 2,
+        "notMeaningful": 1,
+        "unknownSpread": 0,
+        "largestAbsoluteP95Ms": 429.6726758870898,
+        "largestRelativeP95": 144.12970832093927
+      }
     }
   },
   "expectations": {
-    "primary": [
+    "committed": [
       {
         "id": 1,
         "text": "With one worker, the model's p95 at light load (10% and 20% busy) is above the measured p95.",
@@ -1521,7 +2231,7 @@
         "id": 3,
         "text": "Above 90% busy, the measured p95 rises at least as fast as the model's.",
         "held": null,
-        "evidence": "105% to 120%: measured x1.47, model x1.19"
+        "evidence": "105% to 120%: measured x1.47, model x1.19 (above the limit the measured latencies cover only requests answered within the 3 s timeout)"
       },
       {
         "id": 4,
@@ -1530,7 +2240,7 @@
         "evidence": "measured 166.7 rps, model 115.6 rps, difference 30.7%"
       }
     ],
-    "all": [
+    "noExclusions": [
       {
         "id": 1,
         "text": "With one worker, the model's p95 at light load (10% and 20% busy) is above the measured p95.",
@@ -1547,13 +2257,39 @@
         "id": 3,
         "text": "Above 90% busy, the measured p95 rises at least as fast as the model's.",
         "held": false,
-        "evidence": "90% to 95%: measured x1.16, model x1.61; 95% to 105%: measured x5.82, model x6.24; 105% to 120%: measured x1.28, model x1.29"
+        "evidence": "90% to 95%: measured x1.16, model x1.61; 95% to 105%: measured x5.82, model x6.24; 105% to 120%: measured x1.28, model x1.29 (above the limit the measured latencies cover only requests answered within the 3 s timeout)"
       },
       {
         "id": 4,
         "text": "With four workers, the load at which the p95 first exceeds three times the service time is within 15% of the model's.",
         "held": true,
         "evidence": "measured 164.3 rps, model 159.2 rps, difference 3.1%"
+      }
+    ],
+    "corrected": [
+      {
+        "id": 1,
+        "text": "With one worker, the model's p95 at light load (10% and 20% busy) is above the measured p95.",
+        "held": true,
+        "evidence": "10%: model 38.0 ms, measured 34.5 ms; 20%: model 44.8 ms, measured 38.8 ms"
+      },
+      {
+        "id": 2,
+        "text": "With one worker at 50 to 80% busy, the model's waiting time (its p50 minus the service time) is above the measured waiting time.",
+        "held": true,
+        "evidence": "50%: model wait 14.5 ms, measured wait 1.3 ms; 60%: model wait 21.3 ms, measured wait 9.6 ms; 70%: model wait 32.6 ms, measured wait 14.5 ms; 80%: model wait 56.2 ms, measured wait 25.6 ms"
+      },
+      {
+        "id": 3,
+        "text": "Above 90% busy, the measured p95 rises at least as fast as the model's.",
+        "held": false,
+        "evidence": "90% to 95%: measured x1.16, model x2.35; 95% to 105%: measured x5.82, model x3.14; 105% to 120%: measured x1.28, model x1.15 (above the limit the measured latencies cover only requests answered within the 3 s timeout)"
+      },
+      {
+        "id": 4,
+        "text": "With four workers, the load at which the p95 first exceeds three times the service time is within 15% of the model's.",
+        "held": true,
+        "evidence": "measured 164.3 rps, model 149.4 rps, difference 9.1%"
       }
     ]
   }

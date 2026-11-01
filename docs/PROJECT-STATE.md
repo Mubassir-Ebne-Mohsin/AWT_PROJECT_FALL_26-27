@@ -170,3 +170,6 @@ Scope proposed in [CALIBRATION-SCOPE](CALIBRATION-SCOPE.md): compare the engine'
 
 ## Calibration commit one — 2026-11-01
 All ten calibration decisions approved. The load generator and its validation against fake servers with a known latency are built in the new top-level `calibration/` folder ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md) "Commit one result"). Two refinements to the scope are recorded there (spinning instead of timers because the Windows timer ticks every 15.5 ms; Poisson arrivals by default). Run the checks with `pnpm test` inside `calibration/` with the machine otherwise quiet. Next: the service under test, the stepped runs and the analysis (commit two).
+
+## Calibration commit two — 2026-11-01
+The calibration runs are done and analysed; findings are in [CALIBRATION-FINDINGS](CALIBRATION-FINDINGS.md) (read the dated correction in [CALIBRATION-EXPECTATIONS](CALIBRATION-EXPECTATIONS.md) with it). The Calibration tab still says "Not yet measured": the page, its data file and spec are commit three and wait for the user to read the findings. Docker Desktop, WSL, the Codex app and my audit servers were closed to free memory for the runs; start Docker again for the dev database (Postgres will run crash recovery, the data is on disk).

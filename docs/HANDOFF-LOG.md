@@ -239,3 +239,6 @@ Entry template:
 
 ## 2026-11-01, Claude calibration commit one
 **Done:** `calibration/` generator, statistics, fake servers, 19 tests, 16 breaks. **Warning:** the tests are about timing; run them alone on a quiet machine (`pnpm test` in `calibration/`), and the generator uses one full core. **Next:** the service under test, the runner (pin service and generator to different cores, refuse to start below 2 GB free), the stepped runs, the analysis. No product code changed; the Calibration tab still says "Not yet measured".
+
+## 2026-11-01, Claude calibration commit two
+**Done:** runs, analysis, findings, correction record. **Warnings:** the runs need the laptop quiet (2 GB available to start); `pnpm calibration:analyze:check` must pass after any engine change that alters predictions (re-run `pnpm calibration:analyze` and re-read the findings, since the numbers in them come from it); the expectations file's original text must not be edited, only added to. **Machine state changed:** Docker Desktop, WSL and the Codex app are closed (the user approved); the m8/m9 audit containers and the audit web/API servers are stopped (`docker start` them and rebuild with the audit scripts to run the Chrome regression again). **Next:** the user's reading of the findings, then commit three (the tab).
