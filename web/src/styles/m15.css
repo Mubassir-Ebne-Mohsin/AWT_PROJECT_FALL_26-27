@@ -30,9 +30,15 @@
 .m15-filters input, .m15-filters select { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); color: var(--ink); }
 .m15-filters input:focus-visible, .m15-filters select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .m15-library { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-.m15-design { display: grid; gap: 8px; overflow-wrap: anywhere; align-content: start; }
+.m15-design { display: flex; flex-direction: column; gap: 10px; padding: 18px 20px; overflow-wrap: anywhere; transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+.m15-design:hover, .m15-design:focus-within { border-color: var(--accent-line); box-shadow: var(--shadow); transform: translateY(-2px); }
 .m15-design .h4 { margin: 0; }
-.m15-actions { flex-wrap: wrap; gap: 8px; }
+.m15-design .hint { margin: 0; }
+.m15-actions { flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  .m15-design { transition: border-color .01s, box-shadow .01s; }
+  .m15-design:hover, .m15-design:focus-within { transform: none; }
+}
 .m15-pager { justify-content: center; align-items: center; gap: 12px; }
 .m15-error { color: var(--fail, #b00020); }
 @media (max-width: 480px) {

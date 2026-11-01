@@ -224,3 +224,6 @@ Entry template:
 
 ## 2026-11-01, Claude breadcrumb fix
 **Done:** on public pages a signed-in person's first breadcrumb is now "Dashboard" (to `/dashboard`) instead of "Home" (the landing page); guests keep "Home". One existing test (`phase1.spec.ts:32`) now expects that, with the user's approval. **Evidence:** web unit 357 (run one file at a time; the parallel run can fail with module-not-found under memory pressure), 5 deliberate breaks caught, full Chrome regression 757 passed, 9 failed, of which 4 were the intended change (fixed) and 5 single-project failures (m9:112, r53:40, m12:244, m6:63, p1-public:54) passed on rerun on every project.
+
+## 2026-11-01, Claude Designs cards
+**Done:** the cards on `/designs` had no inner padding (`.panel` has none and `.m15-design` never added any), so text touched the border. Now 18 by 20 px padding, a column layout with the buttons pinned to the bottom (equal-height cards line up), and a 0.18 s hover (accent border, shadow, 2 px lift; no lift under reduced motion; also on keyboard focus). **Evidence:** 2 new browser tests on four projects pass, 6 deliberate CSS breaks caught, m15 library specs pass, screenshots checked in light and dark. The full regression was not rerun: the CSS touches one class used only by the Designs list.
