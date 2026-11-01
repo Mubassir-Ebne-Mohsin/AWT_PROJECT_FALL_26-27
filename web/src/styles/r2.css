@@ -41,3 +41,11 @@
 .chip { display: inline-block; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; }
 [data-testid="example-panel"] .m4-thumb, [data-testid="template-card"] .m4-thumb { max-width: 100%; overflow: hidden; }
 [data-testid="example-panel"] { scroll-margin-top: 72px; }
+
+/* P5 Evaluation. Plain, readable tables that scroll sideways inside their own box instead of widening the page. */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table caption { text-align: left; padding: 6px 0; color: var(--ink-2); font-weight: 600; }
+.table th, .table td { padding: 6px 10px; border-bottom: 1px solid var(--line-soft); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.table thead th { border-bottom: 1px solid var(--line); }
+.table-scroll { max-width: 100%; }
+.chip.is-on { border-color: var(--accent); background: var(--accent-soft); }

@@ -211,3 +211,7 @@ Entry template:
 **Not done:** the full Chrome regression did not complete (about 226 of 552 tests ran; free memory fell to about 800 MB of 7.9 GB and Docker Desktop crashed). Restart Docker, run one heavy job at a time, then rerun the full regression with `SF_PG_CONTAINER`, `SF_PG_USER`, `SF_PG_DB` set (see ROLES-SCOPE R3 to R5 notes).
 **Warnings:** run `pnpm migration:run` on dev and QA databases (the user already did on their dev database). Existing test changed on purpose: phase1.spec route count 38 to 40. Postgres quirk handled in the challenges service: `UPDATE ... RETURNING` returns `[rows, count]`, `INSERT ... RETURNING` returns the rows. Do not stage `docs/audit/m2-profile-source.json`.
 **Next:** finish R5.1 verification, then R5.2 (public list, attempts, submit and server judging, starter challenges, real progress page), then R5.3.
+
+## 2026-11-01, Claude P5 Evaluation done
+**Done:** P5 commit two (the three tabs, public routes, tests, docs). **Not done:** push (waiting for the user); P6.
+**Warnings:** after any engine change run `pnpm fixtures:evaluation` (and `:check`). `r1-roles.spec.ts:41` failed once in a full run and passed 48 of 48 on rerun; if it fails again, investigate rather than weaken it. `pnpm fixtures:phase2` byte-drift (V8 `Math.pow`) still needs the user's decision. Do not stage `docs/audit/m2-profile-source.json`.

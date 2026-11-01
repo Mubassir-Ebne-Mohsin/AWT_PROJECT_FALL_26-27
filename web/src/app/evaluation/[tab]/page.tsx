@@ -1,5 +1,5 @@
-import { RoutePlaceholder } from "@/components/placeholder";
+import { EvaluationPage } from "@/components/evaluation/evaluation";
 
 export default function Page() {
-  return <RoutePlaceholder />;
+  return <EvaluationPage />;
 }

@@ -152,3 +152,6 @@ P3 pushed (`44e0c15`). Scope proposed in [P5-EVALUATION-SCOPE](P5-EVALUATION-SCO
 
 ## P5 commit one — 2026-11-01
 All ten P5 decisions approved. Engine-generated evaluation evidence (exact Erlang C comparison, port fidelity, consistency checks) with a freshness spec built ([P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) "Commit one result"). After any engine change run `pnpm fixtures:evaluation`. Next: the three Evaluation tabs (commit two).
+
+## P5 complete — 2026-11-01
+The three Evaluation tabs are built and verified ([P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) "Commit two result"); `/evaluation/*` is now public. Committed locally, not pushed (ahead of origin by the P5 scope doc and both P5 commits). One non-reproducing failure in `r1-roles.spec.ts` during the full run is noted there. Your review of the Simulator and Calibration wording is pending. Next: P6 welcome tour and `/progress` concepts.

@@ -60,7 +60,7 @@ export function HowItWorksPage() {
     <Frame path="/how-it-works" lead={HOW_INTRO}>
       <Sections sections={HOW_SECTIONS} />
       <p className="hint">
-        Ready to try it? <Link href="/register">Create an account</Link> or <Link href="/learn">read the concepts</Link>.
+        Want the evidence? <Link href="/evaluation/simulator">See what has been checked</Link>. Ready to try it? <Link href="/register">Create an account</Link> or <Link href="/learn">read the concepts</Link>.
       </p>
     </Frame>
   );
