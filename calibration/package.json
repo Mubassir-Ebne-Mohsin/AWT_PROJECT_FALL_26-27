@@ -1,0 +1,9 @@
+{
+  "name": "stressforge-calibration",
+  "private": true,
+  "type": "module",
+  "description": "Load generator, test service and analysis for comparing the StressForge model with a real running service. No dependencies.",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 \"test/*.test.mjs\""
+  }
+}

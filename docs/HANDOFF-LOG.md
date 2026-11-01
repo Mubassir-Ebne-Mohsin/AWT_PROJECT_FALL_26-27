@@ -236,3 +236,6 @@ Entry template:
 
 ## 2026-11-01, Claude calibration scope
 **Done:** scope written ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md)), committed locally. **Next:** the user's decisions (ten, recommendations first), then three commits (generator, runs and analysis, Calibration tab). No code written.
+
+## 2026-11-01, Claude calibration commit one
+**Done:** `calibration/` generator, statistics, fake servers, 19 tests, 16 breaks. **Warning:** the tests are about timing; run them alone on a quiet machine (`pnpm test` in `calibration/`), and the generator uses one full core. **Next:** the service under test, the runner (pin service and generator to different cores, refuse to start below 2 GB free), the stepped runs, the analysis. No product code changed; the Calibration tab still says "Not yet measured".

@@ -167,3 +167,6 @@ The user reviewed the P2 lesson wording, the P5 claims about the model (Simulato
 
 ## Calibration scope — 2026-11-01
 Scope proposed in [CALIBRATION-SCOPE](CALIBRATION-SCOPE.md): compare the engine's predictions with a purpose-written Node service under an open-loop stepped load, with the model fitted on a subset of steps and compared on the held-out ones, three repeats, no pass mark, expectations committed before measuring. Ten decisions await the user; nothing built.
+
+## Calibration commit one — 2026-11-01
+All ten calibration decisions approved. The load generator and its validation against fake servers with a known latency are built in the new top-level `calibration/` folder ([CALIBRATION-SCOPE](CALIBRATION-SCOPE.md) "Commit one result"). Two refinements to the scope are recorded there (spinning instead of timers because the Windows timer ticks every 15.5 ms; Poisson arrivals by default). Run the checks with `pnpm test` inside `calibration/` with the machine otherwise quiet. Next: the service under test, the stepped runs and the analysis (commit two).
