@@ -161,3 +161,6 @@ All nine P6 decisions approved. `/welcome` built: three-step tour, one-time samp
 
 ## P6 complete — 2026-11-01
 Progress concepts built and verified ([P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PROGRESS-SCOPE.md) "Commit two result"); the last non-AI slice of Phase 4/5 is done. Committed locally, not pushed (ahead of origin by the P6 scope doc and both P6 commits). Open: your review of the P2 lesson, P5 claims and P6 wording; the About page's GitHub link; stale line in the Help drawer ("Concept pages arrive in phase 4").
+
+## Wording review and dev database — 2026-11-01
+The user reviewed the P2 lesson wording, the P5 claims about the model (Simulator, Calibration, AI) and the P6 tour wording and said "all good" (P5 decision 9 and P6 decision 9 are met). The user also confirmed the dev database is up to date with the account-deletion migration. All non-AI slices (P1 to P6) are built, verified and pushed. Open: the About page's GitHub link (keep or remove), and the next major piece: the real calibration experiment or the parked AI work.
