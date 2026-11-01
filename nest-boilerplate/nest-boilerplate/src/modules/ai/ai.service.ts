@@ -24,9 +24,10 @@ import { SavedRun } from "@/modules/designs/entities/design-run.entity";
 import { DesignVersion } from "@/modules/designs/entities/design-version.entity";
 import { AiJobRecord } from "@/modules/ai/entities/ai-job.entity";
 import {
-  OllamaProvider,
-  FOUNDATION_PROMPT,
-} from "@/modules/ai/ollama.provider";
+  EXPLANATION_PROVIDER,
+  ExplanationProvider,
+  explanationMessages,
+} from "@/modules/ai/provider";
 import { AiMemory } from "@/modules/ai/ai-memory";
 import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import {
@@ -55,7 +56,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
   constructor(
     private readonly db: DataSource,
     private readonly designs: DesignsService,
-    private readonly provider: OllamaProvider,
+    @Inject(EXPLANATION_PROVIDER) private readonly provider: ExplanationProvider,
     private readonly memory: AiMemory,
     @Inject(AI_SETTINGS) private readonly settings: AiSettings,
   ) {}
@@ -120,7 +121,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
   async readiness() {
     const base = {
       enabled: this.settings.enabled,
-      model: this.settings.model,
+      model: this.provider.model,
       ready: false,
     };
     if (!this.settings.enabled) return { ...base, reason: "DISABLED" as const };
@@ -128,10 +129,11 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
       return { ...base, reason: "INSTANCE_BUSY" as const };
     if (this.active || this.admitting)
       return { ...base, reason: "BUSY" as const };
-    if (!(await this.enoughMemory()))
+    // Only a local model competes for this machine's memory; a hosted one does not.
+    if (this.provider.needsHostMemory && !(await this.enoughMemory()))
       return { ...base, reason: "MEMORY_PRESSURE" as const };
     try {
-      if (!(await this.provider.metadata()))
+      if (!(await this.provider.identity()))
         return { ...base, reason: "MODEL_MISSING" as const };
       if (!(await this.provider.idle()))
         return { ...base, reason: "BUSY" as const };
@@ -280,10 +282,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
         evidenceIds: evidenceIdsFor(verified),
         limitation: "Mathematical estimates, not measured performance",
       };
-      const messages = [
-        { role: "system", content: FOUNDATION_PROMPT },
-        { role: "user", content: "FACTS=" + JSON.stringify(facts) },
-      ];
+      const messages = explanationMessages(facts);
       if (Buffer.byteLength(JSON.stringify(messages), "utf8") > 1400)
         throw new AppException(
           "VALIDATION_FAILED",
@@ -373,18 +372,18 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     }
   }
   private async readinessForAdmission() {
-    if (!(await this.enoughMemory()))
+    if (this.provider.needsHostMemory && !(await this.enoughMemory()))
       throw new AppException(
         "UNAVAILABLE",
         "Insufficient host memory headroom for local AI",
         { reason: "MEMORY_PRESSURE" },
       );
     try {
-      const model = await this.provider.metadata();
+      const model = await this.provider.identity();
       if (!model)
         throw new AppException(
           "UNAVAILABLE",
-          "Configured local model is not installed",
+          "Configured model is not available",
           { reason: "MODEL_MISSING" },
         );
       if (!(await this.provider.idle()))
@@ -398,7 +397,7 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
       if (e instanceof AppException) throw e;
       throw new AppException(
         "UNAVAILABLE",
-        "Local AI provider is unavailable",
+        this.provider.needsHostMemory ? "Local AI provider is unavailable" : "Hosted AI provider is unavailable",
         { reason: "PROVIDER_UNAVAILABLE" },
       );
     }
@@ -439,7 +438,8 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     }, this.settings.deadlineMs);
     let checking = false;
     const monitor = setInterval(() => {
-      if (checking || slot.controller.signal.aborted) return;
+      // Host headroom only matters while a local model is running.
+      if (!this.provider.needsHostMemory || checking || slot.controller.signal.aborted) return;
       checking = true;
       void this.enoughMemory(true)
         .then((ok) => {

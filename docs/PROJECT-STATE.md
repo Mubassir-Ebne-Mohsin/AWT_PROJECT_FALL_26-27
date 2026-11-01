@@ -179,3 +179,6 @@ The Calibration tab shows the first comparison with a real running service ([CAL
 
 ## AI resumed for scoping — 2026-11-01
 The user chose Groq free tier with `gpt-oss-20b` and said to proceed. Scope proposed in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) (M12B only; ten decisions await the user; nothing built or enabled). The Codex draft `groq.provider.ts` and its spec, `GROQ-IMPLEMENTATION-ROADMAP.md` and `M12-EXPLANATION-SCOPE.md` are still uncommitted and are not mine; the scope proposes reviewing and adopting the draft with tests.
+
+## AI commit one — 2026-11-01
+All ten AI resume decisions approved. Provider interface, Ollama adapter, reviewed Groq adapter, settings and tests are built ([AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Commit one result"). AI is still off (`AI_ENABLED=false`, provider `ollama`) and no hosted call has been made. The user created a free Groq account and reported the limits (30 requests a minute, 1,000 a day, 8,000 tokens a minute, 200,000 a day); the key is not yet in `.env` and Zero Data Retention for inference was still off at the last check. Next: quota, concurrency, provenance and the hosted-data wording (commit two).

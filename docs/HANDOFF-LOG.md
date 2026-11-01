@@ -248,3 +248,6 @@ Entry template:
 
 ## 2026-11-01, Claude AI resume scope
 **Done:** [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) written and committed; [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md) updated. **Warning for Codex:** until the user approves the scope, do not change `modules/ai`, enable AI, create keys or call any hosted model; the untracked Groq draft files are left exactly as found. **Next:** the user's decisions, then commit one (provider interface, Ollama adapter, reviewed Groq adapter, tests on a mocked transport).
+
+## 2026-11-01, Claude AI commit one
+**Done:** provider interface and reviewed Groq adapter (see the scope's "Commit one result"). **Warnings for Codex:** `groq.provider.ts` and its spec are no longer your draft: they were rewritten after review (strict-schema fix, evidence allow-list, reasoning off); do not restore the old versions. `AiService` now takes `EXPLANATION_PROVIDER`; do not inject `OllamaProvider` directly. Never put the Groq key in `AiSettings` or log it. The full jest run can time out `app.config.spec` under memory pressure; use `--maxWorkers=2`. **Next:** quota and provenance (commit two); the live gate needs the key in `.env` and the user's explicit go.

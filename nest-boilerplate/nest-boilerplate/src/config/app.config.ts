@@ -44,6 +44,10 @@ export const envSchema = z
     AI_ENABLED: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
     OLLAMA_BASE_URL: z.enum(["http://127.0.0.1:11434", "http://localhost:11434"]).default("http://127.0.0.1:11434"),
     OLLAMA_MODEL: z.enum(["qwen2.5:1.5b", "llama3.2:3b"]).default("qwen2.5:1.5b"),
+    // Which provider explains results. Hosted inference sends the bounded facts of one run to Groq; the key stays server-side.
+    AI_PROVIDER: z.enum(["ollama", "groq"]).default("ollama"),
+    GROQ_API_KEY: z.string().max(200).default(""),
+    GROQ_MODEL: z.enum(["openai/gpt-oss-20b", "openai/gpt-oss-120b"]).default("openai/gpt-oss-20b"),
     AI_DEADLINE_MS: z.coerce.number().int().min(1000).max(65000).default(60000),
     AI_MIN_FREE_MIB: z.coerce.number().int().min(1536).default(1536),
     AI_MIN_COMMIT_MIB: z.coerce.number().int().min(4096).default(4096),

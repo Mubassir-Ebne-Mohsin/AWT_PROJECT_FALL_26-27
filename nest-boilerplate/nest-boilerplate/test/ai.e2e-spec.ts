@@ -15,6 +15,8 @@ import { RedisCacheService } from "@/providers/cache/redis/redis-cache.service";
 import { FakeRedisCacheService } from "../test/fake-redis";
 import { AI_SETTINGS, AiSettings } from "@/modules/ai/ai.settings";
 import { AiMemory } from "@/modules/ai/ai-memory";
+import { AppException } from "@/common/errors";
+import { EXPLANATION_PROVIDER, ExplanationProvider, HOSTED_DIGEST } from "@/modules/ai/provider";
 import { getTemplates } from "@/modules/simulation/engine/templates";
 import {
   aiEvidenceSchema,
@@ -34,6 +36,7 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     loaded = false,
     digest = "a".repeat(64),
     chats = 0,
+    hits = 0,
     aborts = 0;
   // Claims that are true of the run just computed; the mock model echoes them so jobs can complete.
   let claims: string[] = [];
@@ -78,8 +81,8 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       if (!res.destroyed && !res.writableEnded) res.end(JSON.stringify(body()));
     held = [];
   };
-  async function boot() {
-    const module = await Test.createTestingModule({ imports: [AppModule] })
+  async function boot(provider?: ExplanationProvider) {
+    let builder = Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(RedisCacheService)
       .useValue(new FakeRedisCacheService())
       .overrideProvider(AI_SETTINGS)
@@ -87,8 +90,10 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
       .overrideProvider(AiMemory)
       .useValue({
         sample: async () => ({ physicalMiB: physical, commitMiB: commit }),
-      })
-      .compile();
+      });
+    // A hosted provider stand-in replaces the configured one; with none given the Ollama mock upstream is used.
+    if (provider) builder = builder.overrideProvider(EXPLANATION_PROVIDER).useValue(provider);
+    const module = await builder.compile();
     app = module.createNestApplication<NestExpressApplication>();
     configureApp(app);
     db = app.get(DataSource);
@@ -99,6 +104,7 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
   }
   beforeAll(async () => {
     upstream = createServer((req, res) => {
+      hits++;
       res.setHeader("Content-Type", "application/json");
       if (mode === "down") {
         res.statusCode = 503;
@@ -725,5 +731,117 @@ describe("M11 AI foundation (isolated Postgres and real mock HTTP upstream)", ()
     await boot();
     expect((await terminal(a.job.id)).status).toBe("interrupted");
     expect(chats).toBe(count);
+  });
+
+  describe("hosted provider (a fake standing in for Groq; no network)", () => {
+    let hostedMode = "ok";
+    let hostedCalls = 0;
+    let hostedUnloads = 0;
+    const hosted: ExplanationProvider = {
+      kind: "groq",
+      model: "openai/gpt-oss-20b",
+      needsHostMemory: false,
+      async identity() {
+        if (hostedMode === "no-key") throw new AppException("UNAVAILABLE", "Hosted AI is not configured", { reason: "PROVIDER_NOT_CONFIGURED" });
+        return { name: "openai/gpt-oss-20b", digest: HOSTED_DIGEST };
+      },
+      async idle() {
+        return true;
+      },
+      async generate() {
+        hostedCalls++;
+        if (hostedMode === "down") throw new TypeError("fetch failed");
+        // Longer than the 5 second host memory check, to prove that check does not apply to a hosted model.
+        if (hostedMode === "slow") await new Promise((r) => setTimeout(r, 5600));
+        if (hostedMode === "changed") throw new AppException("UNAVAILABLE", "The configured model changed during generation", { reason: "MODEL_CHANGED" });
+        return { summary: "The saved model has an inspectable verdict.", evidenceIds: ["verdict"], claims: claims as never };
+      },
+      async unload() {
+        hostedUnloads++;
+      },
+    };
+    beforeAll(async () => {
+      await app.close();
+      settings.provider = "groq";
+      settings.model = "openai/gpt-oss-20b";
+      await boot(hosted);
+    });
+    afterAll(async () => {
+      await app.close();
+      delete settings.provider;
+      settings.model = "qwen2.5:1.5b";
+      await boot();
+    });
+    afterEach(() => {
+      hostedMode = "ok";
+    });
+
+    it("explains a result without asking any local runner, and ignores host memory pressure", async () => {
+      const { request: d } = await designRun();
+      physical = commit = 0;
+      const readiness = (await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data;
+      expect(readiness).toMatchObject({ ready: true, reason: "AVAILABLE", model: "openai/gpt-oss-20b" });
+      const before = hits;
+      const calls = hostedCalls;
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      const job = await terminal(a.job.id);
+      expect(job.status).toBe("completed");
+      expect(job.model).toBe("openai/gpt-oss-20b");
+      // No digest exists for a hosted model; the record says so instead of inventing one.
+      expect(job.modelDigest).toBe(HOSTED_DIGEST);
+      expect(hostedCalls).toBe(calls + 1);
+      expect(hits).toBe(before);
+      expect(hostedUnloads).toBe(0);
+      const evidence = aiEvidenceSchema.parse((await http.get(`/v1/ai/jobs/${job.id}/evidence`).set(auth()).expect(200)).body.data);
+      expect(evidence.statements.length).toBeGreaterThan(0);
+    });
+
+    it("is not aborted by low host memory while a hosted generation is running", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "slow";
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      physical = commit = 0;
+      const job = await terminal(a.job.id);
+      expect(job.status).toBe("completed");
+      expect(job.failure).toBeNull();
+    });
+
+    it("ends a job as unavailable when the provider is down, and accepts the next request without a local runner to wait for", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "down";
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      const job = await terminal(a.job.id);
+      expect(job.status).toBe("failed");
+      expect(job.failure?.reason).toBe("PROVIDER_UNAVAILABLE");
+      hostedMode = "ok";
+      await available();
+      const b = (await http.post("/v1/ai/jobs").set(auth()).send({ ...d, requestId: randomUUID() }).expect(202)).body.data;
+      expect((await terminal(b.job.id)).status).toBe("completed");
+    });
+
+    it("reports a changed hosted model as MODEL_CHANGED", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "changed";
+      const a = (await http.post("/v1/ai/jobs").set(auth()).send(d).expect(202)).body.data;
+      const job = await terminal(a.job.id);
+      expect(job.status).toBe("failed");
+      expect(job.failure?.reason).toBe("MODEL_CHANGED");
+    });
+
+    it("is not ready and refuses a request, without generating, when no key is configured", async () => {
+      const { request: d } = await designRun();
+      hostedMode = "no-key";
+      const readiness = (await http.get("/v1/ai/readiness").set(auth()).expect(200)).body.data;
+      expect(readiness).toMatchObject({ ready: false, reason: "PROVIDER_UNAVAILABLE" });
+      const calls = hostedCalls;
+      await http.post("/v1/ai/jobs").set(auth()).send({ ...d, requestId: randomUUID() }).expect(503);
+      expect(hostedCalls).toBe(calls);
+    });
+
+    it("never calls the local runner's endpoints for readiness", async () => {
+      const before = hits;
+      await http.get("/v1/ai/readiness").set(auth()).expect(200);
+      expect(hits).toBe(before);
+    });
   });
 });
