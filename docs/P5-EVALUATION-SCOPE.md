@@ -1,6 +1,6 @@
 # P5 scope: the Evaluation pages (the proof page)
 
-Prepared 2026-11-01. Status: **proposed, awaiting your decisions.** Nothing here is built. Needs no AI and no new backend route. Details slice P5 of [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md), where decision 6 (Simulator tab with real numbers; Calibration "not yet measured" with the method written down; AI "parked, not evaluated"; never show mock numbers as results) is already approved.
+Prepared 2026-11-01. Status: **all ten decisions approved 2026-11-01 ("Approve all", as recommended).** Commit one (generator, data file, freshness spec) is built; commit two (the three tabs) is not. Needs no AI and no new backend route. Details slice P5 of [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md), where decision 6 (Simulator tab with real numbers; Calibration "not yet measured" with the method written down; AI "parked, not evaluated"; never show mock numbers as results) is already approved.
 
 ## 1. Where the code is today (verified)
 
@@ -74,3 +74,13 @@ A real calibration experiment, any AI evaluation, changing the engine's formulas
 ## 9. Risks
 
 Readers may take "the port matches the prototype" for "the model is accurate"; each item says what it does not show. The Erlang C finding is uncomfortable but real; hiding half of it would defeat the purpose of a proof page.
+
+## Commit one result (2026-11-01): the evidence and its guard
+**Built:** `pnpm fixtures:evaluation` (and `:check`) runs the real engine and writes `web/src/lib/evaluation-data.json` (85 KB). `src/modules/simulation/evaluation-data.spec.ts` fails if the stored file differs from a fresh run (within 1e-9), checks the Erlang B and C maths against closed forms worked out by hand, and tests that each consistency check really rejects a violation. Every model value in the table is produced by calling the engine's own `nodeModel`, so it cannot drift from a copy of the formula.
+**Final numbers (these replace the preliminary ones above):**
+- **One server:** the model equals the exact textbook wait (worst relative error 3e-16).
+- **Several servers:** over 16 server counts from 1 to 480 and loads of 5% to 98%: where the exact wait is at least 20% of one service time, the worst relative error is **15.2%** (327 points); at least 5%: **43.2%** (487 points); at least 1%: **115.2%** (635 points). The largest absolute gap anywhere is **0.0336 of one service time** (2 servers, 61% busy).
+- **Typical components** (servers per replica from the catalog): the app tier (13 servers, 22 ms) at 70% busy waits 0.95 ms exactly and 1.22 ms in the model; at 90%, 10.6 against 10.8 ms. The external service (27 servers, 180 ms) at 70% busy: 1.2 against 2.2 ms. Near saturation the two agree to within about a percent.
+- **Port fidelity:** 4,437 numbers compared against the six reference fixtures (simulation, paths, timeline, breaking point and load curve); largest difference 1.1e-16 (absolute) and 2.3e-16 (relative), against a tolerance of 1e-6.
+- **Consistency:** five checks on each of the six templates, all 30 pass: deterministic, idle at zero load with finite times, the load curve never improves with more load, the goal is met just under the breaking point and not at it, doubling replicas never raises utilization.
+**Evidence:** backend unit 262 pass (9 new); type check and lint clean for the new files; 16 deliberate breaks to the engine, the Erlang maths, the checks and the stored file; 13 caught first time, 3 survivors explained (the region table is not used by this evaluation; two weakened checks were invisible to a freshness test, so the checks became small exported functions with direct tests, and are now caught). No UI changed, so no browser run for this commit.

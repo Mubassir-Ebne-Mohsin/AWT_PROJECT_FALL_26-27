@@ -149,3 +149,6 @@ All ten P3 decisions approved. Engine-generated data file for the examples, temp
 
 ## Phase 4/5 P5 scope — 2026-11-01
 P3 pushed (`44e0c15`). Scope proposed in [P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md): Simulator tab with an exact-textbook (Erlang C) comparison, port-fidelity numbers and consistency checks, all engine-generated; Calibration "not yet measured" with the method; AI "parked, not evaluated". Preliminary finding: the engine's multi-server waiting formula overestimates small waits in relative terms (worst relative error 15.2% where the wait is at least 20% of service time; largest absolute gap 0.034 service times). Ten decisions await the user; nothing built.
+
+## P5 commit one — 2026-11-01
+All ten P5 decisions approved. Engine-generated evaluation evidence (exact Erlang C comparison, port fidelity, consistency checks) with a freshness spec built ([P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) "Commit one result"). After any engine change run `pnpm fixtures:evaluation`. Next: the three Evaluation tabs (commit two).

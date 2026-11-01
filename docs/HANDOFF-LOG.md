@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-01, Claude P5, commit one
+**Goal:** build P5 after "Approve all".
+**Done:** `pnpm fixtures:evaluation` generates `web/src/lib/evaluation-data.json`; `evaluation-data.spec.ts` guards it and tests the checks themselves. Final numbers are in P5-EVALUATION-SCOPE.md (worst relative error vs exact Erlang C: 15.2% where the wait is at least 20% of service time; largest absolute gap 0.0336 service times; port fidelity 1.1e-16; 30 of 30 consistency checks pass).
+**Warnings:** run `pnpm fixtures:evaluation` after any engine change. Do not stage `docs/audit/m2-profile-source.json` or the audit PNGs.
+**Next:** commit two: public `/evaluation/simulator`, `/calibration`, `/ai` with honest statuses, tests, regression.
+
 ## 2026-11-01, Claude P5 scope
 **Goal:** plan P5 (user: "Push and scope P5").
 **Done:** pushed `44e0c15` (P3). Wrote [P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) from verified facts: the Evaluation routes are placeholders with stale "mock data" text; the real evidence is port fidelity to the prototype, one exact M/M/1 test, behaviour tests, no calibration and an AI NO-GO. A quick experiment against exact Erlang C gave a real finding (see PROJECT-STATE) that the page should state plainly. No code changed.
