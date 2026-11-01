@@ -215,3 +215,6 @@ Entry template:
 ## 2026-11-01, Claude P5 Evaluation done
 **Done:** P5 commit two (the three tabs, public routes, tests, docs). **Not done:** push (waiting for the user); P6.
 **Warnings:** after any engine change run `pnpm fixtures:evaluation` (and `:check`). `r1-roles.spec.ts:41` failed once in a full run and passed 48 of 48 on rerun; if it fails again, investigate rather than weaken it. `pnpm fixtures:phase2` byte-drift (V8 `Math.pow`) still needs the user's decision. Do not stage `docs/audit/m2-profile-source.json`.
+
+## 2026-11-01, Claude P6 commit one (Welcome)
+**Done:** the Welcome tour, sample design, post-registration redirect. **Warning:** a new account without `?next=` now lands on `/welcome`, so any new browser test that registers and expects the dashboard must register with `/register?next=%2Fdashboard`. **Next:** Progress concepts (commit two). Do not stage `docs/audit/m2-profile-source.json`.

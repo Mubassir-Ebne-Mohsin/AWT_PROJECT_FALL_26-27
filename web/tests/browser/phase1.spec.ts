@@ -183,7 +183,7 @@ test("40 registry routes, auth forms, palette, drawers, themes, tab restores and
 
 test("API error screens focus headings, refresh 429 preserves session and Try again recovers", async ({ page }, testInfo) => {
   const email = `errors-${Date.now()}-${testInfo.project.name}@example.test`;
-  await page.goto("/register"); await register(page, email);
+  await page.goto("/register?next=%2Fdashboard"); await register(page, email);
   await expect(page.getByTestId("me-card")).toBeVisible();
   for (const [status, code] of [[404, "NOT_FOUND"], [403, "FORBIDDEN"], [500, "INTERNAL"]] as const) {
     await page.route(`${apiBase}/auth/me`, route => route.fulfill({ status, json: { error: { code, message: "Audit injected failure" } } }));

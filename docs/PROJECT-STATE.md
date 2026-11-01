@@ -155,3 +155,6 @@ All ten P5 decisions approved. Engine-generated evaluation evidence (exact Erlan
 
 ## P5 complete — 2026-11-01
 The three Evaluation tabs are built and verified ([P5-EVALUATION-SCOPE](P5-EVALUATION-SCOPE.md) "Commit two result"); `/evaluation/*` is now public. Committed locally, not pushed (ahead of origin by the P5 scope doc and both P5 commits). One non-reproducing failure in `r1-roles.spec.ts` during the full run is noted there. Your review of the Simulator and Calibration wording is pending. Next: P6 welcome tour and `/progress` concepts.
+
+## P6 Welcome tour — 2026-11-01
+All nine P6 decisions approved. `/welcome` built: three-step tour, one-time sample design, new registrations land there unless they asked for a page ([P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PROGRESS-SCOPE.md)). Four older browser tests got `?next=%2Fdashboard` on their register URL. Next: Progress concepts (commit two).

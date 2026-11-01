@@ -164,6 +164,7 @@ export function Dashboard() {
             <Link className="btn btn-primary" href="/new">
               Start a design
             </Link>
+            <Link href="/welcome">New here? Take the one-minute tour</Link>
           </div>
         )}
         <div className="m3-template-grid">

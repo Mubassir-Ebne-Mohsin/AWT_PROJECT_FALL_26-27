@@ -50,3 +50,11 @@ Server-side concept progress, streaks, badges or points, an interactive in-edito
 ## 6. Risks
 
 An automatic redirect after registering can annoy people who followed a link (hence the `next` exception and Skip). The first-run test must not depend on time or on leftover browser state. Local-only progress is lost if the browser data is cleared; the page says so.
+
+## Approval and commit one result (2026-11-01): the Welcome tour
+**All nine decisions approved ("APROVE ALL", as recommended).**
+**Built:** `/welcome` is a three-step tour (draw, run and read, change one thing and run again) with Back, Next, Skip and Finish. "Start with a sample design" creates one design from the Single-server MVP template and opens it; the button cannot make a second design even on two clicks in the same instant (a ref guard, found by a surviving break), and a server error shows a message and allows a retry. A new registration lands on the tour unless it came with an explicit `next`. The tour is linked from the dashboard and from Help. "Been through the tour" is kept in this browser per account (`sf:welcome:v1:<account>`), nothing on the server.
+**Existing tests changed, with your approval:** four tests registered through the form and then expected the dashboard (`m9.spec.ts` three tests, `phase1.spec.ts:184`). Only their entry URL changed, to `/register?next=%2Fdashboard`; every assertion is the same.
+**Evidence:** web unit 338 pass (15 new for Welcome); 7 new browser tests on four widths pass; type check and lint clean; 18 deliberate breaks (redirect, sample template, per-account marker, double create, error text, Skip, wrong design opened, and others): all caught after the double-click guard was strengthened. Breaking the register redirect and the Help link in the real build failed the browser tests.
+**Finding:** a dropped connection while creating the sample is handled by the app-wide "cannot reach the server" screen, not by the tour's own message; the tour's message is for the server answering with an error.
+**Needs your review (decision 9):** the tour wording.

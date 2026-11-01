@@ -10,12 +10,14 @@ import { isApiError } from "@/lib/api/errors";
 import { notify } from "@/lib/notify";
 import { authLink, safeNext } from "@/lib/safe-next";
 import { fieldErrors, passwordStrength, registerSchema } from "@/lib/validation/auth";
+import { afterRegisterPath } from "@/lib/welcome";
 
 type Field = "displayName" | "email" | "password" | "terms";
 
 export function RegisterForm() {
   const router = useRouter();
-  const next = safeNext(useSearchParams().get("next"));
+  const requestedNext = useSearchParams().get("next");
+  const next = safeNext(requestedNext);
   const [f, setF] = useState({ displayName: "", email: "", password: "", terms: false });
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export function RegisterForm() {
       const { displayName, email, password } = parsed.data;
       const session = await register({ displayName, email, password });
       notify(`Welcome, ${session.user.displayName}. Your account is ready.`, "ok");
-      router.replace(next);
+      router.replace(afterRegisterPath(requestedNext, next));
     } catch (err) {
       if (!isApiError(err)) return;
       if (err.code === "VALIDATION_FAILED") {

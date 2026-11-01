@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 const api = process.env.SF_API_URL ?? "http://localhost:5001/v1";
 async function setup(page: Page, tag: string) {
-  await page.goto("/register");
+  await page.goto("/register?next=%2Fdashboard");
   await page.getByLabel("Name", { exact: true }).fill("M9 Acceptance");
   await page
     .getByLabel("Email", { exact: true })

@@ -97,6 +97,7 @@ export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
               <kbd>.</kbd>
             </span>
           </div>
+          <Link href="/welcome">Take the one-minute tour</Link>
         </div>
       </div>
     </aside>
