@@ -40,6 +40,8 @@
     "fixtures:examples": "ts-node -r tsconfig-paths/register src/script/examples-data.ts",
     "fixtures:evaluation": "ts-node -r tsconfig-paths/register src/script/evaluation-data.ts",
     "fixtures:evaluation:check": "pnpm fixtures:evaluation --check",
+    "calibration:analyze": "ts-node -r tsconfig-paths/register src/script/calibration-data.ts",
+    "calibration:analyze:check": "pnpm calibration:analyze --check",
     "fixtures:examples:check": "pnpm fixtures:examples --check",
     "fixtures:learn:check": "pnpm fixtures:learn --check",
     "fixtures:phase2": "node ../../docs/contracts/capture-reference.cjs --check",

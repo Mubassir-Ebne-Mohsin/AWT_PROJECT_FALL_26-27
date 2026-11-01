@@ -1,0 +1,1930 @@
+{
+  "machine": {
+    "osVersion": "10.0.26200",
+    "cpuName": "12th Gen Intel(R) Core(TM) i5-12450H",
+    "cores": 8,
+    "logicalProcessors": 12,
+    "totalMb": 7916,
+    "powerScheme": "Legion Balance Mode",
+    "onAcPower": true,
+    "brave": false,
+    "dockerDesktop": false,
+    "topProcesses": [
+      {
+        "name": "claude",
+        "count": 14,
+        "mb": 1194
+      },
+      {
+        "name": "Memory Compression",
+        "count": 1,
+        "mb": 1060
+      },
+      {
+        "name": "svchost",
+        "count": 92,
+        "mb": 504
+      },
+      {
+        "name": "MsMpEng",
+        "count": 1,
+        "mb": 202
+      },
+      {
+        "name": "explorer",
+        "count": 1,
+        "mb": 101
+      },
+      {
+        "name": "powershell",
+        "count": 2,
+        "mb": 84
+      },
+      {
+        "name": "NVIDIA Overlay",
+        "count": 5,
+        "mb": 56
+      },
+      {
+        "name": "msedge",
+        "count": 7,
+        "mb": 54
+      }
+    ],
+    "node": "v24.14.1",
+    "platform": "win32",
+    "startedAt": "2026-11-01T12:28:57.406Z",
+    "timerTickMs": 9.279396666666665,
+    "availableMbAtStart": 2091,
+    "generatorCores": [
+      2
+    ],
+    "serviceCores": [
+      4,
+      6,
+      8,
+      9,
+      10,
+      11
+    ],
+    "availableMbAtEnd": 2356,
+    "finishedAt": "2026-11-01T12:51:14.810Z"
+  },
+  "config": {
+    "workers": 1,
+    "workMs": 20,
+    "nominalCapacityRps": 50,
+    "repeats": 3,
+    "stepMs": 30000,
+    "warmupMs": 5000,
+    "levels": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95,
+      1.05,
+      1.2
+    ],
+    "arrival": "poisson",
+    "minAvailableMb": 2048,
+    "abortBelowMb": 1536
+  },
+  "repeats": [
+    {
+      "index": 0,
+      "availableMbAtStart": 2023,
+      "service": {
+        "pid": 28676,
+        "port": 55380
+      },
+      "steps": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "attempts": [
+            {
+              "startedAt": 1793536144827,
+              "endedAt": 1793536179709,
+              "sent": 142,
+              "offeredRps": 4.733333333333333,
+              "achievedRps": 4.733333333333333,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 142,
+                "p50": 20.971943447959347,
+                "p95": 39.06266748008784,
+                "p99": 45.11702771033015,
+                "mean": 23.191432199620927,
+                "max": 52.32491285044671
+              },
+              "lateness": {
+                "count": 142,
+                "p50": 0.0006256663982640021,
+                "p95": 0.816340491604933,
+                "p99": 1.387812630728149,
+                "mean": 0.08799065032462108,
+                "max": 1.85243130728486
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 175,
+                "cancelled": 0,
+                "maxQueue": 2,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 4234,
+                "cpuSystemMs": 156,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 12335.9142540238,
+                "minAvailableMb": 1769
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "attempts": [
+            {
+              "startedAt": 1793536180719,
+              "endedAt": 1793536215641,
+              "sent": 300,
+              "offeredRps": 10,
+              "achievedRps": 10,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 300,
+                "p50": 20.93926910214941,
+                "p95": 40.752540166082326,
+                "p99": 56.085916548836394,
+                "mean": 24.22017673932753,
+                "max": 63.44214014473255
+              },
+              "lateness": {
+                "count": 300,
+                "p50": 0.0005725326482206583,
+                "p95": 0.08065397260361351,
+                "p99": 0.6663556304119993,
+                "mean": 0.02643207266087605,
+                "max": 1.3553629123343853
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 347,
+                "cancelled": 0,
+                "maxQueue": 3,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 11250,
+                "cpuSystemMs": 171,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 957.2681786802573,
+                "minAvailableMb": 2081
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "attempts": [
+            {
+              "startedAt": 1793536216657,
+              "endedAt": 1793536251609,
+              "sent": 445,
+              "offeredRps": 14.833333333333334,
+              "achievedRps": 14.833333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 445,
+                "p50": 20.856077645570622,
+                "p95": 40.092192951080506,
+                "p99": 54.93651825211418,
+                "mean": 24.62286123405345,
+                "max": 86.5516613007785
+              },
+              "lateness": {
+                "count": 445,
+                "p50": 0.0006112046103226021,
+                "p95": 0.7835401913907845,
+                "p99": 1.5028785101894755,
+                "mean": 0.09547539135706716,
+                "max": 2.7172406228201
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 518,
+                "cancelled": 0,
+                "maxQueue": 4,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 21296,
+                "cpuSystemMs": 250,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 229.73690589338452,
+                "minAvailableMb": 2108
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "attempts": [
+            {
+              "startedAt": 1793536252619,
+              "endedAt": 1793536287628,
+              "sent": 632,
+              "offeredRps": 21.066666666666666,
+              "achievedRps": 21.066666666666666,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 632,
+                "p50": 21.79954184248345,
+                "p95": 48.882073662709445,
+                "p99": 68.29663137521129,
+                "mean": 27.676488866003776,
+                "max": 74.48041299523902
+              },
+              "lateness": {
+                "count": 632,
+                "p50": 0.0007418061577482149,
+                "p95": 1.4218129424552899,
+                "p99": 1.8713784022256732,
+                "mean": 0.24216101790188066,
+                "max": 2.6096849540190306
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 718,
+                "cancelled": 0,
+                "maxQueue": 3,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 35609,
+                "cpuSystemMs": 343,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 43.172559878231546,
+                "minAvailableMb": 2139
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "attempts": [
+            {
+              "startedAt": 1793536288649,
+              "endedAt": 1793536323644,
+              "sent": 716,
+              "offeredRps": 23.866666666666667,
+              "achievedRps": 23.866666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 716,
+                "p50": 22.29896278909291,
+                "p95": 56.373490284662694,
+                "p99": 86.34600121853873,
+                "mean": 30.126194325476803,
+                "max": 121.47965709731216
+              },
+              "lateness": {
+                "count": 716,
+                "p50": 0.0006822838622611016,
+                "p95": 1.0851436516968533,
+                "p99": 2.1458950160595123,
+                "mean": 0.19188454894011764,
+                "max": 5.493063192261616
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 829,
+                "cancelled": 0,
+                "maxQueue": 5,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 51906,
+                "cpuSystemMs": 531,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 866.1716442252534,
+                "minAvailableMb": 2127
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "attempts": [
+            {
+              "startedAt": 1793536324660,
+              "endedAt": 1793536359655,
+              "sent": 928,
+              "offeredRps": 30.933333333333334,
+              "achievedRps": 30.933333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 928,
+                "p50": 32.0919477539137,
+                "p95": 79.73893705866067,
+                "p99": 114.99299691597116,
+                "mean": 37.75901927988346,
+                "max": 150.35585181807983
+              },
+              "lateness": {
+                "count": 928,
+                "p50": 0.0006177214672788978,
+                "p95": 0.6343899671628606,
+                "p99": 1.493199522345094,
+                "mean": 0.08713749109003778,
+                "max": 6.6488746269315016
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1075,
+                "cancelled": 0,
+                "maxQueue": 7,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 73078,
+                "cpuSystemMs": 812,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 2110.4713514645214,
+                "minAvailableMb": 2079
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "attempts": [
+            {
+              "startedAt": 1793536360666,
+              "endedAt": 1793536395711,
+              "sent": 1025,
+              "offeredRps": 34.166666666666664,
+              "achievedRps": 34.166666666666664,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1025,
+                "p50": 34.032499356457265,
+                "p95": 87.45133752084803,
+                "p99": 113.18772443177295,
+                "mean": 40.80842822163022,
+                "max": 161.1816869569011
+              },
+              "lateness": {
+                "count": 1025,
+                "p50": 0.0005493335775099695,
+                "p95": 0.3168012014066335,
+                "p99": 1.5460483704518992,
+                "mean": 0.07683378260642312,
+                "max": 7.785485298431013
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1197,
+                "cancelled": 0,
+                "maxQueue": 7,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 97093,
+                "cpuSystemMs": 906,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 1005.1335187651189,
+                "minAvailableMb": 2087
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "attempts": [
+            {
+              "startedAt": 1793536396717,
+              "endedAt": 1793536431773,
+              "sent": 1170,
+              "offeredRps": 39,
+              "achievedRps": 39,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1170,
+                "p50": 43.029526546481065,
+                "p95": 133.85126128583215,
+                "p99": 164.23302368004806,
+                "mean": 54.5714966793161,
+                "max": 203.0301246533054
+              },
+              "lateness": {
+                "count": 1170,
+                "p50": 0.0005730204866267741,
+                "p95": 0.12391900829970837,
+                "p99": 1.311198391893413,
+                "mean": 0.040082491281876166,
+                "max": 4.300368384458125
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1360,
+                "cancelled": 0,
+                "maxQueue": 9,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 123859,
+                "cpuSystemMs": 1031,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 8.346224977894778,
+                "minAvailableMb": 2144
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "attempts": [
+            {
+              "startedAt": 1793536432781,
+              "endedAt": 1793536467796,
+              "sent": 1380,
+              "offeredRps": 46,
+              "achievedRps": 46,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1380,
+                "p50": 97.86113718699198,
+                "p95": 325.88424347678665,
+                "p99": 393.4530557813705,
+                "mean": 118.17406889282482,
+                "max": 423.7863606438623
+              },
+              "lateness": {
+                "count": 1380,
+                "p50": 0.0006045485497452319,
+                "p95": 0.16310641542077065,
+                "p99": 1.2755988326389343,
+                "mean": 0.04074092181125298,
+                "max": 2.9977037361240946
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1615,
+                "cancelled": 0,
+                "maxQueue": 20,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 155937,
+                "cpuSystemMs": 1250,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 85.12133234074315,
+                "minAvailableMb": 2155
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "attempts": [
+            {
+              "startedAt": 1793536468808,
+              "endedAt": 1793536503890,
+              "sent": 1400,
+              "offeredRps": 46.666666666666664,
+              "achievedRps": 46.666666666666664,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1400,
+                "p50": 131.81779003643896,
+                "p95": 374.0054888219456,
+                "p99": 465.6465403474285,
+                "mean": 150.95305713751415,
+                "max": 513.8350883060484
+              },
+              "lateness": {
+                "count": 1400,
+                "p50": 0.0006148709799163043,
+                "p95": 0.3606761248083785,
+                "p99": 1.4289367743767798,
+                "mean": 0.06129128037074614,
+                "max": 2.1894299662671983
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1638,
+                "cancelled": 0,
+                "maxQueue": 25,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 188765,
+                "cpuSystemMs": 1546,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 2179.502343699683,
+                "minAvailableMb": 2133
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "attempts": [
+            {
+              "startedAt": 1793536504898,
+              "endedAt": 1793536542896,
+              "sent": 1624,
+              "offeredRps": 54.13333333333333,
+              "achievedRps": 51.166666666666664,
+              "errors": 89,
+              "timeouts": 89,
+              "errorRate": 0.05480295566502463,
+              "latency": {
+                "count": 1535,
+                "p50": 2157.8761939663673,
+                "p95": 2973.827409369638,
+                "p99": 2994.4987720497884,
+                "mean": 2084.290381663009,
+                "max": 3000.2077186491806
+              },
+              "lateness": {
+                "count": 1624,
+                "p50": 0.0006121512851677835,
+                "p95": 0.7363915230962448,
+                "p99": 1.548460252408404,
+                "mean": 0.09233420457805076,
+                "max": 6.45399086229736
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1868,
+                "cancelled": 33,
+                "maxQueue": 176,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 225484,
+                "cpuSystemMs": 2046,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 624.7883330860834,
+                "minAvailableMb": 2163
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "attempts": [
+            {
+              "startedAt": 1793536543916,
+              "endedAt": 1793536581916,
+              "sent": 1822,
+              "offeredRps": 60.733333333333334,
+              "achievedRps": 36.1,
+              "errors": 739,
+              "timeouts": 739,
+              "errorRate": 0.40559824368825464,
+              "latency": {
+                "count": 1083,
+                "p50": 2941.1147799299215,
+                "p95": 2996.5541670658276,
+                "p99": 3002.006525891309,
+                "mean": 2741.753859599757,
+                "max": 3017.482917538786
+              },
+              "lateness": {
+                "count": 1822,
+                "p50": 0.0005897149094380438,
+                "p95": 0.2594425633433275,
+                "p99": 1.2324028435978107,
+                "mean": 0.05374259701243762,
+                "max": 6.854670253931545
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1882,
+                "cancelled": 267,
+                "maxQueue": 205,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 262500,
+                "cpuSystemMs": 2453,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 19,
+                "maxPagesPerSec": 265.18392416818153,
+                "minAvailableMb": 2162
+              }
+            }
+          ],
+          "final": 0
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "availableMbAtStart": 2155,
+      "service": {
+        "pid": 34180,
+        "port": 58796
+      },
+      "steps": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "attempts": [
+            {
+              "startedAt": 1793536590449,
+              "endedAt": 1793536625450,
+              "sent": 150,
+              "offeredRps": 5,
+              "achievedRps": 5,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 150,
+                "p50": 20.90747667121468,
+                "p95": 28.95432081562467,
+                "p99": 38.63970617414452,
+                "mean": 21.85299151740619,
+                "max": 39.00822874280857
+              },
+              "lateness": {
+                "count": 150,
+                "p50": 0.0005324498051777482,
+                "p95": 0.10589897516183555,
+                "p99": 0.5480524237500504,
+                "mean": 0.022118184074060993,
+                "max": 0.7103346312069334
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 177,
+                "cancelled": 0,
+                "maxQueue": 1,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 4328,
+                "cpuSystemMs": 140,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 320.25384899270847,
+                "minAvailableMb": 2158
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "attempts": [
+            {
+              "startedAt": 1793536626460,
+              "endedAt": 1793536661465,
+              "sent": 299,
+              "offeredRps": 9.966666666666667,
+              "achievedRps": 9.966666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 299,
+                "p50": 20.899715604959056,
+                "p95": 36.59116123901913,
+                "p99": 40.99015427415725,
+                "mean": 23.047180497021543,
+                "max": 48.31827774550766
+              },
+              "lateness": {
+                "count": 299,
+                "p50": 0.0005756873870268464,
+                "p95": 0.614863121882081,
+                "p99": 1.6630979520268738,
+                "mean": 0.08513099869345642,
+                "max": 5.222796083253343
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 351,
+                "cancelled": 0,
+                "maxQueue": 3,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 11203,
+                "cpuSystemMs": 265,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 855.6791469942883,
+                "minAvailableMb": 2139
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "attempts": [
+            {
+              "startedAt": 1793536662474,
+              "endedAt": 1793536697075,
+              "sent": 437,
+              "offeredRps": 14.566666666666666,
+              "achievedRps": 14.566666666666666,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 437,
+                "p50": 20.874636581982486,
+                "p95": 40.73623342940118,
+                "p99": 51.86842947185505,
+                "mean": 25.097477477250592,
+                "max": 55.63514497526921
+              },
+              "lateness": {
+                "count": 437,
+                "p50": 0.0005994463572278619,
+                "p95": 0.04003594384994358,
+                "p99": 0.3303409548243508,
+                "mean": 0.016584799906027927,
+                "max": 1.538823513314128
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 507,
+                "cancelled": 0,
+                "maxQueue": 2,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 21500,
+                "cpuSystemMs": 359,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 67.34835171644009,
+                "minAvailableMb": 2141
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "attempts": [
+            {
+              "startedAt": 1793536698085,
+              "endedAt": 1793536733096,
+              "sent": 613,
+              "offeredRps": 20.433333333333334,
+              "achievedRps": 20.433333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 613,
+                "p50": 21.16539924882818,
+                "p95": 49.056750590913,
+                "p99": 67.96091666002758,
+                "mean": 27.576116247483768,
+                "max": 88.46966755099129
+              },
+              "lateness": {
+                "count": 613,
+                "p50": 0.0006105188513174653,
+                "p95": 0.8396343191852793,
+                "p99": 1.771526605123654,
+                "mean": 0.11326730783974075,
+                "max": 3.632366992533207
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 717,
+                "cancelled": 0,
+                "maxQueue": 4,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 35593,
+                "cpuSystemMs": 468,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 22.984970128033275,
+                "minAvailableMb": 2182
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "attempts": [
+            {
+              "startedAt": 1793536734108,
+              "endedAt": 1793536769130,
+              "sent": 761,
+              "offeredRps": 25.366666666666667,
+              "achievedRps": 25.366666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 761,
+                "p50": 22.82290765538346,
+                "p95": 71.47714678046759,
+                "p99": 106.31697985576466,
+                "mean": 32.92308927949184,
+                "max": 127.78142262226902
+              },
+              "lateness": {
+                "count": 761,
+                "p50": 0.0007266399916261435,
+                "p95": 1.231251556193456,
+                "p99": 2.033150291768834,
+                "mean": 0.17526102719312037,
+                "max": 6.79646844684612
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 865,
+                "cancelled": 0,
+                "maxQueue": 6,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 52562,
+                "cpuSystemMs": 640,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 2495.0702841953184,
+                "minAvailableMb": 2066
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "attempts": [
+            {
+              "startedAt": 1793536770137,
+              "endedAt": 1793536805220,
+              "sent": 897,
+              "offeredRps": 29.9,
+              "achievedRps": 29.9,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 897,
+                "p50": 29.628209021058865,
+                "p95": 79.88046947668772,
+                "p99": 111.93464390211739,
+                "mean": 37.130298923386846,
+                "max": 134.91329774365295
+              },
+              "lateness": {
+                "count": 897,
+                "p50": 0.0006226715631783009,
+                "p95": 0.8885509705869481,
+                "p99": 1.9794008284807205,
+                "mean": 0.16079334925028,
+                "max": 20.011348593165167
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1042,
+                "cancelled": 0,
+                "maxQueue": 6,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 73562,
+                "cpuSystemMs": 750,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 2481.818864365769,
+                "minAvailableMb": 2160
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "attempts": [
+            {
+              "startedAt": 1793536806228,
+              "endedAt": 1793536841313,
+              "sent": 1042,
+              "offeredRps": 34.733333333333334,
+              "achievedRps": 34.733333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1042,
+                "p50": 36.5462981115561,
+                "p95": 88.2091615004465,
+                "p99": 113.40132279566023,
+                "mean": 41.898073417969265,
+                "max": 133.00504764239304
+              },
+              "lateness": {
+                "count": 1042,
+                "p50": 0.0006370202172547579,
+                "p95": 0.9513379236450419,
+                "p99": 2.067732705385424,
+                "mean": 0.1347042241144028,
+                "max": 5.129907983820885
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1208,
+                "cancelled": 0,
+                "maxQueue": 7,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 97234,
+                "cpuSystemMs": 828,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 816.2239439791664,
+                "minAvailableMb": 2147
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "attempts": [
+            {
+              "startedAt": 1793536842328,
+              "endedAt": 1793536877280,
+              "sent": 1169,
+              "offeredRps": 38.96666666666667,
+              "achievedRps": 38.96666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1169,
+                "p50": 49.7937536330428,
+                "p95": 238.19360280258115,
+                "p99": 282.8429438584717,
+                "mean": 75.73507825160904,
+                "max": 321.08578860899433
+              },
+              "lateness": {
+                "count": 1169,
+                "p50": 0.0005854488117620349,
+                "p95": 0.1943239257670939,
+                "p99": 1.2603677328443155,
+                "mean": 0.04918877342231875,
+                "max": 3.50793560128659
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1364,
+                "cancelled": 0,
+                "maxQueue": 15,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 124031,
+                "cpuSystemMs": 1062,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 144.40568184925917,
+                "minAvailableMb": 2129
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "attempts": [
+            {
+              "startedAt": 1793536878298,
+              "endedAt": 1793536913376,
+              "sent": 1349,
+              "offeredRps": 44.96666666666667,
+              "achievedRps": 44.96666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1349,
+                "p50": 74.46156695124228,
+                "p95": 363.5098976595327,
+                "p99": 456.9202320527984,
+                "mean": 114.47068981751598,
+                "max": 539.4700918029994
+              },
+              "lateness": {
+                "count": 1349,
+                "p50": 0.0005811098963022232,
+                "p95": 0.40270966303069144,
+                "p99": 1.464647434419021,
+                "mean": 0.06471502136824317,
+                "max": 2.051755455788225
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1557,
+                "cancelled": 0,
+                "maxQueue": 26,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 154468,
+                "cpuSystemMs": 1437,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 3459.281379549939,
+                "minAvailableMb": 2203
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "attempts": [
+            {
+              "startedAt": 1793536914389,
+              "endedAt": 1793536949602,
+              "sent": 1435,
+              "offeredRps": 47.833333333333336,
+              "achievedRps": 47.833333333333336,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1435,
+                "p50": 200.547184612602,
+                "p95": 443.4040256993612,
+                "p99": 494.7868793485686,
+                "mean": 214.37884659613385,
+                "max": 518.3942153382814
+              },
+              "lateness": {
+                "count": 1435,
+                "p50": 0.0005628452636301517,
+                "p95": 0.03476172604132444,
+                "p99": 0.8717822859762236,
+                "mean": 0.029077815646727533,
+                "max": 4.458218884188682
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1665,
+                "cancelled": 0,
+                "maxQueue": 25,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 187656,
+                "cpuSystemMs": 1593,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 202.47124089561763,
+                "minAvailableMb": 2166
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "attempts": [
+            {
+              "startedAt": 1793536950607,
+              "endedAt": 1793536986969,
+              "sent": 1541,
+              "offeredRps": 51.36666666666667,
+              "achievedRps": 51.36666666666667,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1541,
+                "p50": 692.1783221510705,
+                "p95": 1343.3512618775712,
+                "p99": 1457.6684699263424,
+                "mean": 709.2383735021658,
+                "max": 1518.0913138890173
+              },
+              "lateness": {
+                "count": 1541,
+                "p50": 0.000637106946669519,
+                "p95": 0.29263336677104235,
+                "p99": 1.309098788886331,
+                "mean": 0.05362509204075345,
+                "max": 2.0922800835687667
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1784,
+                "cancelled": 0,
+                "maxQueue": 75,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 223218,
+                "cpuSystemMs": 1843,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 55.70322387091168,
+                "minAvailableMb": 2163
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "attempts": [
+            {
+              "startedAt": 1793536987981,
+              "endedAt": 1793537025970,
+              "sent": 1813,
+              "offeredRps": 60.43333333333333,
+              "achievedRps": 43,
+              "errors": 523,
+              "timeouts": 523,
+              "errorRate": 0.2884721456150028,
+              "latency": {
+                "count": 1290,
+                "p50": 2861.9478514563525,
+                "p95": 2994.9415351573844,
+                "p99": 3000.501944525633,
+                "mean": 2460.7684173511184,
+                "max": 3011.9312835058663
+              },
+              "lateness": {
+                "count": 1813,
+                "p50": 0.0006532141705974936,
+                "p95": 0.5241040354594588,
+                "p99": 1.610021186992526,
+                "mean": 0.07688681448240119,
+                "max": 4.035037220688537
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1874,
+                "cancelled": 211,
+                "maxQueue": 211,
+                "queueNow": 1,
+                "busyWorkers": 1,
+                "cpuUserMs": 260078,
+                "cpuSystemMs": 2234,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 19,
+                "maxPagesPerSec": 191.44597503982075,
+                "minAvailableMb": 2142
+              }
+            }
+          ],
+          "final": 0
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "availableMbAtStart": 2153,
+      "service": {
+        "pid": 30312,
+        "port": 63288
+      },
+      "steps": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "attempts": [
+            {
+              "startedAt": 1793537034398,
+              "endedAt": 1793537068968,
+              "sent": 139,
+              "offeredRps": 4.633333333333334,
+              "achievedRps": 4.633333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 139,
+                "p50": 20.993188091902994,
+                "p95": 35.50288780906703,
+                "p99": 42.963902844931,
+                "mean": 22.68430871476935,
+                "max": 55.12082810071297
+              },
+              "lateness": {
+                "count": 139,
+                "p50": 0.0006590510020032525,
+                "p95": 1.3146848938195035,
+                "p99": 1.534048272529617,
+                "mean": 0.19128569319137378,
+                "max": 2.0876583928475156
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 155,
+                "cancelled": 0,
+                "maxQueue": 2,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 4000,
+                "cpuSystemMs": 156,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 7.975399083985538,
+                "minAvailableMb": 2168
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "attempts": [
+            {
+              "startedAt": 1793537069979,
+              "endedAt": 1793537104867,
+              "sent": 270,
+              "offeredRps": 9,
+              "achievedRps": 9,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 270,
+                "p50": 20.838567484519444,
+                "p95": 39.158528280677274,
+                "p99": 65.36663568008225,
+                "mean": 23.945540505749413,
+                "max": 78.75589927111287
+              },
+              "lateness": {
+                "count": 270,
+                "p50": 0.0005842501996085048,
+                "p95": 0.6668732864782214,
+                "p99": 1.8167236676672474,
+                "mean": 0.136131246489283,
+                "max": 13.453806026256643
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 329,
+                "cancelled": 0,
+                "maxQueue": 3,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 10500,
+                "cpuSystemMs": 234,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 39.31331678391987,
+                "minAvailableMb": 2087
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "attempts": [
+            {
+              "startedAt": 1793537105876,
+              "endedAt": 1793537140863,
+              "sent": 452,
+              "offeredRps": 15.066666666666666,
+              "achievedRps": 15.066666666666666,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 452,
+                "p50": 20.847753234324045,
+                "p95": 48.07997551513836,
+                "p99": 72.78820626367815,
+                "mean": 26.115947423533193,
+                "max": 110.27006057999097
+              },
+              "lateness": {
+                "count": 452,
+                "p50": 0.0005818369099870324,
+                "p95": 0.5269019058905542,
+                "p99": 1.2060985558200628,
+                "mean": 0.06453348547699285,
+                "max": 3.318562575383112
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 538,
+                "cancelled": 0,
+                "maxQueue": 5,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 21343,
+                "cpuSystemMs": 296,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 8.442569840786543,
+                "minAvailableMb": 2051
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "attempts": [
+            {
+              "startedAt": 1793537141887,
+              "endedAt": 1793537176896,
+              "sent": 628,
+              "offeredRps": 20.933333333333334,
+              "achievedRps": 20.933333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 628,
+                "p50": 20.842326793354005,
+                "p95": 52.026592752779834,
+                "p99": 78.69262149964925,
+                "mean": 28.198163421235268,
+                "max": 99.38330250652507
+              },
+              "lateness": {
+                "count": 628,
+                "p50": 0.0005711842095479369,
+                "p95": 0.06600212457124144,
+                "p99": 0.30789156211540103,
+                "mean": 0.016080618683422268,
+                "max": 1.6871300858911127
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 742,
+                "cancelled": 0,
+                "maxQueue": 4,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 35906,
+                "cpuSystemMs": 375,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 676.3289814902046,
+                "minAvailableMb": 2129
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "attempts": [
+            {
+              "startedAt": 1793537177901,
+              "endedAt": 1793537212840,
+              "sent": 739,
+              "offeredRps": 24.633333333333333,
+              "achievedRps": 24.633333333333333,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 739,
+                "p50": 21.791201242012903,
+                "p95": 56.57129992637783,
+                "p99": 71.1790799247101,
+                "mean": 29.405797194597515,
+                "max": 98.60086106555536
+              },
+              "lateness": {
+                "count": 739,
+                "p50": 0.0006502186879515648,
+                "p95": 0.6418930091895163,
+                "p99": 1.403092464664951,
+                "mean": 0.08263156537050999,
+                "max": 4.576664502732456
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 850,
+                "cancelled": 0,
+                "maxQueue": 4,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 53093,
+                "cpuSystemMs": 484,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 21.44923609293884,
+                "minAvailableMb": 2397
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "attempts": [
+            {
+              "startedAt": 1793537213863,
+              "endedAt": 1793537248852,
+              "sent": 923,
+              "offeredRps": 30.766666666666666,
+              "achievedRps": 30.766666666666666,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 923,
+                "p50": 29.958050607470796,
+                "p95": 80.01560818776488,
+                "p99": 163.94977098866366,
+                "mean": 37.50922327633732,
+                "max": 190.1914449923206
+              },
+              "lateness": {
+                "count": 923,
+                "p50": 0.0006423450540751219,
+                "p95": 0.8801857775542885,
+                "p99": 1.944425159599632,
+                "mean": 0.12510940851946387,
+                "max": 9.114732437068596
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1068,
+                "cancelled": 0,
+                "maxQueue": 9,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 73812,
+                "cpuSystemMs": 625,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 1999.6066609141822,
+                "minAvailableMb": 2410
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "attempts": [
+            {
+              "startedAt": 1793537249866,
+              "endedAt": 1793537284882,
+              "sent": 1057,
+              "offeredRps": 35.233333333333334,
+              "achievedRps": 35.233333333333334,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1057,
+                "p50": 35.74453593976796,
+                "p95": 101.45837829215452,
+                "p99": 143.67178157973103,
+                "mean": 44.83277755367302,
+                "max": 174.82905745320022
+              },
+              "lateness": {
+                "count": 1057,
+                "p50": 0.000604249769821763,
+                "p95": 0.7694360776804388,
+                "p99": 1.6439787517301738,
+                "mean": 0.09928947420263894,
+                "max": 5.706074268557131
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1202,
+                "cancelled": 0,
+                "maxQueue": 8,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 97765,
+                "cpuSystemMs": 765,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 12.359734930158353,
+                "minAvailableMb": 2401
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "attempts": [
+            {
+              "startedAt": 1793537285902,
+              "endedAt": 1793537320936,
+              "sent": 1206,
+              "offeredRps": 40.2,
+              "achievedRps": 40.2,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1206,
+                "p50": 46.733571169897914,
+                "p95": 153.14419896784239,
+                "p99": 205.26152804424055,
+                "mean": 62.222106542048095,
+                "max": 244.29527801880613
+              },
+              "lateness": {
+                "count": 1206,
+                "p50": 0.0006626003887504339,
+                "p95": 0.9205655583646148,
+                "p99": 1.5808239518664777,
+                "mean": 0.13174194835066938,
+                "max": 12.50550868990831
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1390,
+                "cancelled": 0,
+                "maxQueue": 12,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 125187,
+                "cpuSystemMs": 890,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 26.225230393597165,
+                "minAvailableMb": 2397
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "attempts": [
+            {
+              "startedAt": 1793537321948,
+              "endedAt": 1793537357136,
+              "sent": 1378,
+              "offeredRps": 45.93333333333333,
+              "achievedRps": 45.93333333333333,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1378,
+                "p50": 106.16115091997199,
+                "p95": 353.41981240781024,
+                "p99": 440.77697185752913,
+                "mean": 130.75311384240828,
+                "max": 465.7468272475526
+              },
+              "lateness": {
+                "count": 1378,
+                "p50": 0.0005924894940108061,
+                "p95": 0.19090846995823085,
+                "p99": 1.2925778303761035,
+                "mean": 0.050949691459928545,
+                "max": 5.470043512294069
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1613,
+                "cancelled": 0,
+                "maxQueue": 22,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 157156,
+                "cpuSystemMs": 1093,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 7.875618002205765,
+                "minAvailableMb": 2395
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "attempts": [
+            {
+              "startedAt": 1793537358149,
+              "endedAt": 1793537393349,
+              "sent": 1430,
+              "offeredRps": 47.666666666666664,
+              "achievedRps": 47.666666666666664,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1430,
+                "p50": 144.11810573539697,
+                "p95": 393.43674899311736,
+                "p99": 451.3043175418861,
+                "mean": 167.70778167388204,
+                "max": 512.1421376226936
+              },
+              "lateness": {
+                "count": 1430,
+                "p50": 0.0005982553120702505,
+                "p95": 0.17808519233949482,
+                "p99": 1.5861273650079966,
+                "mean": 0.08673188366969539,
+                "max": 16.229347408516333
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1667,
+                "cancelled": 0,
+                "maxQueue": 25,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 190343,
+                "cpuSystemMs": 1218,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 17,
+                "maxPagesPerSec": 116.69146236101984,
+                "minAvailableMb": 2340
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "attempts": [
+            {
+              "startedAt": 1793537394360,
+              "endedAt": 1793537432107,
+              "sent": 1596,
+              "offeredRps": 53.2,
+              "achievedRps": 53.2,
+              "errors": 0,
+              "timeouts": 0,
+              "errorRate": 0,
+              "latency": {
+                "count": 1596,
+                "p50": 1518.8232911708765,
+                "p95": 2726.0205353135243,
+                "p99": 2860.4835493082646,
+                "mean": 1510.0313594059337,
+                "max": 2907.111287069507
+              },
+              "lateness": {
+                "count": 1596,
+                "p50": 0.0005640380550175905,
+                "p95": 0.05664102081209421,
+                "p99": 0.8317239745520055,
+                "mean": 0.030629769342841773,
+                "max": 6.455960345920175
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1863,
+                "cancelled": 0,
+                "maxQueue": 143,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 227406,
+                "cpuSystemMs": 1531,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 18,
+                "maxPagesPerSec": 7.895259513479305,
+                "minAvailableMb": 2349
+              }
+            }
+          ],
+          "final": 0
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "attempts": [
+            {
+              "startedAt": 1793537433120,
+              "endedAt": 1793537471126,
+              "sent": 1778,
+              "offeredRps": 59.266666666666666,
+              "achievedRps": 41,
+              "errors": 548,
+              "timeouts": 548,
+              "errorRate": 0.30821147356580425,
+              "latency": {
+                "count": 1230,
+                "p50": 2931.8635856830515,
+                "p95": 2994.8393196007237,
+                "p99": 2998.8726721871644,
+                "mean": 2644.45642409291,
+                "max": 3005.561865417054
+              },
+              "lateness": {
+                "count": 1778,
+                "p50": 0.0006058849394321442,
+                "p95": 0.3872110869269818,
+                "p99": 1.2576050891075283,
+                "mean": 0.061282313385998245,
+                "max": 7.657860821345821
+              },
+              "valid": true,
+              "serviceStats": {
+                "served": 1879,
+                "cancelled": 209,
+                "maxQueue": 203,
+                "queueNow": 0,
+                "busyWorkers": 0,
+                "cpuUserMs": 265093,
+                "cpuSystemMs": 1718,
+                "workers": 1,
+                "workMs": 20
+              },
+              "paging": {
+                "samples": 19,
+                "maxPagesPerSec": 9.978525215882899,
+                "minAvailableMb": 2346
+              }
+            }
+          ],
+          "final": 0
+        }
+      ]
+    }
+  ]
+}

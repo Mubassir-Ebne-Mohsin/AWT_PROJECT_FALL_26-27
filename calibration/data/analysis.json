@@ -1,0 +1,1560 @@
+{
+  "rules": {
+    "maxPagesPerSec": 100,
+    "minAvailableMb": 1536,
+    "firstComparedLevel": 0.3,
+    "fitServiceTimeLevel": 0.1,
+    "breakingPointFactor": 3,
+    "breakingPointTolerance": 0.15
+  },
+  "generatedFrom": [
+    "calibration/data/w1.json",
+    "calibration/data/w4.json"
+  ],
+  "oneWorker": {
+    "primary": {
+      "variant": "primary",
+      "workers": 1,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 15,
+      "exclusions": [
+        {
+          "repeat": 0,
+          "level": 0.1,
+          "reason": "paging above 100 pages per second (12336)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.2,
+          "reason": "paging above 100 pages per second (957)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.3,
+          "reason": "paging above 100 pages per second (230)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.5,
+          "reason": "paging above 100 pages per second (866)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.6,
+          "reason": "paging above 100 pages per second (2110)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.7,
+          "reason": "paging above 100 pages per second (1005)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.95,
+          "reason": "paging above 100 pages per second (2180)"
+        },
+        {
+          "repeat": 0,
+          "level": 1.05,
+          "reason": "paging above 100 pages per second (625)"
+        },
+        {
+          "repeat": 0,
+          "level": 1.2,
+          "reason": "paging above 100 pages per second (265)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.1,
+          "reason": "paging above 100 pages per second (320)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.2,
+          "reason": "paging above 100 pages per second (856)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.5,
+          "reason": "paging above 100 pages per second (2495)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.6,
+          "reason": "paging above 100 pages per second (2482)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.7,
+          "reason": "paging above 100 pages per second (816)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.8,
+          "reason": "paging above 100 pages per second (144)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.9,
+          "reason": "paging above 100 pages per second (3459)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.95,
+          "reason": "paging above 100 pages per second (202)"
+        },
+        {
+          "repeat": 1,
+          "level": 1.2,
+          "reason": "paging above 100 pages per second (191)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.4,
+          "reason": "paging above 100 pages per second (676)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.6,
+          "reason": "paging above 100 pages per second (2000)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.95,
+          "reason": "paging above 100 pages per second (117)"
+        }
+      ],
+      "fit": {
+        "serviceMs": 20.993188091902994,
+        "capacityRps": 50.18888888888889,
+        "repeatsForServiceTime": 1,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.993188091902994,
+            "p95": 35.50288780906703,
+            "p99": 42.963902844931,
+            "errorRate": 0,
+            "p95Min": 35.50288780906703,
+            "p95Max": 35.50288780906703
+          },
+          "model": {
+            "p50": 22.082731588315866,
+            "p95": 37.98044895218897,
+            "p99": 47.54831893650049,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 2.477561143121939,
+          "p95DifferencePercent": 6.978477797203859,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": false
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.838567484519444,
+            "p95": 39.158528280677274,
+            "p99": 65.36663568008225,
+            "errorRate": 0,
+            "p95Min": 39.158528280677274,
+            "p95Max": 39.158528280677274
+          },
+          "model": {
+            "p50": 24.548076930908476,
+            "p95": 44.57554394529531,
+            "p99": 57.07395819673741,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 5.4170156646180345,
+          "p95DifferencePercent": 13.833552746902017,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": false
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "repeats": 2,
+          "measured": {
+            "p50": 20.861194908153266,
+            "p95": 44.40810447226977,
+            "p99": 62.3283178677666,
+            "errorRate": 0,
+            "p95Min": 40.73623342940118,
+            "p95Max": 48.07997551513836
+          },
+          "model": {
+            "p50": 27.3355802535372,
+            "p95": 55.15711348104979,
+            "p99": 73.77618686725103,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 10.749009008780021,
+          "p95DifferencePercent": 24.205061523155397,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "repeats": 2,
+          "measured": {
+            "p50": 21.482470545655815,
+            "p95": 48.96941212681122,
+            "p99": 68.12877401761943,
+            "errorRate": 0,
+            "p95Min": 48.882073662709445,
+            "p95Max": 49.056750590913
+          },
+          "model": {
+            "p50": 30.699626604725374,
+            "p95": 70.62302176165997,
+            "p99": 99.73607275009545,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 21.65360963484875,
+          "p95DifferencePercent": 44.21864321910696,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "repeats": 1,
+          "measured": {
+            "p50": 21.791201242012903,
+            "p95": 56.57129992637783,
+            "p99": 71.1790799247101,
+            "errorRate": 0,
+            "p95Min": 56.57129992637783,
+            "p95Max": 56.57129992637783
+          },
+          "model": {
+            "p50": 35.120057998998774,
+            "p95": 92.88571983233659,
+            "p99": 138.98072120593886,
+            "errorRate": 2.731148640577885e-14
+          },
+          "p95DifferenceMs": 36.31441990595876,
+          "p95DifferencePercent": 64.19230237455834,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "repeats": 0,
+          "measured": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "errorRate": null,
+            "p95Min": null,
+            "p95Max": null
+          },
+          "model": {
+            "p50": 41.54386196109766,
+            "p95": 126.18503624644222,
+            "p99": 199.94798354271188,
+            "errorRate": 1.1839429436832916e-10
+          },
+          "p95DifferenceMs": null,
+          "p95DifferencePercent": null,
+          "direction": null,
+          "meaningful": null,
+          "compared": false
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "repeats": 1,
+          "measured": {
+            "p50": 35.74453593976796,
+            "p95": 101.45837829215452,
+            "p99": 143.67178157973103,
+            "errorRate": 0,
+            "p95Min": 101.45837829215452,
+            "p95Max": 101.45837829215452
+          },
+          "model": {
+            "p50": 52.12419559321892,
+            "p95": 180.76617100802264,
+            "p99": 302.6087457768541,
+            "errorRate": 4.159144451065799e-8
+          },
+          "p95DifferenceMs": 79.30779271586812,
+          "p95DifferencePercent": 78.16781033843979,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "repeats": 2,
+          "measured": {
+            "p50": 44.88154885818949,
+            "p95": 143.49773012683727,
+            "p99": 184.7472758621443,
+            "errorRate": 0,
+            "p95Min": 133.85126128583215,
+            "p95Max": 153.14419896784239
+          },
+          "model": {
+            "p50": 73.16643224100442,
+            "p95": 287.4211722689366,
+            "p99": 506.65200287179937,
+            "errorRate": 0.0000040163850520968936
+          },
+          "p95DifferenceMs": 143.9234421420993,
+          "p95DifferencePercent": 100.29666811794567,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "repeats": 2,
+          "measured": {
+            "p50": 102.01114405348198,
+            "p95": 339.65202794229845,
+            "p99": 417.1150138194498,
+            "errorRate": 0,
+            "p95Min": 325.88424347678665,
+            "p95Max": 353.41981240781024
+          },
+          "model": {
+            "p50": 135.14651902503664,
+            "p95": 596.204424715504,
+            "p99": 1102.7092249710654,
+            "errorRate": 0.0002957744331049117
+          },
+          "p95DifferenceMs": 256.5523967732056,
+          "p95DifferencePercent": 75.53389223890925,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "repeats": 0,
+          "measured": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "errorRate": null,
+            "p95Min": null,
+            "p95Max": null
+          },
+          "model": {
+            "p50": 252.93873024771477,
+            "p95": 1178.676168510725,
+            "p99": 2230.0596278180924,
+            "errorRate": 0.004104787095110973
+          },
+          "p95DifferenceMs": null,
+          "p95DifferencePercent": null,
+          "direction": null,
+          "meaningful": null,
+          "compared": false
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "repeats": 2,
+          "measured": {
+            "p50": 1105.5008066609735,
+            "p95": 2034.6858985955478,
+            "p99": 2159.0760096173035,
+            "errorRate": 0,
+            "p95Min": 1343.3512618775712,
+            "p95Max": 2726.0205353135243
+          },
+          "model": {
+            "p50": 1015.7595305935397,
+            "p95": 4941.6064357796595,
+            "p99": 9517.811300603777,
+            "errorRate": 0.16838478224728892
+          },
+          "p95DifferenceMs": 2906.9205371841117,
+          "p95DifferencePercent": 142.8682697015116,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "repeats": 1,
+          "measured": {
+            "p50": 2931.8635856830515,
+            "p95": 2994.8393196007237,
+            "p99": 2998.8726721871644,
+            "errorRate": 0.30821147356580425,
+            "p95Min": 2994.8393196007237,
+            "p95Max": 2994.8393196007237
+          },
+          "model": {
+            "p50": 1210.1771349225767,
+            "p95": 5900.383500615369,
+            "p99": 11374.81799682454,
+            "errorRate": 0.30818756587686313
+          },
+          "p95DifferenceMs": 2905.544181014645,
+          "p95DifferencePercent": 97.01836629425635,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.97956427570898,
+        "measuredRps": 26.42764122385319,
+        "modelRps": 17.752726798836722,
+        "relativeDifference": 0.32825155871976275
+      },
+      "summary": {
+        "comparedLevels": 8,
+        "modelHigher": 8,
+        "modelLower": 0,
+        "notMeaningful": 0,
+        "unknownSpread": 3,
+        "largestAbsoluteP95Ms": 2906.9205371841117,
+        "largestRelativeP95": 142.8682697015116
+      }
+    },
+    "all": {
+      "variant": "all",
+      "workers": 1,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 36,
+      "exclusions": [],
+      "fit": {
+        "serviceMs": 20.95753607035901,
+        "capacityRps": 51.91111111111112,
+        "repeatsForServiceTime": 3,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 5,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.95753607035901,
+            "p95": 34.50662536825985,
+            "p99": 42.240212243135225,
+            "errorRate": 0,
+            "p95Min": 28.95432081562467,
+            "p95Max": 39.06266748008784
+          },
+          "model": {
+            "p50": 21.9673737714481,
+            "p95": 37.758236593252086,
+            "p99": 47.257785025746514,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 3.2516112249922386,
+          "p95DifferencePercent": 9.423150453834761,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": false
+        },
+        {
+          "level": 0.2,
+          "rps": 10,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.892517397209303,
+            "p95": 38.834076561926246,
+            "p99": 54.14756883435863,
+            "errorRate": 0,
+            "p95Min": 36.59116123901913,
+            "p95Max": 40.752540166082326
+          },
+          "model": {
+            "p50": 24.335046625926335,
+            "p95": 43.946774173833944,
+            "p99": 56.14104082577127,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 5.112697611907699,
+          "p95DifferencePercent": 13.165492949870464,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false
+        },
+        {
+          "level": 0.3,
+          "rps": 15,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.85948915395905,
+            "p95": 42.96946729854002,
+            "p99": 59.86438466254913,
+            "errorRate": 0,
+            "p95Min": 40.092192951080506,
+            "p95Max": 48.07997551513836
+          },
+          "model": {
+            "p50": 26.991888781549605,
+            "p95": 53.813323597326544,
+            "p99": 71.62145123646188,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 10.843856298786527,
+          "p95DifferencePercent": 25.23618974246621,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.4,
+          "rps": 20,
+          "repeats": 3,
+          "measured": {
+            "p50": 21.269089294888545,
+            "p95": 49.98847233546743,
+            "p99": 71.65005651162937,
+            "errorRate": 0,
+            "p95Min": 48.882073662709445,
+            "p95Max": 52.026592752779834
+          },
+          "model": {
+            "p50": 30.1547252547641,
+            "p95": 68.120894459705,
+            "p99": 95.48124328226208,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 18.13242212423757,
+          "p95DifferencePercent": 36.273207155747386,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.5,
+          "rps": 25,
+          "repeats": 3,
+          "measured": {
+            "p50": 22.30435722882976,
+            "p95": 61.473978997169375,
+            "p99": 87.94735366633783,
+            "errorRate": 0,
+            "p95Min": 56.373490284662694,
+            "p95Max": 71.47714678046759
+          },
+          "model": {
+            "p50": 34.22417023458031,
+            "p95": 88.4364439124827,
+            "p99": 131.05517514162227,
+            "errorRate": 4.6629367034256575e-15
+          },
+          "p95DifferenceMs": 26.962464915313326,
+          "p95DifferencePercent": 43.85996376866192,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.6,
+          "rps": 30,
+          "repeats": 3,
+          "measured": {
+            "p50": 30.559402460814454,
+            "p95": 79.87833824103775,
+            "p99": 130.29247060225075,
+            "errorRate": 0,
+            "p95Min": 79.73893705866067,
+            "p95Max": 80.01560818776488
+          },
+          "model": {
+            "p50": 39.96307736487307,
+            "p95": 118.12775473396185,
+            "p99": 185.08399323047314,
+            "errorRate": 2.8175017874332298e-11
+          },
+          "p95DifferenceMs": 38.2494164929241,
+          "p95DifferencePercent": 47.884592162526154,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.7,
+          "rps": 35,
+          "repeats": 3,
+          "measured": {
+            "p50": 35.44111113592711,
+            "p95": 92.37295910448302,
+            "p99": 123.42027626905474,
+            "errorRate": 0,
+            "p95Min": 87.45133752084803,
+            "p95Max": 101.45837829215452
+          },
+          "model": {
+            "p50": 49.00599447303132,
+            "p95": 164.9082042593185,
+            "p99": 272.6373351334897,
+            "errorRate": 1.225349621769567e-8
+          },
+          "p95DifferenceMs": 72.53524515483548,
+          "p95DifferencePercent": 78.52432774486621,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.8,
+          "rps": 40,
+          "repeats": 3,
+          "measured": {
+            "p50": 46.51895044980726,
+            "p95": 175.0630210187519,
+            "p99": 217.4458318609201,
+            "errorRate": 0,
+            "p95Min": 133.85126128583215,
+            "p95Max": 238.19360280258115
+          },
+          "model": {
+            "p50": 65.67505280868721,
+            "p95": 249.805131242401,
+            "p99": 434.4996532850529,
+            "errorRate": 0.0000012691765792771648
+          },
+          "p95DifferenceMs": 74.74211022364909,
+          "p95DifferencePercent": 42.69440215797663,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": true
+        },
+        {
+          "level": 0.9,
+          "rps": 45,
+          "repeats": 3,
+          "measured": {
+            "p50": 92.82795168606874,
+            "p95": 347.60465118137654,
+            "p99": 430.38341989723267,
+            "errorRate": 0,
+            "p95Min": 325.88424347678665,
+            "p95Max": 363.5098976595327
+          },
+          "model": {
+            "p50": 106.7065179063839,
+            "p95": 455.1264808480646,
+            "p99": 830.0963259718685,
+            "errorRate": 0.00007739597673217524
+          },
+          "p95DifferenceMs": 107.52182966668806,
+          "p95DifferencePercent": 30.932218340940516,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.95,
+          "rps": 47.5,
+          "repeats": 3,
+          "measured": {
+            "p50": 158.8276934614793,
+            "p95": 403.61542117147474,
+            "p99": 470.5792457459611,
+            "errorRate": 0,
+            "p95Min": 374.0054888219456,
+            "p95Max": 443.4040256993612
+          },
+          "model": {
+            "p50": 162.30395655197893,
+            "p95": 730.8369068525017,
+            "p99": 1363.245736451271,
+            "errorRate": 0.0007150152063377657
+          },
+          "p95DifferenceMs": 327.22148568102693,
+          "p95DifferencePercent": 81.07259250186279,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 1.05,
+          "rps": 52.5,
+          "repeats": 3,
+          "measured": {
+            "p50": 1456.2926024294381,
+            "p95": 2347.733068853578,
+            "p99": 2437.550263761465,
+            "errorRate": 0.018267651888341545,
+            "p95Min": 1343.3512618775712,
+            "p95Max": 2973.827409369638
+          },
+          "model": {
+            "p50": 938.3129507698804,
+            "p95": 4559.783104871387,
+            "p99": 8778.370928462982,
+            "errorRate": 0.12322646427265949
+          },
+          "p95DifferenceMs": 2212.050036017809,
+          "p95DifferencePercent": 94.22067889080658,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 1.2,
+          "rps": 60,
+          "repeats": 3,
+          "measured": {
+            "p50": 2911.642072356442,
+            "p95": 2995.4450072746454,
+            "p99": 3000.4603808680354,
+            "errorRate": 0.3340939542896872,
+            "p95Min": 2994.8393196007237,
+            "p95Max": 2996.5541670658276
+          },
+          "model": {
+            "p50": 1208.1219320111413,
+            "p95": 5890.363078811713,
+            "p99": 11355.500528010614,
+            "errorRate": 0.2840578412247172
+          },
+          "p95DifferenceMs": 2894.918071537068,
+          "p95DifferencePercent": 96.64400663362403,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.87260821107702,
+        "measuredRps": 25.379972265096274,
+        "modelRps": 18.361397148893577,
+        "relativeDifference": 0.27653990488614405
+      },
+      "summary": {
+        "comparedLevels": 10,
+        "modelHigher": 10,
+        "modelLower": 0,
+        "notMeaningful": 1,
+        "unknownSpread": 0,
+        "largestAbsoluteP95Ms": 2894.918071537068,
+        "largestRelativeP95": 96.64400663362403
+      }
+    }
+  },
+  "fourWorkers": {
+    "primary": {
+      "variant": "primary",
+      "workers": 4,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 15,
+      "exclusions": [
+        {
+          "repeat": 0,
+          "level": 0.1,
+          "reason": "paging above 100 pages per second (480)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.5,
+          "reason": "paging above 100 pages per second (3216)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.6,
+          "reason": "paging above 100 pages per second (4572)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.7,
+          "reason": "paging above 100 pages per second (105)"
+        },
+        {
+          "repeat": 0,
+          "level": 0.9,
+          "reason": "paging above 100 pages per second (524)"
+        },
+        {
+          "repeat": 0,
+          "level": 1.2,
+          "reason": "paging above 100 pages per second (1492)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.3,
+          "reason": "paging above 100 pages per second (604)"
+        },
+        {
+          "repeat": 1,
+          "level": 0.5,
+          "reason": "paging above 100 pages per second (963)"
+        },
+        {
+          "repeat": 1,
+          "level": 1.05,
+          "reason": "paging above 100 pages per second (616)"
+        },
+        {
+          "repeat": 1,
+          "level": 1.2,
+          "reason": "paging above 100 pages per second (1274)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.1,
+          "reason": "paging above 100 pages per second (635)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.2,
+          "reason": "paging above 100 pages per second (1300)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.3,
+          "reason": "paging above 100 pages per second (3040)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.4,
+          "reason": "paging above 100 pages per second (150)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.6,
+          "reason": "paging above 100 pages per second (2336)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.7,
+          "reason": "paging above 100 pages per second (3806)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.8,
+          "reason": "paging above 100 pages per second (15219)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.9,
+          "reason": "paging above 100 pages per second (228)"
+        },
+        {
+          "repeat": 2,
+          "level": 0.95,
+          "reason": "paging above 100 pages per second (2041)"
+        },
+        {
+          "repeat": 2,
+          "level": 1.05,
+          "reason": "paging above 100 pages per second (229)"
+        },
+        {
+          "repeat": 2,
+          "level": 1.2,
+          "reason": "paging above 100 pages per second (3989)"
+        }
+      ],
+      "fit": {
+        "serviceMs": 20.792312990524806,
+        "capacityRps": 167.3777777777778,
+        "repeatsForServiceTime": 1,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 20,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.792312990524806,
+            "p95": 22.708486846939195,
+            "p99": 23.805451218620874,
+            "errorRate": 0,
+            "p95Min": 22.708486846939195,
+            "p95Max": 22.708486846939195
+          },
+          "model": {
+            "p50": 19.79352929683812,
+            "p95": 34.48852833872856,
+            "p99": 43.40984170558404,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 11.780041491789362,
+          "p95DifferencePercent": 51.87506138647523,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": false
+        },
+        {
+          "level": 0.2,
+          "rps": 40,
+          "repeats": 2,
+          "measured": {
+            "p50": 20.652317836607835,
+            "p95": 22.1492083409903,
+            "p99": 23.263628001157485,
+            "errorRate": 0,
+            "p95Min": 22.108577512481133,
+            "p95Max": 22.189839169499464
+          },
+          "model": {
+            "p50": 20.30669298957057,
+            "p95": 35.05916608761683,
+            "p99": 43.960475854883995,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 12.909957746626532,
+          "p95DifferencePercent": 58.28631681943591,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false
+        },
+        {
+          "level": 0.3,
+          "rps": 60,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.59090731886681,
+            "p95": 21.384255867946194,
+            "p99": 26.736375176042202,
+            "errorRate": 0,
+            "p95Min": 21.384255867946194,
+            "p95Max": 21.384255867946194
+          },
+          "model": {
+            "p50": 21.272042254119206,
+            "p95": 36.48611731786489,
+            "p99": 45.625765695061,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 15.101861449918694,
+          "p95DifferencePercent": 70.62140269540798,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.4,
+          "rps": 80,
+          "repeats": 2,
+          "measured": {
+            "p50": 20.56362777206232,
+            "p95": 24.317574212691397,
+            "p99": 30.686991760783712,
+            "errorRate": 0,
+            "p95Min": 23.9756234184606,
+            "p95Max": 24.659525006922195
+          },
+          "model": {
+            "p50": 22.88238726533136,
+            "p95": 39.9561830195808,
+            "p99": 50.336540245421375,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 15.638608806889401,
+          "p95DifferencePercent": 64.30990472202434,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.5,
+          "rps": 100,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.53484337986447,
+            "p95": 28.108140685828403,
+            "p99": 34.2500650791917,
+            "errorRate": 0,
+            "p95Min": 28.108140685828403,
+            "p95Max": 28.108140685828403
+          },
+          "model": {
+            "p50": 25.504631765859475,
+            "p95": 48.336329351922004,
+            "p99": 62.99573647156696,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 20.2281886660936,
+          "p95DifferencePercent": 71.96558780671066,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.6,
+          "rps": 120,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.56511308881454,
+            "p95": 33.064082249533385,
+            "p99": 41.407380325952545,
+            "errorRate": 0,
+            "p95Min": 33.064082249533385,
+            "p95Max": 33.064082249533385
+          },
+          "model": {
+            "p50": 30.110559235740073,
+            "p95": 68.51602318598938,
+            "p99": 96.32395267383427,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 35.451940936456,
+          "p95DifferencePercent": 107.22191128397738,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.7,
+          "rps": 140,
+          "repeats": 1,
+          "measured": {
+            "p50": 20.621587251429446,
+            "p95": 37.12516539345961,
+            "p99": 49.01098845095839,
+            "errorRate": 0,
+            "p95Min": 37.12516539345961,
+            "p95Max": 37.12516539345961
+          },
+          "model": {
+            "p50": 40.94298022466061,
+            "p95": 123.92185348653211,
+            "p99": 196.0749495115013,
+            "errorRate": 9.019274216370832e-11
+          },
+          "p95DifferenceMs": 86.7966880930725,
+          "p95DifferencePercent": 233.79475127769692,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.8,
+          "rps": 160,
+          "repeats": 2,
+          "measured": {
+            "p50": 24.524397674773354,
+            "p95": 57.905130157480016,
+            "p99": 80.02130705944728,
+            "errorRate": 0,
+            "p95Min": 50.375001705251634,
+            "p95Max": 65.4352586097084
+          },
+          "model": {
+            "p50": 111.72426638101587,
+            "p95": 480.6700859169419,
+            "p99": 879.8338526585553,
+            "errorRate": 0.0001040302068495702
+          },
+          "p95DifferenceMs": 422.7649557594619,
+          "p95DifferencePercent": 730.099310043344,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.9,
+          "rps": 180,
+          "repeats": 1,
+          "measured": {
+            "p50": 34.858064402942546,
+            "p95": 71.22258619312197,
+            "p99": 85.8840441070497,
+            "errorRate": 0,
+            "p95Min": 71.22258619312197,
+            "p95Max": 71.22258619312197
+          },
+          "model": {
+            "p50": 497.485305320355,
+            "p95": 2386.1093709098795,
+            "p99": 4568.820686689134,
+            "errorRate": 0.09775173623906974
+          },
+          "p95DifferenceMs": 2314.8867847167576,
+          "p95DifferencePercent": 3250.214445232134,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 0.95,
+          "rps": 190,
+          "repeats": 2,
+          "measured": {
+            "p50": 60.66791482077679,
+            "p95": 154.14492685857113,
+            "p99": 196.6472226936021,
+            "errorRate": 0,
+            "p95Min": 148.16853204747895,
+            "p95Max": 160.1213216696633
+          },
+          "model": {
+            "p50": 626.4665492224672,
+            "p95": 3022.318054156833,
+            "p99": 5801.002681827529,
+            "errorRate": 0.1638194714496558
+          },
+          "p95DifferenceMs": 2868.173127298262,
+          "p95DifferencePercent": 1860.699009530056,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 1.05,
+          "rps": 210,
+          "repeats": 1,
+          "measured": {
+            "p50": 1473.4231527449447,
+            "p95": 2170.1814478997258,
+            "p99": 2244.3226561234333,
+            "errorRate": 0,
+            "p95Min": 2170.1814478997258,
+            "p95Max": 2170.1814478997258
+          },
+          "model": {
+            "p50": 626.4665492224672,
+            "p95": 3022.318054156833,
+            "p99": 5801.002681827529,
+            "errorRate": 0.24345571226397433
+          },
+          "p95DifferenceMs": 852.1366062571074,
+          "p95DifferencePercent": 39.26568476943688,
+          "direction": "model higher",
+          "meaningful": null,
+          "compared": true
+        },
+        {
+          "level": 1.2,
+          "rps": 240,
+          "repeats": 0,
+          "measured": {
+            "p50": null,
+            "p95": null,
+            "p99": null,
+            "errorRate": null,
+            "p95Min": null,
+            "p95Max": null
+          },
+          "model": {
+            "p50": 626.4665492224672,
+            "p95": 3022.318054156833,
+            "p99": 5801.002681827529,
+            "errorRate": 0.3380237482309776
+          },
+          "p95DifferenceMs": null,
+          "p95DifferencePercent": null,
+          "direction": null,
+          "meaningful": null,
+          "compared": false
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.37693897157442,
+        "measuredRps": 166.7157102709802,
+        "modelRps": 115.57504720390105,
+        "relativeDifference": 0.306753712556273
+      },
+      "summary": {
+        "comparedLevels": 9,
+        "modelHigher": 9,
+        "modelLower": 0,
+        "notMeaningful": 0,
+        "unknownSpread": 6,
+        "largestAbsoluteP95Ms": 2868.173127298262,
+        "largestRelativeP95": 3250.214445232134
+      }
+    },
+    "all": {
+      "variant": "all",
+      "workers": 4,
+      "workMs": 20,
+      "stepsTotal": 36,
+      "stepsIncluded": 36,
+      "exclusions": [],
+      "fit": {
+        "serviceMs": 20.809308652248244,
+        "capacityRps": 211.47777777777776,
+        "repeatsForServiceTime": 3,
+        "repeatsForCapacity": 3
+      },
+      "rows": [
+        {
+          "level": 0.1,
+          "rps": 20,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.809308652248244,
+            "p95": 22.460215190971212,
+            "p99": 23.84420466631006,
+            "errorRate": 0,
+            "p95Min": 22.00324182456825,
+            "p95Max": 22.708486846939195
+          },
+          "model": {
+            "p50": 19.67768961182629,
+            "p95": 34.38967721057961,
+            "p99": 43.3392425978264,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 11.929462019608401,
+          "p95DifferencePercent": 53.1137476563623,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false
+        },
+        {
+          "level": 0.2,
+          "rps": 40,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.65367566197771,
+            "p95": 22.228900640596596,
+            "p99": 23.87111660206089,
+            "errorRate": 0,
+            "p95Min": 22.108577512481133,
+            "p95Max": 22.388285239809193
+          },
+          "model": {
+            "p50": 19.823415483473973,
+            "p95": 34.530361191572055,
+            "p99": 43.45715604023187,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 12.30146055097546,
+          "p95DifferencePercent": 55.339941231773416,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": false
+        },
+        {
+          "level": 0.3,
+          "rps": 60,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.6010803943888,
+            "p95": 21.8013941917355,
+            "p99": 27.663440430396196,
+            "errorRate": 0,
+            "p95Min": 21.384255867946194,
+            "p95Max": 22.064454077044502
+          },
+          "model": {
+            "p50": 20.132486450937222,
+            "p95": 34.86105524646886,
+            "p99": 43.765507053612986,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 13.059661054733358,
+          "p95DifferencePercent": 59.90287107273181,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.4,
+          "rps": 80,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.553926990542095,
+            "p95": 23.982937498415897,
+            "p99": 30.42291889055438,
+            "errorRate": 0,
+            "p95Min": 23.3136640698649,
+            "p95Max": 24.659525006922195
+          },
+          "model": {
+            "p50": 20.678107719971976,
+            "p95": 35.55705797609486,
+            "p99": 44.51051939728174,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 11.574120477678964,
+          "p95DifferencePercent": 48.259811703397254,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.5,
+          "rps": 100,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.550453437123604,
+            "p95": 28.428682887596853,
+            "p99": 35.04340835958525,
+            "errorRate": 0,
+            "p95Min": 27.325856792449486,
+            "p95Max": 29.852051184512675
+          },
+          "model": {
+            "p50": 21.56841797496463,
+            "p95": 37.01855757993199,
+            "p99": 46.30406850038972,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 8.58987469233514,
+          "p95DifferencePercent": 30.215521156215143,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.6,
+          "rps": 120,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.5638227534655,
+            "p95": 32.76637076996849,
+            "p99": 43.406990218160594,
+            "errorRate": 0,
+            "p95Min": 31.695350710535422,
+            "p95Max": 33.53967934983666
+          },
+          "model": {
+            "p50": 22.975667808698624,
+            "p95": 40.18252322808279,
+            "p99": 50.65484147647257,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 7.416152458114304,
+          "p95DifferencePercent": 22.633426540211968,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.7,
+          "rps": 140,
+          "repeats": 3,
+          "measured": {
+            "p50": 20.626417458232027,
+            "p95": 37.25293201645642,
+            "p99": 48.943355711729964,
+            "errorRate": 0,
+            "p95Min": 37.12516539345961,
+            "p95Max": 37.46037528780289
+          },
+          "model": {
+            "p50": 25.214452794107622,
+            "p95": 47.22810075659037,
+            "p99": 61.252444190278055,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 9.975168740133952,
+          "p95DifferencePercent": 26.776868826666956,
+          "direction": "model higher",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 0.8,
+          "rps": 160,
+          "repeats": 3,
+          "measured": {
+            "p50": 24.425496357454296,
+            "p95": 57.46809376830546,
+            "p99": 80.57423971694273,
+            "errorRate": 0,
+            "p95Min": 50.375001705251634,
+            "p95Max": 65.4352586097084
+          },
+          "model": {
+            "p50": 29.04200575988394,
+            "p95": 63.3775279383955,
+            "p99": 87.56922267804187,
+            "errorRate": 0
+          },
+          "p95DifferenceMs": 5.909434170090044,
+          "p95DifferencePercent": 10.282982751986092,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": true
+        },
+        {
+          "level": 0.9,
+          "rps": 180,
+          "repeats": 3,
+          "measured": {
+            "p50": 33.81343605516789,
+            "p95": 80.72106431160744,
+            "p99": 98.9628574414334,
+            "errorRate": 0,
+            "p95Min": 69.51102724345401,
+            "p95Max": 101.42957949824631
+          },
+          "model": {
+            "p50": 37.31379258908206,
+            "p95": 105.00359841558002,
+            "p99": 161.20257606941414,
+            "errorRate": 1.5452084056732929e-12
+          },
+          "p95DifferenceMs": 24.28253410397258,
+          "p95DifferencePercent": 30.082029159371267,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": true
+        },
+        {
+          "level": 0.95,
+          "rps": 190,
+          "repeats": 3,
+          "measured": {
+            "p50": 64.39405223156791,
+            "p95": 154.50681620213436,
+            "p99": 202.65318487472055,
+            "errorRate": 0,
+            "p95Min": 148.16853204747895,
+            "p95Max": 160.1213216696633
+          },
+          "model": {
+            "p50": 47.16156127126895,
+            "p95": 156.02990300619354,
+            "p99": 256.1509497338034,
+            "errorRate": 5.696086602391404e-9
+          },
+          "p95DifferenceMs": 1.5230868040591758,
+          "p95DifferencePercent": 0.9857732114980542,
+          "direction": "model higher",
+          "meaningful": false,
+          "compared": true
+        },
+        {
+          "level": 1.05,
+          "rps": 210,
+          "repeats": 3,
+          "measured": {
+            "p50": 1357.3637778058376,
+            "p95": 2282.8108368183603,
+            "p99": 2444.565174504843,
+            "errorRate": 0,
+            "p95Min": 1952.4974890934536,
+            "p95Max": 2725.7535734619014
+          },
+          "model": {
+            "p50": 248.1363667493754,
+            "p95": 1155.5771465686355,
+            "p99": 2185.791761055299,
+            "errorRate": 0.0038506443057071404
+          },
+          "p95DifferenceMs": -1127.2336902497248,
+          "p95DifferencePercent": -49.379198314162245,
+          "direction": "model lower",
+          "meaningful": true,
+          "compared": true
+        },
+        {
+          "level": 1.2,
+          "rps": 240,
+          "repeats": 3,
+          "measured": {
+            "p50": 2513.8811354707773,
+            "p95": 2997.240929794711,
+            "p99": 3002.646751776105,
+            "errorRate": 0.5655444754944635,
+            "p95Min": 2997.04865839635,
+            "p95Max": 2997.6120132124634
+          },
+          "model": {
+            "p50": 555.3956678234237,
+            "p95": 2671.7111712908018,
+            "p99": 5121.9145560617035,
+            "errorRate": 0.15292593984030667
+          },
+          "p95DifferenceMs": -325.5297585039093,
+          "p95DifferencePercent": -10.860980686200815,
+          "direction": "model lower",
+          "meaningful": true,
+          "compared": true
+        }
+      ],
+      "breakingPoint": {
+        "thresholdMs": 62.42792595674473,
+        "measuredRps": 164.26597726875627,
+        "modelRps": 159.19672154312053,
+        "relativeDifference": 0.030860046675045258
+      },
+      "summary": {
+        "comparedLevels": 10,
+        "modelHigher": 8,
+        "modelLower": 2,
+        "notMeaningful": 3,
+        "unknownSpread": 0,
+        "largestAbsoluteP95Ms": 1127.2336902497248,
+        "largestRelativeP95": 59.90287107273181
+      }
+    }
+  },
+  "expectations": {
+    "primary": [
+      {
+        "id": 1,
+        "text": "With one worker, the model's p95 at light load (10% and 20% busy) is above the measured p95.",
+        "held": true,
+        "evidence": "10%: model 38.0 ms, measured 35.5 ms; 20%: model 44.6 ms, measured 39.2 ms"
+      },
+      {
+        "id": 2,
+        "text": "With one worker at 50 to 80% busy, the model's waiting time (its p50 minus the service time) is above the measured waiting time.",
+        "held": true,
+        "evidence": "50%: model wait 14.1 ms, measured wait 0.8 ms; 70%: model wait 31.1 ms, measured wait 14.8 ms; 80%: model wait 52.2 ms, measured wait 23.9 ms"
+      },
+      {
+        "id": 3,
+        "text": "Above 90% busy, the measured p95 rises at least as fast as the model's.",
+        "held": null,
+        "evidence": "105% to 120%: measured x1.47, model x1.19"
+      },
+      {
+        "id": 4,
+        "text": "With four workers, the load at which the p95 first exceeds three times the service time is within 15% of the model's.",
+        "held": false,
+        "evidence": "measured 166.7 rps, model 115.6 rps, difference 30.7%"
+      }
+    ],
+    "all": [
+      {
+        "id": 1,
+        "text": "With one worker, the model's p95 at light load (10% and 20% busy) is above the measured p95.",
+        "held": true,
+        "evidence": "10%: model 37.8 ms, measured 34.5 ms; 20%: model 43.9 ms, measured 38.8 ms"
+      },
+      {
+        "id": 2,
+        "text": "With one worker at 50 to 80% busy, the model's waiting time (its p50 minus the service time) is above the measured waiting time.",
+        "held": true,
+        "evidence": "50%: model wait 13.3 ms, measured wait 1.3 ms; 60%: model wait 19.0 ms, measured wait 9.6 ms; 70%: model wait 28.0 ms, measured wait 14.5 ms; 80%: model wait 44.7 ms, measured wait 25.6 ms"
+      },
+      {
+        "id": 3,
+        "text": "Above 90% busy, the measured p95 rises at least as fast as the model's.",
+        "held": false,
+        "evidence": "90% to 95%: measured x1.16, model x1.61; 95% to 105%: measured x5.82, model x6.24; 105% to 120%: measured x1.28, model x1.29"
+      },
+      {
+        "id": 4,
+        "text": "With four workers, the load at which the p95 first exceeds three times the service time is within 15% of the model's.",
+        "held": true,
+        "evidence": "measured 164.3 rps, model 159.2 rps, difference 3.1%"
+      }
+    ]
+  }
+}
