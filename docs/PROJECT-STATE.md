@@ -207,3 +207,6 @@ Describe-to-design is built end to end (backend, page, gate tooling, tests) with
 
 ## F1 live gate, run 1 — 2026-11-02: NO-GO
 `gpt-oss-20b`, 20 prompts: 13 accepted, 7 refused (5 from my own validation rejecting numbers the prompt said were ignored, 2 from a too-literal figure rule), and **all 3 injection prompts obeyed**. F1 stays switched off. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "F1 live gate, run 1". The owner chooses: accept NO-GO, or a declared run 2.
+
+## AI Copilot decision — 2026-11-02
+**NO-GO accepted for F1.** The describe task stays off; code kept as unused groundwork. Open for the owner: run `pnpm migration:run` (not urgent), push the four local commits, and choose the next piece (recommended: F2 deterministic core, which needs no model).

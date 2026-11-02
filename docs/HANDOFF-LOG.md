@@ -278,3 +278,6 @@ Entry template:
 
 ## 2026-11-02, Claude: F1 live gate run 1
 **Done:** one live run (20 requests) on the owner's go; NO-GO. **Warnings for Codex:** do not rerun, tune the prompt, or change the 20 prompts, the thresholds or the schema to pass; a run 2 must be declared in a commit first and needs the owner's go.
+
+## 2026-11-02, Claude: F1 closed as NO-GO
+**Done:** the owner accepted NO-GO for F1. **Warnings for Codex:** do not set `AI_FEATURES`, run `describe-run --confirm-live`, or "fix" the F1 prompt or validation to pass; a run 2 would need a declaration commit and the owner's go.
