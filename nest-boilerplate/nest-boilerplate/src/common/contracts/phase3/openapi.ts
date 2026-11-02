@@ -22,6 +22,7 @@ import {
   aiResultSchema,
 } from "@/common/contracts/phase3/ai.schema";
 import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
+import { fixesRequestSchema, fixesSchema } from "@/common/contracts/phase3/fixes.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
 import {
   restoreVersionRequestSchema,
@@ -67,6 +68,8 @@ export function phase3OpenApi() {
     AiEvidence: aiEvidenceSchema,
     AcceptedAiJob: aiAcceptedSchema,
     AiReadiness: aiReadinessSchema,
+    FixesRequest: fixesRequestSchema,
+    DesignFixes: fixesSchema,
     AiTasksReadiness: aiTasksReadinessSchema,
     AiDescribeRequest: aiDescribeRequestSchema,
     AiDescribePrepared: aiDescribePreparedSchema,
@@ -639,6 +642,9 @@ export function phase3OpenApi() {
             },
           },
         },
+      },
+      "/v1/designs/{id}/fixes": {
+        post: { ...operation("suggestDesignFixes", "DesignFixes", "FixesRequest"), parameters: [parameter] },
       },
       "/v1/designs/{id}/versions": {
         get: {

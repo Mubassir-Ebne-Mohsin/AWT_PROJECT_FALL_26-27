@@ -17,6 +17,7 @@ import { HistoryTab } from "@/components/workspace/history-tab";
 import { NotesTab } from "@/components/workspace/notes-tab";
 import { restoreBlockedReason } from "@/lib/history-presentation";
 import { ExplainTrigger } from "@/components/workspace/explain-panel";
+import { SuggestedFixes } from "@/components/workspace/suggested-fixes";
 import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
 import { PreviewSession } from "@/lib/preview-session";
 import { LivePreviewPanel, type LivePreviewView } from "@/components/workspace/live-preview";
@@ -24,7 +25,7 @@ import { Crumbs } from "@/components/shell/crumbs";
 import { RoutePlaceholder } from "@/components/placeholder";
 import { resolveRoute } from "@/lib/routes";
 import { WS_TABS } from "@/lib/catalog";
-import { Design, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
+import { Design, Graph, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
 import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
 const LIVE_TABS = ["edit", "traffic", "results", "limits", "history", "notes"];
@@ -602,6 +603,19 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
               compact={tab === "edit"}
               currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
             />
+            {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
+              <SuggestedFixes
+                key={displayedRun.id + ":" + state.saved.revision}
+                designId={initial.id}
+                savedRevision={state.saved.revision}
+                runId={displayedRun.id}
+                runRevision={displayedRun.designRevision}
+                verdict={displayedRun.result.summary.verdict}
+                stale={session.isRunStale(displayedRun)}
+                dirty={session.dirty}
+                onApply={(fix) => session.edit(fix.graph as unknown as Graph, "fix:" + fix.id)}
+              />
+            )}
           </>
         )}
       </div>

@@ -852,6 +852,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/fixes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["suggestDesignFixes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/versions": {
         parameters: {
             query?: never;
@@ -1596,6 +1612,226 @@ export interface components {
             retryAfterSeconds?: number;
             /** @enum {string} */
             reason: "DISABLED" | "AVAILABLE" | "BUSY" | "MODEL_MISSING" | "PROVIDER_UNAVAILABLE" | "MEMORY_PRESSURE" | "INSTANCE_BUSY" | "QUOTA_EXHAUSTED";
+        };
+        FixesRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+        };
+        DesignFixes: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            /** @enum {string} */
+            status: "SUGGESTIONS" | "NOTHING_TO_FIX" | "NO_IMPROVEMENT_FOUND" | "INCOMPLETE";
+            baseline: {
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                p95: number;
+                errorRate: number;
+                maxRho: number;
+            };
+            limiter: {
+                id: string;
+                label: string;
+                type: string;
+            } | null;
+            suggestions: {
+                id: string;
+                /** @enum {string} */
+                kind: "replicas" | "capacity" | "cache" | "readReplica";
+                title: string;
+                detail: string;
+                assumption: string | null;
+                after: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                };
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+            }[];
+            tried: number;
+            skipped: number;
         };
         AiTasksReadiness: {
             tasks: {
@@ -9766,6 +10002,106 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["RestoredDesign"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    suggestDesignFixes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FixesRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignFixes"];
                     };
                 };
             };

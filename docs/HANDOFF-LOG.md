@@ -281,3 +281,6 @@ Entry template:
 
 ## 2026-11-02, Claude: F1 closed as NO-GO
 **Done:** the owner accepted NO-GO for F1. **Warnings for Codex:** do not set `AI_FEATURES`, run `describe-run --confirm-live`, or "fix" the F1 prompt or validation to pass; a run 2 would need a declaration commit and the owner's go.
+
+## 2026-11-02, Claude: F2 core
+**Done:** `POST /v1/designs/:id/fixes` (candidate generator in `engine/fixes.ts`, `FixesService`), Suggested fixes panel on the Results tab, tests and breaks. **Warnings for Codex:** this feature must stay deterministic (no model); do not loosen `improves()` (a fix must be no worse on verdict, p95 and error rate); the numbers shown must keep coming from the engine; run the browser regression with `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` set; never run two break scripts at once.

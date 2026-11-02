@@ -3,6 +3,7 @@ import { DesignNotesService } from "@/modules/designs/design-notes.service";
 import { DesignLibraryService } from "@/modules/designs/design-library.service";
 import { ReportService } from "@/modules/designs/report.service";
 import { DesignSharesService } from "@/modules/designs/design-shares.service";
+import { FixesService } from "@/modules/designs/fixes.service";
 import { Throttle } from "@nestjs/throttler";
 import { Public } from "@/common/decorators";
 import { appConfig } from "@/config";
@@ -19,9 +20,10 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   Res,
 } from "@nestjs/common";
-import type { Response } from "express";
+import type { Request, Response } from "express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { CurrentUser } from "@/common/decorators";
 import { AuthUser } from "@/common/interfaces/auth-user.interface";
@@ -30,6 +32,7 @@ import { RunsService } from "@/modules/designs/runs.service";
 import {
   CreateDesignDto,
   CreateNoteDto,
+  FixesRequestDto,
   PatchNoteDto,
   PrepareDesignDto,
   PatchDesignDto,
@@ -56,6 +59,7 @@ export class DesignsController {
     private readonly shares: DesignSharesService,
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
+    private readonly fixes: FixesService,
   ) {}
   @Post("prepare")
   @HttpCode(200)
@@ -186,6 +190,29 @@ export class DesignsController {
     return accepted;
   }
   /** Saved Limits search: same durable admission/idempotency/polling protocol as simulate, stored kind "limits". */
+  /** Verified fix suggestions for a completed run of the saved design. Computes only; nothing is saved. */
+  @Post(":id/fixes")
+  @HttpCode(200)
+  async suggestFixes(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() dto: FixesRequestDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // The person leaving cancels the remaining calculations.
+    const controller = new AbortController();
+    const onClose = () => {
+      if (!res.writableFinished) controller.abort();
+    };
+    res.on("close", onClose);
+    if (req.socket.destroyed || res.destroyed) controller.abort();
+    try {
+      return await this.fixes.suggest(u.id, id, dto, controller.signal);
+    } finally {
+      res.off("close", onClose);
+    }
+  }
   @Post(":id/limits")
   async limits(
     @CurrentUser() u: AuthUser,

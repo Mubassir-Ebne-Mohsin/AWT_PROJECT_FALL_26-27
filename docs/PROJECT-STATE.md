@@ -210,3 +210,6 @@ Describe-to-design is built end to end (backend, page, gate tooling, tests) with
 
 ## AI Copilot decision — 2026-11-02
 **NO-GO accepted for F1.** The describe task stays off; code kept as unused groundwork. Open for the owner: run `pnpm migration:run` (not urgent), push the four local commits, and choose the next piece (recommended: F2 deterministic core, which needs no model).
+
+## AI Copilot F2 core — 2026-11-02: built, no AI
+Verified fix suggestions are live on the Results tab for any run that does not pass: the server tries edits at the bottleneck, re-runs the model on each, and offers the ones that help, with the model's before and after. No model, key, quota or migration. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "F2 core result". Full Chrome regression 870 passed, 10 skipped by design, 0 failed. Open: whether to build F2's AI intent layer (recommended: no), F3, or a different next piece.
