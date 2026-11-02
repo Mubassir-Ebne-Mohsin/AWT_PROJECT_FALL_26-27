@@ -1,4 +1,6 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
+import { AI_DESCRIBE_MAX, AI_DESCRIBE_NOTICE, describeUnavailableText, fetchAiTasksReadiness } from "@/lib/ai-describe";
 import {
   CreationPage,
   CreationFeedback,
@@ -15,6 +17,13 @@ export function DescribeDesign() {
   const flow = useCreationFlow("describe"),
     { session, state } = flow;
   const disabled = state.pending || state.uncertain || !!state.created;
+  // The AI draft appears only when the server has switched this task on; otherwise the page is exactly the keyword-rules page.
+  const readiness = useQuery({ queryKey: ["ai-tasks-readiness"], queryFn: fetchAiTasksReadiness, staleTime: 30_000, retry: false });
+  const ai = readiness.data?.tasks.find((t) => t.task === "describe");
+  const aiOn = !!ai?.enabled;
+  const unavailable = describeUnavailableText(ai);
+  const length = state.text.trim().length;
+  const tooLong = length > AI_DESCRIBE_MAX;
   return (
     <CreationPage
       path="/new/describe"
@@ -25,6 +34,11 @@ export function DescribeDesign() {
         <b>Scripted mock</b> · Local keyword rules stand in for AI. No model is
         called, and no AI quota is used. Traffic estimates are assumptions.
       </div>
+      {aiOn && (
+        <div className="note" data-testid="describe-ai-notice">
+          <b>AI draft (Groq, hosted)</b> · {AI_DESCRIBE_NOTICE}
+        </div>
+      )}
       <CreationFeedback flow={flow} />
       <div className="grid-2">
         <section className="panel panel-b stack">
@@ -40,6 +54,11 @@ export function DescribeDesign() {
                 onChange={(e) => session.update({ text: e.target.value })}
               />
             </label>
+            {aiOn && (
+              <span className={"hint" + (tooLong ? " fail" : "")} data-testid="describe-ai-count">
+                {length}/{AI_DESCRIBE_MAX} characters for an AI draft
+              </span>
+            )}
             <span className="hint">Try an example</span>
             {DESCRIBE_EXAMPLES.map((text) => (
               <button
@@ -63,14 +82,33 @@ export function DescribeDesign() {
                 Show invalid scripted output
               </button>
               <button
-                className="btn btn-primary"
+                className={aiOn ? "btn" : "btn btn-primary"}
                 onClick={() =>
                   void session.prepare({ source: "scripted", text: state.text })
                 }
               >
-                {state.prepared ? "Draft again" : "Draft the design"}
+                {aiOn
+                  ? "Draft with keyword rules"
+                  : state.prepared
+                    ? "Draft again"
+                    : "Draft the design"}
               </button>
+              {aiOn && (
+                <button
+                  className="btn btn-primary"
+                  data-testid="draft-with-ai"
+                  disabled={!ai?.available || tooLong || length === 0}
+                  onClick={() => void session.prepareWithAi(state.text)}
+                >
+                  {state.prepared?.design.source === "ai" ? "Draft with AI again" : "Draft with AI"}
+                </button>
+              )}
             </div>
+            {aiOn && unavailable && (
+              <p className="hint" role="status" data-testid="describe-ai-unavailable">
+                {unavailable} Keyword rules still work.
+              </p>
+            )}
           </fieldset>
         </section>
         <aside className="panel panel-b stack" aria-live="polite">

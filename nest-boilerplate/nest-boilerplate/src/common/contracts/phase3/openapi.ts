@@ -21,6 +21,7 @@ import {
   aiRequestSchema,
   aiResultSchema,
 } from "@/common/contracts/phase3/ai.schema";
+import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
 import {
   restoreVersionRequestSchema,
@@ -66,6 +67,9 @@ export function phase3OpenApi() {
     AiEvidence: aiEvidenceSchema,
     AcceptedAiJob: aiAcceptedSchema,
     AiReadiness: aiReadinessSchema,
+    AiTasksReadiness: aiTasksReadinessSchema,
+    AiDescribeRequest: aiDescribeRequestSchema,
+    AiDescribePrepared: aiDescribePreparedSchema,
     DesignVersion: designVersionSchema,
     RestoreVersionRequest: restoreVersionRequestSchema,
     RunSummary: runSummarySchema,
@@ -220,6 +224,8 @@ export function phase3OpenApi() {
       },
 
       "/v1/ai/readiness": { get: operation("aiReadiness", "AiReadiness") },
+      "/v1/ai/tasks/readiness": { get: operation("getAiTasksReadiness", "AiTasksReadiness") },
+      "/v1/ai/tasks/describe": { post: operation("describeDesignWithAi", "AiDescribePrepared", "AiDescribeRequest") },
       "/v1/ai/jobs": { post: operation("submitAiJob", "AcceptedAiJob", true) },
       "/v1/ai/jobs/{id}": {
         get: { ...operation("getAiJob", "AiJob"), parameters: [parameter] },

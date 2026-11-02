@@ -272,3 +272,6 @@ Entry template:
 
 ## 2026-11-02, Claude: Copilot P1
 **Done:** groundwork per [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). **Warnings for Codex:** do not set `AI_FEATURES`, switch AI on, or call Groq; do not edit the migration `1794500000000-AiDesignSource` once it has been run; never run two copies of a break script at once (they overwrite each other's restores).
+
+## 2026-11-02, Claude: Copilot P2
+**Done:** F1 describe-to-design per [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). **Warnings for Codex:** do not set `AI_FEATURES`, switch AI on, or run `ai-gate describe-run --confirm-live`; do not change the 20 prompts, thresholds or rubric of the describe gate (a change must be declared and run as a separate recorded run); run the browser regression with `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` set, or the admin and reviewer journeys skip themselves.

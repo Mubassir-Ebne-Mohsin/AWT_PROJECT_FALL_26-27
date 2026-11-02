@@ -1,6 +1,7 @@
 import type { components, operations } from "@/lib/api/schema";
 import { api } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
+import { AI_DESCRIBE_MAX, aiDescribeError, requestAiDescribe, type AiDescribePrepared } from "@/lib/ai-describe";
 export type CreationInput =
   operations["prepareDesign"]["requestBody"]["content"]["application/json"]["input"];
 export type CreationDraft = components["schemas"]["CreateDesign"];
@@ -66,7 +67,9 @@ export class CreationSession {
       }),
     private createRequest = (draft: CreationDraft) =>
       api<Design>("/designs", { method: "POST", body: draft, silent: true }),
+    private aiRequest = (text: string, signal: AbortSignal): Promise<AiDescribePrepared> => requestAiDescribe(text, signal),
   ) {}
+  private aiAbort?: AbortController;
   subscribe = (fn: () => void) => {
     this.listeners.add(fn);
     return () => {
@@ -113,6 +116,36 @@ export class CreationSession {
     } catch (e) {
       this.publish({ error: creationError(e) });
     } finally {
+      this.publish({ pending: false });
+    }
+  }
+  /** A draft from the hosted model. Same review step as the keyword draft; nothing is saved, and leaving the page cancels the request. */
+  async prepareWithAi(text: string) {
+    if (this.state.pending || this.state.uncertain || this.state.created || this.disposed) return;
+    const description = text.trim();
+    if (!description) {
+      this.publish({ error: "Write a description first.", prepared: undefined });
+      return;
+    }
+    if (description.length > AI_DESCRIBE_MAX) {
+      this.publish({
+        error: "AI drafts use up to " + AI_DESCRIBE_MAX + " characters and yours has " + description.length + ". Shorten it, or use keyword rules.",
+        prepared: undefined,
+      });
+      return;
+    }
+    const controller = new AbortController();
+    this.aiAbort = controller;
+    this.publish({ pending: true, error: "", prepared: undefined });
+    try {
+      const prepared = await this.aiRequest(description, controller.signal);
+      if (this.disposed || controller.signal.aborted) return;
+      this.publish({ prepared: prepared as unknown as Prepared, name: prepared.design.name });
+      return prepared;
+    } catch (e) {
+      if (!this.disposed && !controller.signal.aborted) this.publish({ error: aiDescribeError(e) });
+    } finally {
+      this.aiAbort = undefined;
       this.publish({ pending: false });
     }
   }
@@ -163,6 +196,7 @@ export class CreationSession {
     this.publish({ error: message, prepared: undefined });
   }
   dispose() {
+    this.aiAbort?.abort();
     this.disposed = true;
     this.listeners.clear();
   }

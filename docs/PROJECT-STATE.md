@@ -201,3 +201,6 @@ See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Correction and diagnostic". The user 
 
 ## AI Design Copilot P1 — 2026-11-02
 Groundwork built and tested, no model called, all switches off: structured task path on the Groq adapter, `AiTaskService`, `ai_task_calls`, design source `ai`, `AI_FEATURES`, quota turn-taking. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P1 result". **Pending for the owner: run `pnpm migration:run` on the development database.** Next: P2, F1 describe-to-design.
+
+## AI Design Copilot P2 — 2026-11-02
+Describe-to-design is built end to end (backend, page, gate tooling, tests) with the task switched off by default. **No Groq request has been sent in P2.** See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P2 result" and [AI-DESCRIBE-GATE-RUBRIC](AI-DESCRIBE-GATE-RUBRIC.md). Pending for the owner: run `pnpm migration:run` on the development database, and say go for the live gate (20 requests).

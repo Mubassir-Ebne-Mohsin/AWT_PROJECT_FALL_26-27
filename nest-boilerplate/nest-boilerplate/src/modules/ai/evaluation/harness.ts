@@ -63,12 +63,12 @@ export interface RunOptions {
 }
 
 /** Failures that mean "stop, do not keep sending requests". */
-const STOP_REASONS = new Set(["PROVIDER_RATE_LIMITED", "PROVIDER_AUTH", "PROVIDER_NOT_CONFIGURED", "MODEL_CHANGED"]);
-const reasonOf = (e: unknown) => ((e as { details?: { reason?: string } })?.details?.reason ?? null) as string | null;
+export const STOP_REASONS = new Set(["PROVIDER_RATE_LIMITED", "PROVIDER_AUTH", "PROVIDER_NOT_CONFIGURED", "MODEL_CHANGED"]);
+export const reasonOf = (e: unknown) => ((e as { details?: { reason?: string } })?.details?.reason ?? null) as string | null;
 
-class Deadline extends Error {}
+export class Deadline extends Error {}
 
-async function withDeadline<T>(ms: number, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
+export async function withDeadline<T>(ms: number, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
   const controller = new AbortController();
   let timer: ReturnType<typeof setTimeout> | undefined;
   const timeout = new Promise<never>((_, reject) => {
@@ -267,7 +267,7 @@ const mulberry32 = (seed: number) => () => {
   t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 };
-function shuffled<T>(items: readonly T[], seed: number): T[] {
+export function shuffled<T>(items: readonly T[], seed: number): T[] {
   const out = [...items];
   const random = mulberry32(seed);
   for (let i = out.length - 1; i > 0; i--) {

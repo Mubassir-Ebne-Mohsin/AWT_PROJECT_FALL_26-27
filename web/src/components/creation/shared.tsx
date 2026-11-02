@@ -156,8 +156,14 @@ export function GraphThumbnail({ graph }: { graph: Graph }) {
 }
 export function PreparedPreview({ prepared }: { prepared: Prepared }) {
   const d = prepared.design;
+  const model = (prepared as { model?: string }).model;
   return (
     <div className="stack">
+      {d.source === "ai" && (
+        <p className="tag" data-testid="ai-draft-tag" title="This draft was suggested by a hosted AI model. Review every part.">
+          AI draft · Groq{model ? " · " + model : ""}
+        </p>
+      )}
       <GraphThumbnail graph={d.graph} />
       <dl className="kv">
         <dt>Components</dt>
