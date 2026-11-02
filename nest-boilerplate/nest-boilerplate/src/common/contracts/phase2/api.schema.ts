@@ -7,7 +7,7 @@ const revision = z.number().int().positive();
 const name = z.string().trim().min(1).max(100);
 const description = z.string().max(2000);
 const date = z.iso.datetime();
-const source = z.enum(["blank", "template", "import", "scripted"]);
+const source = z.enum(["blank", "template", "import", "scripted", "ai"]);
 const recordFields = {
   id: uuid, name, description, source, templateId: templateId.nullable(),
   revision, createdAt: date, updatedAt: date,

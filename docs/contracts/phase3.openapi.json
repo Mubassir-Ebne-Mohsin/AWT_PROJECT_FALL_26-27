@@ -11523,7 +11523,8 @@
                   "blank",
                   "template",
                   "import",
-                  "scripted"
+                  "scripted",
+                  "ai"
                 ]
               },
               "templateId": {
@@ -18873,7 +18874,8 @@
               "blank",
               "template",
               "import",
-              "scripted"
+              "scripted",
+              "ai"
             ]
           },
           "templateId": {
@@ -19947,7 +19949,8 @@
               "blank",
               "template",
               "import",
-              "scripted"
+              "scripted",
+              "ai"
             ]
           },
           "templateId": {

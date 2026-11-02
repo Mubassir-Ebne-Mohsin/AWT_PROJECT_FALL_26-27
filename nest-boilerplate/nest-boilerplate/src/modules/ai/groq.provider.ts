@@ -32,6 +32,8 @@ export const GROQ_TRANSPORT_SCHEMA = {
 
 /** The most tokens one answer may use. Counted in full against the quota until the provider reports what was really used. */
 export const GROQ_MAX_COMPLETION_TOKENS = 2048;
+/** The most tokens one design task answer may use: these answers are a few hundred tokens, so the quota is not held at the explanation figure. */
+export const GROQ_TASK_MAX_COMPLETION_TOKENS = 1024;
 const MAX_REQUEST_BYTES = 12000;
 const MAX_RESPONSE_BYTES = 65536;
 const unavailable = (message: string, reason: string, extra: Record<string, unknown> = {}) => new AppException("UNAVAILABLE", message, { reason, ...extra });
@@ -81,10 +83,46 @@ export class GroqProvider implements ExplanationProvider {
   }
 
   async generate(facts: Record<string, unknown>, allowed: string[], _digest: string, signal: AbortSignal, observe?: (observation: ProviderObservation) => void): Promise<AiResult> {
+    return this.complete(
+      { messages: explanationMessages(facts), noun: "explanation", schemaName: "explanation", schema: GROQ_TRANSPORT_SCHEMA, maxCompletionTokens: GROQ_MAX_COMPLETION_TOKENS, tooLargeReason: "AI_CONTEXT_TOO_LARGE" },
+      signal,
+      observe,
+      (content) => {
+        const result = aiResultSchema.parse(JSON.parse(content));
+        if (result.evidenceIds.some((id) => !allowed.includes(id))) throw invalid("Hosted AI cited evidence that was not supplied");
+        return result;
+      },
+    );
+  }
+
+  /**
+   * One strict-JSON request for any task other than explaining a result. The caller supplies the messages, the hand-written
+   * transport schema and a parser that applies the application's own validation; everything else (bounds, redirects, key
+   * handling, errors, usage reporting, model check) is the same code path as an explanation.
+   */
+  async structured<T>(
+    task: { name: string; messages: { role: "system" | "user"; content: string }[]; schema: Record<string, unknown>; maxCompletionTokens?: number },
+    parse: (value: unknown) => T,
+    signal: AbortSignal,
+    observe?: (observation: ProviderObservation) => void,
+  ): Promise<T> {
+    return this.complete(
+      { messages: task.messages, noun: "answer", schemaName: task.name, schema: task.schema, maxCompletionTokens: task.maxCompletionTokens ?? GROQ_TASK_MAX_COMPLETION_TOKENS, tooLargeReason: "AI_CONTEXT_TOO_LARGE" },
+      signal,
+      observe,
+      (content) => parse(JSON.parse(content)),
+    );
+  }
+
+  private async complete<T>(
+    request: { messages: { role: string; content: string }[]; noun: string; schemaName: string; schema: Record<string, unknown>; maxCompletionTokens: number; tooLargeReason: string },
+    signal: AbortSignal,
+    observe: ((observation: ProviderObservation) => void) | undefined,
+    judge: (content: string) => T,
+  ): Promise<T> {
     if (!this.settings.apiKey) throw unavailable("Hosted AI is not configured", "PROVIDER_NOT_CONFIGURED");
-    const messages = explanationMessages(facts);
-    if (Buffer.byteLength(JSON.stringify(messages), "utf8") > MAX_REQUEST_BYTES)
-      throw new AppException("VALIDATION_FAILED", "Explanation context is too large", { reason: "AI_CONTEXT_TOO_LARGE" });
+    if (Buffer.byteLength(JSON.stringify(request.messages), "utf8") > MAX_REQUEST_BYTES)
+      throw new AppException("VALIDATION_FAILED", "The request is too large", { reason: request.tooLargeReason });
 
     const started = performance.now();
     const res = await this.transport(GROQ_URL, {
@@ -94,7 +132,7 @@ export class GroqProvider implements ExplanationProvider {
       headers: { Authorization: `Bearer ${this.settings.apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: this.settings.model,
-        messages,
+        messages: request.messages,
         stream: false,
         // Repeatable as far as the provider allows; the seed is best effort.
         temperature: 0,
@@ -102,8 +140,8 @@ export class GroqProvider implements ExplanationProvider {
         // A short answer needs little reasoning; the reasoning text is not returned or stored.
         reasoning_effort: "low",
         include_reasoning: false,
-        max_completion_tokens: GROQ_MAX_COMPLETION_TOKENS,
-        response_format: { type: "json_schema", json_schema: { name: "explanation", strict: true, schema: GROQ_TRANSPORT_SCHEMA } },
+        max_completion_tokens: request.maxCompletionTokens,
+        response_format: { type: "json_schema", json_schema: { name: request.schemaName, strict: true, schema: request.schema } },
       }),
     });
 
@@ -145,13 +183,11 @@ export class GroqProvider implements ExplanationProvider {
       });
       if (reply.model !== this.settings.model) throw unavailable("The configured model changed during generation", "MODEL_CHANGED");
       if (choice.finish_reason !== "stop" || choice.message.refusal || choice.message.content === null) throw invalid("Hosted AI did not complete the answer");
-      const result = aiResultSchema.parse(JSON.parse(choice.message.content));
-      if (result.evidenceIds.some((id) => !allowed.includes(id))) throw invalid("Hosted AI cited evidence that was not supplied");
-      return result;
+      return judge(choice.message.content);
     } catch (error) {
       // A deadline or cancel aborts the read; the service already knows why, so do not disguise it as bad output.
       if (error instanceof AppException || signal.aborted) throw error;
-      throw invalid("Hosted AI returned an unusable explanation");
+      throw invalid("Hosted AI returned an unusable " + request.noun);
     } finally {
       await reader.cancel().catch(() => undefined);
     }

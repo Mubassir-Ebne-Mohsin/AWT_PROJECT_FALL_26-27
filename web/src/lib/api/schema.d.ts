@@ -1330,7 +1330,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             /** @enum {string|null} */
             templateId: "three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media" | null;
             /** @enum {number} */
@@ -2336,7 +2336,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */
@@ -2352,7 +2352,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             /** @constant */
             schemaVersion: 1;
@@ -2472,7 +2472,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */
@@ -4065,7 +4065,7 @@ export interface components {
                 name: string;
                 description: string;
                 /** @enum {string} */
-                source: "blank" | "template" | "import" | "scripted";
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
                 revision: number;
                 /** Format: date-time */
@@ -5503,7 +5503,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */
@@ -5721,7 +5721,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */
@@ -6202,7 +6202,7 @@ export interface operations {
                                 name: string;
                                 description: string;
                                 /** @enum {string} */
-                                source: "blank" | "template" | "import" | "scripted";
+                                source: "blank" | "template" | "import" | "scripted" | "ai";
                                 templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
                                 /** @constant */
                                 schemaVersion: 1;

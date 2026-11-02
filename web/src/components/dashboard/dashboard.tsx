@@ -186,7 +186,7 @@ export function Dashboard() {
                 >
                   <div className="m4-card-head">
                     <span className="eyebrow">
-                      {d.source === "scripted" ? "Scripted mock" : d.source}
+                      {d.source === "scripted" ? "Scripted mock" : d.source === "ai" ? "AI draft" : d.source}
                     </span>
                     <span className={"tag " + status.tone}>{status.label}</span>
                   </div>

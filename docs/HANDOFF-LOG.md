@@ -269,3 +269,6 @@ Entry template:
 
 ## 2026-11-02, Claude: AI closed as NO-GO
 **Done:** the owner accepted NO-GO for `gpt-oss-20b`; docs updated. **Warnings for Codex:** do not enable AI, call Groq, or build the AI tab or a run 2 without the owner's explicit instruction; do not reword the NO-GO.
+
+## 2026-11-02, Claude: Copilot P1
+**Done:** groundwork per [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). **Warnings for Codex:** do not set `AI_FEATURES`, switch AI on, or call Groq; do not edit the migration `1794500000000-AiDesignSource` once it has been run; never run two copies of a break script at once (they overwrite each other's restores).

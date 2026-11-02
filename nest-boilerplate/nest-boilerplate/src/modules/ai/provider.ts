@@ -52,3 +52,21 @@ export const explanationMessages = (facts: Record<string, unknown>) => [
   { role: "system" as const, content: FOUNDATION_PROMPT },
   { role: "user" as const, content: "FACTS=" + JSON.stringify(facts) },
 ];
+
+/** One strict-JSON request for a design task (describe, what-if, fix intent). */
+export interface StructuredTask {
+  /** Names the schema at the provider; letters, digits, underscores. */
+  name: string;
+  messages: { role: "system" | "user"; content: string }[];
+  /** The hand-written transport schema: every property required, additionalProperties false. */
+  schema: Record<string, unknown>;
+  maxCompletionTokens?: number;
+}
+
+/** A provider that can answer a task as a validated structure. Only the hosted provider does; the local one explains results only. */
+export interface StructuredProvider {
+  readonly model: string;
+  structured<T>(task: StructuredTask, parse: (value: unknown) => T, signal: AbortSignal, observe?: (observation: ProviderObservation) => void): Promise<T>;
+}
+export const isStructuredProvider = (provider: unknown): provider is StructuredProvider =>
+  typeof (provider as { structured?: unknown } | null)?.structured === "function";

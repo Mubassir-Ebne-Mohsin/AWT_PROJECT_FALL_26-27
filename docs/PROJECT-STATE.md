@@ -198,3 +198,6 @@ See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Correction and diagnostic". The user 
 
 ## AI decision — 2026-11-02
 **NO-GO accepted** for `gpt-oss-20b` (0 of 18). AI stays off and unreleased; the code groundwork is kept; no AI tab is built. Open for the owner: show the rule-based summary in the UI or not; whether to commit Codex's two roadmap docs; whether to push the local commits.
+
+## AI Design Copilot P1 — 2026-11-02
+Groundwork built and tested, no model called, all switches off: structured task path on the Groq adapter, `AiTaskService`, `ai_task_calls`, design source `ai`, `AI_FEATURES`, quota turn-taking. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P1 result". **Pending for the owner: run `pnpm migration:run` on the development database.** Next: P2, F1 describe-to-design.

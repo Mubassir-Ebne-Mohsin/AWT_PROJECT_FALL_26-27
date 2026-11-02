@@ -1583,7 +1583,7 @@ export interface components {
                 name: string;
                 description: string;
                 /** @enum {string} */
-                source: "blank" | "template" | "import" | "scripted";
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
                 revision: number;
                 /** Format: date-time */
@@ -3021,7 +3021,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */
@@ -3239,7 +3239,7 @@ export interface components {
             name: string;
             description: string;
             /** @enum {string} */
-            source: "blank" | "template" | "import" | "scripted";
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
             revision: number;
             /** Format: date-time */

@@ -34,6 +34,14 @@ const limited = (retryAfterSeconds: number, limit: string) => new AppException("
 
 @Injectable()
 export class AiQuota {
+  /** Counters are read, changed and written back, so two requests must never do that at once: they take turns. */
+  private turn: Promise<unknown> = Promise.resolve();
+  private inTurn<T>(work: () => Promise<T>): Promise<T> {
+    const result = this.turn.then(work);
+    this.turn = result.catch(() => undefined);
+    return result;
+  }
+
   constructor(
     private readonly redis: RedisCacheService,
     @Inject(AI_SETTINGS) private readonly settings: AiSettings,
@@ -102,7 +110,10 @@ export class AiQuota {
   }
 
   /** Counts one request and its estimated tokens, or refuses with how long to wait. */
-  async reserve(owner: string, estimatedTokens: number, now = Date.now()): Promise<QuotaTicket> {
+  reserve(owner: string, estimatedTokens: number, now = Date.now()): Promise<QuotaTicket> {
+    return this.inTurn(() => this.reserveNow(owner, estimatedTokens, now));
+  }
+  private async reserveNow(owner: string, estimatedTokens: number, now: number): Promise<QuotaTicket> {
     const wait = await this.waitSeconds(owner, estimatedTokens, now);
     if (wait.seconds > 0) throw limited(wait.seconds, wait.limit ?? "quota");
     const k = this.keys(owner, now);
@@ -117,7 +128,10 @@ export class AiQuota {
   }
 
   /** Replaces the estimate with the tokens the provider actually counted. Without a real figure the estimate stands (it errs high). */
-  async settle(ticket: QuotaTicket, actualTokens: number | undefined) {
+  settle(ticket: QuotaTicket, actualTokens: number | undefined) {
+    return this.inTurn(() => this.settleNow(ticket, actualTokens));
+  }
+  private async settleNow(ticket: QuotaTicket, actualTokens: number | undefined) {
     if (actualTokens === undefined) return;
     const delta = actualTokens - ticket.estimatedTokens;
     for (const [key, ttl] of [[ticket.minuteKey, MINUTE * 2], [ticket.dayKey, DAY * 2]] as const) {
@@ -127,7 +141,10 @@ export class AiQuota {
   }
 
   /** The provider asked us to wait: refuse every hosted request until then. */
-  async backoff(seconds: number, now = Date.now()) {
+  backoff(seconds: number, now = Date.now()) {
+    return this.inTurn(() => this.backoffNow(seconds, now));
+  }
+  private async backoffNow(seconds: number, now: number) {
     const safe = Math.min(Math.max(1, Math.ceil(seconds)), DAY);
     try {
       await this.redis.getClient().set("ai:quota:backoff", String(now + safe * 1000), { EX: safe });

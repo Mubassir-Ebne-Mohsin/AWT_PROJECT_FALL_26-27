@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { DesignsModule } from "@/modules/designs/designs.module";
 import { AiController } from "@/modules/ai/ai.controller";
 import { AiService } from "@/modules/ai/ai.service";
+import { AiTaskService } from "@/modules/ai/ai-task.service";
 import { AiMemory } from "@/modules/ai/ai-memory";
 import { AiQuota } from "@/modules/ai/ai-quota";
 import { OllamaProvider } from "@/modules/ai/ollama.provider";
@@ -13,6 +14,7 @@ import { AI_FETCH, AI_SETTINGS, GROQ_CREDENTIALS, AiSettings, aiSettings, groqCr
   controllers: [AiController],
   providers: [
     AiService,
+    AiTaskService,
     AiMemory,
     AiQuota,
     OllamaProvider,
@@ -27,6 +29,6 @@ import { AI_FETCH, AI_SETTINGS, GROQ_CREDENTIALS, AiSettings, aiSettings, groqCr
         selectProvider(settings, ollama, credentials, fetcher),
     },
   ],
-  exports: [AiService],
+  exports: [AiService, AiTaskService],
 })
 export class AiModule {}

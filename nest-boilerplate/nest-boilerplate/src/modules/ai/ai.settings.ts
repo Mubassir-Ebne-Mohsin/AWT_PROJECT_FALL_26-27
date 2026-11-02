@@ -18,6 +18,8 @@ export interface AiSettings {
   enabled: boolean;
   /** Hosted quota limits; the account's published free limits when absent. */
   quota?: QuotaSettings;
+  /** Design tasks that may use the hosted model; none when absent. */
+  features?: ("describe" | "whatif" | "fixes")[];
   /** Which provider explains results; local Ollama when absent. */
   provider?: "ollama" | "groq";
   baseUrl: string;
@@ -32,6 +34,7 @@ export function aiSettings(): AiSettings {
   return {
     enabled: e.AI_ENABLED,
     provider: e.AI_PROVIDER,
+    features: e.AI_FEATURES,
     baseUrl: e.OLLAMA_BASE_URL,
     model: e.AI_PROVIDER === "groq" ? e.GROQ_MODEL : e.OLLAMA_MODEL,
     quota: {

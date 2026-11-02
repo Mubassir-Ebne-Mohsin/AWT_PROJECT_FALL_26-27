@@ -172,6 +172,27 @@ describe("hosted quota guard", () => {
     expect(details(await refused(guard.reserve("u", 10, at(12, 0, 5)))).reason).toBe("AI_QUOTA_UNAVAILABLE");
   });
 
+  it("lets requests that arrive at the same moment take turns, so the limit holds however many ask at once", async () => {
+    // The counters live outside the process and every read and write takes a moment; without turns, all ten would read zero.
+    const slow = new FakeRedis();
+    const get = slow.get.bind(slow);
+    const set = slow.set.bind(slow);
+    slow.get = async (key: string) => (await new Promise((r) => setTimeout(r, 2)), get(key));
+    slow.set = async (key: string, value: string) => (await new Promise((r) => setTimeout(r, 2)), set(key, value));
+    const guard = new AiQuota({ getClient: () => slow } as never, settings({ requestsPerMinute: 10, margin: 0.3, tokensPerMinute: 100000 }));
+    const results = await Promise.allSettled(Array.from({ length: 10 }, () => guard.reserve("u", 10, at(12, 0, 5))));
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(3);
+    expect(JSON.parse(slow.data.get("ai:quota:min:" + Math.floor(at(12, 0, 5) / 60000))!)).toMatchObject({ requests: 3 });
+  });
+
+  it("keeps taking turns after one request fails", async () => {
+    const { redis, guard } = make();
+    redis.failing = true;
+    await refused(guard.reserve("u", 10, at(12, 0, 0)));
+    redis.failing = false;
+    await expect(guard.reserve("u", 10, at(12, 0, 1))).resolves.toBeDefined();
+  });
+
   it("without an owner it checks only the shared limits (as readiness does)", async () => {
     const { guard } = make({ userPerDay: 1, margin: 1 });
     await guard.reserve("u", 10, at(12, 0, 0));

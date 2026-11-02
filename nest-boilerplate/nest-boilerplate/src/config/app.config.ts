@@ -46,6 +46,13 @@ export const envSchema = z
     OLLAMA_MODEL: z.enum(["qwen2.5:1.5b", "llama3.2:3b"]).default("qwen2.5:1.5b"),
     // Which provider explains results. Hosted inference sends the bounded facts of one run to Groq; the key stays server-side.
     AI_PROVIDER: z.enum(["ollama", "groq"]).default("ollama"),
+    // Design tasks that use the hosted model (docs/AI-COPILOT-SCOPE.md). Comma separated, empty by default: each is its own switch.
+    AI_FEATURES: z
+      .string()
+      .max(60)
+      .default("")
+      .transform((v) => v.split(",").map((s) => s.trim()).filter(Boolean))
+      .pipe(z.array(z.enum(["describe", "whatif", "fixes"])).max(3)),
     GROQ_API_KEY: z.string().max(200).default(""),
     GROQ_MODEL: z.enum(["openai/gpt-oss-20b", "openai/gpt-oss-120b"]).default("openai/gpt-oss-20b"),
     // The account's published free limits for the chosen model (as shown on its Groq limits page) and how much of them to use.

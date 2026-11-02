@@ -7,7 +7,7 @@ export class SavedDesign {
   @Column({ type: "varchar", length: 100 }) name!: string;
   @Column({ type: "text" }) description!: string;
   @Column({ type: "varchar", length: 16 }) source!:
-    "blank" | "template" | "import" | "scripted";
+    "blank" | "template" | "import" | "scripted" | "ai";
   @Column({ type: "varchar", nullable: true }) templateId!: string | null;
   @Column("integer") schemaVersion!: 1;
   @Column("jsonb") graph!: Graph;

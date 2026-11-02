@@ -34,6 +34,25 @@ describe("M11 experimental configuration", () => {
     expect(defaults.GROQ_API_KEY).toBe("");
     expect(envSchema.parse({ ...base, AI_PROVIDER: "groq", GROQ_MODEL: "openai/gpt-oss-120b" })).toMatchObject({ AI_PROVIDER: "groq", GROQ_MODEL: "openai/gpt-oss-120b" });
   });
+  it("has every design task switched off by default, and reads a comma-separated list of known tasks", () => {
+    expect(envSchema.parse(base).AI_FEATURES).toEqual([]);
+    expect(envSchema.parse({ ...base, AI_FEATURES: "" }).AI_FEATURES).toEqual([]);
+    expect(envSchema.parse({ ...base, AI_FEATURES: "describe" }).AI_FEATURES).toEqual(["describe"]);
+    expect(envSchema.parse({ ...base, AI_FEATURES: " describe , whatif,fixes " }).AI_FEATURES).toEqual(["describe", "whatif", "fixes"]);
+  });
+  it("rejects an unknown design task, a repeated list that is too long, and an oversized value", () => {
+    for (const AI_FEATURES of ["chat", "describe,chat", "describe,whatif,fixes,describe", "x".repeat(61)])
+      expect(envSchema.safeParse({ ...base, AI_FEATURES }).success).toBe(false);
+  });
+  it("passes the task list to the settings the services read", () => {
+    jest.isolateModules(() => {
+      process.env.AI_FEATURES = "whatif,fixes";
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { aiSettings } = require("@/modules/ai/ai.settings");
+      expect(aiSettings().features).toEqual(["whatif", "fixes"]);
+      delete process.env.AI_FEATURES;
+    });
+  });
   it("rejects an unknown provider, an unapproved hosted model, and an oversized key", () => {
     for (const change of [{ AI_PROVIDER: "openai" }, { AI_PROVIDER: "" }, { GROQ_MODEL: "unapproved/model" }, { GROQ_API_KEY: "k".repeat(201) }])
       expect(envSchema.safeParse({ ...base, ...change }).success).toBe(false);
