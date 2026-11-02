@@ -200,7 +200,7 @@ See [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) "Correction and diagnostic". The user 
 **NO-GO accepted** for `gpt-oss-20b` (0 of 18). AI stays off and unreleased; the code groundwork is kept; no AI tab is built. Open for the owner: show the rule-based summary in the UI or not; whether to commit Codex's two roadmap docs; whether to push the local commits.
 
 ## AI Design Copilot P1 — 2026-11-02
-Groundwork built and tested, no model called, all switches off: structured task path on the Groq adapter, `AiTaskService`, `ai_task_calls`, design source `ai`, `AI_FEATURES`, quota turn-taking. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P1 result". **Pending for the owner: run `pnpm migration:run` on the development database.** Next: P2, F1 describe-to-design.
+Groundwork built and tested, no model called, all switches off: structured task path on the Groq adapter, `AiTaskService`, `ai_task_calls`, design source `ai`, `AI_FEATURES`, quota turn-taking. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P1 result". The owner has since applied the migration to the development database (2026-11-02). Next: P2, F1 describe-to-design.
 
 ## AI Design Copilot P2 — 2026-11-02
 Describe-to-design is built end to end (backend, page, gate tooling, tests) with the task switched off by default. **No Groq request has been sent in P2.** See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P2 result" and [AI-DESCRIBE-GATE-RUBRIC](AI-DESCRIBE-GATE-RUBRIC.md). Pending for the owner: run `pnpm migration:run` on the development database, and say go for the live gate (20 requests).
@@ -213,3 +213,6 @@ Describe-to-design is built end to end (backend, page, gate tooling, tests) with
 
 ## AI Copilot F2 core — 2026-11-02: built, no AI
 Verified fix suggestions are live on the Results tab for any run that does not pass: the server tries edits at the bottleneck, re-runs the model on each, and offers the ones that help, with the model's before and after. No model, key, quota or migration. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "F2 core result". Full Chrome regression 870 passed, 10 skipped by design, 0 failed. Open: whether to build F2's AI intent layer (recommended: no), F3, or a different next piece.
+
+## AI Copilot F3a — 2026-11-03: load ladder, no AI
+"Where does it break?" is live on the Results tab: the saved design at 2×, 5× and 10× its request rate, with the model's verdict, p95, errors and limiting component per row, and honest handling of rates the model cannot take. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "F3a result". Full Chrome regression 910 passed, 10 skipped by design, 0 failed. F3b (what-if in words) is deferred. Next options: the Evaluation page's honest AI results tab (needs the owner's wording review), or demo preparation.

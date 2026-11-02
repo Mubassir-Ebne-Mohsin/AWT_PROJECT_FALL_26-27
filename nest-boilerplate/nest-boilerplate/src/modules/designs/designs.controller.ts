@@ -4,6 +4,7 @@ import { DesignLibraryService } from "@/modules/designs/design-library.service";
 import { ReportService } from "@/modules/designs/report.service";
 import { DesignSharesService } from "@/modules/designs/design-shares.service";
 import { FixesService } from "@/modules/designs/fixes.service";
+import { LadderService } from "@/modules/designs/ladder.service";
 import { Throttle } from "@nestjs/throttler";
 import { Public } from "@/common/decorators";
 import { appConfig } from "@/config";
@@ -33,6 +34,7 @@ import {
   CreateDesignDto,
   CreateNoteDto,
   FixesRequestDto,
+  LadderRequestDto,
   PatchNoteDto,
   PrepareDesignDto,
   PatchDesignDto,
@@ -60,6 +62,7 @@ export class DesignsController {
     private readonly runs: RunsService,
     private readonly simulation: SimulationService,
     private readonly fixes: FixesService,
+    private readonly ladder: LadderService,
   ) {}
   @Post("prepare")
   @HttpCode(200)
@@ -200,7 +203,22 @@ export class DesignsController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    // The person leaving cancels the remaining calculations.
+    return this.cancellable(req, res, (signal) => this.fixes.suggest(u.id, id, dto, signal));
+  }
+  /** The same design at two, five and ten times the request rate. Computes only; nothing is saved. */
+  @Post(":id/ladder")
+  @HttpCode(200)
+  async climbLadder(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() dto: LadderRequestDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.cancellable(req, res, (signal) => this.ladder.climb(u.id, id, dto, signal));
+  }
+  /** The person leaving cancels the calculations still to come. */
+  private async cancellable<T>(req: Request, res: Response, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
     const controller = new AbortController();
     const onClose = () => {
       if (!res.writableFinished) controller.abort();
@@ -208,7 +226,7 @@ export class DesignsController {
     res.on("close", onClose);
     if (req.socket.destroyed || res.destroyed) controller.abort();
     try {
-      return await this.fixes.suggest(u.id, id, dto, controller.signal);
+      return await work(controller.signal);
     } finally {
       res.off("close", onClose);
     }

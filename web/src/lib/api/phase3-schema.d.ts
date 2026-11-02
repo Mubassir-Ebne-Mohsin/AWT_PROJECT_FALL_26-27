@@ -852,6 +852,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/ladder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["climbDesignLadder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/fixes": {
         parameters: {
             query?: never;
@@ -1832,6 +1848,36 @@ export interface components {
             }[];
             tried: number;
             skipped: number;
+        };
+        LadderRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+        };
+        DesignLadder: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            rungs: {
+                multiplier: number;
+                rps: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            }[];
         };
         AiTasksReadiness: {
             tasks: {
@@ -10002,6 +10048,106 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["RestoredDesign"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    climbDesignLadder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LadderRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignLadder"];
                     };
                 };
             };

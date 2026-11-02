@@ -23,6 +23,7 @@ import {
 } from "@/common/contracts/phase3/ai.schema";
 import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
 import { fixesRequestSchema, fixesSchema } from "@/common/contracts/phase3/fixes.schema";
+import { ladderRequestSchema, ladderSchema } from "@/common/contracts/phase3/ladder.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
 import {
   restoreVersionRequestSchema,
@@ -70,6 +71,8 @@ export function phase3OpenApi() {
     AiReadiness: aiReadinessSchema,
     FixesRequest: fixesRequestSchema,
     DesignFixes: fixesSchema,
+    LadderRequest: ladderRequestSchema,
+    DesignLadder: ladderSchema,
     AiTasksReadiness: aiTasksReadinessSchema,
     AiDescribeRequest: aiDescribeRequestSchema,
     AiDescribePrepared: aiDescribePreparedSchema,
@@ -642,6 +645,9 @@ export function phase3OpenApi() {
             },
           },
         },
+      },
+      "/v1/designs/{id}/ladder": {
+        post: { ...operation("climbDesignLadder", "DesignLadder", "LadderRequest"), parameters: [parameter] },
       },
       "/v1/designs/{id}/fixes": {
         post: { ...operation("suggestDesignFixes", "DesignFixes", "FixesRequest"), parameters: [parameter] },

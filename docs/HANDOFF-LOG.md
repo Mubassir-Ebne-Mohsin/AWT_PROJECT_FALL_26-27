@@ -284,3 +284,6 @@ Entry template:
 
 ## 2026-11-02, Claude: F2 core
 **Done:** `POST /v1/designs/:id/fixes` (candidate generator in `engine/fixes.ts`, `FixesService`), Suggested fixes panel on the Results tab, tests and breaks. **Warnings for Codex:** this feature must stay deterministic (no model); do not loosen `improves()` (a fix must be no worse on verdict, p95 and error rate); the numbers shown must keep coming from the engine; run the browser regression with `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` set; never run two break scripts at once.
+
+## 2026-11-03, Claude: F3a load ladder
+**Done:** `POST /v1/designs/:id/ladder`, `LadderService`, shared `current-run.ts`, the Where does it break? panel, tests and breaks. **Warnings for Codex:** keep this deterministic (no model); the ladder must keep varying only the request rate; a rate above the engine maximum must stay "TOO_LARGE", never calculated; do not touch `current-run.ts` without rerunning both the fixes and ladder tests; run the browser regression with `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` set.

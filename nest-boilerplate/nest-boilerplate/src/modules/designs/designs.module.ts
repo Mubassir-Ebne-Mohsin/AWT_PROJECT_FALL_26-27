@@ -5,6 +5,7 @@ import { ReportService } from "@/modules/designs/report.service";
 import { DesignSharesService } from "@/modules/designs/design-shares.service";
 import { Module } from "@nestjs/common";
 import { FixesService } from "@/modules/designs/fixes.service";
+import { LadderService } from "@/modules/designs/ladder.service";
 import { DesignsService } from "@/modules/designs/designs.service";
 import { RunsService } from "@/modules/designs/runs.service";
 import {
@@ -16,7 +17,7 @@ import {
 import { SimulationModule } from "@/modules/simulation/simulation.module";
 @Module({
   imports: [SimulationModule],
-  providers: [DesignsService, RunsService, FixesService, DesignVersionsService, DesignNotesService, DesignLibraryService, ReportService, DesignSharesService],
+  providers: [DesignsService, RunsService, FixesService, LadderService, DesignVersionsService, DesignNotesService, DesignLibraryService, ReportService, DesignSharesService],
   exports: [DesignsService, ReportService],
   controllers: [DesignsController, DesignCatalogController, DesignLibraryController, SharesController],
 })

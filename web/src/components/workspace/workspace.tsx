@@ -18,6 +18,7 @@ import { NotesTab } from "@/components/workspace/notes-tab";
 import { restoreBlockedReason } from "@/lib/history-presentation";
 import { ExplainTrigger } from "@/components/workspace/explain-panel";
 import { SuggestedFixes } from "@/components/workspace/suggested-fixes";
+import { LoadLadder } from "@/components/workspace/load-ladder";
 import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
 import { PreviewSession } from "@/lib/preview-session";
 import { LivePreviewPanel, type LivePreviewView } from "@/components/workspace/live-preview";
@@ -614,6 +615,16 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                 stale={session.isRunStale(displayedRun)}
                 dirty={session.dirty}
                 onApply={(fix) => session.edit(fix.graph as unknown as Graph, "fix:" + fix.id)}
+              />
+            )}
+            {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
+              <LoadLadder
+                key={"ladder:" + displayedRun.id + ":" + state.saved.revision}
+                designId={initial.id}
+                savedRevision={state.saved.revision}
+                runId={displayedRun.id}
+                runRevision={displayedRun.designRevision}
+                stale={session.isRunStale(displayedRun)}
               />
             )}
           </>

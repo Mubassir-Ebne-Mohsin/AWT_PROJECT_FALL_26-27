@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { randomUUID } from "node:crypto";
 import { AppException } from "@/common/errors";
-import { inputFingerprint } from "@/common/contracts/phase2/fingerprint";
+import { currentSimulationRun } from "@/modules/designs/current-run";
 import { fixesSchema, type Fixes, type FixSuggestion } from "@/common/contracts/phase3/fixes.schema";
 import { candidateFixes, improves, MAX_SUGGESTIONS, rank, type Measure } from "@/modules/simulation/engine/fixes";
 import { DesignsService } from "@/modules/designs/designs.service";
@@ -26,16 +26,7 @@ export class FixesService {
   ) {}
 
   async suggest(owner: string, id: string, request: { expectedRevision: number; runId: string }, signal: AbortSignal): Promise<Fixes> {
-    const design = await this.designs.owned(owner, id);
-    this.designs.revision(design, request.expectedRevision);
-    const run = await this.runs.get(owner, id, request.runId);
-    if (run.kind !== "simulation" || run.status !== "completed" || run.result.kind !== "simulation")
-      throw new AppException("VALIDATION_FAILED", "Fixes need a completed test run", { reason: "RUN_NOT_USABLE" });
-    const snapshot = { schemaVersion: design.schemaVersion, graph: design.graph, traffic: design.traffic };
-    if (run.designRevision !== design.revision || run.fingerprint !== inputFingerprint(snapshot, run.engineVersion))
-      throw new AppException("VALIDATION_FAILED", "That run is not for the current saved design. Run the test again first.", { reason: "RUN_NOT_CURRENT" });
-
-    const summary = run.result.summary;
+    const { design, run, summary } = await currentSimulationRun(this.designs, this.runs, owner, id, request);
     const baseline = measure(summary);
     const hot = summary.bottleneckId ?? [...summary.nodes].filter((n) => n.type !== "client").sort((a, b) => b.rho - a.rho)[0]?.id ?? null;
     const limiterNode = design.graph.nodes.find((n) => n.id === hot);
