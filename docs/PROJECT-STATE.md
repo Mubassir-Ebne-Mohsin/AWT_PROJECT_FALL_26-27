@@ -204,3 +204,6 @@ Groundwork built and tested, no model called, all switches off: structured task 
 
 ## AI Design Copilot P2 — 2026-11-02
 Describe-to-design is built end to end (backend, page, gate tooling, tests) with the task switched off by default. **No Groq request has been sent in P2.** See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "P2 result" and [AI-DESCRIBE-GATE-RUBRIC](AI-DESCRIBE-GATE-RUBRIC.md). Pending for the owner: run `pnpm migration:run` on the development database, and say go for the live gate (20 requests).
+
+## F1 live gate, run 1 — 2026-11-02: NO-GO
+`gpt-oss-20b`, 20 prompts: 13 accepted, 7 refused (5 from my own validation rejecting numbers the prompt said were ignored, 2 from a too-literal figure rule), and **all 3 injection prompts obeyed**. F1 stays switched off. See [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) "F1 live gate, run 1". The owner chooses: accept NO-GO, or a declared run 2.

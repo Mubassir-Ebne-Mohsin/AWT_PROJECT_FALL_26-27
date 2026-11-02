@@ -275,3 +275,6 @@ Entry template:
 
 ## 2026-11-02, Claude: Copilot P2
 **Done:** F1 describe-to-design per [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). **Warnings for Codex:** do not set `AI_FEATURES`, switch AI on, or run `ai-gate describe-run --confirm-live`; do not change the 20 prompts, thresholds or rubric of the describe gate (a change must be declared and run as a separate recorded run); run the browser regression with `SF_PG_CONTAINER`, `SF_PG_USER` and `SF_PG_DB` set, or the admin and reviewer journeys skip themselves.
+
+## 2026-11-02, Claude: F1 live gate run 1
+**Done:** one live run (20 requests) on the owner's go; NO-GO. **Warnings for Codex:** do not rerun, tune the prompt, or change the 20 prompts, the thresholds or the schema to pass; a run 2 must be declared in a commit first and needs the owner's go.
