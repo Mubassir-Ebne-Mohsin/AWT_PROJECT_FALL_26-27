@@ -1,8 +1,8 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**AI integration is PARKED by the user (2026-10-29).** Read [AI-DEFERRAL-PLAN.md](AI-DEFERRAL-PLAN.md) first: no AI feature work, no provider choice, `AI_ENABLED` stays false. Non-AI milestones continue.
+**AI status (2026-11-03): no longer parked.** The AI Design Copilot work ran 2026-11-02/03 under pre-registered gates. **Every AI feature is OFF by default**; the only way to turn one on is the demo launcher `pnpm demo:ai`, which enables one experimental task (the fix goal box). Read the newest [HANDOFF-LOG](HANDOFF-LOG.md) entry and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) first. The milestone table below was last refreshed 2026-10-29: its rows for M12B, M13, M14, M17 and Phase 4/5 are superseded by that entry (P1-P6, verified fixes, the load ladder and the Evaluation tabs are built).
 
-**Last updated:** 2026-10-29 by Claude Code. **Branch:** `codex/phase2-contracts`. **Last commit:** `fe5c01a`.
+**Last updated:** 2026-11-03 by Claude Code. **Branch:** `codex/phase2-contracts`. **Last commit:** `6898579` (not pushed; origin is at `99b6fd0`).
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
 Latest handover for Codex: [CODEX-CONTEXT-2026-10-29.md](CODEX-CONTEXT-2026-10-29.md).
