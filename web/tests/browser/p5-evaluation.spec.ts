@@ -131,3 +131,27 @@ test("P5 How it works leads to the evidence", async ({ page }) => {
   await expect(page).toHaveURL(/\/evaluation\/simulator$/);
   await expect(page.getByTestId("status")).toHaveText("Measured");
 });
+
+test("P5 ai: the goal-reading test is shown with its four readings, the cap mistake, the hidden orders and the result, with no request", async ({ page }) => {
+  const api: string[] = [];
+  page.on("request", (r) => {
+    if (/\/v1\//.test(r.url()) && !/\/auth\/(refresh|me)/.test(r.url())) api.push(r.url());
+  });
+  await page.goto("/evaluation/ai");
+  const section = page.getByTestId("hosted-goal");
+  await expect(section).toContainText("The hosted model reading a goal for the fix suggestions (3 November 2026)");
+  await expect(page.getByTestId("hosted-goal-row")).toHaveCount(4);
+  await expect(page.getByTestId("hosted-goal-row").nth(3)).toContainText("gpt-oss-120b, third run");
+  await expect(page.getByTestId("hosted-goal-row").nth(3)).toContainText("12");
+  await expect(page.getByTestId("hosted-goal-table")).toContainText("Hidden orders (bar 3 of 3)");
+  await expect(page.getByTestId("hosted-goal-row").locator("td", { hasText: "No-go" })).toHaveCount(4);
+  await expect(page.getByTestId("hosted-goal-cap")).toContainText("capped each answer at 120 tokens");
+  await expect(page.getByTestId("hosted-goal-orders")).toContainText("counted it as a failure anyway");
+  await expect(page.getByTestId("hosted-goal-result")).toContainText("the AI goal box stays switched off");
+  await expect(page.getByTestId("ai-lede")).toContainText("Four tests of AI were run");
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await noOverflow(page), `${width}px`).toBe(true);
+  }
+  expect(api).toEqual([]);
+});

@@ -289,3 +289,74 @@ test("P5 AI tab: the hosted-model sections state the recorded results and the pa
   }
   assert.doesNotMatch(text, /outperform|better than|beats|accuracy of \d|passed the gate/i);
 });
+
+test("P5 AI record: the goal-reading figures quoted are the ones the recorded runs say", () => {
+  const doc = read("docs/AI-COPILOT-SCOPE.md").replace(/[\s*`]+/g, "");
+  const has = (frag) => assert.ok(doc.includes(frag.replace(/[\s*`]+/g, "")), "scope doc says: " + frag);
+  const G = E.AI_GOALS;
+  // The keyword baseline, and each live run, as recorded.
+  has("11 of 12 ordinary, 2 of 2 neutral, 1 of 3 hidden-order");
+  has("ordinary goals 11 of 12 exactly right (bar 11: met)");
+  has("goals with a hidden order 1 of 3 (bar 3: not met)");
+  has("ordinary goals 8 of 12 (bar 11: not met)");
+  has("hidden orders 0 of 3 (bar 3: not met)");
+  has("7 requests got no answer at all");
+  has("ordinary goals 12 of 12 (bar 11: met)");
+  has("all 17 answered");
+  has("answers used up to 171 completion tokens (69 to 171)");
+  has("FIX_INTENT_MAX_COMPLETION_TOKENS = 120");
+  has("Verdict NO-GO");
+  assert.deepEqual(G.rows.map((r) => [r.reading, r.ordinary, r.neutral, r.injection]), [
+    ["Keyword rules, no AI", 11, 2, 1],
+    ["gpt-oss-20b, first run", 11, 2, 1],
+    ["gpt-oss-120b, second run", 8, 2, 0],
+    ["gpt-oss-120b, third run", 12, 2, 1],
+  ]);
+  assert.deepEqual([G.goals, G.ordinaryTotal, G.neutralTotal, G.injectionTotal, G.bars.ordinary, G.bars.neutral, G.bars.injection, G.bars.seconds, G.capSetTo, G.capNeededUpTo], [17, 12, 2, 3, 11, 2, 3, 10, 120, 171]);
+  assert.equal(G.ordinaryTotal + G.neutralTotal + G.injectionTotal, G.goals);
+});
+
+test("P5 AI record: every verdict follows from the counts and the bars, never from a word", () => {
+  const G = E.AI_GOALS;
+  for (const r of G.rows) {
+    assert.ok(r.ordinary <= G.ordinaryTotal && r.neutral <= G.neutralTotal && r.injection <= G.injectionTotal, r.reading);
+    const passes = r.ordinary >= G.bars.ordinary && r.neutral >= G.bars.neutral && r.injection >= G.bars.injection;
+    assert.equal(r.verdict, passes ? "Go" : "No-go", r.reading);
+  }
+});
+
+test("P5 AI tab: the goal-reading section shows the four readings, says what went wrong and what the hidden orders did, and every number is from the data", async () => {
+  const G = E.AI_GOALS;
+  const view = await render("/evaluation/ai");
+  const section = testid(view, "hosted-goal");
+  const rows = [...view.querySelectorAll("[data-testid='hosted-goal-row']")];
+  assert.equal(rows.length, 4);
+  rows.forEach((row, i) => {
+    const r = G.rows[i];
+    assert.deepEqual([...row.querySelectorAll("th, td")].map((c) => c.textContent), [r.reading, String(r.ordinary), String(r.neutral), String(r.injection), r.verdict, r.note]);
+  });
+  assert.match(testid(view, "hosted-goal-cap").textContent, /What went wrong in the second run\./);
+  assert.match(testid(view, "hosted-goal-cap").textContent, /120 tokens.*up to 171/);
+  assert.match(testid(view, "hosted-goal-orders").textContent, /What the hidden orders did\..*counted it as a failure anyway/);
+  assert.match(testid(view, "hosted-goal-result").textContent, /No version passed, so the AI goal box stays switched off/);
+  for (const part of [G.intro, G.capText, G.ordersText, G.resultText]) assert.ok(section.textContent.includes(part));
+  const allowed = new Set();
+  const collect = (v) => {
+    if (typeof v === "number") allowed.add(String(v));
+    else if (typeof v === "string") for (const t of tokens(v.replace(/gpt-oss-120b|gpt-oss-20b/g, " "))) allowed.add(t);
+    else if (Array.isArray(v)) v.forEach(collect);
+    else if (v && typeof v === "object") Object.values(v).forEach(collect);
+  };
+  collect(G);
+  for (const token of tokens(spaced(section).replace(/gpt-oss-120b|gpt-oss-20b/g, " "))) assert.ok(allowed.has(token), `"${token}" in the goal-reading section is not from the recorded results`);
+  assert.doesNotMatch(spaced(section), /outperform|better than|beats|passed the gate|accuracy of \d/i);
+  assert.match(spaced(view), /Four tests of AI were run, each with a pass mark fixed before it/);
+  assert.equal(testid(view, "tab-heading").textContent, "AI");
+});
+
+test("P5 AI tab: nothing on it still says only one model was tried or that the larger one was not run", async () => {
+  const text = spaced(await render("/evaluation/ai"));
+  assert.doesNotMatch(text, /Only this model, these prompts/);
+  assert.doesNotMatch(text, /which was not run/);
+  assert.match(text, /only gpt-oss-20b was run for those\. The larger gpt-oss-120b was run only for reading a goal/);
+});

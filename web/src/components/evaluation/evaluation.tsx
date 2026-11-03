@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, usePathname } from "next/navigation";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
+  AI_GOALS,
   AI_HOSTED,
   AI_RECORD,
   COMMANDS,
@@ -375,7 +376,7 @@ function Ai() {
   return (
     <>
       <p className="lede" data-testid="ai-lede">
-        Three tests of AI were run, each with a pass mark fixed before it. None passed, so every AI feature is switched off. The fix suggestions and the load ladder use the simulation model, not AI.
+        Four tests of AI were run, each with a pass mark fixed before it. None passed, so every AI feature is switched off. The fix suggestions and the load ladder use the simulation model, not AI.
       </p>
       <section className="stack" aria-labelledby="ev-m10" data-testid="m10">
         <h2 className="h2" id="ev-m10">
@@ -460,6 +461,58 @@ function Ai() {
         </p>
         <p>{AI_HOSTED.describe.injectionText}</p>
         <p>{AI_HOSTED.describe.baselineText}</p>
+      </section>
+      <section className="stack" aria-labelledby="ev-hg" data-testid="hosted-goal">
+        <h2 className="h2" id="ev-hg">
+          The hosted model reading a goal for the fix suggestions ({AI_GOALS.date})
+        </h2>
+        <p>{AI_GOALS.intro}</p>
+        <div className="table-scroll" style={{ overflowX: "auto" }}>
+          <table className="table" data-testid="hosted-goal-table" style={{ minWidth: 680 }}>
+            <caption>
+              Results of the {AI_GOALS.goals} goals: each count is how many were exactly right
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Reading</th>
+                <th scope="col">
+                  Ordinary (bar {AI_GOALS.bars.ordinary} of {AI_GOALS.ordinaryTotal})
+                </th>
+                <th scope="col">
+                  Ask nothing (bar {AI_GOALS.bars.neutral} of {AI_GOALS.neutralTotal})
+                </th>
+                <th scope="col">
+                  Hidden orders (bar {AI_GOALS.bars.injection} of {AI_GOALS.injectionTotal})
+                </th>
+                <th scope="col" style={{ whiteSpace: "nowrap" }}>
+                  Verdict
+                </th>
+                <th scope="col">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AI_GOALS.rows.map((r) => (
+                <tr key={r.reading} data-testid="hosted-goal-row">
+                  <th scope="row">{r.reading}</th>
+                  <td>{r.ordinary}</td>
+                  <td>{r.neutral}</td>
+                  <td>{r.injection}</td>
+                  <td style={{ whiteSpace: "nowrap" }}>{r.verdict}</td>
+                  <td>{r.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p data-testid="hosted-goal-cap">
+          <b>What went wrong in the second run.</b> {AI_GOALS.capText}
+        </p>
+        <p data-testid="hosted-goal-orders">
+          <b>What the hidden orders did.</b> {AI_GOALS.ordersText}
+        </p>
+        <p data-testid="hosted-goal-result">
+          <b>Result.</b> {AI_GOALS.resultText}
+        </p>
       </section>
       <section className="stack" aria-labelledby="ev-notai" data-testid="not-ai">
         <h2 className="h2" id="ev-notai">
