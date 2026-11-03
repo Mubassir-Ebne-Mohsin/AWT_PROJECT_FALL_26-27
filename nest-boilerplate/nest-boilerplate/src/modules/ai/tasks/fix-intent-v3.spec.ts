@@ -113,3 +113,18 @@ describe("readGoal", () => {
     await expect(readGoal("No cache.", async () => { throw new Error("down"); })).rejects.toThrow("down");
   });
 });
+
+describe("the three misses of the first live development batch (2026-11-03, stored replies replayed offline)", () => {
+  it("'leave the cache out' is a limit the guard now recognises", () => {
+    const r = resolveReading("Simplest possible change, and leave the cache out.", say({ excludeCache: true, preference: "simplest" }));
+    expect(r.filter).toEqual({ exclude: ["cache"], preference: "simplest" });
+  });
+  it("a model that picked servers for an unclear 'replicas' still gets a clarification", () => {
+    const r = resolveReading("No replicas for us, thanks.", say({ excludeReplicas: true }));
+    expect(r.status).toBe("CLARIFY");
+    expect(r.filter).toEqual({ exclude: [], preference: "default" });
+    const withPreference = resolveReading("No replicas and cheapest first.", say({ excludeReplicas: true, preference: "simplest" }));
+    expect(withPreference.status).toBe("CLARIFY");
+    expect(withPreference.clarification?.choices.every((c) => c.filter.preference === "simplest")).toBe(true);
+  });
+});

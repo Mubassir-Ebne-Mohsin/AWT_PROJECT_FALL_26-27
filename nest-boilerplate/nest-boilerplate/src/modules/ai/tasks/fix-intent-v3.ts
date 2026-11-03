@@ -139,7 +139,7 @@ export function resolveReading(cleaned: string, answer: FixIntentV3Output, ignor
   const preference = preferencesConflict ? "default" : grounded.preference;
   const base = { ...flagsOf(grounded) };
 
-  if (copiesUnclear && (answer.ambiguity === "copies_or_replica" || base.excludeReplicas || base.excludeReadReplica)) {
+  if (copiesUnclear && (answer.ambiguity === "copies_or_replica" || answer.excludeReplicas || answer.excludeReadReplica)) {
     base.excludeReplicas = false;
     base.excludeReadReplica = false;
     const choice = (id: string, label: string, replicas: boolean, readReplica: boolean): ClarificationChoice => ({

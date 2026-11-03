@@ -1,0 +1,109 @@
+{
+  "note": "Development run, not the acceptance run. Goals are dev-labelled.",
+  "summary": {
+    "model": "openai/gpt-oss-120b",
+    "requests": 3,
+    "correct": 3,
+    "total": 3,
+    "unsupportedChoices": 0,
+    "failedRequests": 0,
+    "slowerThan10s": 0,
+    "byGroup": {
+      "ordinary": {
+        "correct": 3,
+        "total": 3
+      }
+    },
+    "tokens": 2001,
+    "identicalAnswers": true
+  },
+  "rows": [
+    {
+      "id": "o-two",
+      "group": "ordinary",
+      "text": "Nothing that needs a new database replica, and no caching layer.",
+      "modelCalled": true,
+      "raw": {
+        "outcome": "supported",
+        "ambiguity": "none",
+        "excludeReplicas": false,
+        "excludeCapacity": false,
+        "excludeCache": true,
+        "excludeReadReplica": true,
+        "preference": "default"
+      },
+      "status": "SUPPORTED",
+      "filter": {
+        "exclude": [
+          "cache",
+          "readReplica"
+        ],
+        "preference": "default"
+      },
+      "correct": true,
+      "unsupportedChoice": false,
+      "dropped": [],
+      "error": null,
+      "latencyMs": 832,
+      "totalTokens": 667
+    },
+    {
+      "id": "o-two",
+      "group": "ordinary",
+      "text": "Nothing that needs a new database replica, and no caching layer.",
+      "modelCalled": true,
+      "raw": {
+        "outcome": "supported",
+        "ambiguity": "none",
+        "excludeReplicas": false,
+        "excludeCapacity": false,
+        "excludeCache": true,
+        "excludeReadReplica": true,
+        "preference": "default"
+      },
+      "status": "SUPPORTED",
+      "filter": {
+        "exclude": [
+          "cache",
+          "readReplica"
+        ],
+        "preference": "default"
+      },
+      "correct": true,
+      "unsupportedChoice": false,
+      "dropped": [],
+      "error": null,
+      "latencyMs": 728,
+      "totalTokens": 667
+    },
+    {
+      "id": "o-two",
+      "group": "ordinary",
+      "text": "Nothing that needs a new database replica, and no caching layer.",
+      "modelCalled": true,
+      "raw": {
+        "outcome": "supported",
+        "ambiguity": "none",
+        "excludeReplicas": false,
+        "excludeCapacity": false,
+        "excludeCache": true,
+        "excludeReadReplica": true,
+        "preference": "default"
+      },
+      "status": "SUPPORTED",
+      "filter": {
+        "exclude": [
+          "cache",
+          "readReplica"
+        ],
+        "preference": "default"
+      },
+      "correct": true,
+      "unsupportedChoice": false,
+      "dropped": [],
+      "error": null,
+      "latencyMs": 781,
+      "totalTokens": 667
+    }
+  ]
+}

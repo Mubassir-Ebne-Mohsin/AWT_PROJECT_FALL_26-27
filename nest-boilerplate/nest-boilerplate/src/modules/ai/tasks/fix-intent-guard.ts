@@ -25,7 +25,7 @@ export const PREFERENCE_WORDS = {
   fewest_errors: /\b(errors?|reliab\w*|fail\w*|dropped|stable|stability|availability)\b/i,
 } as const;
 
-export const LIMIT_CUE =/\b(no|not|never|without|avoid|off|don'?t|can'?t|cannot|won'?t|nothing|skip|except|locked|stuck|exclude)\b|\brule out\b|\binstead of\b/i;
+export const LIMIT_CUE =/\b(no|not|never|without|avoid|off|don'?t|can'?t|cannot|won'?t|nothing|skip|except|locked|stuck|exclude)\b|\brule out\b|\binstead of\b|\bleave\b[^.;,]{0,30}\bout\b|\bleft out\b/i;
 const NOTHING_ELSE = /\bnothing (else|but)\b/gi;
 const ONLY_CUE = /\b(only|just)\b|\bnothing but\b|\bnothing else\b/i;
 
