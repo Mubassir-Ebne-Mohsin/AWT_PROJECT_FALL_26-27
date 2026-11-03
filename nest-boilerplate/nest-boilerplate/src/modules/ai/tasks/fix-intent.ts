@@ -44,7 +44,8 @@ export const FIX_INTENT_SYSTEM_PROMPT =
   "excludeReadReplica: the person does not want a read replica, which is another copy of the database; a cache is not a database copy. " +
   "Set an exclude field to true only when the person says they do not want, cannot have or must avoid that kind of change; if the person says only one kind of change is allowed, exclude all the other kinds. " +
   "preference: simplest for cheapest, lightest or least change; lowest_latency for fastest or lowest latency; fewest_errors for most reliable, fewest failed requests or removing the most errors; otherwise default.";
-export const FIX_INTENT_MAX_COMPLETION_TOKENS = 120;
+// No cap of its own: the adapter's default for tasks applies. A cap of 120 was tried first and cut answers off, because the model's
+// reasoning counts toward it (docs/AI-COPILOT-SCOPE.md, "diagnostic of the failed requests").
 
 /** The request for one goal. The text is passed as a JSON string, so it cannot break out of its place in the prompt. */
 export function fixIntentTask(goal: string): StructuredTask {
@@ -55,7 +56,6 @@ export function fixIntentTask(goal: string): StructuredTask {
       { role: "user", content: "GOAL=" + JSON.stringify(goal) },
     ],
     schema: FIX_INTENT_TRANSPORT_SCHEMA,
-    maxCompletionTokens: FIX_INTENT_MAX_COMPLETION_TOKENS,
   };
 }
 

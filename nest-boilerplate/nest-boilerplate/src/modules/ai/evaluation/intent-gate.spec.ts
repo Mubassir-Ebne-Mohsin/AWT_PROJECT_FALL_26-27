@@ -103,6 +103,23 @@ describe("running the gate", () => {
     await runIntentGate(provider, INTENT_CASES.slice(0, 3), { provider: "t", model: "m", beforeEach: async () => void order.push("wait") });
     expect(order).toEqual(["wait", "ask", "wait", "ask", "wait", "ask"]);
   });
+  it("keeps the HTTP status and error identifier of a request the provider refused, and nothing else about the refusal", async () => {
+    const provider: StructuredLike = {
+      structured: async () => {
+        throw new AppException("UNAVAILABLE", "Hosted AI could not complete the request", { reason: "PROVIDER_UNAVAILABLE" });
+      },
+    };
+    const run = await runIntentGate(provider, INTENT_CASES.slice(0, 2), { provider: "t", model: "m", refusal: () => ({ httpStatus: 503, errorCode: "over_capacity" }) });
+    expect(run.records[0]).toMatchObject({ outcome: "failed", correct: false, httpStatus: 503, errorCode: "over_capacity" });
+    expect(run.records[0].reason).toMatch(/PROVIDER_UNAVAILABLE/);
+    const bare = await runIntentGate(provider, INTENT_CASES.slice(0, 1), { provider: "t", model: "m", refusal: () => ({ httpStatus: 502 }) });
+    expect(bare.records[0]).toMatchObject({ httpStatus: 502 });
+    expect(bare.records[0]).not.toHaveProperty("errorCode");
+    const ok = await runIntentGate(model(perfect), INTENT_CASES.slice(0, 1), { provider: "t", model: "m", refusal: () => ({ httpStatus: 500 }) });
+    expect(ok.records[0]).not.toHaveProperty("httpStatus");
+    const none = await runIntentGate(provider, INTENT_CASES.slice(0, 1), { provider: "t", model: "m" });
+    expect(none.records[0]).not.toHaveProperty("httpStatus");
+  });
   it("keeps the raw reply, finish reason, model and usage that the provider reported", async () => {
     const provider: StructuredLike = {
       structured: async (task, parse, _signal, observe) => {

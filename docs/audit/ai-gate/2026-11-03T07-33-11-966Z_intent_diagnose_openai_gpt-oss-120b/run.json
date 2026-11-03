@@ -1,0 +1,37 @@
+{
+  "note": "Diagnostic only, not a gate run. No verdict.",
+  "model": "openai/gpt-oss-120b",
+  "goal": "no-servers",
+  "attempts": [
+    {
+      "attempt": 1,
+      "outcome": "failed",
+      "detail": "INVALID_OUTPUT",
+      "httpStatus": null,
+      "errorCode": null,
+      "finishReason": "length",
+      "latencyMs": 721,
+      "totalTokens": 649
+    },
+    {
+      "attempt": 2,
+      "outcome": "failed",
+      "detail": "INVALID_OUTPUT",
+      "httpStatus": null,
+      "errorCode": null,
+      "finishReason": "length",
+      "latencyMs": 578,
+      "totalTokens": 1161
+    },
+    {
+      "attempt": 3,
+      "outcome": "failed",
+      "detail": "INVALID_OUTPUT",
+      "httpStatus": null,
+      "errorCode": null,
+      "finishReason": "length",
+      "latencyMs": 732,
+      "totalTokens": 1161
+    }
+  ]
+}

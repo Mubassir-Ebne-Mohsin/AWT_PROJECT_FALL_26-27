@@ -13,7 +13,10 @@ import { DESCRIBE_CASES } from "@/modules/ai/evaluation/describe-cases";
 import { applyDescribeJudgements, describeSheet, describeSheetMarkdown, evaluateDescribeGate, runDescribeGate, runScriptedBaseline, type DescribeRun, type StructuredLike } from "@/modules/ai/evaluation/describe-gate";
 import { pacerLimits } from "@/modules/ai/evaluation/pacer";
 import { INTENT_CASES } from "@/modules/ai/evaluation/intent-cases";
-import { evaluateIntentGate, runIntentBaseline, runIntentGate, type IntentRun } from "@/modules/ai/evaluation/intent-gate";
+import { differences, evaluateIntentGate, runIntentBaseline, runIntentGate, type IntentRun } from "@/modules/ai/evaluation/intent-gate";
+import { fixIntentTask, parseFixIntent } from "@/modules/ai/tasks/fix-intent";
+import type { ProviderObservation } from "@/modules/ai/provider";
+import { probingFetch } from "@/modules/ai/evaluation/refusal-probe";
 
 /**
  * The explanation gate, from the command line (run from the backend folder):
@@ -27,6 +30,7 @@ import { evaluateIntentGate, runIntentBaseline, runIntentGate, type IntentRun } 
  *   describe-score --runs=... --key=<key.json> --judgements=<file> --out=<folder>
  * The fix-intent gate (docs/AI-FIX-INTENT-GATE-RUBRIC.md) is scored mechanically, so it has one step:
  *   intent-run --dry | intent-run --model=<model> --confirm-live   (17 goals, one request each)
+ *   intent-diagnose --model=<model> --goal=<id> [--repeat=1..3] --confirm-live   (not a gate run: why were requests refused?)
  * Results go under docs/audit/ai-gate/ unless --out says otherwise. The key is read from the environment and never printed.
  */
 dotenv.config({ quiet: true });
@@ -146,7 +150,9 @@ async function intentRunCommand() {
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) fail("GROQ_API_KEY is not set in the backend .env.");
     console.log("Live run: " + model + ", 17 goals, one request each, paced to 80% of the account limits.");
-    const groq = new GroqProvider({ apiKey: apiKey as string, model: model as GroqModel });
+    // The probe only notes why a refused request was refused (status and a plain error identifier); it changes no request and no verdict.
+    const probe = probingFetch();
+    const groq = new GroqProvider({ apiKey: apiKey as string, model: model as GroqModel }, probe.fetch);
     const pacer = new Pacer(pacerLimits(), 700);
     const paced: StructuredLike = {
       structured: (task, parse, signal, observe) =>
@@ -155,7 +161,7 @@ async function intentRunCommand() {
           observe?.(o);
         }),
     };
-    run = await runIntentGate(paced, INTENT_CASES, { provider: "groq", model, beforeEach: () => pacer.acquire() });
+    run = await runIntentGate(paced, INTENT_CASES, { provider: "groq", model, beforeEach: () => pacer.acquire(), refusal: probe.take });
     console.log("Requests made: " + pacer.requestsToday + ", tokens counted: " + pacer.tokensToday);
   }
   const report = evaluateIntentGate(run);
@@ -164,13 +170,55 @@ async function intentRunCommand() {
   console.log(JSON.stringify({ folder: dir, provider: run.provider, model: run.model, stoppedBy: run.stoppedBy ?? null, ...report }, null, 2));
 }
 
+/** Not a gate run: re-sends one goal up to three times to learn why requests were refused. It judges nothing and gives no verdict. */
+async function intentDiagnoseCommand() {
+  const model = flag("model") ?? fail("Choose a model: --model=openai/gpt-oss-120b");
+  if (!MODELS.includes(model)) fail("Unknown model. Allowed: " + MODELS.join(", "));
+  const id = flag("goal") ?? fail("Choose one goal id from the 17, for example --goal=no-servers");
+  const chosen = INTENT_CASES.find((c) => c.id === id) ?? fail("Unknown goal id. Known: " + INTENT_CASES.map((c) => c.id).join(", "));
+  const repeat = Number(flag("repeat") ?? 1);
+  if (!Number.isInteger(repeat) || repeat < 1 || repeat > 3) fail("--repeat must be 1, 2 or 3");
+  if (!has("confirm-live")) fail("This sends " + repeat + " request(s) to Groq. Add --confirm-live only when the owner has said go.");
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) fail("GROQ_API_KEY is not set in the backend .env.");
+  const probe = probingFetch();
+  const groq = new GroqProvider({ apiKey: apiKey as string, model: model as GroqModel }, probe.fetch);
+  const pacer = new Pacer(pacerLimits(), 700);
+  const attempts: Record<string, unknown>[] = [];
+  for (let i = 0; i < repeat; i++) {
+    await pacer.acquire();
+    let seen: ProviderObservation = {};
+    const started = Date.now();
+    let outcome = "answered";
+    let detail: string | undefined;
+    try {
+      const answer = await groq.structured(fixIntentTask(chosen.text), parseFixIntent, AbortSignal.timeout(10_000), (o) => {
+        if (o.usage) pacer.settle(o.usage.totalTokens);
+        seen = { ...seen, ...o };
+      });
+      detail = differences(answer, chosen.expected).join("; ") || "exactly the expected answer";
+    } catch (e) {
+      const details = (e as { details?: { reason?: string } }).details;
+      outcome = "failed";
+      detail = details?.reason ?? (e as Error).name;
+    }
+    const note = probe.take();
+    attempts.push({ attempt: i + 1, outcome, detail, httpStatus: note?.httpStatus ?? null, errorCode: note?.errorCode ?? null, finishReason: seen.finishReason ?? null, latencyMs: seen.latencyMs ?? Date.now() - started, totalTokens: seen.usage?.totalTokens ?? null });
+  }
+  const startedAt = new Date().toISOString();
+  const dir = ensure(join(flag("out") ?? defaultOut, startedAt.replace(/[:.]/g, "-") + "_intent_diagnose_" + model.replace(/[^A-Za-z0-9._-]/g, "_")));
+  write(dir, "run.json", { note: "Diagnostic only, not a gate run. No verdict.", model, goal: chosen.id, attempts });
+  console.log(JSON.stringify({ folder: dir, model, goal: chosen.id, attempts }, null, 2));
+}
+
 (async () => {
-  if (command === "intent-run") await intentRunCommand();
+  if (command === "intent-diagnose") await intentDiagnoseCommand();
+  else if (command === "intent-run") await intentRunCommand();
   else if (command === "describe-run") await describeRunCommand();
   else if (command === "describe-sheet") describeSheetCommand();
   else if (command === "describe-score") describeScoreCommand();
   else if (command === "run") await runCommand();
   else if (command === "sheet") sheetCommand();
   else if (command === "score") scoreCommand();
-  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score|intent-run> (see the comment at the top of src/script/ai-gate.ts)");
+  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score|intent-run|intent-diagnose> (see the comment at the top of src/script/ai-gate.ts)");
 })().catch((e: { message?: string }) => fail("Failed: " + (e.message ?? "unknown error")));

@@ -2,6 +2,7 @@ import { AppException } from "@/common/errors";
 import type { ProviderObservation } from "@/modules/ai/provider";
 import { Deadline, reasonOf, STOP_REASONS, withDeadline } from "@/modules/ai/evaluation/harness";
 import type { StructuredLike } from "@/modules/ai/evaluation/describe-gate";
+import type { RefusalNote } from "@/modules/ai/evaluation/refusal-probe";
 import type { IntentCase } from "@/modules/ai/evaluation/intent-cases";
 import { fixIntentTask, parseFixIntent, type FixIntentOutput } from "@/modules/ai/tasks/fix-intent";
 import { ruleFixIntent } from "@/modules/ai/tasks/fix-intent-rules";
@@ -33,6 +34,9 @@ export interface IntentRecord {
   finishReason?: string;
   returnedModel?: string;
   usage?: ProviderObservation["usage"];
+  /** For a request the provider refused: its HTTP status and a plain error identifier, when it gave one (never its message). */
+  httpStatus?: number;
+  errorCode?: string;
   latencyMs: number;
 }
 export interface IntentRun {
@@ -48,6 +52,8 @@ export interface IntentRunOptions {
   deadlineMs?: number;
   beforeEach?: () => Promise<void>;
   now?: () => number;
+  /** Notes why the provider refused the request just made (see refusal-probe.ts). Instrumentation only: it changes no verdict. */
+  refusal?: () => RefusalNote | undefined;
 }
 
 const blank = (c: IntentCase) => ({ caseId: c.id, group: c.group, text: c.text, expected: c.expected, correct: false, differences: [] as string[], latencyMs: 0 });
@@ -82,7 +88,15 @@ export async function runIntentGate(provider: StructuredLike, cases: readonly In
       const reason = reasonOf(e);
       const clean = e instanceof AppException && e.code === "VALIDATION_FAILED";
       const message = e instanceof Deadline ? "TIMEOUT: no answer within " + deadlineMs + " ms" : [reason, e instanceof Error ? e.message : null].filter(Boolean).join(": ") || "failed";
-      run.records.push({ ...blank(c), outcome: clean ? "refused" : "failed", reason: message, ...keep(), latencyMs: now() - started });
+      const note = options.refusal?.();
+      run.records.push({
+        ...blank(c),
+        outcome: clean ? "refused" : "failed",
+        reason: message,
+        ...keep(),
+        ...(note ? { httpStatus: note.httpStatus, ...(note.errorCode ? { errorCode: note.errorCode } : {}) } : {}),
+        latencyMs: now() - started,
+      });
       if (reason && STOP_REASONS.has(reason)) run.stoppedBy = reason;
     }
   }

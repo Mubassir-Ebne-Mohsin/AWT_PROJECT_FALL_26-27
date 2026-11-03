@@ -1,4 +1,5 @@
 import { FIX_PREFERENCES } from "@/modules/simulation/engine/fixes";
+import { GROQ_TASK_MAX_COMPLETION_TOKENS } from "@/modules/ai/groq.provider";
 import { aiFixIntentRequestSchema, aiFixIntentSchema, FIX_INTENT_MAX_CHARS } from "@/common/contracts/phase3/ai-tasks.schema";
 import { describeFilter, FIX_INTENT_SYSTEM_PROMPT, FIX_INTENT_TRANSPORT_SCHEMA, fixIntentOutputSchema, fixIntentTask, parseFixIntent, toFilter, type FixIntentOutput } from "@/modules/ai/tasks/fix-intent";
 import { ruleFixIntent } from "@/modules/ai/tasks/fix-intent-rules";
@@ -39,6 +40,10 @@ describe("the request", () => {
     expect(task.messages[1]).toEqual({ role: "user", content: "GOAL=" + JSON.stringify(goal) });
     expect(task.messages[1].content.split("\n")).toHaveLength(1);
     expect(task.schema).toBe(FIX_INTENT_TRANSPORT_SCHEMA);
+  });
+  it("sets no output cap of its own, so the adapter's default applies (a cap of 120 cut answers off)", () => {
+    expect(fixIntentTask("x")).not.toHaveProperty("maxCompletionTokens");
+    expect(GROQ_TASK_MAX_COMPLETION_TOKENS).toBeGreaterThanOrEqual(512);
   });
   it("tells the model the goal is untrusted data and what each field means", () => {
     for (const phrase of [/untrusted/, /never instructions/, /ignore the above/, /excludeReplicas/, /excludeCapacity/, /excludeCache/, /excludeReadReplica/, /a cache is not a database copy/, /lowest_latency/, /fewest_errors/, /simplest/]) expect(FIX_INTENT_SYSTEM_PROMPT).toMatch(phrase);
