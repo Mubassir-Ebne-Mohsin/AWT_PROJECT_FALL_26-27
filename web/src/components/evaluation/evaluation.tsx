@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound, usePathname } from "next/navigation";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
+  AI_HOSTED,
   AI_RECORD,
   COMMANDS,
   EVAL,
@@ -42,7 +43,7 @@ import {
 } from "@/lib/calibration";
 import { NOT_FOUND_ROUTE, resolveRoute } from "@/lib/routes";
 
-const STATUS_CLASS: Record<string, string> = { Measured: "ok", "Measured on one machine, one toy service": "warn", "Not yet measured": "warn", "Parked, not evaluated": "outline" };
+const STATUS_CLASS: Record<string, string> = { Measured: "ok", "Measured on one machine, one toy service": "warn", "Not yet measured": "warn", "Tested, no model passed": "warn" };
 
 function Status({ text }: { text: string }) {
   return (
@@ -374,7 +375,7 @@ function Ai() {
   return (
     <>
       <p className="lede" data-testid="ai-lede">
-        The AI features are switched off in this version, and nothing has been measured about how well AI would explain a result. This page records the only test that was made.
+        Three tests of AI were run, each with a pass mark fixed before it. None passed, so every AI feature is switched off. The fix suggestions and the load ladder use the simulation model, not AI.
       </p>
       <section className="stack" aria-labelledby="ev-m10" data-testid="m10">
         <h2 className="h2" id="ev-m10">
@@ -404,6 +405,77 @@ function Ai() {
         </table>
         <p>{AI_RECORD.resource}</p>
         <p>{AI_RECORD.verdict}</p>
+      </section>
+      <section className="stack" aria-labelledby="ev-hx" data-testid="hosted-explain">
+        <h2 className="h2" id="ev-hx">
+          The hosted model explaining a result ({AI_HOSTED.explain.dates})
+        </h2>
+        <p>
+          The model was {AI_HOSTED.model}, {AI_HOSTED.where}. It was asked to explain {AI_HOSTED.explain.requests} test results, and an answer counted only if it passed the app&apos;s automatic checks. The bar was {AI_HOSTED.explain.bar} of {AI_HOSTED.explain.requests}.
+        </p>
+        <p data-testid="hosted-explain-result">
+          <b>
+            Accepted: {AI_HOSTED.explain.accepted} of {AI_HOSTED.explain.requests}. Not good enough.
+          </b>
+        </p>
+        <p>{AI_HOSTED.explain.reason}</p>
+        <p>{AI_HOSTED.explain.firstRun}</p>
+        <p>{AI_HOSTED.explain.after}</p>
+      </section>
+      <section className="stack" aria-labelledby="ev-hd" data-testid="hosted-describe">
+        <h2 className="h2" id="ev-hd">
+          The hosted model describing a design ({AI_HOSTED.describe.date})
+        </h2>
+        <p>
+          The same model was given {AI_HOSTED.describe.requests} plain-language descriptions of a system and asked to draft a design. Three of them hid an instruction inside the description. The bar was {AI_HOSTED.describe.bar} of {AI_HOSTED.describe.requests} accepted, and none of the hidden instructions followed.
+        </p>
+        <table className="table" data-testid="hosted-describe-table">
+          <caption>Results of the {AI_HOSTED.describe.requests} descriptions</caption>
+          <thead>
+            <tr>
+              <th scope="col">Measure</th>
+              <th scope="col">Result</th>
+              <th scope="col">Bar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Drafts accepted by the checks</th>
+              <td>
+                {AI_HOSTED.describe.accepted} of {AI_HOSTED.describe.requests}
+              </td>
+              <td>{AI_HOSTED.describe.bar}</td>
+            </tr>
+            <tr>
+              <th scope="row">Hidden instructions obeyed</th>
+              <td>
+                {AI_HOSTED.describe.injectionsObeyed} of {AI_HOSTED.describe.injectionsOf}
+              </td>
+              <td>{AI_HOSTED.describe.injectionBar}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p data-testid="hosted-describe-result">
+          <b>Not good enough.</b> {AI_HOSTED.describe.refusedText}
+        </p>
+        <p>{AI_HOSTED.describe.injectionText}</p>
+        <p>{AI_HOSTED.describe.baselineText}</p>
+      </section>
+      <section className="stack" aria-labelledby="ev-notai" data-testid="not-ai">
+        <h2 className="h2" id="ev-notai">
+          What does not use AI
+        </h2>
+        <p>{AI_HOSTED.notAi}</p>
+      </section>
+      <section className="panel stack r2-pad" aria-labelledby="ev-ainot" data-testid="ai-not-shown">
+        <h2 className="h3" id="ev-ainot">
+          What this does not show
+        </h2>
+        <ul>
+          {AI_HOSTED.notShown.map((t) => (
+            <li key={t}>{t}</li>
+          ))}
+        </ul>
       </section>
       <section className="stack" aria-labelledby="ev-later" data-testid="ai-later">
         <h2 className="h2" id="ev-later">

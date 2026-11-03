@@ -124,7 +124,7 @@ test("P5 AI record: the figures quoted are the ones recorded in the M10 report",
 // ---------- the pages ----------
 
 test("P5 pages: three tabs, each with one heading, a status that says what it is, and no request", async () => {
-  const expected = { simulator: "Measured", calibration: "Measured on one machine, one toy service", ai: "Parked, not evaluated" };
+  const expected = { simulator: "Measured", calibration: "Measured on one machine, one toy service", ai: "Tested, no model passed" };
   for (const [tab, status] of Object.entries(expected)) {
     document.body.innerHTML = "";
     const view = await render("/evaluation/" + tab);
@@ -216,7 +216,29 @@ test("P5 calibration tab: shows the first comparison with the approved headline,
   assert.doesNotMatch(text, /validated|proven|accurate to|mock data|lorem/i);
 });
 
-test("P5 AI tab: says parked, quotes only the recorded test, and compares nothing", async () => {
+test("P5 AI record: the hosted-model figures quoted are the ones the gate reports say", () => {
+  const strip = (p) => read(p).replace(/[\s*`]+/g, "");
+  const resume = strip("docs/AI-RESUME-SCOPE.md");
+  const copilot = strip("docs/AI-COPILOT-SCOPE.md");
+  const has = (doc, frag) => assert.ok(doc.includes(frag.replace(/[\s*`]+/g, "")), "report says: " + frag);
+  has(resume, "7 of 18 answers were accepted");
+  has(resume, "0 of 18 accepted");
+  has(resume, "they cite four evidence ids and our result schema allows at most three");
+  has(resume, "The other 3 are all");
+  has(resume, "against the bar of 17 of 18");
+  has(copilot, "13 answers accepted, 7 refused");
+  has(copilot, "the bar of 18");
+  has(copilot, "all three injection prompts were obeyed");
+  has(copilot, "the bar is zero");
+  has(copilot, "with that one inconsistency removed, 4 of the 7 pass every check");
+  has(copilot, "5 of the 12 ordinary prompts");
+  const { explain, describe } = E.AI_HOSTED;
+  assert.deepEqual([explain.requests, explain.bar, explain.accepted], [18, 17, 0]);
+  assert.deepEqual([describe.requests, describe.bar, describe.accepted, describe.refused, describe.injectionsObeyed, describe.injectionBar, describe.wouldPass, describe.baselineFailed, describe.baselineOf], [20, 18, 13, 7, 3, 0, 4, 5, 12]);
+  assert.equal(describe.accepted + describe.refused, describe.requests);
+});
+
+test("P5 AI tab: the local-model section quotes only the recorded test, and nothing is compared", async () => {
   const view = await render("/evaluation/ai");
   const text = spaced(view);
   const rows = [...view.querySelectorAll("[data-testid='m10-row']")];
@@ -224,9 +246,46 @@ test("P5 AI tab: says parked, quotes only the recorded test, and compares nothin
   assert.match(rows[0].textContent, /qwen2\.5:1\.5b.*1 of 8.*0 of 8/);
   assert.match(rows[1].textContent, /llama3\.2:3b.*8 of 8.*0 of 8/);
   const allowed = new Set(["28", "2026", "1", "8", "0", "7", "4", "5", "3"]);
-  for (const token of tokens(text)) assert.ok(allowed.has(token), `"${token}" on the AI tab is not from the recorded test`);
+  for (const token of tokens(spaced(testid(view, "m10")))) assert.ok(allowed.has(token), `"${token}" in the local-model section is not from the recorded test`);
   assert.match(text, /No comparison with a rule-based explanation has been made, so no such numbers are shown/);
   assert.match(text, /switched off/);
   assert.doesNotMatch(text, /outperform|better than|beats|accuracy of \d/i);
   assert.equal(view.querySelectorAll("[data-testid='ai-later'] li").length, E.AI_RECORD.later.length);
+});
+
+test("P5 AI tab: the hosted-model sections state the recorded results and the pass marks, and every number comes from the data", async () => {
+  const H = E.AI_HOSTED;
+  const view = await render("/evaluation/ai");
+  const text = spaced(view);
+  assert.match(testid(view, "hosted-explain-result").textContent, /Accepted: 0 of 18\. Not good enough\./);
+  assert.match(testid(view, "hosted-explain").textContent, /bar was 17 of 18/);
+  assert.match(testid(view, "hosted-explain").textContent, /not counted/);
+  const rows = [...view.querySelectorAll("[data-testid='hosted-describe-table'] tbody tr")].map((r) => r.textContent);
+  assert.equal(rows.length, 2);
+  assert.match(rows[0], /accepted by the checks.*13 of 20.*18/);
+  assert.match(rows[1], /obeyed.*3 of 3.*0/);
+  assert.match(testid(view, "hosted-describe-result").textContent, /Not good enough/);
+  assert.match(text, /does not use AI/);
+  assert.match(testid(view, "hosted-explain").textContent, /each cited four pieces of evidence where the app allows three/);
+  assert.ok(testid(view, "hosted-explain").textContent.includes(H.explain.reason));
+  assert.ok(testid(view, "hosted-explain").textContent.includes(H.explain.after));
+  assert.ok(testid(view, "hosted-describe").textContent.includes(H.describe.injectionText));
+  assert.ok(testid(view, "hosted-describe").textContent.includes(H.describe.refusedText));
+  assert.ok(testid(view, "hosted-describe").textContent.includes(H.describe.baselineText));
+  assert.equal(testid(view, "not-ai").querySelector("p").textContent, H.notAi);
+  assert.equal(view.querySelectorAll("[data-testid='ai-not-shown'] li").length, H.notShown.length);
+  // Every figure in the new sections is one the data holds.
+  const allowed = new Set();
+  const collect = (v) => {
+    if (typeof v === "number") allowed.add(String(v));
+    else if (typeof v === "string") for (const t of tokens(v.replace(/gpt-oss-120b|gpt-oss-20b/g, " "))) allowed.add(t);
+    else if (Array.isArray(v)) v.forEach(collect);
+    else if (v && typeof v === "object") Object.values(v).forEach(collect);
+  };
+  collect(H);
+  for (const id of ["hosted-explain", "hosted-describe", "not-ai", "ai-not-shown"]) {
+    const section = spaced(testid(view, id)).replace(/gpt-oss-120b|gpt-oss-20b/g, " ");
+    for (const token of tokens(section)) assert.ok(allowed.has(token), `"${token}" in ${id} is not from the recorded results`);
+  }
+  assert.doesNotMatch(text, /outperform|better than|beats|accuracy of \d|passed the gate/i);
 });

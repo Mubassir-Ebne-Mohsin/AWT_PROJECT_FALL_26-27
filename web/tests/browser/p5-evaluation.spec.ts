@@ -5,7 +5,7 @@ import { test, expect, type Page } from "@playwright/test";
 const TABS: Array<[string, string, string]> = [
   ["simulator", "Simulator", "Measured"],
   ["calibration", "Calibration", "Measured on one machine, one toy service"],
-  ["ai", "AI", "Parked, not evaluated"],
+  ["ai", "AI", "Tested, no model passed"],
 ];
 const noOverflow = (page: Page) => page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1);
 const watch = (page: Page) => {
@@ -97,9 +97,20 @@ test("P5 calibration: the first comparison, with the approved headline, two tabl
   }
 });
 
-test("P5 ai: parked, with only the one recorded test and no comparison", async ({ page }) => {
+test("P5 ai: three recorded tests, none passed, every AI feature off, and nothing compared", async ({ page }) => {
   await page.goto("/evaluation/ai");
   await expect(page.getByTestId("ai-lede")).toContainText("switched off");
+  await expect(page.getByTestId("hosted-explain-result")).toContainText("Accepted: 0 of 18");
+  await expect(page.getByTestId("hosted-describe-table").locator("tbody tr")).toHaveCount(2);
+  await expect(page.getByTestId("hosted-describe-table")).toContainText("13 of 20");
+  await expect(page.getByTestId("hosted-describe-table")).toContainText("3 of 3");
+  await expect(page.getByTestId("not-ai")).toContainText("do not use AI");
+  await expect(page.getByTestId("ai-not-shown").locator("li")).toHaveCount(3);
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await noOverflow(page), `${width}px`).toBe(true);
+  }
+  await page.setViewportSize({ width: 1280, height: 900 });
   await expect(page.getByTestId("m10-row")).toHaveCount(2);
   await expect(page.getByTestId("m10-row").first()).toContainText("qwen2.5:1.5b");
   await expect(page.getByTestId("m10").locator("tbody").first()).toContainText("0 of 8");
