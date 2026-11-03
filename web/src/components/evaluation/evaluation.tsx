@@ -379,7 +379,7 @@ function Ai() {
       </p>
       <section className="stack" aria-labelledby="ev-m10" data-testid="m10">
         <h2 className="h2" id="ev-m10">
-          The one test that was run ({AI_RECORD.date})
+          Small models run locally on this laptop ({AI_RECORD.date})
         </h2>
         <p>{AI_RECORD.setup} Each was asked to explain eight kinds of result, such as healthy, failed and missing inputs.</p>
         <table className="table">

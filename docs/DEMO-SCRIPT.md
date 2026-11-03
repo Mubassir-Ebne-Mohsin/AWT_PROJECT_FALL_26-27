@@ -1,12 +1,20 @@
 # StressForge demo script (about 8 minutes)
 
 A walkthrough that shows what works, says plainly what is a model estimate, and presents the AI work as a tested result, not a feature.
-Everything below is taken from the recorded results and the code. **It has not been rehearsed end to end by me**, so do one dry run first (see "Before you start").
+**Dry run done on 2026-11-03** (sections 2 to 4 and the AI tab were clicked through in a browser on the audit stack; the numbers below are what it showed). Your own run may differ slightly, so do one more dry run on your machine.
+
+## The case to use (tested)
+Template **Classic three-tier web app**, then in **Traffic** set **Average requests per second to 2000** and save. Run test:
+- **Fails:** p95 1,842.07 ms against a 300 ms target, errors 40.918%, **App servers** at 167% utilization.
+- **Suggest fixes** offers three: "Use a bigger size" and "Double the copies" (3 to 6) both turn it into **strained** (p95 41.26 ms, errors 0%); "Add one more copy" (3 to 4) still fails but less badly (errors 21.176%).
+- **Apply to my draft** on the second one, then **Run test**: the new run is **strained, p95 41.26 ms, errors 0%, App servers 83.333%**, exactly what the card promised.
+- **Show 2×, 5× and 10× load** on that run: now 2,000 rps strained; 4,000 fails (40.847% errors); 10,000 and 20,000 fail. Headline: "Already strained at the recorded load."
+- At the template's own 1,200 rps it is also strained or failing, and at 4,000 rps no fix rescues it (best fix still fails, errors 70.459% to 40.847%). 2,000 is the useful setting because a fix visibly changes the verdict.
 
 ## Before you start (5 minutes, the day before and again just before)
 1. Start PostgreSQL, Redis, the API and the web app. Docker and the servers were down after the last reboot.
-2. Sign in as a normal user. Have one saved design that **fails** a test run at heavy load (a template at about 3x to 8x its default rate works; the three-tier template fails at heavy load). Have one that **passes** with room to spare.
-3. Run a test once on each so the results are already on the Results tab. Check that the Suggested fixes panel and the load ladder both appear.
+2. Sign in as a normal user. Create the three-tier design at 2,000 rps (see "The case to use"). Leave it **unfixed** so you can apply the fix live; keep a second copy ready in case you apply it by accident.
+3. Run a test once so the Results tab already has a failing run, and check that the Suggested fixes panel and the load ladder both appear. The dev server is slow on the first load of each page; open each page once beforehand.
 4. Keep `AI_ENABLED` unset or false. Do not turn AI on for the demo. The page and the panel should say the same thing you say.
 5. Open the Evaluation page once so the first load is not slow on stage.
 
@@ -22,7 +30,7 @@ Everything below is taken from the recorded results and the code. **It has not b
 - On the **failing** run, open the **Suggested fixes** panel and ask for fixes.
 - Say what it does: "It tries a few ordinary edits at the limiting component: one more copy, double the copies, a bigger size, and for a database a cache or a read replica. Each edited design is run through the same model, and only fixes that make the design better and nothing worse are shown."
 - Point at one card: the before and after p95 and error rate, the assumption it states, and the tag "Verified by the model, no AI".
-- Click **Apply to my draft**. Say: "Nothing is saved until I save. It is one undoable change in the editor." Save, run again, and compare. The figure on the card should match the new run. That match is the point: it is calculated, not guessed.
+- Click **Apply to my draft**. Say: "It is one change to my draft." **Note from the dry run:** the editor autosaves, so the applied fix was saved as a new revision straight away (the editor showed "Saved · revision 9" without my pressing Save), and the old result then shows "This result is not for the saved design. Save, then run the test again to get fixes." Do not say "nothing is saved"; say "the old result is now marked stale, so I run the test again". Click **Run test**, and the new run matches the card: that match is the point. It is calculated, not guessed.
 - If the design still fails, say so: "It would still fail, but less badly. The panel says that plainly."
 
 ## 4. Where does it break? (1.5 minutes) — no AI
