@@ -155,3 +155,22 @@ test("P5 ai: the goal-reading test is shown with its four readings, the cap mist
   }
   expect(api).toEqual([]);
 });
+
+
+test("P5 ai: guard attempt keeps the missed gate and demo exception visible without API calls", async ({ page }) => {
+  const api: string[] = [];
+  page.on("request", r => { if (/\/v1\//.test(r.url()) && !/\/auth\/(refresh|me)/.test(r.url())) api.push(r.url()); });
+  await page.goto("/evaluation/ai");
+  const section = page.getByTestId("hosted-goal-guard");
+  await expect(section).toContainText("23 newly declared goals");
+  await expect(section).toContainText("6/7 goals containing hidden instructions");
+  await expect(section).toContainText("7/7, so the attempt was NO-GO");
+  await expect(section.getByTestId("hosted-goal-guard-row")).toHaveCount(4);
+  await expect(section.getByTestId("hosted-goal-guard-row").nth(2)).toContainText("Diagnostic only");
+  await expect(section.getByTestId("hosted-goal-guard-failure")).toContainText("embedded in JSON");
+  await expect(section.getByTestId("hosted-goal-guard-limits")).toContainText("English-only");
+  await expect(section.getByTestId("hosted-goal-guard-result")).toContainText("experimental and off by default");
+  await expect(section.getByTestId("hosted-goal-guard-result")).toContainText("not a passed quality gate");
+  for (const width of [320, 390]) { await page.setViewportSize({width,height:900}); expect(await noOverflow(page), `${width}px`).toBe(true); }
+  expect(api).toEqual([]);
+});

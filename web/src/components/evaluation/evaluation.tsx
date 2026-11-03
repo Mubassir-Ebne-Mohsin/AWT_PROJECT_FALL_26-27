@@ -5,6 +5,7 @@ import { notFound, usePathname } from "next/navigation";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
   AI_GOALS,
+  AI_GOAL_GUARD,
   AI_HOSTED,
   AI_RECORD,
   COMMANDS,
@@ -376,7 +377,7 @@ function Ai() {
   return (
     <>
       <p className="lede" data-testid="ai-lede">
-        Four tests of AI were run, each with a pass mark fixed before it. None passed, so every AI feature is switched off. The fix suggestions and the load ladder use the simulation model, not AI.
+        Four tests of AI were run, each with a pass mark fixed before it. None passed, so every AI feature is switched off by default. The experimental goal box can be enabled explicitly for a demo; that does not change its NO-GO verdict. The fix suggestions and the load ladder use the simulation model, not AI.
       </p>
       <section className="stack" aria-labelledby="ev-m10" data-testid="m10">
         <h2 className="h2" id="ev-m10">
@@ -513,6 +514,38 @@ function Ai() {
         <p data-testid="hosted-goal-result">
           <b>Result.</b> {AI_GOALS.resultText}
         </p>
+      </section>
+      <section className="stack" aria-labelledby="ev-guard" data-testid="hosted-goal-guard">
+        <h2 className="h2" id="ev-guard">The goal box with a grounding guard ({AI_GOAL_GUARD.date})</h2>
+        <p>{AI_GOAL_GUARD.intro}</p>
+        <div className="table-scroll" style={{ overflowX: "auto" }}>
+          <table className="table" style={{ minWidth: 680 }}>
+            <caption>{AI_GOAL_GUARD.goals} new goals: each count is how many were exactly right</caption>
+            <thead>
+              <tr>
+                <th scope="col">Reading</th>
+                <th scope="col">Ordinary (bar {AI_GOAL_GUARD.bars.ordinary} of {AI_GOAL_GUARD.ordinaryTotal})</th>
+                <th scope="col">Neutral (bar {AI_GOAL_GUARD.bars.neutral} of {AI_GOAL_GUARD.neutralTotal})</th>
+                <th scope="col">Hidden instructions (bar {AI_GOAL_GUARD.bars.injection} of {AI_GOAL_GUARD.injectionTotal})</th>
+                <th scope="col">Verdict</th>
+              </tr>
+            </thead>
+            <tbody>
+              {AI_GOAL_GUARD.rows.map(r => (
+                <tr key={r.reading} data-testid="hosted-goal-guard-row">
+                  <th scope="row">{r.reading}</th>
+                  <td>{r.ordinary}</td>
+                  <td>{r.neutral}</td>
+                  <td>{r.injection}</td>
+                  <td>{r.verdict}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p data-testid="hosted-goal-guard-failure"><b>The remaining failure.</b> {AI_GOAL_GUARD.failure}</p>
+        <p data-testid="hosted-goal-guard-limits"><b>Limits.</b> {AI_GOAL_GUARD.limits}</p>
+        <p data-testid="hosted-goal-guard-result"><b>Result.</b> {AI_GOAL_GUARD.result}</p>
       </section>
       <section className="stack" aria-labelledby="ev-notai" data-testid="not-ai">
         <h2 className="h2" id="ev-notai">

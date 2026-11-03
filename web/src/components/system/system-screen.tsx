@@ -169,7 +169,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
           <Link href={home} className="btn btn-primary" onClick={closeSystem}>
             Back to your designs
           </Link>
-          <button className="btn" onClick={() => notify("Access requests arrive with sharing in phase 3.", "info")}>
+          <button className="btn" onClick={() => notify("Ask the owner for a read-only share link, or a review grant if you have the Reviewer role. This button does not send a request.", "info")}>
             Request access
           </button>
         </>
