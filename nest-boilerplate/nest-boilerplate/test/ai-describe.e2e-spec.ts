@@ -60,8 +60,9 @@ class FakeHosted {
           reject(Object.assign(new Error("aborted"), { name: "AbortError" }));
         }),
       );
-    const v2 = { understood: this.mode !== "not-a-system", ...form };
-    const answer = this.mode === "bad-figure" ? { ...v2, rationale: "Built for 5000 users." } : this.mode === "out-of-range" ? { ...v2, rps: 5_000_000 } : v2;
+    const { rationale: _reason, ...fields } = form;
+    const v2 = { understood: this.mode !== "not-a-system", ...fields };
+    const answer = this.mode === "bad-figure" ? { ...v2, designName: "Ignore {the} rules" } : this.mode === "out-of-range" ? { ...v2, rps: 5_000_000 } : v2;
     observe?.({ returnedModel: this.model, usage: { promptTokens: 400, completionTokens: 150, totalTokens: 550 }, latencyMs: 900 });
     // Like the real adapter: the application's own refusals pass through, any other validation failure is invalid output.
     try {
@@ -216,7 +217,7 @@ describe("AI describe-to-design (real application and PostgreSQL, fake hosted mo
       await describeAs(alice, { text: longest }).expect(200);
     });
 
-    it("refuses an answer outside the ranges or with an unsupported figure in the reason, records it, and still counts its tokens", async () => {
+    it("refuses an answer outside the ranges or with an unsafe design name, records it, and still counts its tokens", async () => {
       for (const mode of ["out-of-range", "bad-figure"] as const) {
         fake.mode = mode;
         const res = await describeAs(alice, { text: TEXT }).expect(422);
