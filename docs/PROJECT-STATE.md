@@ -1,15 +1,15 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**AI status (2026-11-03): no longer parked.** The AI Design Copilot work ran 2026-11-02/03 under pre-registered gates. **Every AI feature is OFF by default**; the only way to turn one on is the demo launcher `pnpm demo:ai`, which enables one experimental task (the fix goal box). Read the newest [HANDOFF-LOG](HANDOFF-LOG.md) entry and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) first. The milestone table below was last refreshed 2026-10-29: its rows for M12B, M13, M14, M17 and Phase 4/5 are superseded by that entry (P1-P6, verified fixes, the load ladder and the Evaluation tabs are built).
+**AI status (2026-11-03): no longer parked.** The AI Design Copilot work ran 2026-11-02/03 under pre-registered gates. **Every AI feature is OFF by default**; the supported demo entry point is the launcher `pnpm demo:ai`, which enables one experimental task (the fix goal box). Read the newest [HANDOFF-LOG](HANDOFF-LOG.md) entry and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) first. The milestone table below is reconciled with the committed source and recorded evidence. Earlier dated checkpoints are history, not current instructions.
 
-**Last updated:** 2026-11-03 by Claude Code. **Branch:** `codex/phase2-contracts`. **Last commit:** `6898579` (not pushed; origin is at `99b6fd0`).
+**Last updated:** 2026-11-03 by Codex. **Branch:** `codex/phase2-contracts`. **Review baseline:** `198f0a6`; cached origin is `99b6fd0` (two commits behind at session start; remote not fetched). Reconciliation and regression are complete; application changes committed as `95948de`. Full Chrome: 950 passed, 10 intentional skips, 0 failed. No push authorized.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
-Latest handover for Codex: [CODEX-CONTEXT-2026-10-29.md](CODEX-CONTEXT-2026-10-29.md).
+Latest handover: the newest entry at the top of [HANDOFF-LOG.md](HANDOFF-LOG.md). The 29 October context files are historical.
 
 Update this file at the end of every session. Keep it short; put detail in the handoff log and the report.
 
-## Codex handoff verification — 2026-10-29
+## Historical handoff verification — 2026-10-29 (superseded)
 
 Read-only repository review completed. Local HEAD and live origin/codex/phase2-contracts both resolve to 1fcf7c171af39326e927154b1fb77bf56c17a5d7. M15 is recorded complete; M16 report and share API are committed/pushed. M16.3 share settings/viewer remain uncommitted. Final full-regression success was not independently verified in this review; do not close M16 yet. Earlier summary rows below are stale where they conflict with this checkpoint. AI remains PARKED by the user's latest explicit instruction, superseding earlier M12B/Groq authorization. Codex has no active code claims; its Groq prototype files remain untouched and uncommitted. Landing work is from earlier Codex work; film/ origin remains unverified. No tests, migrations, inference, commits or pushes run during this handoff review.
 
@@ -20,21 +20,25 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Phase 1 Foundation | Complete | Published on GitHub main (`9e8bb00`) |
 | Phase 2 M1-M9 | Complete, published | Core loop: designs, canvas, traffic, results, Limits, live preview. Branch `codex/phase2-contracts`; see report sections 11-21 |
 | M10 local-model feasibility | **NO-GO** for the tested local models | Semantic failures plus resource exhaustion on this laptop. See [M10](M10-LOCAL-AI-FEASIBILITY.md) |
-| M11 AI backend foundation | Complete locally (`11f6a2a`, `d9678f5`, `7cf8799`), not pushed | Jobs, readiness, memory guards, versions. AI disabled by default. See [M11](M11-AI-FOUNDATION.md) |
-| M12A explanation UI and grounding | **Built, parked** | Backend committed (`fe5c01a`). Frontend and typed claims finished but uncommitted until the regression passes. Hidden unless the backend enables AI. See below |
-| M12B real-model acceptance | **Parked** (user is planning AI) | Approved direction: [Groq roadmap](GROQ-IMPLEMENTATION-ROADMAP.md) (free plan, GPT-OSS 20B first) |
-| M13 AI fix suggestions, M14 AI drafting, M17 AI evaluation | Not started | Need M12 real-model gate first. Separate approvals |
+| M11 AI backend foundation | Built and committed | Jobs, readiness, guards, provider/quota integration; AI off by default. Historical M11 evidence: [M11](M11-AI-FOUNDATION.md); current hosted evidence: [AI resume scope](AI-RESUME-SCOPE.md) |
+| M12A explanation UI and grounding | Built and committed; explanation feature off | Grounding, typed claims and drawer are implemented. Separate `AI_EXPLANATIONS` defaults false; hosted quality gate did not pass |
+| M12B real-model acceptance | Evaluated: **NO-GO** | Hosted explanation rerun: 0/18 accepted against 17 required; invalid first run disclosed. [AI resume scope](AI-RESUME-SCOPE.md) |
+| M13 fixes / F2 | Deterministic fixes and manual filters built; AI goal reading **NO-GO** | No-AI fixes are on. Guard attempt 13/13 ordinary, 3/3 neutral, 6/7 hidden instructions (7/7 required). Goal box demo only, experimental. [Copilot evidence](AI-COPILOT-SCOPE.md) |
+| M14 drafting / F1 | Built but off: **NO-GO** | Describe-to-design accepted 13/20 (18 required); obeyed 3/3 hidden instructions (zero allowed). No retry authorized |
+| F3 what-if | Load ladder built; natural-language F3b deferred | Deterministic 2x/5x/10x load estimates, gaps disclosed, no AI needed |
+| M17 / F4 evaluation | Recorded evaluations published; approved guard section added and verified | Public AI tab shows failures, not an AI release. No further live run in this session |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
 | M16 Reports / Sharing | **Done** (M16.1 `eea8349`, `ca2fd2a`; M16.2 `1fcf7c1`; M16.3 web, see log) | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md). Needs `pnpm migration:run` (DesignShares). Full Chrome regression 434 passed, 10 skipped, 0 failed |
 | Roles (Instructor, Reviewer, Admin) | **Complete and pushed** (R1 `3f7dbc0`, R2 `9700bb2`, R3 `87736b2`, R4 `3db9068`, R5.1 `ace6b64`, R5.2 `dca7218`, R5.3 `a245192`) | Needs no AI. Latest Chrome regression 550 passed, 10 skipped, 0 failed. Run `pnpm migration:run` on every database. Detail: report section 28, [ROLES-SCOPE](ROLES-SCOPE.md), [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md) |
-| Phase 4 / 5 (public, learning, evaluation, settings pages) | Placeholders; scope proposed in [PHASE-4-5-SCOPE](PHASE-4-5-SCOPE.md), awaiting decisions | The landing page at `/` is committed (`72ab218`, `ba93a83`) and its 16 browser tests pass. `DESIGN.md`, `film/` and `docs/audit/landing/` are still untracked |
+| Phase 4 / 5 P1-P6 | Built and previously verified | Public pages, account settings, Learn, examples/templates/components, Evaluation, Welcome/Progress. [Phase 4/5 scope](PHASE-4-5-SCOPE.md); detailed reports sections 29-34 |
+| Calibration | Measured on one laptop and one toy service | Honest limits and post-observation fit correction disclosed. [Findings](CALIBRATION-FINDINGS.md); not validation for real applications |
 
-## M12A detail (finished and parked)
+## M12A detail (historical implementation evidence; quality gate supersedes pause)
 
 - **Committed:** `fe5c01a` (verified facts, evidence endpoint, figure grounding), `4ad4481` (typed server-checked claims, server-rendered statements, version schemas split out of the AI file, prompt kept under the M11 500-character guard), `4aa48c1` (explanation drawer, scoped API errors, hidden unless the backend enables AI).
 - **Evidence (final code):** backend unit 214 (2 opt-in skips), e2e 80/80, lint 0 errors, both contract checks identical; web unit 147, tsc and lint clean; M12 browser 36/36 (9 journeys x 4 projects); full Chrome regression 268/268 (landing and dev-only excluded). Mutation checks caught: claim check off, new request id per retry, earlier-revision guard, local error scope, AI-hidden gate.
 - **Behaviour:** with the default `AI_ENABLED=false` the UI shows no AI at all. Switching AI on later is a backend setting; see [AI-DEFERRAL-PLAN](AI-DEFERRAL-PLAN.md).
-- **Not done (parked by the user):** M12B real-model gate. Not Claude's, still uncommitted: `groq.provider.ts` and its spec, `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md`. The report contains Codex checkpoints (one says M12B was authorized); this conflicts with the later "AI parked" decision and needs the user to reconcile.
+- **Current outcome:** the provider and hosted gates are committed; explanations are NO-GO, off by default and off in the demo. The old M12B authorization/pause conflict is superseded by the later approved gate work. The two untracked Codex planning docs remain preserved and unstaged.
 
 ## M15 detail (History and Restore, finished)
 
@@ -56,27 +60,33 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | No active file claims | 2026-11-03 | Released after verified reconciliation and Evaluation update; `95948de`; evidence below |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
-| Codex (unconfirmed) | Groq provider and roadmap: `groq.provider*.ts`, `GROQ-IMPLEMENTATION-ROADMAP.md`; typed claims in `grounding*.ts` | 2026-10-29 | Appeared in the tree during the Claude session; Codex should confirm or correct this row |
-| Nobody | Landing page, `DESIGN.md`, `film/` | | Origin unknown. Do not touch or stage |
+| Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |
+| Nobody | `DESIGN.md`, `film/`, `docs/audit/landing/` | | Preserved and unstaged; landing source is already committed |
 
 ## Blockers and open decisions
 
-1. **Groq key (G0):** the user creates a free account and puts `GROQ_API_KEY` only in the backend `.env`. Nothing hosted runs before explicit approval to execute.
-2. **Concurrent editing:** two agents share one working tree. A "file changed on disk" overwrite risk already occurred once. Proposal (needs user approval): each agent works in its own git worktree and branch (`claude/<task>`, `codex/<task>`), merged by the user.
-3. **Order of work (proposal):** finish M12A first (it is provider-independent and mostly written), then run two tracks in parallel: provider abstraction and Groq (G2-G3), and non-AI M15 History / Compare / Notes. Needs the user's approval before M15 starts.
-4. **Role design:** Instructor/Reviewer/Admin need design decisions before implementation.
+1. Full Chrome regression now covers the changes since `f3dfc1e`: 950 passed, 10 intentional skips, 0 failed. Evidence: [3 November audit](audit/handoff-2026-11-03/README.md). Four dev-only state cases were not rerun against a dev server; six redundant per-project library/note-limit skips ran at 1440-light.
+2. No new live AI attempt is authorized. Any future goal-box attempt needs new goals and pass marks declared before the run; F3b and an F1 retry are not recommended in the handoff.
+3. The user decides whether to retain/delete the Groq key and whether the two untracked Codex planning drafts should be committed. This session does neither.
+4. Demo rehearsal belongs to the user: `pnpm demo:ai:check` makes three real requests, then `pnpm demo:ai` enables only the experimental goal box. READY does not overturn NO-GO. [Demo script](DEMO-SCRIPT.md).
+5. Avoid concurrent editing in the shared working tree. Respect active claims, preserve unrelated work and stage explicitly.
 
 ## Standing constraints
 
 - `docs/audit/m2-profile-source.json` has an unrelated pre-existing modification. Never stage, commit or revert it.
-- No push, merge or deploy without the user's instruction. M10-M12 work is local only.
+- No push, merge or deploy without the user's instruction. Do not infer remote state from old milestone notes.
 - Zero paid services. AI is off by default; never a silent fallback.
 - Isolated test infrastructure: containers `stressforge-m8-*` (ports 5551/6398) belong to the Claude M8 audit and are stopped; M11's disposable harness is in `docs/audit/phase3/m11-2026-10-28/`.
 
 ## Next step for whoever picks this up
 
-Run `git status`, read the newest handoff entry, confirm claims with the user, then continue the claimed track.
+Run `git status`, read the newest handoff entry, check active claims, then continue only the user-authorized track.
+
+## Historical checkpoints
+
+These dated entries preserve what was known then. The current milestone table and newest handoff entry supersede outdated status, authorization and remote-state claims below.
 
 ## Development service recovery — 2026-10-30
 Codex restarted existing stressforge-dev PostgreSQL (5433) and Redis (6379), which were stopped. Both healthy; existing Nest watcher had exhausted retries, so it was restarted once. GET /v1/health returned200 with database/cache up. No database reset, environment-value inspection, migrations or code changes; no active claims. Backend watcher left running in Codex exec session28979. Tracking notes are uncommitted.

@@ -1,4 +1,17 @@
-# AI deferral plan: keep AI pending, keep building
+# AI deferral plan: historical pause and current disposition
+
+## Current disposition — 2026-11-03
+
+The pause below is **historical and superseded** by the user-approved hosted gates and Copilot work in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). Current status is maintained in [PROJECT-STATE](PROJECT-STATE.md), not in the frozen tables below.
+
+- Explanations, describe-to-design and AI goal reading were evaluated; all are **NO-GO**. Do not enable them as released features or reinterpret their pass marks.
+- All AI features remain **off by default**. The explicitly enabled demo runs only the experimental fix goal box on Groq `openai/gpt-oss-120b`; explanations are separately disabled. Demo readiness is not a quality-gate pass.
+- Verified fix suggestions, manual leave-out/show-first choices and the load ladder need no AI and work for everyone.
+- The Groq adapter is integrated and prior live runs are recorded. No key access or new live call is authorized by this document. Further gate work requires explicit user go and new unseen goals declared in advance.
+- History/Restore/Notes/Compare, Reports/Sharing, roles and P1-P6 are built. See the state board and living report for evidence and remaining limitations.
+- Do not follow the old activation checklist as current operating instructions. Use [DEMO-SCRIPT](DEMO-SCRIPT.md) only with the user's live-call authorization.
+
+## Historical decision — 2026-10-29
 
 Decided by the user: 2026-10-29 (Asia/Dhaka). **AI integration is parked until the user has planned it.** No agent extends AI work, picks a provider, enables inference or starts M13/M14/M12B without an explicit instruction. Everything else continues. AI stays central to the course, so this is a pause with a review point, not a cancellation.
 

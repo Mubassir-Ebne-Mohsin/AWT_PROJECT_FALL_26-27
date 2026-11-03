@@ -63,7 +63,7 @@ Do this on the failing run **before** applying a fix, or reload the results page
   - Local models (28 October): shape right in 1 of 8 and 8 of 8, none passing every check.
   - Hosted model `openai/gpt-oss-20b`, explaining results: **0 of 18 accepted** against a bar of 17, set before the run. The first run was invalid because of our own test setup and is disclosed, not counted.
   - Hosted model, describe-to-design: **13 of 20** accepted against 18, and it **obeyed 3 of 3 hidden instructions** against a bar of zero.
-  - **Not yet on the page:** the goal-box test of 3 November (17 goals with the model alone, then 23 new goals with the model plus a check against the person's own words). Until that section is added, say it from the scope document: on the 23 new goals, ordinary 13 of 13, goals that ask for nothing 3 of 3, hidden orders 6 of 7 against a bar of 7; the model alone got 4 of 7.
+  - **Goal-box results on the page:** the earlier 17-goal test and the separate guard attempt on 23 newly declared goals are shown in sequence. Read the guard section: on the 23 new goals, ordinary 13 of 13, goals that ask for nothing 3 of 3, hidden orders 6 of 7 against a bar of 7; the model alone got 4 of 7.
   - Say: "We set the pass marks first. The explanation and describe-to-design features did not meet them, so they are off. The goal box came within one goal of its bar, so it is shown only for this demo, labelled experimental. That is a measured result about these models with these prompts, not a claim that AI cannot do it."
 
 ## 6. Close (30 seconds)

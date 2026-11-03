@@ -1,0 +1,2607 @@
+$ node --require ./tests/register.cjs --test tests/*.test.cjs
+TAP version 13
+# Subtest: the notice says what is sent, to whom, how long it may be kept, and that nothing is saved yet
+ok 1 - the notice says what is sent, to whom, how long it may be kept, and that nothing is saved yet
+  ---
+  duration_ms: 9.2466
+  type: 'test'
+  ...
+# Subtest: it is quiet when the task is off or ready, and explains a quota wait, a missing service or anything else
+ok 2 - it is quiet when the task is off or ready, and explains a quota wait, a missing service or anything else
+  ---
+  duration_ms: 0.6403
+  type: 'test'
+  ...
+# Subtest: waits are said in seconds, minutes or hours, and not at all when unknown
+ok 3 - waits are said in seconds, minutes or hours, and not at all when unknown
+  ---
+  duration_ms: 0.221
+  type: 'test'
+  ...
+# Subtest: every failure is put in plain words with what to do next, and none leaks a server message
+ok 4 - every failure is put in plain words with what to do next, and none leaks a server message
+  ---
+  duration_ms: 1.793
+  type: 'test'
+  ...
+# Subtest: an AI draft goes to review like a keyword draft, with the model's suggestion in place and nothing saved
+ok 5 - an AI draft goes to review like a keyword draft, with the model's suggestion in place and nothing saved
+  ---
+  duration_ms: 5.88
+  type: 'test'
+  ...
+# Subtest: a blank or over-long description never leaves the browser, and the person is told why
+ok 6 - a blank or over-long description never leaves the browser, and the person is told why
+  ---
+  duration_ms: 0.4824
+  type: 'test'
+  ...
+# Subtest: a failed AI draft shows its words, keeps nothing half-made, and allows another try
+ok 7 - a failed AI draft shows its words, keeps nothing half-made, and allows another try
+  ---
+  duration_ms: 1.2467
+  type: 'test'
+  ...
+# Subtest: only one request runs at a time, and a draft is refused once the design exists
+ok 8 - only one request runs at a time, and a draft is refused once the design exists
+  ---
+  duration_ms: 0.4069
+  type: 'test'
+  ...
+# Subtest: leaving the page cancels the model request and ignores its answer
+ok 9 - leaving the page cancels the model request and ignores its answer
+  ---
+  duration_ms: 1.0006
+  type: 'test'
+  ...
+# Subtest: changing the description discards an AI draft, as it does a keyword draft
+ok 10 - changing the description discards an AI draft, as it does a keyword draft
+  ---
+  duration_ms: 0.7813
+  type: 'test'
+  ...
+# Subtest: the headline is the approved wording with every figure taken from the data
+ok 11 - the headline is the approved wording with every figure taken from the data
+  ---
+  duration_ms: 53.5053
+  type: 'test'
+  ...
+# Subtest: the headline rounds the difference to the nearest percent, from whatever the data says
+ok 12 - the headline rounds the difference to the nearest percent, from whatever the data says
+  ---
+  duration_ms: 4.1614
+  type: 'test'
+  ...
+# Subtest: each claim in the headline is still true of the data
+ok 13 - each claim in the headline is still true of the data
+  ---
+  duration_ms: 1.4525
+  type: 'test'
+  ...
+# Subtest: the headline matches the findings document the user read
+ok 14 - the headline matches the findings document the user read
+  ---
+  duration_ms: 37.2
+  type: 'test'
+  ...
+# Subtest: the status says what this is, and with no data it says not yet measured and shows no figure
+ok 15 - the status says what this is, and with no data it says not yet measured and shows no figure
+  ---
+  duration_ms: 495.9162
+  type: 'test'
+  ...
+# Subtest: every table cell is the data value, formatted: p95 with its range, the model p95, and the difference
+ok 16 - every table cell is the data value, formatted: p95 with its range, the model p95, and the difference
+  ---
+  duration_ms: 101.1372
+  type: 'test'
+  ...
+# Subtest: the notes mark the fit steps, the rows where requests timed out, and the differences inside the spread
+ok 17 - the notes mark the fit steps, the rows where requests timed out, and the differences inside the spread
+  ---
+  duration_ms: 79.0641
+  type: 'test'
+  ...
+# Subtest: the breaking-point sentences state the data's loads and the difference
+ok 18 - the breaking-point sentences state the data's loads and the difference
+  ---
+  duration_ms: 65.5603
+  type: 'test'
+  ...
+# Subtest: the four expectations are listed with their verdict under every way of fitting, and match the written record
+ok 19 - the four expectations are listed with their verdict under every way of fitting, and match the written record
+  ---
+  duration_ms: 131.185
+  type: 'test'
+  ...
+# Subtest: the trust section discloses the correction with the data's own numbers, and the limits are always stated
+ok 20 - the trust section discloses the correction with the data's own numbers, and the limits are always stated
+  ---
+  duration_ms: 119.8489
+  type: 'test'
+  ...
+# Subtest: the setup and machine sentences are the data's
+ok 21 - the setup and machine sentences are the data's
+  ---
+  duration_ms: 93.312
+  type: 'test'
+  ...
+# Subtest: every command the tab tells you to run is real: a script in its package.json, or a file that exists
+ok 22 - every command the tab tells you to run is real: a script in its package.json, or a file that exists
+  ---
+  duration_ms: 21.6707
+  type: 'test'
+  ...
+# Subtest: the method has seven steps, in the past tense, and the page never says validated or accurate without a limit
+ok 23 - the method has seven steps, in the past tense, and the page never says validated or accurate without a limit
+  ---
+  duration_ms: 151.3228
+  type: 'test'
+  ...
+# Subtest: the other tabs and the ever-present limits still hold: the Simulator tab no longer says no real service was compared
+ok 24 - the other tabs and the ever-present limits still hold: the Simulator tab no longer says no real service was compared
+  ---
+  duration_ms: 61.0223
+  type: 'test'
+  ...
+# Subtest: world/screen round trips at every zoom and pan, including negative coordinates
+ok 25 - world/screen round trips at every zoom and pan, including negative coordinates
+  ---
+  duration_ms: 2.0237
+  type: 'test'
+  ...
+# Subtest: zoom anchors stay under the pointer and cannot exceed source zoom bounds
+ok 26 - zoom anchors stay under the pointer and cannot exceed source zoom bounds
+  ---
+  duration_ms: 0.9162
+  type: 'test'
+  ...
+# Subtest: fit/snap/edge geometry stay finite for empty, tiny and wide canvases
+ok 27 - fit/snap/edge geometry stay finite for empty, tiny and wide canvases
+  ---
+  duration_ms: 1.9289
+  type: 'test'
+  ...
+# Subtest: all twelve palette types use catalog defaults and only allowed properties
+ok 28 - all twelve palette types use catalog defaults and only allowed properties
+  ---
+  duration_ms: 1.4148
+  type: 'test'
+  ...
+# Subtest: palette IDs never collide with nodes/edges; bounds and nonfinite positions are enforced
+ok 29 - palette IDs never collide with nodes/edges; bounds and nonfinite positions are enforced
+  ---
+  duration_ms: 1.4796
+  type: 'test'
+  ...
+# Subtest: property validation rejects blanks, nonfinite, fractional and type-specific invalid settings
+ok 30 - property validation rejects blanks, nonfinite, fractional and type-specific invalid settings
+  ---
+  duration_ms: 0.6337
+  type: 'test'
+  ...
+# Subtest: dragging is unsettled but writes only its committed graph; cancel writes nothing
+ok 31 - dragging is unsettled but writes only its committed graph; cancel writes nothing
+  ---
+  duration_ms: 2.1382
+  type: 'test'
+  ...
+# Subtest: remote data cannot replace a gesture or invalid field; field errors block save and Run
+ok 32 - remote data cannot replace a gesture or invalid field; field errors block save and Run
+  ---
+  duration_ms: 10.9142
+  type: 'test'
+  ...
+# Subtest: layout and design-name saves preserve input equivalence; properties/labels/order still stale results
+ok 33 - layout and design-name saves preserve input equivalence; properties/labels/order still stale results
+  ---
+  duration_ms: 6.7284
+  type: 'test'
+  ...
+# Subtest: a late acknowledgement preserves a node moved during the save
+ok 34 - a late acknowledgement preserves a node moved during the save
+  ---
+  duration_ms: 1.1905
+  type: 'test'
+  ...
+# Subtest: terminal retry 401 forgets the token and emits session expiry exactly once
+ok 35 - terminal retry 401 forgets the token and emits session expiry exactly once
+  ---
+  duration_ms: 657.7479
+  type: 'test'
+  ...
+# Subtest: refresh 429 preserves credentials and reports a temporary failure
+ok 36 - refresh 429 preserves credentials and reports a temporary failure
+  ---
+  duration_ms: 72.7579
+  type: 'test'
+  ...
+# Subtest: refresh 503 preserves credentials and reports a temporary failure
+ok 37 - refresh 503 preserves credentials and reports a temporary failure
+  ---
+  duration_ms: 81.5547
+  type: 'test'
+  ...
+# Subtest: refresh 403 preserves credentials and reports a temporary failure
+ok 38 - refresh 403 preserves credentials and reports a temporary failure
+  ---
+  duration_ms: 60.2658
+  type: 'test'
+  ...
+# Subtest: refresh credential rejection expires the session without retrying the resource
+ok 39 - refresh credential rejection expires the session without retrying the resource
+  ---
+  duration_ms: 58.221
+  type: 'test'
+  ...
+# Subtest: refresh network failure preserves credentials and announces outage
+ok 40 - refresh network failure preserves credentials and announces outage
+  ---
+  duration_ms: 37.8875
+  type: 'test'
+  ...
+# Subtest: successful refresh retries once with the new bearer and unwraps data
+ok 41 - successful refresh retries once with the new bearer and unwraps data
+  ---
+  duration_ms: 67.6546
+  type: 'test'
+  ...
+# Subtest: API 404 maps to its system event; silent requests leave UI to caller
+ok 42 - API 404 maps to its system event; silent requests leave UI to caller
+  ---
+  duration_ms: 43.4247
+  type: 'test'
+  ...
+# Subtest: API 403 maps to its system event; silent requests leave UI to caller
+ok 43 - API 403 maps to its system event; silent requests leave UI to caller
+  ---
+  duration_ms: 37.0034
+  type: 'test'
+  ...
+# Subtest: API 429 maps to its system event; silent requests leave UI to caller
+ok 44 - API 429 maps to its system event; silent requests leave UI to caller
+  ---
+  duration_ms: 55.9
+  type: 'test'
+  ...
+# Subtest: API 500 maps to its system event; silent requests leave UI to caller
+ok 45 - API 500 maps to its system event; silent requests leave UI to caller
+  ---
+  duration_ms: 41.7107
+  type: 'test'
+  ...
+# Subtest: HTML gateway 404 still opens not-found
+ok 46 - HTML gateway 404 still opens not-found
+  ---
+  duration_ms: 70.1024
+  type: 'test'
+  ...
+# Subtest: auth:false 401 is an inline credential failure with no refresh
+ok 47 - auth:false 401 is an inline credential failure with no refresh
+  ---
+  duration_ms: 33.2709
+  type: 'test'
+  ...
+# Subtest: caller cancellation is not an outage
+ok 48 - caller cancellation is not an outage
+  ---
+  duration_ms: 49.4841
+  type: 'test'
+  ...
+# Subtest: same-tab restore callers share one rotating-cookie request
+ok 49 - same-tab restore callers share one rotating-cookie request
+  ---
+  duration_ms: 48.4557
+  type: 'test'
+  ...
+# Subtest: two isolated tab modules serialize cookie rotation via Web Locks without token storage or broadcast
+ok 50 - two isolated tab modules serialize cookie rotation via Web Locks without token storage or broadcast
+  ---
+  duration_ms: 94.3941
+  type: 'test'
+  ...
+# Subtest: direct SESSION_EXPIRED without an in-memory token still announces reauthentication
+ok 51 - direct SESSION_EXPIRED without an in-memory token still announces reauthentication
+  ---
+  duration_ms: 31.5344
+  type: 'test'
+  ...
+# Subtest: malformed successful refresh preserves credentials and announces outage
+ok 52 - malformed successful refresh preserves credentials and announces outage
+  ---
+  duration_ms: 38.8888
+  type: 'test'
+  ...
+# Subtest: logout 503 clears the local token but rejects so the UI cannot claim server success
+ok 53 - logout 503 clears the local token but rejects so the UI cannot claim server success
+  ---
+  duration_ms: 49.5784
+  type: 'test'
+  ...
+# Subtest: invalid refresh envelope null cannot overwrite the current session
+ok 54 - invalid refresh envelope null cannot overwrite the current session
+  ---
+  duration_ms: 18.9092
+  type: 'test'
+  ...
+# Subtest: invalid refresh envelope {} cannot overwrite the current session
+ok 55 - invalid refresh envelope {} cannot overwrite the current session
+  ---
+  duration_ms: 54.7581
+  type: 'test'
+  ...
+# Subtest: invalid refresh envelope {"accessToken":"invalid","user":null} cannot overwrite the current session
+ok 56 - invalid refresh envelope {"accessToken":"invalid","user":null} cannot overwrite the current session
+  ---
+  duration_ms: 25.3721
+  type: 'test'
+  ...
+# Subtest: local scope keeps 429 with the caller; the default scope still announces it
+ok 57 - local scope keeps 429 with the caller; the default scope still announces it
+  ---
+  duration_ms: 26.4813
+  type: 'test'
+  ...
+# Subtest: local scope keeps 503 with the caller; the default scope still announces it
+ok 58 - local scope keeps 503 with the caller; the default scope still announces it
+  ---
+  duration_ms: 19.686
+  type: 'test'
+  ...
+# Subtest: local scope keeps 403 with the caller; the default scope still announces it
+ok 59 - local scope keeps 403 with the caller; the default scope still announces it
+  ---
+  duration_ms: 17.8415
+  type: 'test'
+  ...
+# Subtest: local scope keeps 404 with the caller; the default scope still announces it
+ok 60 - local scope keeps 404 with the caller; the default scope still announces it
+  ---
+  duration_ms: 28.3717
+  type: 'test'
+  ...
+# Subtest: local scope keeps 500 with the caller; the default scope still announces it
+ok 61 - local scope keeps 500 with the caller; the default scope still announces it
+  ---
+  duration_ms: 25.246
+  type: 'test'
+  ...
+# Subtest: local scope keeps a network failure local while a caller abort stays distinct
+ok 62 - local scope keeps a network failure local while a caller abort stays distinct
+  ---
+  duration_ms: 18.323
+  type: 'test'
+  ...
+# Subtest: local scope does not weaken session expiry or token refresh
+ok 63 - local scope does not weaken session expiry or token refresh
+  ---
+  duration_ms: 22.0779
+  type: 'test'
+  ...
+# Subtest: M4 concurrent clicks create exactly once and retain the returned identity
+ok 64 - M4 concurrent clicks create exactly once and retain the returned identity
+  ---
+  duration_ms: 4.538
+  type: 'test'
+  ...
+# Subtest: M4 unknown creation acceptance prevents automatic retry until deliberate intent
+ok 65 - M4 unknown creation acceptance prevents automatic retry until deliberate intent
+  ---
+  duration_ms: 1.6668
+  type: 'test'
+  ...
+# Subtest: M4 definitive validation or rate rejection allows a corrected retry
+ok 66 - M4 definitive validation or rate rejection allows a corrected retry
+  ---
+  duration_ms: 1.2642
+  type: 'test'
+  ...
+# Subtest: M4 disposed account ignores both preparation and creation responses
+ok 67 - M4 disposed account ignores both preparation and creation responses
+  ---
+  duration_ms: 0.8571
+  type: 'test'
+  ...
+# Subtest: M4 changing input invalidates a preview; naming a checked draft preserves it
+ok 68 - M4 changing input invalidates a preview; naming a checked draft preserves it
+  ---
+  duration_ms: 0.5417
+  type: 'test'
+  ...
+# Subtest: M4 5xx can follow commit and remains uncertain; blank names never submit
+ok 69 - M4 5xx can follow commit and remains uncertain; blank names never submit
+  ---
+  duration_ms: 3.3527
+  type: 'test'
+  ...
+# Subtest: M4 status distinguishes old verdicts, calculation failure and missing results
+ok 70 - M4 status distinguishes old verdicts, calculation failure and missing results
+  ---
+  duration_ms: 0.3785
+  type: 'test'
+  ...
+# Subtest: a guest on a public page starts at Home, the landing page
+ok 71 - a guest on a public page starts at Home, the landing page
+  ---
+  duration_ms: 181.703
+  type: 'test'
+  ...
+# Subtest: a signed-in person on a public page starts at Dashboard, not the landing page
+ok 72 - a signed-in person on a public page starts at Dashboard, not the landing page
+  ---
+  duration_ms: 54.3923
+  type: 'test'
+  ...
+# Subtest: while we do not yet know who is signed in, the page keeps Home
+ok 73 - while we do not yet know who is signed in, the page keeps Home
+  ---
+  duration_ms: 11.8237
+  type: 'test'
+  ...
+# Subtest: with no auth provider at all it still renders, with Home
+ok 74 - with no auth provider at all it still renders, with Home
+  ---
+  duration_ms: 8.2121
+  type: 'test'
+  ...
+# Subtest: pages inside the app are unchanged for everyone, and the last crumb is never a link
+ok 75 - pages inside the app are unchanged for everyone, and the last crumb is never a link
+  ---
+  duration_ms: 22.1198
+  type: 'test'
+  ...
+# Subtest: save acknowledges its submitted baseline and preserves newer edits
+ok 76 - save acknowledges its submitted baseline and preserves newer edits
+  ---
+  duration_ms: 4.2482
+  type: 'test'
+  ...
+# Subtest: serialized saves use the acknowledged revision
+ok 77 - serialized saves use the acknowledged revision
+  ---
+  duration_ms: 25.735
+  type: 'test'
+  ...
+# Subtest: conflict keeps draft and requires deliberate resolution
+ok 78 - conflict keeps draft and requires deliberate resolution
+  ---
+  duration_ms: 1.7703
+  type: 'test'
+  ...
+# Subtest: lost acceptance retries exactly the same id and revision despite newer edits
+ok 79 - lost acceptance retries exactly the same id and revision despite newer edits
+  ---
+  duration_ms: 8.1028
+  type: 'test'
+  ...
+# Subtest: failed save blocks run submission
+ok 80 - failed save blocks run submission
+  ---
+  duration_ms: 0.6695
+  type: 'test'
+  ...
+# Subtest: old result stays stale after a semantic edit
+ok 81 - old result stays stale after a semantic edit
+  ---
+  duration_ms: 0.6169
+  type: 'test'
+  ...
+# Subtest: unknown acceptance is not retried after the 24h guarantee
+ok 82 - unknown acceptance is not retried after the 24h guarantee
+  ---
+  duration_ms: 0.8041
+  type: 'test'
+  ...
+# Subtest: disposed account session ignores a late save response
+ok 83 - disposed account session ignores a late save response
+  ---
+  duration_ms: 0.9658
+  type: 'test'
+  ...
+# Subtest: a server-normalized key order acknowledges the edit without repeated saves
+ok 84 - a server-normalized key order acknowledges the edit without repeated saves
+  ---
+  duration_ms: 2.1524
+  type: 'test'
+  ...
+# Subtest: result staleness ignores object-key order while preserving graph array order
+ok 85 - result staleness ignores object-key order while preserving graph array order
+  ---
+  duration_ms: 0.817
+  type: 'test'
+  ...
+# Subtest: Run flushes a normalized replica edit once before submitting
+ok 86 - Run flushes a normalized replica edit once before submitting
+  ---
+  duration_ms: 1.2308
+  type: 'test'
+  ...
+# Subtest: meaningful graph array ordering is still detected as an edit
+ok 87 - meaningful graph array ordering is still detected as an edit
+  ---
+  duration_ms: 0.5011
+  type: 'test'
+  ...
+# Subtest: server-trimmed names acknowledge only the submitted value
+ok 88 - server-trimmed names acknowledge only the submitted value
+  ---
+  duration_ms: 1.093
+  type: 'test'
+  ...
+# Subtest: uncertain acceptance retains its identity after a rate-limit response
+ok 89 - uncertain acceptance retains its identity after a rate-limit response
+  ---
+  duration_ms: 0.6531
+  type: 'test'
+  ...
+# Subtest: discarding a draft conflict does not discard uncertain calculation acceptance
+ok 90 - discarding a draft conflict does not discard uncertain calculation acceptance
+  ---
+  duration_ms: 1.0023
+  type: 'test'
+  ...
+# Subtest: clean drafts adopt only newer server revisions and dirty drafts stay untouched
+ok 91 - clean drafts adopt only newer server revisions and dirty drafts stay untouched
+  ---
+  duration_ms: 0.7371
+  type: 'test'
+  ...
+# Subtest: an incoming server snapshot cannot overwrite an in-flight submitted edit
+ok 92 - an incoming server snapshot cannot overwrite an in-flight submitted edit
+  ---
+  duration_ms: 1.0499
+  type: 'test'
+  ...
+# Subtest: unconfirmed calculation acceptance is unsettled even when the draft is saved
+ok 93 - unconfirmed calculation acceptance is unsettled even when the draft is saved
+  ---
+  duration_ms: 0.6922
+  type: 'test'
+  ...
+# Subtest: authentication failure on an uncertain retry preserves the request id
+ok 94 - authentication failure on an uncertain retry preserves the request id
+  ---
+  duration_ms: 0.7214
+  type: 'test'
+  ...
+# Subtest: a disposed account cannot return a late acceptance to its navigation handler
+ok 95 - a disposed account cannot return a late acceptance to its navigation handler
+  ---
+  duration_ms: 95.7416
+  type: 'test'
+  ...
+# Subtest: what is sent is stated precisely: the verified facts of one run, nothing else, and what the provider may keep
+ok 96 - what is sent is stated precisely: the verified facts of one run, nothing else, and what the provider may keep
+  ---
+  duration_ms: 2.2211
+  type: 'test'
+  ...
+# Subtest: wait times read as a person would say them, at every boundary
+ok 97 - wait times read as a person would say them, at every boundary
+  ---
+  duration_ms: 0.4984
+  type: 'test'
+  ...
+# Subtest: only the hosted provider is called hosted
+ok 98 - only the hosted provider is called hosted
+  ---
+  duration_ms: 0.2392
+  type: 'test'
+  ...
+# Subtest: a local or unspecified provider keeps exactly the local readiness wording, for every reason
+ok 99 - a local or unspecified provider keeps exactly the local readiness wording, for every reason
+  ---
+  duration_ms: 0.3048
+  type: 'test'
+  ...
+# Subtest: a hosted provider is described as hosted: ready, unavailable and quota used up, with the wait
+ok 100 - a hosted provider is described as hosted: ready, unavailable and quota used up, with the wait
+  ---
+  duration_ms: 0.6741
+  type: 'test'
+  ...
+# Subtest: no hosted readiness text claims anything about a local model or this computer
+ok 101 - no hosted readiness text claims anything about a local model or this computer
+  ---
+  duration_ms: 0.6026
+  type: 'test'
+  ...
+# Subtest: the drawer's one status line follows the provider the server reports
+ok 102 - the drawer's one status line follows the provider the server reports
+  ---
+  duration_ms: 14.3083
+  type: 'test'
+  ...
+# Subtest: a refused or failed request is explained in hosted terms: quota with the wait, quota unreadable, no key
+ok 103 - a refused or failed request is explained in hosted terms: quota with the wait, quota unreadable, no key
+  ---
+  duration_ms: 3.1769
+  type: 'test'
+  ...
+# Subtest: a provider outage on submit reads as hosted when the provider is hosted, and as local when it is local
+ok 104 - a provider outage on submit reads as hosted when the provider is hosted, and as local when it is local
+  ---
+  duration_ms: 2.3011
+  type: 'test'
+  ...
+# Subtest: a failed job says what failed in the words of its provider
+ok 105 - a failed job says what failed in the words of its provider
+  ---
+  duration_ms: 1.329
+  type: 'test'
+  ...
+# Subtest: a hosted job that failed shows the hosted failure text, and a job without a provider shows the local one
+ok 106 - a hosted job that failed shows the hosted failure text, and a job without a provider shows the local one
+  ---
+  duration_ms: 4.5636
+  type: 'test'
+  ...
+# Subtest: provenance lines: a hosted model has no digest, tokens and time appear only when reported
+ok 107 - provenance lines: a hosted model has no digest, tokens and time appear only when reported
+  ---
+  duration_ms: 0.9007
+  type: 'test'
+  ...
+# Subtest: the store learns that the provider is hosted from the readiness probe, and treats anything else as local
+ok 108 - the store learns that the provider is hosted from the readiness probe, and treats anything else as local
+  ---
+  duration_ms: 162.9935
+  type: 'test'
+  ...
+# Subtest: the choices are the four kinds and four preferences the server knows, in a fixed order
+ok 109 - the choices are the four kinds and four preferences the server knows, in a fixed order
+  ---
+  duration_ms: 3.3182
+  type: 'test'
+  ...
+# Subtest: switching a kind on or off keeps the kinds in their fixed order and leaves the preference alone
+ok 110 - switching a kind on or off keeps the kinds in their fixed order and leaves the preference alone
+  ---
+  duration_ms: 1.3623
+  type: 'test'
+  ...
+# Subtest: a filter that asks for nothing is recognised, and anything else is not
+ok 111 - a filter that asks for nothing is recognised, and anything else is not
+  ---
+  duration_ms: 0.4373
+  type: 'test'
+  ...
+# Subtest: leaving every fix out has its own plain sentence that says what to do
+ok 112 - leaving every fix out has its own plain sentence that says what to do
+  ---
+  duration_ms: 0.8009
+  type: 'test'
+  ...
+# Subtest: the goal box is offered only when the server says the fixes task is switched on
+ok 113 - the goal box is offered only when the server says the fixes task is switched on
+  ---
+  duration_ms: 0.953
+  type: 'test'
+  ...
+# Subtest: it is quiet when the task is off or ready, and explains a quota wait, a missing service or anything else
+ok 114 - it is quiet when the task is off or ready, and explains a quota wait, a missing service or anything else
+  ---
+  duration_ms: 0.4913
+  type: 'test'
+  ...
+# Subtest: the notice says what is sent, to whom, and that the AI only sets choices and never a figure
+ok 115 - the notice says what is sent, to whom, and that the AI only sets choices and never a figure
+  ---
+  duration_ms: 0.391
+  type: 'test'
+  ...
+# Subtest: every failure is put in plain words with what to do next, and none leaks a server message
+ok 116 - every failure is put in plain words with what to do next, and none leaks a server message
+  ---
+  duration_ms: 1.6151
+  type: 'test'
+  ...
+# Subtest: the goal box says plainly that it is experimental and off by default, and points to the evidence
+ok 117 - the goal box says plainly that it is experimental and off by default, and points to the evidence
+  ---
+  duration_ms: 0.643
+  type: 'test'
+  ...
+# Subtest: a fix that makes the design pass says so, with what changed
+ok 118 - a fix that makes the design pass says so, with what changed
+  ---
+  duration_ms: 253.4989
+  type: 'test'
+  ...
+# Subtest: a fix that only helps says it would still fail, never that it fixes the design
+ok 119 - a fix that only helps says it would still fail, never that it fixes the design
+  ---
+  duration_ms: 1.0919
+  type: 'test'
+  ...
+# Subtest: a fix that moves a failing design to strained says exactly that
+ok 120 - a fix that moves a failing design to strained says exactly that
+  ---
+  duration_ms: 1.1996
+  type: 'test'
+  ...
+# Subtest: it mentions only the measures that really improved
+ok 121 - it mentions only the measures that really improved
+  ---
+  duration_ms: 0.9788
+  type: 'test'
+  ...
+# Subtest: each status has its own plain sentence, and the useful one says what was aimed at
+ok 122 - each status has its own plain sentence, and the useful one says what was aimed at
+  ---
+  duration_ms: 0.8604
+  type: 'test'
+  ...
+# Subtest: verdicts are put in plain words
+ok 123 - verdicts are put in plain words
+  ---
+  duration_ms: 8.8415
+  type: 'test'
+  ...
+# Subtest: every failure is explained and says what to do, without leaking a server message
+ok 124 - every failure is explained and says what to do, without leaking a server message
+  ---
+  duration_ms: 1.5007
+  type: 'test'
+  ...
+# Subtest: the note says the figures are a model's estimates and that nothing changes until the person saves
+ok 125 - the note says the figures are a model's estimates and that nothing changes until the person saves
+  ---
+  duration_ms: 0.4388
+  type: 'test'
+  ...
+# Subtest: the placeholder list is exactly the routes whose page renders the placeholder
+ok 126 - the placeholder list is exactly the routes whose page renders the placeholder
+  ---
+  duration_ms: 57.0112
+  type: 'test'
+  ...
+# Subtest: every placeholder route has no help entry of its own that would hide the note, and every id is a real route
+ok 127 - every placeholder route has no help entry of its own that would hide the note, and every id is a real route
+  ---
+  duration_ms: 0.4563
+  type: 'test'
+  ...
+# Subtest: the drawer no longer says concept pages are coming, and only shows the placeholder note for placeholder routes
+ok 128 - the drawer no longer says concept pages are coming, and only shows the placeholder note for placeholder routes
+  ---
+  duration_ms: 1.3622
+  type: 'test'
+  ...
+# Subtest: loads and rates are written plainly
+ok 129 - loads and rates are written plainly
+  ---
+  duration_ms: 25.0151
+  type: 'test'
+  ...
+# Subtest: a row's result says what happened, and says so when it could not be known
+ok 130 - a row's result says what happened, and says so when it could not be known
+  ---
+  duration_ms: 0.5436
+  type: 'test'
+  ...
+# Subtest: a design that passes everywhere says how far it was checked
+ok 131 - a design that passes everywhere says how far it was checked
+  ---
+  duration_ms: 0.8647
+  type: 'test'
+  ...
+# Subtest: it says where a design stops passing and where it fails
+ok 132 - it says where a design stops passing and where it fails
+  ---
+  duration_ms: 8.6922
+  type: 'test'
+  ...
+# Subtest: a design that is already in trouble says so, and does not talk about higher load as if it were fine
+ok 133 - a design that is already in trouble says so, and does not talk about higher load as if it were fine
+  ---
+  duration_ms: 1.1452
+  type: 'test'
+  ...
+# Subtest: a rate the model does not accept is named as such, not described as a pass or a failure
+ok 134 - a rate the model does not accept is named as such, not described as a pass or a failure
+  ---
+  duration_ms: 3.2252
+  type: 'test'
+  ...
+# Subtest: a row that could not be checked is never read as a pass
+ok 135 - a row that could not be checked is never read as a pass
+  ---
+  duration_ms: 1.381
+  type: 'test'
+  ...
+# Subtest: with nothing known it says so
+ok 136 - with nothing known it says so
+  ---
+  duration_ms: 0.3512
+  type: 'test'
+  ...
+# Subtest: failures are explained with what to do, without leaking a server message
+ok 137 - failures are explained with what to do, without leaking a server message
+  ---
+  duration_ms: 3.4003
+  type: 'test'
+  ...
+# Subtest: the note says only the rate changes, that the figures are a model's estimates, and that nothing is saved
+ok 138 - the note says only the rate changes, that the figures are a model's estimates, and that nothing is saved
+  ---
+  duration_ms: 1.3775
+  type: 'test'
+  ...
+# Subtest: M12 explain: generate uses the saved run identity, polls about every two seconds and shows evidence after completion
+ok 139 - M12 explain: generate uses the saved run identity, polls about every two seconds and shows evidence after completion
+  ---
+  duration_ms: 14.68
+  type: 'test'
+  ...
+# Subtest: M12 explain: a lost acknowledgement retries the SAME request id and never creates a second request
+ok 140 - M12 explain: a lost acknowledgement retries the SAME request id and never creates a second request
+  ---
+  duration_ms: 1.6299
+  type: 'test'
+  ...
+# Subtest: M12 explain: definitive refusals stay inline and keep the request id; a terminal job gets a new one
+ok 141 - M12 explain: definitive refusals stay inline and keep the request id; a terminal job gets a new one
+  ---
+  duration_ms: 8.3972
+  type: 'test'
+  ...
+# Subtest: M12 explain: a late reply never attaches to another design, run, revision or account
+ok 142 - M12 explain: a late reply never attaches to another design, run, revision or account
+  ---
+  duration_ms: 1.1692
+  type: 'test'
+  ...
+# Subtest: M12 explain: a job or evidence for a different run is refused visibly
+ok 143 - M12 explain: a job or evidence for a different run is refused visibly
+  ---
+  duration_ms: 3.5761
+  type: 'test'
+  ...
+# Subtest: M12 explain: an earlier-revision result cannot be newly explained and sends nothing
+ok 144 - M12 explain: an earlier-revision result cannot be newly explained and sends nothing
+  ---
+  duration_ms: 2.6148
+  type: 'test'
+  ...
+# Subtest: M12 explain: saving a new revision during generation keeps the job but marks the result historical
+ok 145 - M12 explain: saving a new revision during generation keeps the job but marks the result historical
+  ---
+  duration_ms: 1.1556
+  type: 'test'
+  ...
+# Subtest: M12 explain: cancel is terminal at once but generation stays unavailable until the runner is idle
+ok 146 - M12 explain: cancel is terminal at once but generation stays unavailable until the runner is idle
+  ---
+  duration_ms: 9.0276
+  type: 'test'
+  ...
+# Subtest: M12 explain: closing the panel stops polling but not the job, and reopening resumes it
+ok 147 - M12 explain: closing the panel stops polling but not the job, and reopening resumes it
+  ---
+  duration_ms: 4.3923
+  type: 'test'
+  ...
+# Subtest: M12 explain: closing the panel while the submit is in flight does not strand the state
+ok 148 - M12 explain: closing the panel while the submit is in flight does not strand the state
+  ---
+  duration_ms: 2.2188
+  type: 'test'
+  ...
+# Subtest: M12 explain: a failed status check keeps the job pending, backs off and recovers
+ok 149 - M12 explain: a failed status check keeps the job pending, backs off and recovers
+  ---
+  duration_ms: 2.9776
+  type: 'test'
+  ...
+# Subtest: M12 explain: a job that disappeared or is forbidden ends inline without leaking details
+ok 150 - M12 explain: a job that disappeared or is forbidden ends inline without leaking details
+  ---
+  duration_ms: 2.8611
+  type: 'test'
+  ...
+# Subtest: M12 explain: reload recovery adopts only a job for this exact result
+ok 151 - M12 explain: reload recovery adopts only a job for this exact result
+  ---
+  duration_ms: 1.6831
+  type: 'test'
+  ...
+# Subtest: M12 explain: every unavailable condition is explained inline with its own plain-language text
+ok 152 - M12 explain: every unavailable condition is explained inline with its own plain-language text
+  ---
+  duration_ms: 2.9833
+  type: 'test'
+  ...
+# Subtest: M12 explain: dispose stops everything and later replies change nothing
+ok 153 - M12 explain: dispose stops everything and later replies change nothing
+  ---
+  duration_ms: 8.3961
+  type: 'test'
+  ...
+# Subtest: M12 refuses a same-run job with the wrong revision
+ok 154 - M12 refuses a same-run job with the wrong revision
+  ---
+  duration_ms: 0.6272
+  type: 'test'
+  ...
+# Subtest: M12 refuses evidence with a mismatched fingerprint
+ok 155 - M12 refuses evidence with a mismatched fingerprint
+  ---
+  duration_ms: 1.3082
+  type: 'test'
+  ...
+# Subtest: M12 closing and reopening during provider cleanup resumes readiness checks
+ok 156 - M12 closing and reopening during provider cleanup resumes readiness checks
+  ---
+  duration_ms: 0.9855
+  type: 'test'
+  ...
+# Subtest: M12 account switch clears retained explanation state immediately
+ok 157 - M12 account switch clears retained explanation state immediately
+  ---
+  duration_ms: 27.2012
+  type: 'test'
+  ...
+# Subtest: M12 optional AI: hidden unless the backend enables it, retried after an error, cleared on account switch
+ok 158 - M12 optional AI: hidden unless the backend enables it, retried after an error, cleared on account switch
+  ---
+  duration_ms: 1.2906
+  type: 'test'
+  ...
+# Subtest: M15.5 list: the plain URL is the default query and defaults are never written back
+ok 159 - M15.5 list: the plain URL is the default query and defaults are never written back
+  ---
+  duration_ms: 2.8232
+  type: 'test'
+  ...
+# Subtest: M15.5 list: filters round-trip through the URL
+ok 160 - M15.5 list: filters round-trip through the URL
+  ---
+  duration_ms: 1.1586
+  type: 'test'
+  ...
+# Subtest: M15.5 list: unknown or hostile URL values fall back to defaults instead of reaching the API
+ok 161 - M15.5 list: unknown or hostile URL values fall back to defaults instead of reaching the API
+  ---
+  duration_ms: 0.621
+  type: 'test'
+  ...
+# Subtest: M15.5 list: the request carries every filter, encoded, with the page size
+ok 162 - M15.5 list: the request carries every filter, encoded, with the page size
+  ---
+  duration_ms: 2.0914
+  type: 'test'
+  ...
+# Subtest: M15.5 list: filtered state ignores sort and page but counts search, result and archive filters
+ok 163 - M15.5 list: filtered state ignores sort and page but counts search, result and archive filters
+  ---
+  duration_ms: 0.3591
+  type: 'test'
+  ...
+# Subtest: M15.5 list: the latest result is described honestly, and an earlier revision is never shown as current
+ok 164 - M15.5 list: the latest result is described honestly, and an earlier revision is never shown as current
+  ---
+  duration_ms: 0.5597
+  type: 'test'
+  ...
+# Subtest: M15 history: every version origin is labelled honestly, baseline as an imported snapshot
+ok 165 - M15 history: every version origin is labelled honestly, baseline as an imported snapshot
+  ---
+  duration_ms: 2.2016
+  type: 'test'
+  ...
+# Subtest: M15 history: summaries and run labels use plain, singular/plural-correct wording
+ok 166 - M15 history: summaries and run labels use plain, singular/plural-correct wording
+  ---
+  duration_ms: 29.6981
+  type: 'test'
+  ...
+# Subtest: M15 restore preview lists exactly what would change, in plain language
+ok 167 - M15 restore preview lists exactly what would change, in plain language
+  ---
+  duration_ms: 2.7215
+  type: 'test'
+  ...
+# Subtest: M15 restore preview separates layout-only moves from real changes and reports identical content
+ok 168 - M15 restore preview separates layout-only moves from real changes and reports identical content
+  ---
+  duration_ms: 0.8811
+  type: 'test'
+  ...
+# Subtest: M15 restore is blocked, with a reason, whenever a draft could be lost or confused
+ok 169 - M15 restore is blocked, with a reason, whenever a draft could be lost or confused
+  ---
+  duration_ms: 0.344
+  type: 'test'
+  ...
+# Subtest: M15.3 notes: the draft counter follows the server rules (trimmed, 2,000 characters, no NUL)
+ok 170 - M15.3 notes: the draft counter follows the server rules (trimmed, 2,000 characters, no NUL)
+  ---
+  duration_ms: 0.389
+  type: 'test'
+  ...
+# Subtest: M15.3 notes: labels and the 100-note limit read plainly
+ok 171 - M15.3 notes: labels and the 100-note limit read plainly
+  ---
+  duration_ms: 0.2634
+  type: 'test'
+  ...
+# Subtest: M15.4 compare: every reason is explained plainly and names the right revision
+ok 172 - M15.4 compare: every reason is explained plainly and names the right revision
+  ---
+  duration_ms: 0.3865
+  type: 'test'
+  ...
+# Subtest: M15.4 compare: better, worse and no change follow each metric's own direction
+ok 173 - M15.4 compare: better, worse and no change follow each metric's own direction
+  ---
+  duration_ms: 1.2406
+  type: 'test'
+  ...
+# Subtest: M15.4 compare: values and changes are formatted with explicit units and signs, older revision first
+ok 174 - M15.4 compare: values and changes are formatted with explicit units and signs, older revision first
+  ---
+  duration_ms: 1.7107
+  type: 'test'
+  ...
+# Subtest: M16 report: a missing result is stated, not filled in
+ok 175 - M16 report: a missing result is stated, not filled in
+  ---
+  duration_ms: 3.9483
+  type: 'test'
+  ...
+# Subtest: M16 report: a result recorded for another revision is never presented as this revision's
+ok 176 - M16 report: a result recorded for another revision is never presented as this revision's
+  ---
+  duration_ms: 58.9258
+  type: 'test'
+  ...
+# Subtest: M16 report: running, failed and Limits runs are described for what they are
+ok 177 - M16 report: running, failed and Limits runs are described for what they are
+  ---
+  duration_ms: 0.4016
+  type: 'test'
+  ...
+# Subtest: M16 report: Limits is always disclosed, and a missing search states no breaking point
+ok 178 - M16 report: Limits is always disclosed, and a missing search states no breaking point
+  ---
+  duration_ms: 6.1955
+  type: 'test'
+  ...
+# Subtest: M16 report: verdicts, note scopes, traffic rows and the print title use plain wording
+ok 179 - M16 report: verdicts, note scopes, traffic rows and the print title use plain wording
+  ---
+  duration_ms: 1.2966
+  type: 'test'
+  ...
+# Subtest: M16 share: expiry wording follows the link's real state
+ok 180 - M16 share: expiry wording follows the link's real state
+  ---
+  duration_ms: 44.1385
+  type: 'test'
+  ...
+# Subtest: M16 share: opening statistics are stated plainly and singular or plural correctly
+ok 181 - M16 share: opening statistics are stated plainly and singular or plural correctly
+  ---
+  duration_ms: 1.0329
+  type: 'test'
+  ...
+# Subtest: M16 share: the link is built from the origin and token, and only token-shaped text is ever sent
+ok 182 - M16 share: the link is built from the origin and token, and only token-shaped text is ever sent
+  ---
+  duration_ms: 0.559
+  type: 'test'
+  ...
+# Subtest: M16 share: creation errors explain what to do without blaming the wrong thing
+ok 183 - M16 share: creation errors explain what to do without blaming the wrong thing
+  ---
+  duration_ms: 1.5191
+  type: 'test'
+  ...
+# Subtest: M16 share: scopes, expiry choices and the honest boundary text
+ok 184 - M16 share: scopes, expiry choices and the honest boundary text
+  ---
+  duration_ms: 1.266
+  type: 'test'
+  ...
+# Subtest: connections reject invalid endpoints, self, Clients inputs, duplicates and limits without mutation
+ok 185 - connections reject invalid endpoints, self, Clients inputs, duplicates and limits without mutation
+  ---
+  duration_ms: 7.1503
+  type: 'test'
+  ...
+# Subtest: reversals preserve edge identity/order and reject Clients and duplicate reverse pairs
+ok 186 - reversals preserve edge identity/order and reject Clients and duplicate reverse pairs
+  ---
+  duration_ms: 1.5721
+  type: 'test'
+  ...
+# Subtest: cycles remain editable drafts; deletion removes incident edges; duplication clones props without edges
+ok 187 - cycles remain editable drafts; deletion removes incident edges; duplication clones props without edges
+  ---
+  duration_ms: 1.0312
+  type: 'test'
+  ...
+# Subtest: history coalesces same-field changes, limits 60 steps and branches after undo
+ok 188 - history coalesces same-field changes, limits 60 steps and branches after undo
+  ---
+  duration_ms: 41.1965
+  type: 'test'
+  ...
+# Subtest: node and incident edge deletion is one undo; save does not clear history
+ok 189 - node and incident edge deletion is one undo; save does not clear history
+  ---
+  duration_ms: 1.9756
+  type: 'test'
+  ...
+# Subtest: undo during slow save is retained; subsequent save uses returned revision
+ok 190 - undo during slow save is retained; subsequent save uses returned revision
+  ---
+  duration_ms: 4.4581
+  type: 'test'
+  ...
+# Subtest: check saves first, checks latest saved revision, and ignores late validation after edits
+ok 191 - check saves first, checks latest saved revision, and ignores late validation after edits
+  ---
+  duration_ms: 82.0554
+  type: 'test'
+  ...
+# Subtest: failed save blocks validation and preserves draft/history for retry
+ok 192 - failed save blocks validation and preserves draft/history for retry
+  ---
+  duration_ms: 1.3966
+  type: 'test'
+  ...
+# Subtest: run rejection exposes repair details, warning-only checks stay ready and edits stale checks
+ok 193 - run rejection exposes repair details, warning-only checks stay ready and edits stale checks
+  ---
+  duration_ms: 21.3765
+  type: 'test'
+  ...
+# Subtest: remote reload, conflict rebase and disposal clear history; disposed replies cannot restore it
+ok 194 - remote reload, conflict rebase and disposal clear history; disposed replies cannot restore it
+  ---
+  duration_ms: 1.6971
+  type: 'test'
+  ...
+# Subtest: history and graph checks stay isolated by editor instance
+ok 195 - history and graph checks stay isolated by editor instance
+  ---
+  duration_ms: 1.3624
+  type: 'test'
+  ...
+# Subtest: gesture and invalid-input guards prevent history travel and validation writes
+ok 196 - gesture and invalid-input guards prevent history travel and validation writes
+  ---
+  duration_ms: 0.98
+  type: 'test'
+  ...
+# Subtest: a late validation reply after account disposal cannot restore validation or history
+ok 197 - a late validation reply after account disposal cannot restore validation or history
+  ---
+  duration_ms: 3.6281
+  type: 'test'
+  ...
+# Subtest: traffic rejects invalid, nonfinite and out of envelope values without changing draft
+ok 198 - traffic rejects invalid, nonfinite and out of envelope values without changing draft
+  ---
+  duration_ms: 11.4068
+  type: 'test'
+  ...
+# Subtest: presets are one undo action; custom edits preserve unrelated settings; redo branches
+ok 199 - presets are one undo action; custom edits preserve unrelated settings; redo branches
+  ---
+  duration_ms: 5.7479
+  type: 'test'
+  ...
+# Subtest: region update changes all Clients only and undo restores their differing regions
+ok 200 - region update changes all Clients only and undo restores their differing regions
+  ---
+  duration_ms: 60.9364
+  type: 'test'
+  ...
+# Subtest: traffic edits during pending save survive its acknowledgement and use returned revision
+ok 201 - traffic edits during pending save survive its acknowledgement and use returned revision
+  ---
+  duration_ms: 8.7411
+  type: 'test'
+  ...
+# Subtest: Run flushes the latest traffic even when edited while save is outstanding
+ok 202 - Run flushes the latest traffic even when edited while save is outstanding
+  ---
+  duration_ms: 13.6677
+  type: 'test'
+  ...
+# Subtest: invalid traffic input blocks save and Run, with no submission
+ok 203 - invalid traffic input blocks save and Run, with no submission
+  ---
+  duration_ms: 1.4234
+  type: 'test'
+  ...
+# Subtest: 409 retains traffic/history; explicit reapply retains draft and resets old history
+ok 204 - 409 retains traffic/history; explicit reapply retains draft and resets old history
+  ---
+  duration_ms: 0.9274
+  type: 'test'
+  ...
+# Subtest: uncertain Run retries same identity despite newer traffic and preserves newer draft
+ok 205 - uncertain Run retries same identity despite newer traffic and preserves newer draft
+  ---
+  duration_ms: 0.8865
+  type: 'test'
+  ...
+# Subtest: snapshot staleness follows traffic/region not canvas coordinates and undo can restore equality
+ok 206 - snapshot staleness follows traffic/region not canvas coordinates and undo can restore equality
+  ---
+  duration_ms: 2.0944
+  type: 'test'
+  ...
+# Subtest: disposed account session cannot mutate traffic or region
+ok 207 - disposed account session cannot mutate traffic or region
+  ---
+  duration_ms: 1.8811
+  type: 'test'
+  ...
+# Subtest: numeric formatting distinguishes tiny positive errors, true zero, unbounded and overload
+ok 208 - numeric formatting distinguishes tiny positive errors, true zero, unbounded and overload
+  ---
+  duration_ms: 40.6829
+  type: 'test'
+  ...
+# Subtest: verdict distinguishes high utilization, target proximity without bottleneck, and failing targets
+ok 209 - verdict distinguishes high utilization, target proximity without bottleneck, and failing targets
+  ---
+  duration_ms: 1.5814
+  type: 'test'
+  ...
+# Subtest: chart geometry handles empty, zero, constant and extreme series without nonfinite SVG
+ok 210 - chart geometry handles empty, zero, constant and extreme series without nonfinite SVG
+  ---
+  duration_ms: 1.455
+  type: 'test'
+  ...
+# Subtest: rendered results keep snapshot targets and labels, escape user text, and expose readable chart data
+ok 211 - rendered results keep snapshot targets and labels, escape user text, and expose readable chart data
+  ---
+  duration_ms: 732.5226
+  type: 'test'
+  ...
+# Subtest: pending, failed and absent runs never render completed metrics or invented progress
+ok 212 - pending, failed and absent runs never render completed metrics or invented progress
+  ---
+  duration_ms: 1.2723
+  type: 'test'
+  ...
+# Subtest: M8 Limits headline states never overclaim and distinguish average from burst peak
+ok 213 - M8 Limits headline states never overclaim and distinguish average from burst peak
+  ---
+  duration_ms: 33.7287
+  type: 'test'
+  ...
+# Subtest: M8 headroom is not applicable at zero traffic or a minimum-load failure; lower bound when not reached
+ok 214 - M8 headroom is not applicable at zero traffic or a minimum-load failure; lower bound when not reached
+  ---
+  duration_ms: 1.6681
+  type: 'test'
+  ...
+# Subtest: M8 saturation order handles unbounded components and zero current traffic
+ok 215 - M8 saturation order handles unbounded components and zero current traffic
+  ---
+  duration_ms: 1.3568
+  type: 'test'
+  ...
+# Subtest: M8 ramp geometry stays finite with zero samples/traffic and marks the searched bracket
+ok 216 - M8 ramp geometry stays finite with zero samples/traffic and marks the searched bracket
+  ---
+  duration_ms: 2.3709
+  type: 'test'
+  ...
+# Subtest: M8 links route by stored kind and preserve both selections across tabs
+ok 217 - M8 links route by stored kind and preserve both selections across tabs
+  ---
+  duration_ms: 0.871
+  type: 'test'
+  ...
+# Subtest: M8 dashboard status labels a Limits search as such
+ok 218 - M8 dashboard status labels a Limits search as such
+  ---
+  duration_ms: 0.425
+  type: 'test'
+  ...
+# Subtest: M8 Find limits flushes the draft, then submits only through the Limits endpoint
+ok 219 - M8 Find limits flushes the draft, then submits only through the Limits endpoint
+  ---
+  duration_ms: 3.2777
+  type: 'test'
+  ...
+# Subtest: M8 a lost Limits response retries the same Limits identity and never becomes a test run
+ok 220 - M8 a lost Limits response retries the same Limits identity and never becomes a test run
+  ---
+  duration_ms: 1.332
+  type: 'test'
+  ...
+# Subtest: M8 setRun files results by stored kind
+ok 221 - M8 setRun files results by stored kind
+  ---
+  duration_ms: 0.6222
+  type: 'test'
+  ...
+# Subtest: M8 Limits tab markup: states, honest labels, keyboard data table and no fake progress
+ok 222 - M8 Limits tab markup: states, honest labels, keyboard data table and no fake progress
+  ---
+  duration_ms: 651.4902
+  type: 'test'
+  ...
+# Subtest: M8 preview debounces rapid semantic edits into one request and ignores layout-only moves
+ok 223 - M8 preview debounces rapid semantic edits into one request and ignores layout-only moves
+  ---
+  duration_ms: 14.1165
+  type: 'test'
+  ...
+# Subtest: M8 preview: a slow earlier reply never overwrites a newer one, and superseded requests are aborted
+ok 224 - M8 preview: a slow earlier reply never overwrites a newer one, and superseded requests are aborted
+  ---
+  duration_ms: 1.1984
+  type: 'test'
+  ...
+# Subtest: M8 preview ignores replies for another editor session or after disable/dispose
+ok 225 - M8 preview ignores replies for another editor session or after disable/dispose
+  ---
+  duration_ms: 1.4688
+  type: 'test'
+  ...
+# Subtest: M8 preview pauses for invalid input, gestures or durable work and resumes with only the latest inputs
+ok 226 - M8 preview pauses for invalid input, gestures or durable work and resumes with only the latest inputs
+  ---
+  duration_ms: 1.3125
+  type: 'test'
+  ...
+# Subtest: M8 preview failures stay inline with explicit retry and no automatic retry loop
+ok 227 - M8 preview failures stay inline with explicit retry and no automatic retry loop
+  ---
+  duration_ms: 2.7413
+  type: 'test'
+  ...
+# Subtest: M8 preview: Undo back to computed inputs shows that output without a new request
+ok 228 - M8 preview: Undo back to computed inputs shows that output without a new request
+  ---
+  duration_ms: 1.3429
+  type: 'test'
+  ...
+# Subtest: M8 overlay paints only matching components, keeps >100% numeric and clamps only the meter
+ok 229 - M8 overlay paints only matching components, keeps >100% numeric and clamps only the meter
+  ---
+  duration_ms: 2.9834
+  type: 'test'
+  ...
+# Subtest: M8 recorded topology renders the saved snapshot with numeric labels and a text legend
+ok 230 - M8 recorded topology renders the saved snapshot with numeric labels and a text legend
+  ---
+  duration_ms: 125.5002
+  type: 'test'
+  ...
+# Subtest: M8 live preview labels: off, current, stale and paused are distinct and never claim to be saved
+ok 231 - M8 live preview labels: off, current, stale and paused are distinct and never claim to be saved
+  ---
+  duration_ms: 34.7303
+  type: 'test'
+  ...
+# Subtest: P1: each public page has exactly one h1 that is its registered title, a breadcrumb, headings in order and no placeholder text
+ok 232 - P1: each public page has exactly one h1 that is its registered title, a breadcrumb, headings in order and no placeholder text
+  ---
+  duration_ms: 495.864
+  type: 'test'
+  ...
+# Subtest: P1: the pages need no account and make no request: they are plain server-rendered text
+ok 233 - P1: the pages need no account and make no request: they are plain server-rendered text
+  ---
+  duration_ms: 3.5596
+  type: 'test'
+  ...
+# Subtest: P1: how-it-works repeats only what the model document says, and states its limits
+ok 234 - P1: how-it-works repeats only what the model document says, and states its limits
+  ---
+  duration_ms: 18.5499
+  type: 'test'
+  ...
+# Subtest: P1: the limits quoted in the terms are the limits the code enforces
+ok 235 - P1: the limits quoted in the terms are the limits the code enforces
+  ---
+  duration_ms: 2.073
+  type: 'test'
+  ...
+# Subtest: P1: the privacy page matches what the app does: hashed passwords and links, no email shown to others, AI off
+ok 236 - P1: the privacy page matches what the app does: hashed passwords and links, no email shown to others, AI off
+  ---
+  duration_ms: 96.2074
+  type: 'test'
+  ...
+# Subtest: P1: the privacy page promises export and deletion exactly when the API has them
+ok 237 - P1: the privacy page promises export and deletion exactly when the API has them
+  ---
+  duration_ms: 204.9197
+  type: 'test'
+  ...
+# Subtest: P1: the about page names the real stack and the real roles, and the source link is the repository
+ok 238 - P1: the about page names the real stack and the real roles, and the source link is the repository
+  ---
+  duration_ms: 20.9495
+  type: 'test'
+  ...
+# Subtest: P2 model: the fixtures are real, cover every demo, and carry the engine's constants
+ok 239 - P2 model: the fixtures are real, cover every demo, and carry the engine's constants
+  ---
+  duration_ms: 3.0908
+  type: 'test'
+  ...
+# Subtest: P2 model: utilization, status and waiting time equal the engine on every fixture, including idle and saturated
+ok 240 - P2 model: utilization, status and waiting time equal the engine on every fixture, including idle and saturated
+  ---
+  duration_ms: 2.276
+  type: 'test'
+  ...
+# Subtest: P2 model: queue backlog, lag, overflow and state equal the engine, for clear, absorbing and growing queues
+ok 241 - P2 model: queue backlog, lag, overflow and state equal the engine, for clear, absorbing and growing queues
+  ---
+  duration_ms: 1.8892
+  type: 'test'
+  ...
+# Subtest: P2 model: p50, p95 and p99 of the fast/slow mixture equal the engine
+ok 242 - P2 model: p50, p95 and p99 of the fast/slow mixture equal the engine
+  ---
+  duration_ms: 7.4758
+  type: 'test'
+  ...
+# Subtest: P2 model: cache misses, read replicas, balancing and CDN loads equal the engine, including an overloaded primary
+ok 243 - P2 model: cache misses, read replicas, balancing and CDN loads equal the engine, including an overloaded primary
+  ---
+  duration_ms: 1.9917
+  type: 'test'
+  ...
+# Subtest: P2 model: the region round trip equals the engine for every pair, and is zero within a region
+ok 244 - P2 model: the region round trip equals the engine for every pair, and is zero within a region
+  ---
+  duration_ms: 0.3332
+  type: 'test'
+  ...
+# Subtest: P2 model: the constants and component figures it quotes are the ones in the engine's source
+ok 245 - P2 model: the constants and component figures it quotes are the ones in the engine's source
+  ---
+  duration_ms: 41.9172
+  type: 'test'
+  ...
+# Subtest: P2 model: behaviour the lessons rely on holds across the demo ranges (monotonic, finite, bounded)
+ok 246 - P2 model: behaviour the lessons rely on holds across the demo ranges (monotonic, finite, bounded)
+  ---
+  duration_ms: 1.1773
+  type: 'test'
+  ...
+# Subtest: P2 content: exactly the eight registered topics, with the registered titles, in a sensible order
+ok 247 - P2 content: exactly the eight registered topics, with the registered titles, in a sensible order
+  ---
+  duration_ms: 7.386
+  type: 'test'
+  ...
+# Subtest: P2 content: every lesson is short plain text with a place in the app, a takeaway and a two-question check
+ok 248 - P2 content: every lesson is short plain text with a place in the app, a takeaway and a two-question check
+  ---
+  duration_ms: 3.3975
+  type: 'test'
+  ...
+# Subtest: P2 content: the numbers quoted in the lessons are the model's numbers
+ok 249 - P2 content: the numbers quoted in the lessons are the model's numbers
+  ---
+  duration_ms: 2.8289
+  type: 'test'
+  ...
+# Subtest: P2 content: every answer key is right, worked out from the model rather than read from the text
+ok 250 - P2 content: every answer key is right, worked out from the model rather than read from the text
+  ---
+  duration_ms: 2.9991
+  type: 'test'
+  ...
+# Subtest: P2 progress: buckets are per account, marks survive, passing implies opened, and clearing empties only that bucket
+ok 251 - P2 progress: buckets are per account, marks survive, passing implies opened, and clearing empties only that bucket
+  ---
+  duration_ms: 2.5601
+  type: 'test'
+  ...
+# Subtest: P2 progress: unreadable, tampered or unknown data is ignored, and a blocked store never throws
+ok 252 - P2 progress: unreadable, tampered or unknown data is ignored, and a blocked store never throws
+  ---
+  duration_ms: 2.5263
+  type: 'test'
+  ...
+# Subtest: P2 registry: the learn routes are complete, still 40 routes, and only the eight topics resolve
+ok 253 - P2 registry: the learn routes are complete, still 40 routes, and only the eight topics resolve
+  ---
+  duration_ms: 4.6402
+  type: 'test'
+  ...
+# Subtest: P2 index: eight cards link to the topics, show a text mark for each, and count what is opened and passed
+ok 254 - P2 index: eight cards link to the topics, show a text mark for each, and count what is opened and passed
+  ---
+  duration_ms: 265.776
+  type: 'test'
+  ...
+# Subtest: P2 index: the marks belong to the signed-in account, not to the browser, and clearing removes only that account's
+ok 255 - P2 index: the marks belong to the signed-in account, not to the browser, and clearing removes only that account's
+  ---
+  duration_ms: 159.3304
+  type: 'test'
+  ...
+# Subtest: P2 index: nothing is read or written for a person whose sign-in is still being checked
+ok 256 - P2 index: nothing is read or written for a person whose sign-in is still being checked
+  ---
+  duration_ms: 93.0215
+  type: 'test'
+  ...
+# Subtest: P2 topic: every topic renders one heading, its explanation, a demo, where it shows up, a takeaway and a check, with no request
+ok 257 - P2 topic: every topic renders one heading, its explanation, a demo, where it shows up, a takeaway and a check, with no request
+  ---
+  duration_ms: 1610.5841
+  type: 'test'
+  ...
+# Subtest: P2 topic: opening a topic marks it opened for this person once, and an unknown topic is not found and marks nothing
+ok 258 - P2 topic: opening a topic marks it opened for this person once, and an unknown topic is not found and marks nothing
+  ---
+  duration_ms: 162.4857
+  type: 'test'
+  ...
+# Subtest: P2 topic: the check needs both answers right, lets a wrong one be retried, and records the pass once
+ok 259 - P2 topic: the check needs both answers right, lets a wrong one be retried, and records the pass once
+  ---
+  duration_ms: 465.7308
+  type: 'test'
+  ...
+# Subtest: P2 topic: a person who passed before is told so and can try again
+ok 260 - P2 topic: a person who passed before is told so and can try again
+  ---
+  duration_ms: 85.9074
+  type: 'test'
+  ...
+# Subtest: P2 topic: previous and next links walk the eight topics in order
+ok 261 - P2 topic: previous and next links walk the eight topics in order
+  ---
+  duration_ms: 352.1294
+  type: 'test'
+  ...
+# Subtest: P2 topic: answering the check while sign-in is still being confirmed never writes into a bucket
+ok 262 - P2 topic: answering the check while sign-in is still being confirmed never writes into a bucket
+  ---
+  duration_ms: 302.143
+  type: 'test'
+  ...
+# Subtest: P2 demo: utilization follows the model as the load rises, from healthy to failing, and says it in words
+ok 263 - P2 demo: utilization follows the model as the load rises, from healthy to failing, and says it in words
+  ---
+  duration_ms: 79.4494
+  type: 'test'
+  ...
+# Subtest: P2 demo: the queue demo shows clear, absorbing and growing, and the wait in readable time
+ok 264 - P2 demo: the queue demo shows clear, absorbing and growing, and the wait in readable time
+  ---
+  duration_ms: 124.3103
+  type: 'test'
+  ...
+# Subtest: P2 demo: more slow requests barely move p50 but move p95 and p99
+ok 265 - P2 demo: more slow requests barely move p50 but move p95 and p99
+  ---
+  duration_ms: 74.6285
+  type: 'test'
+  ...
+# Subtest: P2 demo: caching, replicas, balancing, CDN and regions each follow the model and stay finite at the extremes
+ok 266 - P2 demo: caching, replicas, balancing, CDN and regions each follow the model and stay finite at the extremes
+  ---
+  duration_ms: 540.6092
+  type: 'test'
+  ...
+# Subtest: P3 data: six templates, a 12-component catalog and five traffic presets, with the registry still at 40 routes
+ok 267 - P3 data: six templates, a 12-component catalog and five traffic presets, with the registry still at 40 routes
+  ---
+  duration_ms: 8.2256
+  type: 'test'
+  ...
+# Subtest: P3 tags: worked out from each design, matching what is actually in it
+ok 268 - P3 tags: worked out from each design, matching what is actually in it
+  ---
+  duration_ms: 2.2825
+  type: 'test'
+  ...
+# Subtest: P3 tags: only tags that apply to something are offered, and the filter needs every chosen tag
+ok 269 - P3 tags: only tags that apply to something are offered, and the filter needs every chosen tag
+  ---
+  duration_ms: 2.4995
+  type: 'test'
+  ...
+# Subtest: P3 words: the breaking point names the real number, first failure and cause
+ok 270 - P3 words: the breaking point names the real number, first failure and cause
+  ---
+  duration_ms: 37.9119
+  type: 'test'
+  ...
+# Subtest: P3 words: an example that misses its own goal says so, and says why; one that passes does not claim otherwise
+ok 271 - P3 words: an example that misses its own goal says so, and says why; one that passes does not claim otherwise
+  ---
+  duration_ms: 2.0499
+  type: 'test'
+  ...
+# Subtest: P3 words: every number in the main sentences comes from the data file
+ok 272 - P3 words: every number in the main sentences comes from the data file
+  ---
+  duration_ms: 17.3994
+  type: 'test'
+  ...
+# Subtest: P3 words: the load explorer text matches the curve point, judges it against the goal, and clamps its index
+ok 273 - P3 words: the load explorer text matches the curve point, judges it against the goal, and clamps its index
+  ---
+  duration_ms: 1.1012
+  type: 'test'
+  ...
+# Subtest: P3 words: a load level that is fast enough but drops too many requests is judged as missing the goal
+ok 274 - P3 words: a load level that is fast enough but drops too many requests is judged as missing the goal
+  ---
+  duration_ms: 1.4356
+  type: 'test'
+  ...
+# Subtest: P3 words: each overload behaviour is described by what it really does
+ok 275 - P3 words: each overload behaviour is described by what it really does
+  ---
+  duration_ms: 1.4951
+  type: 'test'
+  ...
+# Subtest: P3 words: every overload behaviour has plain words, and the component descriptions come from the catalog
+ok 276 - P3 words: every overload behaviour has plain words, and the component descriptions come from the catalog
+  ---
+  duration_ms: 1.8401
+  type: 'test'
+  ...
+# Subtest: P3 examples: six panels with a verdict, their own-traffic result, a breaking point and a way to copy them
+ok 277 - P3 examples: six panels with a verdict, their own-traffic result, a breaking point and a way to copy them
+  ---
+  duration_ms: 467.6035
+  type: 'test'
+  ...
+# Subtest: P3 examples: the load explorer starts near the example's own traffic and follows the slider, in words, across the whole range
+ok 278 - P3 examples: the load explorer starts near the example's own traffic and follows the slider, in words, across the whole range
+  ---
+  duration_ms: 281.0638
+  type: 'test'
+  ...
+# Subtest: P3 examples: a guest is sent to sign up and returned to the template; a signed-in person goes straight to it
+ok 279 - P3 examples: a guest is sent to sign up and returned to the template; a signed-in person goes straight to it
+  ---
+  duration_ms: 385.0433
+  type: 'test'
+  ...
+# Subtest: P3 templates: six cards with derived tags and a start link, and the filter shows exactly the matching ones
+ok 280 - P3 templates: six cards with derived tags and a start link, and the filter shows exactly the matching ones
+  ---
+  duration_ms: 608.1419
+  type: 'test'
+  ...
+# Subtest: P3 components: all twelve in their categories with the overload behaviour in words, then the five traffic presets
+ok 281 - P3 components: all twelve in their categories with the overload behaviour in words, then the five traffic presets
+  ---
+  duration_ms: 122.9785
+  type: 'test'
+  ...
+# Subtest: P4 api: a new display name goes to the profile route and updates the signed-in details
+ok 282 - P4 api: a new display name goes to the profile route and updates the signed-in details
+  ---
+  duration_ms: 3.2682
+  type: 'test'
+  ...
+# Subtest: P4 api: a password change adopts the fresh session the server returns for this device
+ok 283 - P4 api: a password change adopts the fresh session the server returns for this device
+  ---
+  duration_ms: 1.033
+  type: 'test'
+  ...
+# Subtest: P4 api: a failed password change adopts nothing
+ok 284 - P4 api: a failed password change adopts nothing
+  ---
+  duration_ms: 1.1473
+  type: 'test'
+  ...
+# Subtest: P4 api: a deleted account forgets the signed-in marker, and a refused deletion does not
+ok 285 - P4 api: a deleted account forgets the signed-in marker, and a refused deletion does not
+  ---
+  duration_ms: 0.7955
+  type: 'test'
+  ...
+# Subtest: P4 api: the export is a plain read on the account route
+ok 286 - P4 api: the export is a plain read on the account route
+  ---
+  duration_ms: 1.1115
+  type: 'test'
+  ...
+# Subtest: P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+ok 287 - P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+  ---
+  duration_ms: 14.5563
+  type: 'test'
+  ...
+# Subtest: P4 checks: failures are explained in words and never echo the server's own message
+ok 288 - P4 checks: failures are explained in words and never echo the server's own message
+  ---
+  duration_ms: 2.4193
+  type: 'test'
+  ...
+# Subtest: P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+ok 289 - P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+  ---
+  duration_ms: 336.4987
+  type: 'test'
+  ...
+# Subtest: P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+ok 290 - P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+  ---
+  duration_ms: 357.2819
+  type: 'test'
+  ...
+# Subtest: P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+ok 291 - P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+  ---
+  duration_ms: 301.0545
+  type: 'test'
+  ...
+# Subtest: P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+ok 292 - P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+  ---
+  duration_ms: 260.5752
+  type: 'test'
+  ...
+# Subtest: P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+ok 293 - P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+  ---
+  duration_ms: 188.3802
+  type: 'test'
+  ...
+# Subtest: P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+ok 294 - P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+  ---
+  duration_ms: 266.0866
+  type: 'test'
+  ...
+# Subtest: P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+ok 295 - P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+  ---
+  duration_ms: 445.8409
+  type: 'test'
+  ...
+# Subtest: P4 appearance, AI usage and preferences say only what is true
+ok 296 - P4 appearance, AI usage and preferences say only what is true
+  ---
+  duration_ms: 284.9531
+  type: 'test'
+  ...
+# Subtest: P5 registry: the Evaluation routes are public and honest, still 40 routes, and only the three tabs exist
+ok 297 - P5 registry: the Evaluation routes are public and honest, still 40 routes, and only the three tabs exist
+  ---
+  duration_ms: 7.427
+  type: 'test'
+  ...
+# Subtest: P5 words: the Simulator sentences state the data's numbers, not remembered ones
+ok 298 - P5 words: the Simulator sentences state the data's numbers, not remembered ones
+  ---
+  duration_ms: 53.0609
+  type: 'test'
+  ...
+# Subtest: P5 words: every shown load level exists in the data for every component
+ok 299 - P5 words: every shown load level exists in the data for every component
+  ---
+  duration_ms: 1.61
+  type: 'test'
+  ...
+# Subtest: P5 commands: every command the page tells you to run is a real script in the right folder
+ok 300 - P5 commands: every command the page tells you to run is a real script in the right folder
+  ---
+  duration_ms: 3.0816
+  type: 'test'
+  ...
+# Subtest: P5 AI record: the figures quoted are the ones recorded in the M10 report
+ok 301 - P5 AI record: the figures quoted are the ones recorded in the M10 report
+  ---
+  duration_ms: 21.5868
+  type: 'test'
+  ...
+# Subtest: P5 pages: three tabs, each with one heading, a status that says what it is, and no request
+ok 302 - P5 pages: three tabs, each with one heading, a status that says what it is, and no request
+  ---
+  duration_ms: 385.123
+  type: 'test'
+  ...
+# Subtest: P5 simulator tab: every number on it comes from the data file or is a stated range
+ok 303 - P5 simulator tab: every number on it comes from the data file or is a stated range
+  ---
+  duration_ms: 274.4656
+  type: 'test'
+  ...
+# Subtest: P5 simulator tab: every caveat about what is not proven is on the page
+ok 304 - P5 simulator tab: every caveat about what is not proven is on the page
+  ---
+  duration_ms: 74.6911
+  type: 'test'
+  ...
+# Subtest: P5 simulator tab: tables carry the measured rows, and every check on every design shows as Pass
+ok 305 - P5 simulator tab: tables carry the measured rows, and every check on every design shows as Pass
+  ---
+  duration_ms: 85.1779
+  type: 'test'
+  ...
+# Subtest: P5 simulator tab: a failing check is shown as a failure and counted, never hidden
+ok 306 - P5 simulator tab: a failing check is shown as a failure and counted, never hidden
+  ---
+  duration_ms: 151.1134
+  type: 'test'
+  ...
+# Subtest: P5 calibration tab: shows the first comparison with the approved headline, two tables, the expectations and the limits, and never calls it validation
+ok 307 - P5 calibration tab: shows the first comparison with the approved headline, two tables, the expectations and the limits, and never calls it validation
+  ---
+  duration_ms: 143.4473
+  type: 'test'
+  ...
+# Subtest: P5 AI record: the hosted-model figures quoted are the ones the gate reports say
+ok 308 - P5 AI record: the hosted-model figures quoted are the ones the gate reports say
+  ---
+  duration_ms: 33.222
+  type: 'test'
+  ...
+# Subtest: P5 AI tab: the local-model section quotes only the recorded test, and nothing is compared
+ok 309 - P5 AI tab: the local-model section quotes only the recorded test, and nothing is compared
+  ---
+  duration_ms: 56.9012
+  type: 'test'
+  ...
+# Subtest: P5 AI tab: the hosted-model sections state the recorded results and the pass marks, and every number comes from the data
+ok 310 - P5 AI tab: the hosted-model sections state the recorded results and the pass marks, and every number comes from the data
+  ---
+  duration_ms: 46.4353
+  type: 'test'
+  ...
+# Subtest: P5 AI record: the goal-reading figures quoted are the ones the recorded runs say
+ok 311 - P5 AI record: the goal-reading figures quoted are the ones the recorded runs say
+  ---
+  duration_ms: 3.4178
+  type: 'test'
+  ...
+# Subtest: P5 AI record: every verdict follows from the counts and the bars, never from a word
+ok 312 - P5 AI record: every verdict follows from the counts and the bars, never from a word
+  ---
+  duration_ms: 0.8051
+  type: 'test'
+  ...
+# Subtest: P5 AI tab: the goal-reading section shows the four readings, says what went wrong and what the hidden orders did, and every number is from the data
+ok 313 - P5 AI tab: the goal-reading section shows the four readings, says what went wrong and what the hidden orders did, and every number is from the data
+  ---
+  duration_ms: 68.3617
+  type: 'test'
+  ...
+# Subtest: P5 AI tab: nothing on it still says only one model was tried or that the larger one was not run
+ok 314 - P5 AI tab: nothing on it still says only one model was tried or that the larger one was not run
+  ---
+  duration_ms: 40.4365
+  type: 'test'
+  ...
+# Subtest: P5 guard record: page figures equal stored reports and independently counted replies
+ok 315 - P5 guard record: page figures equal stored reports and independently counted replies
+  ---
+  duration_ms: 67.3019
+  type: 'test'
+  ...
+# Subtest: P5 guard page: preserves NO-GO, exposes failure and limits, distinguishes demo readiness, no requests
+ok 316 - P5 guard page: preserves NO-GO, exposes failure and limits, distinguishes demo readiness, no requests
+  ---
+  duration_ms: 55.4753
+  type: 'test'
+  ...
+# Subtest: the tally counts only known topics, opened and passed separately
+ok 317 - the tally counts only known topics, opened and passed separately
+  ---
+  duration_ms: 38.7686
+  type: 'test'
+  ...
+# Subtest: suggestion 1: the first topic not yet opened, in the order the topics are listed
+ok 318 - suggestion 1: the first topic not yet opened, in the order the topics are listed
+  ---
+  duration_ms: 2.1367
+  type: 'test'
+  ...
+# Subtest: suggestion 2: when every topic is opened, the first one not yet passed
+ok 319 - suggestion 2: when every topic is opened, the first one not yet passed
+  ---
+  duration_ms: 4.2614
+  type: 'test'
+  ...
+# Subtest: suggestion 3: with every concept passed, a challenge that was attempted and not passed
+ok 320 - suggestion 3: with every concept passed, a challenge that was attempted and not passed
+  ---
+  duration_ms: 2.0851
+  type: 'test'
+  ...
+# Subtest: a challenge counts as passed if any attempt of it passed, archived ones are skipped, and each shows once
+ok 321 - a challenge counts as passed if any attempt of it passed, archived ones are skipped, and each shows once
+  ---
+  duration_ms: 1.5168
+  type: 'test'
+  ...
+# Subtest: suggestion 4: concepts all passed and no challenge attempted yet points to the challenges list
+ok 322 - suggestion 4: concepts all passed and no challenge attempted yet points to the challenges list
+  ---
+  duration_ms: 0.9353
+  type: 'test'
+  ...
+# Subtest: suggestion 5: done only when concepts are passed and every attempted challenge is passed
+ok 323 - suggestion 5: done only when concepts are passed and every attempted challenge is passed
+  ---
+  duration_ms: 1.0815
+  type: 'test'
+  ...
+# Subtest: while challenge results are unknown, 'everything is done' is never claimed
+ok 324 - while challenge results are unknown, 'everything is done' is never claimed
+  ---
+  duration_ms: 1.4924
+  type: 'test'
+  ...
+# Subtest: the suggestion never says the person has covered everything while a concept is unpassed
+ok 325 - the suggestion never says the person has covered everything while a concept is unpassed
+  ---
+  duration_ms: 2.1268
+  type: 'test'
+  ...
+# Subtest: the concepts list shows every topic with its mark, a link to it, and says where the marks are kept
+ok 326 - the concepts list shows every topic with its mark, a link to it, and says where the marks are kept
+  ---
+  duration_ms: 325.0182
+  type: 'test'
+  ...
+# Subtest: each account sees its own marks, and nothing from another account
+ok 327 - each account sees its own marks, and nothing from another account
+  ---
+  duration_ms: 87.8741
+  type: 'test'
+  ...
+# Subtest: the next-step box shows the suggestion with its reason, and a finished state has no link
+ok 328 - the next-step box shows the suggestion with its reason, and a finished state has no link
+  ---
+  duration_ms: 95.323
+  type: 'test'
+  ...
+# Subtest: nothing is shown until we know who is signed in
+ok 329 - nothing is shown until we know who is signed in
+  ---
+  duration_ms: 94.5701
+  type: 'test'
+  ...
+# Subtest: no streak anywhere
+ok 330 - no streak anywhere
+  ---
+  duration_ms: 112.2341
+  type: 'test'
+  ...
+# Subtest: the sample design comes from a template that meets its own goal as shipped
+ok 331 - the sample design comes from a template that meets its own goal as shipped
+  ---
+  duration_ms: 5.9379
+  type: 'test'
+  ...
+# Subtest: the post-registration destination: the tour, unless a page was asked for
+ok 332 - the post-registration destination: the tour, unless a page was asked for
+  ---
+  duration_ms: 25.2689
+  type: 'test'
+  ...
+# Subtest: the tour marker: exact value only, per account, and storage failures are harmless
+ok 333 - the tour marker: exact value only, per account, and storage failures are harmless
+  ---
+  duration_ms: 14.7484
+  type: 'test'
+  ...
+# Subtest: the tour has three steps, in the order draw, run, improve
+ok 334 - the tour has three steps, in the order draw, run, improve
+  ---
+  duration_ms: 3.2327
+  type: 'test'
+  ...
+# Subtest: the steps go forward and back, Back is off on the first, and the last step offers Finish instead of Next and Skip
+ok 335 - the steps go forward and back, Back is off on the first, and the last step offers Finish instead of Next and Skip
+  ---
+  duration_ms: 620.3283
+  type: 'test'
+  ...
+# Subtest: Skip records the tour for this account only, and goes to the dashboard
+ok 336 - Skip records the tour for this account only, and goes to the dashboard
+  ---
+  duration_ms: 182.4519
+  type: 'test'
+  ...
+# Subtest: Finish records the tour and goes to the dashboard
+ok 337 - Finish records the tour and goes to the dashboard
+  ---
+  duration_ms: 205.8668
+  type: 'test'
+  ...
+# Subtest: another account in the same browser is not told it has seen the tour
+ok 338 - another account in the same browser is not told it has seen the tour
+  ---
+  duration_ms: 131.7084
+  type: 'test'
+  ...
+# Subtest: the sample button creates exactly one design from the sample template, opens it, and records the tour
+ok 339 - the sample button creates exactly one design from the sample template, opens it, and records the tour
+  ---
+  duration_ms: 156.0092
+  type: 'test'
+  ...
+# Subtest: clicking the sample button again while it is working does not create a second design
+ok 340 - clicking the sample button again while it is working does not create a second design
+  ---
+  duration_ms: 207.9545
+  type: 'test'
+  ...
+# Subtest: two clicks in the same instant, before the page redraws, still make only one design
+ok 341 - two clicks in the same instant, before the page redraws, still make only one design
+  ---
+  duration_ms: 134.6599
+  type: 'test'
+  ...
+# Subtest: when the sample cannot be created, the page says so, stays put, is not recorded as done, and can be retried
+ok 342 - when the sample cannot be created, the page says so, stays put, is not recorded as done, and can be retried
+  ---
+  duration_ms: 237.2918
+  type: 'test'
+  ...
+# Subtest: nothing is created until the button is pressed, and the tour makes no requests of its own
+ok 343 - nothing is created until the button is pressed, and the tour makes no requests of its own
+  ---
+  duration_ms: 145.2213
+  type: 'test'
+  ...
+# Subtest: every Learn topic is offered, and the greeting uses the first name
+ok 344 - every Learn topic is offered, and the greeting uses the first name
+  ---
+  duration_ms: 63.3738
+  type: 'test'
+  ...
+# Subtest: exactly one level-one heading, and headings never skip a level
+ok 345 - exactly one level-one heading, and headings never skip a level
+  ---
+  duration_ms: 68.1679
+  type: 'test'
+  ...
+# Subtest: 409 conflict stays inline, preserves credentials and exposes revision details
+ok 346 - 409 conflict stays inline, preserves credentials and exposes revision details
+  ---
+  duration_ms: 170.195
+  type: 'test'
+  ...
+# Subtest: R1 gate: an account without the role sees the denial, never the area
+ok 347 - R1 gate: an account without the role sees the denial, never the area
+  ---
+  duration_ms: 132.0285
+  type: 'test'
+  ...
+# Subtest: R1 gate: the right role opens the area, and Admin does not stand in for another role
+ok 348 - R1 gate: the right role opens the area, and Admin does not stand in for another role
+  ---
+  duration_ms: 127.9405
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R1 gate: while the roles are loading, and when they cannot be read, the area stays closed
+ok 349 - R1 gate: while the roles are loading, and when they cannot be read, the area stays closed
+  ---
+  duration_ms: 139.1324
+  type: 'test'
+  ...
+# Subtest: R1 menu: the account menu names granted roles, and says nothing for a plain account
+ok 350 - R1 menu: the account menu names granted roles, and says nothing for a plain account
+  ---
+  duration_ms: 236.4496
+  type: 'test'
+  ...
+# Subtest: R1 roles: a plain account shows no extra role, and unknown server values are ignored
+ok 351 - R1 roles: a plain account shows no extra role, and unknown server values are ignored
+  ---
+  duration_ms: 1.6522
+  type: 'test'
+  ...
+# Subtest: R1 roles: extra roles are listed in a fixed order with their display names
+ok 352 - R1 roles: extra roles are listed in a fixed order with their display names
+  ---
+  duration_ms: 0.4188
+  type: 'test'
+  ...
+# Subtest: R1 roles: an area needs its own role; no role stands in for another
+ok 353 - R1 roles: an area needs its own role; no role stands in for another
+  ---
+  duration_ms: 0.216
+  type: 'test'
+  ...
+# Subtest: R2 text: audit entries read as plain sentences, with the server operator named as such
+ok 354 - R2 text: audit entries read as plain sentences, with the server operator named as such
+  ---
+  duration_ms: 12.0702
+  type: 'test'
+  ...
+# Subtest: R2 text: failures say what happened and never echo the server's own message
+ok 355 - R2 text: failures say what happened and never echo the server's own message
+  ---
+  duration_ms: 2.0395
+  type: 'test'
+  ...
+# Subtest: R2 text: a search needs two real characters
+ok 356 - R2 text: a search needs two real characters
+  ---
+  duration_ms: 1.516
+  type: 'test'
+  ...
+# Subtest: R2 screen: an account without the Admin role sees a denial, and no Admin call is ever made
+ok 357 - R2 screen: an account without the Admin role sees a denial, and no Admin call is ever made
+  ---
+  duration_ms: 204.8166
+  type: 'test'
+  ...
+# Subtest: R2 screen: search lists accounts with their status, and short text is not sent
+ok 358 - R2 screen: search lists accounts with their status, and short text is not sent
+  ---
+  duration_ms: 268.7645
+  type: 'test'
+  ...
+# Subtest: R2 screen: giving a role is one click; removing a role and suspending each need a confirmation
+ok 359 - R2 screen: giving a role is one click; removing a role and suspending each need a confirmation
+  ---
+  duration_ms: 762.7509
+  type: 'test'
+  ...
+# Subtest: R2 screen: an Admin's own account offers no suspend button
+ok 360 - R2 screen: an Admin's own account offers no suspend button
+  ---
+  duration_ms: 304.8197
+  type: 'test'
+  ...
+# Subtest: R2 screen: a refused change is explained in words and nothing looks changed
+ok 361 - R2 screen: a refused change is explained in words and nothing looks changed
+  ---
+  duration_ms: 322.2907
+  type: 'test'
+  ...
+# Subtest: R2 screen: the audit log reads as sentences and pages older entries without repeats
+ok 362 - R2 screen: the audit log reads as sentences and pages older entries without repeats
+  ---
+  duration_ms: 231.2909
+  type: 'test'
+  ...
+# Subtest: R2 screen: an empty audit log says so
+ok 363 - R2 screen: an empty audit log says so
+  ---
+  duration_ms: 67.4359
+  type: 'test'
+  ...
+# Subtest: R3 text: a failed share says what to do and never echoes the server's own message
+ok 364 - R3 text: a failed share says what to do and never echoes the server's own message
+  ---
+  duration_ms: 6.9491
+  type: 'test'
+  ...
+# Subtest: R3 text: grant lines, and an email must look like one before anything is sent
+ok 365 - R3 text: grant lines, and an email must look like one before anything is sent
+  ---
+  duration_ms: 35.703
+  type: 'test'
+  ...
+# Subtest: R3 owner: sharing needs an email-shaped address, sends the choices, and shows who has a copy
+ok 366 - R3 owner: sharing needs an email-shaped address, sends the choices, and shows who has a copy
+  ---
+  duration_ms: 270.5196
+  type: 'test'
+  ...
+# Subtest: R3 owner: the chosen revision and result are sent as numbers and ids
+ok 367 - R3 owner: the chosen revision and result are sent as numbers and ids
+  ---
+  duration_ms: 133.5878
+  type: 'test'
+  ...
+# Subtest: R3 owner: a refused share is explained in words and nothing looks shared
+ok 368 - R3 owner: a refused share is explained in words and nothing looks shared
+  ---
+  duration_ms: 115.5665
+  type: 'test'
+  ...
+# Subtest: R3 owner: stopping a review asks first, then stops it and shows it as stopped
+ok 369 - R3 owner: stopping a review asks first, then stops it and shows it as stopped
+  ---
+  duration_ms: 244.0036
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: an account without the Reviewer role sees a denial and never asks for the list
+ok 370 - R3 reviewer inbox: an account without the Reviewer role sees a denial and never asks for the list
+  ---
+  duration_ms: 62.1265
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: lists designs with the owner's display name and result, and links to each
+ok 371 - R3 reviewer inbox: lists designs with the owner's display name and result, and links to each
+  ---
+  duration_ms: 63.0911
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: says so when nothing is shared, and offers a retry when the list fails
+ok 372 - R3 reviewer inbox: says so when nothing is shared, and offers a retry when the list fails
+  ---
+  duration_ms: 107.5398
+  type: 'test'
+  ...
+# Subtest: R3 reviewer view: shows the frozen document with who shared it, and no way to change it
+ok 373 - R3 reviewer view: shows the frozen document with who shared it, and no way to change it
+  ---
+  duration_ms: 51.1495
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R3 reviewer view: a stopped or unknown review reads as unavailable, and a non-Reviewer never asks for it
+ok 374 - R3 reviewer view: a stopped or unknown review reads as unavailable, and a non-Reviewer never asks for it
+  ---
+  duration_ms: 104.0696
+  type: 'test'
+  ...
+# Subtest: R3 menu: only a Reviewer sees the Shared with me link in the account menu
+ok 375 - R3 menu: only a Reviewer sees the Shared with me link in the account menu
+  ---
+  duration_ms: 242.6307
+  type: 'test'
+  ...
+# Subtest: R4 text: the counter counts what the server counts, and 2,000 is the edge
+ok 376 - R4 text: the counter counts what the server counts, and 2,000 is the edge
+  ---
+  duration_ms: 6.0983
+  type: 'test'
+  ...
+# Subtest: R4 text: counts and thread grouping
+ok 377 - R4 text: counts and thread grouping
+  ---
+  duration_ms: 1.6541
+  type: 'test'
+  ...
+# Subtest: R4 text: failures are explained in words and never echo the server's message
+ok 378 - R4 text: failures are explained in words and never echo the server's message
+  ---
+  duration_ms: 2.5557
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: posting needs 1 to 2,000 characters, trims what is sent, and shows the comment as theirs
+ok 379 - R4 reviewer: posting needs 1 to 2,000 characters, trims what is sent, and shows the comment as theirs
+  ---
+  duration_ms: 269.5125
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: editing starts from the current text, saves trimmed text, and marks the comment edited
+ok 380 - R4 reviewer: editing starts from the current text, saves trimmed text, and marks the comment edited
+  ---
+  duration_ms: 316.5912
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: deleting asks first, then leaves a placeholder with no further buttons
+ok 381 - R4 reviewer: deleting asks first, then leaves a placeholder with no further buttons
+  ---
+  duration_ms: 244.7857
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: the owner's replies appear under the comment, named as the owner, with no edit buttons on them
+ok 382 - R4 reviewer: the owner's replies appear under the comment, named as the owner, with no edit buttons on them
+  ---
+  duration_ms: 73.4963
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: markup in a comment is shown as plain text and never becomes elements
+ok 383 - R4 reviewer: markup in a comment is shown as plain text and never becomes elements
+  ---
+  duration_ms: 58.5572
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: a refused comment is explained in words and the box keeps what was typed
+ok 384 - R4 reviewer: a refused comment is explained in words and the box keeps what was typed
+  ---
+  duration_ms: 95.379
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: when the thread cannot be loaded, it says so
+ok 385 - R4 reviewer: when the thread cannot be loaded, it says so
+  ---
+  duration_ms: 63.9563
+  type: 'test'
+  ...
+# Subtest: R4 owner: the thread stays closed until asked for, then lists what the Reviewer wrote by display name
+ok 386 - R4 owner: the thread stays closed until asked for, then lists what the Reviewer wrote by display name
+  ---
+  duration_ms: 83.2719
+  type: 'test'
+  ...
+# Subtest: R4 owner: a reply needs text, goes to the right comment, and appears under it
+ok 387 - R4 owner: a reply needs text, goes to the right comment, and appears under it
+  ---
+  duration_ms: 182.4801
+  type: 'test'
+  ...
+# Subtest: R4 owner: a removed comment shows as removed with no way to reply, and the owner cannot edit or delete Reviewer text
+ok 388 - R4 owner: a removed comment shows as removed with no way to reply, and the owner cannot edit or delete Reviewer text
+  ---
+  duration_ms: 73.3748
+  type: 'test'
+  ...
+# Subtest: R4 owner: after the review is stopped the thread is still readable but replies are closed
+ok 389 - R4 owner: after the review is stopped the thread is still readable but replies are closed
+  ---
+  duration_ms: 90.3559
+  type: 'test'
+  ...
+# Subtest: R4 owner: a refused reply is explained, and an empty thread says so
+ok 390 - R4 owner: a refused reply is explained, and an empty thread says so
+  ---
+  duration_ms: 267.2256
+  type: 'test'
+  ...
+# Subtest: R5 form: a valid form becomes the request the server expects, with percentages turned into ratios and text trimmed
+ok 391 - R5 form: a valid form becomes the request the server expects, with percentages turned into ratios and text trimmed
+  ---
+  duration_ms: 6.1175
+  type: 'test'
+  ...
+# Subtest: R5 form: every limit the server has is checked next to its box, at the edge and just past it
+ok 392 - R5 form: every limit the server has is checked next to its box, at the edge and just past it
+  ---
+  duration_ms: 26.4412
+  type: 'test'
+  ...
+# Subtest: R5 form: an existing challenge fills the form back in, with ratios shown as percentages
+ok 393 - R5 form: an existing challenge fills the form back in, with ratios shown as percentages
+  ---
+  duration_ms: 1.6377
+  type: 'test'
+  ...
+# Subtest: R5 text: goal, traffic and baseline are said plainly, including when nothing was measured or nothing is left to solve
+ok 394 - R5 text: goal, traffic and baseline are said plainly, including when nothing was measured or nothing is left to solve
+  ---
+  duration_ms: 1.7008
+  type: 'test'
+  ...
+# Subtest: R5 text: failures are explained in words and never echo the server's own message
+ok 395 - R5 text: failures are explained in words and never echo the server's own message
+  ---
+  duration_ms: 2.8742
+  type: 'test'
+  ...
+# Subtest: R5 list: an account without the Instructor role sees a denial and never asks for the list
+ok 396 - R5 list: an account without the Instructor role sees a denial and never asks for the list
+  ---
+  duration_ms: 166.7753
+  type: 'test'
+  ...
+# Subtest: R5 list: the Instructor's challenges are shown with status, goal and what the model said about the starting design
+ok 397 - R5 list: the Instructor's challenges are shown with status, goal and what the model said about the starting design
+  ---
+  duration_ms: 75.0772
+  type: 'test'
+  ...
+# Subtest: R5 list: with no challenges it says so
+ok 398 - R5 list: with no challenges it says so
+  ---
+  duration_ms: 56.6347
+  type: 'test'
+  ...
+# Subtest: R5 list: a new challenge needs every box right before anything is sent, then sends the exact request and opens the draft
+ok 399 - R5 list: a new challenge needs every box right before anything is sent, then sends the exact request and opens the draft
+  ---
+  duration_ms: 311.1735
+  type: 'test'
+  ...
+# Subtest: R5 list: a refused creation is explained in words and the form keeps what was typed
+ok 400 - R5 list: a refused creation is explained in words and the form keeps what was typed
+  ---
+  duration_ms: 208.2415
+  type: 'test'
+  ...
+# Subtest: R5 detail: a draft shows its numbers, and Publish measures it and shows what the model found
+ok 401 - R5 detail: a draft shows its numbers, and Publish measures it and shows what the model found
+  ---
+  duration_ms: 165.2863
+  type: 'test'
+  ...
+# Subtest: R5 detail: saving a draft sends every box, and the starting design only when a new one was chosen
+ok 402 - R5 detail: saving a draft sends every box, and the starting design only when a new one was chosen
+  ---
+  duration_ms: 173.8522
+  type: 'test'
+  ...
+# Subtest: R5 detail: once published only the wording can change, and the form offers nothing else
+ok 403 - R5 detail: once published only the wording can change, and the form offers nothing else
+  ---
+  duration_ms: 156.0214
+  type: 'test'
+  ...
+# Subtest: R5 detail: archiving asks first, and an archived challenge offers no editing or publishing
+ok 404 - R5 detail: archiving asks first, and an archived challenge offers no editing or publishing
+  ---
+  duration_ms: 257.6298
+  type: 'test'
+  ...
+# Subtest: R5 detail: duplicating opens the new draft
+ok 405 - R5 detail: duplicating opens the new draft
+  ---
+  duration_ms: 110.2681
+  type: 'test'
+  ...
+# Subtest: R5 detail: a refused publish is explained, and the challenge stays a draft
+ok 406 - R5 detail: a refused publish is explained, and the challenge stays a draft
+  ---
+  duration_ms: 104.8129
+  type: 'test'
+  ...
+# Subtest: R5 detail: someone else's or a missing challenge reads as unavailable, and a non-Instructor never asks for it
+ok 407 - R5 detail: someone else's or a missing challenge reads as unavailable, and a non-Instructor never asks for it
+  ---
+  duration_ms: 109.6425
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R5 detail: challenge wording is shown as plain text and never becomes elements
+ok 408 - R5 detail: challenge wording is shown as plain text and never becomes elements
+  ---
+  duration_ms: 50.8345
+  type: 'test'
+  ...
+# Subtest: R5 menu: only an Instructor sees My challenges in the account menu
+ok 409 - R5 menu: only an Instructor sees My challenges in the account menu
+  ---
+  duration_ms: 235.1166
+  type: 'test'
+  ...
+# Subtest: R5.2 retained unsaved editor work blocks actual submit UI without a network call
+ok 410 - R5.2 retained unsaved editor work blocks actual submit UI without a network call
+  ---
+  duration_ms: 91.1221
+  type: 'test'
+  ...
+# Subtest: R5.2 recovery identity is scoped to account and attempt
+ok 411 - R5.2 recovery identity is scoped to account and attempt
+  ---
+  duration_ms: 1.5398
+  type: 'test'
+  ...
+# Subtest: R5.2 reload recovers only a valid identity, never prompt or credentials
+ok 412 - R5.2 reload recovers only a valid identity, never prompt or credentials
+  ---
+  duration_ms: 4.8234
+  type: 'test'
+  ...
+# Subtest: R5.2 storage refusal does not prevent in-memory recovery
+ok 413 - R5.2 storage refusal does not prevent in-memory recovery
+  ---
+  duration_ms: 0.6008
+  type: 'test'
+  ...
+# Subtest: R5.3 text: outcome lines say pass or fail with the model's numbers, and feedback failures are explained without echoing the server
+ok 414 - R5.3 text: outcome lines say pass or fail with the model's numbers, and feedback failures are explained without echoing the server
+  ---
+  duration_ms: 3.3741
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: with no graded submissions it says so and offers nothing to open
+ok 415 - R5.3 panel: with no graded submissions it says so and offers nothing to open
+  ---
+  duration_ms: 121.6601
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: each row shows the learner's display name, outcome and note count, and opening one shows the frozen design
+ok 416 - R5.3 panel: each row shows the learner's display name, outcome and note count, and opening one shows the frozen design
+  ---
+  duration_ms: 201.0963
+  type: 'test'
+  ...
+# Subtest: R5.3 feedback: a blank note cannot be sent, a note is trimmed, sent once, shown as plain text and the form clears
+ok 417 - R5.3 feedback: a blank note cannot be sent, a note is trimmed, sent once, shown as plain text and the form clears
+  ---
+  duration_ms: 237.7454
+  type: 'test'
+  ...
+# Subtest: R5.3 feedback: a rejected note stays in the box with a reason, and nothing is added
+ok 418 - R5.3 feedback: a rejected note stays in the box with a reason, and nothing is added
+  ---
+  duration_ms: 168.1547
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: a failed load says so, can be retried and then shows the list
+ok 419 - R5.3 panel: a failed load says so, can be retried and then shows the list
+  ---
+  duration_ms: 111.3606
+  type: 'test'
+  ...
+# Subtest: login-register-login links preserve a validated destination including query and hash
+ok 420 - login-register-login links preserve a validated destination including query and hash
+  ---
+  duration_ms: 2.1364
+  type: 'test'
+  ...
+# Subtest: return-to rejects external URLs, control characters, malformed encoding and auth loops
+ok 421 - return-to rejects external URLs, control characters, malformed encoding and auth loops
+  ---
+  duration_ms: 2.2041
+  type: 'test'
+  ...
+# Subtest: all workspace tabs resolve the heading/title/last breadcrumb consistently
+ok 422 - all workspace tabs resolve the heading/title/last breadcrumb consistently
+  ---
+  duration_ms: 2.5276
+  type: 'test'
+  ...
+# Subtest: dashboard has its current breadcrumb and new-design screens have concrete plans
+ok 423 - dashboard has its current breadcrumb and new-design screens have concrete plans
+  ---
+  duration_ms: 1.4439
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: Light/Dark/System select persists, follows OS changes and reloads System
+ok 424 - Light/Dark/System select persists, follows OS changes and reloads System
+  ---
+  duration_ms: 45.8043
+  type: 'test'
+  ...
+# Subtest: Help for this screen returns focus on button through the actual shell
+ok 425 - Help for this screen returns focus on button through the actual shell
+  ---
+  duration_ms: 108.131
+  type: 'test'
+  ...
+# Subtest: Help for this screen returns focus on Escape through the actual shell
+ok 426 - Help for this screen returns focus on Escape through the actual shell
+  ---
+  duration_ms: 47.6466
+  type: 'test'
+  ...
+# Subtest: AI assistant returns focus on button through the actual shell
+ok 427 - AI assistant returns focus on button through the actual shell
+  ---
+  duration_ms: 52.299
+  type: 'test'
+  ...
+# Subtest: AI assistant returns focus on Escape through the actual shell
+ok 428 - AI assistant returns focus on Escape through the actual shell
+  ---
+  duration_ms: 29.4133
+  type: 'test'
+  ...
+# Subtest: nonmodal drawer does not steal focus back after focus moves into page content
+ok 429 - nonmodal drawer does not steal focus back after focus moves into page content
+  ---
+  duration_ms: 38.4682
+  type: 'test'
+  ...
+# Subtest: auth form links carry the same validated destination
+ok 430 - auth form links carry the same validated destination
+  ---
+  duration_ms: 227.8115
+  type: 'test'
+  ...
+# Subtest: real error screen focuses its heading and the segment Retry invokes Next's retry callback
+ok 431 - real error screen focuses its heading and the segment Retry invokes Next's retry callback
+  ---
+  duration_ms: 771.1455
+  type: 'test'
+  ...
+# Subtest: global boundary is self-contained and Try again invokes Next's retry callback
+ok 432 - global boundary is self-contained and Try again invokes Next's retry callback
+  ---
+  duration_ms: 17.5132
+  type: 'test'
+  ...
+1..432
+# tests 432
+# suites 0
+# pass 432
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 42934.772

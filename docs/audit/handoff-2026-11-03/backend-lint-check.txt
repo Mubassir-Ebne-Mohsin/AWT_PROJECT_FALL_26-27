@@ -1,0 +1,44 @@
+
+> stressforge-api@1.0.0 lint:check C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> eslint "{src,test}/**/*.ts"
+
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\common\helpers\requestParser.ts
+    1:10  warning  'Request' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+   50:17  warning  Expected '===' and instead saw '=='                                             eqeqeq
+   52:24  warning  Expected '===' and instead saw '=='                                             eqeqeq
+   54:24  warning  Expected '===' and instead saw '=='                                             eqeqeq
+   82:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+   97:39  warning  Expected '!==' and instead saw '!='                                             eqeqeq
+  103:51  warning  Expected '!==' and instead saw '!='                                             eqeqeq
+  116:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  125:24  warning  Expected '===' and instead saw '=='                                             eqeqeq
+  133:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  145:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  158:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  205:32  warning  Expected '!==' and instead saw '!='                                             eqeqeq
+  229:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  268:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+  283:39  warning  Expected '!==' and instead saw '!='                                             eqeqeq
+  289:51  warning  Expected '!==' and instead saw '!='                                             eqeqeq
+  301:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\common\pipes\QueryParserPipe.ts
+  29:25  warning  Expected '===' and instead saw '=='                                             eqeqeq
+  34:14  warning  'err' is defined but never used. Allowed unused caught errors must match /^_/u  @typescript-eslint/no-unused-vars
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\script\demo-ai-check.ts
+  2:1  warning  import statements should have an absolute path  no-relative-import-paths/no-relative-import-paths
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\script\demo-ai-env.ts
+  2:1  warning  import statements should have an absolute path  no-relative-import-paths/no-relative-import-paths
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\script\demo-ai.ts
+  2:1  warning  import statements should have an absolute path  no-relative-import-paths/no-relative-import-paths
+
+C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\fake-redis.ts
+  68:18  warning  Unexpected empty method 'onModuleInit'     @typescript-eslint/no-empty-function
+  69:21  warning  Unexpected empty method 'onModuleDestroy'  @typescript-eslint/no-empty-function
+
+✖ 25 problems (0 errors, 25 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.

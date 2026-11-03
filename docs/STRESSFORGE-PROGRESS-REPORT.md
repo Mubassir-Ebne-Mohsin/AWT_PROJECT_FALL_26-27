@@ -1495,3 +1495,39 @@ Details: [P6-WELCOME-PROGRESS-SCOPE](P6-WELCOME-PROGRESS-SCOPE.md). `/welcome` i
 ## 35. Calibration: the first comparison with a real running service (2026-11-01)
 
 Details: [CALIBRATION-SCOPE](CALIBRATION-SCOPE.md), [CALIBRATION-EXPECTATIONS](CALIBRATION-EXPECTATIONS.md), [CALIBRATION-FINDINGS](CALIBRATION-FINDINGS.md). [Verified] a purpose-built open-loop load generator reproduces known fake servers (19 tests, 16 deliberate breaks); a toy Node service with 1 or 4 workers and a fixed 20 ms cost per request was measured through 12 load levels, 3 repeats each (72 steps) and compared with the real engine's predictions. [Finding] on this service the model is cautious: p95 above measured at nearly every load (30 to 300% above for one worker), breaking point 31% earlier for one worker (17.5 against 25.4 rps) and within 9% for four (149 against 164); one clear optimistic spot, the error rate at 120% of capacity with four workers (20.5% predicted, 56.6% measured). Three of four written expectations held. [Corrected, disclosed] the capacity-fit rule committed in advance was flawed (and its paging exclusion dropped 42 of 72 steps); the correction was chosen after seeing the first analyses, recorded in a dated section, and all variants are kept. [Not shown] any real application, variable-work services, databases, other hardware. The Calibration tab now shows the comparison (status "Measured on one machine, one toy service") with the headline the user approved after reading the findings; web unit 374, full Chrome regression 782 passed, 10 skipped, 0 failed.
+
+
+## 36. AI Copilot disposition and handoff reconciliation (2026-11-03)
+
+### Scope and evidence sources
+
+The user authorized reconciling the latest handoff, adding the guard attempt to the Evaluation AI tab, and regression verification. The proposed wording was explicitly approved in this session. Baseline: `198f0a6` on `codex/phase2-contracts`. Sources inspected: current configuration and demo launcher, `AI-RESUME-SCOPE.md`, `AI-COPILOT-SCOPE.md`, `AI-FIX-INTENT-GUARD-RUBRIC.md`, the stored `docs/audit/ai-gate/*intent_v2*/run.json` reports and individual replies, the Evaluation implementation/tests, and the newest handoff. Earlier report entries are historical evidence, not current feature flags.
+
+### Current disposition
+
+| Capability | Evidence-based disposition |
+| --- | --- |
+| Verified fix suggestions, manual leave-out/show-first choices, load ladder | Implemented deterministic features; no model/key required. Earlier feature and mutation evidence is recorded in the Copilot scope |
+| Hosted explanations | Evaluated NO-GO: 0/18 accepted against 17 required; invalid first run disclosed; feature off by default and off in the demo |
+| Describe-to-design | Evaluated NO-GO: 13/20 accepted against 18 required; obeyed 3/3 hidden instructions against zero allowed; feature off |
+| Goal reading, model plus grounding guard | Evaluated NO-GO: 13/13 ordinary, 3/3 neutral, 6/7 hidden-instruction goals; required 12/13, 3/3 and 7/7 respectively, with the declared latency limit. Model-alone hidden-instruction result 4/7 is diagnostic, not a separate gate pass |
+| Experimental demo | Existing explicit launcher enables only goal reading with `openai/gpt-oss-120b`. A READY preflight does not overturn NO-GO. No live inference or key inspection performed in this session |
+| Evaluation guard section | Implemented additively; preserves the earlier results and declares the remaining JSON-instruction failure, English-only/ambiguous-word limits, and default-off/demo exception |
+
+The page figures are now checked against both stored summary reports and independently counted individual recorded replies. The guard only removes unsupported choices: in its remaining failure it removed the injected JSON choices but could not recover the legitimate preference missed by the model. These results do not establish resistance to all hidden instructions. Further quality-gate work requires new goals declared before a user-authorized live run.
+
+### Changes and verification in this session
+
+- Reconciled current milestone rows, blockers and AI policy in `PROJECT-STATE.md`, `AI-DEFERRAL-PLAN.md` and `AGENTS.md`; preserved dated historical checkpoints and the original pre-registered rubrics/results.
+- Corrected the demo script's stale statement that the guard results were absent. The System screen now explains how to obtain an existing share/review grant and explicitly says its button sends no request.
+- Backend: build, non-mutating lint, type check and both contract checks pass. Lint: zero errors, 25 existing warnings; backend source was not changed. The earlier 660-unit/333-e2e totals are Claude's recorded evidence, not fresh runs in this session.
+- Web: 432 unit tests pass; lint, type check, all 40 registry routes and the production audit build pass. Three deliberate breaks (inflated result, relaxed pass mark, hidden failure disclosure) were each caught, then restored.
+- Chrome Evaluation spec: 44/44 pass across 1024/1440 and light/dark; the new section is also checked at 320/390 pixels, without horizontal overflow or non-session API requests.
+- Full Chrome regression: **950 passed, 10 intentionally skipped, 0 failed (960 total), 35.0 minutes**. Installed Chrome, one worker, four projects (1024/1440 light/dark), production audit build. Four dev-only state cases are excluded in production; six repeated library/100-note-limit cases are conditionally skipped outside 1440-light, where they passed. No role or Instructor/Learner flow was skipped. No existing tests were weakened.
+- Source committed as `95948de`. Full logs, commands and preservation evidence: [3 November audit](audit/handoff-2026-11-03/README.md). Final web-unit rerun: 432/432. This closes the post-`f3dfc1e` full-Chrome gap; it does **not** change any AI quality verdict.
+
+### Isolation, limitations and maintenance
+
+The audit uses port 3003/5003, labelled M9 PostgreSQL/Redis containers at 5552/6399, and an environment-file-free audit working directory. Authenticated readiness returned `enabled=false`; health returned 200 with PostgreSQL/Redis up. All 117 pre-existing PNGs were restored and their hashes verified after regression. The protected M2 SHA256 is unchanged (`d0edb982c694cf1983ffe36faac2f7c80ed77ac1a735852f03013e6c4a2f76dc`). Only pending additive migrations were applied to the disposable database (ChallengeFeedback, AccountSelfService, AiDesignSource); the user's development database was not changed. The low-memory frontend build used one temporary build worker; `next.config.ts` was restored byte-for-byte. Owned audit API/web processes and M9 containers were stopped; their volumes retained. Development services and the already-running M8 audit containers were left as found. The first readiness probe correctly returned 401 without authentication; a disposable audit account then confirmed `enabled=false`.
+
+No push, paid usage, live model call, key deletion, unseen-goal gate run, or untracked planning-document adoption was performed. Four dev-only state journeys remain untested in this production run; live demo behavior was not independently rerun and remains the earlier handoff's evidence. Future phase-completion work must update this same report, retain earlier history, record new evidence and reassess affected earlier requirements. Updates are not automatic.

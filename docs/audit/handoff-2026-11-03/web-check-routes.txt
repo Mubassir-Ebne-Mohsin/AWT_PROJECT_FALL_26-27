@@ -1,0 +1,2 @@
+$ node scripts/check-routes.mjs
+40 registry routes, all have a page file
