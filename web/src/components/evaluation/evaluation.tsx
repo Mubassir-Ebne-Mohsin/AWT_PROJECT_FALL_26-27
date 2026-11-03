@@ -5,6 +5,7 @@ import { notFound, usePathname } from "next/navigation";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
   AI_GOALS,
+  AI_DESIGN_TASKS,
   AI_GOAL_GUARD,
   AI_HOSTED,
   AI_RECORD,
@@ -546,6 +547,91 @@ function Ai() {
         <p data-testid="hosted-goal-guard-failure"><b>The remaining failure.</b> {AI_GOAL_GUARD.failure}</p>
         <p data-testid="hosted-goal-guard-limits"><b>Limits.</b> {AI_GOAL_GUARD.limits}</p>
         <p data-testid="hosted-goal-guard-result"><b>Result.</b> {AI_GOAL_GUARD.result}</p>
+      </section>
+      <section className="stack" aria-labelledby="ev-tasks" data-testid="ai-design-tasks">
+        <h2 className="h2" id="ev-tasks">
+          The three design tasks, rebuilt ({AI_DESIGN_TASKS.date})
+        </h2>
+        <p>{AI_DESIGN_TASKS.intro}</p>
+        <section className="stack" data-testid="ai-task-goalbox">
+          <h3 className="h3">{AI_DESIGN_TASKS.goalBox.title}</h3>
+          <p>{AI_DESIGN_TASKS.goalBox.what}</p>
+          <div className="table-scroll" style={{ overflowX: "auto" }}>
+            <table className="table" style={{ minWidth: 640 }}>
+              <caption>{AI_DESIGN_TASKS.goalBox.goals} development goals: each count is how many were as expected</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Reading</th>
+                  <th scope="col">All</th>
+                  <th scope="col">Ordinary</th>
+                  <th scope="col">With an order or code</th>
+                  <th scope="col">Ambiguous</th>
+                  <th scope="col">Nothing to act on</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(
+                  [
+                    ["gpt-oss-120b plus cleaning and checks", AI_DESIGN_TASKS.goalBox.model],
+                    ["Keyword rules plus the same cleaning and checks", AI_DESIGN_TASKS.goalBox.rules],
+                  ] as const
+                ).map(([label, r]) => (
+                  <tr key={label} data-testid="ai-task-goalbox-row">
+                    <th scope="row">{label}</th>
+                    <td>
+                      {r.correct} of {AI_DESIGN_TASKS.goalBox.goals}
+                    </td>
+                    <td>
+                      {r.ordinary[0]} of {r.ordinary[1]}
+                    </td>
+                    <td>
+                      {r.mixed[0]} of {r.mixed[1]}
+                    </td>
+                    <td>
+                      {r.ambiguous[0]} of {r.ambiguous[1]}
+                    </td>
+                    <td>
+                      {r.neutral[0]} of {r.neutral[1]}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p data-testid="ai-task-goalbox-note">{AI_DESIGN_TASKS.goalBox.note}</p>
+        </section>
+        <section className="stack" data-testid="ai-task-describe">
+          <h3 className="h3">{AI_DESIGN_TASKS.describe.title}</h3>
+          <p>{AI_DESIGN_TASKS.describe.what}</p>
+          <p>{AI_DESIGN_TASKS.describe.history}</p>
+          <ul>
+            <li data-testid="ai-task-describe-first">
+              First batch of {AI_DESIGN_TASKS.describe.descriptions} development descriptions: {AI_DESIGN_TASKS.describe.first.correct} of {AI_DESIGN_TASKS.describe.descriptions} (ordinary {AI_DESIGN_TASKS.describe.first.ordinary[0]} of{" "}
+              {AI_DESIGN_TASKS.describe.first.ordinary[1]}, vague {AI_DESIGN_TASKS.describe.first.vague[0]} of {AI_DESIGN_TASKS.describe.first.vague[1]}, off-topic {AI_DESIGN_TASKS.describe.first.offTopic[0]} of{" "}
+              {AI_DESIGN_TASKS.describe.first.offTopic[1]}, with an order {AI_DESIGN_TASKS.describe.first.injection[0]} of {AI_DESIGN_TASKS.describe.first.injection[1]}).
+            </li>
+            <li data-testid="ai-task-describe-rules">
+              Keyword rules on the same descriptions: {AI_DESIGN_TASKS.describe.rules.correct} of {AI_DESIGN_TASKS.describe.descriptions}.
+            </li>
+            <li data-testid="ai-task-describe-second">
+              Second batch, after fixes: {AI_DESIGN_TASKS.describe.second.correct} of {AI_DESIGN_TASKS.describe.descriptions}.
+            </li>
+          </ul>
+          <p data-testid="ai-task-describe-note">{AI_DESIGN_TASKS.describe.note}</p>
+        </section>
+        <section className="stack" data-testid="ai-task-whatif">
+          <h3 className="h3">{AI_DESIGN_TASKS.whatIf.title}</h3>
+          <p>{AI_DESIGN_TASKS.whatIf.what}</p>
+          <p data-testid="ai-task-whatif-note">{AI_DESIGN_TASKS.whatIf.note}</p>
+        </section>
+        <section className="panel stack r2-pad" data-testid="ai-task-notshown">
+          <h3 className="h3">What this does not show</h3>
+          <ul>
+            {AI_DESIGN_TASKS.notShown.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
+          </ul>
+        </section>
       </section>
       <section className="stack" aria-labelledby="ev-notai" data-testid="not-ai">
         <h2 className="h2" id="ev-notai">

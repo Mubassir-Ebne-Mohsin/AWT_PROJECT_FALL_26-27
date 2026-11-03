@@ -5,8 +5,8 @@ import { AiService } from "@/modules/ai/ai.service";
 import { applyDemoEnv, DEMO_AI_ENV, DEMO_AI_MODEL } from "@/modules/ai/demo-env";
 import { demoProblems, demoSummary } from "@/modules/ai/demo-check";
 
-// The demo setup: the AI goal box on and nothing else AI on, forced over whatever the environment says, with a check that cannot
-// leak the key. Nothing here sends a request.
+// The demo setup: exactly the three AI design tasks on and nothing else AI on, forced over whatever the environment says, with a check
+// that cannot leak the key. Nothing here sends a request.
 const KEY = "SECRET-KEY-do-not-print-0123456789";
 const base: Record<string, string> = {
   DB_USER: "test",
@@ -24,8 +24,8 @@ const demo = (over: Record<string, string | undefined> = {}) => {
 const here = (p: string) => readFileSync(join(__dirname, p), "utf8");
 
 describe("the demo settings", () => {
-  it("are exactly: AI on, the Groq provider, only the fix goal task, explanations off, and the model the guard was tested with", () => {
-    expect(DEMO_AI_ENV).toEqual({ AI_ENABLED: "true", AI_PROVIDER: "groq", AI_FEATURES: "fixes", AI_EXPLANATIONS: "false", GROQ_MODEL: "openai/gpt-oss-120b" });
+  it("are exactly: AI on, the Groq provider, only the three design tasks, explanations off, and the model they were tested with", () => {
+    expect(DEMO_AI_ENV).toEqual({ AI_ENABLED: "true", AI_PROVIDER: "groq", AI_FEATURES: "fixes,describe,whatif", AI_EXPLANATIONS: "false", GROQ_MODEL: "openai/gpt-oss-120b" });
     expect(DEMO_AI_MODEL).toBe("openai/gpt-oss-120b");
   });
 
@@ -67,11 +67,16 @@ describe("the demo check", () => {
     for (const GROQ_API_KEY of [undefined, "", "   "]) expect(demoProblems(demo({ GROQ_API_KEY }))[0]).toMatch(/GROQ_API_KEY is not set/);
   });
 
-  it("says when any other AI feature could be on, or the explanation feature is", () => {
-    expect(demoProblems(demo({ AI_FEATURES: "describe,fixes" })).join(" ")).toMatch(/AI_FEATURES is not exactly the fix goal task/);
+  it("says when a demo task is missing, or the explanation feature is on", () => {
+    expect(demoProblems(demo({ AI_FEATURES: "describe,fixes" })).join(" ")).toMatch(/AI_FEATURES is not exactly the three demo tasks \(fixes, describe, whatif\)/);
     expect(demoProblems(demo({ AI_FEATURES: "" })).join(" ")).toMatch(/AI_FEATURES is not exactly/);
     expect(demoProblems(demo({ AI_FEATURES: "describe" })).join(" ")).toMatch(/AI_FEATURES is not exactly/);
+    expect(demoProblems(demo({ AI_FEATURES: "fixes" })).join(" ")).toMatch(/AI_FEATURES is not exactly/);
     expect(demoProblems(demo({ AI_EXPLANATIONS: "true" })).join(" ")).toMatch(/explain-this-result feature is on/);
+  });
+
+  it("accepts the three tasks in any order and refuses any extra one", () => {
+    for (const order of ["whatif,describe,fixes", "describe,whatif,fixes", "fixes,whatif,describe"]) expect(demoProblems(demo({ AI_FEATURES: order }))).toEqual([]);
   });
 
   it("says when AI is off, the provider is not Groq, or the model is not the tested one", () => {
@@ -97,7 +102,7 @@ describe("the demo check", () => {
     const lines = demoSummary(demo());
     expect(lines).toEqual([
       "AI on: true, provider: groq, model: openai/gpt-oss-120b",
-      "AI design tasks on: fixes",
+      "AI design tasks on: fixes, describe, whatif",
       "Explain-this-result on: false",
       "Groq key: set",
     ]);
@@ -153,10 +158,10 @@ describe("the settings the running application actually uses", () => {
     }
   };
 
-  it("with the demo settings: only the fix goal task on, explanations off, the tested model, on Groq", () => {
+  it("with the demo settings: exactly the three design tasks on, explanations off, the tested model, on Groq", () => {
     const env: Record<string, string | undefined> = {};
     applyDemoEnv(env);
-    expect(settingsFor(env)).toMatchObject({ enabled: true, explanations: false, features: ["fixes"], provider: "groq", model: "openai/gpt-oss-120b" });
+    expect(settingsFor(env)).toMatchObject({ enabled: true, explanations: false, features: ["fixes", "describe", "whatif"], provider: "groq", model: "openai/gpt-oss-120b" });
   });
 
   it("by default: everything off, and explanations off even if only AI_ENABLED is switched on", () => {

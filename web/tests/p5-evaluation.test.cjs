@@ -401,3 +401,58 @@ test("P5 guard page: preserves NO-GO, exposes failure and limits, distinguishes 
   for (const phrase of [`${judged.ordinary}/${G.ordinaryTotal} ordinary`, `${judged.neutral}/${G.neutralTotal} neutral`, `${judged.injection}/${G.injectionTotal} goals containing hidden`, `${G.bars.injection}/${G.injectionTotal}, so the attempt was NO-GO`, `model alone achieved ${G.rows[2].injection}/${G.injectionTotal}`, `keyword baseline achieved ${G.rows[0].ordinary}/${G.ordinaryTotal}`, `at least ${G.bars.ordinary}/${G.ordinaryTotal}`]) assert.ok(G.intro.includes(phrase), phrase);
   assert.equal(fetchCalls, 0);
 });
+
+test("P5 three design tasks: every count equals the stored development runs or the recorded baselines", () => {
+  const D = E.AI_DESIGN_TASKS;
+  const runs = "docs/audit/ai-gate/";
+  const group = (rows, g, pick) => rows.filter((r) => r.group === g && pick(r)).length;
+  // Goal box: the live development batch of 3 November.
+  const box = JSON.parse(read(runs + "2026-11-03T14-00-33-150Z_goalbox_v3_dev_batch_openai_gpt-oss-120b/run.json")).rows;
+  assert.equal(box.length, D.goalBox.goals);
+  const m = D.goalBox.model;
+  assert.equal(box.filter((r) => r.correct).length, m.correct);
+  assert.deepEqual(
+    ["ordinary", "mixed", "ambiguous", "neutral"].map((g) => [group(box, g, (r) => r.correct), box.filter((r) => r.group === g).length]),
+    [m.ordinary, m.mixed, m.ambiguous, m.neutral],
+  );
+  assert.equal(box.filter((r) => r.unsupportedChoice).length, m.unrequested);
+  // Describe: both live development batches.
+  const first = JSON.parse(read(runs + "2026-11-03T14-55-14-776Z_describe_v2_dev_openai_gpt-oss-120b/run.json")).rows;
+  const second = JSON.parse(read(runs + "2026-11-03T15-13-37-072Z_describe_v2_dev_openai_gpt-oss-120b/run.json")).rows;
+  assert.deepEqual([first.length, second.length], [D.describe.descriptions, D.describe.descriptions]);
+  const f = D.describe.first;
+  assert.equal(first.filter((r) => r.pass).length, f.correct);
+  assert.deepEqual(
+    ["ordinary", "ambiguous", "off-topic", "injection"].map((g) => [group(first, g, (r) => r.pass), first.filter((r) => r.group === g).length]),
+    [f.ordinary, f.vague, f.offTopic, f.injection],
+  );
+  assert.equal(second.filter((r) => r.pass).length, D.describe.second.correct);
+  // The keyword-rule baselines and the what-if figures were computed offline; the handoff log records them.
+  const log = read("docs/HANDOFF-LOG.md");
+  assert.match(log, /35\/45 \(ordinary 13\/20/);
+  assert.match(log, /16\/27\*\* \(ordinary 5\/12/);
+  assert.match(log, /\*\*39\/39\*\*/);
+  assert.match(log, /bare word reader without cleaning scores 31\/39/);
+  assert.match(log, /follows 4 of 8 hidden orders/);
+  assert.deepEqual([D.goalBox.rules.correct, D.describe.rules.correct, D.whatIf.rules.correct, D.whatIf.bare.correct, D.whatIf.sentences], [35, 16, 39, 31, 39]);
+});
+
+test("P5 three design tasks page: development figures labelled as such, no pass claimed, the first describe batch shown, no requests", async () => {
+  const view = await render("/evaluation/ai"), D = E.AI_DESIGN_TASKS;
+  const section = testid(view, "ai-design-tasks");
+  for (const part of [D.intro, D.goalBox.title, D.goalBox.note, D.describe.title, D.describe.history, D.describe.note, D.whatIf.title, D.whatIf.what, D.whatIf.note, ...D.notShown]) assert.ok(section.textContent.includes(part), part.slice(0, 40));
+  const rows = [...section.querySelectorAll("[data-testid='ai-task-goalbox-row']")];
+  assert.deepEqual(rows.map((r) => [...r.querySelectorAll("th,td")].map((c) => c.textContent)), [
+    ["gpt-oss-120b plus cleaning and checks", "42 of 45", "19 of 20", "10 of 10", "6 of 8", "7 of 7"],
+    ["Keyword rules plus the same cleaning and checks", "35 of 45", "13 of 20", "9 of 10", "6 of 8", "7 of 7"],
+  ]);
+  assert.match(testid(view, "ai-task-describe-first").textContent, /13 of 27.*ordinary 5 of 12.*vague 4 of 5.*off-topic 0 of 3.*with an order 4 of 7/);
+  assert.match(testid(view, "ai-task-describe-rules").textContent, /16 of 27/);
+  assert.match(testid(view, "ai-task-describe-second").textContent, /27 of 27/);
+  assert.match(testid(view, "ai-task-describe-note").textContent, /below the keyword rules' 16 of 27.*not a result/);
+  assert.match(testid(view, "ai-task-whatif-note").textContent, /39 of 39.*little room.*31 of 39.*4 of 8.*No live what-if batch/);
+  assert.match(section.textContent, /development figures/);
+  assert.match(section.textContent, /not acceptance results/);
+  assert.doesNotMatch(section.textContent, /\b(verified|reliable|passed its|proven|safe against)\b(?! every)/i);
+  assert.equal(fetchCalls, 0);
+});

@@ -216,5 +216,49 @@ export const AI_GOAL_GUARD = {
   "intro": "On 23 newly declared goals, the model plus guard correctly read 13/13 ordinary goals, 3/3 neutral goals and 6/7 goals containing hidden instructions. The required hidden-instruction result was 7/7, so the attempt was NO-GO. The model alone achieved 4/7; the keyword baseline achieved 5/13 ordinary goals. The pass marks were declared before the run: at least 12/13 ordinary goals, 3/3 neutral goals, 7/7 hidden-instruction goals, and every answer within 10 seconds. The model-alone row is diagnostic, not a separately judged gate.",
   "failure": "The remaining failure followed an instruction embedded in JSON. The guard removed the unsupported choices, but could not recover the genuine wish the model had missed. The guard can remove choices; it cannot add a missing choice.",
   "limits": "This English-only guard can interpret ambiguous words too broadly and discard legitimate wishes mixed with instruction-like text. One model and one run do not establish safety against all hidden instructions. These goals have now been seen; another attempt needs new goals declared first.",
-  "result": "The goal box remains experimental and off by default. The explicitly enabled demo uses gpt-oss-120b for the goal box only; explanations and describe-to-design stay off. READY from the demo check is a readiness result, not a passed quality gate."
+  "result": "The goal box remains experimental and off by default. The explicitly enabled demo uses gpt-oss-120b for three design tasks (this goal box, describe-to-design and the what-if in words); explanations stay off. READY from the demo check is a readiness result, not a passed quality gate."
+};
+
+/**
+ * The three design tasks as rebuilt on 3 and 4 November 2026 (goal box version 3, describe-to-design version 2, the what-if in words).
+ * Every figure here is a DEVELOPMENT figure: the goals were written by the author, who read the failures while fixing, so none is an
+ * acceptance result. Quoted from docs/HANDOFF-LOG.md and the run folders under docs/audit/ai-gate/; a test ties each count to them.
+ * Wording approved by the owner (docs/EVALUATION-TAB-WORDING-DRAFT.md).
+ */
+export const AI_DESIGN_TASKS = {
+  date: "3 and 4 November 2026",
+  intro:
+    "Three AI features were rebuilt to a common design: the person's text is cleaned first, so the model never sees an order or embedded code; the model only fills a fixed form; every choice must be supported by the person's own words; and the person confirms before anything changes. The figures below are development figures: the goals were written by the author, who read the failures while fixing, so they are not acceptance results. An acceptance run on goals written by other people has not been done, so all three stay labelled experimental.",
+  goalBox: {
+    title: "Fix suggestions in words (goal box, version 3)",
+    what: "A sentence becomes choices: which kinds of fix to leave out and what to show first. A goal that could mean two things, such as \"replicas\" (server copies or a database copy) or \"fast and cheap\", asks a question instead of guessing.",
+    goals: 45,
+    model: { correct: 42, ordinary: [19, 20], mixed: [10, 10], ambiguous: [6, 8], neutral: [7, 7], unrequested: 1 },
+    rules: { correct: 35, ordinary: [13, 20], mixed: [9, 10], ambiguous: [6, 8], neutral: [7, 7], unrequested: 1 },
+    note: "The same cleaning and checks with plain keyword rules in place of the model (the second row) got 35 of 45. The three misses of the model run were gaps in our own rules; they were fixed afterwards and not re-run live.",
+  },
+  describe: {
+    title: "Describe a system (describe-to-design, version 2)",
+    what: "A description becomes a draft design that the person reviews before creating it. The model fills a fixed form with no free text, our own builder draws the graph, and text that is not about a web system is refused.",
+    history:
+      "Version 1 is unchanged on this page above: 13 of 20, and it obeyed 3 of 3 hidden orders. Version 2 fixes the five defects declared after that run, cleans the description first and drops the model's free-text reason.",
+    descriptions: 27,
+    rules: { correct: 16 },
+    first: { correct: 13, ordinary: [5, 12], vague: [4, 5], offTopic: [0, 3], injection: [4, 7] },
+    second: { correct: 27 },
+    note: "The first batch scored 13 of 27, below the keyword rules' 16 of 27. The failures were mostly in our own form and checks. After fixes made from reading those failures, a second batch scored 27 of 27. That second figure is not a result: the same descriptions had been read while fixing.",
+  },
+  whatIf: {
+    title: "What if the traffic changed? (calculated) and \"Say it in words\" (AI)",
+    what: "The panel itself uses no AI: it runs the same design under the changed traffic through the same model as a test run, and tests check each answer equals a fresh simulation (25 comparisons on 5 templates). The optional sentence box lets a model fill the same controls; out-of-range values are refused and never clamped.",
+    sentences: 39,
+    rules: { correct: 39 },
+    bare: { correct: 31, ordersFollowed: 4, ordersOf: 8 },
+    note: "The same cleaning and checks with plain keyword rules in place of a model score 39 of 39 on these sentences, so a model has little room to add value on sentences of this kind. The bare keyword reader without cleaning scores 31 of 39 and follows 4 of 8 hidden orders. No live what-if batch has been run.",
+  },
+  notShown: [
+    "That any of these three is safe against every hidden order, or works for sentences in other styles or languages.",
+    "That the model adds value over plain rules where the rules already score as high.",
+    "Anything about goals written by other people: the acceptance run has not been done.",
+  ],
 };
