@@ -24,7 +24,7 @@
 | Local development migrations | Read-only check: all 16 source migrations recorded as applied |
 | Optional live AI backend preflight | READY in one invocation, all 3 requests as expected; not a quality-gate pass |
 | User's own timed presentation rehearsal | Still to do on the actual showcase setup |
-| Faculty acceptance of experimental AI as the central-AI requirement | Not confirmed; user/faculty decision |
+| Faculty requirement | User confirmed faculty requires more reliable AI; current experimental feature does not close the requirement |
 | AI release quality | NO-GO; all AI off by default; goal box demo only |
 
 Evidence, initial harness correction and limitations: [readiness audit](audit/showcase-2026-11-03/README.md). Current status: [PROJECT-STATE](PROJECT-STATE.md). Complete presentation narration and fallback: [DEMO-SCRIPT](DEMO-SCRIPT.md).
@@ -92,6 +92,6 @@ Use prepared demonstration accounts, not real student records. Browser verificat
 
 Do not include `.env`, passwords, bearer tokens, Groq keys, private share links, audit accounts or untracked historical drafts in a submission archive. This checklist is a preparation package, not a claim that faculty acceptance, a personal rehearsal, an archive/PDF export or final submission has already happened.
 
-## Next decision
+## Next decision — updated 2026-11-03
 
-Confirm the central-AI requirement with the faculty. If the disclosed experimental goal box is accepted, finish the personal rehearsal and submission. If more reliable AI is required, approve a separate improvement scope with new unseen goals and fixed pass marks **before** any new model run. Do not tune a pass mark after seeing a result.
+The user confirmed that faculty requires **more reliable AI**. Technical showcase preparation remains useful, but this is not yet an accepted course-completion package. Review the proposed [AI reliability scope](AI-RELIABILITY-SCOPE.md) and [rubric](AI-RELIABILITY-GATE-RUBRIC.md), approve offline implementation separately, then register a fresh corpus and fixed pass marks **before** any separately authorized live model run. Do not tune a pass mark after seeing a result. A passing technical gate still requires faculty review of whether the capability meets the central-AI requirement.

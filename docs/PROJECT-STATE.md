@@ -2,7 +2,7 @@
 
 **AI status (2026-11-03): no longer parked.** The AI Design Copilot work ran 2026-11-02/03 under pre-registered gates. **Every AI feature is OFF by default**; the supported demo entry point is the launcher `pnpm demo:ai`, which enables one experimental task (the fix goal box). Read the newest [HANDOFF-LOG](HANDOFF-LOG.md) entry and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) first. The milestone table below is reconciled with the committed source and recorded evidence. Earlier dated checkpoints are history, not current instructions.
 
-**Last updated:** 2026-11-03 by Codex. **Branch:** `codex/phase2-contracts`. **Verified application baseline:** `68dd94c`, pushed and remote-head verified on the user's instruction. Technical showcase readiness is now checked; new checklist/evidence are local work in this session. No new push authorized. Production full Chrome remains 950 passed / 10 intentional skips / 0 failures; separate dev-state run is 4/4 and role rehearsal 17/17. No application behavior changed.
+**Last updated:** 2026-11-03 by Codex. **Branch:** `codex/phase2-contracts`. **Verified application baseline:** `68dd94c`, pushed and remote-head verified on the user's instruction. Technical readiness is recorded in local commit `1e955b2`. Faculty now requires more reliable AI; course AI acceptance is unmet. Proposed reliability scope/rubric are prepared for review; implementation and new live calls are not authorized. No new push authorized. Production full Chrome remains 950 passed / 10 intentional skips / 0 failures; separate dev-state run is 4/4 and role rehearsal 17/17. No application behavior changed.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
 Latest handover: the newest entry at the top of [HANDOFF-LOG.md](HANDOFF-LOG.md). The 29 October context files are historical.
@@ -32,7 +32,8 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Roles (Instructor, Reviewer, Admin) | **Complete and pushed** (R1 `3f7dbc0`, R2 `9700bb2`, R3 `87736b2`, R4 `3db9068`, R5.1 `ace6b64`, R5.2 `dca7218`, R5.3 `a245192`) | Needs no AI. Latest Chrome regression 550 passed, 10 skipped, 0 failed. Run `pnpm migration:run` on every database. Detail: report section 28, [ROLES-SCOPE](ROLES-SCOPE.md), [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md) |
 | Phase 4 / 5 P1-P6 | Built and previously verified | Public pages, account settings, Learn, examples/templates/components, Evaluation, Welcome/Progress. [Phase 4/5 scope](PHASE-4-5-SCOPE.md); detailed reports sections 29-34 |
 | Calibration | Measured on one laptop and one toy service | Honest limits and post-observation fit correction disclosed. [Findings](CALIBRATION-FINDINGS.md); not validation for real applications |
-| Showcase readiness | Technical rehearsal passed; personal rehearsal and faculty decision pending | [Checklist](SHOWCASE-READINESS.md); [audit](audit/showcase-2026-11-03/README.md). One live preflight: 3/3 expected, READY; every quality verdict remains NO-GO |
+| AI goal reliability improvement | Proposed scope/rubric only; not implemented or evaluated | [Scope](AI-RELIABILITY-SCOPE.md), [rubric](AI-RELIABILITY-GATE-RUBRIC.md). User approved planning; implementation and live run require later decisions |
+| Showcase readiness | Technical rehearsal passed; personal rehearsal pending; faculty requires more reliable AI | [Checklist](SHOWCASE-READINESS.md); [audit](audit/showcase-2026-11-03/README.md). One live preflight: 3/3 expected, READY; every quality verdict remains NO-GO |
 
 ## M12A detail (historical implementation evidence; quality gate supersedes pause)
 
@@ -61,17 +62,17 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
-| Codex | No active file claims | 2026-11-03 | Readiness evidence/checklist complete; released. No app feature or quality-gate change |
+| Codex | No active file claims | 2026-11-03 | Reliability planning documents prepared for review; claims released; no code or inference |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
 | Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |
 | Nobody | `DESIGN.md`, `film/`, `docs/audit/landing/` | | Preserved and unstaged; landing source is already committed |
 
 ## Blockers and open decisions
 
-1. **Course acceptance:** faculty acceptance of the disclosed experimental AI goal box as satisfying the central-AI requirement is unconfirmed. The user was asked; no answer yet. Do not declare the overall course requirement met without that decision.
+1. **Course acceptance:** user confirmed that faculty requires more reliable AI. The current experimental feature/READY preflight does not close that requirement. A proposed [reliability scope](AI-RELIABILITY-SCOPE.md) and [acceptance rubric](AI-RELIABILITY-GATE-RUBRIC.md) are ready for review. No implementation, corpus or new live evaluation exists yet; no claim of course acceptance.
 2. **Personal rehearsal:** the scripted same-account showcase passed all nine steps, and all four roles passed 17 real-browser journeys. The user still needs one timed rehearsal on the actual presentation setup. [Checklist](SHOWCASE-READINESS.md).
 3. **Verification gap closed:** production full Chrome 950 pass / 10 intentional skips / 0 failures; the four previously skipped dev-only state journeys now pass on the actual development build (all ten states in each project). Six repeated long-list/note-limit production skips already ran at 1440-light. [Current readiness evidence](audit/showcase-2026-11-03/README.md).
-4. **AI:** the approved readiness plan's existing backend preflight ran once, three calls, READY. No fresh live goal-box browser journey or quality-gate attempt was run. AI stays off by default; any further gate attempt needs new unseen goals and explicit live-call authorization. F3b and an F1 retry are not recommended in the handoff.
+4. **AI next step:** review the proposed goal-reader reliability scope and thresholds, then approve offline implementation separately. Actual held-out cases/labels/manifests must be created and frozen before a separately authorized live gate. Every prior gate stays NO-GO and AI stays off by default. The earlier three-call READY preflight is not acceptance; F3b and F1 retries remain outside scope.
 5. The user decides key retention and adoption of the two untracked planning drafts. Neither was changed. New readiness work is not pushed; push only on explicit instruction.
 
 ## Standing constraints

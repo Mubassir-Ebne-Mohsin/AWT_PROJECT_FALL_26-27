@@ -15,6 +15,14 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-03 18:18 (Asia/Dhaka), Codex, AI reliability planning after faculty decision
+**Goal:** user confirmed faculty requires more reliable AI, then approved writing the reliability scope/rubric; planning only.
+**Done:** [scope](AI-RELIABILITY-SCOPE.md), [proposed rubric](AI-RELIABILITY-GATE-RUBRIC.md), current-state/showcase correction and living report section 38. Readiness remains local commit `1e955b2`; published application baseline `68dd94c`. This planning entry/documents are committed together; no push.
+**Evidence/review:** inspected task/service/guard/baseline, contract/client, scorer and prior result. Current remove-only guard cannot recover the missed genuine preference; plan adds explicit meaning validation/clarification and confirmation, with a fair same-pipeline no-model comparison. Proposed 48 goals x 2 trials and per-group/technical/value bars are recommendations, not results. Actual case texts/labels/hash manifest do not exist yet. Documentation-only link/arithmetic/source/preservation checks; no application build/test/model run.
+**Decisions:** experimental AI is insufficient for the faculty requirement. User approved planning, not implementation, another gate, provider/key work or activation. All prior NO-GO verdicts and fixed historical pass marks remain. Corpus blinding/ownership limitations must be disclosed; do not tune on holdout or cherry-pick cases to manufacture AI value.
+**Uncommitted unrelated:** protected M2 and pre-existing PNG modifications; `DESIGN.md`, `film/`, `docs/audit/landing/`, two historical untracked Codex planning docs; untouched/unstaged. No active claims.
+**Next:** review scope/rubric; obtain implementation approval, build/test offline, freeze candidate; author/review/register fresh held-out corpus and baselines; separately request a bounded live go (up to 96 candidate + 3 readiness calls, quota permitting). Gate pass permits release review only, not automatic enablement or faculty acceptance. No further inference or push authorized here.
+
 ## 2026-11-03 18:06 (Asia/Dhaka), Codex, approved showcase readiness
 **Goal:** user approved the next plan: close dev-state gap, rehearse core and four-role flows, bounded optional AI preflight, prepare submission checklist; faculty acceptance remains an external decision.
 **Done:** [SHOWCASE-READINESS](SHOWCASE-READINESS.md), [audit](audit/showcase-2026-11-03/README.md), demo script update and report section 37. No application behavior/dependency/default/gate change. Earlier `68dd94c` was pushed on instruction and remote verified; this new batch is local until a new push instruction.
