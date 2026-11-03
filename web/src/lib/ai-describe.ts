@@ -43,6 +43,7 @@ export function aiDescribeError(error: unknown): string {
     return "The free AI quota is used up for now." + waitText(details?.retryAfterSeconds) + " You can use keyword rules meanwhile.";
   }
   if (details?.reason === "AI_QUOTA_UNAVAILABLE") return "The AI quota could not be checked, so no request was made. Try again shortly.";
+  if (details?.reason === "NOT_A_SYSTEM") return "That did not read as a description of a web system, so no draft was made. Describe what the system does, or use keyword rules.";
   if (details?.reason === "INVALID_OUTPUT" || error.status === 422)
     return error.fieldErrors.text
       ? "The description " + error.fieldErrors.text.toLowerCase()

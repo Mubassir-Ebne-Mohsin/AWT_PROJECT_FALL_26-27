@@ -51,6 +51,7 @@ test("every failure is put in plain words with what to do next, and none leaks a
     [err(429, "RATE_LIMITED", { reason: "PROVIDER_RATE_LIMITED" }), /quota is used up/],
     [err(503, "UNAVAILABLE", { reason: "AI_QUOTA_UNAVAILABLE" }), /no request was made/],
     [err(422, "VALIDATION_FAILED", { reason: "INVALID_OUTPUT" }), /suggestion could not be used.*rewording/],
+    [err(422, "VALIDATION_FAILED", { reason: "NOT_A_SYSTEM" }), /did not read as a description of a web system.*no draft was made/],
     [err(422, "VALIDATION_FAILED", { fields: [{ path: "text", message: "Too big" }] }), /^The description too big/],
     [err(0, "NETWORK"), /Nothing was sent to the AI/],
     [err(500, "INTERNAL"), /could not be made/],

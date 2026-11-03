@@ -47,11 +47,11 @@ export function naturalText(text: string): string {
 const SENTENCE_END = /[.!?;]+/;
 
 /** The sentences of the text that describe a wish, in order: natural language only, and none that addresses the assistant. */
-export function wishSentences(text: string): string[] {
+export function wishSentences(text: string, markers: readonly RegExp[] = ADDRESSES_ASSISTANT): string[] {
   return naturalText(text)
     .split(SENTENCE_END)
     .map((sentence) => sentence.trim())
-    .filter((sentence) => sentence && !ADDRESSES_ASSISTANT.some((marker) => marker.test(sentence)));
+    .filter((sentence) => sentence && !markers.some((marker) => marker.test(sentence)));
 }
 
 export interface Sanitized {
@@ -64,8 +64,8 @@ export interface Sanitized {
 
 const wordsIn = (s: string) => (s.replace(/[‘’]/g, "'").match(/[\p{L}\p{N}_'-]+/gu) ?? []).length;
 
-export function sanitizeWish(text: string): Sanitized {
-  const sentences = wishSentences(text);
+export function sanitizeWish(text: string, markers: readonly RegExp[] = ADDRESSES_ASSISTANT): Sanitized {
+  const sentences = wishSentences(text, markers);
   return {
     cleaned: sentences.map((s) => s + ".").join(" "),
     sentences,
