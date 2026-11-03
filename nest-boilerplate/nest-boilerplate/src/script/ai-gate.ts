@@ -13,7 +13,8 @@ import { DESCRIBE_CASES } from "@/modules/ai/evaluation/describe-cases";
 import { applyDescribeJudgements, describeSheet, describeSheetMarkdown, evaluateDescribeGate, runDescribeGate, runScriptedBaseline, type DescribeRun, type StructuredLike } from "@/modules/ai/evaluation/describe-gate";
 import { pacerLimits } from "@/modules/ai/evaluation/pacer";
 import { INTENT_CASES } from "@/modules/ai/evaluation/intent-cases";
-import { differences, evaluateIntentGate, runIntentBaseline, runIntentGate, type IntentRun } from "@/modules/ai/evaluation/intent-gate";
+import { INTENT_CASES_V2 } from "@/modules/ai/evaluation/intent-cases-v2";
+import { differences, evaluateIntentGate, INTENT_THRESHOLDS, INTENT_THRESHOLDS_V2, replayWithGuard, runIntentBaseline, runIntentGate, type IntentRun } from "@/modules/ai/evaluation/intent-gate";
 import { fixIntentTask, parseFixIntent } from "@/modules/ai/tasks/fix-intent";
 import type { ProviderObservation } from "@/modules/ai/provider";
 import { probingFetch } from "@/modules/ai/evaluation/refusal-probe";
@@ -30,6 +31,8 @@ import { probingFetch } from "@/modules/ai/evaluation/refusal-probe";
  *   describe-score --runs=... --key=<key.json> --judgements=<file> --out=<folder>
  * The fix-intent gate (docs/AI-FIX-INTENT-GATE-RUBRIC.md) is scored mechanically, so it has one step:
  *   intent-run --dry | intent-run --model=<model> --confirm-live   (17 goals, one request each)
+ *   intent-run --set=v2 --dry [--guard] | intent-run --set=v2 --model=<model> --confirm-live   (the guard attempt: 23 goals, judged with the guard)
+ *   intent-replay --runs=a/run.json,b/run.json   (offline: the stored replies of earlier runs through the guard; a sanity check, not a result)
  *   intent-diagnose --model=<model> --goal=<id> [--repeat=1..3] --confirm-live   (not a gate run: why were requests refused?)
  * Results go under docs/audit/ai-gate/ unless --out says otherwise. The key is read from the environment and never printed.
  */
@@ -142,14 +145,21 @@ function describeScoreCommand() {
 
 async function intentRunCommand() {
   let run: IntentRun;
-  if (has("dry")) run = runIntentBaseline(INTENT_CASES);
+  // --set=v2 is the guard attempt (docs/AI-FIX-INTENT-GUARD-RUBRIC.md): its 23 goals, its pass marks, the model judged together with the guard.
+  const v2 = flag("set") === "v2";
+  if (flag("set") && !v2) fail("Unknown --set. Use --set=v2 for the guard attempt, or leave it out for the first 17 goals.");
+  const cases = v2 ? INTENT_CASES_V2 : INTENT_CASES;
+  const thresholds = v2 ? INTENT_THRESHOLDS_V2 : INTENT_THRESHOLDS;
+  // A live run of the guard attempt is always judged with the guard; a dry run applies it only when asked, so both readings can be recorded.
+  const guard = has("dry") ? has("guard") : v2 || has("guard");
+  if (has("dry")) run = runIntentBaseline(cases, Date.now, guard);
   else {
     const model = flag("model") ?? fail("Choose a model: --model=openai/gpt-oss-20b (or --dry for the keyword-rules baseline).");
     if (!MODELS.includes(model)) fail("Unknown model. Allowed: " + MODELS.join(", "));
-    if (!has("confirm-live")) fail("This sends 17 invented goals to Groq. Add --confirm-live only when the owner has said go.");
+    if (!has("confirm-live")) fail("This sends " + cases.length + " invented goals to Groq. Add --confirm-live only when the owner has said go.");
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) fail("GROQ_API_KEY is not set in the backend .env.");
-    console.log("Live run: " + model + ", 17 goals, one request each, paced to 80% of the account limits.");
+    console.log("Live run: " + model + ", " + cases.length + " goals, one request each, paced to 80% of the account limits" + (guard ? ", judged with the grounding guard." : "."));
     // The probe only notes why a refused request was refused (status and a plain error identifier); it changes no request and no verdict.
     const probe = probingFetch();
     const groq = new GroqProvider({ apiKey: apiKey as string, model: model as GroqModel }, probe.fetch);
@@ -161,13 +171,24 @@ async function intentRunCommand() {
           observe?.(o);
         }),
     };
-    run = await runIntentGate(paced, INTENT_CASES, { provider: "groq", model, beforeEach: () => pacer.acquire(), refusal: probe.take });
+    run = await runIntentGate(paced, cases, { provider: "groq", model, beforeEach: () => pacer.acquire(), refusal: probe.take, guard });
     console.log("Requests made: " + pacer.requestsToday + ", tokens counted: " + pacer.tokensToday);
   }
-  const report = evaluateIntentGate(run);
-  const dir = ensure(join(flag("out") ?? defaultOut, run.startedAt.replace(/[:.]/g, "-") + "_intent_" + run.model.replace(/[^A-Za-z0-9._-]/g, "_")));
+  const report = evaluateIntentGate(run, thresholds.deadlineMs, thresholds);
+  const dir = ensure(join(flag("out") ?? defaultOut, run.startedAt.replace(/[:.]/g, "-") + (v2 ? "_intent_v2_" : "_intent_") + run.model.replace(/[^A-Za-z0-9._+-]/g, "_")));
   write(dir, "run.json", { run, report });
   console.log(JSON.stringify({ folder: dir, provider: run.provider, model: run.model, stoppedBy: run.stoppedBy ?? null, ...report }, null, 2));
+}
+
+/** Offline, no request: re-scores the stored raw replies of earlier runs through the guard. A sanity check, never a result. */
+function intentReplayCommand() {
+  const files = (flag("runs") ?? fail("--runs=a/run.json,b/run.json")).split(",");
+  for (const file of files) {
+    const stored = read(file).run as IntentRun;
+    const replayed = replayWithGuard(stored, INTENT_CASES);
+    const report = evaluateIntentGate(replayed);
+    console.log(JSON.stringify({ run: file, model: stored.model, aloneBefore: evaluateIntentGate(stored).ordinaryCorrect + "/" + evaluateIntentGate(stored).neutralCorrect + "/" + evaluateIntentGate(stored).injectionCorrect, withGuard: report.ordinaryCorrect + "/" + report.neutralCorrect + "/" + report.injectionCorrect, note: "ordinary/neutral/hidden orders right; designed after these replies were seen, so not a result" }));
+  }
 }
 
 /** Not a gate run: re-sends one goal up to three times to learn why requests were refused. It judges nothing and gives no verdict. */
@@ -212,7 +233,8 @@ async function intentDiagnoseCommand() {
 }
 
 (async () => {
-  if (command === "intent-diagnose") await intentDiagnoseCommand();
+  if (command === "intent-replay") intentReplayCommand();
+  else if (command === "intent-diagnose") await intentDiagnoseCommand();
   else if (command === "intent-run") await intentRunCommand();
   else if (command === "describe-run") await describeRunCommand();
   else if (command === "describe-sheet") describeSheetCommand();
@@ -220,5 +242,5 @@ async function intentDiagnoseCommand() {
   else if (command === "run") await runCommand();
   else if (command === "sheet") sheetCommand();
   else if (command === "score") scoreCommand();
-  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score|intent-run|intent-diagnose> (see the comment at the top of src/script/ai-gate.ts)");
+  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score|intent-run|intent-diagnose|intent-replay> (see the comment at the top of src/script/ai-gate.ts)");
 })().catch((e: { message?: string }) => fail("Failed: " + (e.message ?? "unknown error")));
