@@ -58,7 +58,8 @@ test("P1: how-it-works repeats only what the model document says, and states its
   assert.match(text, /10 million requests per second/);
   assert.match(text, /Sakasegawa/);
   assert.match(text, /not a measurement of real infrastructure/);
-  assert.match(text, /Not yet\. .*no real application has been load-tested/s);
+  assert.match(text, /Only a first, small comparison\. .*one simple test service on one laptop.*Calibration tab.*no real application has been load-tested/s);
+  assert.doesNotMatch(text, /Not yet\. The formulas/);
   for (const missing of ["garbage-collection", "cold caches", "retry storms"]) assert.match(text, new RegExp(missing));
   assert.doesNotMatch(text, /guarantee|accurate prediction|measured latenc(y|ies) of your/i);
   assert.equal(C.MODEL_BOUNDS.components, 50);

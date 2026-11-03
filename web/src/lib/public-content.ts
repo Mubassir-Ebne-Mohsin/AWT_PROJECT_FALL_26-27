@@ -68,7 +68,7 @@ export const HOW_SECTIONS: Section[] = [
     id: "calibration",
     heading: "Has it been compared with reality?",
     body: [
-      "Not yet. The formulas are tested against their own mathematics, but no real application has been load-tested and compared with the model's prediction. Treat the numbers as a way to reason about designs, and confirm anything important with a real load test.",
+      "Only a first, small comparison. The model has been compared with one simple test service on one laptop (see the Calibration tab on the Evaluation page), but no real application has been load-tested and compared with the model's prediction. The formulas are also tested against their own mathematics. Treat the numbers as a way to reason about designs, and confirm anything important with a real load test.",
     ],
   },
 ];
