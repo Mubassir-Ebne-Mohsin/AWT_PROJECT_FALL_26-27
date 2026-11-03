@@ -14510,6 +14510,99 @@
           "understood": {
             "type": "boolean"
           },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUPPORTED",
+              "CLARIFY",
+              "UNSUPPORTED"
+            ]
+          },
+          "clarification": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "reason": {
+                    "type": "string",
+                    "enum": [
+                      "copies_or_replica",
+                      "conflicting_preferences"
+                    ]
+                  },
+                  "question": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "choices": {
+                    "minItems": 2,
+                    "maxItems": 4,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "maxLength": 40
+                        },
+                        "label": {
+                          "type": "string",
+                          "maxLength": 80
+                        },
+                        "filter": {
+                          "type": "object",
+                          "properties": {
+                            "exclude": {
+                              "maxItems": 4,
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "replicas",
+                                  "capacity",
+                                  "cache",
+                                  "readReplica"
+                                ]
+                              }
+                            },
+                            "preference": {
+                              "type": "string",
+                              "enum": [
+                                "default",
+                                "simplest",
+                                "lowest_latency",
+                                "fewest_errors"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "exclude",
+                            "preference"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "filter"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "reason",
+                  "question",
+                  "choices"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "filter": {
             "type": "object",
             "properties": {
@@ -14563,6 +14656,8 @@
         },
         "required": [
           "understood",
+          "status",
+          "clarification",
           "filter",
           "interpretation",
           "provider",

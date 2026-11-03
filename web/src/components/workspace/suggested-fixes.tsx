@@ -53,7 +53,7 @@ export function SuggestedFixes({
   const [filter, setFilter] = useState<FixFilter>(NO_FILTER);
   const [tasks, setTasks] = useState<AiTaskReadiness[] | null>(null);
   const [goal, setGoal] = useState("");
-  const [goalState, setGoalState] = useState<{ phase: "idle" | "loading" | "done" | "error"; data?: AiFixGoal; error?: string }>({ phase: "idle" });
+  const [goalState, setGoalState] = useState<{ phase: "idle" | "loading" | "done" | "error"; data?: AiFixGoal; error?: string; applied?: boolean }>({ phase: "idle" });
   const abort = useRef<AbortController | null>(null);
   const goalAbort = useRef<AbortController | null>(null);
   useEffect(
@@ -84,8 +84,8 @@ export function SuggestedFixes({
     setGoalState({ phase: "loading" });
     try {
       const data = await requestFixGoal(goal.trim(), controller.signal);
+      // Nothing is applied here: the proposal waits for the person's click, so a late reply cannot overwrite their choices.
       if (controller.signal.aborted) return;
-      setFilter(data.filter);
       setGoalState({ phase: "done", data });
     } catch (e) {
       if (!controller.signal.aborted) setGoalState({ phase: "error", error: fixGoalError(e) });
@@ -135,7 +135,14 @@ export function SuggestedFixes({
                   maxLength={AI_FIX_GOAL_MAX}
                   placeholder="For example: no extra database, cheapest first"
                   value={goal}
-                  onChange={(e) => setGoal(e.target.value)}
+                  onChange={(e) => {
+                    setGoal(e.target.value);
+                    // A proposal or a pending reply belongs to the words it was made from; once they change it is dropped.
+                    if (goalState.phase !== "idle") {
+                      goalAbort.current?.abort();
+                      setGoalState({ phase: "idle" });
+                    }
+                  }}
                 />
                 <button className="btn" data-testid="fix-goal-button" disabled={!goal.trim() || !!goalBlocked || goalState.phase === "loading"} onClick={() => void readGoal()}>
                   {goalState.phase === "loading" ? "Reading…" : "Read my goal"}
@@ -160,7 +167,49 @@ export function SuggestedFixes({
                   {goalState.data.interpretation.map((line) => (
                     <p key={line}>{line}</p>
                   ))}
-                  <p className="hint">The AI only filled in the choices below. Change them if it misread you.</p>
+                  {goalState.data.status === "SUPPORTED" && (
+                    <div className="row">
+                      <button
+                        className="btn btn-primary"
+                        data-testid="fix-goal-apply"
+                        disabled={goalState.applied}
+                        onClick={() => {
+                          setFilter(goalState.data!.filter);
+                          setGoalState({ ...goalState, applied: true });
+                        }}
+                      >
+                        {goalState.applied ? "Applied to the choices below" : "Apply these choices"}
+                      </button>
+                    </div>
+                  )}
+                  {goalState.data.status === "CLARIFY" && goalState.data.clarification && (
+                    <div className="stack" data-testid="fix-goal-clarify">
+                      <p>{goalState.data.clarification.question}</p>
+                      <div className="row">
+                        {goalState.data.clarification.choices.map((choice) => (
+                          <button
+                            key={choice.id}
+                            className="btn"
+                            data-testid={"fix-goal-choice-" + choice.id}
+                            disabled={goalState.applied}
+                            onClick={() => {
+                              setFilter(choice.filter);
+                              setGoalState({ ...goalState, applied: true });
+                            }}
+                          >
+                            {choice.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <p className="hint">
+                    {goalState.data.status === "SUPPORTED"
+                      ? "Nothing changes until you apply it. You can still change the choices below."
+                      : goalState.data.status === "CLARIFY"
+                        ? "Nothing is applied until you choose. You can also set the choices below yourself."
+                        : "Nothing was changed. Use the choices below."}
+                  </p>
                 </div>
               )}
             </div>

@@ -40,9 +40,23 @@ export const aiDescribePreparedSchema = z.strictObject({
 export const FIX_INTENT_MAX_CHARS = 200;
 export const aiFixIntentRequestSchema = z.strictObject({ goal: z.string().trim().min(1).max(FIX_INTENT_MAX_CHARS) });
 
-/** What the model's closed form was turned into. `interpretation` is worded by the server; nothing the model wrote is passed on. */
+/** One server-written choice offered when a goal is genuinely ambiguous. Picking it is the person's act; `filter` is what it would apply. */
+export const aiClarificationChoiceSchema = z.strictObject({ id: z.string().max(40), label: z.string().max(80), filter: fixFilterSchema });
+export const aiClarificationSchema = z.strictObject({
+  reason: z.enum(["copies_or_replica", "conflicting_preferences"]),
+  question: z.string().max(200),
+  choices: z.array(aiClarificationChoiceSchema).min(2).max(4),
+});
+
+/**
+ * What the model's closed form was turned into. `interpretation` is worded by the server; nothing the model wrote is passed on.
+ * `status` is the three-way outcome: SUPPORTED (a proposal to confirm), CLARIFY (server-written choices, nothing applied), or
+ * UNSUPPORTED (no wish about the fixes was found). `understood` is kept for older clients and equals `status === "SUPPORTED"`.
+ */
 export const aiFixIntentSchema = z.strictObject({
   understood: z.boolean(),
+  status: z.enum(["SUPPORTED", "CLARIFY", "UNSUPPORTED"]),
+  clarification: aiClarificationSchema.nullable(),
   filter: fixFilterSchema,
   interpretation: z.array(z.string().max(200)).max(4),
   provider: aiProviderSchema,

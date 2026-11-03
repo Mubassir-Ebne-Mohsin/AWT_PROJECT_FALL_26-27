@@ -81,7 +81,7 @@ describe("what the person is told", () => {
   });
   it("fits the response contract", () => {
     const filter = toFilter(some({ excludeCache: true }));
-    expect(aiFixIntentSchema.safeParse({ understood: true, filter, interpretation: describeFilter(true, filter), provider: "groq", model: "openai/gpt-oss-20b" }).success).toBe(true);
+    expect(aiFixIntentSchema.safeParse({ understood: true, status: "SUPPORTED", clarification: null, filter, interpretation: describeFilter(true, filter), provider: "groq", model: "openai/gpt-oss-20b" }).success).toBe(true);
   });
 });
 

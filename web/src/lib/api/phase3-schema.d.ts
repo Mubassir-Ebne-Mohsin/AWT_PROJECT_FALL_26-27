@@ -2131,6 +2131,22 @@ export interface components {
         };
         AiFixIntent: {
             understood: boolean;
+            /** @enum {string} */
+            status: "SUPPORTED" | "CLARIFY" | "UNSUPPORTED";
+            clarification: {
+                /** @enum {string} */
+                reason: "copies_or_replica" | "conflicting_preferences";
+                question: string;
+                choices: {
+                    id: string;
+                    label: string;
+                    filter: {
+                        exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                        /** @enum {string} */
+                        preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+                    };
+                }[];
+            } | null;
             filter: {
                 exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
                 /** @enum {string} */

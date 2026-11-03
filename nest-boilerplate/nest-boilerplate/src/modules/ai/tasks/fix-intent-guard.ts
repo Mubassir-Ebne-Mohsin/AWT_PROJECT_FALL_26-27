@@ -1,5 +1,6 @@
 import type { FixKind } from "@/modules/simulation/engine/fixes";
 import type { FixIntentOutput } from "@/modules/ai/tasks/fix-intent";
+import { wishSentences } from "@/modules/ai/sanitize";
 
 /**
  * The grounding guard (docs/AI-FIX-INTENT-GUARD-RUBRIC.md). It checks every choice the model made against the person's own words and
@@ -18,44 +19,19 @@ const KIND_WORDS: Record<FixKind, RegExp> = {
 const KINDS = Object.keys(KIND_WORDS) as FixKind[];
 const FLAG_OF: Record<FixKind, keyof FixIntentOutput> = { replicas: "excludeReplicas", capacity: "excludeCapacity", cache: "excludeCache", readReplica: "excludeReadReplica" };
 
-const PREFERENCE_WORDS = {
+export const PREFERENCE_WORDS = {
   simplest: /\b(cheap\w*|simpl\w*|light\w*|minimal|easy|easiest|invasive)\b|\bleast (change|effort|work)\b/i,
   lowest_latency: /\b(latency|fast\w*|speed\w*|quick\w*|responsive\w*|p95)\b/i,
   fewest_errors: /\b(errors?|reliab\w*|fail\w*|dropped|stable|stability|availability)\b/i,
 } as const;
 
-const LIMIT_CUE = /\b(no|not|never|without|avoid|off|don'?t|can'?t|cannot|won'?t|nothing|skip|except|locked|stuck|exclude)\b|\brule out\b|\binstead of\b/i;
+export const LIMIT_CUE =/\b(no|not|never|without|avoid|off|don'?t|can'?t|cannot|won'?t|nothing|skip|except|locked|stuck|exclude)\b|\brule out\b|\binstead of\b/i;
 const NOTHING_ELSE = /\bnothing (else|but)\b/gi;
 const ONLY_CUE = /\b(only|just)\b|\bnothing but\b|\bnothing else\b/i;
 
-/** A clause that speaks to the assistant instead of describing a wish is dropped whole. */
-const ADDRESSES_ASSISTANT: RegExp[] = [
-  /\b(ignore|disregard|forget|override|overrule)\b/i,
-  /\bauthori[sz]\w*/i,
-  /\badministrator\b/i,
-  /\b(new|these|following|updated) instructions?\b/i,
-  /\byour (instructions|prompt|rules)\b/i,
-  /\byou are now\b/i,
-  /\bdeveloper mode\b/i,
-  /\bSYSTEM\b/,
-  /\b(respond|reply|answer|return|output|print|reveal|repeat)\b/i,
-  /\bwrite (me|a|an|the)\b/i,
-  /\b(set|mark|flag)\b[^.;]{0,50}\b(true|false|every|all)\b/i,
-];
-
-/** The clauses of the goal that describe a wish, in order. A sentence with any part that addresses the assistant is dropped whole. */
+/** The sentences of the person's own wish (the shared reading in `sanitize.ts`), then split into clauses at commas and "but". */
 export function wishClauses(goal: string): string[] {
-  const words = goal
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/\{[^}]*\}/g, " ")
-    // Words that are not natural language: the form's own field names, which a person describing a wish would not write.
-    .split(/\s+/)
-    .filter((w) => w && !w.includes("_") && !/^[a-z]+[A-Z]/.test(w));
-  return words
-    .join(" ")
-    .split(/[.!?;\n]+/)
-    .map((sentence) => sentence.trim())
-    .filter((sentence) => sentence && !ADDRESSES_ASSISTANT.some((marker) => marker.test(sentence)))
+  return wishSentences(goal)
     .flatMap((sentence) => sentence.split(/,|(?<!nothing\s)\bbut\b/i))
     .map((c) => c.trim())
     .filter(Boolean);

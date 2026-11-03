@@ -4,13 +4,12 @@ import { demoProblems, demoSummary } from "@/modules/ai/demo-check";
 import { aiSettings, groqCredentials } from "@/modules/ai/ai.settings";
 import { selectProvider } from "@/modules/ai/provider.factory";
 import { isStructuredProvider } from "@/modules/ai/provider";
-import { describeFilter, fixIntentTask, parseFixIntent, toFilter } from "@/modules/ai/tasks/fix-intent";
-import { groundIntent } from "@/modules/ai/tasks/fix-intent-guard";
+import { fixIntentV3Task, parseFixIntentV3, readGoal } from "@/modules/ai/tasks/fix-intent-v3";
 
 /**
  * Demo-day check (docs/DEMO-SCRIPT.md):  pnpm demo:ai:check
  * Applies the same demo settings as `pnpm demo:ai`, checks the configuration, then sends THREE real requests (about 2,300 tokens in all)
- * through the same provider, task, validation and guard the application uses, and says whether the AI goal box will work. It prints the
+ * through the same cleaning, provider, task, validation and guard the application uses (goal box version 3), and says whether the AI goal box will work. It prints the
  * effective settings and what the model returned, never the key. Exit code 0 means ready; anything else means not ready.
  */
 interface Sample {
@@ -42,13 +41,12 @@ const SAMPLES: Sample[] = [
   for (const sample of SAMPLES) {
     try {
       const started = Date.now();
-      const answer = await provider.structured(fixIntentTask(sample.goal), parseFixIntent, AbortSignal.timeout(20_000));
-      const { output, dropped } = groundIntent(sample.goal, answer);
-      const filter = toFilter(output);
-      const ok = JSON.stringify([filter.exclude, filter.preference]) === JSON.stringify([sample.exclude, sample.preference]);
+      const reading = await readGoal(sample.goal, (cleaned) => provider.structured(fixIntentV3Task(cleaned), parseFixIntentV3, AbortSignal.timeout(20_000)));
+      const { filter, dropped } = reading;
+      const ok = reading.status === "SUPPORTED" && JSON.stringify([filter.exclude, filter.preference]) === JSON.stringify([sample.exclude, sample.preference]);
       allGood &&= ok;
       console.log("\n" + (ok ? "OK        " : "UNEXPECTED") + " " + sample.say + " (" + (Date.now() - started) + " ms)");
-      console.log("  the person sees: " + describeFilter(output.understood, filter).join(" "));
+      console.log("  the person sees: " + reading.interpretation.join(" "));
       if (dropped.length) console.log("  the guard removed these choices of the model: " + dropped.join(", "));
       if (!ok) console.log("  expected: leave out " + (sample.exclude.join(", ") || "nothing") + ", show first " + sample.preference + "; got: leave out " + (filter.exclude.join(", ") || "nothing") + ", show first " + filter.preference);
     } catch (e) {

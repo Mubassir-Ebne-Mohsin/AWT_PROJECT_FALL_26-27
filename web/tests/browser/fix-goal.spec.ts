@@ -52,7 +52,7 @@ const readiness = (fixes: boolean) => ({
 });
 const stubReadiness = (page: Page, fixes: boolean) => page.route(api + "/ai/tasks/readiness", (route) => route.fulfill({ json: readiness(fixes) }));
 const intent = (over: Record<string, unknown> = {}) => ({
-  data: { understood: true, filter: { exclude: ["replicas"], preference: "default" }, interpretation: ["Left out: more copies."], provider: "groq", model: "openai/gpt-oss-20b", ...over },
+  data: { understood: true, status: "SUPPORTED", clarification: null, filter: { exclude: ["replicas"], preference: "default" }, interpretation: ["Left out: more copies."], provider: "groq", model: "openai/gpt-oss-20b", ...over },
 });
 const fixesRequest = (page: Page) => page.waitForRequest((r) => r.url().endsWith("/fixes") && r.method() === "POST");
 const afterP95 = async (card: ReturnType<Page["getByTestId"]>) => Number(((await card.locator("dd").nth(1).innerText()).match(/to ([\d,.]+) ms/) as RegExpMatchArray)[1].replace(/,/g, ""));
@@ -142,6 +142,9 @@ test("with the task on, a typed goal sets the choices, shows what was understood
   await page.getByTestId("fix-goal-button").click();
   await expect(page.getByTestId("fix-goal-result")).toContainText("Left out: more copies.");
   expect(goals).toEqual([{ goal: "I can't run more servers" }]);
+  // The proposal is only shown: nothing is changed until the person applies it.
+  await expect(page.getByTestId("fix-exclude-replicas")).not.toBeChecked();
+  await page.getByTestId("fix-goal-apply").click();
   await expect(page.getByTestId("fix-exclude-replicas")).toBeChecked();
   await expect(page.getByTestId("fix-exclude-capacity")).not.toBeChecked();
   // The person disagrees with part of it: the request carries what they chose, not what the AI said.
@@ -153,13 +156,73 @@ test("with the task on, a typed goal sets the choices, shows what was understood
   await expect(page.getByTestId("fix-card").first()).toBeVisible();
 });
 
+test("an unclear goal asks which was meant, applies nothing until a choice is clicked, and typing again drops the question", async ({ page }, info) => {
+  await stubReadiness(page, true);
+  const choice = (id: string, label: string, exclude: string[]) => ({ id, label, filter: { exclude, preference: "default" } });
+  await page.route(api + "/ai/tasks/fix-intent", (route) =>
+    route.fulfill({
+      json: intent({
+        understood: false,
+        status: "CLARIFY",
+        filter: { exclude: [], preference: "default" },
+        interpretation: ["Your goal could be read two ways, so nothing is applied until you choose."],
+        clarification: {
+          reason: "copies_or_replica",
+          question: "Do you mean no more copies of the servers, no read replica of the database, or neither?",
+          choices: [choice("servers", "No more copies of the servers", ["replicas"]), choice("database", "No read replica of the database", ["readReplica"]), choice("both", "Neither of them", ["replicas", "readReplica"])],
+        },
+      }),
+    }),
+  );
+  await failing(page, "clar-" + info.project.name);
+  await page.getByTestId("fix-goal-input").fill("We cannot have replicas");
+  await page.getByTestId("fix-goal-button").click();
+  await expect(page.getByTestId("fix-goal-clarify")).toContainText("Do you mean no more copies of the servers");
+  await expect(page.getByTestId("fix-goal-apply")).toHaveCount(0);
+  await expect(page.getByTestId("fix-exclude-replicas")).not.toBeChecked();
+  await expect(page.getByTestId("fix-exclude-readReplica")).not.toBeChecked();
+  await page.getByTestId("fix-goal-choice-database").click();
+  await expect(page.getByTestId("fix-exclude-readReplica")).toBeChecked();
+  await expect(page.getByTestId("fix-exclude-replicas")).not.toBeChecked();
+  // New words: the old question is gone, so it cannot be answered for text that is no longer there.
+  await page.getByTestId("fix-goal-input").fill("something else");
+  await expect(page.getByTestId("fix-goal-result")).toHaveCount(0);
+});
+
+test("a goal with nothing to act on says so and changes nothing, and a late reply for old words is never shown", async ({ page }, info) => {
+  await stubReadiness(page, true);
+  let release: () => void = () => undefined;
+  const gate = new Promise<void>((resolve) => (release = resolve));
+  await page.route(api + "/ai/tasks/fix-intent", async (route) => {
+    if (route.request().postDataJSON().goal === "old words") await gate;
+    await route.fulfill({
+      json: intent(
+        route.request().postDataJSON().goal === "old words"
+          ? {}
+          : { understood: false, status: "UNSUPPORTED", filter: { exclude: [], preference: "default" }, interpretation: ["That did not read as a wish about the fixes, so the usual suggestions are shown."] },
+      ),
+    });
+  });
+  await failing(page, "late-" + info.project.name);
+  await page.getByTestId("fix-goal-input").fill("old words");
+  await page.getByTestId("fix-goal-button").click();
+  await page.getByTestId("fix-goal-input").fill("what is the weather");
+  await page.getByTestId("fix-goal-button").click();
+  await expect(page.getByTestId("fix-goal-result")).toContainText("did not read as a wish about the fixes");
+  release();
+  await page.waitForTimeout(300);
+  await expect(page.getByTestId("fix-goal-result")).not.toContainText("Left out: more copies.");
+  await expect(page.getByTestId("fix-goal-apply")).toHaveCount(0);
+  await expect(page.getByTestId("fix-exclude-replicas")).not.toBeChecked();
+});
+
 test("a goal the AI could not read, or a quota that is used up, leaves the choices usable and says what to do", async ({ page }, info) => {
   await stubReadiness(page, true);
   let mode: "quota" | "weather" = "quota";
   await page.route(api + "/ai/tasks/fix-intent", (route) =>
     mode === "quota"
       ? route.fulfill({ status: 429, json: { error: { code: "RATE_LIMITED", message: "busy", details: { reason: "AI_QUOTA", retryAfterSeconds: 120 } } } })
-      : route.fulfill({ json: intent({ understood: false, filter: { exclude: [], preference: "default" }, interpretation: ["That did not read as a wish about the fixes, so the usual suggestions are shown."] }) }),
+      : route.fulfill({ json: intent({ understood: false, status: "UNSUPPORTED", filter: { exclude: [], preference: "default" }, interpretation: ["That did not read as a wish about the fixes, so the usual suggestions are shown."] }) }),
   );
   await failing(page, "bad-" + info.project.name);
   await page.getByTestId("fix-goal-input").fill("no cache");
@@ -172,7 +235,8 @@ test("a goal the AI could not read, or a quota that is used up, leaves the choic
   await page.getByTestId("fix-goal-button").click();
   await expect(page.getByTestId("fix-goal-result")).toContainText("did not read as a wish about the fixes");
   await expect(page.getByTestId("fix-goal-error")).toHaveCount(0);
-  await expect(page.getByTestId("fix-exclude-capacity")).not.toBeChecked();
+  // Version 3 changes nothing for a goal with nothing to act on, so the person's own tick is kept (version 2 cleared it).
+  await expect(page.getByTestId("fix-exclude-capacity")).toBeChecked();
 });
 
 test("when the task is on but unavailable the box says why and cannot be used, and the choices still work", async ({ page }, info) => {
