@@ -4,6 +4,8 @@
 **Authorization:** the user approved writing this plan and rubric, not implementing them or making live requests. No new model call, provider change, key operation or feature activation is authorized by this document.
 **Course decision:** the user reports that faculty requires more reliable AI. The experimental demo and its READY check do not satisfy that outstanding requirement. Faculty acceptance of a successful future capability remains a separate decision.
 
+**Amendment 1 (owner-approved, 2026-11-03 evening):** see [AI-RELIABILITY-ADJUSTMENTS](AI-RELIABILITY-ADJUSTMENTS.md): a bounded live development budget, server-found evidence, one transport-only retry, a repeat-check that may reduce the gate to one trial, and independent goal authors. Planning only; implementation still needs the owner's approval.
+
 ## Recommendation and bounded outcome
 
 Improve the existing English-language **AI goal reader for verified fixes**, not explanations or describe-to-design. A person states architectural constraints/preferences; the system proposes a precise, editable interpretation; the person confirms it; the existing simulator generates/verifies candidate fixes. Applying a fix remains an explicit draft action, followed by save, run and Compare. AI interprets intent; the server remains the numerical authority.

@@ -3,6 +3,8 @@
 **Written:** 2026-11-03, before new implementation or inference. **Status:** proposed for user review, not a completed preregistration or a claim of passing results.
 **Scope:** [AI reliability plan](AI-RELIABILITY-SCOPE.md). This is a new attempt, not an amendment to the completed 17/23-goal gates. Their results remain NO-GO.
 
+**Amendment 1 (owner-approved, 2026-11-03 evening):** [AI-RELIABILITY-ADJUSTMENTS](AI-RELIABILITY-ADJUSTMENTS.md) replaces the evidence-span row and the no-retry wording, adds the one-trial scaling rule and the 104-call maximum. All other pass marks stand. This rubric is still proposed, not registered.
+
 ## What is judged
 
 The complete candidate: input treatment, fixed structured model task, semantic/grounding validation and the final proposed interpretation/outcome delivered to the UI. Do not judge just the raw model answer or hide its errors behind the word “guarded.” Retain raw/model-only output for synthetic evaluation and report it diagnostically from the same calls.

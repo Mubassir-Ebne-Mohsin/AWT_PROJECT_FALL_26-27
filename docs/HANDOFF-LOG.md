@@ -15,6 +15,15 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-03 (evening), Claude Code, reliability plan reviewed with the owner
+**Goal:** reconcile my AI plan with Codex's reliability scope after the owner said faculty requires more reliable AI.
+**Done:** found Codex had already completed Track A (`95948de`, Evaluation tab guard section) and written the reliability scope and proposed rubric (`fcaa73a`). The owner chose the **reliability plan first**; my what-if plan ([AI-NEXT-PLAN](AI-NEXT-PLAN.md), [AI-WHATIF-GATE-RUBRIC](AI-WHATIF-GATE-RUBRIC.md)) is **paused, not approved for building**. The owner approved six adjustments, recorded in [AI-RELIABILITY-ADJUSTMENTS](AI-RELIABILITY-ADJUSTMENTS.md): a bounded live development budget (150 calls, batches of 50, each on the owner's go), server-found evidence instead of model-cited spans, one transport-only retry, a repeat-check that may reduce the gate to one trial (bars scaled in advance), the bars not loosened, and independent goal authors. It also records the candidate design (sanitize the sentence before the model sees it, a three-way outcome, a confirm step) and a collection sheet for independent goals.
+**Evidence:** documentation only; no application code changed, no test run, no model call. Reviewed the scope and rubric against the earlier gate results; the what-if guard is close to a complete parser, which is why that plan was paused.
+**Uncommitted:** [AI-NEXT-PLAN](AI-NEXT-PLAN.md), [AI-WHATIF-GATE-RUBRIC](AI-WHATIF-GATE-RUBRIC.md), [AI-RELIABILITY-ADJUSTMENTS](AI-RELIABILITY-ADJUSTMENTS.md), one-line amendment notes in the reliability scope and rubric, and this entry (all Claude's, until committed). Not mine: `DESIGN.md`, `film/`, `docs/audit/landing/`, two historical untracked Codex planning docs, the protected `docs/audit/m2-profile-source.json` (never stage it) and pre-existing PNG changes.
+**Decisions by the user:** reliability plan first; the six adjustments approved. Implementation, any live call, a corpus author and activation are still undecided.
+**Next:** the owner answers four inputs (the faculty's exact words, the deadline, who writes the independent goals, the go to start offline implementation S1 to S3). No active claim on code paths until implementation is approved.
+**Warnings:** every live run, including each development batch, needs the owner's explicit go; the current experimental goal box and demo stay as they are until a new gate passes.
+
 ## 2026-11-03 18:18 (Asia/Dhaka), Codex, AI reliability planning after faculty decision
 **Goal:** user confirmed faculty requires more reliable AI, then approved writing the reliability scope/rubric; planning only.
 **Done:** [scope](AI-RELIABILITY-SCOPE.md), [proposed rubric](AI-RELIABILITY-GATE-RUBRIC.md), current-state/showcase correction and living report section 38. Readiness remains local commit `1e955b2`; published application baseline `68dd94c`. This planning entry/documents are committed together; no push.
