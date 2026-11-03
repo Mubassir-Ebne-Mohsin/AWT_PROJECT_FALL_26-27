@@ -64,8 +64,12 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     private readonly quota: AiQuota,
     @Inject(AI_SETTINGS) private readonly settings: AiSettings,
   ) {}
+  /** The explain-this-result feature is on: AI is enabled and explanations were not switched off. The design tasks have their own switches. */
+  private get explanationsOn() {
+    return this.settings.enabled && this.settings.explanations !== false;
+  }
   async onApplicationBootstrap() {
-    if (!this.settings.enabled) return;
+    if (!this.explanationsOn) return;
     const lease = this.db.createQueryRunner();
     try {
       await lease.connect();
@@ -124,12 +128,12 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
   }
   async readiness() {
     const base = {
-      enabled: this.settings.enabled,
+      enabled: this.explanationsOn,
       model: this.provider.model,
       provider: this.provider.kind,
       ready: false,
     };
-    if (!this.settings.enabled) return { ...base, reason: "DISABLED" as const };
+    if (!this.explanationsOn) return { ...base, reason: "DISABLED" as const };
     if (!this.instanceReady)
       return { ...base, reason: "INSTANCE_BUSY" as const };
     if (this.active || this.admitting)
@@ -223,11 +227,11 @@ export class AiService implements OnApplicationBootstrap, OnModuleDestroy {
     });
     if (existing) return this.match(existing, request);
     this.designs.revision(current, request.expectedRevision);
-    if (!this.settings.enabled || !this.instanceReady)
+    if (!this.explanationsOn || !this.instanceReady)
       throw new AppException(
         "UNAVAILABLE",
         "Experimental AI is disabled or unavailable",
-        { reason: this.settings.enabled ? "INSTANCE_BUSY" : "AI_DISABLED" },
+        { reason: this.explanationsOn ? "INSTANCE_BUSY" : "AI_DISABLED" },
       );
     if (this.active || this.admitting)
       throw new AppException(

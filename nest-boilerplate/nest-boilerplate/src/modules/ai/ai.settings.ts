@@ -16,6 +16,8 @@ export interface QuotaSettings {
 }
 export interface AiSettings {
   enabled: boolean;
+  /** Whether the explain-this-result feature is on when `enabled` is. Absent means it follows `enabled`; the application's own settings always set it (default off). */
+  explanations?: boolean;
   /** Hosted quota limits; the account's published free limits when absent. */
   quota?: QuotaSettings;
   /** Design tasks that may use the hosted model; none when absent. */
@@ -33,6 +35,7 @@ export function aiSettings(): AiSettings {
   const e = appConfig.env;
   return {
     enabled: e.AI_ENABLED,
+    explanations: e.AI_EXPLANATIONS,
     provider: e.AI_PROVIDER,
     features: e.AI_FEATURES,
     baseUrl: e.OLLAMA_BASE_URL,

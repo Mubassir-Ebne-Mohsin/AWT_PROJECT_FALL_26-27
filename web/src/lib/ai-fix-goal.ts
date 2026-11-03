@@ -12,6 +12,9 @@ export const AI_FIX_GOAL_MAX = 200;
 export const AI_FIX_GOAL_NOTICE =
   "Reading your goal with AI sends the sentence you typed to Groq, a hosted AI service. Do not put secrets or personal data in it. It only sets the choices below, which you can change; every figure still comes from the model, not the AI.";
 
+/** Said wherever the goal box is shown: it is a demonstration of something that narrowly missed its own test, not a verified feature. */
+export const AI_FIX_GOAL_EXPERIMENTAL = "Experimental: it narrowly missed its own test and is off by default.";
+
 export const requestFixGoal = (goal: string, signal?: AbortSignal) =>
   api<AiFixGoal>("/ai/tasks/fix-intent", { method: "POST", body: { goal }, silent: true, scope: "local", signal });
 

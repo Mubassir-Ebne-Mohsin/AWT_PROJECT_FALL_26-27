@@ -133,7 +133,9 @@ test("with the task on, a typed goal sets the choices, shows what was understood
   });
   await failing(page, "goal-" + info.project.name);
   await expect(page.getByTestId("fix-goal")).toBeVisible();
-  await expect(page.getByTestId("fix-goal")).toContainText("AI-assisted");
+  await expect(page.getByTestId("fix-goal")).toContainText("AI-assisted, experimental");
+  await expect(page.getByTestId("fix-goal-experimental")).toContainText("Experimental: it narrowly missed its own test and is off by default.");
+  await expect(page.getByTestId("fix-goal-experimental").getByRole("link", { name: "What was measured is on the Evaluation page." })).toHaveAttribute("href", "/evaluation/ai");
   await expect(page.getByTestId("fix-goal")).toContainText("sends the sentence you typed to Groq");
   await expect(page.getByTestId("fix-goal-button")).toBeDisabled();
   await page.getByTestId("fix-goal-input").fill("I can't run more servers");

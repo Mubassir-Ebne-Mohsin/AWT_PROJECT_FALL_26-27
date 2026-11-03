@@ -20,6 +20,8 @@
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_run.ts",
     "ai:gate": "ts-node -r tsconfig-paths/register ./src/script/ai-gate.ts",
+    "demo:ai": "nest build && node dist/script/demo-ai.js",
+    "demo:ai:check": "ts-node -r tsconfig-paths/register ./src/script/demo-ai-check.ts",
     "admin:bootstrap": "ts-node -r tsconfig-paths/register ./src/script/grant-first-admin.ts",
     "seed:demo-roles": "ts-node -r tsconfig-paths/register ./src/script/seed-demo-roles.ts",
     "migration:rollback": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_rollback.ts",

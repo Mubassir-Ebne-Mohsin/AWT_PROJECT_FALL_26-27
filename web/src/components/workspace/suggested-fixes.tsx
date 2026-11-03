@@ -18,7 +18,7 @@ import {
   type FixSuggestion,
   type Fixes,
 } from "@/lib/fixes";
-import { AI_FIX_GOAL_MAX, AI_FIX_GOAL_NOTICE, fixGoalEnabled, fixGoalError, fixGoalUnavailableText, requestFixGoal, type AiFixGoal } from "@/lib/ai-fix-goal";
+import { AI_FIX_GOAL_EXPERIMENTAL, AI_FIX_GOAL_MAX, AI_FIX_GOAL_NOTICE, fixGoalEnabled, fixGoalError, fixGoalUnavailableText, requestFixGoal, type AiFixGoal } from "@/lib/ai-fix-goal";
 import { fetchAiTasksReadiness, type AiTaskReadiness } from "@/lib/ai-describe";
 import { milliseconds, percent } from "@/lib/result-presentation";
 import { workspaceHref } from "@/lib/run-links";
@@ -123,7 +123,7 @@ export function SuggestedFixes({
               <div className="row">
                 <label htmlFor="fix-goal-input">Say what you want from the fixes</label>
                 <span className="tag" title="A hosted AI model only sets the choices below. It never writes a figure.">
-                  AI-assisted
+                  AI-assisted, experimental
                 </span>
               </div>
               <div className="row">
@@ -141,6 +141,9 @@ export function SuggestedFixes({
                   {goalState.phase === "loading" ? "Reading…" : "Read my goal"}
                 </button>
               </div>
+              <p className="hint" data-testid="fix-goal-experimental">
+                {AI_FIX_GOAL_EXPERIMENTAL} <Link href="/evaluation/ai">What was measured is on the Evaluation page.</Link>
+              </p>
               <p className="hint">{AI_FIX_GOAL_NOTICE}</p>
               {goalBlocked && (
                 <p className="hint" data-testid="fix-goal-blocked">

@@ -44,6 +44,9 @@ export const envSchema = z
     AI_ENABLED: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
     OLLAMA_BASE_URL: z.enum(["http://127.0.0.1:11434", "http://localhost:11434"]).default("http://127.0.0.1:11434"),
     OLLAMA_MODEL: z.enum(["qwen2.5:1.5b", "llama3.2:3b"]).default("qwen2.5:1.5b"),
+    // The older "explain this result" feature failed its quality gate (docs/AI-RESUME-SCOPE.md), so AI_ENABLED alone no longer switches
+    // it on: it needs this explicit opt-in. The design tasks (AI_FEATURES) are unaffected by it.
+    AI_EXPLANATIONS: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
     // Which provider explains results. Hosted inference sends the bounded facts of one run to Groq; the key stays server-side.
     AI_PROVIDER: z.enum(["ollama", "groq"]).default("ollama"),
     // Design tasks that use the hosted model (docs/AI-COPILOT-SCOPE.md). Comma separated, empty by default: each is its own switch.

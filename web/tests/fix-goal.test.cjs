@@ -79,3 +79,8 @@ test("every failure is put in plain words with what to do next, and none leaks a
     assert.doesNotMatch(text, /failed|boom|INTERNAL/);
   }
 });
+
+test("the goal box says plainly that it is experimental and off by default, and points to the evidence", () => {
+  assert.match(G.AI_FIX_GOAL_EXPERIMENTAL, /^Experimental: it narrowly missed its own test and is off by default\.$/);
+  assert.doesNotMatch(G.AI_FIX_GOAL_EXPERIMENTAL, /verified|proven|accurate|reliable|passed/i);
+});
