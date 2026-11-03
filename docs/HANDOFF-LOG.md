@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-03 (night, final), Claude Code, describe v2 second live development batch: 27/27
+**Goal:** the owner said "Commit, then run": fixes committed (`ed195c0`), then the second dev batch (27 requests, `gpt-oss-120b`, 36,811 tokens, none failed, none over 10 s). Development calls used: 100 of 150 (46 goal box + 27 + 27); 50 remain.
+**Result (development figure only):** **27/27** (ordinary 12/12, vague 5/5, off-topic 3/3, injection 7/7), against 13/27 for the first batch and 16/27 for the keyword-rules draft. Run: `docs/audit/ai-gate/2026-11-03T15-13-37-072Z_describe_v2_dev_openai_gpt-oss-120b/run.json` (uncommitted).
+**How to read it:** the fixes were made after reading these same 27 descriptions' failures, and the fixes were to the validators, form and prompt, not to the descriptions. So this shows the fixes remove the failure causes seen; it does not predict the acceptance run, which uses new independent descriptions. Not yet checked: that the model followed no order the mechanical signs cannot see (a blind look at the 27 built designs would add that), and the model's behaviour on descriptions in other styles.
+**Next:** commit the run and this entry on the owner's say; Thursday: what-if (manual panel and endpoint first, then the AI box) and collecting independent goals (send the sheet today).
+
 ## 2026-11-03 (night, latest), Claude Code, describe v2 first live development batch: 13/27, then fixes
 **Goal:** the owner said "Commit, then run": the corpus was committed (`f426a82`) and the batch run (27 requests on `gpt-oss-120b`, 33,992 tokens, none failed, none over 10 s; 73 of 150 development calls used in all).
 **Result (development figure, recorded as measured):** **13/27** (ordinary 5/12, vague 4/5, off-topic 0/3, injection 4/7), **below the keyword-rules draft's 16/27**. Run: `docs/audit/ai-gate/2026-11-03T14-55-14-776Z_describe_v2_dev_openai_gpt-oss-120b/run.json` (uncommitted).
