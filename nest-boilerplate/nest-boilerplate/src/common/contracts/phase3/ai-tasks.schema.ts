@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createDesignSchema } from "@/common/contracts/phase2/api.schema";
 import { aiProviderSchema } from "@/common/contracts/phase3/ai.schema";
+import { fixFilterSchema } from "@/common/contracts/phase3/fixes.schema";
 
 /** Design tasks that use a hosted model (docs/AI-COPILOT-SCOPE.md). Each has its own switch. */
 export const AI_TASK_NAMES = ["describe", "whatif", "fixes"] as const;
@@ -35,5 +36,19 @@ export const aiDescribePreparedSchema = z.strictObject({
   model: z.string(),
 });
 
+/** Longest goal sent to the model for the fix suggestions. Longer text is refused, never cut. */
+export const FIX_INTENT_MAX_CHARS = 200;
+export const aiFixIntentRequestSchema = z.strictObject({ goal: z.string().trim().min(1).max(FIX_INTENT_MAX_CHARS) });
+
+/** What the model's closed form was turned into. `interpretation` is worded by the server; nothing the model wrote is passed on. */
+export const aiFixIntentSchema = z.strictObject({
+  understood: z.boolean(),
+  filter: fixFilterSchema,
+  interpretation: z.array(z.string().max(200)).max(4),
+  provider: aiProviderSchema,
+  model: z.string(),
+});
+
 export type AiTaskReadiness = z.infer<typeof aiTaskReadinessSchema>;
+export type AiFixIntent = z.infer<typeof aiFixIntentSchema>;
 export type AiDescribePrepared = z.infer<typeof aiDescribePreparedSchema>;

@@ -148,6 +148,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ai/tasks/fix-intent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["interpretFixGoalWithAi"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/ai/jobs": {
         parameters: {
             query?: never;
@@ -1633,6 +1649,11 @@ export interface components {
             expectedRevision: number;
             /** Format: uuid */
             runId: string;
+            filter?: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
         };
         DesignFixes: {
             /** Format: uuid */
@@ -1641,7 +1662,12 @@ export interface components {
             runId: string;
             revision: number;
             /** @enum {string} */
-            status: "SUGGESTIONS" | "NOTHING_TO_FIX" | "NO_IMPROVEMENT_FOUND" | "INCOMPLETE";
+            status: "SUGGESTIONS" | "NOTHING_TO_FIX" | "NO_IMPROVEMENT_FOUND" | "INCOMPLETE" | "ALL_EXCLUDED";
+            filter: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
             baseline: {
                 /** @enum {string} */
                 verdict: "pass" | "strained" | "fail";
@@ -2096,6 +2122,21 @@ export interface components {
                 };
             };
             assumptions: string[];
+            /** @enum {string} */
+            provider: "ollama" | "groq";
+            model: string;
+        };
+        AiFixIntentRequest: {
+            goal: string;
+        };
+        AiFixIntent: {
+            understood: boolean;
+            filter: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+            interpretation: string[];
             /** @enum {string} */
             provider: "ollama" | "groq";
             model: string;
@@ -4786,6 +4827,104 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AiDescribePrepared"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    interpretFixGoalWithAi: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AiFixIntentRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiFixIntent"];
                     };
                 };
             };

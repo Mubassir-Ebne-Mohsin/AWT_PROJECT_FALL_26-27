@@ -21,7 +21,7 @@ import {
   aiRequestSchema,
   aiResultSchema,
 } from "@/common/contracts/phase3/ai.schema";
-import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
+import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiFixIntentRequestSchema, aiFixIntentSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
 import { fixesRequestSchema, fixesSchema } from "@/common/contracts/phase3/fixes.schema";
 import { ladderRequestSchema, ladderSchema } from "@/common/contracts/phase3/ladder.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
@@ -76,6 +76,8 @@ export function phase3OpenApi() {
     AiTasksReadiness: aiTasksReadinessSchema,
     AiDescribeRequest: aiDescribeRequestSchema,
     AiDescribePrepared: aiDescribePreparedSchema,
+    AiFixIntentRequest: aiFixIntentRequestSchema,
+    AiFixIntent: aiFixIntentSchema,
     DesignVersion: designVersionSchema,
     RestoreVersionRequest: restoreVersionRequestSchema,
     RunSummary: runSummarySchema,
@@ -232,6 +234,7 @@ export function phase3OpenApi() {
       "/v1/ai/readiness": { get: operation("aiReadiness", "AiReadiness") },
       "/v1/ai/tasks/readiness": { get: operation("getAiTasksReadiness", "AiTasksReadiness") },
       "/v1/ai/tasks/describe": { post: operation("describeDesignWithAi", "AiDescribePrepared", "AiDescribeRequest") },
+      "/v1/ai/tasks/fix-intent": { post: operation("interpretFixGoalWithAi", "AiFixIntent", "AiFixIntentRequest") },
       "/v1/ai/jobs": { post: operation("submitAiJob", "AcceptedAiJob", true) },
       "/v1/ai/jobs/{id}": {
         get: { ...operation("getAiJob", "AiJob"), parameters: [parameter] },

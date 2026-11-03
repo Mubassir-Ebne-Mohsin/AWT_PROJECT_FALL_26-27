@@ -1079,6 +1079,127 @@
         }
       }
     },
+    "/v1/ai/tasks/fix-intent": {
+      "post": {
+        "operationId": "interpretFixGoalWithAi",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "x-implementation-status": "implemented",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiFixIntentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success or retained terminal replay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AiFixIntent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/ai/jobs": {
       "post": {
         "operationId": "submitAiJob",
@@ -11963,6 +12084,38 @@
             "type": "string",
             "format": "uuid",
             "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "exclude": {
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "replicas",
+                    "capacity",
+                    "cache",
+                    "readReplica"
+                  ]
+                }
+              },
+              "preference": {
+                "type": "string",
+                "enum": [
+                  "default",
+                  "simplest",
+                  "lowest_latency",
+                  "fewest_errors"
+                ]
+              }
+            },
+            "required": [
+              "exclude",
+              "preference"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [
@@ -11996,8 +12149,41 @@
               "SUGGESTIONS",
               "NOTHING_TO_FIX",
               "NO_IMPROVEMENT_FOUND",
-              "INCOMPLETE"
+              "INCOMPLETE",
+              "ALL_EXCLUDED"
             ]
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "exclude": {
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "replicas",
+                    "capacity",
+                    "cache",
+                    "readReplica"
+                  ]
+                }
+              },
+              "preference": {
+                "type": "string",
+                "enum": [
+                  "default",
+                  "simplest",
+                  "lowest_latency",
+                  "fewest_errors"
+                ]
+              }
+            },
+            "required": [
+              "exclude",
+              "preference"
+            ],
+            "additionalProperties": false
           },
           "baseline": {
             "type": "object",
@@ -13036,6 +13222,7 @@
           "runId",
           "revision",
           "status",
+          "filter",
           "baseline",
           "limiter",
           "suggestions",
@@ -14296,6 +14483,88 @@
         "required": [
           "design",
           "assumptions",
+          "provider",
+          "model"
+        ],
+        "additionalProperties": false
+      },
+      "AiFixIntentRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "required": [
+          "goal"
+        ],
+        "additionalProperties": false
+      },
+      "AiFixIntent": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "understood": {
+            "type": "boolean"
+          },
+          "filter": {
+            "type": "object",
+            "properties": {
+              "exclude": {
+                "maxItems": 4,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "replicas",
+                    "capacity",
+                    "cache",
+                    "readReplica"
+                  ]
+                }
+              },
+              "preference": {
+                "type": "string",
+                "enum": [
+                  "default",
+                  "simplest",
+                  "lowest_latency",
+                  "fewest_errors"
+                ]
+              }
+            },
+            "required": [
+              "exclude",
+              "preference"
+            ],
+            "additionalProperties": false
+          },
+          "interpretation": {
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "provider": {
+            "type": "string",
+            "enum": [
+              "ollama",
+              "groq"
+            ]
+          },
+          "model": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "understood",
+          "filter",
+          "interpretation",
           "provider",
           "model"
         ],

@@ -9,7 +9,8 @@ import type { NodeType } from "@/modules/simulation/engine/types";
  * decided by running the engine on the edited graph (see FixesService), and every number shown to a person comes from that run.
  * No model is involved.
  */
-export type FixKind = "replicas" | "capacity" | "cache" | "readReplica";
+export const FIX_KINDS = ["replicas", "capacity", "cache", "readReplica"] as const;
+export type FixKind = (typeof FIX_KINDS)[number];
 export interface Candidate {
   /** Stable for the same graph and bottleneck, so the same fix is the same id on every request. */
   id: string;
@@ -167,6 +168,21 @@ export function improves(before: Measure, after: Measure): boolean {
   return RANK[after.verdict] < RANK[before.verdict] || after.p95 < before.p95 * 0.99 || after.errorRate < before.errorRate - 0.0005;
 }
 
+/**
+ * What a person may ask of the suggestions (F2's goal): which kinds of fix to leave out and what to put first. It only narrows and
+ * orders what the engine is going to verify anyway; it never adds a fix, and no figure depends on it.
+ */
+export const FIX_PREFERENCES = ["default", "simplest", "lowest_latency", "fewest_errors"] as const;
+export type FixPreference = (typeof FIX_PREFERENCES)[number];
+export interface FixFilter {
+  exclude: FixKind[];
+  preference: FixPreference;
+}
+export const NO_FILTER: FixFilter = { exclude: [], preference: "default" };
+
+/** The candidates that are still allowed, in their original order. */
+export const allowedCandidates = <T extends { kind: FixKind }>(candidates: readonly T[], filter: FixFilter): T[] => candidates.filter((c) => !filter.exclude.includes(c.kind));
+
 /** Best first: a better verdict, then fewer errors, then lower p95, then the lighter fix. Stable for equal fixes. */
 export function rank<T extends { after: Measure; effort: number; id: string }>(items: readonly T[]): T[] {
   return [...items].sort(
@@ -177,4 +193,16 @@ export function rank<T extends { after: Measure; effort: number; id: string }>(i
       a.effort - b.effort ||
       a.id.localeCompare(b.id),
   );
+}
+
+/** Ordering for the person's stated preference. "default" is `rank`; the others put their own measure first, and break ties the same way every time. */
+export function rankFor<T extends { after: Measure; effort: number; id: string }>(items: readonly T[], preference: FixPreference): T[] {
+  if (preference === "default") return rank(items);
+  const errors = (x: T) => Math.round(x.after.errorRate * 10_000);
+  const order = {
+    simplest: (a: T, b: T) => a.effort - b.effort || RANK[a.after.verdict] - RANK[b.after.verdict] || errors(a) - errors(b) || a.after.p95 - b.after.p95,
+    lowest_latency: (a: T, b: T) => a.after.p95 - b.after.p95 || errors(a) - errors(b) || a.effort - b.effort,
+    fewest_errors: (a: T, b: T) => errors(a) - errors(b) || a.after.p95 - b.after.p95 || a.effort - b.effort,
+  }[preference];
+  return [...items].sort((a, b) => order(a, b) || a.id.localeCompare(b.id));
 }

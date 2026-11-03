@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { AppException } from "@/common/errors";
 import { currentSimulationRun } from "@/modules/designs/current-run";
 import { fixesSchema, type Fixes, type FixSuggestion } from "@/common/contracts/phase3/fixes.schema";
-import { candidateFixes, improves, MAX_SUGGESTIONS, rank, type Measure } from "@/modules/simulation/engine/fixes";
+import { allowedCandidates, candidateFixes, improves, MAX_SUGGESTIONS, rankFor, type FixFilter, type Measure } from "@/modules/simulation/engine/fixes";
 import { DesignsService } from "@/modules/designs/designs.service";
 import { RunsService } from "@/modules/designs/runs.service";
 import { SimulationService } from "@/modules/simulation/simulation.service";
@@ -25,9 +25,10 @@ export class FixesService {
     private readonly simulation: SimulationService,
   ) {}
 
-  async suggest(owner: string, id: string, request: { expectedRevision: number; runId: string }, signal: AbortSignal): Promise<Fixes> {
+  async suggest(owner: string, id: string, request: { expectedRevision: number; runId: string; filter?: FixFilter }, signal: AbortSignal): Promise<Fixes> {
     const { design, run, summary } = await currentSimulationRun(this.designs, this.runs, owner, id, request);
     const baseline = measure(summary);
+    const filter: FixFilter = request.filter ?? { exclude: [], preference: "default" };
     const hot = summary.bottleneckId ?? [...summary.nodes].filter((n) => n.type !== "client").sort((a, b) => b.rho - a.rho)[0]?.id ?? null;
     const limiterNode = design.graph.nodes.find((n) => n.id === hot);
     const base = {
@@ -36,10 +37,13 @@ export class FixesService {
       revision: design.revision,
       baseline,
       limiter: limiterNode ? { id: limiterNode.id, label: limiterNode.label, type: limiterNode.type } : null,
+      filter,
     };
     if (summary.verdict === "pass") return fixesSchema.parse({ ...base, status: "NOTHING_TO_FIX", suggestions: [], tried: 0, skipped: 0 });
 
-    const candidates = candidateFixes(design.graph, design.traffic, hot);
+    const all = candidateFixes(design.graph, design.traffic, hot);
+    const candidates = allowedCandidates(all, filter);
+    if (all.length && !candidates.length) return fixesSchema.parse({ ...base, status: "ALL_EXCLUDED", suggestions: [], tried: 0, skipped: 0 });
     const session = randomUUID();
     const helpful: (FixSuggestion & { effort: number })[] = [];
     let tried = 0,
@@ -65,7 +69,7 @@ export class FixesService {
         skipped++;
       }
     }
-    const suggestions = rank(helpful).slice(0, MAX_SUGGESTIONS).map(({ effort: _effort, ...fix }) => fix);
+    const suggestions = rankFor(helpful, filter.preference).slice(0, MAX_SUGGESTIONS).map(({ effort: _effort, ...fix }) => fix);
     const status = suggestions.length ? "SUGGESTIONS" : tried === 0 && skipped > 0 ? "INCOMPLETE" : "NO_IMPROVEMENT_FOUND";
     return fixesSchema.parse({ ...base, status, suggestions, tried, skipped });
   }

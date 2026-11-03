@@ -8,8 +8,36 @@ export type Fixes = operations["suggestDesignFixes"]["responses"][200]["content"
 export type FixSuggestion = Fixes["suggestions"][number];
 export type FixMeasure = Fixes["baseline"];
 
-export const requestFixes = (designId: string, expectedRevision: number, runId: string, signal?: AbortSignal) =>
-  api<Fixes>("/designs/" + designId + "/fixes", { method: "POST", body: { expectedRevision, runId }, silent: true, scope: "local", signal });
+export type FixFilter = Fixes["filter"];
+export type FixKindName = FixFilter["exclude"][number];
+export type FixPreferenceName = FixFilter["preference"];
+export const NO_FILTER: FixFilter = { exclude: [], preference: "default" };
+
+/** Nothing is sent when the person asked for nothing, so the request is exactly the one made before there were choices. */
+export const isNoFilter = (f: FixFilter) => f.exclude.length === 0 && f.preference === "default";
+
+export const requestFixes = (designId: string, expectedRevision: number, runId: string, signal?: AbortSignal, filter: FixFilter = NO_FILTER) =>
+  api<Fixes>("/designs/" + designId + "/fixes", { method: "POST", body: { expectedRevision, runId, ...(isNoFilter(filter) ? {} : { filter }) }, silent: true, scope: "local", signal });
+
+/** The kinds of fix a person may leave out, and what to put first, in the words the panel shows. */
+export const KIND_CHOICES: ReadonlyArray<{ kind: FixKindName; label: string }> = [
+  { kind: "replicas", label: "More copies of the limiting part" },
+  { kind: "capacity", label: "A bigger size" },
+  { kind: "cache", label: "A cache" },
+  { kind: "readReplica", label: "A read replica" },
+];
+export const PREFERENCE_CHOICES: ReadonlyArray<{ preference: FixPreferenceName; label: string }> = [
+  { preference: "default", label: "The best result" },
+  { preference: "simplest", label: "The lightest change" },
+  { preference: "lowest_latency", label: "The lowest p95" },
+  { preference: "fewest_errors", label: "The fewest errors" },
+];
+
+/** A filter with one kind switched on or off, keeping the kinds in their fixed order. */
+export function toggleKind(filter: FixFilter, kind: FixKindName, excluded: boolean): FixFilter {
+  const exclude = KIND_CHOICES.map((c) => c.kind).filter((k) => (k === kind ? excluded : filter.exclude.includes(k)));
+  return { ...filter, exclude };
+}
 
 export const FIXES_NOTE =
   "These figures come from the same model as your test runs, at the same traffic. They are estimates from a model, not measurements of real infrastructure. Nothing changes until you apply a fix and save.";
@@ -33,6 +61,7 @@ export function changeText(before: FixMeasure, after: FixMeasure): string {
 
 export function statusText(f: Fixes): string {
   if (f.status === "NOTHING_TO_FIX") return "This run passes, so there is nothing to fix.";
+  if (f.status === "ALL_EXCLUDED") return "You left out every kind of fix that could be tried here, so none was tried. Untick one to see suggestions.";
   if (f.status === "INCOMPLETE") return "The calculation service was busy, so no fix could be checked. Try again in a moment.";
   if (f.status === "NO_IMPROVEMENT_FOUND")
     return f.limiter

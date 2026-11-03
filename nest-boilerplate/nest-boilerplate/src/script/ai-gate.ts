@@ -12,6 +12,8 @@ import { applyJudgements, sheetMarkdown } from "@/modules/ai/evaluation/review";
 import { DESCRIBE_CASES } from "@/modules/ai/evaluation/describe-cases";
 import { applyDescribeJudgements, describeSheet, describeSheetMarkdown, evaluateDescribeGate, runDescribeGate, runScriptedBaseline, type DescribeRun, type StructuredLike } from "@/modules/ai/evaluation/describe-gate";
 import { pacerLimits } from "@/modules/ai/evaluation/pacer";
+import { INTENT_CASES } from "@/modules/ai/evaluation/intent-cases";
+import { evaluateIntentGate, runIntentBaseline, runIntentGate, type IntentRun } from "@/modules/ai/evaluation/intent-gate";
 
 /**
  * The explanation gate, from the command line (run from the backend folder):
@@ -23,6 +25,8 @@ import { pacerLimits } from "@/modules/ai/evaluation/pacer";
  *   describe-run --dry | describe-run --model=<model> --confirm-live   (20 prompts, one request each)
  *   describe-sheet --runs=... --seed=N --out=<folder>
  *   describe-score --runs=... --key=<key.json> --judgements=<file> --out=<folder>
+ * The fix-intent gate (docs/AI-FIX-INTENT-GATE-RUBRIC.md) is scored mechanically, so it has one step:
+ *   intent-run --dry | intent-run --model=<model> --confirm-live   (17 goals, one request each)
  * Results go under docs/audit/ai-gate/ unless --out says otherwise. The key is read from the environment and never printed.
  */
 dotenv.config({ quiet: true });
@@ -132,12 +136,41 @@ function describeScoreCommand() {
   console.log(JSON.stringify(reports, null, 2));
 }
 
+async function intentRunCommand() {
+  let run: IntentRun;
+  if (has("dry")) run = runIntentBaseline(INTENT_CASES);
+  else {
+    const model = flag("model") ?? fail("Choose a model: --model=openai/gpt-oss-20b (or --dry for the keyword-rules baseline).");
+    if (!MODELS.includes(model)) fail("Unknown model. Allowed: " + MODELS.join(", "));
+    if (!has("confirm-live")) fail("This sends 17 invented goals to Groq. Add --confirm-live only when the owner has said go.");
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) fail("GROQ_API_KEY is not set in the backend .env.");
+    console.log("Live run: " + model + ", 17 goals, one request each, paced to 80% of the account limits.");
+    const groq = new GroqProvider({ apiKey: apiKey as string, model: model as GroqModel });
+    const pacer = new Pacer(pacerLimits(), 700);
+    const paced: StructuredLike = {
+      structured: (task, parse, signal, observe) =>
+        groq.structured(task, parse, signal, (o) => {
+          if (o.usage) pacer.settle(o.usage.totalTokens);
+          observe?.(o);
+        }),
+    };
+    run = await runIntentGate(paced, INTENT_CASES, { provider: "groq", model, beforeEach: () => pacer.acquire() });
+    console.log("Requests made: " + pacer.requestsToday + ", tokens counted: " + pacer.tokensToday);
+  }
+  const report = evaluateIntentGate(run);
+  const dir = ensure(join(flag("out") ?? defaultOut, run.startedAt.replace(/[:.]/g, "-") + "_intent_" + run.model.replace(/[^A-Za-z0-9._-]/g, "_")));
+  write(dir, "run.json", { run, report });
+  console.log(JSON.stringify({ folder: dir, provider: run.provider, model: run.model, stoppedBy: run.stoppedBy ?? null, ...report }, null, 2));
+}
+
 (async () => {
-  if (command === "describe-run") await describeRunCommand();
+  if (command === "intent-run") await intentRunCommand();
+  else if (command === "describe-run") await describeRunCommand();
   else if (command === "describe-sheet") describeSheetCommand();
   else if (command === "describe-score") describeScoreCommand();
   else if (command === "run") await runCommand();
   else if (command === "sheet") sheetCommand();
   else if (command === "score") scoreCommand();
-  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score> (see the comment at the top of src/script/ai-gate.ts)");
+  else fail("Usage: ai-gate <run|sheet|score|describe-run|describe-sheet|describe-score|intent-run> (see the comment at the top of src/script/ai-gate.ts)");
 })().catch((e: { message?: string }) => fail("Failed: " + (e.message ?? "unknown error")));
