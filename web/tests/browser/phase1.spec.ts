@@ -103,14 +103,14 @@ test("40 registry routes, auth forms, palette, drawers, themes, tab restores and
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/new$/);
     await page.goto("/dashboard");
-    for (const [opener, closer, initial] of [["Help for this screen", "Close help", "Close help"], ["AI assistant", "Close assistant", "Message the assistant"]]) {
+    for (const [opener, closer, initial] of [["Help for this screen", "Close help", "Close help"], ["AI assistant", "Close concept help", "Ask a concept question"]]) {
       for (const closeWith of ["Escape", "button"]) {
         const trigger = page.getByRole("button", { name: opener, exact: true });
         await trigger.click();
         await expect(page.getByLabel(initial, { exact: true })).toBeFocused();
         if (opener === "AI assistant") {
-          await expect(page.getByRole("complementary", { name: "AI assistant" }).getByText("Scripted mock", { exact: true })).toBeVisible();
-          await page.getByLabel("Message the assistant", { exact: true }).fill("Explain p95");
+          await expect(page.getByRole("complementary", { name: "Concept help" }).getByText("Scripted mock", { exact: true })).toBeVisible();
+          await page.getByLabel("Ask a concept question", { exact: true }).fill("Explain p95");
           await page.getByRole("button", { name: "Send", exact: true }).click();
           await expect(page.locator(".ai-msg.assistant")).toBeVisible();
         }

@@ -67,7 +67,7 @@ test("Light/Dark/System select persists, follows OS changes and reloads System",
   assert.equal(select.value, "system");
   assert.equal(document.documentElement.dataset.theme, "light");
 });
-for (const [opener, closer, initial] of [["Help for this screen", "Close help", "Close help"], ["AI assistant", "Close assistant", "Message the assistant"]]) {
+for (const [opener, closer, initial] of [["Help for this screen", "Close help", "Close help"], ["AI assistant", "Close concept help", "Ask a concept question"]]) {
   for (const closeWith of ["button", "Escape"]) {
     test(`${opener} returns focus on ${closeWith} through the actual shell`, async () => {
       const container = await render(themeTree(h(UiProvider, null, h(AppShell, null, h("button", { id: "content" }, "Content")))));
