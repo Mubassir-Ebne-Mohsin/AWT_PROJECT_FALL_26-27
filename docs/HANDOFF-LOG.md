@@ -15,6 +15,15 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-03 18:06 (Asia/Dhaka), Codex, approved showcase readiness
+**Goal:** user approved the next plan: close dev-state gap, rehearse core and four-role flows, bounded optional AI preflight, prepare submission checklist; faculty acceptance remains an external decision.
+**Done:** [SHOWCASE-READINESS](SHOWCASE-READINESS.md), [audit](audit/showcase-2026-11-03/README.md), demo script update and report section 37. No application behavior/dependency/default/gate change. Earlier `68dd94c` was pushed on instruction and remote verified; this new batch is local until a new push instruction.
+**Evidence:** dev states **4/4**, all ten states and recovery at 1024/1440 light/dark; four-role/cross-role browser checks **17/17**, no skips; same-account showcase **9 steps pass**, reproduces p95 1842.07 ms failing -> 41.26 ms strained, 0% modeled errors after the fix. Read-only dev migration comparison: **16/16 applied**. Existing live AI preflight invoked once under the approved plan: **three calls, all expected, READY**; no retry/new quality run/live UI journey. Production full regression remains prior **950 pass/10 intentional skips/0 failures**, not rerun or inflated with repeated tests.
+**Initial observations:** cold API health probe was early/refused, then health/login200; new harness expected short report label, corrected to established exact full label, initial failure retained, no existing test changed. Final screenshot capture adjusted and rehearsal passed again. Screenshots visually inspected.
+**Preservation:** 117 pre-existing PNGs restored/hash-verified; protected M2 unchanged/unstaged. No environment values inspected or key changes; existing preflight program alone loaded its server-side key. Audit sessions/M9 containers stopped, volumes kept; dev/M8 services untouched. No active claims.
+**Uncommitted unrelated:** protected M2 and existing PNG changes, `DESIGN.md`, `film/`, `docs/audit/landing/`, the two untracked historical Codex planning docs; do not stage or revert them.
+**Next/decision:** user was asked whether faculty accepts the experimental AI goal box as satisfying central AI; no answer yet, so do not mark course acceptance complete. Personal timed rehearsal and final submission remain the user's actions. If reliable AI is required, plan new unseen goals/pass marks before a separately approved live attempt. No new inference, key work, feature or push inferred from this readiness pass.
+
 ## 2026-11-03 16:17 (Asia/Dhaka), Codex, handoff reconciliation and guard Evaluation
 **Goal:** user said "get to plan and work" after the latest Copilot handoff; then explicitly approved the proposed guard-page wording.
 **Done:** source `95948de`: additive guard section on `/evaluation/ai`, evidence-linked unit tests and browser case, default-off/demo wording, stale System access toast corrected. Reconciled current milestone rows/blockers and agent AI policy without rewriting earlier handoff history; historical deferral marked superseded. Demo script and living report section 36 updated. Documentation/evidence are included in this entry's commit; no push.

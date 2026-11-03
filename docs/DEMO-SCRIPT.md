@@ -85,3 +85,12 @@ Do this on the failing run **before** applying a fix, or reload the results page
 - **Fixes or ladder say the calculation service is busy:** wait a few seconds and ask again; the page tells you.
 - **A result says it is not for the saved design:** save, then run the test again.
 - **No failing run available:** use a template at higher traffic and run it again.
+
+
+## Independent readiness rehearsal — 2026-11-03, Codex
+
+The approved demo-readiness pass independently reproduced the documented three-tier case through a same-account real-browser journey: registration, 2,000 rps traffic/save/run, verified double-copies fix, explicit save and rerun, same-traffic Compare, load ladder, Report, anonymous read-only Share, Evaluation and logout. Nine recorded steps pass; figures are unchanged (p95 1,842.07 ms failing before, 41.26 ms strained and 0% modeled errors after). Four developer-state projects and 17 cross-role browser journeys also pass.
+
+The existing `pnpm demo:ai:check` ran **once**, under the user's approval of the readiness plan. All **three requests** returned the expected choices and the script reported **READY**. No retry, no new gate and no new live goal-box UI journey. Every AI quality verdict remains NO-GO; settings were process-local, and no demo API was left enabled. This does not replace the user's own timed rehearsal or faculty confirmation that experimental AI satisfies the course requirement.
+
+[Readiness checklist and submission materials](SHOWCASE-READINESS.md) · [Evidence and limitations](audit/showcase-2026-11-03/README.md).

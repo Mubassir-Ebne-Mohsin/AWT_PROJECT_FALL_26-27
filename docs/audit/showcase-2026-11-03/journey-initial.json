@@ -1,0 +1,403 @@
+{
+  "scope": "one disposable owner account; real UI and real local API; no inference",
+  "steps": [
+    "Register, dashboard and authenticated AI-off readiness",
+    "Create three-tier design, save 2000 rps and run: failing documented case",
+    "Apply double-copies as draft, explicitly save and rerun: strained, zero model errors",
+    "Compare both saved revisions: same traffic/model, lower p95",
+    "Load ladder: recorded load plus 2x, 5x and 10x"
+  ],
+  "consoleErrors": [],
+  "before": {
+    "revision": 2,
+    "traffic": {
+      "preset": "custom",
+      "rps": 2000,
+      "burst": 1.5,
+      "readRatio": 0.85,
+      "sloP95": 300,
+      "errorBudget": 0.01,
+      "durationMin": 10,
+      "shape": "steady"
+    },
+    "rps": 2000,
+    "peakRps": 3000,
+    "p50": 390.6671008642285,
+    "p95": 1842.0725482451214,
+    "p99": 3502.252782120689,
+    "mean": 609.2950649049368,
+    "errorRate": 0.40918166126795175,
+    "throughput": 1181.6366774640965,
+    "sloMet": false,
+    "verdict": "fail",
+    "validation": {
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "client",
+        "label": "Users",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "unbounded"
+        },
+        "rho": 0,
+        "status": "idle",
+        "background": false,
+        "T": 0,
+        "S": 0,
+        "Wq": 0,
+        "servers": null,
+        "errors": 0,
+        "visit": 1,
+        "contribution": 0,
+        "satRps": {
+          "kind": "unbounded"
+        }
+      },
+      {
+        "id": "n2",
+        "type": "lb",
+        "label": "Load balancer",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "finite",
+          "value": 20000
+        },
+        "rho": 0.15,
+        "status": "ok",
+        "background": false,
+        "T": 1.0000017944068165,
+        "S": 1,
+        "Wq": 0.0000017944068165029416,
+        "servers": 20,
+        "errors": 0,
+        "visit": 1,
+        "contribution": 1.0000017944068165,
+        "satRps": {
+          "kind": "finite",
+          "value": 13333.333333333334
+        }
+      },
+      {
+        "id": "n4",
+        "type": "app",
+        "label": "App servers",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "finite",
+          "value": 1800
+        },
+        "rho": 1.6666666666666667,
+        "status": "fail",
+        "background": false,
+        "T": 605.3520432314851,
+        "S": 22,
+        "Wq": 583.3520432314851,
+        "servers": 39,
+        "errors": 0.4,
+        "visit": 1,
+        "contribution": 605.3520432314851,
+        "satRps": {
+          "kind": "finite",
+          "value": 1200
+        }
+      },
+      {
+        "id": "n6",
+        "type": "cache",
+        "label": "Cache",
+        "region": "us-east",
+        "reads": 1020,
+        "writes": 0,
+        "async": 0,
+        "peak": 1530,
+        "cap": {
+          "kind": "finite",
+          "value": 30000
+        },
+        "rho": 0.051,
+        "status": "ok",
+        "background": false,
+        "T": 1.2000000000052498,
+        "S": 1.2,
+        "Wq": 5.249774230432049e-12,
+        "servers": 36,
+        "errors": 0,
+        "visit": 0.51,
+        "contribution": 0.6120000000026774,
+        "satRps": {
+          "kind": "finite",
+          "value": 39215.686274509804
+        }
+      },
+      {
+        "id": "n8",
+        "type": "db",
+        "label": "Postgres",
+        "region": "us-east",
+        "reads": 203.99999999999997,
+        "writes": 180.00000000000003,
+        "async": 0,
+        "peak": 576,
+        "cap": {
+          "kind": "finite",
+          "value": 1800
+        },
+        "rho": 0.32,
+        "status": "ok",
+        "background": false,
+        "T": 6.009437122001213,
+        "S": 6,
+        "Wq": 0.009437122001212647,
+        "servers": 11,
+        "errors": 0,
+        "visit": 0.192,
+        "contribution": 1.1538119274242329,
+        "satRps": {
+          "kind": "finite",
+          "value": 6250
+        }
+      }
+    ],
+    "bottleneckId": "n4",
+    "maxRho": 1.6666666666666667,
+    "queues": [],
+    "backgroundIssues": [],
+    "flows": [
+      {
+        "from": "n1",
+        "to": "n2",
+        "rps": 3000
+      },
+      {
+        "from": "n2",
+        "to": "n4",
+        "rps": 3000
+      },
+      {
+        "from": "n4",
+        "to": "n6",
+        "rps": 1530
+      },
+      {
+        "from": "n4",
+        "to": "n8",
+        "rps": 576
+      }
+    ],
+    "crossRegion": []
+  },
+  "after": {
+    "revision": 3,
+    "traffic": {
+      "preset": "custom",
+      "rps": 2000,
+      "burst": 1.5,
+      "readRatio": 0.85,
+      "sloP95": 300,
+      "errorBudget": 0.01,
+      "durationMin": 10,
+      "shape": "steady"
+    },
+    "rps": 2000,
+    "peakRps": 3000,
+    "p50": 25.094803137919044,
+    "p95": 41.26200362523526,
+    "p99": 50.265160659410455,
+    "mean": 26.177537737970837,
+    "errorRate": 0,
+    "throughput": 2000,
+    "sloMet": true,
+    "verdict": "strained",
+    "validation": {
+      "ok": true,
+      "errors": [],
+      "warnings": []
+    },
+    "nodes": [
+      {
+        "id": "n1",
+        "type": "client",
+        "label": "Users",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "unbounded"
+        },
+        "rho": 0,
+        "status": "idle",
+        "background": false,
+        "T": 0,
+        "S": 0,
+        "Wq": 0,
+        "servers": null,
+        "errors": 0,
+        "visit": 1,
+        "contribution": 0,
+        "satRps": {
+          "kind": "unbounded"
+        }
+      },
+      {
+        "id": "n2",
+        "type": "lb",
+        "label": "Load balancer",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "finite",
+          "value": 20000
+        },
+        "rho": 0.15,
+        "status": "ok",
+        "background": false,
+        "T": 1.0000017944068165,
+        "S": 1,
+        "Wq": 0.0000017944068165029416,
+        "servers": 20,
+        "errors": 0,
+        "visit": 1,
+        "contribution": 1.0000017944068165,
+        "satRps": {
+          "kind": "finite",
+          "value": 13333.333333333334
+        }
+      },
+      {
+        "id": "n4",
+        "type": "app",
+        "label": "App servers",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 3000,
+        "cap": {
+          "kind": "finite",
+          "value": 3600
+        },
+        "rho": 0.8333333333333334,
+        "status": "warn",
+        "background": false,
+        "T": 22.205289976481826,
+        "S": 22,
+        "Wq": 0.20528997648182676,
+        "servers": 78,
+        "errors": 0,
+        "visit": 1,
+        "contribution": 22.205289976481826,
+        "satRps": {
+          "kind": "finite",
+          "value": 2400
+        }
+      },
+      {
+        "id": "n6",
+        "type": "cache",
+        "label": "Cache",
+        "region": "us-east",
+        "reads": 1700,
+        "writes": 0,
+        "async": 0,
+        "peak": 2550,
+        "cap": {
+          "kind": "finite",
+          "value": 30000
+        },
+        "rho": 0.085,
+        "status": "ok",
+        "background": false,
+        "T": 1.200000000264577,
+        "S": 1.2,
+        "Wq": 2.645770073157137e-10,
+        "servers": 36,
+        "errors": 0,
+        "visit": 0.85,
+        "contribution": 1.0200000002248903,
+        "satRps": {
+          "kind": "finite",
+          "value": 23529.41176470588
+        }
+      },
+      {
+        "id": "n8",
+        "type": "db",
+        "label": "Postgres",
+        "region": "us-east",
+        "reads": 339.99999999999994,
+        "writes": 300.00000000000006,
+        "async": 0,
+        "peak": 960,
+        "cap": {
+          "kind": "finite",
+          "value": 1800
+        },
+        "rho": 0.5333333333333333,
+        "status": "ok",
+        "background": false,
+        "T": 6.100768646429086,
+        "S": 6,
+        "Wq": 0.10076864642908555,
+        "servers": 11,
+        "errors": 0,
+        "visit": 0.32,
+        "contribution": 1.9522459668573076,
+        "satRps": {
+          "kind": "finite",
+          "value": 3750
+        }
+      }
+    ],
+    "bottleneckId": "n4",
+    "maxRho": 0.8333333333333334,
+    "queues": [],
+    "backgroundIssues": [],
+    "flows": [
+      {
+        "from": "n1",
+        "to": "n2",
+        "rps": 3000
+      },
+      {
+        "from": "n2",
+        "to": "n4",
+        "rps": 3000
+      },
+      {
+        "from": "n4",
+        "to": "n6",
+        "rps": 2550
+      },
+      {
+        "from": "n4",
+        "to": "n8",
+        "rps": 960
+      }
+    ],
+    "crossRegion": []
+  },
+  "status": "failed",
+  "failure": "expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('report-verdict')\nExpected: \"Strained\"\nReceived: \"Strained: close to its limits\"\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveText\" getByTestId('report-verdict') with timeout 5000ms\n  - waiting for getByTestId('report-verdict')\n    13 × locator resolved to <p class=\"m16-verdict\" data-testid=\"report-verdict\">Strained: close to its limits</p>\n       - unexpected value \"Strained: close to its limits\"\n"
+}
