@@ -44,7 +44,8 @@ export function naturalText(text: string): string {
     .join(". ");
 }
 
-const SENTENCE_END = /[.!?;]+/;
+// A full stop between two digits is a decimal point ("2.5 million"), not the end of a sentence.
+const SENTENCE_END = /[!?;]+|\.(?!\d)|(?<!\d)\./;
 
 /** The sentences of the text that describe a wish, in order: natural language only, and none that addresses the assistant. */
 export function wishSentences(text: string, markers: readonly RegExp[] = ADDRESSES_ASSISTANT): string[] {

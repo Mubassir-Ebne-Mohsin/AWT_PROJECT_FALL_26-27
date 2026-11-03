@@ -5,6 +5,7 @@ import { ReportService } from "@/modules/designs/report.service";
 import { DesignSharesService } from "@/modules/designs/design-shares.service";
 import { FixesService } from "@/modules/designs/fixes.service";
 import { LadderService } from "@/modules/designs/ladder.service";
+import { WhatIfService } from "@/modules/designs/what-if.service";
 import { Throttle } from "@nestjs/throttler";
 import { Public } from "@/common/decorators";
 import { appConfig } from "@/config";
@@ -35,6 +36,7 @@ import {
   CreateNoteDto,
   FixesRequestDto,
   LadderRequestDto,
+  WhatIfRequestDto,
   PatchNoteDto,
   PrepareDesignDto,
   PatchDesignDto,
@@ -63,6 +65,7 @@ export class DesignsController {
     private readonly simulation: SimulationService,
     private readonly fixes: FixesService,
     private readonly ladder: LadderService,
+    private readonly whatIf: WhatIfService,
   ) {}
   @Post("prepare")
   @HttpCode(200)
@@ -216,6 +219,18 @@ export class DesignsController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.cancellable(req, res, (signal) => this.ladder.climb(u.id, id, dto, signal));
+  }
+  /** The same design under a changed load (a multiple or a set rate, a shape, a read share). Computes only; nothing is saved. */
+  @Post(":id/what-if")
+  @HttpCode(200)
+  async askWhatIf(
+    @CurrentUser() u: AuthUser,
+    @Param("id", ParseUUIDPipe) id: string,
+    @Body() dto: WhatIfRequestDto,
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.cancellable(req, res, (signal) => this.whatIf.ask(u.id, id, dto, signal));
   }
   /** The person leaving cancels the calculations still to come. */
   private async cancellable<T>(req: Request, res: Response, work: (signal: AbortSignal) => Promise<T>): Promise<T> {

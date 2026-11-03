@@ -21,9 +21,10 @@ import {
   aiRequestSchema,
   aiResultSchema,
 } from "@/common/contracts/phase3/ai.schema";
-import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiFixIntentRequestSchema, aiFixIntentSchema, aiTasksReadinessSchema } from "@/common/contracts/phase3/ai-tasks.schema";
+import { aiDescribePreparedSchema, aiDescribeRequestSchema, aiFixIntentRequestSchema, aiFixIntentSchema, aiTasksReadinessSchema, aiWhatIfRequestSchema, aiWhatIfSchema } from "@/common/contracts/phase3/ai-tasks.schema";
 import { fixesRequestSchema, fixesSchema } from "@/common/contracts/phase3/fixes.schema";
 import { ladderRequestSchema, ladderSchema } from "@/common/contracts/phase3/ladder.schema";
+import { whatIfRequestSchema, whatIfSchema } from "@/common/contracts/phase3/what-if.schema";
 import { designVersionSchema } from "@/common/contracts/phase3/version.schema";
 import {
   restoreVersionRequestSchema,
@@ -73,11 +74,15 @@ export function phase3OpenApi() {
     DesignFixes: fixesSchema,
     LadderRequest: ladderRequestSchema,
     DesignLadder: ladderSchema,
+    WhatIfRequest: whatIfRequestSchema,
+    DesignWhatIf: whatIfSchema,
     AiTasksReadiness: aiTasksReadinessSchema,
     AiDescribeRequest: aiDescribeRequestSchema,
     AiDescribePrepared: aiDescribePreparedSchema,
     AiFixIntentRequest: aiFixIntentRequestSchema,
     AiFixIntent: aiFixIntentSchema,
+    AiWhatIfRequest: aiWhatIfRequestSchema,
+    AiWhatIf: aiWhatIfSchema,
     DesignVersion: designVersionSchema,
     RestoreVersionRequest: restoreVersionRequestSchema,
     RunSummary: runSummarySchema,
@@ -235,6 +240,7 @@ export function phase3OpenApi() {
       "/v1/ai/tasks/readiness": { get: operation("getAiTasksReadiness", "AiTasksReadiness") },
       "/v1/ai/tasks/describe": { post: operation("describeDesignWithAi", "AiDescribePrepared", "AiDescribeRequest") },
       "/v1/ai/tasks/fix-intent": { post: operation("interpretFixGoalWithAi", "AiFixIntent", "AiFixIntentRequest") },
+      "/v1/ai/tasks/what-if": { post: operation("interpretWhatIfWithAi", "AiWhatIf", "AiWhatIfRequest") },
       "/v1/ai/jobs": { post: operation("submitAiJob", "AcceptedAiJob", true) },
       "/v1/ai/jobs/{id}": {
         get: { ...operation("getAiJob", "AiJob"), parameters: [parameter] },
@@ -651,6 +657,9 @@ export function phase3OpenApi() {
       },
       "/v1/designs/{id}/ladder": {
         post: { ...operation("climbDesignLadder", "DesignLadder", "LadderRequest"), parameters: [parameter] },
+      },
+      "/v1/designs/{id}/what-if": {
+        post: { ...operation("askDesignWhatIf", "DesignWhatIf", "WhatIfRequest"), parameters: [parameter] },
       },
       "/v1/designs/{id}/fixes": {
         post: { ...operation("suggestDesignFixes", "DesignFixes", "FixesRequest"), parameters: [parameter] },

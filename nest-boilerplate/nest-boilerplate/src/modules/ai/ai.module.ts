@@ -4,6 +4,7 @@ import { AiController } from "@/modules/ai/ai.controller";
 import { AiService } from "@/modules/ai/ai.service";
 import { AiDescribeService } from "@/modules/ai/ai-describe.service";
 import { AiFixIntentService } from "@/modules/ai/ai-fix-intent.service";
+import { AiWhatIfService } from "@/modules/ai/ai-what-if.service";
 import { AiTasksController } from "@/modules/ai/ai-tasks.controller";
 import { AiTaskService } from "@/modules/ai/ai-task.service";
 import { AiMemory } from "@/modules/ai/ai-memory";
@@ -20,6 +21,7 @@ import { AI_FETCH, AI_SETTINGS, GROQ_CREDENTIALS, AiSettings, aiSettings, groqCr
     AiTaskService,
     AiDescribeService,
     AiFixIntentService,
+    AiWhatIfService,
     AiMemory,
     AiQuota,
     OllamaProvider,

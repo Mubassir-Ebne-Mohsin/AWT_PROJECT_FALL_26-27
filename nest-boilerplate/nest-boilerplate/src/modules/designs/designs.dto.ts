@@ -18,6 +18,8 @@ import { ladderRequestSchema } from "@/common/contracts/phase3/ladder.schema";
 export class RestoreVersionDto extends createZodDto(restoreVersionRequestSchema) {}
 export class FixesRequestDto extends createZodDto(fixesRequestSchema) {}
 export class LadderRequestDto extends createZodDto(ladderRequestSchema) {}
+import { whatIfRequestSchema } from "@/common/contracts/phase3/what-if.schema";
+export class WhatIfRequestDto extends createZodDto(whatIfRequestSchema) {}
 import { createNoteRequestSchema, patchNoteRequestSchema } from "@/common/contracts/phase3/notes.schema";
 export class CreateNoteDto extends createZodDto(createNoteRequestSchema) {}
 export class PatchNoteDto extends createZodDto(patchNoteRequestSchema) {}

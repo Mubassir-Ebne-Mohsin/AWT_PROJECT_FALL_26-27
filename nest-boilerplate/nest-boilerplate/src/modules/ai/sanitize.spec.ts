@@ -37,6 +37,14 @@ describe("wishSentences", () => {
   });
 });
 
+describe("decimal points", () => {
+  it("does not end a sentence at a full stop between digits", () => {
+    expect(wishSentences("Imagine 2.5 million rps.")).toEqual(["Imagine 2.5 million rps"]);
+    expect(sanitizeWish("We have 1.5k users. Traffic doubles.").cleaned).toBe("We have 1.5k users. Traffic doubles.");
+    expect(wishSentences("Version 2. 5 users")).toEqual(["Version 2", "5 users"]);
+  });
+});
+
 describe("sanitizeWish", () => {
   it("reports nothing ignored for a plain wish", () => {
     expect(sanitizeWish("No cache, please.")).toEqual({ cleaned: "No cache, please.", sentences: ["No cache, please"], ignored: false });

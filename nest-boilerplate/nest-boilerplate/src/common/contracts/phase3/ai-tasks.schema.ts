@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createDesignSchema } from "@/common/contracts/phase2/api.schema";
 import { aiProviderSchema } from "@/common/contracts/phase3/ai.schema";
 import { fixFilterSchema } from "@/common/contracts/phase3/fixes.schema";
+import { whatIfChangeSchema } from "@/common/contracts/phase3/what-if.schema";
 
 /** Design tasks that use a hosted model (docs/AI-COPILOT-SCOPE.md). Each has its own switch. */
 export const AI_TASK_NAMES = ["describe", "whatif", "fixes"] as const;
@@ -63,6 +64,24 @@ export const aiFixIntentSchema = z.strictObject({
   model: z.string(),
 });
 
+/** Longest what-if sentence sent to the model. Longer text is refused, never cut. */
+export const WHATIF_MAX_CHARS = 300;
+export const aiWhatIfRequestSchema = z.strictObject({ text: z.string().trim().min(1).max(WHATIF_MAX_CHARS) });
+
+/**
+ * What the model's closed form was turned into. `status`: SUPPORTED (a proposal for the person to apply to the controls),
+ * UNSUPPORTED (no change of the traffic was found) or OUT_OF_RANGE (a value outside the bounds, refused and not applied, never clamped).
+ * `change` is neutral unless SUPPORTED. `interpretation` is worded by the server; nothing the model wrote is passed on.
+ */
+export const aiWhatIfSchema = z.strictObject({
+  status: z.enum(["SUPPORTED", "UNSUPPORTED", "OUT_OF_RANGE"]),
+  change: whatIfChangeSchema,
+  interpretation: z.array(z.string().max(300)).max(4),
+  provider: aiProviderSchema,
+  model: z.string(),
+});
+
 export type AiTaskReadiness = z.infer<typeof aiTaskReadinessSchema>;
 export type AiFixIntent = z.infer<typeof aiFixIntentSchema>;
+export type AiWhatIf = z.infer<typeof aiWhatIfSchema>;
 export type AiDescribePrepared = z.infer<typeof aiDescribePreparedSchema>;

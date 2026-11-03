@@ -19,6 +19,7 @@ import { restoreBlockedReason } from "@/lib/history-presentation";
 import { ExplainTrigger } from "@/components/workspace/explain-panel";
 import { SuggestedFixes } from "@/components/workspace/suggested-fixes";
 import { LoadLadder } from "@/components/workspace/load-ladder";
+import { WhatIfPanel } from "@/components/workspace/what-if";
 import { explainParam, explainView, useAiEnabled, type ExplainView } from "@/lib/explain-store";
 import { PreviewSession } from "@/lib/preview-session";
 import { LivePreviewPanel, type LivePreviewView } from "@/components/workspace/live-preview";
@@ -620,6 +621,16 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
               <LoadLadder
                 key={"ladder:" + displayedRun.id + ":" + state.saved.revision}
+                designId={initial.id}
+                savedRevision={state.saved.revision}
+                runId={displayedRun.id}
+                runRevision={displayedRun.designRevision}
+                stale={session.isRunStale(displayedRun)}
+              />
+            )}
+            {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
+              <WhatIfPanel
+                key={"whatif:" + displayedRun.id + ":" + state.saved.revision}
                 designId={initial.id}
                 savedRevision={state.saved.revision}
                 runId={displayedRun.id}

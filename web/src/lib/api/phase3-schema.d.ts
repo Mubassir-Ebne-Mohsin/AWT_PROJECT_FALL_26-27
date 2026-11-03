@@ -164,6 +164,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ai/tasks/what-if": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["interpretWhatIfWithAi"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/ai/jobs": {
         parameters: {
             query?: never;
@@ -878,6 +894,22 @@ export interface paths {
         get?: never;
         put?: never;
         post: operations["climbDesignLadder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/what-if": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["askDesignWhatIf"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1905,6 +1937,76 @@ export interface components {
                 } | null;
             }[];
         };
+        WhatIfRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+        };
+        DesignWhatIf: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+            before: {
+                rps: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+                readRatio: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            };
+            after: {
+                rps: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+                readRatio: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            };
+        };
         AiTasksReadiness: {
             tasks: {
                 /** @enum {string} */
@@ -2151,6 +2253,26 @@ export interface components {
                 exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
                 /** @enum {string} */
                 preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+            interpretation: string[];
+            /** @enum {string} */
+            provider: "ollama" | "groq";
+            model: string;
+        };
+        AiWhatIfRequest: {
+            text: string;
+        };
+        AiWhatIf: {
+            /** @enum {string} */
+            status: "SUPPORTED" | "UNSUPPORTED" | "OUT_OF_RANGE";
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
             };
             interpretation: string[];
             /** @enum {string} */
@@ -4941,6 +5063,104 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AiFixIntent"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    interpretWhatIfWithAi: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AiWhatIfRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiWhatIf"];
                     };
                 };
             };
@@ -10303,6 +10523,106 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["DesignLadder"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    askDesignWhatIf: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WhatIfRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignWhatIf"];
                     };
                 };
             };
