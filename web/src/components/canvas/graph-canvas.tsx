@@ -59,6 +59,8 @@ export function GraphCanvas({
   onEdgeSelect,
   onConnect,
   overlay,
+  noteCounts,
+  onOpenNotes,
 }: {
   graph: Graph;
   session: EditorSession;
@@ -71,6 +73,8 @@ export function GraphCanvas({
   onEdgeSelect:(id:string)=>void;
   onConnect:(from:string,to:string)=>void;
   overlay?: LoadOverlay | null;
+  noteCounts?: ReadonlyMap<string, number>;
+  onOpenNotes?: (id: string) => void;
 }) {
   const box = useRef<HTMLDivElement>(null),
     svg = useRef<SVGSVGElement>(null),
@@ -353,6 +357,8 @@ export function GraphCanvas({
             onEdgeSelect={onEdgeSelect}
             connecting={connectMode || !!link}
             overlay={overlay}
+            noteCounts={noteCounts}
+            onOpenNotes={onOpenNotes}
           />
           {link && (()=>{const n=graph.nodes.find(n=>n.id===link.from);return n?<path className="m6-link-preview" pointerEvents="none" d={`M${n.x+NODE_W} ${n.y+NODE_H/2} L${link.position.x} ${link.position.y}`} markerEnd={"url(#"+gridId+"-arrow)"} />:null;})()}
         </g>

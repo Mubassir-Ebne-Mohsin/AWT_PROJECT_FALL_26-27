@@ -124,3 +124,10 @@
 @media (max-width:1200px) { .m5-editor .pal-item { grid-template-columns:32px minmax(0,1fr); justify-items:stretch; } .m5-editor .pal-group .eyebrow { display:block; } }
 
 @media (max-width:1200px) { .m5-editor .cv-legend { max-width:calc(100% - 166px); } }
+
+/* Component-anchored notes: a count marker beside a component (docs/COMPONENT-NOTES-SCOPE.md). The number is the signal, not colour. */
+.cv-notes-marker { cursor: pointer; outline: none; }
+.cv-notes-marker-body { fill: var(--accent); stroke: var(--surface); stroke-width: 1.5; }
+.cv-notes-marker-count { font: 700 12px var(--font-mono); fill: #fff; pointer-events: none; }
+.cv-notes-marker:hover .cv-notes-marker-body { fill: var(--ink-2); }
+.cv-notes-marker:focus-visible .cv-notes-marker-body { stroke: var(--ink); stroke-width: 2.5; }

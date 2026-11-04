@@ -268,7 +268,7 @@ export function buildDossier(report: DossierReport, options: DossierOptions, mea
     L.heading("Decisions and assumptions");
     L.paragraph(noteScopeText(report.noteScope), { gray: GRAY });
     if (!report.notes.length) L.paragraph(report.noteScope === "none" ? "The owner did not include notes." : "No notes were written for this design.");
-    else L.bullets(report.notes.map((n) => `${n.kind === "decision" ? "Decision" : "Assumption"} (revision ${n.revision}): ${n.text}`));
+    else L.bullets(report.notes.map((n) => `${n.kind === "decision" ? "Decision" : "Assumption"} (revision ${n.revision}${n.component ? `, on ${n.component}` : ""}): ${n.text}`));
   }
 
   L.heading("What these numbers are");

@@ -16550,6 +16550,48 @@
               "assumption"
             ]
           },
+          "componentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "component": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                  },
+                  "label": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "componentRemoved": {
+            "type": "boolean"
+          },
           "text": {
             "type": "string",
             "minLength": 1,
@@ -16571,6 +16613,9 @@
           "designId",
           "revision",
           "kind",
+          "componentId",
+          "component",
+          "componentRemoved",
           "text",
           "createdAt",
           "updatedAt"
@@ -18324,6 +18369,12 @@
                   "exclusiveMinimum": 0,
                   "maximum": 9007199254740991
                 },
+                "component": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
                 "kind": {
                   "type": "string",
                   "enum": [
@@ -18342,6 +18393,7 @@
               },
               "required": [
                 "revision",
+                "component",
                 "kind",
                 "text",
                 "createdAt"
@@ -20091,6 +20143,12 @@
                       "exclusiveMinimum": 0,
                       "maximum": 9007199254740991
                     },
+                    "component": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "kind": {
                       "type": "string",
                       "enum": [
@@ -20109,6 +20167,7 @@
                   },
                   "required": [
                     "revision",
+                    "component",
                     "kind",
                     "text",
                     "createdAt"
@@ -21840,6 +21899,12 @@
                       "exclusiveMinimum": 0,
                       "maximum": 9007199254740991
                     },
+                    "component": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "kind": {
                       "type": "string",
                       "enum": [
@@ -21858,6 +21923,7 @@
                   },
                   "required": [
                     "revision",
+                    "component",
                     "kind",
                     "text",
                     "createdAt"
@@ -23841,6 +23907,12 @@
             "type": "integer",
             "exclusiveMinimum": 0,
             "maximum": 9007199254740991
+          },
+          "componentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
           }
         },
         "required": [

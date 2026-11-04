@@ -2521,6 +2521,12 @@ export interface components {
             revision: number;
             /** @enum {string} */
             kind: "decision" | "assumption";
+            componentId: string | null;
+            component: {
+                id: string;
+                label: string;
+            } | null;
+            componentRemoved: boolean;
             text: string;
             /** Format: date-time */
             createdAt: string;
@@ -2870,6 +2876,7 @@ export interface components {
             noteScope: "all" | "decisions" | "none";
             notes: {
                 revision: number;
+                component: string | null;
                 /** @enum {string} */
                 kind: "decision" | "assumption";
                 text: string;
@@ -3211,6 +3218,7 @@ export interface components {
                 noteScope: "all" | "decisions" | "none";
                 notes: {
                     revision: number;
+                    component: string | null;
                     /** @enum {string} */
                     kind: "decision" | "assumption";
                     text: string;
@@ -3558,6 +3566,7 @@ export interface components {
                 noteScope: "all" | "decisions" | "none";
                 notes: {
                     revision: number;
+                    component: string | null;
                     /** @enum {string} */
                     kind: "decision" | "assumption";
                     text: string;
@@ -3948,6 +3957,7 @@ export interface components {
             kind: "decision" | "assumption";
             text: string;
             revision?: number;
+            componentId?: string;
         };
         PatchNoteRequest: {
             /** Format: date-time */

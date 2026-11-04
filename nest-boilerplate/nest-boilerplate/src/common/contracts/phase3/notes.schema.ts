@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { localId } from "@/common/contracts/phase2/graph.schema";
 
 // M15.3 Notes: the user's own words about a design, tied to the revision they were written for.
 // Plain text only. These contracts do not depend on the optional AI contracts.
@@ -22,6 +23,12 @@ export const designNoteSchema = z.strictObject({
   /** The saved revision this note is about. It stays valid after that version is pruned. */
   revision: z.number().int().positive(),
   kind: noteKindSchema,
+  /** The component this note is pinned to, or null for a note about the design as a whole. */
+  componentId: localId.nullable(),
+  /** The pinned component as it is in the design now (its current label), or null when unpinned or removed. */
+  component: z.strictObject({ id: localId, label: z.string() }).nullable(),
+  /** True when the note is pinned to a component that is no longer in the design. The note and its text are kept. */
+  componentRemoved: z.boolean(),
   text: noteText,
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
@@ -32,6 +39,8 @@ export const createNoteRequestSchema = z.strictObject({
   kind: noteKindSchema,
   text: noteText,
   revision: z.number().int().positive().optional(),
+  /** Pin the note to a component of that revision's graph. Cannot be changed afterwards. */
+  componentId: localId.optional(),
 });
 
 /**

@@ -4,6 +4,7 @@ import { NODE_H, NODE_W, edgePath } from "@/lib/canvas/geometry";
 
 import { ComponentGlyph } from "@/components/canvas/component-glyph";
 import type { LoadOverlay } from "@/lib/load-overlay";
+import { markerLabel } from "@/lib/notes-presentation";
 export function GraphNodes({
   graph,
   selected,
@@ -14,6 +15,8 @@ export function GraphNodes({
   onEdgeSelect,
   connecting,
   overlay,
+  noteCounts,
+  onOpenNotes,
 }: {
   graph: Graph;
   selected: string;
@@ -25,6 +28,10 @@ export function GraphNodes({
   connecting: boolean;
   /** M8 load overlay; present only for output computed from exactly these inputs. */
   overlay?: LoadOverlay | null;
+  /** How many notes are pinned to each component; a component with none shows no marker. */
+  noteCounts?: ReadonlyMap<string, number>;
+  /** Opens the notes of a component (selects it and moves to its notes). */
+  onOpenNotes?: (id: string) => void;
 }) {
   const positions = new Map(
     graph.nodes.map((n) => [
@@ -118,6 +125,39 @@ export function GraphNodes({
           </g>
         );
       })}
+      {noteCounts &&
+        graph.nodes.map((n) => {
+          const count = noteCounts.get(n.id) ?? 0;
+          const p = positions.get(n.id)!;
+          if (!count) return null;
+          // A separate button beside the component (not inside it), so the component stays one control and a drag on the marker never moves it.
+          return (
+            <g
+              key={"notes-" + n.id}
+              className="cv-notes-marker"
+              data-notes-marker={n.id}
+              role="button"
+              tabIndex={0}
+              aria-label={markerLabel(count, n.label)}
+              transform={`translate(${p.x + NODE_W - 4} ${p.y - 6})`}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => onOpenNotes?.(n.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onOpenNotes?.(n.id);
+                }
+              }}
+            >
+              <title>{markerLabel(count, n.label)}</title>
+              <rect className="cv-notes-marker-body" x="-12" y="-11" width={count > 9 ? 28 : 24} height="22" rx="11" />
+              <text className="cv-notes-marker-count" x={count > 9 ? 2 : 0} y="4.5" textAnchor="middle">
+                {count > 99 ? "99+" : count}
+              </text>
+            </g>
+          );
+        })}
       {overlay && overlay.edges.size > 0 && (
         <g className="cv-flow-labels" aria-hidden="true" pointerEvents="none">
           {graph.edges.map((e) => {

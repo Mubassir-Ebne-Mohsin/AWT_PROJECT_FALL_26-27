@@ -1,7 +1,8 @@
 import { api } from "@/lib/api/client";
-import type { components } from "@/lib/api/schema";
+import type { components } from "@/lib/api/phase3-schema";
 
 type Schemas = components["schemas"];
+/** The note as the server returns it, including the component it is pinned to and whether that component is gone. */
 export type DesignNote = Schemas["DesignNote"];
 export type NoteKind = DesignNote["kind"];
 
@@ -11,7 +12,7 @@ const local = { scope: "local" } as const;
 
 export const fetchNotes = (designId: string, signal?: AbortSignal) =>
   api<DesignNote[]>(`/designs/${designId}/notes`, { ...local, signal });
-export const createNote = (designId: string, body: { kind: NoteKind; text: string; revision?: number }) =>
+export const createNote = (designId: string, body: { kind: NoteKind; text: string; revision?: number; componentId?: string }) =>
   api<DesignNote>(`/designs/${designId}/notes`, { ...local, method: "POST", body });
 /** `expectedUpdatedAt` is the updatedAt the editor last saw: a stale edit is refused, never merged. */
 export const patchNote = (designId: string, noteId: string, body: { expectedUpdatedAt: string; kind?: NoteKind; text?: string }) =>

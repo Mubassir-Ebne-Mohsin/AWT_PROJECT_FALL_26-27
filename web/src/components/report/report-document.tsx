@@ -174,7 +174,8 @@ export function ReportDocument({ report, designOnly = false }: { report: Omit<Re
           <ul className="m16-notes" aria-label="Notes">
             {report.notes.map((n, i) => (
               <li key={i}>
-                <strong>{n.kind === "decision" ? "Decision" : "Assumption"}</strong> (revision {n.revision}): <span className="m15-note-text">{n.text}</span>
+                <strong>{n.kind === "decision" ? "Decision" : "Assumption"}</strong> (revision {n.revision}
+                {(n as { component?: string | null }).component ? `, on ${(n as { component?: string | null }).component}` : ""}): <span className="m15-note-text">{n.text}</span>
               </li>
             ))}
           </ul>

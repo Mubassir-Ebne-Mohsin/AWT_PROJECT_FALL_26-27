@@ -69,8 +69,8 @@ function report(over = {}) {
     limits: null,
     noteScope: "all",
     notes: [
-      { revision: 3, kind: "decision", text: "Keep the cache: reads dominate.", createdAt: "2026-11-03T10:00:00.000Z" },
-      { revision: 4, kind: "assumption", text: "Peak traffic is 2,000 requests per second during sales.", createdAt: "2026-11-03T10:05:00.000Z" },
+      { revision: 3, component: "Cache", kind: "decision", text: "Keep the cache: reads dominate.", createdAt: "2026-11-03T10:00:00.000Z" },
+      { revision: 4, component: null, kind: "assumption", text: "Peak traffic is 2,000 requests per second during sales.", createdAt: "2026-11-03T10:05:00.000Z" },
     ],
     limitations: ["These figures come from a queueing model, not from real servers.", "The model assumes steady arrival within each burst."],
     ...over,

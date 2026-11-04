@@ -60,6 +60,13 @@ Do this on the failing run **before** applying a fix, or reload the results page
 - Say plainly: "The first version failed its test (13 of 20) mostly because of defects in our own checks. We fixed five declared defects and removed the model's free-text sentence. On our own 27 development descriptions it then did 27 of 27, but we had read those descriptions while fixing, so that is a development figure, not a result. It is experimental."
 - If it is missing or unavailable, use the keyword draft ("Scripted mock") next to it, which needs no AI.
 
+## 3f. Notes on a component (45 seconds) — no AI
+- Prerequisite: `pnpm migration:run` has been run on your database (it adds one column; the API will otherwise refuse pinned notes).
+- On the **Edit** tab select **App servers**. Under its properties is **Notes on App servers**; type "Two copies is enough for launch." and click **Add note to this component**. A small numbered badge appears on the App servers box on the canvas; add a second note and it reads 2.
+- Say: "The badge is a button: its name is words ('2 notes on App servers'), and clicking it, or pressing Enter on it, selects the component and moves to its notes. Notes are plain text and owner-only."
+- Open the **Notes** tab: each pinned note shows "On App servers", and **Show** filters by component. Then show that a note can be about the whole design.
+- Delete a component and save: its notes stay and say **Component removed**; nothing is lost. The **Report** and the **PDF** name the component ("Decision (revision 1, on App servers)").
+
 ## 3e. Download the design as a PDF (45 seconds) — no AI
 - On a completed run open **Report** (from the design's menu or `/designs/<id>/report`) and click **Download PDF**. A file named like `classic-three-tier-web-app-rev1-report.pdf` downloads; open it.
 - Show: page 1 has the verdict, the figures against the targets, a diagram of the architecture, and the line "Model estimate, not a measurement of real infrastructure."; page 2 has the component table (settings, load, status), the connections, the traffic, the Limits statement, the notes and the limitations; every page has a footer with the design id, revision, run id and engine version.

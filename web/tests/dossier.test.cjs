@@ -168,7 +168,7 @@ test("an AI-drafted design and a keyword-rules draft are marked as such, and the
 });
 
 test("notes appear only when asked for, with the report's own scope wording", () => {
-  assert.match(textOf(build(F.report(), { includeNotes: true })), /Decision \(revision 3\): Keep the cache: reads dominate\./);
+  assert.match(textOf(build(F.report(), { includeNotes: true })), /Decision \(revision 3, on Cache\): Keep the cache: reads dominate\./);
   assert.doesNotMatch(textOf(build(F.report(), { includeNotes: false })), /Keep the cache/);
 });
 

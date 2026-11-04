@@ -69,6 +69,8 @@ const run = z.strictObject({
 
 const note = z.strictObject({
   revision: z.number().int().positive(),
+  /** The label of the component the note is pinned to ("a removed component" when it is gone), or null for a note about the whole design. */
+  component: z.string().nullable(),
   kind: noteKindSchema,
   text: z.string(),
   createdAt: z.iso.datetime(),

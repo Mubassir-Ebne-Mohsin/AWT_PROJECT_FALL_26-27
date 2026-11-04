@@ -1,6 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/components/auth/auth-provider";
+import { ComponentNotes } from "@/components/canvas/component-notes";
+import { fetchNotes } from "@/lib/api/notes";
+import { noteCounts as countNotes } from "@/lib/notes-presentation";
 import { api } from "@/lib/api/client";
 import type { EditorSession } from "@/lib/editor-session";
 import { Catalog, Entry, addComponent } from "@/lib/canvas/model";
@@ -44,6 +48,18 @@ export function CanvasEditor({
   const selectNode = (id: string) => {
     setSelected(id);
     setEdgeSelected("");
+  };
+  // Notes pinned to components: the same list the Notes tab uses, so the marker and the tab cannot disagree.
+  const { user } = useAuth();
+  const designId = session.state.design.id;
+  const savedRevision = session.state.saved.revision;
+  const notes = useQuery({ queryKey: ["notes", user?.id, designId], queryFn: ({ signal }) => fetchNotes(designId, signal), enabled: !!user && !!designId, retry: false });
+  const noteCounts = countNotes(notes.data ?? []);
+  const savedIds = new Set(session.state.saved.graph.nodes.map((n) => n.id));
+  const openNotes = (id: string) => {
+    selectNode(id);
+    // Move to the component's notes once its panel has rendered.
+    requestAnimationFrame(() => document.getElementById("component-notes-heading")?.focus());
   };
   const selectEdge = (id: string) => {
     setEdgeSelected(id);
@@ -243,6 +259,8 @@ export function CanvasEditor({
             onConnect={connect}
             apiRef={apiRef}
             overlay={overlay}
+            noteCounts={noteCounts}
+            onOpenNotes={openNotes}
           />
         </div>
         <aside className="ed-props" aria-label="Component properties">
@@ -279,6 +297,7 @@ export function CanvasEditor({
               </p>
             </div>
           )}
+          {node && designId && <ComponentNotes key={"notes-" + node.id} designId={designId} currentRevision={savedRevision} node={node} savedComponentIds={savedIds} />}
           <ConnectionPanel
             graph={graph}
             selected={edgeSelected}

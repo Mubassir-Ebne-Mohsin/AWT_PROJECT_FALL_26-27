@@ -556,7 +556,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
           </div>
         )}
         {tab === "notes" ? (
-          <NotesTab designId={initial.id} currentRevision={state.saved.revision} />
+          <NotesTab designId={initial.id} currentRevision={state.saved.revision} components={state.saved.graph.nodes.map((n) => ({ id: n.id, label: n.label }))} />
         ) : tab === "history" ? (
           <HistoryTab
             designId={initial.id}

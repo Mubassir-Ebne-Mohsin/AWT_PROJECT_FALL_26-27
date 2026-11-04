@@ -62,7 +62,7 @@ export class ReportService {
         ? []
         : (await this.db.getRepository(DesignNote).find({ where: { designId }, order: { createdAt: "ASC", id: "ASC" }, take: 100 }))
             .filter((n) => noteScope === "all" || n.kind === "decision")
-            .map((n) => ({ revision: n.revision, kind: n.kind, text: n.text, createdAt: iso(n.createdAt) }));
+            .map((n) => ({ revision: n.revision, component: this.componentLabel(n.componentId ?? null, design.graph), kind: n.kind, text: n.text, createdAt: iso(n.createdAt) }));
 
     return reportSchema.parse({
       designId,
@@ -81,6 +81,12 @@ export class ReportService {
       notes,
       limitations: REPORT_LIMITATIONS,
     });
+  }
+
+  /** The label a pinned note shows: the component as it is in the design now, or a plain phrase when it was removed. */
+  private componentLabel(componentId: string | null, graph: { nodes: { id: string; label: string }[] }): string | null {
+    if (componentId === null) return null;
+    return graph.nodes.find((n) => n.id === componentId)?.label ?? "a removed component";
   }
 
   private runBlock(run: DesignRun, revision: number) {
