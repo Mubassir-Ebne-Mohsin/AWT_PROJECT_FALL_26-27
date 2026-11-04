@@ -16945,6 +16945,16 @@
           "description": {
             "type": "string"
           },
+          "source": {
+            "type": "string",
+            "enum": [
+              "blank",
+              "template",
+              "import",
+              "scripted",
+              "ai"
+            ]
+          },
           "revision": {
             "type": "integer",
             "exclusiveMinimum": 0,
@@ -18088,6 +18098,9 @@
                             "items": {
                               "type": "object",
                               "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
                                 "label": {
                                   "type": "string"
                                 },
@@ -18121,6 +18134,7 @@
                                 }
                               },
                               "required": [
+                                "id",
                                 "label",
                                 "type",
                                 "region",
@@ -18348,6 +18362,7 @@
           "designId",
           "name",
           "description",
+          "source",
           "revision",
           "isCurrentRevision",
           "versionCreatedAt",
@@ -18697,6 +18712,16 @@
               "description": {
                 "type": "string"
               },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "blank",
+                  "template",
+                  "import",
+                  "scripted",
+                  "ai"
+                ]
+              },
               "revision": {
                 "type": "integer",
                 "exclusiveMinimum": 0,
@@ -19840,6 +19865,9 @@
                                 "items": {
                                   "type": "object",
                                   "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
                                     "label": {
                                       "type": "string"
                                     },
@@ -19873,6 +19901,7 @@
                                     }
                                   },
                                   "required": [
+                                    "id",
                                     "label",
                                     "type",
                                     "region",
@@ -20099,6 +20128,7 @@
             "required": [
               "name",
               "description",
+              "source",
               "revision",
               "isCurrentRevision",
               "versionCreatedAt",
@@ -20431,6 +20461,16 @@
               "description": {
                 "type": "string"
               },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "blank",
+                  "template",
+                  "import",
+                  "scripted",
+                  "ai"
+                ]
+              },
               "revision": {
                 "type": "integer",
                 "exclusiveMinimum": 0,
@@ -21574,6 +21614,9 @@
                                 "items": {
                                   "type": "object",
                                   "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
                                     "label": {
                                       "type": "string"
                                     },
@@ -21607,6 +21650,7 @@
                                     }
                                   },
                                   "required": [
+                                    "id",
                                     "label",
                                     "type",
                                     "region",
@@ -21833,6 +21877,7 @@
             "required": [
               "name",
               "description",
+              "source",
               "revision",
               "isCurrentRevision",
               "versionCreatedAt",

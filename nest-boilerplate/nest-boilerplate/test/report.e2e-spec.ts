@@ -86,6 +86,9 @@ describe("M16.1 Report (isolated Postgres, no AI involved)", () => {
     expect(r.run!.simulation).toMatchObject({ verdict: s.verdict, p50: s.p50, p95: s.p95, p99: s.p99, errorRate: s.errorRate, throughput: s.throughput, sloMet: s.sloMet });
     expect(r.run!.simulation!.p95Target).toBe(s.traffic.sloP95);
     expect(r.run!.simulation!.components).toHaveLength(s.nodes.length);
+    // Each result names its graph node, so a drawing can match results to components even when two share a label.
+    expect(r.run!.simulation!.components.map((c) => c.id)).toEqual(s.nodes.map((n: { id: string }) => n.id));
+    for (const c of r.run!.simulation!.components) expect(r.graph.nodes.some((n) => n.id === c.id)).toBe(true);
     expect(r.run!.traffic).toEqual(latest.snapshot.traffic);
     expect(r.limitations).toEqual(REPORT_LIMITATIONS);
   });
@@ -151,7 +154,7 @@ describe("M16.1 Report (isolated Postgres, no AI involved)", () => {
     expect(text).not.toContain("ownerId");
     expect(text).not.toContain("owner_id");
     expect(Object.keys(r).sort()).toEqual(
-      ["designId", "name", "description", "revision", "isCurrentRevision", "versionCreatedAt", "generatedAt", "graph", "traffic", "run", "limits", "noteScope", "notes", "limitations"].sort(),
+      ["designId", "name", "description", "source", "revision", "isCurrentRevision", "versionCreatedAt", "generatedAt", "graph", "traffic", "run", "limits", "noteScope", "notes", "limitations"].sort(),
     );
   });
 

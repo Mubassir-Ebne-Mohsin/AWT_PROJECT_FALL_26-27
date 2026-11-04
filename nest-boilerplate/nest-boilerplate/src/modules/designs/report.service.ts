@@ -68,6 +68,7 @@ export class ReportService {
       designId,
       name: version.snapshot.name,
       description: version.snapshot.description,
+      source: design.source,
       revision,
       isCurrentRevision: design.revision === revision,
       versionCreatedAt: iso(version.createdAt),
@@ -99,7 +100,7 @@ export class ReportService {
         p95Target: s.traffic.sloP95,
         errorBudget: s.traffic.errorBudget,
         bottleneck: hot ? { label: hot.label, type: hot.type, rho: hot.rho } : null,
-        components: s.nodes.map((n) => ({ label: n.label, type: n.type, region: n.region, peak: n.peak, rho: n.rho, status: n.status, errors: n.errors })),
+        components: s.nodes.map((n) => ({ id: n.id, label: n.label, type: n.type, region: n.region, peak: n.peak, rho: n.rho, status: n.status, errors: n.errors })),
       };
     }
     return {

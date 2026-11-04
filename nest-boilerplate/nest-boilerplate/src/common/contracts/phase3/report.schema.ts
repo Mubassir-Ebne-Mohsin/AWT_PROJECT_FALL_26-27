@@ -15,6 +15,8 @@ export const reportQuerySchema = z.strictObject({
 export const reportNoteScopeSchema = z.enum(["all", "decisions", "none"]);
 
 const component = z.strictObject({
+  /** The graph node this result is for, so a drawing can match results to components even when two share a label. */
+  id: z.string(),
   label: z.string(),
   type: z.string(),
   region: z.string(),
@@ -76,6 +78,8 @@ export const reportSchema = z.strictObject({
   designId: z.uuid(),
   name: z.string(),
   description: z.string(),
+  /** How the design was made, so a document can say an AI-drafted or keyword-drafted design is one. */
+  source: z.enum(["blank", "template", "import", "scripted", "ai"]),
   revision: z.number().int().positive(),
   isCurrentRevision: z.boolean(),
   versionCreatedAt: z.iso.datetime(),

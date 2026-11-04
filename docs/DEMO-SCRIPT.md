@@ -60,6 +60,12 @@ Do this on the failing run **before** applying a fix, or reload the results page
 - Say plainly: "The first version failed its test (13 of 20) mostly because of defects in our own checks. We fixed five declared defects and removed the model's free-text sentence. On our own 27 development descriptions it then did 27 of 27, but we had read those descriptions while fixing, so that is a development figure, not a result. It is experimental."
 - If it is missing or unavailable, use the keyword draft ("Scripted mock") next to it, which needs no AI.
 
+## 3e. Download the design as a PDF (45 seconds) — no AI
+- On a completed run open **Report** (from the design's menu or `/designs/<id>/report`) and click **Download PDF**. A file named like `classic-three-tier-web-app-rev1-report.pdf` downloads; open it.
+- Show: page 1 has the verdict, the figures against the targets, a diagram of the architecture, and the line "Model estimate, not a measurement of real infrastructure."; page 2 has the component table (settings, load, status), the connections, the traffic, the Limits statement, the notes and the limitations; every page has a footer with the design id, revision, run id and engine version.
+- Say: "Each component's status is written in words and in the border style, so it still reads when printed in black and white. Every number is the one on the report page; the PDF adds none of its own. Nothing in it is written by AI."
+- Say plainly if asked: "It is Latin text only for now; other scripts show as a question mark with a note on the page. The Print button still works as before."
+
 ## 3d. What if the traffic changed? (1.5 minutes) — calculated, with an optional AI box
 - On a completed run open **What if the traffic changed?** Choose **Multiply the request rate by 3** and **Spike**, then **Run what-if**. Show the two columns: your run and the same design under the changed traffic, from the same model. Say: "There is no difference column on purpose; I read the two figures. Nothing is saved."
 - Type a value of **1000000** with Multiply to show it is explained before anything is sent ("from 0.1 to 20"): out-of-range values are refused, never clamped.

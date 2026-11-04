@@ -2599,6 +2599,8 @@ export interface components {
             designId: string;
             name: string;
             description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             revision: number;
             isCurrentRevision: boolean;
             /** Format: date-time */
@@ -2835,6 +2837,7 @@ export interface components {
                         rho: number;
                     } | null;
                     components: {
+                        id: string;
                         label: string;
                         type: string;
                         region: string;
@@ -2937,6 +2940,8 @@ export interface components {
             report: {
                 name: string;
                 description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 revision: number;
                 isCurrentRevision: boolean;
                 /** Format: date-time */
@@ -3173,6 +3178,7 @@ export interface components {
                             rho: number;
                         } | null;
                         components: {
+                            id: string;
                             label: string;
                             type: string;
                             region: string;
@@ -3281,6 +3287,8 @@ export interface components {
             report: {
                 name: string;
                 description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 revision: number;
                 isCurrentRevision: boolean;
                 /** Format: date-time */
@@ -3517,6 +3525,7 @@ export interface components {
                             rho: number;
                         } | null;
                         components: {
+                            id: string;
                             label: string;
                             type: string;
                             region: string;

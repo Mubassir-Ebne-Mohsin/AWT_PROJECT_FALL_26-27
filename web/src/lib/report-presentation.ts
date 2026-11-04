@@ -10,7 +10,10 @@ export const dateText = (iso: string) =>
   new Date(iso).toLocaleString("en-US", { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 
 /** What the report says about the chosen run. Never presents another revision's result as this one's. */
-export function runStatement(run: Run | null, revision: number): { text: string; warn: boolean } {
+export const runStatement = (run: Run | null, revision: number) => runStatementWith(run, revision, dateText);
+
+/** The same sentences with a chosen date format, so a document that must be reproducible (the PDF) can pass a fixed one. */
+export function runStatementWith(run: Run | null, revision: number, date: (iso: string) => string): { text: string; warn: boolean } {
   if (!run) return { text: `No test result has been recorded for revision ${revision}. Run a test on this revision to add one.`, warn: false };
   const what = run.kind === "limits" ? "Limits search" : "Test run";
   if (run.status === "pending") return { text: `This ${what.toLowerCase()} was still running when the report was made.`, warn: true };
@@ -21,7 +24,7 @@ export function runStatement(run: Run | null, revision: number): { text: string;
       warn: true,
     };
   if (run.kind === "limits") return { text: "A Limits search is not a simulation. Its result is shown under Limits.", warn: false };
-  return { text: `Recorded for revision ${revision} on ${dateText(run.createdAt)}.`, warn: false };
+  return { text: `Recorded for revision ${revision} on ${date(run.createdAt)}.`, warn: false };
 }
 
 /** Disclosure of whether a Limits search exists for the revision, stated as the model found it. */
