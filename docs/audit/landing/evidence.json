@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-28",
+  "contract": "Public architecture lab at /: immediate purpose, server-rendered story, persistent login, reversible exploded SVG, scoped Vite-inspired midnight/violet styling, existing fonts, no new dependency or unsupported live AI/performance claim. Details: ../../LANDING-PAGE.md and ../../../DESIGN.md.",
+  "targetViewports": ["1440x1000", "1024x900", "390x844", "320x700"],
+  "accessibility": {"status": "pass", "evidence": "Chrome/Edge tests checked keyboard focus and Enter on login, labelled heading/navigation/auth links, reduced-motion nonsticky static anatomy, immediate anchor behavior and readable server output without JavaScript. SVG has descriptive accessible names. Phone annotations use a readable component key. This is focused coverage, not screen-reader certification."},
+  "responsive": {"status": "pass", "evidence": "Rendered hero/anatomy captures at all four target dimensions; no main/root horizontal overflow. Browser checks also exercise 768px width. Readable mobile CTA wrapping and persistent header entry inspected."},
+  "contentStates": {
+    "loading": {"status": "not-applicable", "reason": "Public story has no required asynchronous data; all copy, links and illustration server-render without waiting for session restoration."},
+    "empty": {"status": "not-applicable", "reason": "Public editorial surface does not load user collections or search results."},
+    "error": {"status": "pass", "evidence": "Mocked refresh network failure with a stale session hint does not replace public story or hide login. Existing protected-route return-to still works."},
+    "partial": {"status": "pass", "evidence": "JavaScript-disabled browser retains full copy, illustration and real navigation. Reduced motion removes sticky choreography while retaining all narrative and static separated layers."},
+    "success": {"status": "pass", "evidence": "Final production Chrome 16/16, Edge subset 4/4; login/register navigation and scroll open/reassemble/reverse checks pass."},
+    "permission": {"status": "pass", "evidence": "Anonymous access to / is allowed; /new/template?landing-check=1 redirects to existing login with encoded return-to. No backend authorization code changed."}
+  },
+  "renderedEvidence": [
+    {"viewport":"1440x1000", "artifact":"hero-1440.png", "observation":"Desktop hero with immediate architecture purpose, CTA and custom layered specimen; dark scoped surface."},
+    {"viewport":"1024x900", "artifact":"hero-1024.png", "observation":"Laptop two-column composition retains copy, primary entry, specimen and scroll cue without horizontal overflow."},
+    {"viewport":"390x844", "artifact":"anatomy-390.png", "observation":"Phone sticky anatomy and narrative; readable HTML clients/routing/compute/data key replaces tiny SVG callouts."},
+    {"viewport":"320x700", "artifact":"hero-320.png", "observation":"Narrow phone heading and CTA wrap naturally; login remains visible and no horizontal overflow."}
+  ],
+  "checks": {
+    "productionBuild": "pass: Next 16.4.2, Node 22.23.4, isolated .next-audit",
+    "typecheck": "pass: tsc --noEmit after final build",
+    "lint": "pass: complete frontend ESLint, zero errors/warnings",
+    "unit": "120/120 existing frontend tests passed during implementation; no new unit runner or dependency",
+    "routeRegistry": "35 patterns, each has page file",
+    "chromeProduction": {"passed":16, "failed":0, "seconds":19.6},
+    "edgeProductionSubset": {"passed":4, "failed":0, "seconds":4.3},
+    "console": "No page/console errors during final four-size production capture; deliberate mocked API failure tests intentionally provoke network errors.",
+    "screenshots": "Nine production screenshots plus render-observations.json; not historical milestone screenshots."
+  },
+  "limitations": ["Full authenticated backend/canvas/simulation regression not rerun for this public-page change.", "No real account login submitted; existing auth service code unchanged, navigation/forms/redirects checked.", "No Firefox/WebKit, physical devices, assistive technology certification or formal frame-rate benchmark.", "Chrome and Edge are both Chromium; Edge coverage is a subset.", "No deployment, commit or GitHub push performed."],
+  "preservation": {"file":"../m2-profile-source.json", "sha256":"D0EDB982C694CF1983FFE36FAAC2F7C80ED77AC1A735852F03013E6C4A2F76DC", "status":"unchanged during this task; retained local/unstaged"}
+}

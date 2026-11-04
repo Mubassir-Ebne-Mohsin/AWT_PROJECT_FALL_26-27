@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-28",
+  "normal": {
+    "animation": "sf-specimen-settle",
+    "iterations": "2",
+    "duration": "2.4s"
+  },
+  "reduced": "none",
+  "heading": "none",
+  "noOverflow": true
+}

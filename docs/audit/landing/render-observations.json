@@ -1,0 +1,22 @@
+[
+  {
+    "viewport": "1440x1000",
+    "consoleErrors": [],
+    "noOverflow": true
+  },
+  {
+    "viewport": "1024x900",
+    "consoleErrors": [],
+    "noOverflow": true
+  },
+  {
+    "viewport": "390x844",
+    "consoleErrors": [],
+    "noOverflow": true
+  },
+  {
+    "viewport": "320x700",
+    "consoleErrors": [],
+    "noOverflow": true
+  }
+]
