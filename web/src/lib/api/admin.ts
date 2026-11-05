@@ -28,3 +28,6 @@ export function fetchAudit(after?: { at: string; id: string }, signal?: AbortSig
   }
   return api<AuditEntry[]>(`/admin/audit?${query.toString()}`, { ...local, signal });
 }
+
+/** Aggregate counts for the live dashboard. A failure stays on the dashboard, which shows its own reconnecting state. */
+export const fetchMetrics = (signal?: AbortSignal) => api<import("@/lib/admin-metrics").AdminMetrics>("/admin/metrics", { ...local, signal });

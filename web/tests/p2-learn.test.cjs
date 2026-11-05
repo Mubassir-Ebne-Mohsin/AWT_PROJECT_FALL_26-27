@@ -206,8 +206,8 @@ test("P2 progress: unreadable, tampered or unknown data is ignored, and a blocke
 
 // ---------- registry ----------
 
-test("P2 registry: the learn routes are complete, still 40 routes, and only the eight topics resolve", () => {
-  assert.equal(ROUTES.length, 40);
+test("P2 registry: the learn routes are complete, now 42 routes, and only the eight topics resolve", () => {
+  assert.equal(ROUTES.length, 42);
   for (const id of ["learn", "learn-topic"]) assert.equal(ROUTES.find((r) => r.id === id).fidelity, "C");
   for (const id of Object.keys(LEARN_TOPICS)) assert.equal(resolveRoute("/learn/" + id).title, LEARN_TOPICS[id]);
   assert.equal(resolveRoute("/learn/not-a-topic").title, "Page not found");

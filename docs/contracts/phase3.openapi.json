@@ -5972,6 +5972,117 @@
         }
       }
     },
+    "/v1/admin/metrics": {
+      "get": {
+        "operationId": "getAdminMetrics",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "x-implementation-status": "implemented",
+        "responses": {
+          "200": {
+            "description": "Success or retained terminal replay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AdminMetrics"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stable API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/admin/users": {
       "get": {
         "operationId": "searchAdminUsers",
@@ -20302,6 +20413,660 @@
           "roles",
           "status",
           "createdAt"
+        ],
+        "additionalProperties": false
+      },
+      "AdminMetrics": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "windowHours": {
+            "type": "number",
+            "const": 24
+          },
+          "seriesStart": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "users": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "suspendedUsers": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "designs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "archivedDesigns": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "runs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "shares": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "openShares": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "notes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "users",
+              "suspendedUsers",
+              "designs",
+              "archivedDesigns",
+              "runs",
+              "shares",
+              "openShares",
+              "notes"
+            ],
+            "additionalProperties": false
+          },
+          "activeNow": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "last24h": {
+            "type": "object",
+            "properties": {
+              "signups": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "designsCreated": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "runsCompleted": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "runsFailed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "aiCalls": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "signups",
+              "designsCreated",
+              "runsCompleted",
+              "runsFailed",
+              "aiCalls"
+            ],
+            "additionalProperties": false
+          },
+          "series": {
+            "type": "object",
+            "properties": {
+              "signups": {
+                "minItems": 24,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "designsCreated": {
+                "minItems": 24,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "runsCompleted": {
+                "minItems": 24,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "runsFailed": {
+                "minItems": 24,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "aiCalls": {
+                "minItems": 24,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              }
+            },
+            "required": [
+              "signups",
+              "designsCreated",
+              "runsCompleted",
+              "runsFailed",
+              "aiCalls"
+            ],
+            "additionalProperties": false
+          },
+          "roles": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "instructor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "reviewer": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "admin": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "user",
+              "instructor",
+              "reviewer",
+              "admin"
+            ],
+            "additionalProperties": false
+          },
+          "runs": {
+            "type": "object",
+            "properties": {
+              "byVerdict": {
+                "type": "object",
+                "properties": {
+                  "pass": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "strained": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "fail": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "unknown": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "pass",
+                  "strained",
+                  "fail",
+                  "unknown"
+                ],
+                "additionalProperties": false
+              },
+              "queue": {
+                "type": "object",
+                "properties": {
+                  "pending": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "oldestPendingSeconds": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "pending",
+                  "oldestPendingSeconds"
+                ],
+                "additionalProperties": false
+              },
+              "bottlenecks": {
+                "type": "object",
+                "properties": {
+                  "client": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "cdn": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "lb": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "gateway": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "app": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "worker": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "cache": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "db": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "replica": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "queue": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "storage": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "external": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "client",
+                  "cdn",
+                  "lb",
+                  "gateway",
+                  "app",
+                  "worker",
+                  "cache",
+                  "db",
+                  "replica",
+                  "queue",
+                  "storage",
+                  "external"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "byVerdict",
+              "queue",
+              "bottlenecks"
+            ],
+            "additionalProperties": false
+          },
+          "ai": {
+            "type": "object",
+            "properties": {
+              "byTask": {
+                "type": "object",
+                "properties": {
+                  "describe": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "whatif": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "fixes": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "describe",
+                  "whatif",
+                  "fixes"
+                ],
+                "additionalProperties": false
+              },
+              "completed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "failed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "byOutcome": {
+                "type": "object",
+                "properties": {
+                  "completed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "rate_limited": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "invalid_output": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "unavailable": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "cancelled": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "other": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "completed",
+                  "rate_limited",
+                  "invalid_output",
+                  "unavailable",
+                  "cancelled",
+                  "other"
+                ],
+                "additionalProperties": false
+              },
+              "tokens24h": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "latencyMs": {
+                "type": "object",
+                "properties": {
+                  "p50": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "p95": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "p50",
+                  "p95"
+                ],
+                "additionalProperties": false
+              },
+              "usage": {
+                "type": "object",
+                "properties": {
+                  "lastMinute": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "today": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "limitPerMinute": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "limitPerDay": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "lastMinute",
+                  "today",
+                  "limitPerMinute",
+                  "limitPerDay"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "byTask",
+              "completed",
+              "failed",
+              "byOutcome",
+              "tokens24h",
+              "latencyMs",
+              "usage"
+            ],
+            "additionalProperties": false
+          },
+          "funnel": {
+            "type": "object",
+            "properties": {
+              "registered": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "createdDesign": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "ranDesign": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "sharedDesign": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "registered",
+              "createdDesign",
+              "ranDesign",
+              "sharedDesign"
+            ],
+            "additionalProperties": false
+          },
+          "system": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "object",
+                "properties": {
+                  "ok": {
+                    "type": "boolean"
+                  },
+                  "latencyMs": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "ok",
+                  "latencyMs"
+                ],
+                "additionalProperties": false
+              },
+              "cache": {
+                "type": "object",
+                "properties": {
+                  "ok": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "ok"
+                ],
+                "additionalProperties": false
+              },
+              "uptimeSeconds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "database",
+              "cache",
+              "uptimeSeconds"
+            ],
+            "additionalProperties": false
+          },
+          "alerts": {
+            "maxItems": 6,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "enum": [
+                    "queue_backlog",
+                    "run_failures_high",
+                    "ai_failures_high",
+                    "ai_quota_near",
+                    "database_slow",
+                    "cache_down"
+                  ]
+                },
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "info",
+                    "warning",
+                    "critical"
+                  ]
+                }
+              },
+              "required": [
+                "key",
+                "level"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "generatedAt",
+          "windowHours",
+          "seriesStart",
+          "totals",
+          "activeNow",
+          "last24h",
+          "series",
+          "roles",
+          "runs",
+          "ai",
+          "funnel",
+          "system",
+          "alerts"
         ],
         "additionalProperties": false
       },

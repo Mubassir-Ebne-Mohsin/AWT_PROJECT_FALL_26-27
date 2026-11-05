@@ -79,6 +79,14 @@ Do this on the failing run **before** applying a fix, or reload the results page
 - **The AI box (only if the task is on):** type **`What if traffic doubles and spikes?`** and click **Read my sentence**. Expected: "Understood: the request rate multiplied by 2, a spike shape." Nothing changes until **Apply these choices**, and nothing runs until **Run what-if**.
 - Say plainly: "On our 39 development sentences the plain keyword rules, with the same cleaning and checks, scored 39 of 39, so the AI adds little here. We built it, measured that, and say so. It is labelled experimental."
 
+## 3g. The Admin live dashboard (1 minute) — no AI
+1. Sign in as an Admin. Account menu, **Live dashboard** (`/admin/dashboard`). Say: "Counts only. An Admin sees no one's name, email, design or notes here."
+2. In a second terminal run `pnpm demo:activity` (about a minute; `--rounds=10 --pace-ms=2000` for a shorter one). Watch **Accounts, Designs, Simulation runs, Active now** and the 24-hour bars tick up without a reload. The status pill says **Live** and "Updates every 5 seconds".
+3. Open **Show as table** under any chart: every bar is also a table of 24 hourly numbers.
+4. **Wall display** shows the headline numbers in large type and changes its lower panel every 10 seconds.
+5. Afterwards run `pnpm demo:activity:clean`. It removes only accounts ending `@demo.stressforge.test` and what belongs to them.
+Honest points: the demo accounts and AI rows are labelled demo (provider `demo`, no model is called); "Active now" means accounts that did something in the last 15 minutes, not who is logged in; if the server stops answering the page says **Reconnecting**, keeps the old numbers, and says how old they are.
+
 ## 4. Where does it break? (1.5 minutes) — no AI
 - On a completed run, open **Where does it break?** and choose **Show 2×, 5× and 10× load**.
 - Read the one-sentence headline, for example "Passes up to 2× load, then is strained at 5× and fails at 10×", then show the table: request rate, result, p95, errors, limiting component.

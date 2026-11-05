@@ -57,7 +57,7 @@ test("P3 data: six templates, a 12-component catalog and five traffic presets, w
   assert.equal(X.CATALOG.components.length, 12);
   assert.equal(X.CATALOG.presets.length, 5);
   assert.equal(X.CATALOG.regions.length, 3);
-  assert.equal(ROUTES.length, 40);
+  assert.equal(ROUTES.length, 42);
   for (const id of ["examples", "templates", "components", "new-template"]) assert.equal(ROUTES.find((r) => r.id === id).fidelity, "C", id);
   assert.equal(resolveRoute("/examples").route.area, "public");
   assert.equal(resolveRoute("/templates").route.area, "app");

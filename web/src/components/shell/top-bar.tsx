@@ -48,6 +48,22 @@ function ReviewerLink({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
+/** Admins get a way in to the dashboard and to account tools; everyone else sees no extra menu items. */
+function AdminLinks({ onNavigate }: { onNavigate: () => void }) {
+  const { roles } = useMyRoles();
+  if (!roles.includes("admin")) return null;
+  return (
+    <>
+      <Link href="/admin/dashboard" role="menuitem" onClick={onNavigate}>
+        <Icon n="gauge" /> Live dashboard
+      </Link>
+      <Link href="/admin/users" role="menuitem" onClick={onNavigate}>
+        <Icon n="user" /> Accounts and roles
+      </Link>
+    </>
+  );
+}
+
 /** Instructors get a way in to their challenges; everyone else sees no extra menu item. */
 function InstructorLink({ onNavigate }: { onNavigate: () => void }) {
   const { roles } = useMyRoles();
@@ -180,6 +196,7 @@ export function TopBar({ pathname }: { pathname: string }) {
                 </Link>
                 <ReviewerLink onNavigate={() => setUI(close)} />
                 <InstructorLink onNavigate={() => setUI(close)} />
+                <AdminLinks onNavigate={() => setUI(close)} />
                 <Link href="/settings/profile" role="menuitem" onClick={() => setUI(close)}>
                   <Icon n="settings" /> Settings
                 </Link>

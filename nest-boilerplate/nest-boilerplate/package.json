@@ -21,6 +21,8 @@
     "migration:run": "ts-node -r tsconfig-paths/register ./src/script/typeorm_migration_run.ts",
     "ai:gate": "ts-node -r tsconfig-paths/register ./src/script/ai-gate.ts",
     "demo:ai": "nest build && node dist/script/demo-ai.js",
+    "demo:activity": "ts-node -r tsconfig-paths/register ./src/script/demo-activity.ts",
+    "demo:activity:clean": "ts-node -r tsconfig-paths/register ./src/script/demo-activity.ts --clean",
     "demo:ai:check": "ts-node -r tsconfig-paths/register ./src/script/demo-ai-check.ts",
     "admin:bootstrap": "ts-node -r tsconfig-paths/register ./src/script/grant-first-admin.ts",
     "seed:demo-roles": "ts-node -r tsconfig-paths/register ./src/script/seed-demo-roles.ts",

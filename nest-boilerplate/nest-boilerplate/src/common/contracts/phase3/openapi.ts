@@ -32,6 +32,7 @@ import {
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
+import { adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
 import { createCommentRequestSchema, createReviewRequestSchema, editCommentRequestSchema, ownerReplyRequestSchema, reviewCommentSchema, reviewGrantSchema, reviewItemSchema, reviewViewSchema } from "@/common/contracts/phase3/reviews.schema";
@@ -97,6 +98,7 @@ export function phase3OpenApi() {
     AccountRoles: accountRolesSchema,
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
+    AdminMetrics: adminMetricsSchema,
     StatusChange: statusChangeSchema,
     CreateReviewRequest: createReviewRequestSchema,
     ReviewGrant: reviewGrantSchema,
@@ -483,6 +485,9 @@ export function phase3OpenApi() {
       },
       "/v1/account/roles": {
         get: operation("getAccountRoles", "AccountRoles"),
+      },
+      "/v1/admin/metrics": {
+        get: operation("getAdminMetrics", "AdminMetrics"),
       },
       "/v1/admin/users": {
         get: {

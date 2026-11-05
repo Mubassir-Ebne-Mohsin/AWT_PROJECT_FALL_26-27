@@ -660,6 +660,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAdminMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/users": {
         parameters: {
             query?: never;
@@ -3245,6 +3261,121 @@ export interface components {
             status: "active" | "suspended";
             /** Format: date-time */
             createdAt: string;
+        };
+        AdminMetrics: {
+            /** Format: date-time */
+            generatedAt: string;
+            /** @constant */
+            windowHours: 24;
+            /** Format: date-time */
+            seriesStart: string;
+            totals: {
+                users: number;
+                suspendedUsers: number;
+                designs: number;
+                archivedDesigns: number;
+                runs: number;
+                shares: number;
+                openShares: number;
+                notes: number;
+            };
+            activeNow: number;
+            last24h: {
+                signups: number;
+                designsCreated: number;
+                runsCompleted: number;
+                runsFailed: number;
+                aiCalls: number;
+            };
+            series: {
+                signups: number[];
+                designsCreated: number[];
+                runsCompleted: number[];
+                runsFailed: number[];
+                aiCalls: number[];
+            };
+            roles: {
+                user: number;
+                instructor: number;
+                reviewer: number;
+                admin: number;
+            };
+            runs: {
+                byVerdict: {
+                    pass: number;
+                    strained: number;
+                    fail: number;
+                    unknown: number;
+                };
+                queue: {
+                    pending: number;
+                    oldestPendingSeconds: number | null;
+                };
+                bottlenecks: {
+                    client: number;
+                    cdn: number;
+                    lb: number;
+                    gateway: number;
+                    app: number;
+                    worker: number;
+                    cache: number;
+                    db: number;
+                    replica: number;
+                    queue: number;
+                    storage: number;
+                    external: number;
+                };
+            };
+            ai: {
+                byTask: {
+                    describe: number;
+                    whatif: number;
+                    fixes: number;
+                };
+                completed: number;
+                failed: number;
+                byOutcome: {
+                    completed: number;
+                    rate_limited: number;
+                    invalid_output: number;
+                    unavailable: number;
+                    cancelled: number;
+                    other: number;
+                };
+                tokens24h: number;
+                latencyMs: {
+                    p50: number | null;
+                    p95: number | null;
+                };
+                usage: {
+                    lastMinute: number;
+                    today: number;
+                    limitPerMinute: number;
+                    limitPerDay: number;
+                };
+            };
+            funnel: {
+                registered: number;
+                createdDesign: number;
+                ranDesign: number;
+                sharedDesign: number;
+            };
+            system: {
+                database: {
+                    ok: boolean;
+                    latencyMs: number;
+                };
+                cache: {
+                    ok: boolean;
+                };
+                uptimeSeconds: number;
+            };
+            alerts: {
+                /** @enum {string} */
+                key: "queue_backlog" | "run_failures_high" | "ai_failures_high" | "ai_quota_near" | "database_slow" | "cache_down";
+                /** @enum {string} */
+                level: "info" | "warning" | "critical";
+            }[];
         };
         StatusChange: {
             /** Format: uuid */
@@ -8778,6 +8909,100 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AccountRoles"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getAdminMetrics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AdminMetrics"];
                     };
                 };
             };

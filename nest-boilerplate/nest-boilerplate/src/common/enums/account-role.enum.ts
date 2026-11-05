@@ -22,6 +22,8 @@ export enum Permission {
   ADMIN_ROLES_GRANT = "admin.roles.grant",
   ADMIN_AUDIT_READ = "admin.audit.read",
   ADMIN_USERS_SUSPEND = "admin.users.suspend",
+  /** Live dashboard: aggregate counts only, never design content. */
+  ADMIN_METRICS_READ = "admin.metrics.read",
   /** R3: read designs that owners have shared with this Reviewer. Reviewer only; Admin never reads design content. */
   REVIEW_READ = "review.read",
   /** R5: write, publish, archive and duplicate one's own challenges. Instructor only. */
@@ -37,7 +39,7 @@ export const PERMISSIONS: Record<AccountRole, readonly Permission[]> = {
   [AccountRole.USER]: [],
   [AccountRole.INSTRUCTOR]: [Permission.CHALLENGE_MANAGE],
   [AccountRole.REVIEWER]: [Permission.REVIEW_READ],
-  [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ, Permission.ADMIN_USERS_SUSPEND],
+  [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ, Permission.ADMIN_USERS_SUSPEND, Permission.ADMIN_METRICS_READ],
 };
 
 export const hasPermission = (roles: readonly AccountRole[], permission: Permission) => roles.some((role) => PERMISSIONS[role]?.includes(permission) ?? false);

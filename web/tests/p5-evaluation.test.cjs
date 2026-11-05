@@ -52,8 +52,8 @@ const testid = (v, id) => v.querySelector(`[data-testid='${id}']`);
 
 // ---------- registry ----------
 
-test("P5 registry: the Evaluation routes are public and honest, still 40 routes, and only the three tabs exist", () => {
-  assert.equal(ROUTES.length, 40);
+test("P5 registry: the Evaluation routes are public and honest, now 42 routes, and only the three tabs exist", () => {
+  assert.equal(ROUTES.length, 42);
   for (const id of ["evaluation-root", "evaluation"]) {
     const r = ROUTES.find((x) => x.id === id);
     assert.equal(r.area, "public", id);
