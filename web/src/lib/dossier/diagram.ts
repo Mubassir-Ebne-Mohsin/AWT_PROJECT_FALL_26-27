@@ -1,5 +1,6 @@
 import type { DossierReport, Op } from "@/lib/dossier/ops";
 import { encodable, shorten, type Measure } from "@/lib/dossier/text";
+import { compactTokens } from "@/lib/dossier/settings";
 import { percent } from "@/lib/result-presentation";
 
 /**
@@ -27,6 +28,37 @@ export function fitScale(report: Pick<DossierReport, "graph">, box: Pick<Box, "w
   const minY = Math.min(...nodes.map((n) => n.y)), maxY = Math.max(...nodes.map((n) => n.y));
   const width = maxX - minX + NODE_W, height = maxY - minY + NODE_H;
   return { scale: Math.min(1, box.w / width, box.h / height), width, height };
+}
+
+/**
+ * The smallest vertical distance, in the graph's own units, between two components that sit over the same stretch of the page: no box
+ * may grow past it without touching the box below. Large when no two components share a column.
+ */
+export function verticalClearance(nodes: { x: number; y: number }[]): number {
+  let best = Infinity;
+  for (let i = 0; i < nodes.length; i++)
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dy = Math.abs(nodes[i].y - nodes[j].y);
+      if (dy > 0 && Math.abs(nodes[i].x - nodes[j].x) < NODE_W) best = Math.min(best, dy);
+    }
+  return best;
+}
+
+export const MAX_SETTINGS_LINES = 2;
+
+/** Packs the settings, in order, onto as few lines as fit the width; an item is never split. Always at least one line when there are items. */
+export function wrapTokens(tokens: string[], width: number, size: number, measure: Measure): string[] {
+  const lines: string[] = [];
+  let current = "";
+  for (const token of tokens) {
+    const next = current ? current + "  " + token : token;
+    if (current && measure(next, size, false) > width) {
+      lines.push(current);
+      current = token;
+    } else current = next;
+  }
+  if (current) lines.push(current);
+  return lines;
 }
 
 const STATUS_WORD = { ok: "ok", warn: "near limit", fail: "over limit", idle: "idle" } as const;
@@ -58,6 +90,8 @@ export interface Drawn {
   height: number;
   /** Characters replaced because the font cannot draw them. */
   replaced: number;
+  /** True when each box also carries a line of its main settings (there was room, and at least one component has settings). */
+  settings: boolean;
 }
 
 /** What the diagram can truthfully say about each component's result. Statuses belong to the report's revision only if the run matches it. */
@@ -80,16 +114,30 @@ export function statusesFor(report: DossierReport): Map<string, { status: Status
 export function drawDiagram(report: DossierReport, box: Box, measure: Measure): Drawn {
   const nodes = report.graph.nodes;
   const { scale, width, height } = fitScale(report, box);
-  if (!nodes.length) return { ops: [], scale: 1, legible: true, height: 0, replaced: 0 };
-  if (scale < ILLEGIBLE_SCALE) return { ops: [], scale, legible: false, height: 0, replaced: 0 };
+  if (!nodes.length) return { ops: [], scale: 1, legible: true, height: 0, replaced: 0, settings: false };
+  if (scale < ILLEGIBLE_SCALE) return { ops: [], scale, legible: false, height: 0, replaced: 0, settings: false };
   const statuses = statusesFor(report);
   const minX = Math.min(...nodes.map((n) => n.x)), minY = Math.min(...nodes.map((n) => n.y));
   // Centred across the box, but top-aligned, so what follows sits right under the drawing.
   const ox = box.x + (box.w - width * scale) / 2, oy = box.y;
-  const bw = NODE_W * scale, bh = NODE_H * scale;
+  const baseH = NODE_H * scale;
   const place = new Map(nodes.map((n) => [n.id, { x: ox + (n.x - minX) * scale, y: oy + (n.y - minY) * scale }]));
   const size = Math.max(4, Math.min(8, 14 * scale));
   const small = Math.max(3.5, size - 1.5);
+  // A box grows only as far as the settings lines need, and only where the boxes above and below leave room and the page has the
+  // height. Otherwise the box keeps its usual size and the lines are left out: the Components table still lists every setting.
+  const bw = NODE_W * scale;
+  const lineGap = 1.5;
+  const needFor = (lines: number) => 12.5 + size + (2 + lines) * small + (lines - 1) * lineGap;
+  const wrapped = nodes.map((n) => wrapTokens(compactTokens(n.props as Record<string, unknown>), bw - 8, small, measure));
+  const wanted = Math.min(MAX_SETTINGS_LINES, Math.max(0, ...wrapped.map((w) => w.length)));
+  const clearance = verticalClearance(nodes) * scale - 3;
+  const pageRoom = Math.max(0, box.h - height * scale);
+  const reach = Math.min(clearance, baseH + pageRoom);
+  // Prefer the full lines; if they do not fit, one line (cut short with "...") if that fits; otherwise none.
+  const lines = wanted >= 1 && reach >= needFor(wanted) ? wanted : wanted >= 1 && reach >= needFor(1) ? 1 : 0;
+  const withSettings = lines > 0;
+  const bh = withSettings ? Math.max(baseH, needFor(lines)) : baseH;
   const ops: Op[] = [];
   let replaced = 0;
 
@@ -114,9 +162,19 @@ export function drawDiagram(report: DossierReport, box: Box, measure: Measure): 
     replaced += label.replaced + meta.replaced + status.replaced;
     ops.push({ k: "text", x: p.x + 4, y: p.y + 4 + size, size, bold: true, text: label.text });
     ops.push({ k: "text", x: p.x + 4, y: p.y + 6 + size + small, size: small, text: meta.text, gray: 0.35 });
+    if (withSettings) {
+      const mine = wrapped[nodes.indexOf(n)];
+      // When only one line fits, the tokens are joined and cut short; otherwise each wrapped line is drawn as it is.
+      const rows = lines === 1 && mine.length > 1 ? [mine.join("  ")] : mine.slice(0, lines);
+      rows.forEach((row, k) => {
+        const line = encodable(shorten(row, bw - 8, small, false, measure));
+        replaced += line.replaced;
+        if (line.text) ops.push({ k: "text", x: p.x + 4, y: p.y + 6 + size + small + (k + 1) * (small + lineGap), size: small, text: line.text });
+      });
+    }
     ops.push({ k: "text", x: p.x + 4, y: p.y + bh - 4, size: small, text: status.text });
   }
-  return { ops, scale, legible: true, height: height * scale, replaced };
+  return { ops, scale, legible: true, height: height * scale + Math.max(0, bh - baseH), replaced, settings: withSettings };
 }
 
 /** The legend in words: how a status is shown without colour. Returned as lines so the caller lays it out. */

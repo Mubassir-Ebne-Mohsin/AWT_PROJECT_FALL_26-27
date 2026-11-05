@@ -241,3 +241,126 @@ test("a name the font cannot draw still gives a valid file", async () => {
   await PDFDocument.load(bytes);
   assert.match(await pdfText(bytes), /\?{5} system \? ok/);
 });
+
+// ---- Settings inside the diagram boxes ----------------------------------------------------------------------------------------
+const S = require("../src/lib/dossier/settings.ts");
+const SETTINGS_GRAPH = {
+  nodes: [
+    F.NODE("n1", "Users", "client", 40, 228, { region: "us-east" }),
+    F.NODE("n2", "CDN", "cdn", 280, 120, { replicas: 2, capacity: 5000, latency: 15, hitRatio: 0.9 }),
+    F.NODE("n3", "App servers", "app", 520, 228, { replicas: 3, capacity: 250, latency: 40, region: "us-east" }),
+    F.NODE("n4", "Job queue", "queue", 520, 400, { maxDepth: 10000, capacity: 400 }),
+  ],
+  edges: [{ id: "e1", from: "n1", to: "n2" }, { id: "e2", from: "n1", to: "n3" }, { id: "e3", from: "n3", to: "n4" }],
+};
+// A wide design is drawn small, so its boxes are short and have to grow to carry settings; a wide-letter font makes four settings overflow one line.
+const WIDE_GRAPH = { ...SETTINGS_GRAPH, nodes: [...SETTINGS_GRAPH.nodes, F.NODE("n5", "Replica", "replica", 1000, 228, { replicas: 2, capacity: 900 })] };
+const wideFont = (text, size) => text.length * size * 0.62;
+const textsOf = (drawn) => drawn.ops.filter((o) => o.k === "text").map((o) => o.text);
+const borderOf = (drawn) => drawn.ops.filter((o) => o.k === "rect" && o.fill === 1);
+const overlap = (a, b) => a.x < b.x + b.w - 0.01 && b.x < a.x + a.w - 0.01 && a.y < b.y + b.h - 0.01 && b.y < a.y + a.h - 0.01;
+
+test("the short settings use the report's own formatting, one item each, in a fixed order, and ignore anything that is not a number", () => {
+  assert.deepEqual(S.compactTokens({ hitRatio: 0.9, latency: 15, capacity: 5000, replicas: 2, region: "us-east" }), ["2x", "cap 5,000", "15ms", "hit 90%"]);
+  assert.deepEqual(S.compactTokens({ maxDepth: 10000, share: 0.25 }), ["share 0.25", "depth 10,000"]);
+  assert.deepEqual(S.compactTokens({ region: "us-east", capacity: "lots", replicas: null }), []);
+  assert.deepEqual(S.compactTokens(undefined), []);
+  assert.equal(S.compactSettings({ replicas: 3, capacity: 250, latency: 40 }), "3x  cap 250  40ms");
+  assert.equal(S.compactSettings({}), "");
+  // The full wording of the Components table is unchanged, and both read the same numbers.
+  assert.equal(S.propertyText({ replicas: 1, capacity: 600, latency: 12 }), "1 copy, capacity 600, latency 12 ms");
+  assert.equal(S.propertyText({}), "defaults");
+  assert.equal(M.propertyText({ replicas: 3 }), "3 copies");
+});
+
+test("settings are packed onto as few lines as fit, in order, without splitting an item", () => {
+  const w = (text) => F.fake(text, 5, false);
+  assert.deepEqual(D.wrapTokens([], 100, 5, F.fake), []);
+  assert.deepEqual(D.wrapTokens(["2x"], 1, 5, F.fake), ["2x"], "a single item always gets a line, even if it is wider than the box");
+  const tokens = ["2x", "cap 5,000", "15ms", "hit 90%"];
+  const wide = D.wrapTokens(tokens, 10000, 5, F.fake);
+  assert.deepEqual(wide, ["2x  cap 5,000  15ms  hit 90%"]);
+  const narrow = D.wrapTokens(tokens, w("2x  cap 5,000  15ms") + 0.5, 5, F.fake);
+  assert.deepEqual(narrow, ["2x  cap 5,000  15ms", "hit 90%"]);
+  assert.deepEqual(narrow.join("  ").split("  "), tokens, "nothing lost, nothing reordered");
+});
+
+test("each box carries its own settings, nothing is cut short, a component without settings gets no line, and the legend still clears the boxes", () => {
+  const drawn = D.drawDiagram(F.report({ graph: SETTINGS_GRAPH }), { x: 40, y: 80, w: 515, h: 600 }, F.fake);
+  assert.equal(drawn.settings, true);
+  const texts = textsOf(drawn);
+  assert.ok(texts.includes("3x  cap 250  40ms"));
+  assert.ok(texts.includes("cap 400  depth 10,000"));
+  const cdn = texts.filter((t) => /^(2x|hit 90%)/.test(t) || /cap 5,000/.test(t));
+  assert.equal(cdn.join(" ").replace(/\s+/g, " "), "2x cap 5,000 15ms hit 90%", "the four CDN settings are all there, wrapped if need be");
+  assert.equal(texts.some((t) => t.endsWith("...")), false, "no setting is cut off");
+  assert.equal(texts.filter((t) => /cap|\dx/.test(t)).length >= 3, true);
+  // The client has only a region, which already has its place in the box: it gets no settings line.
+  assert.equal(texts.filter((t) => /^(cap|hit|depth|\d+x)/.test(t) && t.includes("us-east")).length, 0);
+  const rects = borderOf(drawn);
+  assert.equal(Math.max(...rects.map((r) => r.y + r.h)) <= 80 + drawn.height + 0.01, true, "the drawing's height covers the grown boxes");
+  assert.equal(Math.min(...rects.map((r) => r.y)) >= 80 - 0.01, true);
+});
+
+test("boxes never overlap, with or without settings", () => {
+  for (const graph of [SETTINGS_GRAPH, F.THREE_TIER, F.bigGraph(12, 4)]) {
+    const drawn = D.drawDiagram(F.report({ graph }), { x: 0, y: 0, w: 515, h: 700 }, F.fake);
+    if (!drawn.legible) continue;
+    const rects = borderOf(drawn);
+    for (let i = 0; i < rects.length; i++) for (let j = i + 1; j < rects.length; j++) assert.equal(overlap(rects[i], rects[j]), false, `boxes ${i} and ${j}`);
+  }
+});
+
+test("when the boxes above and below are too close to grow, or the page has no height to spare, the diagram is exactly as it was and says so", () => {
+  const tight = { nodes: [F.NODE("a", "Front", "app", 0, 0, { replicas: 2, capacity: 100 }), F.NODE("b", "Back", "db", 0, 40, { replicas: 1, capacity: 50 })], edges: [{ id: "e", from: "a", to: "b" }] };
+  const r = F.report({ graph: tight });
+  const cramped = D.drawDiagram(r, { x: 0, y: 0, w: 515, h: 600 }, F.fake);
+  assert.equal(cramped.settings, false);
+  assert.equal(textsOf(cramped).some((t) => /cap|\dx/.test(t)), false);
+  // A wide design is drawn small, so its boxes are short and would have to grow: with no spare height they do not.
+  const wide = F.report({ graph: { ...SETTINGS_GRAPH, nodes: [...SETTINGS_GRAPH.nodes, F.NODE("n5", "Replica", "replica", 1000, 228, { replicas: 2, capacity: 900 })] } });
+  const fit = D.fitScale(wide, { w: 515, h: 600 });
+  assert.equal(fit.scale < 0.6, true, "the wide design is drawn small");
+  assert.equal(D.drawDiagram(wide, { x: 0, y: 0, w: 515, h: 600 }, F.fake).settings, true, "with room, the boxes grow and carry settings");
+  const noRoom = D.drawDiagram(wide, { x: 0, y: 0, w: 515, h: fit.height * fit.scale }, F.fake);
+  assert.equal(noRoom.settings, false, "a page with no spare height does not get taller boxes");
+  const plain = F.report({ graph: { nodes: [F.NODE("a", "A", "lb", 0, 0), F.NODE("b", "B", "gateway", 300, 0, { region: "eu-west" })], edges: [] } });
+  assert.equal(D.drawDiagram(plain, { x: 0, y: 0, w: 515, h: 600 }, F.fake).settings, false, "nothing to show, nothing drawn");
+  // The caption tells the truth either way, and the table is still the full list.
+  const withLine = textsOfDossier(M.buildDossier(F.report({ graph: SETTINGS_GRAPH }), { includeNotes: true }, F.fake));
+  assert.match(withLine, /its main settings \(3x = three copies, cap = capacity/);
+  const without = textsOfDossier(M.buildDossier(r, { includeNotes: true }, F.fake));
+  assert.doesNotMatch(without, /main settings/);
+  assert.match(without, /Components table lists every setting/);
+});
+
+function textsOfDossier(dossier) {
+  return dossier.pages.flatMap((p) => p.ops.filter((o) => o.k === "text").map((o) => o.text)).join(" ");
+}
+
+test("a settings line in the diagram never changes the Components table", () => {
+  const withSettings = build(F.report({ graph: SETTINGS_GRAPH }));
+  const rows = withSettings.pages.flatMap((p) => p.ops.filter((o) => o.k === "text").map((o) => o.text));
+  assert.ok(rows.includes("2 copies, capacity 5,000, latency 15 ms, hit ratio 90%") || rows.some((t) => t.startsWith("2 copies, capacity 5,000")), "the table keeps the long wording");
+});
+
+
+test("on a wide design the boxes grow to carry their settings, the grown height is reported, and four settings wrap rather than being cut", () => {
+  const r = F.report({ graph: WIDE_GRAPH });
+  const box = { x: 40, y: 80, w: 515, h: 600 };
+  const fit = D.fitScale(r, box);
+  assert.equal(fit.scale < 0.6, true, "drawn small");
+  const drawn = D.drawDiagram(r, box, wideFont);
+  assert.equal(drawn.settings, true);
+  const rects = borderOf(drawn);
+  const boxHeights = rects.map((x) => x.h);
+  assert.equal(Math.min(...boxHeights) > 60 * fit.scale + 0.5, true, "every box is taller than the plain box");
+  assert.equal(Math.max(...rects.map((x) => x.y + x.h)) <= box.y + drawn.height + 0.01, true, "the reported height includes the grown boxes, so the legend sits below them");
+  assert.equal(drawn.height > fit.height * fit.scale, true);
+  const texts = textsOf(drawn);
+  assert.equal(texts.some((t) => t.endsWith("...")), false, "nothing is cut short");
+  const cdn = texts.filter((t) => t === "2x  cap 5,000  15ms" || t === "hit 90%" || t === "2x  cap 5,000" || t === "15ms  hit 90%");
+  assert.equal(cdn.length >= 2, true, "the CDN's four settings are on two lines");
+  assert.equal(texts.join("|").includes("2x  cap 5,000  15ms  hit 90%"), false, "not squeezed onto one line");
+  for (let i = 0; i < rects.length; i++) for (let j = i + 1; j < rects.length; j++) assert.equal(overlap(rects[i], rects[j]), false);
+});

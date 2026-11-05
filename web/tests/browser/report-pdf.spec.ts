@@ -88,6 +88,29 @@ test("Download PDF gives a real file named after the design and revision, whose 
   await expect(page.getByTestId("report-pdf-error")).toHaveCount(0);
 });
 
+test("the diagram in the file carries each component's settings, and the table lists them in full", async ({ page }, info) => {
+  const headers = await setup(page, "settings-" + info.project.name);
+  const id = await openTemplate(page);
+  const design = (await (await page.request.get(api + "/designs/" + id, { headers })).json()).data;
+  const graph = { ...design.graph, nodes: design.graph.nodes.map((n: { type: string; props: Record<string, unknown> }) => (n.type === "app" ? { ...n, props: { ...n.props, replicas: 3, capacity: 250, latency: 40 } } : n)) };
+  const patched = await page.request.patch(api + "/designs/" + id, { headers, data: { expectedRevision: design.revision, graph } });
+  expect(patched.status()).toBe(200);
+  const revision = (await patched.json()).data.revision as number;
+  const run = await simulate(page, headers, id, revision);
+  await page.goto("/designs/" + id + "/report?run=" + run.id);
+  await expect(page.getByTestId("report-verdict")).toBeVisible();
+  const download = page.waitForEvent("download");
+  await page.getByTestId("report-download-pdf").click();
+  const { text } = await pdfText((await (await download).path())!);
+  // In the diagram box (short form) and in the Components table (full wording): the same three numbers.
+  expect(text).toContain("3x  cap 250  40ms");
+  // The table cell wraps onto two lines, so compare with the line breaks turned into spaces.
+  expect(text.split("\n").join(" ")).toContain("3 copies, capacity 250, latency 40 ms");
+  expect(text).toContain("cap = capacity");
+  expect(text).toContain("The Components table lists every setting in full.");
+  expect(text).not.toMatch(/NaN|undefined|\[object/);
+});
+
 test("the notes tick-box decides whether decisions and assumptions are in the file", async ({ page }, info) => {
   const { headers, id } = await withRun(page, "notes-" + info.project.name);
   const note = await page.request.post(api + "/designs/" + id + "/notes", { headers, data: { kind: "decision", text: "Keep it simple for the demo." } });

@@ -1,6 +1,7 @@
 import { drawDiagram, drawLegend, fitScale, ILLEGIBLE_SCALE, READABLE_SCALE } from "@/lib/dossier/diagram";
 import { A4, MARGIN, type Dossier, type DossierReport, type Op, type Page } from "@/lib/dossier/ops";
 import { dossierFileName, encodable, wrap, utcStamp, type Measure } from "@/lib/dossier/text";
+import { propertyText, SETTINGS_KEY } from "@/lib/dossier/settings";
 import { limitsStatement, noteScopeText, runStatementWith, trafficRows, verdictSentence } from "@/lib/report-presentation";
 import { milliseconds, numberText, percent } from "@/lib/result-presentation";
 
@@ -26,20 +27,8 @@ const SOURCE_LINE: Record<DossierReport["source"], string> = {
   blank: "Started from a blank canvas.",
 };
 
-const PROP_ORDER: [string, (v: number) => string][] = [
-  ["replicas", (v) => `${numberText(v, 0)} cop${v === 1 ? "y" : "ies"}`],
-  ["capacity", (v) => `capacity ${numberText(v, 2)}`],
-  ["latency", (v) => `latency ${milliseconds(v)}`],
-  ["hitRatio", (v) => `hit ratio ${percent(v)}`],
-  ["share", (v) => `share ${numberText(v, 3)}`],
-  ["maxDepth", (v) => `max depth ${numberText(v, 0)}`],
-];
-
-/** The settings a component carries, in a fixed order, as one line. Region has its own column. */
-export function propertyText(props: Record<string, unknown>): string {
-  const parts = PROP_ORDER.flatMap(([key, fmt]) => (typeof props[key] === "number" ? [fmt(props[key] as number)] : []));
-  return parts.length ? parts.join(", ") : "defaults";
-}
+// The settings text lives in settings.ts so the diagram and the table use the same words.
+export { propertyText };
 
 class Layout {
   readonly pages: Page[] = [];
@@ -231,7 +220,9 @@ export function buildDossier(report: DossierReport, options: DossierOptions, mea
       sim && !report.run?.matchesRevision
         ? `Results are not drawn: the recorded run is for revision ${report.run?.designRevision}, not revision ${report.revision}.`
         : sim
-          ? "Each box shows the component's own name, type and region, and the model's utilisation for it at the traffic tested."
+          ? drawn.settings
+            ? `Each box shows the component's own name, type and region, its main settings (${SETTINGS_KEY}), and the model's utilisation for it at the traffic tested. The Components table lists every setting in full.`
+            : "Each box shows the component's own name, type and region, and the model's utilisation for it at the traffic tested. The Components table lists every setting."
           : "No test run is recorded for this revision, so no results are drawn.",
       { size: 8, gray: GRAY },
     );
