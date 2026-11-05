@@ -408,6 +408,18 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                     ? "Queued / running…"
                     : "Run test"}
             </button>
+            {/* The report and share pages used to be reachable only by typing their address; every tab now links to them. */}
+            <Link
+              className="btn btn-sm"
+              href={`/designs/${initial.id}/report`}
+              data-testid="ws-report-link"
+              title={session.dirty ? "The report covers the saved revision, not your unsaved changes." : "Open the report of this design and download it as a PDF."}
+            >
+              Report &amp; PDF
+            </Link>
+            <Link className="btn btn-sm" href={`/designs/${initial.id}/share`} data-testid="ws-share-link">
+              Share
+            </Link>
             <button className="btn btn-ghost btn-sm" onClick={remove}>
               Delete
             </button>
@@ -605,6 +617,23 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
               compact={tab === "edit"}
               currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
             />
+            {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
+              <section className="panel stack" style={{ padding: 16 }} aria-label="Report and PDF" data-testid="results-report-panel">
+                <h2 className="h3">Save or share this result</h2>
+                <p className="hint">
+                  A printable report of this design and this result, whether it passed, was strained or failed, with a PDF download.
+                  {session.isRunStale(displayedRun) ? " The design has changed since this run, so the report describes the saved design as it was then." : ""}
+                </p>
+                <div className="row">
+                  <Link className="btn btn-primary" href={`/designs/${initial.id}/report?run=${displayedRun.id}`} data-testid="results-report-link">
+                    Open report and download PDF
+                  </Link>
+                  <Link className="btn" href={`/designs/${initial.id}/share`}>
+                    Share
+                  </Link>
+                </div>
+              </section>
+            )}
             {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (
               <SuggestedFixes
                 key={displayedRun.id + ":" + state.saved.revision}
