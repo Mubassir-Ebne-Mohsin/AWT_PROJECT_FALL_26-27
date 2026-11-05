@@ -7,14 +7,15 @@ export enum AccountRole {
   USER = "user",
   INSTRUCTOR = "instructor",
   REVIEWER = "reviewer",
+  SUPPORT = "support",
   ADMIN = "admin",
 }
 
 /** Stable display and storage order. */
-export const ACCOUNT_ROLE_ORDER: readonly AccountRole[] = [AccountRole.USER, AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.ADMIN];
+export const ACCOUNT_ROLE_ORDER: readonly AccountRole[] = [AccountRole.USER, AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.SUPPORT, AccountRole.ADMIN];
 
 /** What an Admin may grant or revoke. User is implicit and cannot be removed. */
-export const GRANTABLE_ROLES = [AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.ADMIN] as const;
+export const GRANTABLE_ROLES = [AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.SUPPORT, AccountRole.ADMIN] as const;
 export type GrantableRole = (typeof GRANTABLE_ROLES)[number];
 
 export enum Permission {
@@ -28,6 +29,10 @@ export enum Permission {
   REVIEW_READ = "review.read",
   /** R5: write, publish, archive and duplicate one's own challenges. Instructor only. */
   CHALLENGE_MANAGE = "challenge.manage",
+  /** Support: see every problem report and read its thread. Support only; Admin never inherits it. */
+  SUPPORT_INBOX_READ = "support.inbox.read",
+  /** Support: reply, write internal notes, set status and priority, assign. Support only. */
+  SUPPORT_INBOX_REPLY = "support.inbox.reply",
 }
 
 /**
@@ -39,6 +44,7 @@ export const PERMISSIONS: Record<AccountRole, readonly Permission[]> = {
   [AccountRole.USER]: [],
   [AccountRole.INSTRUCTOR]: [Permission.CHALLENGE_MANAGE],
   [AccountRole.REVIEWER]: [Permission.REVIEW_READ],
+  [AccountRole.SUPPORT]: [Permission.SUPPORT_INBOX_READ, Permission.SUPPORT_INBOX_REPLY],
   [AccountRole.ADMIN]: [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ, Permission.ADMIN_USERS_SUSPEND, Permission.ADMIN_METRICS_READ],
 };
 

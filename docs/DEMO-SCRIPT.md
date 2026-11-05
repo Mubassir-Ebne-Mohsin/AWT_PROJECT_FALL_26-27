@@ -87,6 +87,19 @@ Do this on the failing run **before** applying a fix, or reload the results page
 5. Afterwards run `pnpm demo:activity:clean`. It removes only accounts ending `@demo.stressforge.test` and what belongs to them.
 Honest points: the demo accounts and AI rows are labelled demo (provider `demo`, no model is called); "Active now" means accounts that did something in the last 15 minutes, not who is logged in; if the server stops answering the page says **Reconnecting**, keeps the old numbers, and says how old they are.
 
+## 3h. Report a problem and watch Support answer it (2 minutes) — no AI
+Set-up once: `pnpm seed:demo-roles` (in the API folder) prints a password for `demo-support@example.test`; use it in a second browser window (or a private window).
+1. Signed in as an ordinary user, click the speech-bubble button in the top bar (**Report a problem**). Point at the list **Sent with your report**: screen, app version, browser, window size, time. Untick **Browser**. Say: "The screen is the page type, never the address, and nothing from the person's designs, password or cookies is ever collected."
+2. Pick a category, write a title and a sentence, **Send report**. It shows a reference such as **SF-1042**.
+3. In the Support window, account menu, **Support inbox** (only Support accounts see it). The new report is in bold with a blue dot. Open it: the report, what was sent with it, and the conversation. Write a reply, then switch to **Internal note** and write a note. Set **Priority** to High, **Status** to Waiting for the reporter, and **Assign to me**.
+4. Back as the user: account menu, **My reports**. The reply is there and the status says **Waiting for you**; **the internal note is not**. Write an answer; the report goes back to Open and shows as unread for Support.
+5. Support sets it to Resolved. The user can still write for 14 days and it reopens by itself.
+Honest points to say aloud:
+- Support sees what people wrote and chose to send, **never their designs**. An Admin does **not** see the inbox: they grant the Support role and see only counts on the dashboard.
+- Everything typed is plain text: markup is shown as text, never run. Limits are enforced on the server: 5 reports an hour, 20 a day.
+- If someone deletes their account, their reports stay but without their name or email.
+- Replies appear in the app only: there is no email in this version, and **sharing one design with Support by consent is not built**.
+
 ## 4. Where does it break? (1.5 minutes) — no AI
 - On a completed run, open **Where does it break?** and choose **Show 2×, 5× and 10× load**.
 - Read the one-sentence headline, for example "Passes up to 2× load, then is strained at 5× and fails at 10×", then show the table: request rate, result, p95, errors, limiting component.

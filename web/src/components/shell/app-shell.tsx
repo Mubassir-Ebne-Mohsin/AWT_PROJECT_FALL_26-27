@@ -7,7 +7,7 @@ import { ReactNode, Suspense, useEffect, useMemo, useRef } from "react";
 import { useAuth } from "@/components/auth/auth-provider";
 import { AiPanel } from "@/components/shell/ai-panel";
 import { CommandPalette } from "@/components/shell/command-palette";
-import { FeedbackModal } from "@/components/shell/feedback-modal";
+import { ReportDialog } from "@/components/support/report-dialog";
 import { HelpDrawer } from "@/components/shell/help-drawer";
 import { ShortcutsSheet } from "@/components/shell/shortcuts-sheet";
 import { TopBar } from "@/components/shell/top-bar";
@@ -147,7 +147,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {ui.help && !ui.ai && <HelpDrawer resolved={resolved} />}
       {ui.palette && <CommandPalette />}
       {ui.shortcuts && <ShortcutsSheet />}
-      {ui.feedback && <FeedbackModal path={pathname} />}
+      {ui.feedback && <ReportDialog path={pathname} />}
       {ui.system === "session" && pathname !== "/" && <SessionModal />}
       <DevSwitcher />
     </div>

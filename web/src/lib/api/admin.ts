@@ -1,12 +1,12 @@
 import { api } from "@/lib/api/client";
-import type { components } from "@/lib/api/schema";
+import type { components } from "@/lib/api/phase3-schema";
 
 type Schemas = components["schemas"];
 export type AdminUser = Schemas["AdminUser"];
 export type RoleChange = Schemas["RoleChange"];
 export type AuditEntry = Schemas["AuditEntry"];
 export type StatusChange = Schemas["StatusChange"];
-export type GrantableRole = "instructor" | "reviewer" | "admin";
+export type GrantableRole = "instructor" | "reviewer" | "support" | "admin";
 
 // Admin failures stay on the admin screen: a local scope never opens a global system screen.
 const local = { scope: "local" } as const;

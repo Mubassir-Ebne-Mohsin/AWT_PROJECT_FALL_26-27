@@ -84,6 +84,10 @@ export const ROUTES: RouteDef[] = [
   app("/progress", "progress", "Progress", 5, "S", "Challenges passed and concepts learned.", ["Recorded challenge outcomes and best metrics", "Concepts opened and the checks you passed (kept in this browser)", "A next suggestion, with the reason for it"]),
   app("/admin/dashboard", "admin-dashboard", "Admin: Live dashboard", 5, "S", "Live counts of accounts, designs, runs and AI use, with alerts. Admins only.", ["Totals and the last 24 hours, hour by hour", "Run queue, AI usage and system health", "Counts only: no names, emails, designs or notes"]),
   app("/admin/dashboard/wall", "admin-wall", "Admin: Wall display", 5, "S", "Large-type live numbers for a screen across the room. Admins only.", ["Accounts, designs, runs and active now in large type", "Alerts and a panel that changes every 10 seconds", "Counts only: no names, emails, designs or notes"]),
+  app("/reports", "my-reports", "My reports", 5, "S", "The problems you have reported, their status, and Support's replies.", ["Your reports with a reference such as SF-1042 and their status", "Support's replies, and a box to add more", "Reopen a resolved report for 14 days"]),
+  app("/reports/:id", "my-report", "Report", 5, "S", "One of your reports and its conversation with Support.", ["What you sent and what was sent with it", "Support's replies", "Add a message or reopen it"]),
+  app("/support", "support-inbox", "Support inbox", 5, "S", "Every problem report, with filters and search. Support accounts only.", ["Filter by status, category, priority, owner and unread", "Search by words or a reference such as SF-1042", "Open a report to reply, add a private note, or change it"]),
+  app("/support/:id", "support-ticket", "Support: report", 5, "S", "One report with its thread and private notes. Support accounts only.", ["Reply to the reporter or write a note only Support can see", "Set status and priority, and assign it", "See what the reporter chose to send"]),
   app("/admin/users", "admin-users", "Admin: Accounts", 5, "S", "Find accounts, change roles, suspend or restore, and read the audit log. Admins only.", ["Search by part of an email or name", "Give or remove the Instructor, Reviewer and Admin roles", "Suspend or restore an account", "Read the audit log"]),
   app("/reviews", "reviews", "Shared with me", 5, "S", "Designs that owners have shared with you as a Reviewer. Reviewers only.", ["Frozen, read-only copies chosen by their owners", "The owner's display name only, never their email", "Open a copy to read the design and its recorded result"]),
   app("/reviews/:id", "review", "Review", 5, "S", "One frozen design shared with you as a Reviewer. Reviewers only.", ["Read-only design, result and model limitations", "Your access ends the moment the owner stops sharing"]),
@@ -192,6 +196,12 @@ export function crumbsFor(r: ResolvedRoute): Crumb[] {
       break;
     case "review":
       out.push({ label: "Shared with me", to: "/reviews" }, { label: r.title });
+      break;
+    case "my-report":
+      out.push({ label: "My reports", to: "/reports" }, { label: r.title });
+      break;
+    case "support-ticket":
+      out.push({ label: "Support inbox", to: "/support" }, { label: r.title });
       break;
     case "instructor-challenge":
       out.push({ label: "My challenges", to: "/instructor/challenges" }, { label: r.title });

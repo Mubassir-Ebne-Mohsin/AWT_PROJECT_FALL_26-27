@@ -6,11 +6,12 @@ import { Role } from "@/common/enums/role.enum";
 import { User } from "@/modules/users/entities/user.entity";
 import { AccountRolesService, OPERATOR } from "@/modules/roles/account-roles.service";
 
-/** One demo account per role, so all four can be shown in the course demo. Reserved example domain, never real. */
+/** One demo account per role, so every role can be shown in the course demo. Reserved example domain, never real. */
 export const DEMO_ACCOUNTS: Array<{ email: string; displayName: string; roles: GrantableRole[] }> = [
   { email: "demo-user@example.test", displayName: "Demo User", roles: [] },
   { email: "demo-instructor@example.test", displayName: "Demo Instructor", roles: [AccountRole.INSTRUCTOR] },
   { email: "demo-reviewer@example.test", displayName: "Demo Reviewer", roles: [AccountRole.REVIEWER] },
+  { email: "demo-support@example.test", displayName: "Demo Support", roles: [AccountRole.SUPPORT] },
   { email: "demo-admin@example.test", displayName: "Demo Admin", roles: [AccountRole.ADMIN] },
 ];
 

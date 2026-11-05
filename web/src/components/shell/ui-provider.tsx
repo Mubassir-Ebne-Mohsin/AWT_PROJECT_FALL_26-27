@@ -9,6 +9,8 @@ export interface UiState {
   help: boolean;
   shortcuts: boolean;
   feedback: boolean;
+  /** An error reference to include in the problem report, set when the report is opened from an error screen. */
+  reportRef: string | null;
   navMenu: boolean;
   userMenu: boolean;
   dev: boolean;
@@ -24,6 +26,7 @@ const INITIAL: UiState = {
   help: false,
   shortcuts: false,
   feedback: false,
+  reportRef: null,
   navMenu: false,
   userMenu: false,
   dev: false,

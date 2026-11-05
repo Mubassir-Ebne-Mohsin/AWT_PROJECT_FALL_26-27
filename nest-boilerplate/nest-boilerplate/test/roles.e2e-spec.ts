@@ -238,6 +238,7 @@ describe("R1 Roles (isolated Postgres, no AI involved)", () => {
     expect(byEmail["demo-user"].roles).toEqual(["user"]);
     expect(byEmail["demo-instructor"].roles).toEqual(["user", "instructor"]);
     expect(byEmail["demo-reviewer"].roles).toEqual(["user", "reviewer"]);
+    expect(byEmail["demo-support"].roles).toEqual(["user", "support"]);
     expect(byEmail["demo-admin"].roles).toEqual(["user", "admin"]);
     for (const m of made) {
       expect(m.password).toMatch(/^[A-Za-z0-9_-]{20}$/);
@@ -249,7 +250,7 @@ describe("R1 Roles (isolated Postgres, no AI involved)", () => {
     const again = await seedDemoAccounts(db, { production: false });
     expect(again.every((m) => m.password === null)).toBe(true);
     expect(again.map((m) => m.roles)).toEqual(made.map((m) => m.roles));
-    expect((await db.query("SELECT count(*)::int AS n FROM users WHERE email LIKE 'demo-%@example.test'"))[0].n).toBe(4);
+    expect((await db.query("SELECT count(*)::int AS n FROM users WHERE email LIKE 'demo-%@example.test'"))[0].n).toBe(5);
   });
 
   it("publishes the operations in the live OpenAPI document, identical to the canonical contract", async () => {

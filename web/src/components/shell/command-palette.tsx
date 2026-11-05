@@ -44,7 +44,7 @@ export function CommandPalette() {
     if (authed) add("Actions", "Ask the AI assistant", () => setUI({ ai: true, help: false }), { icon: "sparkle", hint: "." });
     add("Actions", "Help for this screen", () => setUI({ help: true, ai: false }), { icon: "help" });
     add("Actions", "Keyboard shortcuts", () => setUI({ shortcuts: true }), { icon: "keyboard", hint: "?" });
-    add("Actions", "Send feedback", () => setUI({ feedback: true }), { icon: "msg" });
+    add("Actions", "Report a problem", () => setUI({ feedback: true, reportRef: null }), { icon: "msg" });
     if (authed) add("Actions", "Log out", () => void signOut(), { icon: "logout" });
     else add("Actions", "Log in", go("/login"), { icon: "user" });
 

@@ -4,6 +4,7 @@ import "@/styles/m15.css";
 import "@/styles/m16.css";
 import "@/styles/r2.css";
 import "@/styles/dash.css";
+import "@/styles/support.css";
 import "@/styles/m7.css";
 import "@/styles/m5.css";
 import "@/styles/m4.css";

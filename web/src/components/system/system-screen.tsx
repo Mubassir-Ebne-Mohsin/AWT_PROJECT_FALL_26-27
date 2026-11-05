@@ -189,7 +189,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
             <dd>{new Date().toISOString().slice(0, 19).replace("T", " ")} UTC</dd>
           </dl>
           <p className="hint" style={{ marginTop: 10 }}>
-            If it keeps happening, send feedback and include the reference.
+            If it keeps happening, report the problem. The reference above goes with the report.
           </p>
         </div>
       );
@@ -206,8 +206,8 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
               </>
             )}
           </button>
-          <button className="btn" onClick={() => setUI({ feedback: true })}>
-            Send feedback
+          <button className="btn" onClick={() => setUI({ feedback: true, reportRef: reference ?? null })} data-testid="system-report">
+            Report this problem
           </button>
         </>
       );

@@ -1,14 +1,15 @@
-/** The four account roles, as the server names them. Every account is a User; the others are granted by an Admin. */
-export type RoleName = "user" | "instructor" | "reviewer" | "admin";
+/** The five account roles, as the server names them. Every account is a User; the others are granted by an Admin. */
+export type RoleName = "user" | "instructor" | "reviewer" | "support" | "admin";
 
 export const ROLE_LABEL: Record<RoleName, string> = {
   user: "User",
   instructor: "Instructor",
   reviewer: "Reviewer",
+  support: "Support",
   admin: "Admin",
 };
 
-const ORDER: RoleName[] = ["user", "instructor", "reviewer", "admin"];
+const ORDER: RoleName[] = ["user", "instructor", "reviewer", "support", "admin"];
 
 /** Roles beyond the default User, in a fixed order, for display. Unknown values from the server are ignored. */
 export function extraRoles(roles: readonly string[] | undefined): RoleName[] {

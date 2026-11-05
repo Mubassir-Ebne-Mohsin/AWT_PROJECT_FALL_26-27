@@ -7,7 +7,7 @@ export const accountRoleSchema = z.enum(AccountRole);
 export const grantableRoleSchema = z.enum(GRANTABLE_ROLES);
 
 /** The signed-in account's own roles, read from the database. User is always present. */
-export const accountRolesSchema = z.strictObject({ roles: z.array(accountRoleSchema).min(1).max(4) });
+export const accountRolesSchema = z.strictObject({ roles: z.array(accountRoleSchema).min(1).max(5) });
 
 export const grantRoleRequestSchema = z.strictObject({ role: grantableRoleSchema });
 export const lookupQuerySchema = z.strictObject({ email: z.string().trim().min(3).max(254) });
@@ -24,7 +24,7 @@ export const adminUserSchema = z.strictObject({
   id: z.uuid(),
   displayName: z.string(),
   email: z.string(),
-  roles: z.array(accountRoleSchema).min(1).max(4),
+  roles: z.array(accountRoleSchema).min(1).max(5),
   status: z.enum(["active", "suspended"]),
   createdAt: z.iso.datetime(),
 });
@@ -33,7 +33,7 @@ export const adminUserSchema = z.strictObject({
 export const userSearchQuerySchema = z.strictObject({ q: z.string().trim().min(2).max(100), limit: z.coerce.number().int().min(1).max(20).default(10) });
 export const statusChangeSchema = z.strictObject({ userId: z.uuid(), status: z.enum(["active", "suspended"]) });
 
-export const roleChangeSchema = z.strictObject({ userId: z.uuid(), roles: z.array(accountRoleSchema).min(1).max(4) });
+export const roleChangeSchema = z.strictObject({ userId: z.uuid(), roles: z.array(accountRoleSchema).min(1).max(5) });
 
 const party = z.strictObject({ id: z.uuid().nullable(), email: z.string() });
 /** Append-only: nobody can edit or delete an entry. `actor.email` is "operator" for server-side commands. */

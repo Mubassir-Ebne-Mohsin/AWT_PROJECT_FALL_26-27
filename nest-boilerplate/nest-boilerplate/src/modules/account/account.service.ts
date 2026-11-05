@@ -98,6 +98,14 @@ export class AccountService {
        LEFT JOIN users u ON u.id = f.instructor_id WHERE a.learner_id = $1 ORDER BY f.created_at, f.id`,
     );
     const history = await q("SELECT at, action, role FROM role_audit WHERE target_id = $1 ORDER BY at", [userId]);
+    const reports = await q(
+      `SELECT id, ref, category, title, status, created_at, body, expected FROM support_tickets WHERE author_id = $1 ORDER BY created_at, id`,
+    );
+    // Public messages only: `internal = false` keeps Support's private notes out of a person's own export.
+    const reportMessages = await q(
+      `SELECT m.ticket_id, m.author_kind, m.body, m.created_at FROM support_messages m
+       JOIN support_tickets t ON t.id = m.ticket_id WHERE t.author_id = $1 AND m.internal = false ORDER BY m.seq`,
+    );
 
     const by = <T extends { design_id?: string; attempt_id?: string; grant_id?: string }>(rows: T[], key: "design_id" | "attempt_id" | "grant_id", id: string) =>
       rows.filter((r) => r[key] === id);
@@ -163,6 +171,16 @@ export class AccountService {
         feedbackReceived: by(feedback, "attempt_id", a.id).map((f) => ({ from: f.author, text: f.body, createdAt: iso(f.created_at) })),
       })),
       roleHistory: history.map((h) => ({ at: iso(h.at), action: h.action, role: h.role })),
+      problemReports: reports.map((r) => ({
+        code: `SF-${r.ref}`,
+        category: r.category,
+        title: r.title,
+        status: r.status,
+        createdAt: iso(r.created_at),
+        body: r.body,
+        expected: r.expected,
+        messages: reportMessages.filter((x) => x.ticket_id === r.id).map((x) => ({ from: x.author_kind === "user" ? "you" : "support", text: x.body, createdAt: iso(x.created_at) })),
+      })),
     });
   }
 

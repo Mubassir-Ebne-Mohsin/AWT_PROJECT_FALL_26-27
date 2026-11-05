@@ -85,4 +85,17 @@ export const accountExportSchema = z.strictObject({
     }),
   ),
   roleHistory: z.array(z.strictObject({ at: when, action: z.string(), role: z.string().nullable() })),
+  /** Problem reports this account wrote. Support's public replies are included; internal notes never are. */
+  problemReports: z.array(
+    z.strictObject({
+      code: z.string(),
+      category: z.string(),
+      title: z.string(),
+      status: z.string(),
+      createdAt: when,
+      body: z.string(),
+      expected: z.string().nullable(),
+      messages: z.array(z.strictObject({ from: z.enum(["you", "support"]), text: z.string(), createdAt: when })),
+    }),
+  ),
 });

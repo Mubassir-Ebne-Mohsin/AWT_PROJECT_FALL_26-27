@@ -11,7 +11,7 @@ import { dateText } from "@/lib/report-presentation";
 import { resolveRoute } from "@/lib/routes";
 import { ROLE_LABEL } from "@/lib/roles-presentation";
 
-const GRANTABLE: GrantableRole[] = ["instructor", "reviewer", "admin"];
+const GRANTABLE: GrantableRole[] = ["instructor", "reviewer", "support", "admin"];
 type Notice = { ok: boolean; text: string } | null;
 
 export function AdminUsers() {

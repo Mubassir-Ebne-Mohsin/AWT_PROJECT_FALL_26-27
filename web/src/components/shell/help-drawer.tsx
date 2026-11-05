@@ -97,6 +97,9 @@ export function HelpDrawer({ resolved }: { resolved: ResolvedRoute }) {
             </span>
           </div>
           <Link href="/welcome">Take the one-minute tour</Link>
+          <button className="btn btn-sm" onClick={() => setUI({ feedback: true, reportRef: null })} data-testid="help-report">
+            <Icon n="msg" s={14} /> Report a problem
+          </button>
         </div>
       </div>
     </aside>

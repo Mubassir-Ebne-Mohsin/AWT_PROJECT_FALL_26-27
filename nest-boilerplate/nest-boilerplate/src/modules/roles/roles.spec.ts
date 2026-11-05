@@ -5,6 +5,7 @@ import { ACCOUNT_ROLE_ORDER, AccountRole, GRANTABLE_ROLES, PERMISSIONS, Permissi
 import { AppException } from "@/common/errors";
 import { PermissionGuard } from "@/modules/roles/permission.guard";
 import { AccountController, AdminController } from "@/modules/roles/roles.controller";
+import { SupportInboxController, SupportReportsController } from "@/modules/support/support.controller";
 
 const ADMIN_ONLY = [Permission.ADMIN_USERS_READ, Permission.ADMIN_ROLES_GRANT, Permission.ADMIN_AUDIT_READ];
 
@@ -12,7 +13,7 @@ describe("R1 permission table", () => {
   it("gives Admin exactly the admin permissions and every other role none", () => {
     for (const permission of ADMIN_ONLY) {
       expect(hasPermission([AccountRole.ADMIN], permission)).toBe(true);
-      for (const role of [AccountRole.USER, AccountRole.INSTRUCTOR, AccountRole.REVIEWER]) expect(hasPermission([role], permission)).toBe(false);
+      for (const role of [AccountRole.USER, AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.SUPPORT]) expect(hasPermission([role], permission)).toBe(false);
     }
   });
 
@@ -29,9 +30,32 @@ describe("R1 permission table", () => {
     expect(Object.keys(PERMISSIONS).sort()).toEqual([...ACCOUNT_ROLE_ORDER].sort());
   });
 
-  it("lets an Admin grant Instructor, Reviewer and Admin, but never User, which every account has", () => {
-    expect([...GRANTABLE_ROLES]).toEqual([AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.ADMIN]);
+  it("lets an Admin grant Instructor, Reviewer, Support and Admin, but never User, which every account has", () => {
+    expect([...GRANTABLE_ROLES]).toEqual([AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.SUPPORT, AccountRole.ADMIN]);
     expect(GRANTABLE_ROLES as readonly AccountRole[]).not.toContain(AccountRole.USER);
+  });
+
+  it("gives Support exactly the inbox permissions, and no other role (Admin included) holds them", () => {
+    const inbox = [Permission.SUPPORT_INBOX_READ, Permission.SUPPORT_INBOX_REPLY];
+    expect([...PERMISSIONS[AccountRole.SUPPORT]].sort()).toEqual([...inbox].sort());
+    for (const permission of inbox) {
+      expect(hasPermission([AccountRole.SUPPORT], permission)).toBe(true);
+      for (const role of [AccountRole.USER, AccountRole.INSTRUCTOR, AccountRole.REVIEWER, AccountRole.ADMIN]) expect([role, hasPermission([role], permission)]).toEqual([role, false]);
+      expect(hasPermission([AccountRole.USER, AccountRole.ADMIN, AccountRole.REVIEWER, AccountRole.INSTRUCTOR], permission)).toBe(false);
+    }
+    // Support gains nothing of the other roles either.
+    for (const permission of Object.values(Permission).filter((p) => !inbox.includes(p))) expect([permission, hasPermission([AccountRole.SUPPORT], permission)]).toEqual([permission, false]);
+  });
+
+  it("makes every inbox route declare an inbox permission, and the author's routes declare none (they are scoped to the author in the service)", () => {
+    const names = (c: { prototype: object }) => Object.getOwnPropertyNames(c.prototype).filter((n) => n !== "constructor");
+    const metaOf = (c: { prototype: object }, n: string) => Reflect.getMetadata(PERMISSION_KEY, (c.prototype as unknown as Record<string, () => void>)[n]);
+    const inbox = names(SupportInboxController);
+    expect(inbox.length).toBeGreaterThanOrEqual(6);
+    for (const route of inbox) expect([route, [Permission.SUPPORT_INBOX_READ, Permission.SUPPORT_INBOX_REPLY].includes(metaOf(SupportInboxController, route))]).toEqual([route, true]);
+    for (const route of ["reply", "update"]) expect(metaOf(SupportInboxController, route)).toBe(Permission.SUPPORT_INBOX_REPLY);
+    for (const route of ["agents", "inbox", "detail", "read"]) expect(metaOf(SupportInboxController, route)).toBe(Permission.SUPPORT_INBOX_READ);
+    for (const route of names(SupportReportsController)) expect([route, metaOf(SupportReportsController, route)]).toEqual([route, undefined]);
   });
 
   it("makes every admin route declare a permission, so none can be added unprotected", () => {

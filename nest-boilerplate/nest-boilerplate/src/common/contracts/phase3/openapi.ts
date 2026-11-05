@@ -32,6 +32,19 @@ import {
 } from "@/common/contracts/phase3/history.schema";
 import { comparisonSchema } from "@/common/contracts/phase3/compare.schema";
 import { reportSchema } from "@/common/contracts/phase3/report.schema";
+import {
+  createReportSchema,
+  inboxDetailSchema,
+  inboxItemSchema,
+  inboxPageSchema,
+  messageRequestSchema,
+  reportContextSchema,
+  reportDetailSchema,
+  reportSummarySchema,
+  supportAgentSchema,
+  supportMessageRequestSchema,
+  ticketUpdateSchema,
+} from "@/common/contracts/phase3/support.schema";
 import { adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
@@ -99,6 +112,17 @@ export function phase3OpenApi() {
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
     AdminMetrics: adminMetricsSchema,
+    ReportContext: reportContextSchema,
+    CreateReportRequest: createReportSchema,
+    ReportMessageRequest: messageRequestSchema,
+    SupportMessageRequest: supportMessageRequestSchema,
+    TicketUpdate: ticketUpdateSchema,
+    ReportSummary: reportSummarySchema,
+    ReportDetail: reportDetailSchema,
+    InboxItem: inboxItemSchema,
+    InboxDetail: inboxDetailSchema,
+    InboxPage: inboxPageSchema,
+    SupportAgent: supportAgentSchema,
     StatusChange: statusChangeSchema,
     CreateReviewRequest: createReviewRequestSchema,
     ReviewGrant: reviewGrantSchema,
@@ -486,6 +510,75 @@ export function phase3OpenApi() {
       "/v1/account/roles": {
         get: operation("getAccountRoles", "AccountRoles"),
       },
+      "/v1/support/reports": {
+        get: {
+          ...operation("listMyReports", "ReportSummary"),
+          responses: {
+            ...operation("listMyReports", "ReportSummary").responses,
+            200: { description: "The account's own reports, newest first (at most 100)", content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("ReportSummary"), maxItems: 100 } } }) },
+          },
+        },
+        post: {
+          ...operation("createReport", "ReportDetail", "CreateReportRequest"),
+          responses: { ...operation("createReport", "ReportDetail", "CreateReportRequest").responses, 201: { description: "The report was received", content: content(envelope("ReportDetail")) } },
+        },
+      },
+      "/v1/support/reports/{id}": {
+        get: { ...operation("getMyReport", "ReportDetail"), parameters: [parameter] },
+      },
+      "/v1/support/reports/{id}/messages": {
+        post: {
+          ...operation("addReportMessage", "ReportDetail", "ReportMessageRequest"),
+          parameters: [parameter],
+          responses: { ...operation("addReportMessage", "ReportDetail", "ReportMessageRequest").responses, 201: { description: "The message was added", content: content(envelope("ReportDetail")) } },
+        },
+      },
+      "/v1/support/agents": {
+        get: {
+          ...operation("listSupportAgents", "SupportAgent"),
+          responses: {
+            ...operation("listSupportAgents", "SupportAgent").responses,
+            200: { description: "Accounts that hold the Support role", content: content({ type: "object", required: ["data"], properties: { data: { type: "array", items: ref("SupportAgent"), maxItems: 200 } } }) },
+          },
+        },
+      },
+      "/v1/support/inbox": {
+        get: {
+          ...operation("listInbox", "InboxPage"),
+          parameters: [
+            { name: "status", in: "query", schema: { type: "string", enum: ["open", "in_progress", "waiting", "resolved"] } },
+            { name: "category", in: "query", schema: { type: "string", enum: ["bug", "wrong_result", "account", "performance", "idea", "other"] } },
+            { name: "priority", in: "query", schema: { type: "string", enum: ["low", "normal", "high", "urgent"] } },
+            { name: "assignee", in: "query", description: "me, none, or a Support account id", schema: { type: "string" } },
+            { name: "q", in: "query", description: "Part of a title or body, or a reference such as SF-1042", schema: { type: "string", minLength: 1, maxLength: 100 } },
+            { name: "unread", in: "query", description: "Only reports that are unread for this account", schema: { type: "string", enum: ["true"] } },
+            { name: "limit", in: "query", schema: { type: "integer", minimum: 1, maximum: 50, default: 25 } },
+            { name: "before", in: "query", schema: { type: "string", format: "date-time" } },
+            { name: "beforeId", in: "query", schema: { type: "string", format: "uuid" } },
+          ],
+        },
+      },
+      "/v1/support/inbox/{id}": {
+        get: { ...operation("getInboxReport", "InboxDetail"), parameters: [parameter] },
+        patch: { ...operation("updateInboxReport", "InboxDetail", "TicketUpdate"), parameters: [parameter] },
+      },
+      "/v1/support/inbox/{id}/read": {
+        post: {
+          ...operation("markInboxReportRead", "InboxDetail"),
+          parameters: [parameter],
+          responses: {
+            ...operation("markInboxReportRead", "InboxDetail").responses,
+            200: { description: "Marked as read for this Support account", content: content({ type: "object", required: ["data"], properties: { data: { type: "object", required: ["read"], properties: { read: { type: "boolean", const: true } } } } }) },
+          },
+        },
+      },
+      "/v1/support/inbox/{id}/messages": {
+        post: {
+          ...operation("replyInboxReport", "InboxDetail", "SupportMessageRequest"),
+          parameters: [parameter],
+          responses: { ...operation("replyInboxReport", "InboxDetail", "SupportMessageRequest").responses, 201: { description: "The reply or note was added", content: content(envelope("InboxDetail")) } },
+        },
+      },
       "/v1/admin/metrics": {
         get: operation("getAdminMetrics", "AdminMetrics"),
       },
@@ -524,7 +617,7 @@ export function phase3OpenApi() {
       "/v1/admin/users/{id}/roles/{role}": {
         delete: {
           ...operation("revokeUserRole", "RoleChange"),
-          parameters: [parameter, { name: "role", in: "path", required: true, schema: { type: "string", enum: ["instructor", "reviewer", "admin"] } }],
+          parameters: [parameter, { name: "role", in: "path", required: true, schema: { type: "string", enum: ["instructor", "reviewer", "support", "admin"] } }],
         },
       },
       "/v1/admin/audit": {

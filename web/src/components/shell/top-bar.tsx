@@ -48,6 +48,23 @@ function ReviewerLink({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
+/** Everyone signed in can follow their own reports; Support also gets the inbox. Nobody else sees the inbox link. */
+function ReportLinks({ onNavigate }: { onNavigate: () => void }) {
+  const { roles } = useMyRoles();
+  return (
+    <>
+      <Link href="/reports" role="menuitem" onClick={onNavigate}>
+        <Icon n="msg" /> My reports
+      </Link>
+      {roles.includes("support") && (
+        <Link href="/support" role="menuitem" onClick={onNavigate}>
+          <Icon n="wrench" /> Support inbox
+        </Link>
+      )}
+    </>
+  );
+}
+
 /** Admins get a way in to the dashboard and to account tools; everyone else sees no extra menu items. */
 function AdminLinks({ onNavigate }: { onNavigate: () => void }) {
   const { roles } = useMyRoles();
@@ -164,7 +181,7 @@ export function TopBar({ pathname }: { pathname: string }) {
         >
           <Icon n="help" />
         </button>
-        <button className="btn btn-ghost icon hide-sm" aria-label="Send feedback" title="Send feedback" onClick={() => setUI({ feedback: true })}>
+        <button className="btn btn-ghost icon hide-sm" aria-label="Report a problem" title="Report a problem or send feedback" onClick={() => setUI({ feedback: true, reportRef: null })}>
           <Icon n="msg" />
         </button>
         <ThemeSelect />
@@ -197,6 +214,7 @@ export function TopBar({ pathname }: { pathname: string }) {
                 <ReviewerLink onNavigate={() => setUI(close)} />
                 <InstructorLink onNavigate={() => setUI(close)} />
                 <AdminLinks onNavigate={() => setUI(close)} />
+                <ReportLinks onNavigate={() => setUI(close)} />
                 <Link href="/settings/profile" role="menuitem" onClick={() => setUI(close)}>
                   <Icon n="settings" /> Settings
                 </Link>
