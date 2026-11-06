@@ -30,4 +30,7 @@ export function fetchAudit(after?: { at: string; id: string }, signal?: AbortSig
 }
 
 /** Aggregate counts for the live dashboard. A failure stays on the dashboard, which shows its own reconnecting state. */
+export const exportMetrics = (snapshot: string, format: "csv" | "json", purpose: "download" | "pdf", signal?: AbortSignal) =>
+  api<Schemas["AdminMetricsExport"]>(`/admin/metrics/export?${new URLSearchParams({ snapshot, format, purpose })}`, { ...local, signal });
+
 export const fetchMetrics = (signal?: AbortSignal) => api<import("@/lib/admin-metrics").AdminMetrics>("/admin/metrics", { ...local, signal });

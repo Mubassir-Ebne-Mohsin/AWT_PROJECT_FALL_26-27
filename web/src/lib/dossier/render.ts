@@ -8,17 +8,23 @@ import type { Measure } from "@/lib/dossier/text";
  * drawing operation is turned into PDF drawing calls. Standard fonts only: Latin text (docs/PDF-DOSSIER-SCOPE.md, rule R3).
  */
 export async function renderDossier(report: DossierReport, options: DossierOptions): Promise<{ bytes: Uint8Array; dossier: Dossier }> {
+  return renderPdfDocument((measure) => buildDossier(report, options, measure), report.generatedAt,
+    "Design report: a model estimate, not a measurement of real infrastructure");
+}
+
+/** Shared drawing pipeline; each caller supplies its own aggregate layout and fixed snapshot metadata. */
+export async function renderPdfDocument(build: (measure: Measure) => Dossier, generatedAt: string, subject: string): Promise<{ bytes: Uint8Array; dossier: Dossier }> {
   const doc = await PDFDocument.create();
   const regular = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const measure: Measure = (text, size, isBold) => (isBold ? bold : regular).widthOfTextAtSize(text, size);
-  const dossier = buildDossier(report, options, measure);
+  const dossier = build(measure);
 
   // Fixed metadata, so the same report gives the same file.
-  const made = new Date(report.generatedAt);
+  const made = new Date(generatedAt);
   doc.setTitle(dossier.title);
   doc.setAuthor("StressForge");
-  doc.setSubject("Design report: a model estimate, not a measurement of real infrastructure");
+  doc.setSubject(subject);
   doc.setCreator("StressForge");
   doc.setProducer("StressForge (pdf-lib)");
   if (!Number.isNaN(made.getTime())) {

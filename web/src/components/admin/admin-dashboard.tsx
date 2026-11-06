@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { ActivityHeatmap } from "@/components/admin/activity-heatmap";
+import { MetricsExports } from "@/components/admin/metrics-exports";
 import { ReactNode, useEffect, useState } from "react";
 import { SupportMetrics } from "@/components/admin/support-metrics";
 import { RoleGate } from "@/components/auth/role-gate";
@@ -111,7 +113,11 @@ function Live() {
           {state.failures > 0 ? "The first numbers have not loaded yet. Trying again." : "Loading the first numbers…"}
         </p>
       ) : (
-        <Board m={m} stale={status === "stale"} />
+        <>
+          <ActivityHeatmap m={m} />
+          <MetricsExports m={m} refresh={() => { setPaused(false); retryNow(); }} />
+          <Board m={m} stale={status === "stale"} />
+        </>
       )}
     </div>
   );

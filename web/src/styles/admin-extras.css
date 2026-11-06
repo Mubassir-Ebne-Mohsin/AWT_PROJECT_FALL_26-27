@@ -1,0 +1,56 @@
+.activity-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+.activity-grid {
+  display: grid;
+  grid-template-columns: 42px repeat(24, minmax(24px, 1fr));
+  gap: 3px;
+  min-width: 690px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-align: center;
+  align-items: center;
+}
+.activity-row {
+  display: contents;
+}
+.activity-cell {
+  position: relative;
+  isolation: isolate;
+  padding: 7px 1px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--ink);
+}
+.activity-cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  opacity: calc(0.05 + var(--activity-strength) * 0.25);
+}
+.activity-table-scroll {
+  max-height: 320px;
+  overflow: auto;
+}
+[data-testid="activity-heatmap"] .panel-body,
+[data-testid="metrics-exports"] .panel-body {
+  padding: 16px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+[data-testid="activity-heatmap"],
+[data-testid="metrics-exports"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.activity-table-scroll thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
