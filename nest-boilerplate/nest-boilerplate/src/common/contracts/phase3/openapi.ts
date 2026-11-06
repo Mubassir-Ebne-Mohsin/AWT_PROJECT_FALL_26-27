@@ -45,6 +45,7 @@ import {
   supportMessageRequestSchema,
   ticketUpdateSchema,
 } from "@/common/contracts/phase3/support.schema";
+import { metricsExportSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
@@ -112,6 +113,7 @@ export function phase3OpenApi() {
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
     AdminMetrics: adminMetricsSchema,
+    AdminMetricsExport: metricsExportSchema,
     ReportContext: reportContextSchema,
     CreateReportRequest: createReportSchema,
     ReportMessageRequest: messageRequestSchema,
@@ -578,6 +580,13 @@ export function phase3OpenApi() {
           parameters: [parameter],
           responses: { ...operation("replyInboxReport", "InboxDetail", "SupportMessageRequest").responses, 201: { description: "The reply or note was added", content: content(envelope("InboxDetail")) } },
         },
+      },
+      "/v1/admin/metrics/export": {
+        get: { ...operation("exportAdminMetrics", "AdminMetricsExport"), parameters: [
+          { name: "format", in: "query", required: true, schema: { type: "string", enum: ["csv", "json"] } },
+          { name: "snapshot", in: "query", required: true, schema: { type: "string", pattern: "^[a-f0-9]{64}$" } },
+          { name: "purpose", in: "query", required: false, schema: { type: "string", enum: ["download", "pdf"], default: "download" } },
+        ] },
       },
       "/v1/admin/metrics": {
         get: operation("getAdminMetrics", "AdminMetrics"),

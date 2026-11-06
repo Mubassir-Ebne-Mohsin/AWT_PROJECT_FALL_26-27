@@ -23,7 +23,18 @@ export const AI_TASKS = ["describe", "whatif", "fixes"] as const;
 export const ALERT_KEYS = ["queue_backlog", "run_failures_high", "ai_failures_high", "ai_quota_near", "database_slow", "cache_down"] as const;
 export const ALERT_LEVELS = ["info", "warning", "critical"] as const;
 
-export const adminMetricsSchema = z.strictObject({
+export const activityHeatmapSchema = z.strictObject({
+  windowDays: z.literal(28),
+  windowStart: z.iso.datetime(),
+  windowEnd: z.iso.datetime(),
+  designsCreated: count,
+  runsCreated: count,
+  total: count,
+  /** Monday 00:00 first, Sunday 23:00 last; UTC, lower-inclusive / upper-exclusive. */
+  cells: z.array(count).length(168),
+});
+export const adminMetricsBodySchema = z.strictObject({
+  heatmap: activityHeatmapSchema,
   /** Server time the snapshot was read, from one transaction. */
   generatedAt: z.iso.datetime(),
   windowHours: z.literal(METRIC_WINDOW_HOURS),
@@ -89,4 +100,17 @@ export const adminMetricsSchema = z.strictObject({
   alerts: z.array(z.strictObject({ key: z.enum(ALERT_KEYS), level: z.enum(ALERT_LEVELS) })).max(ALERT_KEYS.length),
 });
 
+export const adminMetricsSchema = adminMetricsBodySchema.extend({ snapshotKey: z.string().regex(/^[a-f0-9]{64}$/) });
+export const metricsExportQuerySchema = z.strictObject({
+  format: z.enum(["csv", "json"]),
+  snapshot: z.string().regex(/^[a-f0-9]{64}$/),
+  purpose: z.enum(["download", "pdf"]).default("download"),
+}).refine((q) => q.purpose !== "pdf" || q.format === "json", "PDF requires a JSON snapshot");
+export const metricsExportSchema = z.strictObject({
+  fileName: z.string().regex(/^stressforge-metrics-[0-9TZ.\-]+\.(csv|json)$/),
+  contentType: z.enum(["application/json;charset=utf-8", "text/csv;charset=utf-8"]),
+  content: z.string(),
+  snapshotKey: z.string().regex(/^[a-f0-9]{64}$/),
+});
+export type AdminMetricsBody = z.infer<typeof adminMetricsBodySchema>;
 export type AdminMetrics = z.infer<typeof adminMetricsSchema>;

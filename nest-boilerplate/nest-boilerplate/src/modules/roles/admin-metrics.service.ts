@@ -1,3 +1,7 @@
+import { createHash } from "node:crypto";
+import { AppException } from "@/common/errors/app.exception";
+import { readActivityHeatmap } from "@/modules/roles/admin-activity";
+import { AdminMetricsBody, adminMetricsBodySchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { Injectable } from "@nestjs/common";
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource, QueryRunner } from "typeorm";
@@ -24,6 +28,7 @@ const SERIES_FROM = `date_trunc('hour', now()) - interval '${METRIC_WINDOW_HOURS
  */
 @Injectable()
 export class AdminMetricsService {
+  private readonly retained = new Map<string, { at: number; json: string }>();
   private cached: { at: number; value: AdminMetrics } | null = null;
   private inflight: Promise<AdminMetrics> | null = null;
 
@@ -37,7 +42,14 @@ export class AdminMetricsService {
     if (this.cached && now() - this.cached.at < METRICS_CACHE_MS) return Promise.resolve(this.cached.value);
     if (!this.inflight) {
       this.inflight = this.read()
-        .then((value) => {
+        .then((body) => {
+          const parsed = adminMetricsBodySchema.parse(body);
+          const snapshotKey = createHash("sha256").update(JSON.stringify(parsed)).digest("hex");
+          const value = adminMetricsSchema.parse({ ...parsed, snapshotKey });
+          this.prune(now());
+          // Store immutable serialized snapshots. A later poll or caller mutation cannot change an export.
+          this.retained.set(snapshotKey, { at: now(), json: JSON.stringify(value) });
+          while (this.retained.size > 128) this.retained.delete(this.retained.keys().next().value!);
           this.cached = { at: now(), value };
           return value;
         })
@@ -46,6 +58,17 @@ export class AdminMetricsService {
         });
     }
     return this.inflight;
+  }
+
+  private prune(now: number) {
+    for (const [key, entry] of this.retained) if (now - entry.at >= 300000) this.retained.delete(key);
+  }
+
+  resolveSnapshot(key: string, now = Date.now()): AdminMetrics {
+    this.prune(now);
+    const entry = this.retained.get(key);
+    if (!entry) throw new AppException("NOT_FOUND", "This dashboard snapshot expired. Refresh the dashboard before exporting.", { reason: "METRICS_SNAPSHOT_EXPIRED" });
+    return adminMetricsSchema.parse(JSON.parse(entry.json));
   }
 
   /** Test seam: forget the cached snapshot. */
@@ -88,7 +111,7 @@ export class AdminMetricsService {
     }
   }
 
-  private async read(): Promise<AdminMetrics> {
+  private async read(): Promise<AdminMetricsBody> {
     const [database, cacheOk] = await Promise.all([this.probeDatabase(), this.probeCache()]);
     const q = this.db.createQueryRunner();
     await q.connect();
@@ -188,6 +211,7 @@ export class AdminMetricsService {
         byCategory: Object.fromEntries(SUPPORT_CATEGORIES.map((key) => [key, supportCategories.find((r) => r.key === key)?.n ?? 0])) as AdminMetrics["support"]["byCategory"],
         byStatus: Object.fromEntries(SUPPORT_STATUSES.map((key) => [key, supportStatuses.find((r) => r.key === key)?.n ?? 0])) as AdminMetrics["support"]["byStatus"],
       };
+      const heatmap = await readActivityHeatmap(q, new Date(meta.now));
       await q.query("COMMIT");
 
       const limits = aiSettings().quota ?? DEFAULT_QUOTA;
@@ -198,7 +222,8 @@ export class AdminMetricsService {
         runsFailed: sum(series.runsFailed),
         aiCalls: sum(series.aiCalls),
       };
-      const value: AdminMetrics = {
+      const value: AdminMetricsBody = {
+        heatmap,
         generatedAt: new Date(meta.now).toISOString(),
         windowHours: METRIC_WINDOW_HOURS,
         seriesStart: new Date(meta.start).toISOString(),
@@ -227,7 +252,7 @@ export class AdminMetricsService {
         alerts: [],
       };
       value.alerts = deriveAlerts(value);
-      return adminMetricsSchema.parse(value);
+      return adminMetricsBodySchema.parse(value);
     } catch (e) {
       await q.query("ROLLBACK").catch(() => undefined);
       throw e;
@@ -238,7 +263,7 @@ export class AdminMetricsService {
 }
 
 /** Plain thresholds, in one place so the dashboard and the tests agree on what raises an alert. */
-export function deriveAlerts(m: AdminMetrics): Alert[] {
+export function deriveAlerts(m: AdminMetricsBody): Alert[] {
   const out: Alert[] = [];
   const add = (key: Alert["key"], level: Alert["level"]) => {
     if (ALERT_KEYS.includes(key) && ALERT_LEVELS.includes(level)) out.push({ key, level });

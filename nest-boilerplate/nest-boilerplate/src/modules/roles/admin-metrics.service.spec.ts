@@ -1,25 +1,7 @@
-import { AdminMetrics, adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
+import { AdminMetrics, AdminMetricsBody, adminMetricsBodySchema, adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
+import { calm } from "@/modules/roles/admin-metrics.fixture";
 import { AdminMetricsService, METRICS_CACHE_MS, deriveAlerts } from "@/modules/roles/admin-metrics.service";
 
-const calm = (): AdminMetrics => {
-  const h = new Array(24).fill(0);
-  return {
-    generatedAt: "2026-11-05T10:00:00.000Z",
-    windowHours: 24,
-    seriesStart: "2026-11-04T11:00:00.000Z",
-    totals: { users: 1, suspendedUsers: 0, designs: 0, archivedDesigns: 0, runs: 0, shares: 0, openShares: 0, notes: 0 },
-    activeNow: 0,
-    last24h: { signups: 0, designsCreated: 0, runsCompleted: 0, runsFailed: 0, aiCalls: 0 },
-    series: { signups: h, designsCreated: h, runsCompleted: h, runsFailed: h, aiCalls: h },
-    roles: { user: 1, instructor: 0, reviewer: 0, admin: 1, support: 0 },
-    support: { total: 0, unresolved: 0, responded: 0, medianFirstResponseMs: null, byCategory: { bug: 0, wrong_result: 0, account: 0, performance: 0, idea: 0, other: 0 }, byStatus: { open: 0, in_progress: 0, waiting: 0, resolved: 0 } },
-    runs: { byVerdict: { pass: 0, strained: 0, fail: 0, unknown: 0 }, queue: { pending: 0, oldestPendingSeconds: null }, bottlenecks: { client: 0, cdn: 0, lb: 0, gateway: 0, app: 0, worker: 0, cache: 0, db: 0, replica: 0, queue: 0, storage: 0, external: 0 } },
-    ai: { byTask: { describe: 0, whatif: 0, fixes: 0 }, completed: 0, failed: 0, byOutcome: { completed: 0, rate_limited: 0, invalid_output: 0, unavailable: 0, cancelled: 0, other: 0 }, tokens24h: 0, latencyMs: { p50: null, p95: null }, usage: { lastMinute: 0, today: 0, limitPerMinute: 30, limitPerDay: 1000 } },
-    funnel: { registered: 1, createdDesign: 0, ranDesign: 0, sharedDesign: 0 },
-    system: { database: { ok: true, latencyMs: 2 }, cache: { ok: true }, uptimeSeconds: 10 },
-    alerts: [],
-  };
-};
 const edit = (f: (m: AdminMetrics) => void) => {
   const m = calm();
   f(m);
@@ -62,9 +44,10 @@ describe("AdminMetricsService cache", () => {
   const make = () => {
     const svc = new AdminMetricsService({} as never, {} as never);
     let reads = 0;
-    (svc as unknown as { read: () => Promise<AdminMetrics> }).read = async () => {
+    (svc as unknown as { read: () => Promise<AdminMetricsBody> }).read = async () => {
       reads += 1;
-      return { ...calm(), activeNow: reads };
+      const { snapshotKey: _key, ...body } = calm();
+      return { ...body, activeNow: reads };
     };
     return { svc, reads: () => reads };
   };
@@ -85,9 +68,10 @@ describe("AdminMetricsService cache", () => {
   it("does not cache a failed read", async () => {
     const svc = new AdminMetricsService({} as never, {} as never);
     let n = 0;
-    (svc as unknown as { read: () => Promise<AdminMetrics> }).read = async () => {
+    (svc as unknown as { read: () => Promise<AdminMetricsBody> }).read = async () => {
       if (++n === 1) throw new Error("db down");
-      return calm();
+      const { snapshotKey: _key, ...body } = calm();
+      return adminMetricsBodySchema.parse(body);
     };
     await expect(svc.snapshot(() => 1)).rejects.toThrow("db down");
     await expect(svc.snapshot(() => 2)).resolves.toBeDefined();

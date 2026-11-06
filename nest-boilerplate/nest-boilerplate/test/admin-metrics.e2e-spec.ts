@@ -2,6 +2,7 @@ import { Test } from "@nestjs/testing";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { DataSource } from "typeorm";
 import request from "supertest";
+import { createHash } from "node:crypto";
 import { randomUUID } from "node:crypto";
 import { AppModule } from "@/src/app.module";
 import { configureApp, setupSwagger } from "@/src/app.setup";
@@ -86,6 +87,70 @@ describe("Admin metrics (isolated Postgres, no AI)", () => {
     await roles.revoke(OPERATOR, temp.id, "admin");
     await http.get("/v1/admin/metrics").set(as(temp)).expect(403);
     await read(boss);
+  });
+
+  it("exports require current Admin permission and a valid snapshot, never return private content", async () => {
+    const admin = await makeAdmin("exportadmin");
+    const m = await read(admin);
+    const query = `?format=json&snapshot=${m.snapshotKey}`;
+    // FakeRedis implements no Lua: use a strict spy for this endpoint, real Redis is tested in the browser harness.
+    const redis = app.get(RedisCacheService).getClient();
+    const evalFn = jest.fn().mockResolvedValue(1);
+    Object.assign(redis, { eval: evalFn });
+    await http.get("/v1/admin/metrics/export"+query).expect(401);
+    for (const role of ["user", "instructor", "reviewer", "support"] as const) {
+      const a = await register("export"+role);
+      if(role !== "user") await roles.grant(OPERATOR,a.id,{role});
+      await http.get("/v1/admin/metrics/export"+query).set(as(a)).expect(403);
+    }
+    const json = (await http.get("/v1/admin/metrics/export"+query).set(as(admin)).expect(200)).body.data;
+    expect(JSON.parse(json.content)).toEqual(m);
+    const csv = (await http.get(`/v1/admin/metrics/export?format=csv&snapshot=${m.snapshotKey}`).set(as(admin)).expect(200)).body.data.content;
+    expect(csv).toContain(`heatmap.total,${m.heatmap.total}`);
+    expect(csv).not.toContain(admin.id); expect(json.content).not.toContain(admin.email);
+    await http.get(`/v1/admin/metrics/export?format=json&snapshot=${"f".repeat(64)}`).set(as(admin)).expect(404);
+    await http.get(`/v1/admin/metrics/export?format=json&snapshot=${m.snapshotKey}&name=private`).set(as(admin)).expect(422);
+    evalFn.mockRejectedValueOnce(new Error("down"));
+    const down = await http.get("/v1/admin/metrics/export"+query).set(as(admin)).expect(503);
+    expect(down.body.error.code).toBe("UNAVAILABLE");
+    await roles.revoke(OPERATOR,admin.id,"admin");
+    await http.get("/v1/admin/metrics/export"+query).set(as(admin)).expect(403);
+    expect(evalFn).toHaveBeenCalledTimes(3);
+  });
+
+  it("heatmap cells and rolling totals agree with independent SQL in the same returned window", async () => {
+    const a = await makeAdmin("heatmapadmin");
+    const design = await newDesign(a);
+    await simulate(a,design.id,design.revision);
+    const m = await read(a), h = m.heatmap;
+    const rows = await db.query(`SELECT
+      (SELECT count(*)::int FROM designs WHERE created_at >= $1 AND created_at < $2) AS designs,
+      (SELECT count(*)::int FROM design_runs WHERE created_at >= $1 AND created_at < $2) AS runs`, [h.windowStart,h.windowEnd]);
+    expect(h.designsCreated).toBe(rows[0].designs); expect(h.runsCreated).toBe(rows[0].runs);
+    expect(h.total).toBe(h.designsCreated+h.runsCreated); expect(sum(h.cells)).toBe(h.total);
+    expect(Date.parse(h.windowEnd)-Date.parse(h.windowStart)).toBe(28*86400000);
+    expect(h.windowEnd).toBe(m.generatedAt);
+  });
+
+  it("UTC lower boundary is included, upper excluded; Sunday 23 and Monday 00 stay separate", async () => {
+    const { readActivityHeatmap } = await import("@/modules/roles/admin-activity");
+    const a = await makeAdmin("boundary");
+    const dates = ["2000-01-31T00:00:00Z", "2000-01-30T23:59:59.999Z", "2000-02-28T00:00:00Z", "2000-02-27T23:59:59.999Z", "2000-02-07T06:00:00+06:00"];
+    const fixtureIds: string[] = [];
+    const testDatabase = process.env.DB_TEST_DATABASE ?? "stressforge_test";
+    if(db.options.database !== testDatabase || !/(test|e2e)/i.test(testDatabase)) throw new Error("Boundary fixtures require isolated test database");
+    for(const date of dates) { const d=await newDesign(a); fixtureIds.push(d.id); await db.query("UPDATE designs SET created_at=$1 WHERE id=$2",[date,d.id]); }
+    const q=db.createQueryRunner(); await q.connect();
+    try {
+      await q.query("SET TIME ZONE 'Asia/Dhaka'");
+      const h=await readActivityHeatmap(q,new Date("2000-02-28T00:00:00Z"));
+      expect(h.cells[0]).toBe(2); expect(h.cells[167]).toBe(1); expect(h.total).toBe(3);
+      const empty=await readActivityHeatmap(q,new Date("1990-01-01T00:00:00Z"));
+      expect(empty.total).toBe(0); expect(empty.cells).toEqual(Array(168).fill(0));
+    } finally {
+      await q.query("RESET TIME ZONE"); await q.release();
+      await db.query("DELETE FROM designs WHERE id = ANY($1::uuid[])", [fixtureIds]);
+    }
   });
 
   it("matches the contract and its cards agree with its charts", async () => {
@@ -253,7 +318,9 @@ describe("Admin metrics (isolated Postgres, no AI)", () => {
       if (v !== null && typeof v === "object") Object.values(v).forEach(walk);
       else leaves.push(v);
     };
-    walk(JSON.parse(fresh).data);
+    const { snapshotKey, ...body } = JSON.parse(fresh).data;
+    expect(snapshotKey).toBe(createHash("sha256").update(JSON.stringify(body)).digest("hex"));
+    walk(body);
     for (const leaf of leaves) {
       if (typeof leaf === "string") expect(leaf).toMatch(/^(\d{4}-\d\d-\d\dT[\d:.]+Z|queue_backlog|run_failures_high|ai_failures_high|ai_quota_near|database_slow|cache_down|info|warning|critical)$/);
     }

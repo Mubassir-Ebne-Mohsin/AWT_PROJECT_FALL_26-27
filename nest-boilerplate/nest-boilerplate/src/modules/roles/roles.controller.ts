@@ -5,6 +5,7 @@ import { RequirePermission } from "@/common/decorators/permission.decorator";
 import { Permission } from "@/common/enums/account-role.enum";
 import { AuthUser } from "@/common/interfaces/auth-user.interface";
 import { AccountRolesService } from "@/modules/roles/account-roles.service";
+import { AdminMetricsExportService } from "@/modules/roles/admin-metrics-export.service";
 import { AdminMetricsService } from "@/modules/roles/admin-metrics.service";
 
 /** The signed-in account's own roles, read from the database. Any signed-in account may ask. */
@@ -28,6 +29,7 @@ export class AdminController {
   constructor(
     private readonly roles: AccountRolesService,
     private readonly metrics: AdminMetricsService,
+    private readonly exports: AdminMetricsExportService,
   ) {}
 
   /** Aggregate counts for the live dashboard. Cached for a few seconds and never contains an account or a design. */
@@ -35,6 +37,12 @@ export class AdminController {
   @RequirePermission(Permission.ADMIN_METRICS_READ)
   metricsSnapshot() {
     return this.metrics.snapshot();
+  }
+
+  @Get("metrics/export")
+  @RequirePermission(Permission.ADMIN_METRICS_READ)
+  exportSnapshot(@Query() query: Record<string, unknown>) {
+    return this.exports.export(query);
   }
 
   @Get("users")
