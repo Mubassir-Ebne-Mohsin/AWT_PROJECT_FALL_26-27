@@ -1,0 +1,20 @@
+FAIL ../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (30.298 s)
+  ● Admin metrics (isolated Postgres, no AI) › Support aggregates include every status/category, retain unanswered rows and compute odd/even valid reply medians
+
+    Support fixture cleanup requires the isolated test database
+
+      378 |     // This suite runs only on the dedicated e2e database; these are disposable fixtures, not the development inbox.
+      379 |     const testDatabase = process.env.DB_TEST_DATABASE ?? "stressforge_test";
+    > 380 |     if (db.options.database !== testDatabase || !/(test|e2e)/i.test(testDatabase)) throw new Error("Support fixture cleanup requires the isolated test database");
+          |                                                                                          ^
+      381 |     await db.query("DELETE FROM support_tickets");
+      382 |     const admin = await makeAdmin("supportmetrics");
+      383 |     const empty = (await read(admin)).support;
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:380:90)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 passed, 14 total
+Snapshots:   0 total
+Time:        30.454 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts".

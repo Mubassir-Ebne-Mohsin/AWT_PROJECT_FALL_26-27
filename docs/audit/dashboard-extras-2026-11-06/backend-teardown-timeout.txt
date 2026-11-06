@@ -1,0 +1,53 @@
+[Nest] 11772  - 11/06/2026, 1:14:52 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/ai-copilot-migration.e2e-spec.ts
+
+
+  ● Test suite failed to run
+
+    QueryFailedError: canceling statement due to statement timeout
+
+      44 |   afterAll(async () => {
+      45 |     await db?.destroy();
+    > 46 |     await admin?.query(`DROP DATABASE IF EXISTS "${name}"`);
+         |     ^
+      47 |     await admin?.destroy();
+      48 |   });
+      49 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/ai-copilot-migration.e2e-spec.ts:46:5)
+
+(node:11772) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11772) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:11772) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 11772  - 11/06/2026, 1:18:33 PM   ERROR [Exception] Unhandled request failure
+[Nest] 11772  - 11/06/2026, 1:18:36 PM   ERROR [Exception] Unhandled request failure
+
+Summary of all failing tests
+FAIL test/ai-copilot-migration.e2e-spec.ts
+
+
+  ● Test suite failed to run
+
+    QueryFailedError: canceling statement due to statement timeout
+
+      44 |   afterAll(async () => {
+      45 |     await db?.destroy();
+    > 46 |     await admin?.query(`DROP DATABASE IF EXISTS "${name}"`);
+         |     ^
+      47 |     await admin?.destroy();
+      48 |   });
+      49 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/ai-copilot-migration.e2e-spec.ts:46:5)
+
+
+Test Suites: 1 failed, 29 passed, 30 total
+Tests:       399 passed, 399 total
+Snapshots:   0 total
+Time:        244.427 s, estimated 267 s
+Ran all test suites.

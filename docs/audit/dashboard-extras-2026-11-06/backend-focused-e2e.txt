@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        21.22 s, estimated 31 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts".

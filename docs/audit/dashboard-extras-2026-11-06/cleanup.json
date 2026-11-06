@@ -1,0 +1,16 @@
+{
+  "testContainersStopped": [
+    "stressforge-m9-postgres",
+    "stressforge-m9-redis"
+  ],
+  "remaining": [
+    "stressforge-dev-redis-1 Up 2 hours (healthy)",
+    "stressforge-dev-postgres-1 Up 2 hours (healthy)"
+  ],
+  "volumesRetained": true,
+  "fsyncRestored": "on",
+  "auditListenersStopped": [
+    3003,
+    5003
+  ]
+}

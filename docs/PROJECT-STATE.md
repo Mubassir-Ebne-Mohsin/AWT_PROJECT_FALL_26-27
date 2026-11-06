@@ -1,8 +1,8 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**Current status (2026-11-06):** owner approved the pending commits and roadmap B implementation. Local commits: live types c03a00b, Support metrics 7051e89, UI repairs 1bdfe9a, direct PDF 521f536. Prior verified evidence retained; B heatmap/exports in progress, not complete. No push, gallery or live AI approval.
+**Current status (2026-11-06):** roadmap A/B complete, committed locally, not pushed. B: `4993b9b` API/contracts, `9d21ba3` dashboard/PDF, `fa480fc` generated live types. Earlier pending work: `c03a00b`, `7051e89`, `1bdfe9a`, `521f536`, `0ff140a`. No C/gallery/live AI authorization.
 
-**Last updated:** 2026-11-06 by Codex. **A verified:** exact saved/selected revision/run, shared notes preference, draft-safe download and cancellation. Final web build/types/lint/46 routes and 530 unit pass. Broad Chrome 168 pass/4 @dev skips; final PDF-focused 48/48 after a small cancellation fix. No full all-project Chrome/backend suite rerun; backend unchanged. [Report section 41](STRESSFORGE-PROGRESS-REPORT.md), [evidence](audit/direct-pdf-2026-11-06/README.md). No owner migration, live AI, commit or push.
+**Last updated:** 2026-11-06 by Codex. Backend 785 unit/399 e2e, web 536 unit, affected Chrome 124/124 plus final rebuilt B 12/12; nine deliberate breaks caught. Builds/types/lint/contracts/46 routes pass. Real Redis failure/recovery verified; protected files preserved and owned audit services stopped. [Report section 42](STRESSFORGE-PROGRESS-REPORT.md), [evidence and test-storage limitation](audit/dashboard-extras-2026-11-06/README.md), [user guide](ADMIN-DASHBOARD-EXTRAS.md). No migration/package. AI acceptance remains blocked on owner inputs and explicit live go.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
 Latest detailed handover: [CODEX-HANDOFF-2026-11-06.md](CODEX-HANDOFF-2026-11-06.md). Read both the newest top entry and Claude's appended entries at the bottom of HANDOFF-LOG; add future entries at the top.
@@ -32,7 +32,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Roles (Instructor, Reviewer, Admin) | **Complete and pushed** (R1 `3f7dbc0`, R2 `9700bb2`, R3 `87736b2`, R4 `3db9068`, R5.1 `ace6b64`, R5.2 `dca7218`, R5.3 `a245192`) | Needs no AI. Latest Chrome regression 550 passed, 10 skipped, 0 failed. Run `pnpm migration:run` on every database. Detail: report section 28, [ROLES-SCOPE](ROLES-SCOPE.md), [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md) |
 | Phase 4 / 5 P1-P6 | Built and previously verified | Public pages, account settings, Learn, examples/templates/components, Evaluation, Welcome/Progress. [Phase 4/5 scope](PHASE-4-5-SCOPE.md); detailed reports sections 29-34 |
 | Calibration | Measured on one laptop and one toy service | Honest limits and post-observation fit correction disclosed. [Findings](CALIBRATION-FINDINGS.md); not validation for real applications |
-| Admin live dashboard | Built (`2d4ec41`); Support aggregate addition verified, uncommitted | `/admin/dashboard`, wall display, aggregate API/cache/polling; no content access |
+| Admin live dashboard | Built; Support `7051e89` and roadmap B verified/committed locally | `/admin/dashboard`, wall display, aggregate API/cache/polling; no content access |
 | Support P0 | Built (`6d93542`); P1 extras remain separate | Fifth role Support, reports/inbox, internal-note privacy, audit, export/anonymization. Consent sharing, notifications, saved replies/merge not built |
 | Component notes / PDF dossier / concept help | Built per latest handoff | NoteComponent migration; printable/downloadable dossier; no-AI help |
 | AI acceptance | Current three-task proposal pending owner inputs/registration | [AI-DEADLINE-PLAN](AI-DEADLINE-PLAN.md) supersedes the earlier separate goal-reader gate where stated; independent sheet, bars/retry decision and explicit live go still required |
@@ -65,18 +65,18 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
-| Codex | Support aggregate metrics/contracts/tests; clock/motion/focus/navigation/accessibility repairs; current docs | 2026-11-05 | Finished/verified, uncommitted; no live AI, owner migration or push |
+| Codex | Support aggregate metrics/contracts/tests; clock/motion/focus/navigation/accessibility repairs; current docs | 2026-11-05 | Finished/verified; committed `7051e89` / `1bdfe9a`; no active claim |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
 | Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |
-| Codex | Roadmap A: shared PDF hook, report/workspace controls, local-file draft guard, focused tests and related docs | 2026-11-06 | Finished/verified, uncommitted; no active code claim. B/gallery/live AI/commits/push not authorized |
-| Codex | Approved pending commits and roadmap B: Admin heatmap/export contracts, service, UI, tests/docs | 2026-11-06 | Active; commits authorized, no push/gallery/live AI/owner DB changes |
+| Codex | Roadmap A: shared PDF hook, report/workspace controls, local-file draft guard, focused tests and related docs | 2026-11-06 | Finished/verified; committed `521f536`; no active code claim |
+| Codex | Approved pending commits and roadmap B: Admin heatmap/export contracts, service, UI, tests/docs | 2026-11-06 | Finished/verified/committed locally; no active code claim; no push/gallery/live AI/owner DB changes |
 | Nobody | `DESIGN.md`, `film/`, `docs/audit/landing/` | | Preserved and unstaged; landing source is already committed |
 
 ## Blockers and open decisions
 
 1. **AI acceptance:** owner supplies inputs from at least five independent writers and confirms the combined proposal's bars/mix. Its text both permits a transport-only retry and says "No retry"; resolve this before registration, not after a result. Declare the method/cases/labels/candidate hashes/budget in a commit, then obtain explicit live go. No acceptance run authorized now.
 2. **Owner database:** the 6 November handoff reports NoteComponent and Support migrations already run by the owner on 5 November. This was not independently queried today. Any future migration still requires the owner to run it on their own database.
-3. **Next implementation approval:** A direct PDF is verified/uncommitted. B dashboard extras need separate approval; gallery decisions and AI acceptance inputs remain pending. Before B, align heatmap-window totals and pin exports to the displayed snapshot.
+3. **Next implementation approval:** A/B complete. C notification bell needs its own approval; gallery decisions and AI acceptance inputs remain pending. Push only on instruction.
 4. **Owner actions:** timed rehearsal of the updated demo and the faculty document are still needed. Deadline extended; replacement date is unknown. Do not plan against the old 8 November date as a confirmed deadline.
 5. **Preservation:** protected M2, pre-existing runtime OpenAPI side effect and `film/` remain unstaged. The 5 November handoff itself is untracked and preserved; shared-tree access does not require committing it. No push without a new instruction; leave completed work reviewable if commit approval is not given.
 

@@ -1,0 +1,171 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (9.346 s)
+  ● Admin metrics (isolated Postgres, no AI) › UTC lower boundary is included, upper excluded; Sunday 23 and Monday 00 stay separate
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 4
+
+      142 |       await q.query("SET TIME ZONE 'Asia/Dhaka'");
+      143 |       const h=await readActivityHeatmap(q,new Date("2000-02-28T00:00:00Z"));
+    > 144 |       expect(h.cells[0]).toBe(2); expect(h.cells[167]).toBe(1); expect(h.total).toBe(3);
+          |                          ^
+      145 |       const empty=await readActivityHeatmap(q,new Date("1990-01-01T00:00:00Z"));
+      146 |       expect(empty.total).toBe(0); expect(empty.cells).toEqual(Array(168).fill(0));
+      147 |     } finally { await q.query("RESET TIME ZONE"); await q.release(); }
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:144:26)
+
+[Nest] 33080  - 11/06/2026, 1:10:25 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/designs.e2e-spec.ts (14.115 s)
+  ● M3 saved designs and simulation (isolated database) › M4 oversized transport errors retain CORS and the validation envelope
+
+    expected "Access-Control-Allow-Origin" header field
+
+      241 |       .send({ input: { source: "import", text: " ".repeat(170000) } })
+      242 |       .expect(422)
+    > 243 |       .expect("Access-Control-Allow-Origin", "http://localhost:3000")
+          |        ^
+      244 |       .expect("X-Content-Type-Options", "nosniff")
+      245 |       .expect((r) => expect(r.body.error.code).toBe("VALIDATION_FAILED"));
+      246 |   });
+
+      at Object.<anonymous> (test/designs.e2e-spec.ts:243:8)
+      ----
+      at Test._assertHeader (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:376:47)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/app.e2e-spec.ts (11.45 s)
+  ● StressForge API (e2e) › cross-cutting › answers the CORS preflight for the frontend origin with credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "http://localhost:3000"
+    Received: undefined
+
+      376 |         .set("Access-Control-Request-Headers", "content-type,authorization")
+      377 |         .expect(204);
+    > 378 |       expect(res.headers["access-control-allow-origin"]).toBe(
+          |                                                          ^
+      379 |         "http://localhost:3000",
+      380 |       );
+      381 |       expect(res.headers["access-control-allow-credentials"]).toBe("true");
+
+      at Object.<anonymous> (test/app.e2e-spec.ts:378:58)
+
+(node:33080) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33080) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:33080) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 33080  - 11/06/2026, 1:12:39 PM   ERROR [Exception] Unhandled request failure
+[Nest] 33080  - 11/06/2026, 1:12:54 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/ai-copilot-migration.e2e-spec.ts
+
+
+  ● Test suite failed to run
+
+    QueryFailedError: canceling statement due to statement timeout
+
+      44 |   afterAll(async () => {
+      45 |     await db?.destroy();
+    > 46 |     await admin?.query(`DROP DATABASE IF EXISTS "${name}"`);
+         |     ^
+      47 |     await admin?.destroy();
+      48 |   });
+      49 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/ai-copilot-migration.e2e-spec.ts:46:5)
+
+Summary of all failing tests
+FAIL test/admin-metrics.e2e-spec.ts (9.346 s)
+  ● Admin metrics (isolated Postgres, no AI) › UTC lower boundary is included, upper excluded; Sunday 23 and Monday 00 stay separate
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 4
+
+      142 |       await q.query("SET TIME ZONE 'Asia/Dhaka'");
+      143 |       const h=await readActivityHeatmap(q,new Date("2000-02-28T00:00:00Z"));
+    > 144 |       expect(h.cells[0]).toBe(2); expect(h.cells[167]).toBe(1); expect(h.total).toBe(3);
+          |                          ^
+      145 |       const empty=await readActivityHeatmap(q,new Date("1990-01-01T00:00:00Z"));
+      146 |       expect(empty.total).toBe(0); expect(empty.cells).toEqual(Array(168).fill(0));
+      147 |     } finally { await q.query("RESET TIME ZONE"); await q.release(); }
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:144:26)
+
+FAIL test/designs.e2e-spec.ts (14.115 s)
+  ● M3 saved designs and simulation (isolated database) › M4 oversized transport errors retain CORS and the validation envelope
+
+    expected "Access-Control-Allow-Origin" header field
+
+      241 |       .send({ input: { source: "import", text: " ".repeat(170000) } })
+      242 |       .expect(422)
+    > 243 |       .expect("Access-Control-Allow-Origin", "http://localhost:3000")
+          |        ^
+      244 |       .expect("X-Content-Type-Options", "nosniff")
+      245 |       .expect((r) => expect(r.body.error.code).toBe("VALIDATION_FAILED"));
+      246 |   });
+
+      at Object.<anonymous> (test/designs.e2e-spec.ts:243:8)
+      ----
+      at Test._assertHeader (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:376:47)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+FAIL test/app.e2e-spec.ts (11.45 s)
+  ● StressForge API (e2e) › cross-cutting › answers the CORS preflight for the frontend origin with credentials
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "http://localhost:3000"
+    Received: undefined
+
+      376 |         .set("Access-Control-Request-Headers", "content-type,authorization")
+      377 |         .expect(204);
+    > 378 |       expect(res.headers["access-control-allow-origin"]).toBe(
+          |                                                          ^
+      379 |         "http://localhost:3000",
+      380 |       );
+      381 |       expect(res.headers["access-control-allow-credentials"]).toBe("true");
+
+      at Object.<anonymous> (test/app.e2e-spec.ts:378:58)
+
+FAIL test/ai-copilot-migration.e2e-spec.ts
+
+
+  ● Test suite failed to run
+
+    QueryFailedError: canceling statement due to statement timeout
+
+      44 |   afterAll(async () => {
+      45 |     await db?.destroy();
+    > 46 |     await admin?.query(`DROP DATABASE IF EXISTS "${name}"`);
+         |     ^
+      47 |     await admin?.destroy();
+      48 |   });
+      49 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/ai-copilot-migration.e2e-spec.ts:46:5)
+
+
+Test Suites: 4 failed, 26 passed, 30 total
+Tests:       3 failed, 396 passed, 399 total
+Snapshots:   0 total
+Time:        266.719 s, estimated 317 s
+Ran all test suites.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

@@ -1,0 +1,28 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (12.952 s)
+  ● Admin metrics (isolated Postgres, no AI) › exports require current Admin permission and a valid snapshot, never return private content
+
+    expected 403 "Forbidden", got 200 "OK"
+
+      102 |       const a = await register("export"+role);
+      103 |       if(role !== "user") await roles.grant(OPERATOR,a.id,{role});
+    > 104 |       await http.get("/v1/admin/metrics/export"+query).set(as(a)).expect(403);
+          |                                                                   ^
+      105 |     }
+      106 |     const json = (await http.get("/v1/admin/metrics/export"+query).set(as(admin)).expect(200)).body.data;
+      107 |     expect(JSON.parse(json.content)).toEqual(m);
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:104:67)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        13.118 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\admin-metrics.e2e-spec.ts".
+MUTATION_APPLIED permission 2

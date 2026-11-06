@@ -1,6 +1,6 @@
 # Next features: roadmap, order of work and scopes
 
-**Written 2026-11-06. Status: A approved and verified on 2026-11-06 (uncommitted); B approved for implementation; C–G remain DRAFT and unbuilt.** The faculty extended the deadline, so everything is sized by quality (S small, M medium, L large), not days. It covers the six items the owner listed plus the community gallery (full scope in [DESIGN-FEED-SCOPE.md](DESIGN-FEED-SCOPE.md)).
+**Written 2026-11-06. Status: A/B verified and committed locally on 2026-11-06; not pushed; C–G remain DRAFT and unbuilt.** The faculty extended the deadline, so everything is sized by quality (S small, M medium, L large), not days. It covers the six items the owner listed plus the community gallery (full scope in [DESIGN-FEED-SCOPE.md](DESIGN-FEED-SCOPE.md)).
 
 Every item follows the usual loop: scope and owner approval, build, unit tests, e2e on real PostgreSQL, Chrome specs on a production web build, deliberate breaks, screenshots looked at, handoff entry, ask before commit, commit by explicit path, push only on instruction. The protected `docs/audit/m2-profile-source.json` is never staged. No live AI call is needed for any item here.
 
@@ -30,22 +30,24 @@ If the owner wants the most impressive demo soonest: A, B, C, then D (F1 to F3).
 
 ## 3. Scopes
 
-### A. One-click PDF from Results (S) — implemented and verified, uncommitted
+### A. One-click PDF from Results (S) — verified; local commit 521f536
 **Today:** the Results tab and the workspace header link to the Report page (`/designs/:id/report`), where **Download PDF** builds the file in the browser (the library is already loaded only when asked).
 **Build:** a shared hook `useReportPdf` (fetch the report for a revision and run, build the PDF, save it) used by the Report page and by a **Download PDF** button in the Results panel and the workspace header. The header button builds the report for the saved revision's latest result; the Results panel builds it for the run being shown. It shows "Making the PDF..." and any failure plainly, with a link to the Report page as the fallback. A small "include decisions and assumptions" tick, remembered per browser, defaults to the Report page's default (on).
 **Rules:** the file is identical to the Report page's (same code, same bytes for the same inputs); nothing new is fetched beyond the existing report endpoint; an unsaved design downloads the saved revision and says so; no result yet means the button is disabled with the reason.
 **Tests:** unit for the hook's states; Chrome: download from Results gives the same file as from the Report page (compare the PDF text), failure shows the message and fallback, phone widths; a deliberate break (wrong run, wrong revision).
 **Does not claim:** that unsaved changes are in the file.
 
-**A verification (2026-11-06):** shared hook and direct header/Results controls built with synchronized notes choice. Header targets latest completed simulation of saved revision; Results pins displayed run/revision. Draft-safe Blob downloads and correct cancellation; real navigation remains guarded. Final build/types/lint/46 routes, 530 unit pass. Broad Chrome 168 pass/4 @dev skips; final PDF-focused 48/48 after a small state repair. No new dependency/API/migration or backend suite/full-project Chrome rerun. [Evidence/limits](audit/direct-pdf-2026-11-06/README.md). Nothing committed/pushed.
+**A verification (2026-11-06):** shared hook and direct header/Results controls built with synchronized notes choice. Header targets latest completed simulation of saved revision; Results pins displayed run/revision. Draft-safe Blob downloads and correct cancellation; real navigation remains guarded. Final build/types/lint/46 routes, 530 unit pass. Broad Chrome 168 pass/4 @dev skips; final PDF-focused 48/48 after a small state repair. No new dependency/API/migration or backend suite/full-project Chrome rerun. [Evidence/limits](audit/direct-pdf-2026-11-06/README.md). A committed locally as `521f536` on owner approval; not pushed.
 
-### B. Dashboard extras (S to M)
+### B. Dashboard extras (S to M) — verified; local commits 4993b9b / 9d21ba3
 **Peak-hours heatmap:** a 7 by 24 grid (weekday by UTC hour) of activity (designs and runs created) over the last 28 days, added to the Admin metrics snapshot as 168 integers under the same single read-only transaction and cache. Shown as a grid with the **number in each cell** and a table behind it (never colour alone), a legend, and a note that times are UTC.
 **Export:** `GET /v1/admin/metrics/export?format=csv|json` (Admin only, same permission, same snapshot, so it contains exactly what the dashboard shows and nothing more), plus a **one-page PDF** of the headline numbers reusing the dossier drawing code. File names carry the UTC time.
 **Rules:** aggregate only (the leak test is extended); CSV contains only keys and numbers (no free text, so no spreadsheet-formula injection); exporting is audited with a counter, not content; the export respects the cache.
 **Tests:** e2e (cells sum to the same totals as the cards for the window, boundaries across midnight and week, empty database, no personal data in any format, non-Admin refused); Chrome (heatmap, three downloads parse); deliberate breaks (off-by-one hour or weekday, a name in the export).
 
 **B decisions approved through implementation go (2026-11-06):** rolling [snapshot time minus 28 days, snapshot time) window, UTC Monday-first cells, matching 28-day design/run totals. A derived aggregate-only snapshot key pins exports to the clicked view; retain up to 128 snapshots for 5 minutes, and fail clearly on expiry/restart rather than replace it. Export responses use the existing API envelope and browser file saving. CSV/JSON use the export endpoint; PDF obtains the same JSON snapshot with an explicit PDF purpose, then uses the existing drawing library. Redis stores accepted-export request counters by UTC day/closed format only (90-day TTL), not users or contents; unavailable audit storage blocks exports with a local error. No migration or new package.
+
+**B verified (2026-11-06):** backend 785 unit/399 e2e; final web 536 unit/build/types/lint/46 routes; contracts clean. Chrome affected regression 124/124 plus final rebuilt B 12/12; nine in-memory mutations caught. Actual Redis failure/recovery and retained exports verified; 320/390/1024/1440 light/dark inspected. Initial failures and restored disposable-container storage workaround disclosed. No migration/dependency/live AI/push. [Guide](ADMIN-DASHBOARD-EXTRAS.md), [evidence/limits](audit/dashboard-extras-2026-11-06/README.md), report section 42.
 
 ### C. Notification bell (M)
 **What:** a bell in the top bar with an unread count and a list. Events at first: Support replied to your report; your report's status changed; (Support) a new report, a report assigned to you, the reporter replied. The gallery adds comments, replies, suggestions, accept or decline and moderation notices later.

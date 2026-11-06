@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        4.538 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/ai-copilot-migration.e2e-spec.ts".

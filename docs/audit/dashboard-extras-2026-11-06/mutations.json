@@ -1,0 +1,56 @@
+[
+  {
+    "applied": true,
+    "mutation": "bucket",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "latest",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "expiry",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "privacy",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "weekday",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "upper",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "permission",
+    "exit": 1,
+    "meaningfulFailure": true
+  },
+  {
+    "applied": true,
+    "mutation": "pdfprivacy",
+    "meaningfulFailure": true,
+    "exit": 1
+  },
+  {
+    "applied": true,
+    "mutation": "wrongview",
+    "meaningfulFailure": true,
+    "exit": 1
+  }
+]

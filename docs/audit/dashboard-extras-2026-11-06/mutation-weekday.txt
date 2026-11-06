@@ -1,0 +1,22 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (21.067 s)
+  ● Admin metrics (isolated Postgres, no AI) › UTC lower boundary is included, upper excluded; Sunday 23 and Monday 00 stay separate
+
+    Invalid UTC activity bucket
+
+      32 |   for (const row of rows) {
+      33 |     if (!Number.isInteger(row.bucket) || row.bucket < 0 || row.bucket >= 168)
+    > 34 |       throw new Error("Invalid UTC activity bucket");
+         |             ^
+      35 |     cells[row.bucket] = row.designs + row.runs;
+      36 |     designsCreated += row.designs;
+      37 |     runsCreated += row.runs;
+
+      at readActivityHeatmap (src/modules/roles/admin-activity.ts:34:13)
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:146:15)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        21.197 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\admin-metrics.e2e-spec.ts".
+MUTATION_APPLIED weekday 3

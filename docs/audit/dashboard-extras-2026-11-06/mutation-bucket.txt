@@ -1,0 +1,24 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/src/modules/roles/admin-extras.spec.ts (30.334 s)
+  ● dashboard extras › fills Monday 00 and Sunday 23 without shifting buckets; empty database is all zero
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 5
+    Received: 0
+
+      47 |     expect(h.cells).toHaveLength(168);
+      48 |     expect(h.cells[0]).toBe(5);
+    > 49 |     expect(h.cells[167]).toBe(5);
+         |                          ^
+      50 |     expect(h.cells.reduce((a, b) => a + b, 0)).toBe(h.total);
+      51 |     expect(h.total).toBe(10);
+      52 |     expect((await readActivityHeatmap({ query }, new Date())).cells).toEqual(
+
+      at Object.<anonymous> (modules/roles/admin-extras.spec.ts:49:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        32.42 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\modules\roles\admin-extras.spec.ts".
+MUTATION_APPLIED bucket 3

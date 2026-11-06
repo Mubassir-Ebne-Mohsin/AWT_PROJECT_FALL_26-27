@@ -1,0 +1,2 @@
+✨ openapi-typescript 7.13.0
+🚀 http://localhost:5003/docs-json → src/lib/api/schema.d.ts [651.9ms]

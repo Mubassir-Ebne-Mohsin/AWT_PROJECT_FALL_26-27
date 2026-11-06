@@ -1,0 +1,246 @@
+[Nest] 6836  - 11/06/2026, 1:49:11 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] PostgresDatabaseProviderModule dependencies initialized +787ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] RedisCacheModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] BullModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] ThrottlerModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] JwtModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] SimulationModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] HealthModule dependencies initialized +406ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] TypeOrmCoreModule dependencies initialized +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] UsersModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] AppModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] AccountModule dependencies initialized +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] AuthModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] SupportModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] RolesModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] AiModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] ChallengesModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] DesignsModule dependencies initialized +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [InstanceLoader] ReviewsModule dependencies initialized +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AuthController {/v1/auth}: +185ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/register, POST} route +3ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/login, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/refresh, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/logout, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/password, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/auth/me, GET} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] HealthController {/v1/health}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/health, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] PreviewController {/v1/simulation}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/simulation/preview, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] DesignsController {/v1/designs}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/prepare, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/versions, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares/:shareId/revoke, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/report, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/compare, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/runs, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/versions/:revision/restore, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/duplicate, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/archive, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/unarchive, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes/:noteId, PATCH} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes/:noteId, DELETE} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, PATCH} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, DELETE} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/validate, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/simulate, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/fixes, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/ladder, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/what-if, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/limits, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/runs/:runId, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] DesignCatalogController {/v1}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/templates, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/simulation/catalog, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/dashboard, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] DesignLibraryController {/v1/library}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/library/designs, GET} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] SharesController {/v1/shares}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/shares/open, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AiController {/v1/ai}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/readiness, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id/evidence, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id/cancel, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AiTasksController {/v1/ai/tasks}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/readiness, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/describe, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/fix-intent, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/what-if, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AccountController {/v1/account}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/account/roles, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AdminController {/v1/admin}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/metrics, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/metrics/export, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/suspend, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/restore, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/lookup, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles/:role, DELETE} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/admin/audit, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] DesignReviewsController {/v1/designs}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/revoke, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/comments, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/comments, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] ReviewsController {/v1/reviews}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/shared-with-me, GET} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments/:commentId, PATCH} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments/:commentId, DELETE} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] InstructorChallengesController {/v1/instructor/challenges}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id, PATCH} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/publish, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/archive, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/duplicate, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] InstructorSubmissionsController {/v1/instructor}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/submissions, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/submissions/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/instructor/submissions/:id/feedback, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] LearnerChallengesController {/v1}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/challenges, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/challenges/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/challenges/:id/attempt, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/attempts/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/attempts/:id/submissions, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/progress/challenges, GET} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] AccountController {/v1/account}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/account/profile, PATCH} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/account/export, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/account/delete, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] SupportReportsController {/v1/support/reports}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/reports, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/reports, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/reports/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/reports/:id/messages, POST} route +1ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RoutesResolver] SupportInboxController {/v1/support}: +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/agents, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id, GET} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id/read, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id/messages, POST} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id, PATCH} route +0ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [RedisCacheService] Redis client connected
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [NestApplication] Nest application successfully started +43ms
+[Nest] 6836  - 11/06/2026, 1:49:12 PM     LOG [Bootstrap] StressForge API on http://localhost:5003/v1 (docs: /docs)
+[Nest] 6836  - 11/06/2026, 1:49:37 PM     LOG [HTTP] POST /v1/auth/register 201 542ms
+[Nest] 6836  - 11/06/2026, 1:49:38 PM     LOG [HTTP] POST /v1/auth/refresh 200 30ms
+[Nest] 6836  - 11/06/2026, 1:49:38 PM     LOG [HTTP] GET /v1/account/roles 200 73ms
+[Nest] 6836  - 11/06/2026, 1:49:38 PM     LOG [HTTP] GET /v1/admin/metrics 200 370ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] GET /v1/templates 200 38ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] POST /v1/designs 201 75ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] POST /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/simulate 202 80ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] GET /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/runs/fc4fd6af-0eb5-4375-9d51-c3719049c23a 200 18ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] GET /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/runs/fc4fd6af-0eb5-4375-9d51-c3719049c23a 200 31ms
+[Nest] 6836  - 11/06/2026, 1:49:39 PM     LOG [HTTP] GET /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/runs/fc4fd6af-0eb5-4375-9d51-c3719049c23a 200 12ms
+[Nest] 6836  - 11/06/2026, 1:49:40 PM     LOG [HTTP] GET /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/runs/fc4fd6af-0eb5-4375-9d51-c3719049c23a 200 19ms
+[Nest] 6836  - 11/06/2026, 1:49:41 PM     LOG [HTTP] GET /v1/designs/1e6d8e03-f980-4f3d-bea2-6833f4dff551/runs/fc4fd6af-0eb5-4375-9d51-c3719049c23a 200 14ms
+[Nest] 6836  - 11/06/2026, 1:49:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 31ms
+[Nest] 6836  - 11/06/2026, 1:49:44 PM     LOG [HTTP] GET /v1/account/roles 304 24ms
+[Nest] 6836  - 11/06/2026, 1:49:44 PM     LOG [HTTP] GET /v1/admin/metrics 200 108ms
+[Nest] 6836  - 11/06/2026, 1:49:44 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 26ms
+[Nest] 6836  - 11/06/2026, 1:49:45 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 20ms
+[Nest] 6836  - 11/06/2026, 1:49:45 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:46 PM     LOG [HTTP] POST /v1/auth/register 201 86ms
+[Nest] 6836  - 11/06/2026, 1:49:47 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 6836  - 11/06/2026, 1:49:47 PM     LOG [HTTP] GET /v1/account/roles 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:47 PM     LOG [HTTP] GET /v1/admin/metrics 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:47 PM     LOG [HTTP] GET /v1/admin/metrics 304 11ms
+[Nest] 6836  - 11/06/2026, 1:49:47 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:48 PM     LOG [HTTP] POST /v1/auth/register 201 107ms
+[Nest] 6836  - 11/06/2026, 1:49:48 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 6836  - 11/06/2026, 1:49:48 PM     LOG [HTTP] GET /v1/account/roles 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:48 PM     LOG [HTTP] GET /v1/admin/metrics/export 403 10ms
+[Nest] 6836  - 11/06/2026, 1:49:51 PM     LOG [HTTP] POST /v1/auth/register 201 116ms
+[Nest] 6836  - 11/06/2026, 1:49:51 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 6836  - 11/06/2026, 1:49:51 PM     LOG [HTTP] GET /v1/account/roles 200 20ms
+[Nest] 6836  - 11/06/2026, 1:49:51 PM     LOG [HTTP] GET /v1/admin/metrics 200 79ms
+[Nest] 6836  - 11/06/2026, 1:49:52 PM     LOG [HTTP] GET /v1/templates 200 10ms
+[Nest] 6836  - 11/06/2026, 1:49:52 PM     LOG [HTTP] POST /v1/designs 201 30ms
+[Nest] 6836  - 11/06/2026, 1:49:52 PM     LOG [HTTP] POST /v1/designs/fd030fdb-eaf9-4af1-84ab-38fb09bac41a/simulate 202 43ms
+[Nest] 6836  - 11/06/2026, 1:49:52 PM     LOG [HTTP] GET /v1/designs/fd030fdb-eaf9-4af1-84ab-38fb09bac41a/runs/774d7856-d97d-4849-a149-9bbc6d6d8533 200 16ms
+[Nest] 6836  - 11/06/2026, 1:49:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 17ms
+[Nest] 6836  - 11/06/2026, 1:49:55 PM     LOG [HTTP] GET /v1/account/roles 304 22ms
+[Nest] 6836  - 11/06/2026, 1:49:55 PM     LOG [HTTP] GET /v1/admin/metrics 200 78ms
+[Nest] 6836  - 11/06/2026, 1:49:55 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 13ms
+[Nest] 6836  - 11/06/2026, 1:49:56 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 17ms
+[Nest] 6836  - 11/06/2026, 1:49:56 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 23ms
+[Nest] 6836  - 11/06/2026, 1:49:57 PM     LOG [HTTP] POST /v1/auth/register 201 89ms
+[Nest] 6836  - 11/06/2026, 1:49:58 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 6836  - 11/06/2026, 1:49:58 PM     LOG [HTTP] GET /v1/account/roles 200 12ms
+[Nest] 6836  - 11/06/2026, 1:49:58 PM     LOG [HTTP] GET /v1/admin/metrics 200 11ms
+[Nest] 6836  - 11/06/2026, 1:49:58 PM     LOG [HTTP] GET /v1/admin/metrics 200 45ms
+[Nest] 6836  - 11/06/2026, 1:49:58 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 12ms
+[Nest] 6836  - 11/06/2026, 1:49:59 PM     LOG [HTTP] POST /v1/auth/register 201 92ms
+[Nest] 6836  - 11/06/2026, 1:49:59 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 6836  - 11/06/2026, 1:49:59 PM     LOG [HTTP] GET /v1/account/roles 200 16ms
+[Nest] 6836  - 11/06/2026, 1:49:59 PM     LOG [HTTP] GET /v1/admin/metrics/export 403 7ms
+[Nest] 6836  - 11/06/2026, 1:50:02 PM     LOG [HTTP] POST /v1/auth/register 201 131ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] GET /v1/account/roles 200 20ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] GET /v1/admin/metrics 200 89ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] GET /v1/templates 200 11ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] POST /v1/designs 201 26ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] POST /v1/designs/f6a69081-ba32-47e4-b71c-a840d88a3bae/simulate 202 34ms
+[Nest] 6836  - 11/06/2026, 1:50:03 PM     LOG [HTTP] GET /v1/designs/f6a69081-ba32-47e4-b71c-a840d88a3bae/runs/748e121c-4cb7-486f-927f-e77bb558a135 200 35ms
+[Nest] 6836  - 11/06/2026, 1:50:06 PM     LOG [HTTP] POST /v1/auth/refresh 200 25ms
+[Nest] 6836  - 11/06/2026, 1:50:07 PM     LOG [HTTP] GET /v1/account/roles 304 30ms
+[Nest] 6836  - 11/06/2026, 1:50:07 PM     LOG [HTTP] GET /v1/admin/metrics 200 127ms
+[Nest] 6836  - 11/06/2026, 1:50:07 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 10ms
+[Nest] 6836  - 11/06/2026, 1:50:07 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 14ms
+[Nest] 6836  - 11/06/2026, 1:50:07 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 10ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] POST /v1/auth/register 201 110ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] GET /v1/account/roles 200 21ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] GET /v1/admin/metrics 200 21ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] GET /v1/admin/metrics 304 14ms
+[Nest] 6836  - 11/06/2026, 1:50:09 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 20ms
+[Nest] 6836  - 11/06/2026, 1:50:10 PM     LOG [HTTP] POST /v1/auth/register 201 88ms
+[Nest] 6836  - 11/06/2026, 1:50:10 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 6836  - 11/06/2026, 1:50:11 PM     LOG [HTTP] GET /v1/account/roles 200 13ms
+[Nest] 6836  - 11/06/2026, 1:50:11 PM     LOG [HTTP] GET /v1/admin/metrics/export 403 14ms
+[Nest] 6836  - 11/06/2026, 1:50:13 PM     LOG [HTTP] POST /v1/auth/register 201 96ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] GET /v1/account/roles 200 17ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] GET /v1/admin/metrics 200 98ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] GET /v1/templates 200 19ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] POST /v1/designs 201 39ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] POST /v1/designs/b1e2c3c0-de59-4eab-ade5-3a9c99337137/simulate 202 45ms
+[Nest] 6836  - 11/06/2026, 1:50:14 PM     LOG [HTTP] GET /v1/designs/b1e2c3c0-de59-4eab-ade5-3a9c99337137/runs/3e80ef99-5014-4b66-ab88-a91611a0a6f4 200 34ms
+[Nest] 6836  - 11/06/2026, 1:50:17 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 6836  - 11/06/2026, 1:50:17 PM     LOG [HTTP] GET /v1/account/roles 304 17ms
+[Nest] 6836  - 11/06/2026, 1:50:18 PM     LOG [HTTP] GET /v1/admin/metrics 200 66ms
+[Nest] 6836  - 11/06/2026, 1:50:18 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 15ms
+[Nest] 6836  - 11/06/2026, 1:50:18 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 21ms
+[Nest] 6836  - 11/06/2026, 1:50:18 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 13ms
+[Nest] 6836  - 11/06/2026, 1:50:20 PM     LOG [HTTP] POST /v1/auth/register 201 119ms
+[Nest] 6836  - 11/06/2026, 1:50:21 PM     LOG [HTTP] POST /v1/auth/refresh 200 33ms
+[Nest] 6836  - 11/06/2026, 1:50:21 PM     LOG [HTTP] GET /v1/account/roles 200 19ms
+[Nest] 6836  - 11/06/2026, 1:50:21 PM     LOG [HTTP] GET /v1/admin/metrics 200 97ms
+[Nest] 6836  - 11/06/2026, 1:50:21 PM     LOG [HTTP] GET /v1/admin/metrics 304 14ms
+[Nest] 6836  - 11/06/2026, 1:50:21 PM     LOG [HTTP] GET /v1/admin/metrics/export 200 15ms
+[Nest] 6836  - 11/06/2026, 1:50:22 PM     LOG [HTTP] POST /v1/auth/register 201 84ms
+[Nest] 6836  - 11/06/2026, 1:50:22 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 6836  - 11/06/2026, 1:50:22 PM     LOG [HTTP] GET /v1/account/roles 200 13ms
+[Nest] 6836  - 11/06/2026, 1:50:22 PM     LOG [HTTP] GET /v1/admin/metrics/export 403 13ms

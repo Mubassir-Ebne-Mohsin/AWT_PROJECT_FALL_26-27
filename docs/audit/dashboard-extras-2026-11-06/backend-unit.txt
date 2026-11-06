@@ -1,0 +1,18 @@
+[Nest] 23000  - 11/06/2026, 1:07:52 PM    WARN [AiTaskService] Could not record an AI task call: database down
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:07:58 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:08:04 PM    WARN [Exception] m
+[Nest] 23000  - 11/06/2026, 1:08:04 PM    WARN [Exception] m
+[Nest] 23000  - 11/06/2026, 1:08:04 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:08:04 PM   ERROR [Exception] Unhandled request failure
+[Nest] 23000  - 11/06/2026, 1:08:04 PM   ERROR [Exception] Unhandled request failure
+
+Test Suites: 62 passed, 62 total
+Tests:       785 passed, 785 total
+Snapshots:   0 total
+Time:        127.937 s
+Ran all test suites.

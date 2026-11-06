@@ -1,0 +1,44 @@
+TAP version 13
+# Subtest: heatmap has 168 numeric cells, Monday/Sunday boundaries, UTC window totals and an accessible table
+ok 1 - heatmap has 168 numeric cells, Monday/Sunday boundaries, UTC window totals and an accessible table
+  ---
+  duration_ms: 20.4009
+  type: 'test'
+  ...
+# Subtest: Admin PDF is one A4 page with exact UTC source, digest and aggregate headlines; no extra fields are rendered
+not ok 2 - Admin PDF is one A4 page with exact UTC source, digest and aggregate headlines; no extra fields are rendered
+  ---
+  duration_ms: 17.0929
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\admin-extras.test.cjs:18:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+
+      assert.ok(lines.every(s=>!s.includes("PRIVATE")&&!s.includes("private@example")))
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\admin-extras.test.cjs:25:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# MUTATION_APPLIED pdfprivacy 1
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4199.5152
+MUTATION_APPLIED pdfprivacy 0

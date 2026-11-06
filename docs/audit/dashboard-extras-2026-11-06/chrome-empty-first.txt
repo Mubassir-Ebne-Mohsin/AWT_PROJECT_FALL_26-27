@@ -1,0 +1,25 @@
+
+Running 12 tests using 1 worker
+
+(node:32216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [1024-light] › tests\browser\admin-extras.spec.ts:34:5 › heatmap and all three real downloads match the clicked aggregate snapshot, with no personal text (4.9s)
+  ok  2 [1024-light] › tests\browser\admin-extras.spec.ts:59:5 › expired snapshot and unavailable export auditing give local failures and an explicit refresh (1.8s)
+  ok  3 [1024-light] › tests\browser\admin-extras.spec.ts:73:5 › plain account gets neither aggregate UI nor exports (906ms)
+(node:30648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  4 [1024-dark] › tests\browser\admin-extras.spec.ts:34:5 › heatmap and all three real downloads match the clicked aggregate snapshot, with no personal text (3.1s)
+  ok  5 [1024-dark] › tests\browser\admin-extras.spec.ts:59:5 › expired snapshot and unavailable export auditing give local failures and an explicit refresh (1.9s)
+  ok  6 [1024-dark] › tests\browser\admin-extras.spec.ts:73:5 › plain account gets neither aggregate UI nor exports (881ms)
+(node:15500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  7 [1440-light] › tests\browser\admin-extras.spec.ts:34:5 › heatmap and all three real downloads match the clicked aggregate snapshot, with no personal text (3.4s)
+  ok  8 [1440-light] › tests\browser\admin-extras.spec.ts:59:5 › expired snapshot and unavailable export auditing give local failures and an explicit refresh (1.5s)
+  ok  9 [1440-light] › tests\browser\admin-extras.spec.ts:73:5 › plain account gets neither aggregate UI nor exports (968ms)
+(node:1968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [1440-dark] › tests\browser\admin-extras.spec.ts:34:5 › heatmap and all three real downloads match the clicked aggregate snapshot, with no personal text (3.8s)
+  ok 11 [1440-dark] › tests\browser\admin-extras.spec.ts:59:5 › expired snapshot and unavailable export auditing give local failures and an explicit refresh (1.5s)
+  ok 12 [1440-dark] › tests\browser\admin-extras.spec.ts:73:5 › plain account gets neither aggregate UI nor exports (923ms)
+
+  12 passed (35.2s)

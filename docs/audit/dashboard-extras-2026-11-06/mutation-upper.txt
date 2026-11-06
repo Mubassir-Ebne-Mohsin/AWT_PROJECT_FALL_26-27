@@ -1,0 +1,24 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (12.741 s)
+  ● Admin metrics (isolated Postgres, no AI) › UTC lower boundary is included, upper excluded; Sunday 23 and Monday 00 stay separate
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 2
+    Received: 3
+
+      145 |       await q.query("SET TIME ZONE 'Asia/Dhaka'");
+      146 |       const h=await readActivityHeatmap(q,new Date("2000-02-28T00:00:00Z"));
+    > 147 |       expect(h.cells[0]).toBe(2); expect(h.cells[167]).toBe(1); expect(h.total).toBe(3);
+          |                          ^
+      148 |       const empty=await readActivityHeatmap(q,new Date("1990-01-01T00:00:00Z"));
+      149 |       expect(empty.total).toBe(0); expect(empty.cells).toEqual(Array(168).fill(0));
+      150 |     } finally {
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:147:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        12.883 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\admin-metrics.e2e-spec.ts".
+MUTATION_APPLIED upper 2

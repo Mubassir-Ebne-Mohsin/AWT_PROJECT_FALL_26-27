@@ -1,0 +1,13 @@
+[Nest] 8416  - 11/06/2026, 1:21:22 PM   ERROR [Exception] Unhandled request failure
+(node:8416) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8416) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:8416) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 8416  - 11/06/2026, 1:24:16 PM   ERROR [Exception] Unhandled request failure
+[Nest] 8416  - 11/06/2026, 1:24:19 PM   ERROR [Exception] Unhandled request failure
+
+Test Suites: 30 passed, 30 total
+Tests:       399 passed, 399 total
+Snapshots:   0 total
+Time:        254.696 s
+Ran all test suites.

@@ -1,0 +1,24 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/src/modules/roles/admin-extras.spec.ts (10.599 s)
+  ● dashboard extras › pins immutable historical snapshots, bounds storage, and refuses expiry instead of reading newer numbers
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 999
+
+      74 |     );
+      75 |     first.totals.users = 999;
+    > 76 |     expect(svc.resolveSnapshot(snapshotKey, 2000).totals.users).toBe(1);
+         |                                                                 ^
+      77 |     svc.reset();
+      78 |     read.mockResolvedValue({ ...body(), activeNow: 10 });
+      79 |     await svc.snapshot(() => 4000);
+
+      at Object.<anonymous> (modules/roles/admin-extras.spec.ts:76:65)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        11.034 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\modules\roles\admin-extras.spec.ts".
+MUTATION_APPLIED latest 3

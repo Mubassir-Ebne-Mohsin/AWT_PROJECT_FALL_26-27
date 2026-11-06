@@ -1,0 +1,1 @@
+{"snapshot":{"cached":true,"oldExportMatches":true,"newerSnapshotDifferent":true},"audit":{"closedFormatsOnly":true,"ttlOver89Days":true,"deniedNotCounted":true},"redisOutage":{"status":503,"elapsedMs":3,"noFile":true},"recovered":true,"health":200,"swagger":200}

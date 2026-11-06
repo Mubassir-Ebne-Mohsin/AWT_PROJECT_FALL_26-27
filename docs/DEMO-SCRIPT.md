@@ -154,3 +154,10 @@ The existing `pnpm demo:ai:check` ran **once**, under the user's approval of the
 3. Choose **Include decisions and assumptions** if wanted. The browser remembers it for this app; Report uses the same choice.
 4. Open the file; check revision/run, figures and component settings. Unsaved edits are excluded. Quick download is disabled until a completed simulation exists; **Report & PDF** still opens the full viewer.
 5. On failure, read the inline message, retry or use **Open the Report page**. Changing source/account during preparation cancels it; retry from the desired source. Real navigation still protects drafts; Report's **Print or save as PDF** remains available.
+
+## Admin activity and exports — roadmap B (2026-11-06; no AI)
+1. Sign in as Admin, open **Admin → Live dashboard**, show **Peak hours · UTC**, its 28-day totals and one populated cell. Explain the different window from the 24-hour charts.
+2. Open **Show activity as table**, focus it and scroll with the keyboard. On phones, the grid scrolls sideways without widening the page.
+3. Pause, download CSV, JSON and PDF from **Export this view**. Show shared UTC source/key, numeric CSV, full JSON and the one-page headline PDF. No names/emails/design contents.
+4. Explain explicit refresh after snapshot expiry and local failure without a file if auditing is unavailable. Counters record accepted requests, not disk saves.
+5. A non-Admin is denied. No new migration/install. [Guide](ADMIN-DASHBOARD-EXTRAS.md).
