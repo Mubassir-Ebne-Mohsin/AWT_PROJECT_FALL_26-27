@@ -3,6 +3,7 @@ import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource, QueryRunner } from "typeorm";
 import { componentType } from "@/common/contracts/phase2/graph.schema";
 import { ALERT_KEYS, ALERT_LEVELS, AdminMetrics, METRIC_WINDOW_HOURS, adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
+import { SUPPORT_CATEGORIES, SUPPORT_STATUSES } from "@/common/contracts/phase3/support.schema";
 import { DEFAULT_QUOTA } from "@/modules/ai/ai-quota";
 import { aiSettings } from "@/modules/ai/ai.settings";
 import { RedisCacheService } from "@/providers/cache/redis/redis-cache.service";
@@ -171,6 +172,22 @@ export class AdminMetricsService {
                 (SELECT count(DISTINCT d.owner_id) FROM designs d JOIN design_runs r ON r.design_id = d.id)::int AS ran,
                 (SELECT count(DISTINCT d.owner_id) FROM designs d JOIN design_shares s ON s.design_id = d.id)::int AS shared`,
       );
+      const supportSummary = await this.one<Pick<AdminMetrics["support"], "total" | "unresolved" | "responded" | "medianFirstResponseMs">>(
+        q,
+        `SELECT count(*)::int AS total,
+                (count(*) FILTER (WHERE status <> 'resolved'))::int AS unresolved,
+                (count(*) FILTER (WHERE first_response_at >= created_at))::int AS responded,
+                percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM (first_response_at - created_at)) * 1000)
+                  FILTER (WHERE first_response_at >= created_at) AS "medianFirstResponseMs"
+           FROM support_tickets`,
+      );
+      const supportCategories: { key: string; n: number }[] = await q.query("SELECT category AS key, count(*)::int AS n FROM support_tickets GROUP BY category");
+      const supportStatuses: { key: string; n: number }[] = await q.query("SELECT status AS key, count(*)::int AS n FROM support_tickets GROUP BY status");
+      const support: AdminMetrics["support"] = {
+        ...supportSummary,
+        byCategory: Object.fromEntries(SUPPORT_CATEGORIES.map((key) => [key, supportCategories.find((r) => r.key === key)?.n ?? 0])) as AdminMetrics["support"]["byCategory"],
+        byStatus: Object.fromEntries(SUPPORT_STATUSES.map((key) => [key, supportStatuses.find((r) => r.key === key)?.n ?? 0])) as AdminMetrics["support"]["byStatus"],
+      };
       await q.query("COMMIT");
 
       const limits = aiSettings().quota ?? DEFAULT_QUOTA;
@@ -189,7 +206,8 @@ export class AdminMetricsService {
         activeNow: active.n,
         last24h,
         series,
-        roles: { user: totals.users, instructor: roleCount("instructor"), reviewer: roleCount("reviewer"), admin: roleCount("admin") },
+        roles: { user: totals.users, instructor: roleCount("instructor"), reviewer: roleCount("reviewer"), admin: roleCount("admin"), support: roleCount("support") },
+        support,
         runs: {
           byVerdict: { pass: verdict("pass"), strained: verdict("strained"), fail: verdict("fail"), unknown: verdict("unknown") },
           queue: { pending: queue.pending, oldestPendingSeconds: queue.pending > 0 ? Math.max(0, queue.oldest ?? 0) : null },

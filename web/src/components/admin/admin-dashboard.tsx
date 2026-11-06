@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
+import { SupportMetrics } from "@/components/admin/support-metrics";
 import { RoleGate } from "@/components/auth/role-gate";
 import { Crumbs } from "@/components/shell/crumbs";
 import { useLiveMetrics } from "@/components/admin/use-live-metrics";
@@ -137,6 +138,7 @@ function Board({ m, stale }: { m: AdminMetrics; stale: boolean }) {
               ["Instructor", m.roles.instructor],
               ["Reviewer", m.roles.reviewer],
               ["Admin", m.roles.admin],
+              ["Support", m.roles.support],
             ]}
             note={`${compact(m.totals.suspendedUsers)} suspended`}
           />
@@ -155,6 +157,9 @@ function Board({ m, stale }: { m: AdminMetrics; stale: boolean }) {
         </Panel>
         <Panel title="How far people get" id="funnel">
           <Funnel m={m} />
+        </Panel>
+        <Panel title="Support reports" id="support">
+          <SupportMetrics metrics={m.support} />
         </Panel>
         <Panel title="System" id="system">
           <System m={m} />

@@ -22078,13 +22078,135 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 9007199254740991
+              },
+              "support": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
               }
             },
             "required": [
               "user",
               "instructor",
               "reviewer",
-              "admin"
+              "admin",
+              "support"
+            ],
+            "additionalProperties": false
+          },
+          "support": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "unresolved": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "responded": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "medianFirstResponseMs": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "byCategory": {
+                "type": "object",
+                "properties": {
+                  "bug": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "wrong_result": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "account": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "performance": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "idea": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "other": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "bug",
+                  "wrong_result",
+                  "account",
+                  "performance",
+                  "idea",
+                  "other"
+                ],
+                "additionalProperties": false
+              },
+              "byStatus": {
+                "type": "object",
+                "properties": {
+                  "open": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "in_progress": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "waiting": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "resolved": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "open",
+                  "in_progress",
+                  "waiting",
+                  "resolved"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "total",
+              "unresolved",
+              "responded",
+              "medianFirstResponseMs",
+              "byCategory",
+              "byStatus"
             ],
             "additionalProperties": false
           },
@@ -22522,6 +22644,7 @@
           "last24h",
           "series",
           "roles",
+          "support",
           "runs",
           "ai",
           "funnel",

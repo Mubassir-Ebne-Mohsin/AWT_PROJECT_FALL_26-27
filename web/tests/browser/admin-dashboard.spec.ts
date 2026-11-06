@@ -268,3 +268,30 @@ test.describe("Admin live dashboard", () => {
     });
   }
 });
+
+
+test("Support metrics show real aggregate counts, update after a report and reveal no report details", async ({ page }, info) => {
+  test.skip(!canPromote, "Set the disposable PostgreSQL environment to run the Admin journey.");
+  const { errors, token } = await adminOnDashboard(page, "support-" + info.project.name);
+  const headers = { Authorization: "Bearer " + token };
+  const before = (await (await page.request.get(api + "/admin/metrics", { headers })).json()).data.support;
+  const canary = "Private support canary " + Date.now();
+  const report = await page.request.post(api + "/support/reports", { headers, data: { category: "bug", title: canary, body: "A private issue which must not appear on the dashboard." } });
+  expect(report.status()).toBe(201);
+  const panel = page.getByTestId("panel-support");
+  await expect(panel).toBeVisible();
+  await expect(panel.getByTestId("support-unresolved")).toHaveText((before.unresolved + 1).toLocaleString("en-US"), { timeout: 20000 });
+  await page.getByTestId("dash-pause").click();
+  const current = (await (await page.request.get(api + "/admin/metrics", { headers })).json()).data.support;
+  await expect(panel.getByTestId("support-total")).toHaveText(current.total.toLocaleString("en-US"));
+  if (current.medianFirstResponseMs === null) await expect(panel.getByTestId("support-first-response")).toHaveText("No replies yet");
+  else await expect(panel.getByTestId("support-first-response")).not.toHaveText("No replies yet");
+  await panel.screenshot({ path: info.outputPath("support-metrics.png") });
+  await expect(panel.getByTestId("support-response-samples")).toContainText(`${current.responded.toLocaleString("en-US")} of ${current.total.toLocaleString("en-US")} reports`);
+  await expect(panel.getByRole("table", { name: "Reports by category" }).getByRole("row", { name: /^Bug or error/ })).toContainText(current.byCategory.bug.toLocaleString("en-US"));
+  await expect(page.getByTestId("panel-roles").getByTestId("bar-Support")).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(canary);
+  expect((await page.request.get(api + "/support/inbox", { headers })).status()).toBe(403);
+  for (const width of [1024, 390, 320]) { await page.setViewportSize({ width, height: 900 }); expect(await noOverflow(page), `${width}px`).toBe(true); }
+  expect(errors).toEqual([]);
+});

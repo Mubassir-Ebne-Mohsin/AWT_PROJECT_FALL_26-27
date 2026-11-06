@@ -1,4 +1,4 @@
-import { AdminMetrics } from "@/common/contracts/phase3/admin-metrics.schema";
+import { AdminMetrics, adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { AdminMetricsService, METRICS_CACHE_MS, deriveAlerts } from "@/modules/roles/admin-metrics.service";
 
 const calm = (): AdminMetrics => {
@@ -11,7 +11,8 @@ const calm = (): AdminMetrics => {
     activeNow: 0,
     last24h: { signups: 0, designsCreated: 0, runsCompleted: 0, runsFailed: 0, aiCalls: 0 },
     series: { signups: h, designsCreated: h, runsCompleted: h, runsFailed: h, aiCalls: h },
-    roles: { user: 1, instructor: 0, reviewer: 0, admin: 1 },
+    roles: { user: 1, instructor: 0, reviewer: 0, admin: 1, support: 0 },
+    support: { total: 0, unresolved: 0, responded: 0, medianFirstResponseMs: null, byCategory: { bug: 0, wrong_result: 0, account: 0, performance: 0, idea: 0, other: 0 }, byStatus: { open: 0, in_progress: 0, waiting: 0, resolved: 0 } },
     runs: { byVerdict: { pass: 0, strained: 0, fail: 0, unknown: 0 }, queue: { pending: 0, oldestPendingSeconds: null }, bottlenecks: { client: 0, cdn: 0, lb: 0, gateway: 0, app: 0, worker: 0, cache: 0, db: 0, replica: 0, queue: 0, storage: 0, external: 0 } },
     ai: { byTask: { describe: 0, whatif: 0, fixes: 0 }, completed: 0, failed: 0, byOutcome: { completed: 0, rate_limited: 0, invalid_output: 0, unavailable: 0, cancelled: 0, other: 0 }, tokens24h: 0, latencyMs: { p50: null, p95: null }, usage: { lastMinute: 0, today: 0, limitPerMinute: 30, limitPerDay: 1000 } },
     funnel: { registered: 1, createdDesign: 0, ranDesign: 0, sharedDesign: 0 },
@@ -90,5 +91,20 @@ describe("AdminMetricsService cache", () => {
     };
     await expect(svc.snapshot(() => 1)).rejects.toThrow("db down");
     await expect(svc.snapshot(() => 2)).resolves.toBeDefined();
+  });
+});
+
+
+describe("Support aggregate contract", () => {
+  it("refuses private content at every Support aggregate boundary", () => {
+    const valid = calm();
+    expect(adminMetricsSchema.parse(valid).support.responded).toBe(0);
+    for (const support of [
+      { ...valid.support, title: "private" },
+      { ...valid.support, byCategory: { ...valid.support.byCategory, email: "private@example.test" } },
+      { ...valid.support, byStatus: { ...valid.support.byStatus, reporterId: "private" } },
+      { ...valid.support, medianFirstResponseMs: -1 },
+      { ...valid.support, medianFirstResponseMs: Number.POSITIVE_INFINITY },
+    ]) expect(adminMetricsSchema.safeParse({ ...valid, support }).success).toBe(false);
   });
 });

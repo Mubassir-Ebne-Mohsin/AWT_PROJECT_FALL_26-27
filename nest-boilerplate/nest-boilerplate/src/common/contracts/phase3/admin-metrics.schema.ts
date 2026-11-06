@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SUPPORT_CATEGORIES, SUPPORT_STATUSES } from "@/common/contracts/phase3/support.schema";
 import { componentType } from "@/common/contracts/phase2/graph.schema";
 
 // Admin live dashboard. Aggregates only: every value is a count, a duration or a closed key. No account, design, note, prompt
@@ -13,6 +14,8 @@ const COMPONENT_TYPES = componentType.options;
 /** Closed keys only: a count per component type, so no free text can come through. */
 const byComponent = z.strictObject(Object.fromEntries(COMPONENT_TYPES.map((t) => [t, count])) as Record<(typeof COMPONENT_TYPES)[number], typeof count>);
 export const AI_OUTCOMES = ["completed", "rate_limited", "invalid_output", "unavailable", "cancelled", "other"] as const;
+const bySupportCategory = z.strictObject(Object.fromEntries(SUPPORT_CATEGORIES.map((key) => [key, count])) as Record<(typeof SUPPORT_CATEGORIES)[number], typeof count>);
+const bySupportStatus = z.strictObject(Object.fromEntries(SUPPORT_STATUSES.map((key) => [key, count])) as Record<(typeof SUPPORT_STATUSES)[number], typeof count>);
 const hourly = z.array(count).length(METRIC_WINDOW_HOURS);
 
 export const RUN_VERDICTS = ["pass", "strained", "fail", "unknown"] as const;
@@ -52,7 +55,16 @@ export const adminMetricsSchema = z.strictObject({
     runsFailed: hourly,
     aiCalls: hourly,
   }),
-  roles: z.strictObject({ user: count, instructor: count, reviewer: count, admin: count }),
+  roles: z.strictObject({ user: count, instructor: count, reviewer: count, admin: count, support: count }),
+  /** All-time aggregates. Only valid first public reply timestamps contribute to the median/denominator. */
+  support: z.strictObject({
+    total: count,
+    unresolved: count,
+    responded: count,
+    medianFirstResponseMs: ms.nullable(),
+    byCategory: bySupportCategory,
+    byStatus: bySupportStatus,
+  }),
   runs: z.strictObject({
     byVerdict: z.strictObject({ pass: count, strained: count, fail: count, unknown: count }),
     queue: z.strictObject({ pending: count, oldestPendingSeconds: count.nullable() }),

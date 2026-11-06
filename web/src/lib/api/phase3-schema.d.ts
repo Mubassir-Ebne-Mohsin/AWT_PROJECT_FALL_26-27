@@ -3444,6 +3444,27 @@ export interface components {
                 instructor: number;
                 reviewer: number;
                 admin: number;
+                support: number;
+            };
+            support: {
+                total: number;
+                unresolved: number;
+                responded: number;
+                medianFirstResponseMs: number | null;
+                byCategory: {
+                    bug: number;
+                    wrong_result: number;
+                    account: number;
+                    performance: number;
+                    idea: number;
+                    other: number;
+                };
+                byStatus: {
+                    open: number;
+                    in_progress: number;
+                    waiting: number;
+                    resolved: number;
+                };
             };
             runs: {
                 byVerdict: {

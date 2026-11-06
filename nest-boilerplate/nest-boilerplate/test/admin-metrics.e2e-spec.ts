@@ -68,11 +68,11 @@ describe("Admin metrics (isolated Postgres, no AI)", () => {
     await app?.close();
   });
 
-  it("is for Admins only: anonymous 401, plain user 403, instructor 403, reviewer 403", async () => {
+  it("is for Admins only: anonymous 401, plain user 403, instructor 403, reviewer 403, support 403", async () => {
     await http.get("/v1/admin/metrics").expect(401);
     const plain = await register("plain");
     await http.get("/v1/admin/metrics").set(as(plain)).expect(403);
-    for (const role of ["instructor", "reviewer"] as const) {
+    for (const role of ["instructor", "reviewer", "support"] as const) {
       const a = await register(role);
       await roles.grant(OPERATOR, a.id, { role });
       await http.get("/v1/admin/metrics").set(as(a)).expect(403);
@@ -239,11 +239,13 @@ describe("Admin metrics (isolated Postgres, no AI)", () => {
     const user = await register("leaktarget-" + NAME);
     const d = await newDesign(user, "Leak " + NAME);
     await http.post(`/v1/designs/${d.id}/notes`).set(as(user)).send({ kind: "assumption", text: "Never show " + NAME }).expect(201);
+    const ticket = (await http.post("/v1/support/reports").set(as(user)).send({ category: "bug", title: "Private report " + NAME, body: "Private body " + NAME, expected: "Private expectation " + NAME, context: { browser: "Private browser " + NAME } }).expect(201)).body.data;
+    await db.query("INSERT INTO support_messages (ticket_id, author_id, author_kind, internal, body, created_at) VALUES ($1,$2,'support',true,$3,now())", [ticket.id, admin.id, "Internal canary " + NAME]);
     const raw = JSON.stringify((await http.get("/v1/admin/metrics").set(as(admin)).expect(200)).body);
     metrics.reset();
     const fresh = JSON.stringify((await http.get("/v1/admin/metrics").set(as(admin)).expect(200)).body);
     for (const body of [raw, fresh]) {
-      for (const secret of [NAME, user.email, user.id, d.id, "example.test", "private blurb", "leaktarget"]) expect(body).not.toContain(secret);
+      for (const secret of [NAME, user.email, user.id, d.id, "example.test", "private blurb", "leaktarget", ticket.id, "Private report", "Private body", "Private expectation", "Private browser", "Internal canary"]) expect(body).not.toContain(secret);
     }
     // Every leaf is a number, a boolean, a timestamp or a closed key.
     const leaves: unknown[] = [];
@@ -311,4 +313,70 @@ describe("Admin metrics (isolated Postgres, no AI)", () => {
       await q.release();
     }
   });
+  it("Support aggregates include every status/category, retain unanswered rows and compute odd/even valid reply medians", async () => {
+    // This suite runs only on the dedicated e2e database; these are disposable fixtures, not the development inbox.
+    const testDatabase = process.env.DB_TEST_DATABASE ?? "stressforge_test";
+    if (db.options.database !== testDatabase || !/(test|e2e)/i.test(testDatabase)) throw new Error("Support fixture cleanup requires the isolated test database");
+    await db.query("DELETE FROM support_tickets");
+    const admin = await makeAdmin("supportmetrics");
+    const empty = (await read(admin)).support;
+    expect(empty.total).toBe(0);
+    expect(empty.unresolved).toBe(0);
+    expect(empty.responded).toBe(0);
+    expect(empty.medianFirstResponseMs).toBeNull();
+    expect(Object.values(empty.byCategory)).toEqual([0, 0, 0, 0, 0, 0]);
+    expect(Object.values(empty.byStatus)).toEqual([0, 0, 0, 0]);
+    const created = Date.parse("2025-01-01T00:00:00.000Z");
+    const fixtures = [
+      ["bug", "open", 0], ["wrong_result", "in_progress", 60000], ["account", "waiting", 120000],
+      ["performance", "resolved", 240000], ["idea", "open", null], ["other", "resolved", -60000],
+    ] as const;
+    const ids: string[] = [];
+    try {
+      for (const [category, status, delay] of fixtures) {
+        const id = randomUUID(); ids.push(id);
+        await db.query(`INSERT INTO support_tickets (id, category, title, body, context, status, created_at, updated_at, last_user_activity_at, resolved_at, first_response_at)
+          VALUES ($1,$2,$3,$4,'{}',$5,$6,$6,$6,$7,$8)`,
+        [id, category, "Private aggregate fixture", "Private report body must stay private", status, new Date(created), status === "resolved" ? new Date(created) : null, delay === null ? null : new Date(created + delay)]);
+      }
+      const even = (await read(admin)).support;
+      expect(even).toEqual({ total: 6, unresolved: 4, responded: 4, medianFirstResponseMs: 90000,
+        byCategory: { bug: 1, wrong_result: 1, account: 1, performance: 1, idea: 1, other: 1 },
+        byStatus: { open: 2, in_progress: 1, waiting: 1, resolved: 2 } });
+      await db.query("UPDATE support_tickets SET first_response_at = NULL WHERE id = $1", [ids[3]]);
+      const odd = (await read(admin)).support;
+      expect(odd.responded).toBe(3);
+      expect(odd.medianFirstResponseMs).toBe(60000);
+      await db.query("UPDATE support_tickets SET first_response_at = NULL WHERE id = ANY($1::uuid[])", [ids]);
+      const unanswered = (await read(admin)).support;
+      expect(unanswered.total).toBe(6);
+      expect(unanswered.responded).toBe(0);
+      expect(unanswered.medianFirstResponseMs).toBeNull();
+    } finally { await db.query("DELETE FROM support_tickets WHERE id = ANY($1::uuid[])", [ids]); }
+  });
+
+  it("only the first public Support reply starts response timing; internal notes and author messages do not", async () => {
+    const admin = await makeAdmin("replymetrics");
+    const author = await register("replyauthor");
+    const agent = await register("replyagent");
+    const before = await read(admin);
+    await roles.grant(OPERATOR, agent.id, { role: "support" });
+    expect((await read(admin)).roles.support).toBe(before.roles.support + 1);
+    const ticket = (await http.post("/v1/support/reports").set(as(author)).send({ category: "bug", title: "Response timing", body: "Something went wrong in my design." }).expect(201)).body.data;
+    const metricBefore = (await read(admin)).support;
+    await http.post(`/v1/support/inbox/${ticket.id}/messages`).set(as(agent)).send({ body: "Internal investigation only", internal: true }).expect(201);
+    await http.post(`/v1/support/reports/${ticket.id}/messages`).set(as(author)).send({ body: "A little more context from the author" }).expect(201);
+    expect((await read(admin)).support.responded).toBe(metricBefore.responded);
+    await http.post(`/v1/support/inbox/${ticket.id}/messages`).set(as(agent)).send({ body: "The first public reply", internal: false }).expect(201);
+    const first = (await read(admin)).support;
+    expect(first.responded).toBe(metricBefore.responded + 1);
+    const [stamp] = await db.query("SELECT first_response_at FROM support_tickets WHERE id = $1", [ticket.id]);
+    await http.post(`/v1/support/inbox/${ticket.id}/messages`).set(as(agent)).send({ body: "A later public reply", internal: false }).expect(201);
+    const [later] = await db.query("SELECT first_response_at FROM support_tickets WHERE id = $1", [ticket.id]);
+    expect(later.first_response_at).toEqual(stamp.first_response_at);
+    expect((await read(admin)).support).toEqual(first);
+    await http.get("/v1/support/inbox").set(as(admin)).expect(403);
+    await http.get("/v1/admin/metrics").set(as(agent)).expect(403);
+  });
+
 });
