@@ -76,6 +76,11 @@ require.cache[require.resolve("../src/lib/api/account.ts")] = {
     },
   },
 };
+let notificationPrefs = Object.keys(require("../src/lib/notifications.ts").NOTIFICATION_PREFERENCE_LABELS).map(kind=>({kind,muted:false}));
+require.cache[require.resolve("../src/lib/api/notifications.ts")]={exports:{
+ getNotificationPreferences:async()=>notificationPrefs,
+ setNotificationPreference:async(kind,muted)=>{notificationPrefs=notificationPrefs.map(p=>p.kind===kind?{...p,muted}:p);return notificationPrefs;},
+}};
 const { SettingsPage } = require("../src/components/settings/settings.tsx");
 const S = require("../src/lib/settings-presentation.ts");
 
@@ -314,5 +319,11 @@ test("P4 appearance, AI usage and preferences say only what is true", async () =
   assert.match(testid(view, "ai-off").textContent, /switched off.*nothing is sent/);
   document.body.innerHTML = "";
   view = await render("/settings/preferences");
-  assert.match(testid(view, "preferences-empty").textContent, /nothing else to set yet/);
+  const controls=[...view.querySelectorAll("input[type=checkbox]")];
+  assert.equal(controls.length,5);
+  assert.ok(controls.every(c=>!c.checked));
+  await click(controls[0]);
+  assert.equal(controls[0].checked,true);
+  assert.equal(notificationPrefs[0].muted,true);
+  assert.match(view.textContent,/preference saved/);
 });

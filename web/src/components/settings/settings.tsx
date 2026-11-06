@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { NotificationPreferences } from "@/components/notifications/notification-preferences";
 import { notFound, usePathname } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -373,9 +374,5 @@ function Appearance() {
 }
 
 function Preferences() {
-  return (
-    <section className="panel stack r2-pad" aria-label="Preferences">
-      <p data-testid="preferences-empty">There is nothing else to set yet. The color theme is under Appearance.</p>
-    </section>
-  );
+  return <NotificationPreferences />;
 }

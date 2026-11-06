@@ -1,0 +1,90 @@
+.notification-trigger {
+  position: relative;
+  flex-shrink: 0;
+}
+.notification-badge {
+  position: absolute;
+  right: -6px;
+  top: -5px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 9px;
+  padding: 1px 4px;
+  font: 600 9px var(--font-mono);
+  min-width: 15px;
+}
+.notification-panel {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 45vh;
+  overflow: auto;
+}
+.notification-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.notification-open {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 4px;
+  background: transparent;
+  color: var(--ink);
+  border: 0;
+  padding: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+.notification-list .is-unread {
+  background: var(--accent-soft);
+}
+.notification-open .dot {
+  background: var(--accent);
+}
+@media (max-width: 480px) {
+  .notification-list li {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .notification-panel .row {
+    gap: 6px;
+  }
+  .notification-panel .btn {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    gap: 4px;
+    padding-left: max(8px, env(safe-area-inset-left, 0px));
+    padding-right: max(8px, env(safe-area-inset-right, 0px));
+  }
+  .topbar-right > .btn.icon {
+    width: 28px;
+    min-width: 28px;
+    padding: 0;
+  }
+  .topbar-right .search-btn {
+    width: 28px;
+    padding: 0;
+    justify-content: center;
+    margin-right: 2px;
+  }
+  .topbar-right select[aria-label="Color theme"] {
+    max-width: 68px;
+    padding-left: 2px;
+    padding-right: 1px;
+  }
+}

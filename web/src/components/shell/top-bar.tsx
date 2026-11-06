@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 import { ThemeSelect } from "@/components/shell/theme-select";
 import { initialsOf, useAuth } from "@/components/auth/auth-provider";
 import { useMyRoles } from "@/components/auth/use-my-roles";
@@ -184,6 +185,7 @@ export function TopBar({ pathname }: { pathname: string }) {
         <button className="btn btn-ghost icon hide-sm" aria-label="Report a problem" title="Report a problem or send feedback" onClick={() => setUI({ feedback: true, reportRef: null })}>
           <Icon n="msg" />
         </button>
+        {authed && <NotificationBell pathname={pathname} />}
         <ThemeSelect />
 
         {authed ? (
