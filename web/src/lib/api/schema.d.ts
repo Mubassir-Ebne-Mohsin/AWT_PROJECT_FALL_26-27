@@ -68,6 +68,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/auth/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["changeMyPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/auth/me": {
         parameters: {
             query?: never;
@@ -394,6 +410,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/fixes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["suggestDesignFixes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/ladder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["climbDesignLadder"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/designs/{id}/what-if": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["askDesignWhatIf"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/designs/{id}/limits": {
         parameters: {
             query?: never;
@@ -591,6 +655,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ai/tasks/readiness": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAiTasksReadiness"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ai/tasks/describe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["describeDesignWithAi"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ai/tasks/fix-intent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["interpretFixGoalWithAi"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ai/tasks/what-if": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["interpretWhatIfWithAi"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/account/roles": {
         parameters: {
             query?: never;
@@ -599,6 +727,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getAccountRoles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/metrics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAdminMetrics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1049,6 +1193,182 @@ export interface paths {
         get: operations["getChallengeProgress"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateMyProfile"];
+        trace?: never;
+    };
+    "/v1/account/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportMyAccount"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/account/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["deleteMyAccount"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMyReports"];
+        put?: never;
+        post: operations["createReport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/reports/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMyReport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/reports/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addReportMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/agents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listSupportAgents"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/inbox": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listInbox"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/inbox/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getInboxReport"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateInboxReport"];
+        trace?: never;
+    };
+    "/v1/support/inbox/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["markInboxReportRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/support/inbox/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["replyInboxReport"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1533,6 +1853,7 @@ export interface components {
             kind: "decision" | "assumption";
             text: string;
             revision?: number;
+            componentId?: string;
         };
         PatchNoteDto: {
             /** Format: date-time */
@@ -1743,6 +2064,35 @@ export interface components {
             /** Format: uuid */
             requestId: string;
         };
+        FixesRequestDto: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+            filter?: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+        };
+        LadderRequestDto: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+        };
+        WhatIfRequestDto: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+        };
         AiRequestDto: {
             /** Format: uuid */
             requestId: string;
@@ -1751,6 +2101,15 @@ export interface components {
             expectedRevision: number;
             /** Format: uuid */
             runId: string;
+        };
+        AiDescribeRequestDto: {
+            text: string;
+        };
+        AiFixIntentRequestDto: {
+            goal: string;
+        };
+        AiWhatIfRequestDto: {
+            text: string;
         };
         Graph: {
             nodes: ({
@@ -3645,6 +4004,177 @@ export interface components {
             /** Format: date-time */
             createdAt: string;
         };
+        ProfileUpdate: {
+            displayName: string;
+        };
+        PasswordChange: {
+            currentPassword: string;
+            newPassword: string;
+        };
+        DeleteAccount: {
+            password: string;
+            confirmation: string;
+        };
+        AccountExport: {
+            /** @constant */
+            format: "stressforge-export-v1";
+            /** Format: date-time */
+            exportedAt: string;
+            note: string;
+            account: {
+                /** Format: uuid */
+                id: string;
+                email: string;
+                displayName: string;
+                /** Format: date-time */
+                createdAt: string;
+                roles: string[];
+            };
+            designs: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                description: string;
+                source: string;
+                templateId: string | null;
+                revision: number;
+                archivedAt: string | null;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+                graph: unknown;
+                traffic: unknown;
+                versions: {
+                    revision: number;
+                    origin: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    snapshot: unknown;
+                }[];
+                notes: {
+                    revision: number;
+                    kind: string;
+                    text: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+                runs: {
+                    /** Format: uuid */
+                    id: string;
+                    status: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    completedAt: string | null;
+                    result?: unknown;
+                }[];
+                shareLinks: {
+                    scope: string;
+                    revision: number;
+                    /** Format: date-time */
+                    createdAt: string;
+                    expiresAt: string | null;
+                    revokedAt: string | null;
+                    openCount: number;
+                }[];
+            }[];
+            reviewsOfMyDesigns: {
+                /** Format: uuid */
+                designId: string;
+                revision: number;
+                reviewer: string;
+                /** Format: date-time */
+                createdAt: string;
+                revokedAt: string | null;
+                comments: {
+                    author: string;
+                    text: string | null;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+            }[];
+            commentsIWrote: {
+                text: string | null;
+                /** Format: date-time */
+                createdAt: string;
+            }[];
+            challengesIManage: {
+                /** Format: uuid */
+                id: string;
+                title: string;
+                summary: string;
+                status: string;
+                goal: unknown;
+                traffic: unknown;
+                /** Format: date-time */
+                createdAt: string;
+                publishedAt: string | null;
+                archivedAt: string | null;
+            }[];
+            challengeAttempts: {
+                challengeTitle: string;
+                /** Format: date-time */
+                startedAt: string;
+                submissions: {
+                    designRevision: number;
+                    status: string;
+                    result: unknown;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+                feedbackReceived: {
+                    from: string;
+                    text: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+            }[];
+            roleHistory: {
+                /** Format: date-time */
+                at: string;
+                action: string;
+                role: string | null;
+            }[];
+            problemReports: {
+                code: string;
+                category: string;
+                title: string;
+                status: string;
+                /** Format: date-time */
+                createdAt: string;
+                body: string;
+                expected: string | null;
+                messages: {
+                    /** @enum {string} */
+                    from: "you" | "support";
+                    text: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+            }[];
+        };
+        AccountUser: {
+            /** Format: uuid */
+            id: string;
+            email: string;
+            displayName: string;
+            /** @enum {string} */
+            role: "user" | "admin";
+            createdAt: string;
+        };
+        AccountSession: {
+            accessToken: string;
+            expiresIn: number;
+            user: {
+                /** Format: uuid */
+                id: string;
+                email: string;
+                displayName: string;
+                /** @enum {string} */
+                role: "user" | "admin";
+                createdAt: string;
+            };
+        };
         CreateChallengeFeedbackRequest: {
             text: string;
         };
@@ -4047,6 +4577,608 @@ export interface components {
             /** @enum {string} */
             reason: "DISABLED" | "AVAILABLE" | "BUSY" | "MODEL_MISSING" | "PROVIDER_UNAVAILABLE" | "MEMORY_PRESSURE" | "INSTANCE_BUSY" | "QUOTA_EXHAUSTED";
         };
+        FixesRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+            filter?: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+        };
+        DesignFixes: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            /** @enum {string} */
+            status: "SUGGESTIONS" | "NOTHING_TO_FIX" | "NO_IMPROVEMENT_FOUND" | "INCOMPLETE" | "ALL_EXCLUDED";
+            filter: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+            baseline: {
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                p95: number;
+                errorRate: number;
+                maxRho: number;
+            };
+            limiter: {
+                id: string;
+                label: string;
+                type: string;
+            } | null;
+            suggestions: {
+                id: string;
+                /** @enum {string} */
+                kind: "replicas" | "capacity" | "cache" | "readReplica";
+                title: string;
+                detail: string;
+                assumption: string | null;
+                after: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                };
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+            }[];
+            tried: number;
+            skipped: number;
+        };
+        LadderRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+        };
+        DesignLadder: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            rungs: {
+                multiplier: number;
+                rps: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            }[];
+        };
+        WhatIfRequest: {
+            expectedRevision: number;
+            /** Format: uuid */
+            runId: string;
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+        };
+        DesignWhatIf: {
+            /** Format: uuid */
+            designId: string;
+            /** Format: uuid */
+            runId: string;
+            revision: number;
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+            before: {
+                rps: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+                readRatio: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            };
+            after: {
+                rps: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+                readRatio: number;
+                /** @enum {string} */
+                status: "OK" | "TOO_LARGE" | "UNAVAILABLE";
+                measure: {
+                    /** @enum {string} */
+                    verdict: "pass" | "strained" | "fail";
+                    p95: number;
+                    errorRate: number;
+                    maxRho: number;
+                } | null;
+                limiter: {
+                    id: string;
+                    label: string;
+                    type: string;
+                } | null;
+            };
+        };
+        AiTasksReadiness: {
+            tasks: {
+                /** @enum {string} */
+                task: "describe" | "whatif" | "fixes";
+                enabled: boolean;
+                available: boolean;
+                /** @enum {string} */
+                provider: "ollama" | "groq";
+                model: string;
+                /** @enum {string} */
+                reason: "AVAILABLE" | "DISABLED" | "PROVIDER_NOT_CONFIGURED" | "QUOTA_EXHAUSTED";
+                retryAfterSeconds?: number;
+            }[];
+        };
+        AiDescribeRequest: {
+            text: string;
+        };
+        AiDescribePrepared: {
+            design: {
+                name: string;
+                description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
+                templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+                /** @constant */
+                schemaVersion: 1;
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+                traffic: {
+                    /** @enum {string} */
+                    preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                    rps: number;
+                    burst: number;
+                    readRatio: number;
+                    sloP95: number;
+                    errorBudget: number;
+                    durationMin: number;
+                    /** @enum {string} */
+                    shape: "steady" | "ramp" | "spike";
+                };
+            };
+            assumptions: string[];
+            /** @enum {string} */
+            provider: "ollama" | "groq";
+            model: string;
+        };
+        AiFixIntentRequest: {
+            goal: string;
+        };
+        AiFixIntent: {
+            understood: boolean;
+            /** @enum {string} */
+            status: "SUPPORTED" | "CLARIFY" | "UNSUPPORTED";
+            clarification: {
+                /** @enum {string} */
+                reason: "copies_or_replica" | "conflicting_preferences";
+                question: string;
+                choices: {
+                    id: string;
+                    label: string;
+                    filter: {
+                        exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                        /** @enum {string} */
+                        preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+                    };
+                }[];
+            } | null;
+            filter: {
+                exclude: ("replicas" | "capacity" | "cache" | "readReplica")[];
+                /** @enum {string} */
+                preference: "default" | "simplest" | "lowest_latency" | "fewest_errors";
+            };
+            interpretation: string[];
+            /** @enum {string} */
+            provider: "ollama" | "groq";
+            model: string;
+        };
+        AiWhatIfRequest: {
+            text: string;
+        };
+        AiWhatIf: {
+            /** @enum {string} */
+            status: "SUPPORTED" | "UNSUPPORTED" | "OUT_OF_RANGE";
+            change: {
+                /** @enum {string} */
+                trafficMode: "keep" | "multiply" | "set";
+                value: number;
+                /** @enum {string} */
+                shape: "keep" | "steady" | "ramp" | "spike";
+                /** @enum {string} */
+                readShare: "keep" | "mostly_reads" | "balanced" | "mostly_writes";
+            };
+            interpretation: string[];
+            /** @enum {string} */
+            provider: "ollama" | "groq";
+            model: string;
+        };
         DesignVersion: {
             /** Format: uuid */
             id: string;
@@ -4289,6 +5421,12 @@ export interface components {
             revision: number;
             /** @enum {string} */
             kind: "decision" | "assumption";
+            componentId: string | null;
+            component: {
+                id: string;
+                label: string;
+            } | null;
+            componentRemoved: boolean;
             text: string;
             /** Format: date-time */
             createdAt: string;
@@ -4367,6 +5505,8 @@ export interface components {
             designId: string;
             name: string;
             description: string;
+            /** @enum {string} */
+            source: "blank" | "template" | "import" | "scripted" | "ai";
             revision: number;
             isCurrentRevision: boolean;
             /** Format: date-time */
@@ -4603,6 +5743,7 @@ export interface components {
                         rho: number;
                     } | null;
                     components: {
+                        id: string;
                         label: string;
                         type: string;
                         region: string;
@@ -4635,6 +5776,7 @@ export interface components {
             noteScope: "all" | "decisions" | "none";
             notes: {
                 revision: number;
+                component: string | null;
                 /** @enum {string} */
                 kind: "decision" | "assumption";
                 text: string;
@@ -4705,6 +5847,8 @@ export interface components {
             report: {
                 name: string;
                 description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 revision: number;
                 isCurrentRevision: boolean;
                 /** Format: date-time */
@@ -4941,6 +6085,7 @@ export interface components {
                             rho: number;
                         } | null;
                         components: {
+                            id: string;
                             label: string;
                             type: string;
                             region: string;
@@ -4973,6 +6118,7 @@ export interface components {
                 noteScope: "all" | "decisions" | "none";
                 notes: {
                     revision: number;
+                    component: string | null;
                     /** @enum {string} */
                     kind: "decision" | "assumption";
                     text: string;
@@ -4983,22 +6129,369 @@ export interface components {
             };
         };
         AccountRoles: {
-            roles: ("user" | "instructor" | "reviewer" | "admin")[];
+            roles: ("user" | "instructor" | "reviewer" | "support" | "admin")[];
         };
         GrantRoleRequest: {
             /** @enum {string} */
-            role: "instructor" | "reviewer" | "admin";
+            role: "instructor" | "reviewer" | "support" | "admin";
         };
         AdminUser: {
             /** Format: uuid */
             id: string;
             displayName: string;
             email: string;
-            roles: ("user" | "instructor" | "reviewer" | "admin")[];
+            roles: ("user" | "instructor" | "reviewer" | "support" | "admin")[];
             /** @enum {string} */
             status: "active" | "suspended";
             /** Format: date-time */
             createdAt: string;
+        };
+        AdminMetrics: {
+            /** Format: date-time */
+            generatedAt: string;
+            /** @constant */
+            windowHours: 24;
+            /** Format: date-time */
+            seriesStart: string;
+            totals: {
+                users: number;
+                suspendedUsers: number;
+                designs: number;
+                archivedDesigns: number;
+                runs: number;
+                shares: number;
+                openShares: number;
+                notes: number;
+            };
+            activeNow: number;
+            last24h: {
+                signups: number;
+                designsCreated: number;
+                runsCompleted: number;
+                runsFailed: number;
+                aiCalls: number;
+            };
+            series: {
+                signups: number[];
+                designsCreated: number[];
+                runsCompleted: number[];
+                runsFailed: number[];
+                aiCalls: number[];
+            };
+            roles: {
+                user: number;
+                instructor: number;
+                reviewer: number;
+                admin: number;
+                support: number;
+            };
+            support: {
+                total: number;
+                unresolved: number;
+                responded: number;
+                medianFirstResponseMs: number | null;
+                byCategory: {
+                    bug: number;
+                    wrong_result: number;
+                    account: number;
+                    performance: number;
+                    idea: number;
+                    other: number;
+                };
+                byStatus: {
+                    open: number;
+                    in_progress: number;
+                    waiting: number;
+                    resolved: number;
+                };
+            };
+            runs: {
+                byVerdict: {
+                    pass: number;
+                    strained: number;
+                    fail: number;
+                    unknown: number;
+                };
+                queue: {
+                    pending: number;
+                    oldestPendingSeconds: number | null;
+                };
+                bottlenecks: {
+                    client: number;
+                    cdn: number;
+                    lb: number;
+                    gateway: number;
+                    app: number;
+                    worker: number;
+                    cache: number;
+                    db: number;
+                    replica: number;
+                    queue: number;
+                    storage: number;
+                    external: number;
+                };
+            };
+            ai: {
+                byTask: {
+                    describe: number;
+                    whatif: number;
+                    fixes: number;
+                };
+                completed: number;
+                failed: number;
+                byOutcome: {
+                    completed: number;
+                    rate_limited: number;
+                    invalid_output: number;
+                    unavailable: number;
+                    cancelled: number;
+                    other: number;
+                };
+                tokens24h: number;
+                latencyMs: {
+                    p50: number | null;
+                    p95: number | null;
+                };
+                usage: {
+                    lastMinute: number;
+                    today: number;
+                    limitPerMinute: number;
+                    limitPerDay: number;
+                };
+            };
+            funnel: {
+                registered: number;
+                createdDesign: number;
+                ranDesign: number;
+                sharedDesign: number;
+            };
+            system: {
+                database: {
+                    ok: boolean;
+                    latencyMs: number;
+                };
+                cache: {
+                    ok: boolean;
+                };
+                uptimeSeconds: number;
+            };
+            alerts: {
+                /** @enum {string} */
+                key: "queue_backlog" | "run_failures_high" | "ai_failures_high" | "ai_quota_near" | "database_slow" | "cache_down";
+                /** @enum {string} */
+                level: "info" | "warning" | "critical";
+            }[];
+        };
+        ReportContext: {
+            page?: string;
+            app?: string;
+            browser?: string;
+            screen?: {
+                width: number;
+                height: number;
+            };
+            /** Format: date-time */
+            at?: string;
+            errorId?: string;
+        };
+        CreateReportRequest: {
+            /** @enum {string} */
+            category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+            title: string;
+            body: string;
+            expected?: string;
+            /** @default {} */
+            context: {
+                page?: string;
+                app?: string;
+                browser?: string;
+                screen?: {
+                    width: number;
+                    height: number;
+                };
+                /** Format: date-time */
+                at?: string;
+                errorId?: string;
+            };
+            confirmDuplicate?: boolean;
+        };
+        ReportMessageRequest: {
+            body: string;
+        };
+        SupportMessageRequest: {
+            body: string;
+            /** @default false */
+            internal: boolean;
+        };
+        TicketUpdate: {
+            /** @enum {string} */
+            status?: "open" | "in_progress" | "waiting" | "resolved";
+            /** @enum {string} */
+            priority?: "low" | "normal" | "high" | "urgent";
+            assigneeId?: string | null;
+        };
+        ReportSummary: {
+            /** Format: uuid */
+            id: string;
+            ref: number;
+            code: string;
+            /** @enum {string} */
+            category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+            title: string;
+            /** @enum {string} */
+            status: "open" | "in_progress" | "waiting" | "resolved";
+            /** @enum {string} */
+            priority: "low" | "normal" | "high" | "urgent";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            resolvedAt: string | null;
+        };
+        ReportDetail: {
+            /** Format: uuid */
+            id: string;
+            ref: number;
+            code: string;
+            /** @enum {string} */
+            category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+            title: string;
+            /** @enum {string} */
+            status: "open" | "in_progress" | "waiting" | "resolved";
+            /** @enum {string} */
+            priority: "low" | "normal" | "high" | "urgent";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            resolvedAt: string | null;
+            body: string;
+            expected: string | null;
+            context: {
+                page?: string;
+                app?: string;
+                browser?: string;
+                screen?: {
+                    width: number;
+                    height: number;
+                };
+                /** Format: date-time */
+                at?: string;
+                errorId?: string;
+            };
+            messages: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                from: "you" | "support";
+                body: string;
+                /** Format: date-time */
+                at: string;
+            }[];
+            reopenUntil: string | null;
+        };
+        InboxItem: {
+            /** Format: uuid */
+            id: string;
+            ref: number;
+            code: string;
+            /** @enum {string} */
+            category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+            title: string;
+            /** @enum {string} */
+            status: "open" | "in_progress" | "waiting" | "resolved";
+            /** @enum {string} */
+            priority: "low" | "normal" | "high" | "urgent";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            resolvedAt: string | null;
+            authorName: string | null;
+            assigneeId: string | null;
+            assigneeName: string | null;
+            unread: boolean;
+        };
+        InboxDetail: {
+            /** Format: uuid */
+            id: string;
+            ref: number;
+            code: string;
+            /** @enum {string} */
+            category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+            title: string;
+            /** @enum {string} */
+            status: "open" | "in_progress" | "waiting" | "resolved";
+            /** @enum {string} */
+            priority: "low" | "normal" | "high" | "urgent";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            resolvedAt: string | null;
+            authorName: string | null;
+            assigneeId: string | null;
+            assigneeName: string | null;
+            unread: boolean;
+            body: string;
+            expected: string | null;
+            context: {
+                page?: string;
+                app?: string;
+                browser?: string;
+                screen?: {
+                    width: number;
+                    height: number;
+                };
+                /** Format: date-time */
+                at?: string;
+                errorId?: string;
+            };
+            messages: {
+                /** Format: uuid */
+                id: string;
+                /** @enum {string} */
+                kind: "user" | "support" | "note";
+                authorName: string | null;
+                body: string;
+                /** Format: date-time */
+                at: string;
+            }[];
+        };
+        InboxPage: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                ref: number;
+                code: string;
+                /** @enum {string} */
+                category: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+                title: string;
+                /** @enum {string} */
+                status: "open" | "in_progress" | "waiting" | "resolved";
+                /** @enum {string} */
+                priority: "low" | "normal" | "high" | "urgent";
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+                resolvedAt: string | null;
+                authorName: string | null;
+                assigneeId: string | null;
+                assigneeName: string | null;
+                unread: boolean;
+            }[];
+            next: {
+                /** Format: date-time */
+                at: string;
+                /** Format: uuid */
+                id: string;
+            } | null;
+        };
+        SupportAgent: {
+            /** Format: uuid */
+            id: string;
+            displayName: string;
         };
         StatusChange: {
             /** Format: uuid */
@@ -5049,6 +6542,8 @@ export interface components {
             report: {
                 name: string;
                 description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
                 revision: number;
                 isCurrentRevision: boolean;
                 /** Format: date-time */
@@ -5285,6 +6780,7 @@ export interface components {
                             rho: number;
                         } | null;
                         components: {
+                            id: string;
                             label: string;
                             type: string;
                             region: string;
@@ -5317,6 +6813,7 @@ export interface components {
                 noteScope: "all" | "decisions" | "none";
                 notes: {
                     revision: number;
+                    component: string | null;
                     /** @enum {string} */
                     kind: "decision" | "assumption";
                     text: string;
@@ -5438,7 +6935,7 @@ export interface components {
         RoleChange: {
             /** Format: uuid */
             userId: string;
-            roles: ("user" | "instructor" | "reviewer" | "admin")[];
+            roles: ("user" | "instructor" | "reviewer" | "support" | "admin")[];
         };
         AuditEntry: {
             /** Format: uuid */
@@ -5447,7 +6944,7 @@ export interface components {
             at: string;
             /** @enum {string} */
             action: "grant" | "revoke" | "bootstrap" | "suspend" | "restore";
-            role: ("instructor" | "reviewer" | "admin") | null;
+            role: ("instructor" | "reviewer" | "support" | "admin") | null;
             actor: {
                 id: string | null;
                 email: string;
@@ -5707,6 +7204,7 @@ export interface components {
             kind: "decision" | "assumption";
             text: string;
             revision?: number;
+            componentId?: string;
         };
         PatchNoteRequest: {
             /** Format: date-time */
@@ -6014,6 +7512,104 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    changeMyPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordChange"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AccountSession"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
             };
         };
     };
@@ -8610,6 +10206,306 @@ export interface operations {
             };
         };
     };
+    suggestDesignFixes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FixesRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignFixes"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    climbDesignLadder: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LadderRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignLadder"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    askDesignWhatIf: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["WhatIfRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["DesignWhatIf"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     findDesignLimits: {
         parameters: {
             query?: never;
@@ -9788,6 +11684,394 @@ export interface operations {
             };
         };
     };
+    getAiTasksReadiness: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiTasksReadiness"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    describeDesignWithAi: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AiDescribeRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiDescribePrepared"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    interpretFixGoalWithAi: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AiFixIntentRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiFixIntent"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    interpretWhatIfWithAi: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AiWhatIfRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AiWhatIf"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
     getAccountRoles: {
         parameters: {
             query?: never;
@@ -9805,6 +12089,100 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AccountRoles"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getAdminMetrics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AdminMetrics"];
                     };
                 };
             };
@@ -10469,7 +12847,7 @@ export interface operations {
             header?: never;
             path: {
                 id: string;
-                role: "instructor" | "reviewer" | "admin";
+                role: "instructor" | "reviewer" | "support" | "admin";
             };
             cookie?: never;
         };
@@ -13211,6 +15589,1309 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["ChallengeProgress"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updateMyProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfileUpdate"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AccountUser"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    exportMyAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AccountExport"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    deleteMyAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DeleteAccount"];
+            };
+        };
+        responses: {
+            /** @description The account and everything that belonged only to it is deleted */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listMyReports: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description The account's own reports, newest first (at most 100) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportSummary"][];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    createReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateReportRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportDetail"];
+                    };
+                };
+            };
+            /** @description The report was received */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getMyReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    addReportMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportMessageRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportDetail"];
+                    };
+                };
+            };
+            /** @description The message was added */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["ReportDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listSupportAgents: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Accounts that hold the Support role */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["SupportAgent"][];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listInbox: {
+        parameters: {
+            query?: {
+                status?: "open" | "in_progress" | "waiting" | "resolved";
+                category?: "bug" | "wrong_result" | "account" | "performance" | "idea" | "other";
+                priority?: "low" | "normal" | "high" | "urgent";
+                /** @description me, none, or a Support account id */
+                assignee?: string;
+                /** @description Part of a title or body, or a reference such as SF-1042 */
+                q?: string;
+                /** @description Only reports that are unread for this account */
+                unread?: "true";
+                limit?: number;
+                before?: string;
+                beforeId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InboxPage"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getInboxReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InboxDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    updateInboxReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TicketUpdate"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InboxDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    markInboxReportRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Marked as read for this Support account */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: {
+                            /** @constant */
+                            read: true;
+                        };
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    replyInboxReport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SupportMessageRequest"];
+            };
+        };
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InboxDetail"];
+                    };
+                };
+            };
+            /** @description The reply or note was added */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["InboxDetail"];
                     };
                 };
             };
