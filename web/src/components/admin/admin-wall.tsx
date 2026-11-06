@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import { Crumbs } from "@/components/shell/crumbs";
+import { resolveRoute } from "@/lib/routes";
 import { RoleGate } from "@/components/auth/role-gate";
 import { useLiveMetrics } from "@/components/admin/use-live-metrics";
 import { LEVEL_TEXT, STATUS_TEXT, WALL_CYCLE_S, ageText, alertText, compact, liveStatus, percent, sortedAlerts, sum, utcTime, wallPanel } from "@/lib/admin-metrics";
@@ -12,6 +14,7 @@ const PANELS = ["Run queue", "AI use", "How far people get"] as const;
 export function AdminWall() {
   return (
     <div className="page stack lg dash-wall">
+      <Crumbs resolved={resolveRoute("/admin/dashboard/wall")} />
       <div className="row between">
         <div className="stack">
           <span className="eyebrow">Admin</span>
@@ -28,16 +31,18 @@ export function AdminWall() {
   );
 }
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+function subscribeReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(REDUCED_MOTION_QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+function reducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+const serverReducedMotion = () => false;
 function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(q.matches);
-    const on = (e: MediaQueryListEvent) => setReduced(e.matches);
-    q.addEventListener?.("change", on);
-    return () => q.removeEventListener?.("change", on);
-  }, []);
-  return reduced;
+  return useSyncExternalStore(subscribeReducedMotion, reducedMotionSnapshot, serverReducedMotion);
 }
 
 function Wall() {

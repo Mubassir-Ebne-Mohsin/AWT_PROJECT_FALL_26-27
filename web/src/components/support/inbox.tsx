@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useNow } from "@/lib/use-now";
 import { useEffect, useState } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -68,7 +69,7 @@ function Inbox() {
   });
   const set = (patch: Partial<InboxFilters>) => setFilters((f) => ({ ...f, ...patch }));
   const items = page.data?.pages.flatMap((p) => p.items) ?? [];
-  const now = Date.now();
+  const now = useNow(REFRESH_MS);
   const unreadCount = items.filter((i) => i.unread).length;
 
   return (

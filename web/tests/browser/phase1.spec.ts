@@ -5,10 +5,10 @@ import { SYSTEM_STATES } from "../../src/lib/system-states";
 const apiBase = process.env.SF_API_URL ?? "http://localhost:5001/v1";
 const password = "Frontend-Audit-123!";
 const devStates = process.env.SF_DEV_STATES === "1";
-const samplePath = (path: string, designId = "frontend-audit") => path
+const samplePath = (path: string, designId = "frontend-audit", reportId = "frontend-audit-report") => path
   .replace(":topic", "p95").replace(":section", "profile")
   .replace(":token", "frontend-audit-share")
-  .replace(":id", path.startsWith("/challenges") ? "flash-sale" : designId)
+  .replace(":id", path.startsWith("/challenges") ? "flash-sale" : /^(\/reports\/|\/support\/)/.test(path) ? reportId : designId)
   .replace(":tab", path.startsWith("/evaluation") ? "simulator" : "results");
 
 async function noOverflow(page: Page) {
@@ -29,13 +29,14 @@ async function register(page: Page, email: string) {
   await expect(page.getByRole("button", { name: "Account menu", exact: true })).toBeVisible();
 }
 
-test("40 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
+test("46 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
   const email = `web-${Date.now()}-${testInfo.project.name}@example.test`;
   const unexpected: string[] = [];
   page.on("pageerror", error => unexpected.push(error.message));
   const consoleErrors: string[] = [];
   page.on("console", message => { if (message.type() === "error") consoleErrors.push(message.text()); });
   const scheme = testInfo.project.use.colorScheme as "light" | "dark";
+  let accessToken = "";
 
   await test.step("protected return-to, empty forms, signup and login/register links", async () => {
     await page.goto("/new/template?audit=1");
@@ -50,19 +51,26 @@ test("40 registry routes, auth forms, palette, drawers, themes, tab restores and
     await page.locator(".auth-form").getByRole("link", { name: "Log in", exact: true }).click();
     await expect(page).toHaveURL(/\/login\?next=/);
     await page.locator(".auth-form").getByRole("link", { name: "Sign up", exact: true }).click();
+    const registration = page.waitForResponse(response => response.url() === apiBase + "/auth/register" && response.request().method() === "POST");
     await register(page, email);
+    accessToken = (await (await registration).json()).data.accessToken;
     await expect(page).toHaveURL(/\/new\/template\?audit=1$/);
   });
 
-  await test.step("all 40 registered patterns resolve with correct document titles and no overflow", async () => {
+  await test.step("all 46 registered patterns resolve with correct document titles and no overflow", async () => {
     await page.goto("/new/template");
     await page.getByRole("button", { name: "Use Single-server MVP", exact: true }).click();
     await expect(page.getByLabel("Replicas (1–200)")).toBeVisible();
     const ownedDesignId = new URL(page.url()).pathname.split("/")[2];
-    expect(ROUTES).toHaveLength(40);
+    // A real owned report lets the detail route be checked without inventing an id or accepting a 404.
+    const seed = await page.request.post(apiBase + "/support/reports", { headers: { Authorization: "Bearer " + accessToken }, data: { category: "bug", title: "Shell route fixture", body: "Disposable report for the registry route journey." } });
+    expect(seed.status()).toBe(201);
+    const ownedReportId = (await seed.json()).data.id as string;
+    expect(ROUTES).toHaveLength(46);
+    expect(ROUTES.map(route => route.id)).toEqual(expect.arrayContaining(["admin-dashboard", "admin-wall", "my-reports", "my-report", "support-inbox", "support-ticket"]));
     for (const route of ROUTES) {
       await test.step(route.path, async () => {
-        const path = samplePath(route.path, ownedDesignId);
+        const path = samplePath(route.path, ownedDesignId, ownedReportId);
         const navigable = ["learn-topic", "challenge", "evaluation", "settings"].includes(route.id) || (!route.path.includes(":") && !route.redirectTo);
         if (navigable) {
           await page.keyboard.press("Control+k");
@@ -120,21 +128,43 @@ test("40 registry routes, auth forms, palette, drawers, themes, tab restores and
       }
     }
   });
-  await test.step("shortcuts and local feedback normal controls", async () => {
+  await test.step("shortcuts and persisted Support report controls", async () => {
     await page.locator("#main").focus();
     await page.keyboard.press("?");
     await expect(page.getByRole("dialog", { name: "Keyboard shortcuts" })).toBeVisible();
     await page.keyboard.press("Escape");
-    const feedbackTrigger = page.getByRole("button", { name: "Send feedback", exact: true });
+    const feedbackTrigger = page.getByRole("button", { name: "Report a problem", exact: true });
     await feedbackTrigger.click();
-    const feedback = page.getByRole("dialog", { name: "Send feedback" });
-    await feedback.getByRole("button", { name: "Something broke", exact: true }).click();
-    await expect(feedback.getByRole("button", { name: "Something broke", exact: true })).toHaveAttribute("aria-pressed", "true");
-    await feedback.getByLabel("What happened, or what would help?", { exact: true }).fill("Disposable browser audit feedback. Nothing should be sent.");
-    await feedback.getByRole("button", { name: "Send feedback", exact: true }).click();
-    await expect(feedback).toHaveCount(0);
-    await expect(page.getByText("Thanks. Feedback is not stored yet, so nothing was sent.", { exact: true })).toBeVisible();
+    const feedback = page.getByRole("dialog", { name: "Report a problem", exact: true });
+    await feedback.getByTestId("report-send").click();
+    await expect(feedback.getByTestId("report-title")).toHaveAttribute("aria-invalid", "true");
+    await expect(feedback.getByTestId("report-body")).toHaveAttribute("aria-invalid", "true");
+    await feedback.getByRole("button", { name: "Bug or error", exact: true }).click();
+    await expect(feedback.getByRole("button", { name: "Bug or error", exact: true })).toHaveAttribute("aria-pressed", "true");
+    const title = "Shell report " + testInfo.project.name;
+    const body = "Disposable shell audit report. This should be stored and readable by its author.";
+    await feedback.getByTestId("report-title").fill(title);
+    await feedback.getByTestId("report-body").fill(body);
+    const submission = page.waitForResponse(response => response.url() === apiBase + "/support/reports" && response.request().method() === "POST");
+    await feedback.getByTestId("report-send").click();
+    const submitted = await submission;
+    expect(submitted.status()).toBe(201);
+    const saved = (await submitted.json()).data;
+    const receipt = page.getByRole("dialog", { name: "Report received", exact: true });
+    await expect(receipt.getByTestId("report-code")).toHaveText(saved.code);
+    expect(saved.code).toMatch(/^SF-\d+$/);
+    await receipt.getByRole("button", { name: "Done", exact: true }).click();
+    await expect(receipt).toHaveCount(0);
     await expect(feedbackTrigger).toBeFocused();
+    const readBack = await page.request.get(apiBase + "/support/reports/" + saved.id, { headers: { Authorization: "Bearer " + accessToken } });
+    expect(readBack.status()).toBe(200);
+    expect((await readBack.json()).data).toMatchObject({ id: saved.id, title, body, category: "bug" });
+    await page.goto("/reports/" + saved.id);
+    await expect(page.locator("main")).toContainText(body);
+    await page.reload();
+    await expect(page.locator("main")).toContainText(body);
+    await page.goto("/dashboard");
+    await expect(page.getByTestId("me-card")).toContainText(email);
   });
   await test.step("Light/Dark/System persistence, OS changes, and palette System action", async () => {
     const selector = page.getByRole("combobox", { name: "Color theme" });

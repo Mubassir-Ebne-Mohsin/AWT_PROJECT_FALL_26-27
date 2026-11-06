@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useNow } from "@/lib/use-now";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -19,7 +20,7 @@ export function MyReports() {
   const { user } = useAuth();
   const { setUI } = useUi();
   const list = useQuery({ queryKey: ["my-reports", user?.id], queryFn: ({ signal }) => listMyReports(signal), enabled: !!user, retry: false, refetchInterval: REFRESH_MS });
-  const now = Date.now();
+  const now = useNow(REFRESH_MS);
   return (
     <div className="page stack lg">
       <Crumbs resolved={resolveRoute("/reports")} />
@@ -83,7 +84,7 @@ export function MyReport({ id }: { id: string }) {
   const [error, setError] = useState<string | null>(null);
   const key = ["my-report", user?.id, id];
   const q = useQuery({ queryKey: key, queryFn: ({ signal }) => getMyReport(id, signal), enabled: !!user, retry: false, refetchInterval: REFRESH_MS });
-  const now = Date.now();
+  const now = useNow(REFRESH_MS);
   const r = q.data;
 
   async function send() {

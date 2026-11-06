@@ -100,7 +100,7 @@ export function ReportDialog({ path }: { path: string }) {
 
   if (status !== "authed")
     return (
-      <Modal label="Report a problem" onClose={close}>
+      <Modal key="signin" label="Report a problem" onClose={close}>
         {header}
         <div className="modal-b stack" data-testid="report-signin">
           <p>Please log in to send a report, so Support can reply to you.</p>
@@ -118,7 +118,7 @@ export function ReportDialog({ path }: { path: string }) {
 
   if (sent)
     return (
-      <Modal label="Report received" onClose={close}>
+      <Modal key="received" label="Report received" onClose={close}>
         {header}
         <div className="modal-b stack" data-testid="report-sent" role="status">
           <p className="h3">We have your report.</p>
@@ -141,7 +141,7 @@ export function ReportDialog({ path }: { path: string }) {
 
   const shownIssues = shown ? issues : {};
   return (
-    <Modal label="Report a problem" onClose={close} wide>
+    <Modal key="form" label="Report a problem" onClose={close} wide>
       {header}
       <div className="modal-b stack" data-testid="report-dialog">
         <div className="seg rp-seg" role="group" aria-label="What kind of problem">

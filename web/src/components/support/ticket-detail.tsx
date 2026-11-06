@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useNow } from "@/lib/use-now";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -18,7 +19,7 @@ export function SupportTicket({ id }: { id: string }) {
   return (
     <div className="page stack lg">
       <Crumbs resolved={resolveRoute(`/support/${id}`)} />
-      <RoleGate role="support">
+      <RoleGate role="support" headingLevel={1}>
         <Ticket id={id} />
       </RoleGate>
     </div>
@@ -26,6 +27,7 @@ export function SupportTicket({ id }: { id: string }) {
 }
 
 function Ticket({ id }: { id: string }) {
+  const now = useNow(REFRESH_MS);
   const { user } = useAuth();
   const queries = useQueryClient();
   const key = ["support-ticket", user?.id, id];
@@ -87,7 +89,6 @@ function Ticket({ id }: { id: string }) {
 
   const issue = shown ? messageIssue(text) : null;
   const busy = send.isPending || change.isPending;
-  const now = Date.now();
   return (
     <div className="rp-ticket" data-testid="ticket">
       <div className="stack lg rp-ticket-main">
