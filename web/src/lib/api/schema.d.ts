@@ -751,6 +751,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/admin/metrics/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["exportAdminMetrics"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/admin/users": {
         parameters: {
             query?: never;
@@ -6147,6 +6163,18 @@ export interface components {
             createdAt: string;
         };
         AdminMetrics: {
+            heatmap: {
+                /** @constant */
+                windowDays: 28;
+                /** Format: date-time */
+                windowStart: string;
+                /** Format: date-time */
+                windowEnd: string;
+                designsCreated: number;
+                runsCreated: number;
+                total: number;
+                cells: number[];
+            };
             /** Format: date-time */
             generatedAt: string;
             /** @constant */
@@ -6281,6 +6309,14 @@ export interface components {
                 /** @enum {string} */
                 level: "info" | "warning" | "critical";
             }[];
+            snapshotKey: string;
+        };
+        AdminMetricsExport: {
+            fileName: string;
+            /** @enum {string} */
+            contentType: "application/json;charset=utf-8" | "text/csv;charset=utf-8";
+            content: string;
+            snapshotKey: string;
         };
         ReportContext: {
             page?: string;
@@ -12183,6 +12219,104 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["AdminMetrics"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    exportAdminMetrics: {
+        parameters: {
+            query: {
+                format: "csv" | "json";
+                snapshot: string;
+                purpose?: "download" | "pdf";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["AdminMetricsExport"];
                     };
                 };
             };
