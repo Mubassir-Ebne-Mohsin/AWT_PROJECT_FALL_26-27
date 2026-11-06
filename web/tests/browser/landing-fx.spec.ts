@@ -244,3 +244,34 @@ test("reduced motion shows the finished core as a still diagram", async ({ page 
   expect(await page.locator(`${core} .sf-sweep`).evaluate((el) => getComputedStyle(el).display)).toBe("none");
   expect(await page.locator(`${core} .sf-spin`).first().evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
 });
+
+test("the hover glow is immediate: moving to another layer lights it and dims the rest within a fraction of a second", async ({ page }) => {
+  await page.goto("/");
+  const hero = page.locator(".sf-specimen--hero");
+  await overHero(page);
+  await settle(page); // the stack has opened, so the layers stay where they are under the pointer
+  const centre = async (index: number) => {
+    const box = (await hero.locator(`.sf-plate--${index} .sf-plate-top`).boundingBox())!;
+    // The lower part of a layer is never covered by the layer above it.
+    return { x: box.x + box.width / 2, y: box.y + box.height * 0.8 };
+  };
+  const fullyLit = (to: number) =>
+    hero.evaluate((fig, i) => {
+      const opacity = (n: number) => Number(getComputedStyle(fig.querySelector(`.sf-plate--${n}`)!).opacity);
+      return opacity(i) >= 0.99 && [0, 1, 2, 3].filter((n) => n !== i).every((n) => opacity(n) <= 0.4);
+    }, to);
+  for (const [from, to] of [[0, 3], [3, 1], [1, 2]]) {
+    const start = await centre(from);
+    await page.mouse.move(start.x, start.y);
+    await expect(hero).toHaveAttribute("data-active", String(from));
+    await expect.poll(() => fullyLit(from), { intervals: [16] }).toBe(true);
+    const target = await centre(to);
+    const began = Date.now();
+    await page.mouse.move(target.x, target.y);
+    await expect(hero).toHaveAttribute("data-active", String(to));
+    // The old 450 ms fade took about that long to finish; the glow is now on at once and the dimming takes about a tenth of a second.
+    await expect.poll(() => fullyLit(to), { timeout: 1500, intervals: [16] }).toBe(true);
+    expect(Date.now() - began, `from layer ${from} to layer ${to}`).toBeLessThan(300);
+    expect(await hero.locator(`.sf-plate--${to}`).evaluate((el) => getComputedStyle(el).filter)).toContain("drop-shadow");
+  }
+});

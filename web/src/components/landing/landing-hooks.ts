@@ -16,7 +16,7 @@ export function usePointerTilt(ref: RefObject<HTMLElement | null>) {
     const step = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
-      const k = 1 - Math.exp(-dt * 7);
+      const k = 1 - Math.exp(-dt * 13);
       cx += (tx - cx) * k;
       cy += (ty - cy) * k;
       element.style.setProperty("--tilt-x", `${cx.toFixed(3)}deg`);

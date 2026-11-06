@@ -41,7 +41,7 @@
 .sf-wordmark:hover svg { filter: drop-shadow(0 0 14px #7d95ffaa); transform: rotate(-6deg) scale(1.06); }
 .sf-wordmark-period { color: var(--lp-accent); margin-left: -10px; }
 .sf-section-nav { display: flex; gap: 32px; color: var(--lp-ink3); font-size: 13px; }
-.sf-section-nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; transition: color .3s var(--ease); }
+.sf-section-nav a { position: relative; display: inline-flex; align-items: center; min-height: 44px; transition: color .1s ease-out; }
 .sf-section-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 8px; height: 1px; background: var(--lp-accent); box-shadow: 0 0 8px var(--lp-accent); transform: scaleX(0); transform-origin: 0 50%; transition: transform .5s var(--ease); }
 .sf-section-nav a:hover, .sf-section-nav a[data-active] { color: var(--lp-ink); }
 .sf-section-nav a:hover::after, .sf-section-nav a[data-active]::after { transform: scaleX(1); }
@@ -95,10 +95,10 @@
 .sf-float { will-change: transform; }
 .sf-specimen--hero .sf-float { transform: translateY(-10px); }
 .sf-specimen svg { width: 100%; height: auto; display: block; overflow: visible; transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); will-change: transform; }
-.sf-plate { cursor: pointer; transform: translate(calc(var(--layer-x) * var(--separation)), calc(var(--layer-shift) * var(--separation))); transition: opacity .45s var(--ease), filter .45s var(--ease); }
+.sf-plate { cursor: pointer; transform: translate(calc(var(--layer-x) * var(--separation)), calc(var(--layer-shift) * var(--separation))); transition: opacity .1s ease-out; } /* The glow (a drop-shadow filter) switches on at once; fading a filter is what made it feel slow and heavy. */
 .sf-plate-glide { transform: translate(calc(var(--layer-x) * var(--delta, 0)), calc(var(--layer-shift) * var(--delta, 0))); }
 .sf-plate:focus { outline: none; }
-.sf-plate-top { transition: stroke-opacity .45s var(--ease), stroke-width .45s var(--ease); }
+.sf-plate-top { transition: stroke-opacity .1s ease-out, stroke-width .1s ease-out; }
 .sf-plate-number { font: 9px var(--font-mono); letter-spacing: .8px; }
 .sf-layer-annotation { opacity: var(--shown, var(--separation)); font: 11px var(--font-mono); letter-spacing: .5px; }
 .sf-layer-detail { font: 10px var(--font-body); letter-spacing: 0; }
@@ -300,6 +300,8 @@
   .sf-specimen[data-live="true"].sf-specimen--hero .sf-float { animation: sf-specimen-settle 7s ease-in-out infinite; }
   .sf-specimen[data-live="true"]::before, .sf-orb { animation: sf-halo 6s ease-in-out infinite; }
   .sf-specimen[data-live="true"] .sf-plate-top { animation: sf-breathe 5s ease-in-out infinite; }
+  /* The layer under the pointer stops breathing, so its full-strength outline shows the moment it is hovered. */
+  .sf-specimen[data-live="true"][data-active="0"] .sf-plate--0 .sf-plate-top, .sf-specimen[data-live="true"][data-active="1"] .sf-plate--1 .sf-plate-top, .sf-specimen[data-live="true"][data-active="2"] .sf-plate--2 .sf-plate-top, .sf-specimen[data-live="true"][data-active="3"] .sf-plate--3 .sf-plate-top { animation: none; }
   .sf-specimen[data-live="true"] .sf-plate--1 .sf-plate-top { animation-delay: -1.2s; }
   .sf-specimen[data-live="true"] .sf-plate--2 .sf-plate-top { animation-delay: -2.4s; }
   .sf-specimen[data-live="true"] .sf-plate--3 .sf-plate-top { animation-delay: -3.6s; }
