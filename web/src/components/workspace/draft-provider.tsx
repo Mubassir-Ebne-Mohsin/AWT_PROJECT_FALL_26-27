@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { onSessionChange } from "@/lib/api/client";
-import { confirmDraftNavigation, registerDraftGuard } from "@/lib/draft-navigation";
+import { confirmDraftNavigation, isLocalFileDownload, registerDraftGuard } from "@/lib/draft-navigation";
 import { EditorSession } from "@/lib/editor-session";
 const Context = createContext<Map<string, EditorSession> | null>(null);
 export function DraftProvider({ children }: { children: ReactNode }) {
@@ -22,7 +22,7 @@ export function DraftProvider({ children }: { children: ReactNode }) {
     const unload = (e: BeforeUnloadEvent) => { if (dirty()) { e.preventDefault(); e.returnValue = ""; } };
     const click = (e: MouseEvent) => {
       const anchor = (e.target as Element).closest?.("a[href]") as HTMLAnchorElement | null;
-      if (!anchor || anchor.target === "_blank" || e.ctrlKey || e.metaKey) return;
+      if (!anchor || anchor.target === "_blank" || e.ctrlKey || e.metaKey || isLocalFileDownload(anchor.href, anchor.hasAttribute("download"), location.origin)) return;
       if (!confirmDraftNavigation(anchor.href)) { e.preventDefault(); e.stopPropagation(); }
     };
     window.addEventListener("beforeunload", unload);

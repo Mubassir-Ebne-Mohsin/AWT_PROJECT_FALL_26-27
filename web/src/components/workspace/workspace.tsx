@@ -9,6 +9,7 @@ import { useDrafts } from "@/components/workspace/draft-provider";
 import { ValidationPanel } from "@/components/canvas/validation-panel";
 import { CanvasEditor } from "@/components/canvas/canvas-editor";
 import { TrafficTab } from "@/components/workspace/traffic-tab";
+import { QuickPdf } from "@/components/report/quick-pdf";
 import { RunResults } from "@/components/workspace/run-results";
 import { LimitsTab } from "@/components/workspace/limits-tab";
 import { workspaceHref } from "@/lib/run-links";
@@ -408,6 +409,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                     ? "Queued / running…"
                     : "Run test"}
             </button>
+            <QuickPdf userId={user!.id} designId={initial.id} revision={state.saved.revision} refreshKey={`${displayedRun?.id ?? ""}:${displayedRun?.status ?? ""}`} dirty={session.dirty} placement="header" />
             {/* The report and share pages used to be reachable only by typing their address; every tab now links to them. */}
             <Link
               className="btn btn-sm"
@@ -624,6 +626,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                   A printable report of this design and this result, whether it passed, was strained or failed, with a PDF download.
                   {session.isRunStale(displayedRun) ? " The design has changed since this run, so the report describes the saved design as it was then." : ""}
                 </p>
+                <QuickPdf userId={user!.id} designId={initial.id} revision={displayedRun.designRevision} run={displayedRun.id} dirty={session.dirty} placement="results" />
                 <div className="row">
                   <Link className="btn btn-primary" href={`/designs/${initial.id}/report?run=${displayedRun.id}`} data-testid="results-report-link">
                     Open report and download PDF

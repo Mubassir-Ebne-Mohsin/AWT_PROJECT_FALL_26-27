@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ import { Crumbs } from "@/components/shell/crumbs";
 import { ApiError } from "@/lib/api/errors";
 import { fetchRunSummaries, fetchVersions } from "@/lib/api/history";
 import { fetchReport } from "@/lib/api/report";
-import type { DossierReport } from "@/lib/dossier/ops";
+import { useReportPdf } from "@/lib/use-report-pdf";
 import { dateText, reportFileTitle } from "@/lib/report-presentation";
 import { verdictLabel } from "@/lib/history-presentation";
 import { resolveRoute } from "@/lib/routes";
@@ -55,22 +55,7 @@ export function ReportView({ id }: { id: string }) {
   const newest = versions.data?.[0]?.revision;
   const completed = (runs.data ?? []).filter((r) => r.kind === "simulation" && r.status === "completed");
 
-  const [pdf, setPdf] = useState<{ busy: boolean; error: string | null }>({ busy: false, error: null });
-  const [withNotes, setWithNotes] = useState(true);
-
-  // The PDF is made here, in the browser, from the same document the page shows; the library is loaded only when it is asked for.
-  async function downloadPdf() {
-    if (!data || pdf.busy) return;
-    setPdf({ busy: true, error: null });
-    try {
-      const { renderDossier, downloadPdf: save } = await import("@/lib/dossier/render");
-      const { bytes, dossier } = await renderDossier({ ...data, designId: id } as unknown as DossierReport, { includeNotes: withNotes });
-      save(bytes, dossier.fileName);
-      setPdf({ busy: false, error: null });
-    } catch {
-      setPdf({ busy: false, error: "The PDF could not be made. You can still print this page." });
-    }
-  }
+  const pdf = useReportPdf({ userId: user?.id, designId: id, revision, run });
 
   function print() {
     if (!data) return;
@@ -96,7 +81,7 @@ export function ReportView({ id }: { id: string }) {
           <Link className="btn" href={`/designs/${id}/share`}>
             Share
           </Link>
-          <button className="btn btn-primary" type="button" data-testid="report-download-pdf" disabled={!data || pdf.busy} onClick={() => void downloadPdf()}>
+          <button className="btn btn-primary" type="button" data-testid="report-download-pdf" disabled={!data || !user || report.isFetching || report.isPlaceholderData || report.isError || pdf.busy} onClick={() => void pdf.download(data)}>
             {pdf.busy ? "Making the PDF…" : "Download PDF"}
           </button>
           <button className="btn" type="button" disabled={!data} onClick={print}>
@@ -106,7 +91,7 @@ export function ReportView({ id }: { id: string }) {
       </div>
       <div className="m16-noprint stack">
         <label className="row">
-          <input type="checkbox" data-testid="report-pdf-notes" checked={withNotes} onChange={(e) => setWithNotes(e.target.checked)} /> Include decisions and assumptions in the PDF
+          <input type="checkbox" data-testid="report-pdf-notes" checked={pdf.includeNotes} disabled={pdf.busy} onChange={(e) => pdf.setIncludeNotes(e.target.checked)} /> Include decisions and assumptions in the PDF
         </label>
         <p className="hint">The PDF holds the diagram, the components, the traffic and the recorded result, as a model estimate. Characters outside Latin text are shown as ? with a note.</p>
         {pdf.error && (

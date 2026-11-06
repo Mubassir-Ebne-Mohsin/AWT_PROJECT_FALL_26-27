@@ -10,3 +10,10 @@ export function confirmDraftNavigation(path: string) {
   if (current && next.origin === location.origin && next.pathname.startsWith("/designs/" + current + "/")) return true;
   return window.confirm("Leave with unsaved changes or an unconfirmed calculation? Memory-only recovery cannot survive a page reload.");
 }
+
+/** Same-origin Blob downloads save a file without navigating away or abandoning the draft. */
+export function isLocalFileDownload(href: string, hasDownload: boolean, origin: string) {
+  if (!hasDownload) return false;
+  try { const url = new URL(href); return url.protocol === "blob:" && url.origin === origin; }
+  catch { return false; }
+}
