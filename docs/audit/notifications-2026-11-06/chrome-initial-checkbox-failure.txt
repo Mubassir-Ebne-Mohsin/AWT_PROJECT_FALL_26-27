@@ -1,0 +1,47 @@
+
+Running 5 tests using 1 worker
+
+(node:40052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1024-light] › tests\browser\notifications.spec.ts:29:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (4.8s)
+  x  2 [1024-light] › tests\browser\notifications.spec.ts:40:5 › five saved mute controls persist and suppress only future matching events (1.5s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) [1024-light] › tests\browser\notifications.spec.ts:40:5 › five saved mute controls persist and suppress only future matching events
+
+    Error: locator.check: Clicking the checkbox did not change its state
+    Call log:
+      - waiting for getByLabel('Mute Support replies', { exact: true })
+        - locator resolved to <input type="checkbox"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+        - performing click action
+        - click action done
+        - waiting for scheduled navigations to finish
+        - navigations have finished
+
+
+      41 |  const {u}=await signUp(page);const ticket=await report(u),staff=await other(true);await page.goto("/settings/preferences");
+      42 |  const replyBox=page.getByLabel("Mute Support replies",{exact:true}),statusBox=page.getByLabel("Mute Report status changes",{exact:true});
+    > 43 |  await expect(page.getByRole("checkbox")).toHaveCount(5);await replyBox.check();await expect(replyBox).toBeEnabled();await statusBox.check();await expect(statusBox).toBeEnabled();
+         |                                                                         ^
+      44 |  await reply(staff,ticket.id);await tick(page,"0");await page.reload();await expect(replyBox).toBeChecked();await expect(statusBox).toBeChecked();await replyBox.uncheck();await expect(replyBox).toBeEnabled();await reply(staff,ticket.id);await tick(page,"1");
+      45 |  await bell(page).click();await expect(dialog(page).getByTestId("notification-item")).toHaveCount(1);
+      46 | });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:43:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-five-saved-m-57789-only-future-matching-events-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-five-saved-m-57789-only-future-matching-events-1024-light\error-context.md
+
+  1 failed
+    [1024-light] › tests\browser\notifications.spec.ts:40:5 › five saved mute controls persist and suppress only future matching events
+  3 did not run
+  1 passed (8.7s)
+  1 error was not a part of any test, see above for details

@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: closed labels and capped counts never use stored notification text; backoff is bounded
+ok 1 - closed labels and capped counts never use stored notification text; backoff is bounded
+  ---
+  duration_ms: 4.8151
+  type: 'test'
+  ...
+# Subtest: polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+ok 2 - polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+  ---
+  duration_ms: 32.1465
+  type: 'test'
+  ...
+# Subtest: starts hidden without fetching, and retries failures locally with backoff
+ok 3 - starts hidden without fetching, and retries failures locally with backoff
+  ---
+  duration_ms: 5.7443
+  type: 'test'
+  ...
+# Subtest: a newer request wins even when an aborted old response arrives last
+ok 4 - a newer request wins even when an aborted old response arrives last
+  ---
+  duration_ms: 5.2529
+  type: 'test'
+  ...
+# Subtest: read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+ok 5 - read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+  ---
+  duration_ms: 3.3658
+  type: 'test'
+  ...
+# Subtest: pagination appends without duplicates; a refresh returns to the latest page
+ok 6 - pagination appends without duplicates; a refresh returns to the latest page
+  ---
+  duration_ms: 2.8301
+  type: 'test'
+  ...
+# Subtest: P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+ok 7 - P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+  ---
+  duration_ms: 7.4611
+  type: 'test'
+  ...
+# Subtest: P4 checks: failures are explained in words and never echo the server's own message
+ok 8 - P4 checks: failures are explained in words and never echo the server's own message
+  ---
+  duration_ms: 0.851
+  type: 'test'
+  ...
+# Subtest: P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+ok 9 - P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+  ---
+  duration_ms: 182.5196
+  type: 'test'
+  ...
+# Subtest: P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+ok 10 - P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+  ---
+  duration_ms: 183.627
+  type: 'test'
+  ...
+# Subtest: P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+ok 11 - P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+  ---
+  duration_ms: 180.1343
+  type: 'test'
+  ...
+# Subtest: P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+ok 12 - P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+  ---
+  duration_ms: 144.08
+  type: 'test'
+  ...
+# Subtest: P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+ok 13 - P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+  ---
+  duration_ms: 154.3135
+  type: 'test'
+  ...
+# Subtest: P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+ok 14 - P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+  ---
+  duration_ms: 160.3431
+  type: 'test'
+  ...
+# Subtest: P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+ok 15 - P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+  ---
+  duration_ms: 247.9638
+  type: 'test'
+  ...
+# Subtest: P4 appearance, AI usage and preferences say only what is true
+ok 16 - P4 appearance, AI usage and preferences say only what is true
+  ---
+  duration_ms: 209.605
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24363.1865

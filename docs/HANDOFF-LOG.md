@@ -15,6 +15,22 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-06, Codex — A/B pushed; roadmap C notifications complete locally
+**Owner go:** push nine verified commits, implement C, replace the obsolete Preferences placeholder with five saved-control checks, and bound the existing Support rollback test to Support. No gallery/live AI/owner migration authorized.
+**Pushed:** origin/codex/phase2-contracts independently matched `16bc7d589ca372c1cc8946cea49bbe047bd42595`. C is local only.
+**C code commits:**
+
+- `10579ee` live API types alone.
+- `e14dbce` notification interface and tests.
+- `738bc4f` backend, canonical contracts and tests.
+
+**Built:** authenticated notification bell, five metadata-only kinds, originating-event transactions, owner-only cursor/read/open APIs, current-access recheck, five saved future mutes, account export/cascade, 90-day bounded cleanup, visible polling/backoff/pause, cancellation and keyboard/mobile/reduced-motion behavior. No dependency/frontend route added.
+**Evidence:** Backend 785/785 unit, 411/411 e2e (31 suites), builds/types/lint/contracts pass. Web 544/544 full unit, 18/18 final focused controls, build/types/lint and 46 routes pass. Chrome 96/96 affected, then 20/20 final notifications, 4/4 existing shell journeys and 4/4 reduced-motion journeys; five applied deliberate faults caught. Lint: backend 26/web two inherited warnings, zero errors. Full integration includes the approved Support rollback correction with all old role-use, audit, preservation and up/down assertions retained.
+**Initial failures:** SQL casts, async checkbox/focus/accessible-name handling, new-test lint/encoding and timestamp association repaired. First full run failed the obsolete newest-migration assumption; no trustworthy final count from that attempt. Reduced-motion first measurements saw transient phone top-bar overflow; bounded polling retains the exact 1px limit after responsive layout settles. Final runs pass. See C evidence for logs.
+**Preservation/cleanup:** 158 entry hashes /155 original PNGs verified, runtime OpenAPI restored to task-entry bytes; M2 never edited/staged/reverted. All PNGs/runtime/M2/film remain unstaged. Only owned audit listeners/containers stopped; volumes retained. Disposable test fsync reset to on. No owner data or environment values inspected/copied, model call or paid usage.
+**Owner action:** stop backend, run `pnpm migration:run` in nest-boilerplate/nest-boilerplate, restart backend. Notifications1794800000000 adds two tables/indexes, no backfill; down refuses populated data.
+**Limits/next:** no full all-project Chrome/Edge/dev-only/AI quality rerun. No C push without a fresh instruction. Gallery/next implementation and AI acceptance remain separately gated. Claims released. Documentation/evidence accompanies these code commits in a separate local commit. Protected dirty artifacts remain uncommitted.
+
 ## 2026-11-06, Codex — approved pending commits and roadmap B complete
 **Owner go:** commit pending verified work and implement B. No push, C/gallery, live AI or owner DB changes authorized.
 **Prior commits:** `c03a00b` live types alone; `7051e89` Support metrics; `1bdfe9a` clocks/focus/headings; `521f536` direct PDF; `0ff140a` docs/evidence/roadmap. Ignored raw logs were preserved as .txt evidence without overriding ignore rules.

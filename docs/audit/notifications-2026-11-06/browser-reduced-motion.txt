@@ -1,0 +1,17 @@
+
+Running 4 tests using 1 worker
+
+(node:30740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (3.2s)
+(node:20308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [1024-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.9s)
+(node:38672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [1440-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (3.1s)
+(node:23772) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 [1440-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.4s)
+
+  4 passed (17.8s)

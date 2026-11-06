@@ -1,0 +1,35 @@
+
+Running 5 tests using 1 worker
+
+(node:13092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [1024-light] › tests\browser\notifications.spec.ts:29:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (18.0s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) [1024-light] › tests\browser\notifications.spec.ts:29:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: 'Notifications', exact: true }).getByRole('button', { name: /^Support replied to your report/ })
+
+
+      31 |  await tick(page,"2");await bell(page).focus();await page.keyboard.press("Enter");await expect(dialog(page)).toBeVisible();
+      32 |  await expect(dialog(page)).not.toContainText("PRIVATE");await expect(dialog(page).getByTestId("notification-item")).toHaveCount(2);
+    > 33 |  await dialog(page).getByRole("button",{name:/^Support replied to your report/}).click();await page.waitForURL(`**/reports/${ticket.id}`);
+         |                                                                                  ^
+      34 |  await expect(bell(page)).toHaveAccessibleName(/^Notifications, 1 unread/);await bell(page).click();await dialog(page).getByRole("button",{name:"Mark all as read",exact:true}).click();await expect(bell(page)).toHaveAccessibleName(/^Notifications, 0 unread/);
+      35 |  for(const width of [320,390,1024,1440]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth+1)).toBe(true);await page.screenshot({path:`../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`});}
+      36 |  await page.keyboard.press("Escape");await expect(dialog(page)).toHaveCount(0);await expect(bell(page)).toBeFocused();expect(errors).toEqual([]);
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:33:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\error-context.md
+
+  1 failed
+    [1024-light] › tests\browser\notifications.spec.ts:29:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+  4 did not run
+  1 error was not a part of any test, see above for details

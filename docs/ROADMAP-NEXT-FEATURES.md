@@ -1,6 +1,6 @@
 # Next features: roadmap, order of work and scopes
 
-**Written 2026-11-06. Status: A/B verified and committed locally on 2026-11-06; not pushed; C–G remain DRAFT and unbuilt.** The faculty extended the deadline, so everything is sized by quality (S small, M medium, L large), not days. It covers the six items the owner listed plus the community gallery (full scope in [DESIGN-FEED-SCOPE.md](DESIGN-FEED-SCOPE.md)).
+**Written 2026-11-06. Status: A/B published through 16bc7d5; C complete locally (not pushed); D–G remain DRAFT and unbuilt.** The faculty extended the deadline, so everything is sized by quality (S small, M medium, L large), not days. It covers the six items the owner listed plus the community gallery (full scope in [DESIGN-FEED-SCOPE.md](DESIGN-FEED-SCOPE.md)).
 
 Every item follows the usual loop: scope and owner approval, build, unit tests, e2e on real PostgreSQL, Chrome specs on a production web build, deliberate breaks, screenshots looked at, handoff entry, ask before commit, commit by explicit path, push only on instruction. The protected `docs/audit/m2-profile-source.json` is never staged. No live AI call is needed for any item here.
 
@@ -49,7 +49,7 @@ If the owner wants the most impressive demo soonest: A, B, C, then D (F1 to F3).
 
 **B verified (2026-11-06):** backend 785 unit/399 e2e; final web 536 unit/build/types/lint/46 routes; contracts clean. Chrome affected regression 124/124 plus final rebuilt B 12/12; nine in-memory mutations caught. Actual Redis failure/recovery and retained exports verified; 320/390/1024/1440 light/dark inspected. Initial failures and restored disposable-container storage workaround disclosed. No migration/dependency/live AI/push. [Guide](ADMIN-DASHBOARD-EXTRAS.md), [evidence/limits](audit/dashboard-extras-2026-11-06/README.md), report section 42.
 
-### C. Notification bell (M)
+### C. Notification bell (M) — verified locally; owner migration required
 **What:** a bell in the top bar with an unread count and a list. Events at first: Support replied to your report; your report's status changed; (Support) a new report, a report assigned to you, the reporter replied. The gallery adds comments, replies, suggestions, accept or decline and moderation notices later.
 **Data:** `notifications(id, user_id, kind, ref_id, created_at, read_at)`. **Only a closed `kind` and ids are stored, never text**; the sentence is built in the browser from the kind, so a notification can never carry hostile or private text. Deleted when the account is deleted. Rows older than 90 days are ignored by reads and removed lazily.
 **API:** list (newest first, cursor), unread count, mark one or all read. A person only ever reads their own.

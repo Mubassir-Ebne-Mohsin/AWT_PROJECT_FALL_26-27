@@ -1,0 +1,24 @@
+[Nest] 34772  - 11/06/2026, 3:35:02 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts (27.948 s)
+  ● C notifications: real Postgres, isolated accounts › opening checks current access; revoked Support sees unavailable, not report contents
+
+    expect(received).toBeNull()
+
+    Received: "/support/a2a818e9-25e4-4909-b20f-8e8780f78f96"
+
+      277 |           .expect(200)
+      278 |       ).body.data.href,
+    > 279 |     ).toBeNull();
+          |       ^
+      280 |     await http.get(`/v1/support/inbox/${ticket}`).set(auth(s)).expect(403);
+      281 |     await roles.grant(OPERATOR, s.id, { role: "support" });
+      282 |   });
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:279:7)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 11 passed, 12 total
+Snapshots:   0 total
+Time:        28.218 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\notifications.e2e-spec.ts".
+MUTATION_APPLIED access 2

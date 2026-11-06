@@ -1,0 +1,32 @@
+[
+  {
+    "exit": 1,
+    "meaningfulFailure": true,
+    "mutation": "recipient",
+    "applied": true
+  },
+  {
+    "exit": 1,
+    "meaningfulFailure": true,
+    "mutation": "self",
+    "applied": true
+  },
+  {
+    "exit": 1,
+    "meaningfulFailure": true,
+    "mutation": "access",
+    "applied": true
+  },
+  {
+    "exit": 1,
+    "meaningfulFailure": true,
+    "mutation": "privacy",
+    "applied": true
+  },
+  {
+    "exit": 1,
+    "meaningfulFailure": true,
+    "mutation": "stale",
+    "applied": true
+  }
+]

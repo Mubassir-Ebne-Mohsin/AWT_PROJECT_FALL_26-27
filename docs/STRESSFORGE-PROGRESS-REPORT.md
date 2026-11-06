@@ -1656,3 +1656,30 @@ No push, paid usage, live model call, key deletion, unseen-goal gate run, or unt
 **Remaining/next:** no required B work remains. Retention deliberately uses bounded single-process memory; multiple API processes would need shared storage. Counters measure accepted requests, not completed local saves. C requires its own approval; gallery's nine decisions and AI writers/bars/retry/live go remain pending. Future phase completion must update this same report, preserve history, add observed evidence and reassess affected earlier requirements. Updates are not automatic.
 
 [Evidence, initial failures and reproduction](audit/dashboard-extras-2026-11-06/README.md) · [User guide](ADMIN-DASHBOARD-EXTRAS.md). Update history: 2026-11-06 — pending commits completed; B built, tested, preserved and closed locally.
+
+## 43. Roadmap C — notification bell (6 November 2026)
+
+**Verdict: complete to the approved C scope, committed locally; not pushed.** The nine earlier A/B commits were published through `16bc7d5`. Sources: [roadmap](ROADMAP-NEXT-FEATURES.md), [C scope](NOTIFICATIONS-SCOPE.md), implementation and observed [evidence](audit/notifications-2026-11-06/README.md). No gallery or live AI was implemented.
+
+| Requirement | Implementation / observed evidence | Status |
+| --- | --- | --- |
+| Support event recipients | Five closed kinds; active team/assignee/author rules, no self/internal/no-op notifications. Real event API and recipient-matrix tests. | Verified |
+| Atomicity | Notification insert uses originating Support EntityManager; forced insert/event failures preserve rollback. | Verified |
+| Ownership and access | JWT-derived recipient, cursor pages/read-one/all, foreign/expired IDs denied, current author/Support role rechecked on open; destination API remains authorized. Role-loss and permission mutation tests. | Verified |
+| Private storage | IDs/kind/timestamps only; raw database schema/canary checks reject stored titles/text. Preferences bool/kind; export own retained records; deletion cascades. | Verified |
+| Retention and migration | Last 90 days, bounded own cleanup; concurrent reads; additive up/down/up, populated-down refusal. No owner DB changed. | Verified |
+| Bell and preferences | 99+ count, generic labels, pagination, five persistent future-event mutes, optimistic save/rollback. Normal/error/recovery and real browser event tests. | Verified |
+| Polling and accessibility | Visible 30s polling, hidden pause, 60/120/240s backoff, stale-response/cancel guards, draft confirmation, keyboard/focus, timestamp descriptions, phone layouts and reduced motion. | Verified |
+| Integration and documentation | Same 46 routes, existing Support/Settings/shell checks, generated contracts/types, user guide/demo; no new package. | Verified |
+
+**Checks:** Backend 785/785 unit, 411/411 e2e (31 suites), builds/types/lint/contracts pass. Web 544/544 full unit, 18/18 final focused controls, build/types/lint and 46 routes pass. Chrome 96/96 affected, then 20/20 final notifications, 4/4 existing shell journeys and 4/4 reduced-motion journeys; five applied deliberate faults caught. Backend lint has 26 inherited warnings; web lint two, zero errors. Positive C PostgreSQL controls 12/12 include at-rest privacy and migration/concurrency cases. No frozen phase-2 contract change. Live primary types regenerated and committed separately.
+
+**Initial failures and approved corrections:** PostgreSQL parameter-type ambiguity fixed with casts. Browser tests found accessible-name, disappearing async focus and checkbox save-reversion issues; fixed with generic labels, stable Close focus and optimistic rollback. Timestamp description linked to its actual element. New-test lint and Windows UTF-8 text repaired. The first full backend attempt failed because the existing Support rollback case assumed it was the newest migration. The owner approved a bounded temporary migration list and explicit Support target assertion; all prior refusal/data-preservation/up/down checks remain, and the full rerun passes. Reduced-motion checks exposed transient layout measurements immediately after viewport changes; bounded layout polling keeps the same strict 1px overflow threshold and all four journeys pass. Earlier failures remain in evidence.
+
+**Preservation/cleanup:** 158 task-entry hashes/155 original PNGs match; runtime OpenAPI restored to task-entry bytes. M2 SHA `d0edb982c694cf1983ffe36faac2f7c80ed77ac1a735852f03013e6c4a2f76dc` was never written/reverted/staged. All audit PNGs, runtime artifact, M2 and film remain unstaged. Only owned audit listeners/containers stopped; volumes retained; owner dev services unchanged. Legacy full-suite teardown used fsync-off on the disposable container only and restored on in finally. No environment-value reads/copies, paid usage, model calls or owner migration.
+
+**Owner action:** stop backend, run `pnpm migration:run` there, then restart it. Notifications1794800000000 has no backfill and refuses a destructive populated rollback. Polling latest-page resets pagination; pause to browse older items. Cleanup is lazy/own bounded, not a global purge. These are documented choices, not unverified features.
+
+**Limits/next:** full all-project Chrome, Edge/dev-only and AI acceptance were not rerun. No required C work remains. C push and any next milestone need separate owner instruction; gallery decisions and AI acceptance inputs/live go remain pending. Future phase-completion work must update this same living report, preserve history, record actual verification and reassess affected earlier requirements; updates are not automatic.
+
+[User guide](NOTIFICATIONS.md) · [Evidence and reproduction](audit/notifications-2026-11-06/README.md). Update history: 2026-11-06 — A/B pushed, C built, verified and closed locally.

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: closed labels and capped counts never use stored notification text; backoff is bounded
+ok 1 - closed labels and capped counts never use stored notification text; backoff is bounded
+  ---
+  duration_ms: 9.3053
+  type: 'test'
+  ...
+# Subtest: polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+ok 2 - polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+  ---
+  duration_ms: 42.2617
+  type: 'test'
+  ...
+# Subtest: starts hidden without fetching, and retries failures locally with backoff
+ok 3 - starts hidden without fetching, and retries failures locally with backoff
+  ---
+  duration_ms: 7.5987
+  type: 'test'
+  ...
+# Subtest: a newer request wins even when an aborted old response arrives last
+not ok 4 - a newer request wins even when an aborted old response arrives last
+  ---
+  duration_ms: 9.5075
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\notifications.test.cjs:176:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    99 !== 3
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 3
+  actual: 99
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\notifications.test.cjs:190:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+ok 5 - read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+  ---
+  duration_ms: 11.1214
+  type: 'test'
+  ...
+# Subtest: pagination appends without duplicates; a refresh returns to the latest page
+ok 6 - pagination appends without duplicates; a refresh returns to the latest page
+  ---
+  duration_ms: 5.7148
+  type: 'test'
+  ...
+# MUTATION_APPLIED stale 1
+1..6
+# tests 6
+# suites 0
+# pass 5
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24847.4757
+MUTATION_APPLIED stale 0

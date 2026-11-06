@@ -1,0 +1,1179 @@
+[Nest] 27940  - 11/06/2026, 3:40:49 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] PostgresDatabaseProviderModule dependencies initialized +1249ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +2ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] RedisCacheModule dependencies initialized +2ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] BullModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +3ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] ThrottlerModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] JwtModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:50 PM     LOG [InstanceLoader] SimulationModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] HealthModule dependencies initialized +698ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] TypeOrmCoreModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] UsersModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] AppModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] AccountModule dependencies initialized +3ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] AuthModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] NotificationsModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] RolesModule dependencies initialized +2ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] AiModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] SupportModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] ChallengesModule dependencies initialized +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] DesignsModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [InstanceLoader] ReviewsModule dependencies initialized +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] AuthController {/v1/auth}: +303ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/register, POST} route +3ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/login, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/refresh, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/logout, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/password, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/auth/me, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] HealthController {/v1/health}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/health, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] PreviewController {/v1/simulation}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/simulation/preview, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] DesignsController {/v1/designs}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/prepare, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/versions, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/shares/:shareId/revoke, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/report, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/compare, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/runs, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/versions/:revision/restore, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/duplicate, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/archive, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/unarchive, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes/:noteId, PATCH} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/notes/:noteId, DELETE} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, PATCH} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id, DELETE} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/validate, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/simulate, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/fixes, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/ladder, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/what-if, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/limits, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/runs/:runId, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] DesignCatalogController {/v1}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/templates, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/simulation/catalog, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/dashboard, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] DesignLibraryController {/v1/library}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/library/designs, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] SharesController {/v1/shares}: +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/shares/open, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] AiController {/v1/ai}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/readiness, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id/evidence, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/jobs/:id/cancel, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] AiTasksController {/v1/ai/tasks}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/readiness, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/describe, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/fix-intent, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/ai/tasks/what-if, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] AccountController {/v1/account}: +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/account/roles, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] AdminController {/v1/admin}: +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/metrics, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/metrics/export, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/suspend, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/restore, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/lookup, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/users/:id/roles/:role, DELETE} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/admin/audit, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] DesignReviewsController {/v1/designs}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/revoke, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/comments, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/designs/:id/reviews/:grantId/comments, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RoutesResolver] ReviewsController {/v1/reviews}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/shared-with-me, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments/:commentId, PATCH} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:51 PM     LOG [RouterExplorer] Mapped {/v1/reviews/:id/comments/:commentId, DELETE} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] InstructorChallengesController {/v1/instructor/challenges}: +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id, PATCH} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/publish, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/archive, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/duplicate, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] InstructorSubmissionsController {/v1/instructor}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/challenges/:id/submissions, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/submissions/:id, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/instructor/submissions/:id/feedback, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] LearnerChallengesController {/v1}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/challenges, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/challenges/:id, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/challenges/:id/attempt, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/attempts/:id, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/attempts/:id/submissions, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/progress/challenges, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] AccountController {/v1/account}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/account/profile, PATCH} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/account/export, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/account/delete, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] SupportReportsController {/v1/support/reports}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/reports, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/reports, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/reports/:id, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/reports/:id/messages, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] SupportInboxController {/v1/support}: +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/agents, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id/read, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id/messages, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/support/inbox/:id, PATCH} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RoutesResolver] NotificationsController {/v1/notifications}: +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/unread-count, GET} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/preferences, GET} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/preferences, PATCH} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/read-all, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/:id/read, POST} route +1ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RouterExplorer] Mapped {/v1/notifications/:id/open, POST} route +0ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [RedisCacheService] Redis client connected
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [NestApplication] Nest application successfully started +52ms
+[Nest] 27940  - 11/06/2026, 3:40:52 PM     LOG [Bootstrap] StressForge API on http://localhost:5003/v1 (docs: /docs)
+[Nest] 27940  - 11/06/2026, 3:41:02 PM     LOG [HTTP] POST /v1/auth/register 201 233ms
+[Nest] 27940  - 11/06/2026, 3:41:02 PM     LOG [HTTP] GET /v1/notifications 200 117ms
+[Nest] 27940  - 11/06/2026, 3:41:02 PM     LOG [HTTP] GET /v1/notifications 200 45ms
+[Nest] 27940  - 11/06/2026, 3:41:03 PM     LOG [HTTP] POST /v1/support/reports 201 154ms
+[Nest] 27940  - 11/06/2026, 3:41:03 PM     LOG [HTTP] POST /v1/auth/register 201 110ms
+[Nest] 27940  - 11/06/2026, 3:41:03 PM     LOG [HTTP] POST /v1/support/inbox/a84d208b-23b3-4568-995b-fc684388683d/messages 201 57ms
+[Nest] 27940  - 11/06/2026, 3:41:03 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] POST /v1/notifications/dcec99e7-3fe7-448a-b3d4-3b26c74eef6a/open 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] GET /v1/support/reports/a84d208b-23b3-4568-995b-fc684388683d 200 42ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] POST /v1/notifications/read-all 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:04 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:06 PM     LOG [HTTP] POST /v1/auth/register 201 151ms
+[Nest] 27940  - 11/06/2026, 3:41:06 PM     LOG [HTTP] GET /v1/notifications 200 75ms
+[Nest] 27940  - 11/06/2026, 3:41:06 PM     LOG [HTTP] GET /v1/notifications 200 45ms
+[Nest] 27940  - 11/06/2026, 3:41:06 PM     LOG [HTTP] POST /v1/support/reports 201 91ms
+[Nest] 27940  - 11/06/2026, 3:41:07 PM     LOG [HTTP] POST /v1/auth/register 201 129ms
+[Nest] 27940  - 11/06/2026, 3:41:07 PM     LOG [HTTP] POST /v1/auth/refresh 200 30ms
+[Nest] 27940  - 11/06/2026, 3:41:07 PM     LOG [HTTP] GET /v1/notifications/preferences 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:07 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 19ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 16ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] POST /v1/support/inbox/a3184db4-f23c-4022-90fc-2e84f539faa9/messages 201 39ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] GET /v1/notifications/preferences 200 14ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] POST /v1/support/inbox/a3184db4-f23c-4022-90fc-2e84f539faa9/messages 201 31ms
+[Nest] 27940  - 11/06/2026, 3:41:08 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] POST /v1/auth/register 201 118ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] GET /v1/notifications 200 52ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] GET /v1/auth/me 200 32ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] GET /v1/notifications 200 56ms
+[Nest] 27940  - 11/06/2026, 3:41:09 PM     LOG [HTTP] GET /v1/dashboard 200 71ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] POST /v1/auth/register 201 181ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] POST /v1/support/reports 201 76ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] POST /v1/notifications/3d7f07cc-1e7b-402d-93a8-780dedb1e546/open 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/account/roles 200 29ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/notifications 200 64ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/support/agents 200 32ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] GET /v1/support/inbox/6ce82afb-4d4a-49f0-8263-accc210caf8a 200 46ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] POST /v1/support/inbox/6ce82afb-4d4a-49f0-8263-accc210caf8a/read 200 61ms
+[Nest] 27940  - 11/06/2026, 3:41:10 PM     LOG [HTTP] POST /v1/auth/register 201 161ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] PATCH /v1/support/inbox/6ce82afb-4d4a-49f0-8263-accc210caf8a 200 30ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] POST /v1/support/reports/6ce82afb-4d4a-49f0-8263-accc210caf8a/messages 201 28ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] POST /v1/auth/refresh 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] GET /v1/auth/me 304 16ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] GET /v1/dashboard 304 33ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] POST /v1/notifications/9e23d842-a9c7-48ac-a4c3-f6f6ed088e4c/open 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:11 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:12 PM     LOG [HTTP] POST /v1/auth/register 201 97ms
+[Nest] 27940  - 11/06/2026, 3:41:12 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:12 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:12 PM     LOG [HTTP] POST /v1/support/reports 201 44ms
+[Nest] 27940  - 11/06/2026, 3:41:12 PM     LOG [HTTP] POST /v1/auth/register 201 88ms
+[Nest] 27940  - 11/06/2026, 3:41:13 PM     LOG [HTTP] POST /v1/support/inbox/da42c3b3-7f65-4a25-a8ea-d24b1da7fb92/messages 201 29ms
+[Nest] 27940  - 11/06/2026, 3:41:13 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:13 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:14 PM     LOG [HTTP] POST /v1/auth/register 201 246ms
+[Nest] 27940  - 11/06/2026, 3:41:14 PM     LOG [HTTP] GET /v1/notifications 200 43ms
+[Nest] 27940  - 11/06/2026, 3:41:14 PM     LOG [HTTP] GET /v1/notifications 200 62ms
+[Nest] 27940  - 11/06/2026, 3:41:15 PM     LOG [HTTP] POST /v1/support/reports 201 204ms
+[Nest] 27940  - 11/06/2026, 3:41:15 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:41:16 PM     LOG [HTTP] GET /v1/notifications 200 52ms
+[Nest] 27940  - 11/06/2026, 3:41:16 PM     LOG [HTTP] POST /v1/notifications/ffea5132-8029-4b84-a5e5-4b8695fb1cd3/read 200 106ms
+[Nest] 27940  - 11/06/2026, 3:41:16 PM     LOG [HTTP] GET /v1/notifications 200 60ms
+[Nest] 27940  - 11/06/2026, 3:41:16 PM     LOG [HTTP] POST /v1/notifications/read-all 200 197ms
+[Nest] 27940  - 11/06/2026, 3:41:16 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:41:17 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:25 PM     LOG [HTTP] POST /v1/auth/register 201 105ms
+[Nest] 27940  - 11/06/2026, 3:41:25 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:25 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:25 PM     LOG [HTTP] POST /v1/support/reports 201 51ms
+[Nest] 27940  - 11/06/2026, 3:41:25 PM     LOG [HTTP] POST /v1/auth/register 201 97ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] POST /v1/support/inbox/790836a7-924c-45d2-b651-5b7e9dae0cca/messages 201 44ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] POST /v1/notifications/9984f03a-7354-49fd-a5ca-252a3df15002/open 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:26 PM     LOG [HTTP] GET /v1/support/reports/790836a7-924c-45d2-b651-5b7e9dae0cca 200 39ms
+[Nest] 27940  - 11/06/2026, 3:41:27 PM     LOG [HTTP] POST /v1/notifications/read-all 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:27 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:41:28 PM     LOG [HTTP] POST /v1/auth/register 201 114ms
+[Nest] 27940  - 11/06/2026, 3:41:28 PM     LOG [HTTP] GET /v1/notifications 200 45ms
+[Nest] 27940  - 11/06/2026, 3:41:28 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:28 PM     LOG [HTTP] POST /v1/support/reports 201 51ms
+[Nest] 27940  - 11/06/2026, 3:41:28 PM     LOG [HTTP] POST /v1/auth/register 201 112ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] POST /v1/auth/refresh 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications/preferences 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] POST /v1/support/inbox/6e944bc6-687a-4d4a-be62-3a02179348a1/messages 201 72ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] POST /v1/auth/refresh 200 20ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications/preferences 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications 200 59ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] POST /v1/support/inbox/6e944bc6-687a-4d4a-be62-3a02179348a1/messages 201 51ms
+[Nest] 27940  - 11/06/2026, 3:41:29 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:41:30 PM     LOG [HTTP] POST /v1/auth/register 201 116ms
+[Nest] 27940  - 11/06/2026, 3:41:30 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] GET /v1/notifications 200 51ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] GET /v1/auth/me 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] GET /v1/notifications 200 47ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] GET /v1/dashboard 200 53ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] POST /v1/auth/register 201 100ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] POST /v1/support/reports 201 47ms
+[Nest] 27940  - 11/06/2026, 3:41:31 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] POST /v1/notifications/ab5a8e97-c219-4e3c-8272-cb08cb31efcd/open 200 19ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/account/roles 200 27ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/notifications 200 50ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/support/agents 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/support/inbox/509b416b-5706-4cb8-86c4-56509f89fab0 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] POST /v1/support/inbox/509b416b-5706-4cb8-86c4-56509f89fab0/read 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] POST /v1/auth/register 201 126ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] PATCH /v1/support/inbox/509b416b-5706-4cb8-86c4-56509f89fab0 200 63ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] POST /v1/support/reports/509b416b-5706-4cb8-86c4-56509f89fab0/messages 201 48ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/auth/me 304 23ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/dashboard 304 43ms
+[Nest] 27940  - 11/06/2026, 3:41:32 PM     LOG [HTTP] GET /v1/notifications 200 55ms
+[Nest] 27940  - 11/06/2026, 3:41:33 PM     LOG [HTTP] POST /v1/notifications/e8cbf20c-c858-4848-81ed-46f6b1a004aa/open 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:33 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] POST /v1/auth/register 201 109ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] POST /v1/support/reports 201 54ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] POST /v1/auth/register 201 101ms
+[Nest] 27940  - 11/06/2026, 3:41:34 PM     LOG [HTTP] POST /v1/support/inbox/25f672cc-28a9-4f5e-a584-f8a5bc2c8320/messages 201 45ms
+[Nest] 27940  - 11/06/2026, 3:41:35 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:35 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:36 PM     LOG [HTTP] POST /v1/auth/register 201 106ms
+[Nest] 27940  - 11/06/2026, 3:41:36 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:41:36 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:36 PM     LOG [HTTP] POST /v1/support/reports 201 94ms
+[Nest] 27940  - 11/06/2026, 3:41:36 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] POST /v1/notifications/fb189cae-71fe-4e18-8ef8-e9f3e44464d9/read 200 16ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] POST /v1/notifications/read-all 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:37 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:40 PM     LOG [HTTP] POST /v1/auth/register 201 225ms
+[Nest] 27940  - 11/06/2026, 3:41:40 PM     LOG [HTTP] GET /v1/notifications 200 75ms
+[Nest] 27940  - 11/06/2026, 3:41:40 PM     LOG [HTTP] GET /v1/notifications 200 51ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] POST /v1/support/reports 201 57ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] POST /v1/auth/register 201 112ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] POST /v1/support/inbox/3e6fc413-60b7-4b45-a645-0292599703e3/messages 201 35ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] POST /v1/notifications/9f927f02-b2ef-4880-9114-1c899babf662/open 200 16ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] GET /v1/support/reports/3e6fc413-60b7-4b45-a645-0292599703e3 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:41 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:41:42 PM     LOG [HTTP] POST /v1/notifications/read-all 200 13ms
+[Nest] 27940  - 11/06/2026, 3:41:42 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:41:43 PM     LOG [HTTP] POST /v1/auth/register 201 102ms
+[Nest] 27940  - 11/06/2026, 3:41:43 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:43 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:41:43 PM     LOG [HTTP] POST /v1/support/reports 201 45ms
+[Nest] 27940  - 11/06/2026, 3:41:43 PM     LOG [HTTP] POST /v1/auth/register 201 113ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications/preferences 200 12ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 20ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] POST /v1/support/inbox/b5d81203-c4ff-4627-9f70-0dadefe74c8c/messages 201 38ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications/preferences 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] POST /v1/support/inbox/b5d81203-c4ff-4627-9f70-0dadefe74c8c/messages 201 41ms
+[Nest] 27940  - 11/06/2026, 3:41:44 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:45 PM     LOG [HTTP] POST /v1/auth/register 201 94ms
+[Nest] 27940  - 11/06/2026, 3:41:45 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:45 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/auth/refresh 200 10ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/auth/me 200 12ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/dashboard 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/auth/register 201 92ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/support/reports 201 29ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/notifications 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/notifications/373f7e8d-1582-4a51-be20-3e97bd6b19b6/open 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/account/roles 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/notifications 200 51ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/support/agents 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] GET /v1/support/inbox/ed3ee3ff-b060-4298-9543-f9fe111b7ced 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/support/inbox/ed3ee3ff-b060-4298-9543-f9fe111b7ced/read 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:46 PM     LOG [HTTP] POST /v1/auth/register 201 125ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] PATCH /v1/support/inbox/ed3ee3ff-b060-4298-9543-f9fe111b7ced 200 45ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] POST /v1/support/reports/ed3ee3ff-b060-4298-9543-f9fe111b7ced/messages 201 43ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] GET /v1/auth/me 304 19ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] GET /v1/dashboard 304 47ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] POST /v1/notifications/f3fb298f-6f52-47ba-b633-46195f29be7d/open 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:47 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:48 PM     LOG [HTTP] POST /v1/auth/register 201 87ms
+[Nest] 27940  - 11/06/2026, 3:41:48 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:48 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:41:48 PM     LOG [HTTP] POST /v1/support/reports 201 40ms
+[Nest] 27940  - 11/06/2026, 3:41:48 PM     LOG [HTTP] POST /v1/auth/register 201 83ms
+[Nest] 27940  - 11/06/2026, 3:41:49 PM     LOG [HTTP] POST /v1/support/inbox/e7a54882-c129-4ac9-bf28-741656b179ff/messages 201 28ms
+[Nest] 27940  - 11/06/2026, 3:41:49 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:41:49 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:50 PM     LOG [HTTP] POST /v1/auth/register 201 123ms
+[Nest] 27940  - 11/06/2026, 3:41:50 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:41:50 PM     LOG [HTTP] POST /v1/support/reports 201 71ms
+[Nest] 27940  - 11/06/2026, 3:41:50 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] GET /v1/notifications 200 52ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] POST /v1/notifications/fd4e2a25-3eea-44ac-897b-89fabf1bc346/read 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] POST /v1/notifications/read-all 200 24ms
+[Nest] 27940  - 11/06/2026, 3:41:51 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:41:52 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] POST /v1/auth/register 201 87ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] POST /v1/support/reports 201 47ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] POST /v1/auth/register 201 132ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] POST /v1/support/inbox/80f69e32-4cdc-46d6-bb2c-606f8c80e7bd/messages 201 49ms
+[Nest] 27940  - 11/06/2026, 3:41:55 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] POST /v1/notifications/3fc9090f-91cf-42af-8073-d6a3e3b73692/open 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] GET /v1/support/reports/80f69e32-4cdc-46d6-bb2c-606f8c80e7bd 200 14ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] POST /v1/notifications/read-all 200 13ms
+[Nest] 27940  - 11/06/2026, 3:41:56 PM     LOG [HTTP] GET /v1/notifications 200 18ms
+[Nest] 27940  - 11/06/2026, 3:41:57 PM     LOG [HTTP] POST /v1/auth/register 201 92ms
+[Nest] 27940  - 11/06/2026, 3:41:57 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:41:57 PM     LOG [HTTP] POST /v1/support/reports 201 44ms
+[Nest] 27940  - 11/06/2026, 3:41:57 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:41:57 PM     LOG [HTTP] POST /v1/auth/register 201 107ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications/preferences 200 14ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 14ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] POST /v1/support/inbox/50e8d8b3-50df-4bb5-b101-1b8b64994497/messages 201 41ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications/preferences 200 21ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] PATCH /v1/notifications/preferences 200 15ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] POST /v1/support/inbox/50e8d8b3-50df-4bb5-b101-1b8b64994497/messages 201 24ms
+[Nest] 27940  - 11/06/2026, 3:41:58 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:41:59 PM     LOG [HTTP] POST /v1/auth/register 201 142ms
+[Nest] 27940  - 11/06/2026, 3:41:59 PM     LOG [HTTP] GET /v1/notifications 200 47ms
+[Nest] 27940  - 11/06/2026, 3:41:59 PM     LOG [HTTP] GET /v1/notifications 200 66ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 33ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/auth/me 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/dashboard 200 54ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] POST /v1/auth/register 201 112ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] POST /v1/support/reports 201 50ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] POST /v1/notifications/198f81e9-b8ec-4093-9f64-4b4805dc45c7/open 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/account/roles 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:00 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] GET /v1/support/agents 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] GET /v1/support/inbox/75c941d3-3bad-4ae5-b7ea-7f6f8bb20c2e 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] POST /v1/support/inbox/75c941d3-3bad-4ae5-b7ea-7f6f8bb20c2e/read 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] POST /v1/auth/register 201 108ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] PATCH /v1/support/inbox/75c941d3-3bad-4ae5-b7ea-7f6f8bb20c2e 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] POST /v1/support/reports/75c941d3-3bad-4ae5-b7ea-7f6f8bb20c2e/messages 201 27ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] GET /v1/auth/me 304 15ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] GET /v1/dashboard 304 21ms
+[Nest] 27940  - 11/06/2026, 3:42:01 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] POST /v1/notifications/bd2c9543-a911-47b1-b31b-2f415d4544c9/open 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] POST /v1/auth/register 201 83ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:02 PM     LOG [HTTP] POST /v1/support/reports 201 41ms
+[Nest] 27940  - 11/06/2026, 3:42:03 PM     LOG [HTTP] POST /v1/auth/register 201 91ms
+[Nest] 27940  - 11/06/2026, 3:42:03 PM     LOG [HTTP] POST /v1/support/inbox/818b1ec7-3913-4e3c-87c5-202cd0403c01/messages 201 25ms
+[Nest] 27940  - 11/06/2026, 3:42:03 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:03 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:04 PM     LOG [HTTP] POST /v1/auth/register 201 83ms
+[Nest] 27940  - 11/06/2026, 3:42:04 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:04 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:04 PM     LOG [HTTP] POST /v1/support/reports 201 79ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] POST /v1/notifications/ff160dd2-0715-47f4-b138-867f3e1e7af8/read 200 11ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] POST /v1/notifications/read-all 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:05 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] POST /v1/auth/register 201 148ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/templates 200 57ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/notifications 200 75ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/templates 304 15ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] POST /v1/designs 201 52ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/simulation/catalog 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/ai/readiness 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/notes 200 45ms
+[Nest] 27940  - 11/06/2026, 3:42:10 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/report 200 59ms
+[Nest] 27940  - 11/06/2026, 3:42:11 PM     LOG [HTTP] POST /v1/support/reports 201 41ms
+[Nest] 27940  - 11/06/2026, 3:42:11 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:12 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:42:12 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:13 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:13 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:42:13 PM     LOG [HTTP] GET /v1/notifications 200 42ms
+[Nest] 27940  - 11/06/2026, 3:42:14 PM     LOG [HTTP] GET /v1/challenges 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:14 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:14 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:14 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:42:14 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:15 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:15 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:15 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/auth/me 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/notifications 200 91ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/dashboard 200 120ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/templates 304 25ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/notifications 200 46ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/ai/tasks/readiness 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:16 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:42:17 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:42:17 PM     LOG [HTTP] GET /v1/simulation/catalog 304 16ms
+[Nest] 27940  - 11/06/2026, 3:42:17 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:42:17 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/library/designs 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/notifications 200 46ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] POST /v1/auth/refresh 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/versions 200 34ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/notifications 200 47ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/report 200 55ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/runs 200 68ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/versions 304 28ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/runs 304 28ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/reviews 200 40ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/shares 200 32ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/notifications 200 49ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/ai/readiness 304 10ms
+[Nest] 27940  - 11/06/2026, 3:42:18 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/report 200 31ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/simulation/catalog 304 11ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/ai/readiness 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/notes 304 17ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/designs/9409f90a-160d-4a3a-828f-554721c313ae/report 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:19 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:20 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:20 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:21 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:21 PM     LOG [HTTP] GET /v1/progress/challenges 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:21 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:21 PM     LOG [HTTP] GET /v1/account/roles 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:21 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] GET /v1/support/reports 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] GET /v1/support/reports/66e53d7f-5a6d-45e0-8ea4-1406bfee47f3 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:22 PM     LOG [HTTP] GET /v1/notifications 200 48ms
+[Nest] 27940  - 11/06/2026, 3:42:23 PM     LOG [HTTP] GET /v1/account/roles 304 15ms
+[Nest] 27940  - 11/06/2026, 3:42:23 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:23 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:23 PM     LOG [HTTP] GET /v1/account/roles 304 19ms
+[Nest] 27940  - 11/06/2026, 3:42:23 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:42:24 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:24 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:24 PM     LOG [HTTP] POST /v1/auth/refresh 200 10ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] GET /v1/account/roles 304 12ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] GET /v1/account/roles 304 15ms
+[Nest] 27940  - 11/06/2026, 3:42:25 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:42:26 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:26 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:42:26 PM     LOG [HTTP] GET /v1/notifications 200 84ms
+[Nest] 27940  - 11/06/2026, 3:42:27 PM     LOG [HTTP] POST /v1/auth/refresh 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:27 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:27 PM     LOG [HTTP] GET /v1/account/roles 304 8ms
+[Nest] 27940  - 11/06/2026, 3:42:27 PM     LOG [HTTP] GET /v1/notifications 200 74ms
+[Nest] 27940  - 11/06/2026, 3:42:29 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:31 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] POST /v1/auth/refresh 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/auth/me 304 54ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/dashboard 304 89ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/notifications 200 132ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/templates 304 23ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] POST /v1/auth/refresh 200 50ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/auth/me 304 44ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/dashboard 304 62ms
+[Nest] 27940  - 11/06/2026, 3:42:32 PM     LOG [HTTP] GET /v1/notifications 200 82ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] POST /v1/support/reports 201 57ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] GET /v1/support/reports/98dd2eb7-d386-491e-9023-ff2f9561daec 200 13ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] GET /v1/support/reports/98dd2eb7-d386-491e-9023-ff2f9561daec 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] GET /v1/support/reports/98dd2eb7-d386-491e-9023-ff2f9561daec 304 20ms
+[Nest] 27940  - 11/06/2026, 3:42:34 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/auth/me 304 17ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/dashboard 304 30ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] POST /v1/auth/refresh 200 46ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/auth/me 304 21ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/dashboard 304 33ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] POST /v1/auth/refresh 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/auth/me 304 29ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/dashboard 304 48ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/notifications 200 62ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] POST /v1/auth/refresh 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/auth/me 304 23ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/dashboard 304 32ms
+[Nest] 27940  - 11/06/2026, 3:42:35 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:42:36 PM     LOG [HTTP] POST /v1/auth/refresh 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:36 PM     LOG [HTTP] GET /v1/auth/me 304 83ms
+[Nest] 27940  - 11/06/2026, 3:42:36 PM     LOG [HTTP] GET /v1/dashboard 304 100ms
+[Nest] 27940  - 11/06/2026, 3:42:36 PM     LOG [HTTP] GET /v1/notifications 200 110ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] GET /v1/auth/me 304 14ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] GET /v1/dashboard 304 27ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] GET /v1/account/roles 304 21ms
+[Nest] 27940  - 11/06/2026, 3:42:37 PM     LOG [HTTP] POST /v1/auth/logout 204 13ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] POST /v1/auth/login 200 117ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] GET /v1/templates 304 23ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] GET /v1/notifications 200 47ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] GET /v1/account/roles 304 17ms
+[Nest] 27940  - 11/06/2026, 3:42:38 PM     LOG [HTTP] POST /v1/auth/logout 204 10ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] POST /v1/auth/register 201 109ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/templates 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/templates 304 30ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/notifications 200 56ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] POST /v1/designs 201 46ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/simulation/catalog 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/ai/readiness 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/notes 200 38ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/report 200 52ms
+[Nest] 27940  - 11/06/2026, 3:42:42 PM     LOG [HTTP] POST /v1/support/reports 201 66ms
+[Nest] 27940  - 11/06/2026, 3:42:43 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:42:44 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:44 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:42:44 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:45 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:45 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:45 PM     LOG [HTTP] GET /v1/challenges 200 8ms
+[Nest] 27940  - 11/06/2026, 3:42:45 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:45 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:46 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:46 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:42:46 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/auth/me 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/dashboard 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/templates 304 14ms
+[Nest] 27940  - 11/06/2026, 3:42:47 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:48 PM     LOG [HTTP] GET /v1/ai/tasks/readiness 200 10ms
+[Nest] 27940  - 11/06/2026, 3:42:48 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:48 PM     LOG [HTTP] GET /v1/notifications 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:48 PM     LOG [HTTP] GET /v1/simulation/catalog 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:48 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/library/designs 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/notifications 200 46ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/report 200 37ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/versions 200 53ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/runs 200 53ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/versions 304 23ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/runs 304 26ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/reviews 200 33ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/shares 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:49 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] POST /v1/auth/refresh 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536 304 67ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/ai/readiness 304 55ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/notifications 200 143ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/report 200 83ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536 304 20ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/simulation/catalog 304 15ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/ai/readiness 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/notes 304 26ms
+[Nest] 27940  - 11/06/2026, 3:42:50 PM     LOG [HTTP] GET /v1/designs/8661f952-369b-45ff-b771-c576e888d536/report 200 46ms
+[Nest] 27940  - 11/06/2026, 3:42:51 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:42:51 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:42:51 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:42:52 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:52 PM     LOG [HTTP] GET /v1/progress/challenges 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:52 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:42:52 PM     LOG [HTTP] GET /v1/account/roles 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:52 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] GET /v1/notifications 200 43ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] GET /v1/support/reports 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] POST /v1/auth/refresh 200 23ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] GET /v1/support/reports/4e468fe1-4863-469f-84b3-0263ebe40d8f 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:53 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] GET /v1/account/roles 304 28ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] GET /v1/notifications 200 51ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 17ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] GET /v1/account/roles 304 18ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:42:54 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/account/roles 304 16ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/notifications 200 16ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/account/roles 304 12ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:42:55 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:42:56 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:42:56 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:42:56 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:42:56 PM     LOG [HTTP] GET /v1/account/roles 304 11ms
+[Nest] 27940  - 11/06/2026, 3:42:56 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/notifications 200 18ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] POST /v1/auth/refresh 200 8ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/auth/me 304 28ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/notifications 200 54ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/dashboard 304 37ms
+[Nest] 27940  - 11/06/2026, 3:42:57 PM     LOG [HTTP] GET /v1/templates 304 12ms
+[Nest] 27940  - 11/06/2026, 3:42:58 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:42:58 PM     LOG [HTTP] GET /v1/auth/me 304 13ms
+[Nest] 27940  - 11/06/2026, 3:42:58 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:42:58 PM     LOG [HTTP] GET /v1/dashboard 304 29ms
+[Nest] 27940  - 11/06/2026, 3:42:59 PM     LOG [HTTP] POST /v1/support/reports 201 81ms
+[Nest] 27940  - 11/06/2026, 3:42:59 PM     LOG [HTTP] GET /v1/support/reports/05decd33-7a72-46f3-8769-37b3d924f9a1 200 11ms
+[Nest] 27940  - 11/06/2026, 3:42:59 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:42:59 PM     LOG [HTTP] GET /v1/support/reports/05decd33-7a72-46f3-8769-37b3d924f9a1 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/support/reports/05decd33-7a72-46f3-8769-37b3d924f9a1 304 18ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 8ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/auth/me 304 7ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/dashboard 304 48ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/notifications 200 95ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/auth/me 304 7ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/dashboard 304 70ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/auth/me 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/dashboard 304 29ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:43:00 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:01 PM     LOG [HTTP] GET /v1/auth/me 304 13ms
+[Nest] 27940  - 11/06/2026, 3:43:01 PM     LOG [HTTP] GET /v1/dashboard 304 22ms
+[Nest] 27940  - 11/06/2026, 3:43:01 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:01 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:01 PM     LOG [HTTP] GET /v1/auth/me 304 21ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] GET /v1/dashboard 304 195ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] POST /v1/auth/refresh 200 90ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] GET /v1/notifications 200 691ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] GET /v1/auth/me 304 53ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] GET /v1/dashboard 304 112ms
+[Nest] 27940  - 11/06/2026, 3:43:02 PM     LOG [HTTP] GET /v1/notifications 200 114ms
+[Nest] 27940  - 11/06/2026, 3:43:03 PM     LOG [HTTP] GET /v1/account/roles 304 17ms
+[Nest] 27940  - 11/06/2026, 3:43:03 PM     LOG [HTTP] POST /v1/auth/logout 204 14ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] POST /v1/auth/login 200 97ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] GET /v1/templates 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] GET /v1/account/roles 304 13ms
+[Nest] 27940  - 11/06/2026, 3:43:04 PM     LOG [HTTP] POST /v1/auth/logout 204 9ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] POST /v1/auth/register 201 142ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/templates 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/templates 304 17ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] POST /v1/designs 201 42ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/simulation/catalog 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/ai/readiness 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/notes 200 44ms
+[Nest] 27940  - 11/06/2026, 3:43:09 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/report 200 62ms
+[Nest] 27940  - 11/06/2026, 3:43:10 PM     LOG [HTTP] POST /v1/support/reports 201 84ms
+[Nest] 27940  - 11/06/2026, 3:43:10 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:11 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:43:11 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:11 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:12 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:12 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:12 PM     LOG [HTTP] GET /v1/challenges 200 10ms
+[Nest] 27940  - 11/06/2026, 3:43:12 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:12 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:13 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:13 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:13 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:14 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:14 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:14 PM     LOG [HTTP] GET /v1/auth/me 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:14 PM     LOG [HTTP] GET /v1/notifications 200 42ms
+[Nest] 27940  - 11/06/2026, 3:43:14 PM     LOG [HTTP] GET /v1/dashboard 200 64ms
+[Nest] 27940  - 11/06/2026, 3:43:15 PM     LOG [HTTP] GET /v1/templates 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:15 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:43:15 PM     LOG [HTTP] GET /v1/ai/tasks/readiness 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:15 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:15 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/simulation/catalog 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/library/designs 200 22ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] POST /v1/auth/refresh 200 63ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/versions 200 31ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/report 200 54ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 61ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/runs 200 56ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/versions 304 45ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/runs 304 45ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/reviews 200 52ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 66ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/shares 200 71ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] POST /v1/auth/refresh 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817 304 20ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/ai/readiness 304 13ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/report 200 46ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817 304 20ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/simulation/catalog 304 16ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/ai/readiness 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/notes 304 30ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/designs/739de8ce-6d4c-49a3-b7b4-f64d4284b817/report 200 50ms
+[Nest] 27940  - 11/06/2026, 3:43:16 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:17 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:18 PM     LOG [HTTP] GET /v1/progress/challenges 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:18 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:18 PM     LOG [HTTP] GET /v1/account/roles 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:18 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:18 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/support/reports 200 17ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/support/reports/b5fb80c7-2cd8-4b7c-b284-645627535a27 200 17ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/account/roles 304 12ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/account/roles 304 12ms
+[Nest] 27940  - 11/06/2026, 3:43:19 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:20 PM     LOG [HTTP] GET /v1/notifications 200 17ms
+[Nest] 27940  - 11/06/2026, 3:43:20 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:20 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:20 PM     LOG [HTTP] GET /v1/account/roles 304 23ms
+[Nest] 27940  - 11/06/2026, 3:43:20 PM     LOG [HTTP] GET /v1/notifications 200 49ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] GET /v1/notifications 200 18ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] GET /v1/account/roles 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:21 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:22 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:22 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:22 PM     LOG [HTTP] GET /v1/account/roles 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:22 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:22 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/auth/me 304 21ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/dashboard 304 35ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/templates 304 18ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] POST /v1/auth/refresh 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/auth/me 304 12ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/dashboard 304 23ms
+[Nest] 27940  - 11/06/2026, 3:43:23 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:25 PM     LOG [HTTP] POST /v1/support/reports 201 58ms
+[Nest] 27940  - 11/06/2026, 3:43:25 PM     LOG [HTTP] GET /v1/support/reports/f2121c72-8b5f-4e17-a7c7-831cc71061af 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:25 PM     LOG [HTTP] POST /v1/auth/refresh 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:25 PM     LOG [HTTP] GET /v1/support/reports/f2121c72-8b5f-4e17-a7c7-831cc71061af 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:25 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/support/reports/f2121c72-8b5f-4e17-a7c7-831cc71061af 304 21ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/notifications 200 41ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/auth/me 304 22ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/dashboard 304 34ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/notifications 200 46ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/auth/me 304 19ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/dashboard 304 27ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/auth/me 304 9ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/dashboard 304 31ms
+[Nest] 27940  - 11/06/2026, 3:43:26 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] POST /v1/auth/refresh 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/auth/me 304 41ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/dashboard 304 53ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/notifications 200 62ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] POST /v1/auth/refresh 200 18ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/auth/me 304 23ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/dashboard 304 33ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] GET /v1/notifications 200 90ms
+[Nest] 27940  - 11/06/2026, 3:43:27 PM     LOG [HTTP] POST /v1/auth/refresh 200 41ms
+[Nest] 27940  - 11/06/2026, 3:43:28 PM     LOG [HTTP] GET /v1/auth/me 304 115ms
+[Nest] 27940  - 11/06/2026, 3:43:28 PM     LOG [HTTP] GET /v1/dashboard 304 175ms
+[Nest] 27940  - 11/06/2026, 3:43:28 PM     LOG [HTTP] GET /v1/notifications 200 183ms
+[Nest] 27940  - 11/06/2026, 3:43:28 PM     LOG [HTTP] GET /v1/account/roles 304 16ms
+[Nest] 27940  - 11/06/2026, 3:43:28 PM     LOG [HTTP] POST /v1/auth/logout 204 10ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] POST /v1/auth/login 200 107ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] GET /v1/notifications 200 37ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] GET /v1/templates 304 18ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] GET /v1/notifications 200 45ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] GET /v1/account/roles 304 22ms
+[Nest] 27940  - 11/06/2026, 3:43:29 PM     LOG [HTTP] POST /v1/auth/logout 204 14ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] POST /v1/auth/register 201 126ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] GET /v1/templates 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] POST /v1/auth/refresh 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] GET /v1/templates 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:36 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] POST /v1/designs 201 52ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a 200 10ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/simulation/catalog 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/ai/readiness 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/notes 200 35ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/report 200 55ms
+[Nest] 27940  - 11/06/2026, 3:43:37 PM     LOG [HTTP] POST /v1/support/reports 201 89ms
+[Nest] 27940  - 11/06/2026, 3:43:38 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:38 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:39 PM     LOG [HTTP] GET /v1/notifications 200 207ms
+[Nest] 27940  - 11/06/2026, 3:43:39 PM     LOG [HTTP] GET /v1/notifications 200 95ms
+[Nest] 27940  - 11/06/2026, 3:43:39 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:39 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:40 PM     LOG [HTTP] GET /v1/challenges 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:40 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:40 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:40 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:40 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:41 PM     LOG [HTTP] GET /v1/notifications 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:41 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:41 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/auth/me 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/dashboard 200 44ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/templates 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/notifications 200 35ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/ai/tasks/readiness 200 7ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:42 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] GET /v1/simulation/catalog 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] GET /v1/library/designs 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:43 PM     LOG [HTTP] POST /v1/auth/refresh 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/versions 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/notifications 200 44ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/report 200 42ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/runs 200 47ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/versions 304 27ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/runs 304 25ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/reviews 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/notifications 200 39ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/shares 200 34ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/ai/readiness 304 8ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/report 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/simulation/catalog 304 12ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/ai/readiness 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/notes 304 19ms
+[Nest] 27940  - 11/06/2026, 3:43:44 PM     LOG [HTTP] GET /v1/designs/0539a03c-45ea-42b4-a793-fbc38aec3d9a/report 200 24ms
+[Nest] 27940  - 11/06/2026, 3:43:45 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:45 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:43:45 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:46 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:46 PM     LOG [HTTP] GET /v1/progress/challenges 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:46 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:46 PM     LOG [HTTP] GET /v1/account/roles 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:46 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] GET /v1/support/reports 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] GET /v1/support/reports/ba4fa39f-bb2a-472c-89be-94b471d2f7be 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:47 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] GET /v1/account/roles 304 10ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] GET /v1/account/roles 304 10ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:48 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] POST /v1/auth/refresh 200 15ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/account/roles 304 36ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/notifications 200 56ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] POST /v1/auth/refresh 200 17ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/account/roles 304 19ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:43:49 PM     LOG [HTTP] POST /v1/auth/refresh 200 23ms
+[Nest] 27940  - 11/06/2026, 3:43:50 PM     LOG [HTTP] GET /v1/notifications 200 49ms
+[Nest] 27940  - 11/06/2026, 3:43:50 PM     LOG [HTTP] POST /v1/auth/refresh 200 13ms
+[Nest] 27940  - 11/06/2026, 3:43:50 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:43:50 PM     LOG [HTTP] GET /v1/account/roles 304 11ms
+[Nest] 27940  - 11/06/2026, 3:43:50 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/notifications 200 19ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/notifications 200 16ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/auth/me 304 12ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/dashboard 304 23ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:51 PM     LOG [HTTP] GET /v1/templates 304 18ms
+[Nest] 27940  - 11/06/2026, 3:43:52 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:52 PM     LOG [HTTP] GET /v1/auth/me 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:52 PM     LOG [HTTP] GET /v1/dashboard 304 25ms
+[Nest] 27940  - 11/06/2026, 3:43:52 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:43:53 PM     LOG [HTTP] POST /v1/support/reports 201 57ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/support/reports/140e01c0-baa2-4681-9ff5-5170181604ea 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 11ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/support/reports/140e01c0-baa2-4681-9ff5-5170181604ea 200 18ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/notifications 200 26ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/support/reports/140e01c0-baa2-4681-9ff5-5170181604ea 304 16ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 12ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/auth/me 304 13ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/dashboard 304 27ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/notifications 200 34ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 10ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/auth/me 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/dashboard 304 24ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:43:54 PM     LOG [HTTP] POST /v1/auth/refresh 200 10ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/auth/me 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/dashboard 304 21ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/auth/me 304 15ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/dashboard 304 27ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 9ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/auth/me 304 22ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/dashboard 304 35ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] GET /v1/notifications 200 49ms
+[Nest] 27940  - 11/06/2026, 3:43:55 PM     LOG [HTTP] POST /v1/auth/refresh 200 14ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/auth/me 304 17ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/dashboard 304 28ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/account/roles 304 17ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] POST /v1/auth/logout 204 7ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] POST /v1/auth/login 200 112ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/templates 304 14ms
+[Nest] 27940  - 11/06/2026, 3:43:56 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:43:57 PM     LOG [HTTP] GET /v1/account/roles 304 13ms
+[Nest] 27940  - 11/06/2026, 3:43:57 PM     LOG [HTTP] POST /v1/auth/logout 204 6ms
+[Nest] 27940  - 11/06/2026, 3:44:20 PM     LOG [HTTP] POST /v1/auth/register 201 151ms
+[Nest] 27940  - 11/06/2026, 3:44:20 PM     LOG [HTTP] GET /v1/notifications 200 49ms
+[Nest] 27940  - 11/06/2026, 3:44:20 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:44:20 PM     LOG [HTTP] POST /v1/support/reports 201 67ms
+[Nest] 27940  - 11/06/2026, 3:44:20 PM     LOG [HTTP] POST /v1/auth/register 201 109ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] POST /v1/support/inbox/c2687eaa-4b0f-43d1-baa5-74b28fc966c5/messages 201 52ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] POST /v1/notifications/46ca585f-4c0e-4b25-bbd5-ead2a8624607/open 200 19ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] GET /v1/notifications 200 25ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] GET /v1/support/reports/c2687eaa-4b0f-43d1-baa5-74b28fc966c5 200 40ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] POST /v1/notifications/read-all 200 18ms
+[Nest] 27940  - 11/06/2026, 3:44:21 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:44:24 PM     LOG [HTTP] POST /v1/auth/register 201 110ms
+[Nest] 27940  - 11/06/2026, 3:44:24 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:44:24 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:44:24 PM     LOG [HTTP] POST /v1/support/reports 201 58ms
+[Nest] 27940  - 11/06/2026, 3:44:24 PM     LOG [HTTP] POST /v1/auth/register 201 91ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] POST /v1/support/inbox/cb486e77-7338-497c-9184-317c5da9854c/messages 201 43ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] POST /v1/notifications/7f8e952a-e058-4de5-8df2-781926997731/open 200 20ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] GET /v1/support/reports/cb486e77-7338-497c-9184-317c5da9854c 200 20ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] POST /v1/notifications/read-all 200 15ms
+[Nest] 27940  - 11/06/2026, 3:44:25 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:44:27 PM     LOG [HTTP] POST /v1/auth/register 201 110ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] GET /v1/notifications 200 36ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] GET /v1/notifications 200 54ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] POST /v1/support/reports 201 113ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] POST /v1/auth/register 201 111ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] POST /v1/support/inbox/0be36068-e4ce-44fe-bbe9-555344f54f35/messages 201 64ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] GET /v1/notifications 200 43ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] POST /v1/notifications/91497a74-c25e-4ef6-950d-eec30b427b66/open 200 19ms
+[Nest] 27940  - 11/06/2026, 3:44:28 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:44:29 PM     LOG [HTTP] GET /v1/support/reports/0be36068-e4ce-44fe-bbe9-555344f54f35 200 16ms
+[Nest] 27940  - 11/06/2026, 3:44:29 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:44:29 PM     LOG [HTTP] POST /v1/notifications/read-all 200 19ms
+[Nest] 27940  - 11/06/2026, 3:44:29 PM     LOG [HTTP] GET /v1/notifications 200 20ms
+[Nest] 27940  - 11/06/2026, 3:44:31 PM     LOG [HTTP] POST /v1/auth/register 201 99ms
+[Nest] 27940  - 11/06/2026, 3:44:31 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:44:31 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:44:31 PM     LOG [HTTP] POST /v1/support/reports 201 51ms
+[Nest] 27940  - 11/06/2026, 3:44:31 PM     LOG [HTTP] POST /v1/auth/register 201 104ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] POST /v1/support/inbox/0735e7b6-2bd5-4ca8-8a08-7640eaccd028/messages 201 37ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] POST /v1/notifications/d663360d-f32e-455c-b40c-eb1fd84b0a71/open 200 18ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] GET /v1/notifications 200 28ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] GET /v1/support/reports/0735e7b6-2bd5-4ca8-8a08-7640eaccd028 200 18ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] POST /v1/notifications/read-all 200 14ms
+[Nest] 27940  - 11/06/2026, 3:44:32 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:46:18 PM     LOG [HTTP] POST /v1/auth/register 201 231ms
+[Nest] 27940  - 11/06/2026, 3:46:18 PM     LOG [HTTP] GET /v1/notifications 200 141ms
+[Nest] 27940  - 11/06/2026, 3:46:18 PM     LOG [HTTP] GET /v1/notifications 200 50ms
+[Nest] 27940  - 11/06/2026, 3:46:19 PM     LOG [HTTP] POST /v1/support/reports 201 246ms
+[Nest] 27940  - 11/06/2026, 3:46:19 PM     LOG [HTTP] POST /v1/auth/register 201 332ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] POST /v1/support/inbox/84bde772-f0a8-4ccd-9510-337f728ca57f/messages 201 62ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] POST /v1/notifications/92e53bc6-6077-4064-9757-80548d02bdce/open 200 30ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] GET /v1/notifications 200 56ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] GET /v1/notifications 200 63ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] GET /v1/support/reports/84bde772-f0a8-4ccd-9510-337f728ca57f 200 77ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] POST /v1/notifications/read-all 200 31ms
+[Nest] 27940  - 11/06/2026, 3:46:20 PM     LOG [HTTP] GET /v1/notifications 200 33ms
+[Nest] 27940  - 11/06/2026, 3:48:25 PM     LOG [HTTP] POST /v1/auth/register 201 172ms
+[Nest] 27940  - 11/06/2026, 3:48:25 PM     LOG [HTTP] GET /v1/notifications 200 73ms
+[Nest] 27940  - 11/06/2026, 3:48:25 PM     LOG [HTTP] GET /v1/notifications 200 27ms
+[Nest] 27940  - 11/06/2026, 3:48:25 PM     LOG [HTTP] POST /v1/support/reports 201 105ms
+[Nest] 27940  - 11/06/2026, 3:48:25 PM     LOG [HTTP] POST /v1/auth/register 201 103ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] POST /v1/support/inbox/840cb544-bc93-4a22-897d-da3ff604deee/messages 201 50ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] POST /v1/notifications/1b139bae-05b4-4da9-8c0b-615253d9b04b/open 200 20ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] GET /v1/support/reports/840cb544-bc93-4a22-897d-da3ff604deee 200 31ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] POST /v1/notifications/read-all 200 16ms
+[Nest] 27940  - 11/06/2026, 3:48:26 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:48:29 PM     LOG [HTTP] POST /v1/auth/register 201 214ms
+[Nest] 27940  - 11/06/2026, 3:48:29 PM     LOG [HTTP] GET /v1/notifications 200 59ms
+[Nest] 27940  - 11/06/2026, 3:48:29 PM     LOG [HTTP] GET /v1/notifications 200 40ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] POST /v1/support/reports 201 60ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] POST /v1/auth/register 201 101ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] POST /v1/support/inbox/c8ada6b8-ded1-4217-a2b2-3a98d14798f0/messages 201 40ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] POST /v1/notifications/63bf8ddb-7a89-4923-8920-dc698aee0ba8/open 200 17ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] GET /v1/notifications 200 24ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] GET /v1/support/reports/c8ada6b8-ded1-4217-a2b2-3a98d14798f0 200 18ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] POST /v1/notifications/read-all 200 15ms
+[Nest] 27940  - 11/06/2026, 3:48:30 PM     LOG [HTTP] GET /v1/notifications 200 21ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] POST /v1/auth/register 201 108ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] GET /v1/notifications 200 30ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] GET /v1/notifications 200 38ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] POST /v1/support/reports 201 70ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] POST /v1/auth/register 201 119ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] POST /v1/support/inbox/529a2975-bb5c-4a5c-bf08-b0977a2f0f2f/messages 201 35ms
+[Nest] 27940  - 11/06/2026, 3:48:34 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:48:35 PM     LOG [HTTP] POST /v1/notifications/e1e2d848-bbaa-42f0-a1a5-7c2920931e64/open 200 28ms
+[Nest] 27940  - 11/06/2026, 3:48:35 PM     LOG [HTTP] GET /v1/support/reports/529a2975-bb5c-4a5c-bf08-b0977a2f0f2f 200 24ms
+[Nest] 27940  - 11/06/2026, 3:48:35 PM     LOG [HTTP] GET /v1/notifications 200 23ms
+[Nest] 27940  - 11/06/2026, 3:48:35 PM     LOG [HTTP] POST /v1/notifications/read-all 200 15ms
+[Nest] 27940  - 11/06/2026, 3:48:35 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] POST /v1/auth/register 201 103ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/notifications 200 32ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/notifications 200 31ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] POST /v1/support/reports 201 54ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] POST /v1/auth/register 201 119ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] POST /v1/support/inbox/4cf0828e-7356-4e93-b37a-f9f5ea2b126c/messages 201 41ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/notifications 200 22ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] POST /v1/notifications/6b0f91d1-0901-4dc9-ae0a-de6757653960/open 200 19ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/notifications 200 29ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/support/reports/4cf0828e-7356-4e93-b37a-f9f5ea2b126c 200 30ms
+[Nest] 27940  - 11/06/2026, 3:48:38 PM     LOG [HTTP] GET /v1/notifications 200 45ms
+[Nest] 27940  - 11/06/2026, 3:48:39 PM     LOG [HTTP] POST /v1/notifications/read-all 200 16ms
+[Nest] 27940  - 11/06/2026, 3:48:39 PM     LOG [HTTP] GET /v1/notifications 200 23ms

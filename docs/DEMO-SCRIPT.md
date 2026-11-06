@@ -161,3 +161,10 @@ The existing `pnpm demo:ai:check` ran **once**, under the user's approval of the
 3. Pause, download CSV, JSON and PDF from **Export this view**. Show shared UTC source/key, numeric CSV, full JSON and the one-page headline PDF. No names/emails/design contents.
 4. Explain explicit refresh after snapshot expiry and local failure without a file if auditing is unavailable. Counters record accepted requests, not disk saves.
 5. A non-Admin is denied. No new migration/install. [Guide](ADMIN-DASHBOARD-EXTRAS.md).
+
+## In-app notifications — roadmap C (2026-11-06; no AI)
+1. Run `pnpm migration:run` in the backend before starting the updated API. Sign in as a reporter and a separate Support account in separate browser profiles.
+2. Submit a report; Support receives a generic new-report notification. Reply publicly as Support; the reporter's bell updates within 30 seconds in a visible tab. The first reply can also notify its automatic status change.
+3. Open the bell with the keyboard; open a notice to its authorized report, then mark one/all read. Explain that internal notes and your own actions never notify you.
+4. In Settings → Preferences, mute a kind, generate another matching event and show it is suppressed; unmute for future events. Existing items stay.
+5. Show Pause/Resume, earlier pages, Escape/return focus and the generic private-content-free labels. Retention is 90 days. [Guide](NOTIFICATIONS.md).

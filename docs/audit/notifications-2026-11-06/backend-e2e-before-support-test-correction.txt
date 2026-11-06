@@ -1,0 +1,26 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support.e2e-spec.ts (14.206 s)
+  ● Support role and problem reports (isolated Postgres, no AI) › the migration › goes up, down and up again on a separate database that already holds data, and refuses to go down while the role is in use
+
+    expect(received).rejects.toThrow()
+
+    Received promise resolved instead of rejected
+    Resolved to value: undefined
+
+      529 |         await other.query("INSERT INTO support_tickets (author_id, category, title, body, context, created_at, updated_at, last_user_activity_at) VALUES ($1,'bug','Kept title','A body that is long enough.','{}'::jsonb, now(), now(), now())", [id]);
+      530 |         // Refused while the role is in use: nothing is lost and nothing is half done.
+    > 531 |         await expect(other.undoLastMigration()).rejects.toThrow(/Revoke the role/);
+          |               ^
+      532 |         expect(await tables()).toHaveLength(4);
+      533 |         expect((await other.query("SELECT count(*)::int AS n FROM support_tickets"))[0].n).toBe(1);
+      534 |         // Role audit rows that name support also block it, because the audit history is never edited.
+
+      at expect (node_modules/.pnpm/expect@30.5.2/node_modules/expect/build/index.js:2116:15)
+      at Object.<anonymous> (test/support.e2e-spec.ts:531:15)
+
+[Nest] 25852  - 11/06/2026, 3:21:47 PM   ERROR [Exception] Unhandled request failure
+(node:25852) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25852) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:25852) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 25852  - 11/06/2026, 3:23:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 25852  - 11/06/2026, 3:24:14 PM   ERROR [Exception] Unhandled request failure

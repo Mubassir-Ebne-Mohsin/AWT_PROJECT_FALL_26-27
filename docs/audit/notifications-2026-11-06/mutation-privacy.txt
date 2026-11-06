@@ -1,0 +1,25 @@
+[Nest] 37600  - 11/06/2026, 3:35:36 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts (24.744 s)
+  ● C notifications: real Postgres, isolated accounts › stores no text, exposes only allow-listed fields, exports own rows, and refuses lossy rollback
+
+    expect(received).not.toContain(expected) // indexOf
+
+    Expected substring: not "PRIVATE TITLE"
+    Received string:        "[{\"row\":{\"id\":\"f8ad2b43-b6e0-4959-bd6c-bc4323697c52\",\"user_id\":\"7fb4fb0b-0384-4ca2-9ca3-ccbea3dec48f\",\"kind\":\"support_reply\",\"ref_id\":\"a8d0edd2-a45a-43be-a324-4de50b091b91\",\"created_at\":\"2026-11-06T09:35:34.939+00:00\",\"read_at\":\"2026-11-06T09:35:35.534+00:00\",\"message\":\"PRIVATE TITLE 468d34eb-1a57-493a-b033-12ffd59cd457\"}},{\"row\":{\"id\":\"b5961a8c-ffe4-44c3-bd6b-a452dce44089\",\"user_id\":\"7fb4fb0b-0384-4ca2-9ca3-ccbea3dec48f\",\"kind\":\"report_status\",\"ref_id\":\"a8d0edd2-a45a-43be-a324-4de50b091b91\",\"created_at\":\"2026-11-06T09:35:34.939+00:00\",\"read_at\":\"2026-11-06T09:35:35.556+00:00\",\"message\":\"PRIVATE TITLE 468d34eb-1a57-493a-b033-12ffd59cd457\"}},{\"row\":{\"id\":\"09401363-c52d-4977-8ede-12af404364de\",\"user_id\":\"7fb4fb0b-0384-4ca2-9ca3-ccbea3dec48f\",\"kind\":\"support_reply\",\"ref_id\":\"a8d0edd2-a45a-43be-a324-4de50b091b91\",\"created_at\":\"2026-11-06T09:35:35.732+00:00\",\"read_at\":null,\"message\":\"PRIVATE TITLE 468d34eb-1a57-493a-b033-12ffd59cd457\"}}]"
+
+      354 |       ),
+      355 |     );
+    > 356 |     expect(stored).not.toContain("PRIVATE TITLE");
+          |                        ^
+      357 |     expect(stored).not.toContain("PRIVATE REPLY BODY");
+      358 |     const columns = await db.query(
+      359 |       "SELECT column_name FROM information_schema.columns WHERE table_name='notifications' ORDER BY ordinal_position",
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:356:24)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 11 passed, 12 total
+Snapshots:   0 total
+Time:        25.041 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\notifications.e2e-spec.ts".
+MUTATION_APPLIED privacy 6

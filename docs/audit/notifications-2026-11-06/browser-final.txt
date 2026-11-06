@@ -1,0 +1,33 @@
+
+Running 20 tests using 1 worker
+
+(node:19120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (5.1s)
+  ok  2 [1024-light] › tests\browser\notifications.spec.ts:185:5 › five saved mute controls persist and suppress only future matching events (3.1s)
+  ok  3 [1024-light] › tests\browser\notifications.spec.ts:212:5 › Support gets new-report, assignment and reporter events; revoked access opens unavailable without content (3.2s)
+  ok  4 [1024-light] › tests\browser\notifications.spec.ts:246:5 › local outages recover and closing a pending open never navigates later (1.7s)
+  ok  5 [1024-light] › tests\browser\notifications.spec.ts:296:5 › 99+ cap, pagination, mark-one/all and pause/resume operate on real own rows (4.1s)
+(node:39112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  6 [1024-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (4.6s)
+  ok  7 [1024-dark] › tests\browser\notifications.spec.ts:185:5 › five saved mute controls persist and suppress only future matching events (2.4s)
+  ok  8 [1024-dark] › tests\browser\notifications.spec.ts:212:5 › Support gets new-report, assignment and reporter events; revoked access opens unavailable without content (3.4s)
+  ok  9 [1024-dark] › tests\browser\notifications.spec.ts:246:5 › local outages recover and closing a pending open never navigates later (1.8s)
+  ok 10 [1024-dark] › tests\browser\notifications.spec.ts:296:5 › 99+ cap, pagination, mark-one/all and pause/resume operate on real own rows (2.4s)
+(node:4632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [1440-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (3.1s)
+  ok 12 [1440-light] › tests\browser\notifications.spec.ts:185:5 › five saved mute controls persist and suppress only future matching events (2.2s)
+  ok 13 [1440-light] › tests\browser\notifications.spec.ts:212:5 › Support gets new-report, assignment and reporter events; revoked access opens unavailable without content (3.1s)
+  ok 14 [1440-light] › tests\browser\notifications.spec.ts:246:5 › local outages recover and closing a pending open never navigates later (1.7s)
+  ok 15 [1440-light] › tests\browser\notifications.spec.ts:296:5 › 99+ cap, pagination, mark-one/all and pause/resume operate on real own rows (2.7s)
+(node:29136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 16 [1440-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.6s)
+  ok 17 [1440-dark] › tests\browser\notifications.spec.ts:185:5 › five saved mute controls persist and suppress only future matching events (1.9s)
+  ok 18 [1440-dark] › tests\browser\notifications.spec.ts:212:5 › Support gets new-report, assignment and reporter events; revoked access opens unavailable without content (3.3s)
+  ok 19 [1440-dark] › tests\browser\notifications.spec.ts:246:5 › local outages recover and closing a pending open never navigates later (1.6s)
+  ok 20 [1440-dark] › tests\browser\notifications.spec.ts:296:5 › 99+ cap, pagination, mark-one/all and pause/resume operate on real own rows (2.2s)
+
+  20 passed (1.1m)

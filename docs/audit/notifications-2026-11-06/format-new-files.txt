@@ -1,0 +1,15 @@
+src/modules/notifications/notifications.controller.ts 259ms (unchanged)
+src/modules/notifications/notifications.module.ts 3ms (unchanged)
+src/modules/notifications/notifications.service.ts 39ms (unchanged)
+src/common/contracts/phase3/notifications.schema.ts 13ms (unchanged)
+src/database/migrations/1794800000000-Notifications.ts 6ms (unchanged)
+test/notifications.e2e-spec.ts 77ms
+../../web/src/components/notifications/notification-bell.tsx 33ms
+../../web/src/components/notifications/notification-preferences.tsx 11ms
+../../web/src/components/notifications/use-notifications.ts 17ms
+../../web/src/lib/api/notifications.ts 5ms (unchanged)
+../../web/src/lib/notifications.ts 5ms (unchanged)
+../../web/src/styles/notifications.css 291ms (unchanged)
+../../web/tests/notifications.test.cjs 119ms
+../../web/tests/notification-preferences.test.cjs 10ms
+../../web/tests/browser/notifications.spec.ts 52ms

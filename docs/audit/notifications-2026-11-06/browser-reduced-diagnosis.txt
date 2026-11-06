@@ -1,0 +1,34 @@
+
+Running 1 test using 1 worker
+
+(node:39836) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (4.2s)
+
+
+  1) [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    Error: {"scroll":340,"client":320,"over":[{"tag":"DIV","cls":"topbar-right","right":340},{"tag":"DIV","cls":"menu-wrap","right":340},{"tag":"BUTTON","cls":"avatar","right":340}]}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      171 |       })).filter((e) => e.right > document.documentElement.clientWidth + 1).slice(0, 12),
+      172 |     }));
+    > 173 |     expect(layout.scroll <= layout.client + 1, JSON.stringify(layout)).toBe(true);
+          |                                                                        ^
+      174 |     await page.screenshot({
+      175 |       path: `../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`,
+      176 |     });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:173:72
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\error-context.md
+
+  1 failed
+    [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all

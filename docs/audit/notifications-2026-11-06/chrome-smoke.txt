@@ -1,0 +1,12 @@
+
+Running 5 tests using 1 worker
+
+(node:25576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1024-light] › tests\browser\notifications.spec.ts:29:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (4.4s)
+  ok 2 [1024-light] › tests\browser\notifications.spec.ts:40:5 › five saved mute controls persist and suppress only future matching events (2.8s)
+  ok 3 [1024-light] › tests\browser\notifications.spec.ts:48:5 › Support gets new-report, assignment and reporter events; revoked access opens unavailable without content (3.8s)
+  ok 4 [1024-light] › tests\browser\notifications.spec.ts:56:5 › local outages recover and closing a pending open never navigates later (2.0s)
+  ok 5 [1024-light] › tests\browser\notifications.spec.ts:66:5 › 99+ cap, pagination, mark-one/all and pause/resume operate on real own rows (2.3s)
+
+  5 passed (17.8s)

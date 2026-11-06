@@ -1,0 +1,110 @@
+
+Running 4 tests using 1 worker
+
+(node:17068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.9s)
+(node:38928) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [1024-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.2s)
+(node:2464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [1440-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.4s)
+(node:36564) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 [1440-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all (2.0s)
+
+
+  1) [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      170 |           document.documentElement.clientWidth + 1,
+      171 |       ),
+    > 172 |     ).toBe(true);
+          |       ^
+      173 |     await page.screenshot({
+      174 |       path: `../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`,
+      175 |     });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:172:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-light\error-context.md
+
+  2) [1024-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      170 |           document.documentElement.clientWidth + 1,
+      171 |       ),
+    > 172 |     ).toBe(true);
+          |       ^
+      173 |     await page.screenshot({
+      174 |       path: `../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`,
+      175 |     });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:172:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1024-dark\error-context.md
+
+  3) [1440-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      170 |           document.documentElement.clientWidth + 1,
+      171 |       ),
+    > 172 |     ).toBe(true);
+          |       ^
+      173 |     await page.screenshot({
+      174 |       path: `../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`,
+      175 |     });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:172:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1440-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1440-light\error-context.md
+
+  4) [1440-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      170 |           document.documentElement.clientWidth + 1,
+      171 |       ),
+    > 172 |     ).toBe(true);
+          |       ^
+      173 |     await page.screenshot({
+      174 |       path: `../docs/audit/notifications-2026-11-06/${info.project.name}-${width}.png`,
+      175 |     });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\notifications.spec.ts:172:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1440-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\notifications-a-real-Suppo-af3fd--supports-keyboard-read-all-1440-dark\error-context.md
+
+  4 failed
+    [1024-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+    [1024-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+    [1440-light] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all
+    [1440-dark] › tests\browser\notifications.spec.ts:132:5 › a real Support reply updates the badge automatically, opens the right report and supports keyboard read-all

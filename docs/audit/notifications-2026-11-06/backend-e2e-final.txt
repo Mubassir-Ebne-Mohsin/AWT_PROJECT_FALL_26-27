@@ -1,0 +1,15 @@
+[Nest] 34764  - 11/06/2026, 3:50:53 PM   ERROR [Exception] Unhandled request failure
+(node:34764) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:34764) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:34764) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 34764  - 11/06/2026, 3:52:18 PM   ERROR [Exception] Unhandled request failure
+[Nest] 34764  - 11/06/2026, 3:52:43 PM   ERROR [Exception] Unhandled request failure
+[Nest] 34764  - 11/06/2026, 3:53:53 PM   ERROR [Exception] Unhandled request failure
+
+Test Suites: 31 passed, 31 total
+Tests:       411 passed, 411 total
+Snapshots:   0 total
+Time:        274.996 s
+Ran all test suites.
+Test results written to: ..\..\..\..\..\..\..\..\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\docs\audit\notifications-2026-11-06\backend-e2e-final.json

@@ -1,0 +1,181 @@
+[Nest] 31952  - 11/06/2026, 2:19:39 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts (49.625 s)
+  ● C notifications: real Postgres, isolated accounts › notifies only the active Support team, excluding the actor, when a report is created
+
+    expected 201 "Created", got 500 "Internal Server Error"
+
+      21 |  async function account(role?:"support"|"admin") {const email=`notice-${randomUUID()}@example.test`;const res=await http.post("/v1/auth/register").send({email,password:"Notice-Test-2026!",displayName:"PRIVATE NOTIFICATION NAME"}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+      22 |  const page=async(u:Account,q="")=>notificationsPageSchema.parse((await http.get("/v1/notifications"+q).set(auth(u)).expect(200)).body.data);
+    > 23 |  const report=async(u:Account)=>(await http.post("/v1/support/reports").set(auth(u)).send({category:"bug",title:"PRIVATE TITLE "+randomUUID(),body:"PRIVATE REPORT BODY not in notifications"}).expect(201)).body.data.id;
+         |                                                                                                                                                                                                 ^
+      24 |  const reply=(u:Account,internal=false)=>http.post(`/v1/support/inbox/${ticket}/messages`).set(auth(u)).send({body:"PRIVATE REPLY BODY",internal});
+      25 |  beforeAll(async()=>{const mod=await Test.createTestingModule({imports:[AppModule]}).overrideProvider(RedisCacheService).useValue(new FakeRedisCacheService()).compile();app=mod.createNestApplication<NestExpressApplication>();configureApp(app);db=app.get(DataSource);await db.runMigrations();await app.init();http=request(app.getHttpServer());roles=app.get(AccountRolesService);notices=app.get(NotificationsService);a=await account();b=await account();s=await account("support");t=await account("support");admin=await account("admin");});
+      26 |  afterAll(async()=>{await app?.close();});
+
+      at report (test/notifications.e2e-spec.ts:23:193)
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:28:57)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● C notifications: real Postgres, isolated accounts › public replies and status changes notify only the author; internal notes never notify
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      32 |  });
+      33 |  it("public replies and status changes notify only the author; internal notes never notify",async()=>{
+    > 34 |   const before=(await page(a)).unreadCount;await reply(s,true).expect(201);expect((await page(a)).unreadCount).toBe(before);
+         |                                                                ^
+      35 |   await reply(s).expect(201);const items=(await page(a)).items.filter(x=>x.refId===ticket);expect(items.map(x=>x.kind).sort()).toEqual(["report_status","support_reply"]);
+      36 |   expect((await page(b)).items.filter(x=>x.refId===ticket)).toHaveLength(0);
+      37 |   const noChange=(await page(a)).unreadCount;await http.patch(`/v1/support/inbox/${ticket}`).set(auth(s)).send({status:"in_progress"}).expect(200);expect((await page(a)).unreadCount).toBe(noChange);
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:34:64)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● C notifications: real Postgres, isolated accounts › assignments notify the assignee; reporter replies use that agent, or active team when unassigned
+
+    expected 200 "OK", got 422 "Unprocessable Entity"
+
+      39 |  it("assignments notify the assignee; reporter replies use that agent, or active team when unassigned",async()=>{
+      40 |   const before=(await page(t)).unreadCount;
+    > 41 |   await http.patch(`/v1/support/inbox/${ticket}`).set(auth(s)).send({assigneeId:t.id}).expect(200);
+         |                                                                                        ^
+      42 |   expect((await page(t)).unreadCount).toBe(before+1);
+      43 |   const sBefore=(await page(s)).unreadCount,tBefore=(await page(t)).unreadCount;
+      44 |   await http.post(`/v1/support/reports/${ticket}/messages`).set(auth(a)).send({body:"PRIVATE REPORTER MESSAGE"}).expect(201);
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:41:88)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● C notifications: real Postgres, isolated accounts › mark-one/all are own-only, idempotent, authenticated and reject unknown query/body fields
+
+    TypeError: Cannot read properties of undefined (reading 'id')
+
+      50 |  it("mark-one/all are own-only, idempotent, authenticated and reject unknown query/body fields",async()=>{
+      51 |   await http.get("/v1/notifications").expect(401);
+    > 52 |   const id=(await page(a)).items[0].id;
+         |                                     ^
+      53 |   for(const suffix of ["read","open"])await http.post(`/v1/notifications/${id}/${suffix}`).set(auth(b)).expect(404);
+      54 |   await http.post(`/v1/notifications/${id}/read`).set(auth(a)).expect(200);await http.post(`/v1/notifications/${id}/read`).set(auth(a)).expect(200);
+      55 |   await http.post("/v1/notifications/read-all").set(auth(a)).expect(200);expect((await page(a)).unreadCount).toBe(0);
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:52:37)
+
+  ● C notifications: real Postgres, isolated accounts › per-kind mutes persist, suppress only future matching events and never erase existing ones
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      63 |   const prefs=(await http.patch("/v1/notifications/preferences").set(auth(a)).send({kind:"support_reply",muted:true}).expect(200)).body.data;
+      64 |   expect(prefs).toHaveLength(5);expect(prefs.find((p:any)=>p.kind==="support_reply").muted).toBe(true);
+    > 65 |   await reply(s).expect(201);expect((await page(a)).items.filter(x=>x.kind==="support_reply")).toHaveLength(count);
+         |                  ^
+      66 |   await http.patch("/v1/notifications/preferences").set(auth(a)).send({kind:"support_reply",muted:false}).expect(200);
+      67 |   await reply(s).expect(201);expect((await page(a)).items.filter(x=>x.kind==="support_reply")).toHaveLength(count+1);
+      68 |   expect((await http.get("/v1/notifications/preferences").set(auth(b)).expect(200)).body.data.every((p:any)=>!p.muted)).toBe(true);
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:65:18)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● C notifications: real Postgres, isolated accounts › stable timestamp/id pagination never duplicates or skips ties, and unread count is not page size
+
+    QueryFailedError: inconsistent types deduced for parameter $1
+
+      16 |   async emit(m: EntityManager, kind: Kind, refId: string, actorId: string, recipientIds: string[]) {
+      17 |     notificationKindSchema.parse(kind);
+    > 18 |     await m.query(`INSERT INTO notifications(user_id, kind, ref_id)
+         |     ^
+      19 |       SELECT u.id, $1, $2 FROM users u
+      20 |        WHERE u.id = ANY($3::uuid[]) AND u.id <> $4 AND u.account_status = 'active'
+      21 |          AND NOT EXISTS (SELECT 1 FROM notification_preferences p WHERE p.user_id=u.id AND p.kind=$1 AND p.muted)`, [kind, refId, recipientIds, actorId]);
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at NotificationsService.emit (src/modules/notifications/notifications.service.ts:18:5)
+      at test/notifications.e2e-spec.ts:71:55
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:71:3)
+
+  ● C notifications: real Postgres, isolated accounts › opening checks current access; revoked Support sees unavailable, not report contents
+
+    TypeError: Cannot read properties of undefined (reading 'id')
+
+      77 |  it("opening checks current access; revoked Support sees unavailable, not report contents",async()=>{
+      78 |   const item=(await page(s)).items.find(x=>x.kind==="support_new_report"&&x.refId===ticket)!;
+    > 79 |   expect((await http.post(`/v1/notifications/${item.id}/open`).set(auth(s)).expect(200)).body.data.href).toBe(`/support/${ticket}`);
+         |                                                     ^
+      80 |   await roles.revoke(OPERATOR,s.id,"support");
+      81 |   const login=await http.post("/v1/auth/login").send({email:s.email,password:"Notice-Test-2026!"}).expect(200);s.token=login.body.data.accessToken;
+      82 |   expect((await http.post(`/v1/notifications/${item.id}/open`).set(auth(s)).expect(200)).body.data.href).toBeNull();
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:79:53)
+
+  ● C notifications: real Postgres, isolated accounts › events roll back with their originating transaction, including preference filtering
+
+    expect(received).rejects.toThrow(expected)
+
+    Expected substring: "rollback"
+    Received message:   "inconsistent types deduced for parameter $1"
+
+          16 |   async emit(m: EntityManager, kind: Kind, refId: string, actorId: string, recipientIds: string[]) {
+          17 |     notificationKindSchema.parse(kind);
+        > 18 |     await m.query(`INSERT INTO notifications(user_id, kind, ref_id)
+             |     ^
+          19 |       SELECT u.id, $1, $2 FROM users u
+          20 |        WHERE u.id = ANY($3::uuid[]) AND u.id <> $4 AND u.account_status = 'active'
+          21 |          AND NOT EXISTS (SELECT 1 FROM notification_preferences p WHERE p.user_id=u.id AND p.kind=$1 AND p.muted)`, [kind, refId, recipientIds, actorId]);
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at NotificationsService.emit (src/modules/notifications/notifications.service.ts:18:5)
+      at test/notifications.e2e-spec.ts:88:41
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:88:3)
+      at Object.toThrow (node_modules/.pnpm/expect@30.5.2/node_modules/expect/build/index.js:2155:20)
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:88:134)
+
+  ● C notifications: real Postgres, isolated accounts › 90-day expiry is ignored on every access and cleaned lazily; account cascade removes rows/preferences
+
+    QueryFailedError: inconsistent types deduced for parameter $1
+
+      16 |   async emit(m: EntityManager, kind: Kind, refId: string, actorId: string, recipientIds: string[]) {
+      17 |     notificationKindSchema.parse(kind);
+    > 18 |     await m.query(`INSERT INTO notifications(user_id, kind, ref_id)
+         |     ^
+      19 |       SELECT u.id, $1, $2 FROM users u
+      20 |        WHERE u.id = ANY($3::uuid[]) AND u.id <> $4 AND u.account_status = 'active'
+      21 |          AND NOT EXISTS (SELECT 1 FROM notification_preferences p WHERE p.user_id=u.id AND p.kind=$1 AND p.muted)`, [kind, refId, recipientIds, actorId]);
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at NotificationsService.emit (src/modules/notifications/notifications.service.ts:18:5)
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:96:27)
+
+Test Suites: 1 failed, 1 total
+Tests:       9 failed, 1 passed, 10 total
+Snapshots:   0 total
+Time:        50.639 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts".

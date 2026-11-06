@@ -1,0 +1,6 @@
+[Nest] 13628  - 11/06/2026, 2:20:53 PM   ERROR [Exception] Unhandled request failure
+Test Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+Snapshots:   0 total
+Time:        13.248 s, estimated 50 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts".

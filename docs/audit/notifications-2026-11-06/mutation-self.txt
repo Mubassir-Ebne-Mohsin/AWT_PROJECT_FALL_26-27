@@ -1,0 +1,25 @@
+[Nest] 28752  - 11/06/2026, 3:34:23 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts (25.362 s)
+  ● C notifications: real Postgres, isolated accounts › notifies only the active Support team, excluding the actor, when a report is created
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      115 |     );
+      116 |     const own = await report(s);
+    > 117 |     expect((await page(s)).items.some((x) => x.refId === own)).toBe(false);
+          |                                                                ^
+      118 |   });
+      119 |   it("public replies and status changes notify only the author; internal notes never notify", async () => {
+      120 |     const before = (await page(a)).unreadCount;
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:117:64)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 11 passed, 12 total
+Snapshots:   0 total
+Time:        25.678 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\notifications.e2e-spec.ts".
+MUTATION_APPLIED self 2

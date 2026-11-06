@@ -1,0 +1,10 @@
+
+> stressforge-api@1.0.0 contract:phase2:check C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> pnpm contract:phase2 --check
+
+
+> stressforge-api@1.0.0 contract:phase2 C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> ts-node -r tsconfig-paths/register src/script/export-phase2-contract.ts "--check"
+
+Phase 2 OpenAPI matches canonical Zod schemas
+Source-derived contract examples match schemas

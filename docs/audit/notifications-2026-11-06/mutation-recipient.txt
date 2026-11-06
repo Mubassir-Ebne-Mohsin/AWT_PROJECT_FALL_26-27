@@ -1,0 +1,125 @@
+[Nest] 11872  - 11/06/2026, 3:33:47 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/notifications.e2e-spec.ts (70.836 s)
+  ● C notifications: real Postgres, isolated accounts › notifies only the active Support team, excluding the actor, when a report is created
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      110 |     ).toBe(true);
+      111 |     expect((await page(a)).items.some((x) => x.refId === ticket)).toBe(false);
+    > 112 |     expect((await page(b)).items.some((x) => x.refId === ticket)).toBe(false);
+          |                                                                   ^
+      113 |     expect((await page(admin)).items.some((x) => x.refId === ticket)).toBe(
+      114 |       false,
+      115 |     );
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:112:67)
+
+  ● C notifications: real Postgres, isolated accounts › public replies and status changes notify only the author; internal notes never notify
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 0
+    Received length: 3
+    Received array:  [{"createdAt": "2026-11-06T09:33:46.886Z", "id": "97e4fdcd-24c5-4799-87b8-8a42716e0ec0", "kind": "support_reply", "readAt": null, "refId": "9cd8ab4e-4360-4c5c-8d35-9abeefc29b4d"}, {"createdAt": "2026-11-06T09:33:46.886Z", "id": "30247d00-b15b-4aef-a3c8-2908a1b5eacb", "kind": "report_status", "readAt": null, "refId": "9cd8ab4e-4360-4c5c-8d35-9abeefc29b4d"}, {"createdAt": "2026-11-06T09:33:46.638Z", "id": "850cfe80-c3b3-415b-b8bf-9552ce2ca805", "kind": "support_new_report", "readAt": null, "refId": "9cd8ab4e-4360-4c5c-8d35-9abeefc29b4d"}]
+
+      129 |     expect(
+      130 |       (await page(b)).items.filter((x) => x.refId === ticket),
+    > 131 |     ).toHaveLength(0);
+          |       ^
+      132 |     const noChange = (await page(a)).unreadCount;
+      133 |     await http
+      134 |       .patch(`/v1/support/inbox/${ticket}`)
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:131:7)
+
+  ● C notifications: real Postgres, isolated accounts › assignments notify the assignee; reporter replies use that agent, or active team when unassigned
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 2
+
+      153 |       .send({ body: "PRIVATE REPORTER MESSAGE" })
+      154 |       .expect(201);
+    > 155 |     expect((await page(s)).unreadCount).toBe(sBefore);
+          |                                         ^
+      156 |     expect((await page(t)).unreadCount).toBe(tBefore + 1);
+      157 |     await http
+      158 |       .patch(`/v1/support/inbox/${ticket}`)
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:155:41)
+
+  ● C notifications: real Postgres, isolated accounts › stable timestamp/id pagination never duplicates or skips ties, and unread count is not page size
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 25
+    Received length: 32
+    Received array:  ["fae9b9d5-d006-4262-857a-1986febc4cf1", "c8380522-83af-415a-8a47-61cd38eebc3d", "c280acee-a733-4d21-8826-7d385be721f6", "b0112fde-cbd6-47ed-a174-818811668a00", "a657e871-65b3-4503-a062-466d6142e320", "9effbd96-02be-4450-83b7-6de4aee4449c", "9ef9719b-e561-4197-9a85-6e92f65672e5", "97e4fdcd-24c5-4799-87b8-8a42716e0ec0", "89438967-bdd8-42a2-8e36-24b4f37ff9c4", "88a08c0f-d392-4db8-a577-6abe162cec20", …]
+
+      248 |         : "";
+      249 |     } while (cursor);
+    > 250 |     expect(ids).toHaveLength(25);
+          |                 ^
+      251 |     expect(new Set(ids).size).toBe(25);
+      252 |     expect(expected).toBe(25);
+      253 |   });
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:250:17)
+
+  ● C notifications: real Postgres, isolated accounts › stores no text, exposes only allow-listed fields, exports own rows, and refuses lossy rollback
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  0
+    + Received  + 11
+
+    @@ -1,17 +1,28 @@
+      Array [
+    +   "02a846c9-fd39-4b9e-9662-bd1fd2b09e31",
+    +   "191a32e6-d63a-407d-8da9-3eae78c23728",
+    +   "35969017-f71c-447b-a067-e99c11c10bea",
+    +   "427866e1-1812-4b21-9961-e933e6064777",
+    +   "4432c47a-feab-4086-8b08-2149b4c98f0d",
+    +   "4a95a5f5-bc22-4e22-b7ad-a5b9ba38c895",
+    +   "4d7dd228-12d0-40f2-8080-2613b5b55d34",
+    +   "5fdf1360-254c-4d18-a55b-ae99572ea801",
+    +   "60c3f490-cf46-467c-b2e3-58ad706032ae",
+        "613c7b13-7cb5-4161-894b-12a32de5c437",
+        "667ec008-6cdd-4c92-85cc-1ce39b2f7550",
+        "68870bf9-da4c-410a-9734-640de574d1ac",
+        "71148be4-47e2-4db8-a48f-0208060b3a12",
+        "844b5ba1-ee71-4d21-a492-c6f8c5c1ff81",
+        "8902a20d-4804-4054-801d-c0743d96ab3f",
+        "8f3daeb4-c646-4b65-a0af-c38cbde1f6ed",
+    +   "9347510d-e23f-4650-bf3b-a22c4332d4ba",
+        "9487bdc6-8ee5-43f6-ac51-ddb0bd671d53",
+        "9d05b978-7a1c-4bc5-966d-0bf3d922fb6b",
+        "9dbe6ff7-4578-407a-8781-13184c16abff",
+        "9ecf38b8-abc5-4172-9e9a-82fe51094f8a",
+    +   "aa1bfed8-12e2-40a9-91db-d09308ffaff1",
+        "b81abce9-610d-48c2-91b0-e0ce2a55aca9",
+        "bf882fc4-db7b-4626-b7df-82a67a038b7c",
+        "d1c67069-d177-4a75-914e-8486822a268f",
+        "d5ea7209-e441-48b4-b080-7464a7da5ec1",
+        "e27d220f-f7f9-4c4a-9684-9dc96e08889a",
+
+      388 |       await http.get("/v1/account/export").set(auth(a)).expect(200)
+      389 |     ).body.data;
+    > 390 |     expect(exported.notifications.map((x: any) => x.id).sort()).toEqual(
+          |                                                                 ^
+      391 |       p.items.map((x) => x.id).sort(),
+      392 |     );
+      393 |     expect(exported.notificationPreferences).toHaveLength(
+
+      at Object.<anonymous> (test/notifications.e2e-spec.ts:390:65)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 7 passed, 12 total
+Snapshots:   0 total
+Time:        71.867 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\notifications.e2e-spec.ts".
+MUTATION_APPLIED recipient 2

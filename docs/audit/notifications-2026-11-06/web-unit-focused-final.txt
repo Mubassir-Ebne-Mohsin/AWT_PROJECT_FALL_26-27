@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: mute responds immediately, stays disabled during saving, and rolls back failed changes
+ok 1 - mute responds immediately, stays disabled during saving, and rolls back failed changes
+  ---
+  duration_ms: 94.6939
+  type: 'test'
+  ...
+# Subtest: successful save reconciles all server values and account change cancels late state
+ok 2 - successful save reconciles all server values and account change cancels late state
+  ---
+  duration_ms: 34.8444
+  type: 'test'
+  ...
+# Subtest: closed labels and capped counts never use stored notification text; backoff is bounded
+ok 3 - closed labels and capped counts never use stored notification text; backoff is bounded
+  ---
+  duration_ms: 7.1489
+  type: 'test'
+  ...
+# Subtest: polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+ok 4 - polls at 30 seconds, pauses while hidden and immediately refreshes on visibility
+  ---
+  duration_ms: 38.7464
+  type: 'test'
+  ...
+# Subtest: starts hidden without fetching, and retries failures locally with backoff
+ok 5 - starts hidden without fetching, and retries failures locally with backoff
+  ---
+  duration_ms: 8.2101
+  type: 'test'
+  ...
+# Subtest: a newer request wins even when an aborted old response arrives last
+ok 6 - a newer request wins even when an aborted old response arrives last
+  ---
+  duration_ms: 7.5754
+  type: 'test'
+  ...
+# Subtest: read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+ok 7 - read/open invalidate old polls, ignore duplicate actions, and cancel late navigation on close/unmount
+  ---
+  duration_ms: 8.9129
+  type: 'test'
+  ...
+# Subtest: pagination appends without duplicates; a refresh returns to the latest page
+ok 8 - pagination appends without duplicates; a refresh returns to the latest page
+  ---
+  duration_ms: 6.1312
+  type: 'test'
+  ...
+# Subtest: P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+ok 9 - P4 checks: display names, passwords and the deletion phrase are checked at their exact edges
+  ---
+  duration_ms: 12.5652
+  type: 'test'
+  ...
+# Subtest: P4 checks: failures are explained in words and never echo the server's own message
+ok 10 - P4 checks: failures are explained in words and never echo the server's own message
+  ---
+  duration_ms: 1.0363
+  type: 'test'
+  ...
+# Subtest: P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+ok 11 - P4 settings: six sections are listed, the current one is marked, and an unknown section is not found
+  ---
+  duration_ms: 222.8787
+  type: 'test'
+  ...
+# Subtest: P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+ok 12 - P4 profile: shows the account, sends a trimmed name once, refuses a blank one, and shows a server rejection
+  ---
+  duration_ms: 221.9101
+  type: 'test'
+  ...
+# Subtest: P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+ok 13 - P4 security: nothing is sent until the form is valid; success clears the boxes and says other devices were signed out
+  ---
+  duration_ms: 193.4164
+  type: 'test'
+  ...
+# Subtest: P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+ok 14 - P4 security: a wrong current password is shown next to its box and the new password is kept out of the message
+  ---
+  duration_ms: 140.3614
+  type: 'test'
+  ...
+# Subtest: P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+ok 15 - P4 data: the export downloads one JSON file with the right name and content, and says what it saved
+  ---
+  duration_ms: 142.7592
+  type: 'test'
+  ...
+# Subtest: P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+ok 16 - P4 data: deleting is hidden behind a button, needs the password and the exact words, and sends exactly that
+  ---
+  duration_ms: 190.1035
+  type: 'test'
+  ...
+# Subtest: P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+ok 17 - P4 data: a refused deletion stays on the screen with the reason, deletes nothing here, and can be cancelled
+  ---
+  duration_ms: 270.1942
+  type: 'test'
+  ...
+# Subtest: P4 appearance, AI usage and preferences say only what is true
+ok 18 - P4 appearance, AI usage and preferences say only what is true
+  ---
+  duration_ms: 240.2293
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6777.6432
