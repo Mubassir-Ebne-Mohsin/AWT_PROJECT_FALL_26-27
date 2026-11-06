@@ -1,3 +1,4 @@
+import { pdfBrandOps } from "@/lib/pdf-brand";
 import { PDFDocument, StandardFonts, grayscale, type PDFFont } from "pdf-lib";
 import { buildDossier, type DossierOptions } from "@/lib/dossier/model";
 import type { Dossier, DossierReport, Op } from "@/lib/dossier/ops";
@@ -18,7 +19,10 @@ export async function renderPdfDocument(build: (measure: Measure) => Dossier, ge
   const regular = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const measure: Measure = (text, size, isBold) => (isBold ? bold : regular).widthOfTextAtSize(text, size);
-  const dossier = build(measure);
+  const source = build(measure);
+  const dossier: Dossier = { ...source, pages: source.pages.map((page) => ({
+    ...page, ops: [...page.ops, ...pdfBrandOps(page, measure, generatedAt)],
+  })) };
 
   // Fixed metadata, so the same report gives the same file.
   const made = new Date(generatedAt);

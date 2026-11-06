@@ -1,3 +1,4 @@
+import { printBrandCss } from "@/lib/pdf-brand";
 import type { Report } from "@/lib/api/report";
 import { milliseconds, numberText, percent } from "@/lib/result-presentation";
 import { dateText, limitsStatement, noteScopeText, runStatement, trafficRows, verdictSentence } from "@/lib/report-presentation";
@@ -12,6 +13,7 @@ export function ReportDocument({ report, designOnly = false }: { report: Omit<Re
   const label = new Map(report.graph.nodes.map((n) => [n.id, n.label]));
   return (
     <article className="m16-doc stack lg" aria-label="Design report">
+      <style media="print">{printBrandCss(report.generatedAt)}</style>
       <header className="stack">
         <h2 className="h2">{report.name}</h2>
         <p className="hint">

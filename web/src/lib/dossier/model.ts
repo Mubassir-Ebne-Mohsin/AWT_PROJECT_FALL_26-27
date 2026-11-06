@@ -1,6 +1,6 @@
 import { drawDiagram, drawLegend, fitScale, ILLEGIBLE_SCALE, READABLE_SCALE } from "@/lib/dossier/diagram";
 import { A4, MARGIN, type Dossier, type DossierReport, type Op, type Page } from "@/lib/dossier/ops";
-import { dossierFileName, encodable, wrap, utcStamp, type Measure } from "@/lib/dossier/text";
+import { dossierFileName, encodable, wrap, utcStamp, shorten, type Measure } from "@/lib/dossier/text";
 import { propertyText, SETTINGS_KEY } from "@/lib/dossier/settings";
 import { limitsStatement, noteScopeText, runStatementWith, trafficRows, verdictSentence } from "@/lib/report-presentation";
 import { milliseconds, numberText, percent } from "@/lib/result-presentation";
@@ -53,7 +53,7 @@ class Layout {
   newPage(landscape = false) {
     this.page = { width: landscape ? A4.height : A4.width, height: landscape ? A4.width : A4.height, ops: [], replaced: 0 };
     this.pages.push(this.page);
-    this.y = MARGIN + (this.pages.length > 1 ? 14 : 0);
+    this.y = MARGIN + (this.pages.length > 1 ? 24 : 0);
   }
   /** Starts a new page unless `h` points still fit. */
   ensure(h: number) {
@@ -200,8 +200,8 @@ export function buildDossier(report: DossierReport, options: DossierOptions, mea
   const hereH = L.room - 34 - BELOW;
   const nodesDrawn = report.graph.nodes.length > 0;
   const hereScale = nodesDrawn && hereH >= 180 ? fitScale(report, { w: L.width, h: Math.min(hereH, 380) }).scale : 0;
-  const portraitScale = nodesDrawn ? fitScale(report, { w: A4.width - 2 * MARGIN, h: A4.height - 2 * MARGIN - 18 - 14 - 34 - BELOW }).scale : 0;
-  const landscapeScale = nodesDrawn ? fitScale(report, { w: A4.height - 2 * MARGIN, h: A4.width - 2 * MARGIN - 18 - 14 - 34 - BELOW }).scale : 0;
+  const portraitScale = nodesDrawn ? fitScale(report, { w: A4.width - 2 * MARGIN, h: A4.height - 2 * MARGIN - 18 - 24 - 34 - BELOW }).scale : 0;
+  const landscapeScale = nodesDrawn ? fitScale(report, { w: A4.height - 2 * MARGIN, h: A4.width - 2 * MARGIN - 18 - 24 - 34 - BELOW }).scale : 0;
   const readableHere = hereScale >= READABLE_SCALE;
   const ownPage = !readableHere && Math.max(portraitScale, landscapeScale) >= ILLEGIBLE_SCALE;
   if (ownPage) L.newPage(portraitScale < READABLE_SCALE && landscapeScale > portraitScale);
@@ -269,7 +269,7 @@ export function buildDossier(report: DossierReport, options: DossierOptions, mea
   const total = L.pages.length;
   L.pages.forEach((page, i) => {
     const pushText = (text: string, x: number, y: number, size: number, gray: number, bold = false) => page.ops.push({ k: "text", x, y, size, text, gray, bold });
-    if (i > 0) pushText(L.safeText(report.name, page), MARGIN, 26, 8, GRAY);
+    if (i > 0) pushText(shorten(L.safeText(report.name, page), page.width - 2 * MARGIN, 8, false, measure), MARGIN, 48, 8, GRAY);
     const run = report.run ? report.run.id : "no run recorded";
     const left = L.safeText(`Design ${report.designId} · revision ${report.revision} · run ${run} · engine ${report.run?.engineVersion ?? "n/a"} · StressForge`, page);
     const right = `Page ${i + 1} of ${total}`;

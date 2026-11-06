@@ -13,12 +13,15 @@
   .shell, .main, .page { display: block !important; margin: 0 !important; padding: 0 !important; max-width: none !important; background: #fff !important; }
   body { background: #fff !important; color: #000 !important; }
   .m16-doc, .m16-doc * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+  /* Normal block flow keeps report sections predictable across printed pages. */
+  .m16-doc { display: block !important; }
+  .m16-doc > header, .m16-doc > section { margin-bottom: 20px; }
   .m16-doc a { text-decoration: underline; }
   .m16-doc h2, .m16-doc h3 { break-after: avoid; }
   .m16-doc table, .m16-doc tr, .m16-doc li { break-inside: avoid; }
   .m16-doc .m15-table { display: table !important; overflow: visible !important; }
   .m16-warn { border: 1px solid #000 !important; border-left-width: 4px !important; }
-  @page { margin: 16mm; }
+  @page { margin: 24mm 16mm 20mm; }
 }
 /* M16.3 Share settings and viewer. */
 .m16-fresh { border-color: var(--accent-line); background: var(--accent-soft); }
