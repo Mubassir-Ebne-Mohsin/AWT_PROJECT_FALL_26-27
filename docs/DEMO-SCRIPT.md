@@ -146,3 +146,11 @@ The approved demo-readiness pass independently reproduced the documented three-t
 The existing `pnpm demo:ai:check` ran **once**, under the user's approval of the readiness plan. All **three requests** returned the expected choices and the script reported **READY**. No retry, no new gate and no new live goal-box UI journey. Every AI quality verdict remains NO-GO; settings were process-local, and no demo API was left enabled. This does not replace the user's own timed rehearsal or faculty confirmation that experimental AI satisfies the course requirement.
 
 [Readiness checklist and submission materials](SHOWCASE-READINESS.md) · [Evidence and limitations](audit/showcase-2026-11-03/README.md).
+
+
+## Direct PDF download — roadmap A (2026-11-06; no AI)
+1. Open a saved design with a completed simulation. Click **Download PDF** in its header: saved revision's latest completed simulation.
+2. On **Results**, Download PDF in **Save or share this result** covers the exact displayed result/revision, even an older one.
+3. Choose **Include decisions and assumptions** if wanted. The browser remembers it for this app; Report uses the same choice.
+4. Open the file; check revision/run, figures and component settings. Unsaved edits are excluded. Quick download is disabled until a completed simulation exists; **Report & PDF** still opens the full viewer.
+5. On failure, read the inline message, retry or use **Open the Report page**. Changing source/account during preparation cancels it; retry from the desired source. Real navigation still protects drafts; Report's **Print or save as PDF** remains available.

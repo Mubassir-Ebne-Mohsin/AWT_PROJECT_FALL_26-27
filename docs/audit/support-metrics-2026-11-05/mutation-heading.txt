@@ -1,0 +1,66 @@
+TAP version 13
+# Subtest: a standalone denied role page has one generic h1 and no protected content
+not ok 1 - a standalone denied role page has one generic h1 and no protected content
+  ---
+  duration_ms: 16.3204
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\role-gate-heading.test.cjs:9:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<h1[^>]*>This area is for Support accounts<\/h1>/. Input:
+
+    '<div class="empty" role="alert" data-testid="role-gate-denied"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><h2 class="h3">This area is for Support accounts</h2><p class="muted">Your account does not have that role. An Admin can grant it.</p><a class="btn btn-primary btn-sm" href="/dashboard">Back to your dashboard</a></div>'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<div class="empty" role="alert" data-testid="role-gate-denied"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><h2 class="h3">This area is for Support accounts</h2><p class="muted">Your account does not have that role. An Admin can grant it.</p><a class="btn btn-primary btn-sm" href="/dashboard">Back to your dashboard</a></div>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\role-gate-heading.test.cjs:12:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: standalone unavailable access has a heading; default nested gates keep h2
+not ok 2 - standalone unavailable access has a heading; default nested gates keep h2
+  ---
+  duration_ms: 1.4606
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\role-gate-heading.test.cjs:16:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<h1[^>]*>We could not check your access<\/h1>/. Input:
+
+    '<div class="empty" role="alert" data-testid="role-gate-unavailable"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><h2 class="h3">We could not check your access</h2><p class="muted">Nothing was changed. Try again in a moment.</p></div>'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '<div class="empty" role="alert" data-testid="role-gate-unavailable"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg><h2 class="h3">We could not check your access</h2><p class="muted">Nothing was changed. Try again in a moment.</p></div>'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\role-gate-heading.test.cjs:18:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: an authorized standalone role page keeps only its real report heading
+ok 3 - an authorized standalone role page keeps only its real report heading
+  ---
+  duration_ms: 0.4731
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 1
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 616.6987

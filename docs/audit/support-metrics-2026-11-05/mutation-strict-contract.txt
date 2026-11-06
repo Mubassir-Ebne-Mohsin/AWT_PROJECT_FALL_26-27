@@ -1,0 +1,23 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/src/modules/roles/admin-metrics.service.spec.ts (9.476 s)
+  ● Support aggregate contract › refuses private content at every Support aggregate boundary
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      106 |       { ...valid.support, medianFirstResponseMs: -1 },
+      107 |       { ...valid.support, medianFirstResponseMs: Number.POSITIVE_INFINITY },
+    > 108 |     ]) expect(adminMetricsSchema.safeParse({ ...valid, support }).success).toBe(false);
+          |                                                                            ^
+      109 |   });
+      110 | });
+      111 |
+
+      at Object.<anonymous> (modules/roles/admin-metrics.service.spec.ts:108:76)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 9 skipped, 10 total
+Snapshots:   0 total
+Time:        10.142 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\src\modules\roles\admin-metrics.service.spec.ts".

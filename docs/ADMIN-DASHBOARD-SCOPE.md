@@ -1,6 +1,6 @@
 # Admin live dashboard: scope and plan
 
-**Written 2026-11-04. Status: BUILT 2026-11-05 on the owner's "Admin dashboard" go, using the recommended defaults (see the handoff entry); not committed. Not built: items 14 (heatmap), 20 (system detail beyond database, cache and uptime), 11 export, and the other tier B/C ideas.** No AI is involved. The owner's idea (2026-11-04): "for admin, a dashboard with live updates of total users registered, designs made, and more". The faculty's document has not arrived; if it names an admin or reporting feature, this scope is amended to match.
+**Written 2026-11-04. Status: BUILT 2026-11-05 on the owner's "Admin dashboard" go, using the recommended defaults (see the handoff entry); committed as `2d4ec41`. Not built: items 14 (heatmap), 20 (system detail beyond database, cache and uptime), 11 export, and the other tier B/C ideas.** No AI is involved. The owner's idea (2026-11-04): "for admin, a dashboard with live updates of total users registered, designs made, and more". The faculty's document has not arrived; if it names an admin or reporting feature, this scope is amended to match.
 
 ## 1. What exists today
 - **Admin tools (R2):** `/admin/users` (find accounts, change roles, suspend or restore, read the role audit log). Routes under `/v1/admin/*`, each guarded by `@RequirePermission(...)`. **One permission table** (`account-role.enum.ts`): roles are never inherited, are read from the database on every call (not the token), and **"Admin never reads design content"** is an explicit rule of the project.
@@ -142,3 +142,10 @@ P0 items 1 to 6 working in Chrome against the real server; every test in section
 
 ## 12. What this feature does not claim
 It does not measure real traffic to anyone's system or the model's accuracy: it counts what people did on this site. "Active" means saved, ran or called something in the window, not "online". Numbers are as of the second shown, and deleted accounts and designs are not counted.
+
+
+## Support aggregate addition — 2026-11-05
+
+The owner approved the Support scope item 11 follow-up. The ordinary dashboard now includes an all-time Support panel (total, unresolved, valid first-response sample count/median, category/status tables); Support is included in the existing accounts-by-role bars. Wall metrics/cycling remain unchanged; the expanded route sweep exposed a missing breadcrumb, repaired with shared Crumbs. No content or permissions are added. The metrics stay within the existing repeatable-read snapshot, 3-second cache and polling/error behavior. Median excludes unanswered/invalid negative durations, with zero valid and no samples shown as “No replies yet”. Unresolved includes waiting reports; the UI states both definitions.
+
+Builds, backend 780 unit/396 e2e, web 512 unit, both contract checks and 20 targeted Chrome checks pass. Full Chrome: 1,150 passed/10 skipped/4 stale shell failures; final affected repair checks 40/40 pass (no second complete run); see [evidence and limits](audit/support-metrics-2026-11-05/README.md). The existing wall reduced-motion subscription and Support relative-age clocks were repaired to pass React lint without suppressions; delayed-session report-dialog focus was repaired after an existing Chrome assertion exposed it. No new dependencies/routes/migrations or AI calls.

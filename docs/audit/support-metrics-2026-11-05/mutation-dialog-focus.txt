@@ -1,0 +1,21 @@
+TAP version 13
+# Subtest: report dialog focuses the form after delayed authentication and restores the original opener on Escape
+not ok 1 - report dialog focuses the form after delayed authentication and restores the original opener on Escape
+  ---
+  duration_ms: 23828.066
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\report-dialog-focus.test.cjs:14:1'
+  failureType: 'testCodeFailure'
+  error: 'Array buffer allocation failed'
+  code: 'ERR_TEST_FAILURE'
+  name: 'RangeError'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26948.936

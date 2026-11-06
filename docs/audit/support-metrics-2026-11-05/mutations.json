@@ -1,0 +1,62 @@
+[
+  {
+    "name": "unresolved",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "nest-boilerplate\\nest-boilerplate\\src\\modules\\roles\\admin-metrics.service.ts"
+  },
+  {
+    "name": "median",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "nest-boilerplate\\nest-boilerplate\\src\\modules\\roles\\admin-metrics.service.ts"
+  },
+  {
+    "name": "denominator",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "nest-boilerplate\\nest-boilerplate\\src\\modules\\roles\\admin-metrics.service.ts"
+  },
+  {
+    "name": "leak",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "nest-boilerplate\\nest-boilerplate\\src\\modules\\roles\\admin-metrics.service.ts"
+  },
+  {
+    "name": "strict-contract",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "nest-boilerplate\\nest-boilerplate\\src\\common\\contracts\\phase3\\admin-metrics.schema.ts"
+  },
+  {
+    "name": "zero-duration",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\components\\admin\\support-metrics.tsx"
+  },
+  {
+    "name": "private-render",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\components\\admin\\support-metrics.tsx"
+  },
+  {
+    "name": "clock-cleanup",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web/src/lib/use-now.ts"
+  },
+  {
+    "name": "dialog-focus",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web/src/components/support/report-dialog.tsx"
+  },
+  {
+    "name": "standalone-heading",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web/src/components/auth/role-gate.tsx"
+  }
+]

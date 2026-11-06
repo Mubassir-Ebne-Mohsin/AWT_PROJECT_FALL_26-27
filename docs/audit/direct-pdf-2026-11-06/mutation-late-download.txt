@@ -1,0 +1,102 @@
+TAP version 13
+# Subtest: only same-origin Blob links with a download attribute bypass draft-navigation prompts
+ok 1 - only same-origin Blob links with a download attribute bypass draft-navigation prompts
+  ---
+  duration_ms: 1.3686
+  type: 'test'
+  ...
+# Subtest: download pins revision/run, shows busy, ignores a synchronous double click and saves once
+ok 2 - download pins revision/run, shows busy, ignores a synchronous double click and saves once
+  ---
+  duration_ms: 31.4675
+  type: 'test'
+  ...
+# Subtest: Report page reuses its own document and same renderer, including reports with no run
+ok 3 - Report page reuses its own document and same renderer, including reports with no run
+  ---
+  duration_ms: 8.4317
+  type: 'test'
+  ...
+# Subtest: wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+ok 4 - wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+  ---
+  duration_ms: 8.8242
+  type: 'test'
+  ...
+# Subtest: network failure stays local and an explicit retry recovers
+ok 5 - network failure stays local and an explicit retry recovers
+  ---
+  duration_ms: 9.2318
+  type: 'test'
+  ...
+# Subtest: renderer failure clears busy and allows a fresh retry
+ok 6 - renderer failure clears busy and allows a fresh retry
+  ---
+  duration_ms: 5.187
+  type: 'test'
+  ...
+# Subtest: changing account or selected source aborts pending work and suppresses late downloads
+not ok 7 - changing account or selected source aborts pending work and suppresses late downloads
+  ---
+  duration_ms: 5.6486
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\use-report-pdf.test.cjs:67:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\use-report-pdf.test.cjs:72:78)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+not ok 8 - unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+  ---
+  duration_ms: 4.9468
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\use-report-pdf.test.cjs:74:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\use-report-pdf.test.cjs:79:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: notes choice updates both entry points, persists, and is captured in the render options
+ok 9 - notes choice updates both entry points, persists, and is captured in the render options
+  ---
+  duration_ms: 5.7316
+  type: 'test'
+  ...
+# Subtest: unavailable storage does not prevent notes selection or download
+ok 10 - unavailable storage does not prevent notes selection or download
+  ---
+  duration_ms: 10.0655
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 8
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2500.3001

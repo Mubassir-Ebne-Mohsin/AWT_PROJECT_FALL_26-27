@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: only same-origin Blob links with a download attribute bypass draft-navigation prompts
+ok 1 - only same-origin Blob links with a download attribute bypass draft-navigation prompts
+  ---
+  duration_ms: 0.8644
+  type: 'test'
+  ...
+# Subtest: download pins revision/run, shows busy, ignores a synchronous double click and saves once
+not ok 2 - download pins revision/run, shows busy, ignores a synchronous double click and saves once
+  ---
+  duration_ms: 27.6358
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\use-report-pdf.test.cjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+
+      [
+        '11111111-1111-4111-8111-111111111111',
+        {
+    -     revision: 4,
+          run: '22222222-2222-4222-8222-222222222222'
+        }
+      ]
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '11111111-1111-4111-8111-111111111111'
+    1:
+      revision: 4
+      run: '22222222-2222-4222-8222-222222222222'
+  actual:
+    0: '11111111-1111-4111-8111-111111111111'
+    1:
+      run: '22222222-2222-4222-8222-222222222222'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\use-report-pdf.test.cjs:36:9)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: Report page reuses its own document and same renderer, including reports with no run
+ok 3 - Report page reuses its own document and same renderer, including reports with no run
+  ---
+  duration_ms: 4.5081
+  type: 'test'
+  ...
+# Subtest: wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+ok 4 - wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+  ---
+  duration_ms: 6.7965
+  type: 'test'
+  ...
+# Subtest: network failure stays local and an explicit retry recovers
+ok 5 - network failure stays local and an explicit retry recovers
+  ---
+  duration_ms: 2.7456
+  type: 'test'
+  ...
+# Subtest: renderer failure clears busy and allows a fresh retry
+ok 6 - renderer failure clears busy and allows a fresh retry
+  ---
+  duration_ms: 5.8579
+  type: 'test'
+  ...
+# Subtest: changing account or selected source aborts pending work and suppresses late downloads
+ok 7 - changing account or selected source aborts pending work and suppresses late downloads
+  ---
+  duration_ms: 4.3242
+  type: 'test'
+  ...
+# Subtest: unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+ok 8 - unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+  ---
+  duration_ms: 2.6045
+  type: 'test'
+  ...
+# Subtest: notes choice updates both entry points, persists, and is captured in the render options
+ok 9 - notes choice updates both entry points, persists, and is captured in the render options
+  ---
+  duration_ms: 4.1202
+  type: 'test'
+  ...
+# Subtest: unavailable storage does not prevent notes selection or download
+ok 10 - unavailable storage does not prevent notes selection or download
+  ---
+  duration_ms: 2.7351
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 9
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2240.4402

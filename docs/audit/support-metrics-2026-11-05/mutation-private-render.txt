@@ -1,0 +1,48 @@
+TAP version 13
+# Subtest: Support metrics: no recorded replies is unavailable, and every closed category/status shows zero
+ok 1 - Support metrics: no recorded replies is unavailable, and every closed category/status shows zero
+  ---
+  duration_ms: 120.6699
+  type: 'test'
+  ...
+# Subtest: Support metrics: exact counts, response denominator and readable median agree with supplied aggregates
+ok 2 - Support metrics: exact counts, response denominator and readable median agree with supplied aggregates
+  ---
+  duration_ms: 19.0639
+  type: 'test'
+  ...
+# Subtest: Support metrics: zero-duration reply is real data and private extra fields are never rendered
+not ok 3 - Support metrics: zero-duration reply is real data and private extra fields are never rendered
+  ---
+  duration_ms: 15.1984
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\support-metrics.test.cjs:77:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input was expected to not match the regular expression /Secret canary|private@example/. Input:
+
+    '{"total":1,"unresolved":0,"responded":1,"medianFirstResponseMs":0,"byCategory":{"bug":1,"wrong_result":0,"account":0,"performance":0,"idea":0,"other":0,"extra":"Secret canary"},"byStatus":{"open":0,"in_progress":0,"waiting":0,"resolved":0},"title":"Secret canary","reporter":"private@example.test"}All time. Counts only; report content and identities are not included.Unresolved reports0Total reports1Median first response0 ms1 of 1 reports have a valid first public Support reply time. Unanswered reports are excluded from the median. Internal notes do not count.Unresolved includes Open, In progress and Waiting for the reporter.CategoryReportsBug or error1A result looks wrong0Account or sign-in0Slow or stuck0Idea or feedback0Something else0StatusReportsOpen0In progress0Waiting for the reporter0Resolved0'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: '{"total":1,"unresolved":0,"responded":1,"medianFirstResponseMs":0,"byCategory":{"bug":1,"wrong_result":0,"account":0,"performance":0,"idea":0,"other":0,"extra":"Secret canary"},"byStatus":{"open":0,"in_progress":0,"waiting":0,"resolved":0},"title":"Secret canary","reporter":"private@example.test"}All time. Counts only; report content and identities are not included.Unresolved reports0Total reports1Median first response0 ms1 of 1 reports have a valid first public Support reply time. Unanswered reports are excluded from the median. Internal notes do not count.Unresolved includes Open, In progress and Waiting for the reporter.CategoryReportsBug or error1A result looks wrong0Account or sign-in0Slow or stuck0Idea or feedback0Something else0StatusReportsOpen0In progress0Waiting for the reporter0Resolved0'
+  operator: 'doesNotMatch'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\support-metrics.test.cjs:90:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 2
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2270.0624

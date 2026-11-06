@@ -1,0 +1,33 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (8.027 s)
+  ● Admin metrics (isolated Postgres, no AI) › Support aggregates include every status/category, retain unanswered rows and compute odd/even valid reply medians
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+    @@ -14,7 +14,7 @@
+          "waiting": 1,
+        },
+        "medianFirstResponseMs": 90000,
+        "responded": 4,
+        "total": 6,
+    -   "unresolved": 4,
+    +   "unresolved": 2,
+      }
+
+      341 |       }
+      342 |       const even = (await read(admin)).support;
+    > 343 |       expect(even).toEqual({ total: 6, unresolved: 4, responded: 4, medianFirstResponseMs: 90000,
+          |                    ^
+      344 |         byCategory: { bug: 1, wrong_result: 1, account: 1, performance: 1, idea: 1, other: 1 },
+      345 |         byStatus: { open: 2, in_progress: 1, waiting: 1, resolved: 2 } });
+      346 |       await db.query("UPDATE support_tickets SET first_response_at = NULL WHERE id = $1", [ids[3]]);
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:343:20)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 skipped, 11 total
+Snapshots:   0 total
+Time:        8.327 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\admin-metrics.e2e-spec.ts".

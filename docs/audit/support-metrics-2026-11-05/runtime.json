@@ -1,0 +1,9 @@
+{
+  "database": "sf_support_metrics_20261105_3c720547",
+  "container": "stressforge-m9-postgres",
+  "postgresPort": 5552,
+  "redisPort": 6399,
+  "apiPort": 5003,
+  "webPort": 3003,
+  "owner": "Codex Support aggregate audit; newly created disposable database"
+}

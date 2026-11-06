@@ -1570,3 +1570,65 @@ No push, paid usage, live model call, key deletion, unseen-goal gate run, or unt
 **Proposed acceptance:** 48 new goals x 2 trials, grouped as 20 ordinary, 8 mixed-text, 8 adversarial, 6 ambiguous and 6 neutral/unsupported. Ordinary exact match at least 38/40 and at least 19/20 goals correct in both trials; every other group fully correct; zero unsupported accepted commitments; all observations technically valid and within 10 seconds. Require at least six additional correct ordinary observations over the strongest declared no-model baseline, without worse mixed/adversarial scores. These are recommendations for approval, not measured results. A corpus owner/reviewer, actual texts/labels, frozen candidate, manifests/hashes, fair baseline scores and explicit bounded live authorization are still required. No “fresh unseen corpus ready” claim is made.
 
 **Verification/limits:** documentation links, arithmetic, status consistency, source path references, whitespace and preservation checks only. No application source, contracts, dependencies, test expectations, provider configuration, gates or feature switches changed. No build/test rerun or model call was performed for this planning-only change; prior test counts remain historical evidence. No secret/environment inspection, database operation or push. Implementation, live run and release decisions remain separate; prior NO-GO results are unchanged.
+
+
+## 39. Support aggregate metrics and current-state reconciliation (2026-11-05)
+
+**Authorization/sources:** owner approved proceeding from [5 November handoff](CODEX-HANDOFF-2026-11-05.md), baseline `6d93542`, [Support scope item 11](SUPPORT-SYSTEM-SCOPE.md) and [Admin dashboard scope](ADMIN-DASHBOARD-SCOPE.md); explicitly approved correcting the stale shell assertions during testing. This completes the aggregate panel, not all Support P1 or AI acceptance. [Evidence, commands, initial failures and limits](audit/support-metrics-2026-11-05/README.md).
+
+| Requirement | Implementation / observed evidence | Status |
+| --- | --- | --- |
+| Support aggregates | Existing Admin-only snapshot/cache gains all-time total/unresolved, zero-filled category/status tables, valid first-public-reply denominator/median. Real PostgreSQL tests cover zero data, old records, odd/even medians, zero/null/negative durations and real reply lifecycle | Verified |
+| Privacy and roles | No content/identities/ids selected; strict schema and private canaries; Admin inbox 403, Support metrics 403; Support role count | Verified |
+| UI and accessibility | Live polling, paused counts, no overflow at 320/390/1024; four light/dark screenshots inspected. Delayed-auth focus, React clock/motion lint errors, missing wall crumbs and missing standalone Support-denial h1 repaired without removing assertions | Verified on final affected checks |
+| Backend checks | Build/types/lint pass (0 errors, 26 existing warnings); 780 unit/396 e2e; frozen Phase 2 matches, Phase 3 updated/matches | Verified |
+| Final web checks | Production build, 512 unit, lint (0 errors, 2 existing warnings), types and 46-route file check pass | Verified |
+| Full Chrome history | Complete run: 1,150 passed, 10 skipped, 4 stale 40-route failures in 46.6 min. Owner-approved 46-route/real-report assertions then exposed the missing breadcrumbs/h1. Final-source affected rerun: 40/40 pass across 1024/1440 light/dark, including the complete shell and Support privacy/access journeys | Verified with full-run limitation below |
+| Test sensitivity | 10 deliberate breaks cause actual assertion failures (counts/median/denominator/privacy/schema/zero display/private rendering/clock cleanup/dialog focus/standalone heading); exact source restored | Verified |
+| Preservation / cleanup | 119 original PNG hashes verified (73 restored), protected M2 unchanged/unwritten/unstaged, original runtime bytes restored; owned servers/M9 containers stopped, volumes retained; owner dev services left healthy | Verified |
+| AI acceptance | Independent writers, confirmed bars/mix/retry rule, declared candidate/corpus and explicit live go still needed; current three-task results are development-only | Blocked on owner inputs; no calls made |
+| Other Support extras | Consent sharing, bell, saved replies/merge and P2 | Not built; separate scope required |
+
+**Findings, ordered by impact:** repaired the report-dialog keyboard focus race and stale shell coverage; repaired missing wall breadcrumb and standalone denied-page heading; fixed five existing React lint errors. The shell still checks all pre-existing titles, breadcrumbs, overflow, console errors, auth, palette, themes and tab restoration; new reporting checks use actual 201/reference/API read-back/reload persistence. Generic denial headings expose no report content. Current docs now reflect five roles, three demo AI tasks and the extended deadline with unknown replacement date. Historical NO-GO gates/pass marks remain unchanged.
+
+**Limitations:** no second complete 1,164-case run after the small breadcrumb/heading repairs; affected cases were rerun on the final build (40/40). Ten original skips: four dev-only state journeys plus six duplicate heavy-fixture variants, whose pagination/100-note cases did pass at 1440-light. Full e2e emits unsuppressed MaxListenersExceeded server-listener warnings; cause unestablished. No owner DB migration, environment-file inspection, live inference, route, migration, dependency or push. All 18 migrations ran only on the fresh disposable browser DB. Regenerating stale primary live OpenAPI types accounts for a large generated-only diff. The original untracked handoff and `film/` remain untouched.
+
+**Verdict / remaining work:** the approved Support aggregate panel and relevant repairs are implemented and verified; work is uncommitted under the standing ask-before-commit rule. No known panel defect remains. AI/course acceptance is not complete: resolve the acceptance proposal's contradictory retry sentences before registration; supply independent inputs, confirm the bars and authorize the bounded live run separately. Owner still migrates their normal database and rehearses personally. Future phase-completion work must update this same report, retain prior phase history, record new evidence and reassess affected earlier requirements; updates are not automatic.
+
+
+## 40. New handoff and PDF navigation checkpoint (2026-11-06)
+
+**Sources:** [6 November handoff](CODEX-HANDOFF-2026-11-06.md), local Git log/status, inspected commit file changes, [next-feature roadmap](ROADMAP-NEXT-FEATURES.md), gallery scope section 11 and the existing state/log. Local HEAD and local origin tracking ref both point to `60993e1`; no live remote fetch was performed.
+
+**Observed implementation:** `828a715` adds workspace Report & PDF / Share links and a Results panel linking the selected run; `60993e1` adds settings to PDF diagram boxes. These are committed changes, distinct from the uncommitted Support aggregate/accessibility work in section 39. This checkpoint inspects source/commit presence, not live behavior. Claude's stored test claims for these commits are attributed evidence and were not independently rerun here; section 39's earlier counts remain dated evidence, not current full-suite certification.
+
+**Planning status:** roadmap A–G remains draft/unbuilt. Recommend A direct PDF first, then B aggregate dashboard extras, each after owner approval. Direct download must preserve the existing Report path, exact selected/saved-run semantics, notes inclusion, error/fallback and saved-revision disclosure. Before B, align 28-day heatmap totals with a 28-day denominator and specify how exports stay pinned to the displayed snapshot. The gallery's section 11 has nine questions and remains unapproved. No gallery/notification/merge/consent work or AI acceptance was started.
+
+**Owner update:** the new handoff reports that NoteComponent/Support migrations were applied on 5 November; the old current blocker was corrected, without querying or migrating the owner database. AI independent writers, confirmed bars/retry rule and separate explicit live authorization remain required; faculty document and personal rehearsal remain owner actions.
+
+**Verification/limits:** read-only Git/source/document checks and documentation changes only; no build/test/browser run, environment-file access, DB operation, live inference, application edit, commit or push. Uncommitted work remains preserved, including both agents' log entries, planning docs and protected artifacts. Primary live schema regeneration is reserved for a separate future commit. Future phase-completion work must update this same report, preserve earlier history, record new evidence and reassess affected earlier requirements; updates are not automatic.
+
+
+## 41. Roadmap A — one-click PDF downloads (2026-11-06)
+
+**Scope:** user approved A from [roadmap](ROADMAP-NEXT-FEATURES.md), baseline `60993e1`. No approval inferred for B/gallery/live AI/commits/push. [Full evidence, initial failures and reproduction](audit/direct-pdf-2026-11-06/README.md).
+
+| Requirement | Implementation / observed evidence | Status |
+| --- | --- | --- |
+| Header download | Saved revision's latest completed simulation; disabled with reason when none; existing links retained | Verified |
+| Results download | Exact displayed run AND its revision, even with a newer saved revision; unsaved draft excluded/server state unchanged | Verified |
+| Shared rendering | Same lazy renderer as Report; byte-identical files for identical actual server document/options; no new numerical logic/dependency | Verified |
+| Notes | Default on, synchronized header/Results/Report and browser reload; denied-storage memory fallback | Verified |
+| Reliability/privacy | Progress, duplicate guard, local errors/exact fallback/retry, identity/completion checks, source/account/unmount cancellation, safe return to cancelled selection | Verified |
+| Draft navigation | Only same-origin Blob downloads bypass prompts; real navigation still prompts and dismissal keeps draft. Autosave unchanged | Verified |
+| Existing Report | Pickers/Print/diagram-only PDF/settings/Latin-text limit preserved; client uses committed canonical report contract | Verified |
+| Final gates | Build/types/lint (0 errors/2 inherited warnings), 46 routes, 530/530 unit; focused 11/11 | Verified |
+| Browser | Broad 168 pass/4 @dev skips, 7.6 min; final PDF-focused 48/48, 1.7 min after small cancellation fix; 1024/1440 light/dark and 320/390/reduced-motion/keyboard checks | Verified within limits |
+| Test sensitivity | 9 real mutation assertion failures with exact source restored; added cancellation test fails before/passes after fix | Verified |
+| Preservation | 123 original PNG hashes restored/verified, protected profile/runtime/config unchanged, all old work preserved, no staging/commit/push | Verified |
+
+**Resolved findings:** initial 6-pass/1-failure smoke timed out on an unsaved download. The existing navigation guard intercepted Blob anchors; a narrow local-file exemption fixes it without dropping navigation confirmation. The test now explicitly fails autosave to hold a stable unsaved draft (rather than assume the existing 750 ms autosave would not occur), checks saved state and draft exclusion, and dismisses a real navigation prompt. A further cancellation-return unit test exposed stale busy state; guarded reset fixes it. No existing test was weakened.
+
+**Limitations:** no complete all-project Chrome or backend unit/e2e rerun. The broad run predates the last small cancellation reset; final full units/48 PDF journeys cover the final runtime build. Subsequent canonical import is type-only with types/lint passing afterward. Integration uses actual API/Postgres/Redis and 18 existing migrations on a fresh disposable DB; owner DB untouched. Identical bytes means identical inputs including server generatedAt; fresh responses may differ by timestamp. Existing PDF/share/AI limits unchanged.
+
+**Verdict:** A implemented and verified, uncommitted. No package/API/route/server change/migration; no owner installation/migration required. Owned audit services stopped, volumes retained, user dev services left healthy. New PNGs stay local/untracked under the no-PNG-commit rule. B and other items need approval. AI/course acceptance remains pending independent inputs, confirmed rules and explicit live go. Future phase-completion work must update this same report, preserve history, record observed evidence and reassess affected earlier requirements; updates are not automatic.

@@ -1,11 +1,11 @@
 # AI deferral plan: historical pause and current disposition
 
-## Current disposition — 2026-11-03
+## Current disposition — 2026-11-05
 
 The pause below is **historical and superseded** by the user-approved hosted gates and Copilot work in [AI-RESUME-SCOPE](AI-RESUME-SCOPE.md) and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md). Current status is maintained in [PROJECT-STATE](PROJECT-STATE.md), not in the frozen tables below.
 
-- Explanations, describe-to-design and AI goal reading were evaluated; all are **NO-GO**. Do not enable them as released features or reinterpret their pass marks.
-- All AI features remain **off by default**. The explicitly enabled demo runs only the experimental fix goal box on Groq `openai/gpt-oss-120b`; explanations are separately disabled. Demo readiness is not a quality-gate pass.
+- Earlier explanation, drafting and goal-reader gates remain **NO-GO**. Newer goal v3, describe v2 and what-if implementations have development evidence only; independent acceptance is pending under [AI-DEADLINE-PLAN](AI-DEADLINE-PLAN.md). Do not reinterpret historical pass marks or describe development results as an acceptance pass.
+- All AI features remain **off by default**. The explicitly enabled demo runs exactly `fixes,describe,whatif` on Groq `openai/gpt-oss-120b`; explanations are separately disabled. Demo readiness is not a quality-gate pass.
 - Verified fix suggestions, manual leave-out/show-first choices and the load ladder need no AI and work for everyone.
 - The Groq adapter is integrated and prior live runs are recorded. No key access or new live call is authorized by this document. Further gate work requires explicit user go and new unseen goals declared in advance.
 - History/Restore/Notes/Compare, Reports/Sharing, roles and P1-P6 are built. See the state board and living report for evidence and remaining limitations.

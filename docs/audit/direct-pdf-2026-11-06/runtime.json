@@ -1,0 +1,9 @@
+{
+  "database": "sf_direct_pdf_20261106_bed13ae5",
+  "container": "stressforge-m9-postgres",
+  "postgresPort": 5552,
+  "redisPort": 6399,
+  "apiPort": 5003,
+  "webPort": 3003,
+  "owner": "Codex roadmap A disposable browser verification"
+}

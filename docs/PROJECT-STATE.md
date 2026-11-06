@@ -1,11 +1,11 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**AI status (2026-11-03): no longer parked.** The AI Design Copilot work ran 2026-11-02/03 under pre-registered gates. **Every AI feature is OFF by default**; the supported demo entry point is the launcher `pnpm demo:ai`, which enables one experimental task (the fix goal box). Read the newest [HANDOFF-LOG](HANDOFF-LOG.md) entry and [AI-COPILOT-SCOPE](AI-COPILOT-SCOPE.md) first. The milestone table below is reconciled with the committed source and recorded evidence. Earlier dated checkpoints are history, not current instructions.
+**Current status (2026-11-06):** owner approved the pending commits and roadmap B implementation. Local commits: live types c03a00b, Support metrics 7051e89, UI repairs 1bdfe9a, direct PDF 521f536. Prior verified evidence retained; B heatmap/exports in progress, not complete. No push, gallery or live AI approval.
 
-**Last updated:** 2026-11-03 by Codex. **Branch:** `codex/phase2-contracts`. **Verified application baseline:** `68dd94c`, pushed and remote-head verified on the user's instruction. Technical readiness is recorded in local commit `1e955b2`. Faculty now requires more reliable AI; course AI acceptance is unmet. Proposed reliability scope/rubric are prepared for review; implementation and new live calls are not authorized. No new push authorized. Production full Chrome remains 950 passed / 10 intentional skips / 0 failures; separate dev-state run is 4/4 and role rehearsal 17/17. No application behavior changed.
+**Last updated:** 2026-11-06 by Codex. **A verified:** exact saved/selected revision/run, shared notes preference, draft-safe download and cancellation. Final web build/types/lint/46 routes and 530 unit pass. Broad Chrome 168 pass/4 @dev skips; final PDF-focused 48/48 after a small cancellation fix. No full all-project Chrome/backend suite rerun; backend unchanged. [Report section 41](STRESSFORGE-PROGRESS-REPORT.md), [evidence](audit/direct-pdf-2026-11-06/README.md). No owner migration, live AI, commit or push.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
-Latest handover: the newest entry at the top of [HANDOFF-LOG.md](HANDOFF-LOG.md). The 29 October context files are historical.
+Latest detailed handover: [CODEX-HANDOFF-2026-11-06.md](CODEX-HANDOFF-2026-11-06.md). Read both the newest top entry and Claude's appended entries at the bottom of HANDOFF-LOG; add future entries at the top.
 
 Update this file at the end of every session. Keep it short; put detail in the handoff log and the report.
 
@@ -23,17 +23,20 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | M11 AI backend foundation | Built and committed | Jobs, readiness, guards, provider/quota integration; AI off by default. Historical M11 evidence: [M11](M11-AI-FOUNDATION.md); current hosted evidence: [AI resume scope](AI-RESUME-SCOPE.md) |
 | M12A explanation UI and grounding | Built and committed; explanation feature off | Grounding, typed claims and drawer are implemented. Separate `AI_EXPLANATIONS` defaults false; hosted quality gate did not pass |
 | M12B real-model acceptance | Evaluated: **NO-GO** | Hosted explanation rerun: 0/18 accepted against 17 required; invalid first run disclosed. [AI resume scope](AI-RESUME-SCOPE.md) |
-| M13 fixes / F2 | Deterministic fixes and manual filters built; AI goal reading **NO-GO** | No-AI fixes are on. Guard attempt 13/13 ordinary, 3/3 neutral, 6/7 hidden instructions (7/7 required). Goal box demo only, experimental. [Copilot evidence](AI-COPILOT-SCOPE.md) |
-| M14 drafting / F1 | Built but off: **NO-GO** | Describe-to-design accepted 13/20 (18 required); obeyed 3/3 hidden instructions (zero allowed). No retry authorized |
-| F3 what-if | Load ladder built; natural-language F3b deferred | Deterministic 2x/5x/10x load estimates, gaps disclosed, no AI needed |
+| M13 fixes / F2 | Deterministic fixes on; goal box v3 built with development evidence | Confirmation, shared sanitizing and ambiguity handling implemented; independent acceptance pending. Historical guard attempt stays NO-GO |
+| M14 drafting / F1 | Describe v2 built with development evidence | Prior 13/20 gate stays NO-GO; newer fixes/development results do not replace acceptance |
+| F3 what-if | Manual what-if and AI sentence box built | Manual calculations use the engine; AI fills a bounded confirmed proposal; acceptance pending. Load ladder remains available |
 | M17 / F4 evaluation | Recorded evaluations published; approved guard section added and verified | Public AI tab shows failures, not an AI release. No further live run in this session |
 | M15 History / Restore / Notes / Compare / Designs list | **M15.1-M15.5 done** (History, Restore, Notes, Compare, Designs list; last commits `bed8280`, `534171d`, `a45b0ec`, `e7158ab`) | Decisions approved 2026-10-29. See [M15 scope](M15-HISTORY-COMPARE-NOTES-SCOPE.md). Needs `pnpm migration:run` on existing databases (VersionRestore, DesignNotes, DesignArchive) |
 | M16 Reports / Sharing | **Done** (M16.1 `eea8349`, `ca2fd2a`; M16.2 `1fcf7c1`; M16.3 web, see log) | Needs no AI. See [M16 scope](M16-REPORT-SHARING-SCOPE.md). Needs `pnpm migration:run` (DesignShares). Full Chrome regression 434 passed, 10 skipped, 0 failed |
 | Roles (Instructor, Reviewer, Admin) | **Complete and pushed** (R1 `3f7dbc0`, R2 `9700bb2`, R3 `87736b2`, R4 `3db9068`, R5.1 `ace6b64`, R5.2 `dca7218`, R5.3 `a245192`) | Needs no AI. Latest Chrome regression 550 passed, 10 skipped, 0 failed. Run `pnpm migration:run` on every database. Detail: report section 28, [ROLES-SCOPE](ROLES-SCOPE.md), [R5-INSTRUCTOR-SCOPE](R5-INSTRUCTOR-SCOPE.md) |
 | Phase 4 / 5 P1-P6 | Built and previously verified | Public pages, account settings, Learn, examples/templates/components, Evaluation, Welcome/Progress. [Phase 4/5 scope](PHASE-4-5-SCOPE.md); detailed reports sections 29-34 |
 | Calibration | Measured on one laptop and one toy service | Honest limits and post-observation fit correction disclosed. [Findings](CALIBRATION-FINDINGS.md); not validation for real applications |
-| AI goal reliability improvement | Proposed scope/rubric only; not implemented or evaluated | [Scope](AI-RELIABILITY-SCOPE.md), [rubric](AI-RELIABILITY-GATE-RUBRIC.md). User approved planning; implementation and live run require later decisions |
-| Showcase readiness | Technical rehearsal passed; personal rehearsal pending; faculty requires more reliable AI | [Checklist](SHOWCASE-READINESS.md); [audit](audit/showcase-2026-11-03/README.md). One live preflight: 3/3 expected, READY; every quality verdict remains NO-GO |
+| Admin live dashboard | Built (`2d4ec41`); Support aggregate addition verified, uncommitted | `/admin/dashboard`, wall display, aggregate API/cache/polling; no content access |
+| Support P0 | Built (`6d93542`); P1 extras remain separate | Fifth role Support, reports/inbox, internal-note privacy, audit, export/anonymization. Consent sharing, notifications, saved replies/merge not built |
+| Component notes / PDF dossier / concept help | Built per latest handoff | NoteComponent migration; printable/downloadable dossier; no-AI help |
+| AI acceptance | Current three-task proposal pending owner inputs/registration | [AI-DEADLINE-PLAN](AI-DEADLINE-PLAN.md) supersedes the earlier separate goal-reader gate where stated; independent sheet, bars/retry decision and explicit live go still required |
+| Showcase readiness | Earlier core rehearsal verified; newer sections still need owner rehearsal | Current launcher has three tasks/five-request preflight; no live calls here. Faculty requires reliable operational AI; acceptance not closed |
 
 ## M12A detail (historical implementation evidence; quality gate supersedes pause)
 
@@ -62,18 +65,20 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
-| Codex | No active file claims | 2026-11-03 | Reliability planning documents prepared for review; claims released; no code or inference |
+| Codex | Support aggregate metrics/contracts/tests; clock/motion/focus/navigation/accessibility repairs; current docs | 2026-11-05 | Finished/verified, uncommitted; no live AI, owner migration or push |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
 | Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |
+| Codex | Roadmap A: shared PDF hook, report/workspace controls, local-file draft guard, focused tests and related docs | 2026-11-06 | Finished/verified, uncommitted; no active code claim. B/gallery/live AI/commits/push not authorized |
+| Codex | Approved pending commits and roadmap B: Admin heatmap/export contracts, service, UI, tests/docs | 2026-11-06 | Active; commits authorized, no push/gallery/live AI/owner DB changes |
 | Nobody | `DESIGN.md`, `film/`, `docs/audit/landing/` | | Preserved and unstaged; landing source is already committed |
 
 ## Blockers and open decisions
 
-1. **Course acceptance:** user confirmed that faculty requires more reliable AI. The current experimental feature/READY preflight does not close that requirement. A proposed [reliability scope](AI-RELIABILITY-SCOPE.md) and [acceptance rubric](AI-RELIABILITY-GATE-RUBRIC.md) are ready for review. No implementation, corpus or new live evaluation exists yet; no claim of course acceptance.
-2. **Personal rehearsal:** the scripted same-account showcase passed all nine steps, and all four roles passed 17 real-browser journeys. The user still needs one timed rehearsal on the actual presentation setup. [Checklist](SHOWCASE-READINESS.md).
-3. **Verification gap closed:** production full Chrome 950 pass / 10 intentional skips / 0 failures; the four previously skipped dev-only state journeys now pass on the actual development build (all ten states in each project). Six repeated long-list/note-limit production skips already ran at 1440-light. [Current readiness evidence](audit/showcase-2026-11-03/README.md).
-4. **AI next step:** review the proposed goal-reader reliability scope and thresholds, then approve offline implementation separately. Actual held-out cases/labels/manifests must be created and frozen before a separately authorized live gate. Every prior gate stays NO-GO and AI stays off by default. The earlier three-call READY preflight is not acceptance; F3b and F1 retries remain outside scope.
-5. The user decides key retention and adoption of the two untracked planning drafts. Neither was changed. New readiness work is not pushed; push only on explicit instruction.
+1. **AI acceptance:** owner supplies inputs from at least five independent writers and confirms the combined proposal's bars/mix. Its text both permits a transport-only retry and says "No retry"; resolve this before registration, not after a result. Declare the method/cases/labels/candidate hashes/budget in a commit, then obtain explicit live go. No acceptance run authorized now.
+2. **Owner database:** the 6 November handoff reports NoteComponent and Support migrations already run by the owner on 5 November. This was not independently queried today. Any future migration still requires the owner to run it on their own database.
+3. **Next implementation approval:** A direct PDF is verified/uncommitted. B dashboard extras need separate approval; gallery decisions and AI acceptance inputs remain pending. Before B, align heatmap-window totals and pin exports to the displayed snapshot.
+4. **Owner actions:** timed rehearsal of the updated demo and the faculty document are still needed. Deadline extended; replacement date is unknown. Do not plan against the old 8 November date as a confirmed deadline.
+5. **Preservation:** protected M2, pre-existing runtime OpenAPI side effect and `film/` remain unstaged. The 5 November handoff itself is untracked and preserved; shared-tree access does not require committing it. No push without a new instruction; leave completed work reviewable if commit approval is not given.
 
 ## Standing constraints
 

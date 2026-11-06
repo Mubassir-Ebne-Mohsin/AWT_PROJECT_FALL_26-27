@@ -1,0 +1,42 @@
+
+Running 7 tests using 1 worker
+
+(node:33428) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1440-light] › tests\browser\direct-pdf.spec.ts:61:5 › direct Results and Report page give identical bytes for the identical real report document (7.6s)
+  x  2 [1440-light] › tests\browser\direct-pdf.spec.ts:74:5 › an older selected run downloads its own revision, while the header uses the saved latest result and excludes drafts (17.0s)
+(node:27572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [1440-light] › tests\browser\direct-pdf.spec.ts:90:5 › no-result downloads are disabled; finishing a run enables them, while saving a new revision disables the header again (2.4s)
+  ok 4 [1440-light] › tests\browser\direct-pdf.spec.ts:106:5 › API and PDF-save failures stay inline with an exact fallback, then an explicit retry downloads (2.6s)
+  ok 5 [1440-light] › tests\browser\direct-pdf.spec.ts:128:5 › notes selection is keyboard accessible and shared with Report after reload (2.9s)
+  ok 6 [1440-light] › tests\browser\direct-pdf.spec.ts:144:5 › leaving Results while the report request is pending never starts a late download (2.0s)
+  ok 7 [1440-light] › tests\browser\direct-pdf.spec.ts:159:5 › direct controls fit narrow screens and preserve keyboard operation with reduced motion (2.0s)
+
+
+  1) [1440-light] › tests\browser\direct-pdf.spec.ts:74:5 › an older selected run downloads its own revision, while the header uses the saved latest result and excludes drafts
+
+    TimeoutError: page.waitForEvent: Timeout 15000ms exceeded while waiting for event "download"
+    =========================== logs ===========================
+    waiting for event "download"
+    ============================================================
+
+      52 | }
+      53 | async function download(page: Page, testId: string) {
+    > 54 |   const event = page.waitForEvent("download");
+         |                      ^
+      55 |   await page.getByTestId(testId).click();
+      56 |   const file = await event; const path = await file.path();
+      57 |   expect(file.suggestedFilename()).toMatch(/-rev\d+-report\.pdf$/);
+        at download (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\direct-pdf.spec.ts:54:22)
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\direct-pdf.spec.ts:83:25
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\direct-pdf-an-older-select-7aa81--result-and-excludes-drafts-1440-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\direct-pdf-an-older-select-7aa81--result-and-excludes-drafts-1440-light\error-context.md
+
+  1 failed
+    [1440-light] › tests\browser\direct-pdf.spec.ts:74:5 › an older selected run downloads its own revision, while the header uses the saved latest result and excludes drafts
+  6 passed (42.8s)

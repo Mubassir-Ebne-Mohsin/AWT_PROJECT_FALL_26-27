@@ -3,6 +3,10 @@
 **Written 2026-11-03 (evening). Deadline: 8 November 2026.** The owner's words: the faculty wants to see **fully operational AI features**. The owner chose three features and a **live demo by the owner**. Nothing here is built yet and no model is called until the owner approves this plan and says go for each live batch.
 This **compresses** [AI-RELIABILITY-SCOPE](AI-RELIABILITY-SCOPE.md) and [AI-RELIABILITY-ADJUSTMENTS](AI-RELIABILITY-ADJUSTMENTS.md) to fit five days: those documents describe a separate gate per feature, which does not fit. Where this file differs (a single combined acceptance run), it is the one that applies, and it says so openly.
 
+## Current handoff note — 2026-11-05
+
+The owner reports that the deadline was extended; a replacement date is unknown. The calendar below is historical. The three implementations now have development evidence, but acceptance is still pending independent writer inputs, confirmed bars and explicit live authorization. Before registration, resolve section 4's conflicting "one retry only for transport failures" and "No retry" wording. No threshold, label or retry rule is changed by this note. See [current state](PROJECT-STATE.md) and [5 November handoff](CODEX-HANDOFF-2026-11-05.md).
+
 ## 1. What "fully operational" means here (all eight must hold on 8 November)
 1. **Works end to end live:** with the owner's real key, through the demo launcher, in the browser, for each of the three features.
 2. **Exactly three AI tasks on** in the demo (goal box, describe-to-design, what-if). Explanations stay off. Everything else AI stays off by default in the repo.

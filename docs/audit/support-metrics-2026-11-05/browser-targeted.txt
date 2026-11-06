@@ -1,0 +1,33 @@
+
+Running 20 tests using 1 worker
+
+(node:3860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [1024-light] › tests\browser\admin-dashboard.spec.ts:223:7 › Admin live dashboard › the wall display shows big numbers, changes its lower panel every ten seconds, and is for Admins only (30.9s)
+  ok  2 [1024-light] › tests\browser\admin-dashboard.spec.ts:241:7 › Admin live dashboard › the wall display stands still when the person asks for reduced motion (1.5s)
+  ok  3 [1024-light] › tests\browser\admin-dashboard.spec.ts:253:7 › Admin live dashboard › a plain account is denied the wall display too (1.0s)
+  ok  4 [1024-light] › tests\browser\admin-dashboard.spec.ts:273:5 › Support metrics show real aggregate counts, update after a report and reveal no report details (6.5s)
+  ok  5 [1024-light] › tests\browser\support.spec.ts:341:7 › Support: problem reports and the inbox › the dialog works from the keyboard: Escape closes it and focus returns to the button that opened it (1.1s)
+(node:9848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  6 [1024-dark] › tests\browser\admin-dashboard.spec.ts:223:7 › Admin live dashboard › the wall display shows big numbers, changes its lower panel every ten seconds, and is for Admins only (30.4s)
+  ok  7 [1024-dark] › tests\browser\admin-dashboard.spec.ts:241:7 › Admin live dashboard › the wall display stands still when the person asks for reduced motion (1.6s)
+  ok  8 [1024-dark] › tests\browser\admin-dashboard.spec.ts:253:7 › Admin live dashboard › a plain account is denied the wall display too (1.3s)
+  ok  9 [1024-dark] › tests\browser\admin-dashboard.spec.ts:273:5 › Support metrics show real aggregate counts, update after a report and reveal no report details (6.8s)
+  ok 10 [1024-dark] › tests\browser\support.spec.ts:341:7 › Support: problem reports and the inbox › the dialog works from the keyboard: Escape closes it and focus returns to the button that opened it (1.2s)
+(node:38528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [1440-light] › tests\browser\admin-dashboard.spec.ts:223:7 › Admin live dashboard › the wall display shows big numbers, changes its lower panel every ten seconds, and is for Admins only (30.3s)
+  ok 12 [1440-light] › tests\browser\admin-dashboard.spec.ts:241:7 › Admin live dashboard › the wall display stands still when the person asks for reduced motion (1.7s)
+  ok 13 [1440-light] › tests\browser\admin-dashboard.spec.ts:253:7 › Admin live dashboard › a plain account is denied the wall display too (1.2s)
+  ok 14 [1440-light] › tests\browser\admin-dashboard.spec.ts:273:5 › Support metrics show real aggregate counts, update after a report and reveal no report details (6.8s)
+  ok 15 [1440-light] › tests\browser\support.spec.ts:341:7 › Support: problem reports and the inbox › the dialog works from the keyboard: Escape closes it and focus returns to the button that opened it (1.2s)
+(node:18756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 16 [1440-dark] › tests\browser\admin-dashboard.spec.ts:223:7 › Admin live dashboard › the wall display shows big numbers, changes its lower panel every ten seconds, and is for Admins only (30.0s)
+  ok 17 [1440-dark] › tests\browser\admin-dashboard.spec.ts:241:7 › Admin live dashboard › the wall display stands still when the person asks for reduced motion (1.5s)
+  ok 18 [1440-dark] › tests\browser\admin-dashboard.spec.ts:253:7 › Admin live dashboard › a plain account is denied the wall display too (984ms)
+  ok 19 [1440-dark] › tests\browser\admin-dashboard.spec.ts:273:5 › Support metrics show real aggregate counts, update after a report and reveal no report details (6.6s)
+  ok 20 [1440-dark] › tests\browser\support.spec.ts:341:7 › Support: problem reports and the inbox › the dialog works from the keyboard: Escape closes it and focus returns to the button that opened it (1.1s)
+
+  20 passed (2.9m)

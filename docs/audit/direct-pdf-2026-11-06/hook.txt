@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: download pins revision/run, shows busy, ignores a synchronous double click and saves once
+ok 1 - download pins revision/run, shows busy, ignores a synchronous double click and saves once
+  ---
+  duration_ms: 63.342
+  type: 'test'
+  ...
+# Subtest: Report page reuses its own document and same renderer, including reports with no run
+ok 2 - Report page reuses its own document and same renderer, including reports with no run
+  ---
+  duration_ms: 9.0701
+  type: 'test'
+  ...
+# Subtest: wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+ok 3 - wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+  ---
+  duration_ms: 14.3329
+  type: 'test'
+  ...
+# Subtest: network failure stays local and an explicit retry recovers
+ok 4 - network failure stays local and an explicit retry recovers
+  ---
+  duration_ms: 7.8643
+  type: 'test'
+  ...
+# Subtest: renderer failure clears busy and allows a fresh retry
+ok 5 - renderer failure clears busy and allows a fresh retry
+  ---
+  duration_ms: 9.9706
+  type: 'test'
+  ...
+# Subtest: changing account or selected source aborts pending work and suppresses late downloads
+ok 6 - changing account or selected source aborts pending work and suppresses late downloads
+  ---
+  duration_ms: 8.4866
+  type: 'test'
+  ...
+# Subtest: unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+ok 7 - unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+  ---
+  duration_ms: 6.1676
+  type: 'test'
+  ...
+# Subtest: notes choice updates both entry points, persists, and is captured in the render options
+ok 8 - notes choice updates both entry points, persists, and is captured in the render options
+  ---
+  duration_ms: 10.2087
+  type: 'test'
+  ...
+# Subtest: unavailable storage does not prevent notes selection or download
+ok 9 - unavailable storage does not prevent notes selection or download
+  ---
+  duration_ms: 10.8478
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 31571.3014

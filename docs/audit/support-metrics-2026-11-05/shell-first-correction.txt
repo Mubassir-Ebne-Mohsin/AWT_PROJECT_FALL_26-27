@@ -1,0 +1,296 @@
+
+Running 12 tests using 1 worker
+
+(node:15188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     1.1 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › protected return-to, empty forms, signup and login/register links (1.5s)
+     1.2 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › / (615ms)
+     1.3 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /login (341ms)
+     1.4 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /register (293ms)
+     1.5 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /examples (353ms)
+     1.6 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /how-it-works (318ms)
+     1.7 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn (371ms)
+     1.8 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn/:topic (335ms)
+     1.9 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges (370ms)
+     1.10 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /share/:token (211ms)
+     1.11 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /about (327ms)
+     1.12 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /privacy (286ms)
+     1.13 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /terms (299ms)
+     1.14 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /welcome (353ms)
+     1.15 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /dashboard (322ms)
+     1.16 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new (300ms)
+     1.17 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/describe (290ms)
+     1.18 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/template (285ms)
+     1.19 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/blank (302ms)
+     1.20 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/import (483ms)
+     1.21 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs (315ms)
+     1.22 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/report (170ms)
+     1.23 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/share (179ms)
+     1.24 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/:tab (357ms)
+     1.25 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id (428ms)
+     1.26 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /compare (1.2s)
+     1.27 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /templates (297ms)
+     1.28 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /components (268ms)
+     1.29 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges/:id (276ms)
+     1.30 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /progress (277ms)
+     1.31 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard (364ms)
+     1.32 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall (15.3s)
+     1.33 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow (26.5s)
+  x   1 [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout (28.4s)
+(node:26480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  2 [1024-light] › tests\browser\phase1.spec.ts:216:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers (4.7s)
+  -   3 [1024-light] › tests\browser\phase1.spec.ts:259:5 › all ten developer demo states render and recover @dev
+(node:12076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     4.1 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › protected return-to, empty forms, signup and login/register links (939ms)
+     4.2 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › / (602ms)
+     4.3 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /login (310ms)
+     4.4 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /register (278ms)
+     4.5 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /examples (319ms)
+     4.6 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /how-it-works (279ms)
+     4.7 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn (334ms)
+     4.8 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn/:topic (324ms)
+     4.9 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges (326ms)
+     4.10 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /share/:token (146ms)
+     4.11 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /about (322ms)
+     4.12 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /privacy (313ms)
+     4.13 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /terms (319ms)
+     4.14 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /welcome (321ms)
+     4.15 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /dashboard (310ms)
+     4.16 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new (278ms)
+     4.17 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/describe (258ms)
+     4.18 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/template (293ms)
+     4.19 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/blank (290ms)
+     4.20 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/import (258ms)
+     4.21 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs (314ms)
+     4.22 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/report (145ms)
+     4.23 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/share (143ms)
+     4.24 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/:tab (203ms)
+     4.25 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id (220ms)
+     4.26 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /compare (307ms)
+     4.27 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /templates (308ms)
+     4.28 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /components (288ms)
+     4.29 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges/:id (312ms)
+     4.30 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /progress (298ms)
+     4.31 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard (338ms)
+     4.32 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall (15.3s)
+     4.33 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow (24.7s)
+  x   4 [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout (25.9s)
+(node:10348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  5 [1024-dark] › tests\browser\phase1.spec.ts:216:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers (6.1s)
+  -   6 [1024-dark] › tests\browser\phase1.spec.ts:259:5 › all ten developer demo states render and recover @dev
+(node:36648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     7.1 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › protected return-to, empty forms, signup and login/register links (974ms)
+     7.2 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › / (416ms)
+     7.3 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /login (151ms)
+     7.4 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /register (269ms)
+     7.5 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /examples (293ms)
+     7.6 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /how-it-works (293ms)
+     7.7 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn (344ms)
+     7.8 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn/:topic (331ms)
+     7.9 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges (298ms)
+     7.10 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /share/:token (173ms)
+     7.11 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /about (305ms)
+     7.12 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /privacy (297ms)
+     7.13 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /terms (314ms)
+     7.14 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /welcome (358ms)
+     7.15 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /dashboard (340ms)
+     7.16 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new (390ms)
+     7.17 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/describe (276ms)
+     7.18 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/template (281ms)
+     7.19 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/blank (282ms)
+     7.20 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/import (262ms)
+     7.21 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs (272ms)
+     7.22 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/report (158ms)
+     7.23 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/share (202ms)
+     7.24 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/:tab (187ms)
+     7.25 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id (281ms)
+     7.26 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /compare (344ms)
+     7.27 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /templates (317ms)
+     7.28 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /components (290ms)
+     7.29 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges/:id (280ms)
+     7.30 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /progress (282ms)
+     7.31 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard (301ms)
+     7.32 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall (15.3s)
+     7.33 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow (24.4s)
+  x   7 [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout (25.8s)
+(node:34480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  8 [1440-light] › tests\browser\phase1.spec.ts:216:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers (5.5s)
+  -   9 [1440-light] › tests\browser\phase1.spec.ts:259:5 › all ten developer demo states render and recover @dev
+(node:39860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+     10.1 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › protected return-to, empty forms, signup and login/register links (1.0s)
+     10.2 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › / (502ms)
+     10.3 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /login (303ms)
+     10.4 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /register (262ms)
+     10.5 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /examples (286ms)
+     10.6 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /how-it-works (308ms)
+     10.7 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn (302ms)
+     10.8 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /learn/:topic (309ms)
+     10.9 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges (298ms)
+     10.10 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /share/:token (213ms)
+     10.11 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /about (331ms)
+     10.12 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /privacy (304ms)
+     10.13 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /terms (297ms)
+     10.14 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /welcome (301ms)
+     10.15 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /dashboard (308ms)
+     10.16 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new (297ms)
+     10.17 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/describe (308ms)
+     10.18 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/template (296ms)
+     10.19 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/blank (290ms)
+     10.20 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /new/import (274ms)
+     10.21 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs (304ms)
+     10.22 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/report (258ms)
+     10.23 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/share (291ms)
+     10.24 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id/:tab (261ms)
+     10.25 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /designs/:id (316ms)
+     10.26 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /compare (354ms)
+     10.27 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /templates (287ms)
+     10.28 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /components (287ms)
+     10.29 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /challenges/:id (264ms)
+     10.30 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /progress (274ms)
+     10.31 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard (283ms)
+     10.32 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall (15.3s)
+     10.33 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow (24.9s)
+  x  10 [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout (26.2s)
+(node:14008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [1440-dark] › tests\browser\phase1.spec.ts:216:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers (5.0s)
+  -  12 [1440-dark] › tests\browser\phase1.spec.ts:259:5 › all ten developer demo states render and recover @dev
+
+
+  1) [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('navigation', { name: 'Breadcrumb' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('navigation', { name: 'Breadcrumb' }) with timeout 15000ms
+      - waiting for getByRole('navigation', { name: 'Breadcrumb' })
+
+
+      87 |         if (!["login", "register"].includes(expected.route.id)) {
+      88 |           const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
+    > 89 |           await expect(crumbs).toBeVisible();
+         |                                ^
+      90 |           // Signed in, a public page starts at the person's Dashboard instead of the landing page's "Home".
+      91 |           const labels = crumbsFor(expected).map((crumb, i) => (i === 0 && crumb.label === "Home" && crumb.to === "/" ? "Dashboard" : crumb.label));
+      92 |           expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(labels);
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:89:32
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:72:7
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:60:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1024-light\error-context.md
+
+  2) [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('navigation', { name: 'Breadcrumb' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('navigation', { name: 'Breadcrumb' }) with timeout 15000ms
+      - waiting for getByRole('navigation', { name: 'Breadcrumb' })
+
+
+      87 |         if (!["login", "register"].includes(expected.route.id)) {
+      88 |           const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
+    > 89 |           await expect(crumbs).toBeVisible();
+         |                                ^
+      90 |           // Signed in, a public page starts at the person's Dashboard instead of the landing page's "Home".
+      91 |           const labels = crumbsFor(expected).map((crumb, i) => (i === 0 && crumb.label === "Home" && crumb.to === "/" ? "Dashboard" : crumb.label));
+      92 |           expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(labels);
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:89:32
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:72:7
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:60:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1024-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1024-dark\error-context.md
+
+  3) [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('navigation', { name: 'Breadcrumb' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('navigation', { name: 'Breadcrumb' }) with timeout 15000ms
+      - waiting for getByRole('navigation', { name: 'Breadcrumb' })
+
+
+      87 |         if (!["login", "register"].includes(expected.route.id)) {
+      88 |           const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
+    > 89 |           await expect(crumbs).toBeVisible();
+         |                                ^
+      90 |           // Signed in, a public page starts at the person's Dashboard instead of the landing page's "Home".
+      91 |           const labels = crumbsFor(expected).map((crumb, i) => (i === 0 && crumb.label === "Home" && crumb.to === "/" ? "Dashboard" : crumb.label));
+      92 |           expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(labels);
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:89:32
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:72:7
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:60:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1440-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1440-light\error-context.md
+
+  4) [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout › all 46 registered patterns resolve with correct document titles and no overflow › /admin/dashboard/wall
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('navigation', { name: 'Breadcrumb' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('navigation', { name: 'Breadcrumb' }) with timeout 15000ms
+      - waiting for getByRole('navigation', { name: 'Breadcrumb' })
+
+
+      87 |         if (!["login", "register"].includes(expected.route.id)) {
+      88 |           const crumbs = page.getByRole("navigation", { name: "Breadcrumb" });
+    > 89 |           await expect(crumbs).toBeVisible();
+         |                                ^
+      90 |           // Signed in, a public page starts at the person's Dashboard instead of the landing page's "Home".
+      91 |           const labels = crumbsFor(expected).map((crumb, i) => (i === 0 && crumb.label === "Home" && crumb.to === "/" ? "Dashboard" : crumb.label));
+      92 |           expect((await crumbs.locator(":scope > span").allTextContents()).map(text => text.trim())).toEqual(labels);
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:89:32
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:72:7
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\phase1.spec.ts:60:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1440-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\phase1-46-registry-routes--5a667-mes-tab-restores-and-logout-1440-dark\error-context.md
+
+  4 failed
+    [1024-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+    [1024-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+    [1440-light] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+    [1440-dark] › tests\browser\phase1.spec.ts:32:5 › 46 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+  4 skipped
+  4 passed (2.5m)

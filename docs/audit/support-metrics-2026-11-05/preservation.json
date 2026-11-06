@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-05",
+  "originalPngsVerified": 119,
+  "overwrittenPngsRestored": 73,
+  "protectedM2Sha256": "d0edb982c694cf1983ffe36faac2f7c80ed77ac1a735852f03013e6c4a2f76dc",
+  "protectedM2Written": false,
+  "runtimeContractRestoredToTaskEntryBytes": true,
+  "runtimeContractSha256": "2317a43213882d02e8988414cff45b632c3eb478116fdd42ba5b060a2d74df6b",
+  "newPanelScreenshots": 4,
+  "originalPngsStillDifferentFromHead": [
+    "docs/audit/m3-1024-light.png",
+    "docs/audit/m3-1440-dark.png",
+    "docs/audit/m5-canvas-1024-light.png",
+    "docs/audit/m5-canvas-1440-dark.png",
+    "docs/audit/m6-editor-1024-light.png",
+    "docs/audit/m6-editor-1440-dark.png"
+  ],
+  "comparisonBasis": "saved task-entry copies, not Git HEAD"
+}

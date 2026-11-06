@@ -1,0 +1,23 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/admin-metrics.e2e-spec.ts (6.789 s)
+  ● Admin metrics (isolated Postgres, no AI) › never carries an email, a display name, a design name, a note or a description
+
+    expect(received).not.toContain(expected) // indexOf
+
+    Expected substring: not "Zebra-7698361e"
+    Received string:        "{\"data\":{\"generatedAt\":\"2026-11-05T10:55:04.771Z\",\"windowHours\":24,\"seriesStart\":\"2026-11-04T11:00:00.000Z\",\"totals\":{\"users\":153,\"suspendedUsers\":11,\"designs\":134,\"archivedDesigns\":1,\"runs\":33,\"shares\":20,\"openShares\":16,\"notes\":118},\"activeNow\":40,\"last24h\":{\"signups\":153,\"designsCreated\":134,\"runsCompleted\":33,\"runsFailed\":0,\"aiCalls\":0},\"series\":{\"signups\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,153],\"designsCreated\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,134],\"runsCompleted\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,33],\"runsFailed\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"aiCalls\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},\"roles\":{\"user\":153,\"instructor\":13,\"reviewer\":44,\"admin\":14,\"support\":1},\"support\":{\"total\":1,\"unresolved\":1,\"responded\":0,\"medianFirstResponseMs\":null,\"byCategory\":{\"bug\":1,\"wrong_result\":0,\"account\":0,\"performance\":0,\"idea\":0,\"other\":0},\"byStatus\":{\"open\":1,\"in_progress\":0,\"waiting\":0,\"resolved\":0}},\"runs\":{\"byVerdict\":{\"pass\":29,\"strained\":1,\"fail\":1,\"unknown\":2},\"queue\":{\"pending\":0,\"oldestPendingSeconds\":null},\"bottlenecks\":{\"client\":0,\"cdn\":0,\"lb\":0,\"gateway\":0,\"app\":2,\"worker\":0,\"cache\":0,\"db\":0,\"replica\":0,\"queue\":0,\"storage\":0,\"external\":0}},\"ai\":{\"byTask\":{\"describe\":0,\"whatif\":0,\"fixes\":0},\"completed\":0,\"failed\":0,\"byOutcome\":{\"completed\":0,\"rate_limited\":0,\"invalid_output\":0,\"unavailable\":0,\"cancelled\":0,\"other\":0},\"tokens24h\":0,\"latencyMs\":{\"p50\":null,\"p95\":null},\"usage\":{\"lastMinute\":0,\"today\":0,\"limitPerMinute\":30,\"limitPerDay\":1000}},\"funnel\":{\"registered\":153,\"createdDesign\":40,\"ranDesign\":10,\"sharedDesign\":1},\"system\":{\"database\":{\"ok\":true,\"latencyMs\":2.36},\"cache\":{\"ok\":true},\"uptimeSeconds\":13},\"alerts\":[],\"leakedTitle\":\"Private report Zebra-7698361e\"}}"
+
+      246 |     const fresh = JSON.stringify((await http.get("/v1/admin/metrics").set(as(admin)).expect(200)).body);
+      247 |     for (const body of [raw, fresh]) {
+    > 248 |       for (const secret of [NAME, user.email, user.id, d.id, "example.test", "private blurb", "leaktarget", ticket.id, "Private report", "Private body", "Private expectation", "Private browser", "Internal canary"]) expect(body).not.toContain(secret);
+          |                                                                                                                                                                                                                                         ^
+      249 |     }
+      250 |     // Every leaf is a number, a boolean, a timestamp or a closed key.
+      251 |     const leaves: unknown[] = [];
+
+      at Object.<anonymous> (test/admin-metrics.e2e-spec.ts:248:233)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 skipped, 11 total
+Snapshots:   0 total
+Time:        7.004 s, estimated 9 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\admin-metrics.e2e-spec.ts".

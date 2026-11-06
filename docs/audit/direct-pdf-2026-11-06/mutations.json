@@ -1,0 +1,56 @@
+[
+  {
+    "name": "wrong-run",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "wrong-revision",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "identity-check",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "completed-simulation",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "double-click",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "late-download",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "notes-choice",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\use-report-pdf.ts"
+  },
+  {
+    "name": "foreign-blob",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\draft-navigation.ts"
+  },
+  {
+    "name": "local-download",
+    "exitCode": 1,
+    "assertionFailure": true,
+    "target": "web\\src\\lib\\draft-navigation.ts"
+  }
+]
