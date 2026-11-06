@@ -59,8 +59,15 @@ import {
 } from "@/common/contracts/phase3/notes.schema";
 import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
+import { notificationsPageSchema, notificationPreferencesSchema, notificationPreferenceSchema, notificationReadSchema, notificationTargetSchema } from "@/common/contracts/phase3/notifications.schema";
 export function phase3OpenApi() {
   const models = {
+    NotificationsPage: notificationsPageSchema,
+    NotificationPreferences: notificationPreferencesSchema,
+    NotificationPreference: notificationPreferenceSchema,
+    NotificationRead: notificationReadSchema,
+    NotificationTarget: notificationTargetSchema,
+    NotificationCount: z.strictObject({unreadCount:z.number().int().nonnegative()}),
     PublicChallengeList: publicChallengeListSchema,
     PublicChallenge: publicChallengeSchema,
     ChallengeAttempt: attemptSchema,
@@ -581,6 +588,16 @@ export function phase3OpenApi() {
           responses: { ...operation("replyInboxReport", "InboxDetail", "SupportMessageRequest").responses, 201: { description: "The reply or note was added", content: content(envelope("InboxDetail")) } },
         },
       },
+      "/v1/notifications": { get: {...operation("listNotifications","NotificationsPage"), parameters: [
+        {name:"limit",in:"query",schema:{type:"integer",minimum:1,maximum:50,default:20}},
+        {name:"before",in:"query",schema:{type:"string",format:"date-time"}},
+        {name:"beforeId",in:"query",schema:{type:"string",format:"uuid"}},
+      ]} },
+      "/v1/notifications/unread-count": {get:operation("notificationCount","NotificationCount")},
+      "/v1/notifications/preferences": {get:operation("getNotificationPreferences","NotificationPreferences"),patch:operation("setNotificationPreference","NotificationPreferences","NotificationPreference")},
+      "/v1/notifications/read-all": {post:operation("readAllNotifications","NotificationRead")},
+      "/v1/notifications/{id}/read": {post:{...operation("readNotification","NotificationRead"),parameters:[parameter]}},
+      "/v1/notifications/{id}/open": {post:{...operation("openNotification","NotificationTarget"),parameters:[parameter]}},
       "/v1/admin/metrics/export": {
         get: { ...operation("exportAdminMetrics", "AdminMetricsExport"), parameters: [
           { name: "format", in: "query", required: true, schema: { type: "string", enum: ["csv", "json"] } },

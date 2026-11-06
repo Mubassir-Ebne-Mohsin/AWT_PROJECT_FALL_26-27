@@ -518,10 +518,17 @@ describe("Support role and problem reports (isolated Postgres, no AI)", () => {
     it("goes up, down and up again on a separate database that already holds data, and refuses to go down while the role is in use", async () => {
       const name = "sf_support_mig_" + randomUUID().slice(0, 8).replace(/-/g, "");
       await db.query(`CREATE DATABASE ${name}`);
-      const other = new DataSource({ ...dataSourceOptions, database: name } as never);
+      // Exercise this migration, even after later feature migrations are added.
+      const migrations = db.migrations.filter((migration) => {
+        const timestamp = (migration.name ?? migration.constructor.name).match(/\d{13}$/)?.[0];
+        if (!timestamp) throw new Error("Migration timestamp is required for the bounded Support test");
+        return Number(timestamp) <= 1794700000000;
+      }).map((migration) => migration.constructor);
+      const other = new DataSource({ ...dataSourceOptions, database: name, migrations } as never);
       try {
         await other.initialize();
         await other.runMigrations();
+        expect((await other.query("SELECT name FROM migrations ORDER BY id DESC LIMIT 1"))[0].name).toBe("Support1794700000000");
         const tables = async () => (await other.query("SELECT tablename FROM pg_tables WHERE tablename LIKE 'support_%' ORDER BY 1")).map((r: { tablename: string }) => r.tablename);
         expect(await tables()).toEqual(["support_activity", "support_messages", "support_reads", "support_tickets"]);
         const [{ id }] = await other.query("INSERT INTO users (email, password_hash, display_name) VALUES ('mig@example.test', 'x', 'Mig') RETURNING id");

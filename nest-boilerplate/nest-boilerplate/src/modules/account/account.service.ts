@@ -110,7 +110,11 @@ export class AccountService {
     const by = <T extends { design_id?: string; attempt_id?: string; grant_id?: string }>(rows: T[], key: "design_id" | "attempt_id" | "grant_id", id: string) =>
       rows.filter((r) => r[key] === id);
 
+    const notifications = await q("SELECT id,kind,ref_id,created_at,read_at FROM notifications WHERE user_id=$1 AND created_at > now()-interval '90 days' ORDER BY created_at,id");
+    const preferences = await q("SELECT kind,muted FROM notification_preferences WHERE user_id=$1");
     return accountExportSchema.parse({
+      notifications: notifications.map(n=>({id:n.id,kind:n.kind,refId:n.ref_id,createdAt:iso(n.created_at),readAt:iso(n.read_at)})),
+      notificationPreferences: ["support_reply","report_status","support_new_report","support_assigned","reporter_reply"].map(kind=>({kind,muted:preferences.find(p=>p.kind===kind)?.muted??false})),
       format: "stressforge-export-v1",
       exportedAt: new Date().toISOString(),
       note: `Everything this account holds. Results of older runs beyond the latest ${EXPORT_RUNS_IN_FULL} per design are listed without their result. Share-link secrets, password hashes and other people's emails are never included. The role history keeps the email text of past role changes.`,

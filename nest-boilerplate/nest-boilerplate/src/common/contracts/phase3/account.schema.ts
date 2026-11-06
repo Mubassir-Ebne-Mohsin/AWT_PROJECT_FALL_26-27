@@ -38,7 +38,10 @@ export const deleteAccountSchema = z.strictObject({
 export const EXPORT_RUNS_IN_FULL = 20;
 
 const when = z.iso.datetime();
+import { notificationSchema, notificationPreferencesSchema } from "@/common/contracts/phase3/notifications.schema";
 export const accountExportSchema = z.strictObject({
+  notifications: z.array(notificationSchema),
+  notificationPreferences: notificationPreferencesSchema,
   format: z.literal("stressforge-export-v1"),
   exportedAt: when,
   note: z.string(),

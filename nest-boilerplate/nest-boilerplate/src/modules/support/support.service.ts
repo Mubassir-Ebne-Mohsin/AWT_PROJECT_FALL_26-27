@@ -1,3 +1,4 @@
+import { NotificationsService } from "@/modules/notifications/notifications.service";
 import { Injectable } from "@nestjs/common";
 import { DataSource, EntityManager } from "typeorm";
 import { ZodError } from "zod";
@@ -41,7 +42,7 @@ const likePattern = (q: string) => `%${q.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
  */
 @Injectable()
 export class SupportService {
-  constructor(private readonly db: DataSource) {}
+  constructor(private readonly db: DataSource, private readonly notifications: NotificationsService) {}
 
   // ---- Shared ---------------------------------------------------------------------------------------------------------
 
@@ -102,6 +103,7 @@ export class SupportService {
         [user.id, input.category, input.title, input.body, input.expected ?? null, JSON.stringify(input.context)],
       )) as Row[];
       await this.activity(m, { id: row.id as string, ref: row.ref as number }, "create", { kind: "user", id: user.id, email: user.email }, null, "open");
+      await this.notifications.team(m,"support_new_report",row.id as string,user.id);
       return row.id as string;
     });
     return this.own(user.id, id);
@@ -133,7 +135,7 @@ export class SupportService {
     const parsed = messageRequestSchema.safeParse(raw);
     if (!parsed.success) throw invalid(parsed.error);
     await this.db.transaction(async (m) => {
-      const [t] = (await m.query(`SELECT id, ref, status, resolved_at FROM support_tickets WHERE id = $1 AND author_id = $2 FOR UPDATE`, [id, user.id])) as Row[];
+      const [t] = (await m.query(`SELECT id, ref, status, resolved_at, assignee_id FROM support_tickets WHERE id = $1 AND author_id = $2 FOR UPDATE`, [id, user.id])) as Row[];
       if (!t) throw new AppException("NOT_FOUND", "Report not found");
       const [{ n }] = (await m.query(`SELECT count(*)::int AS n FROM support_messages WHERE author_id = $1 AND author_kind = 'user' AND created_at > now() - interval '1 hour'`, [user.id])) as Row[];
       if ((n as number) >= MESSAGES_PER_HOUR) throw new AppException("RATE_LIMITED", "You are sending messages too fast. Please wait a little.", { reason: "MESSAGES_PER_HOUR" });
@@ -151,6 +153,7 @@ export class SupportService {
       await m.query(`INSERT INTO support_messages (ticket_id, author_id, author_kind, internal, body, created_at) VALUES ($1, $2, 'user', false, $3, ${NOW})`, [id, user.id, parsed.data.body]);
       await m.query(`UPDATE support_tickets SET updated_at = ${NOW}, last_user_activity_at = ${NOW} WHERE id = $1`, [id]);
       await this.activity(m, ref, "reply", actor, null, null);
+      await this.notifications.team(m,"reporter_reply",id,user.id,t.assignee_id as string | null);
     });
     return this.own(user.id, id);
   }
@@ -240,16 +243,18 @@ export class SupportService {
     const parsed = supportMessageRequestSchema.safeParse(raw);
     if (!parsed.success) throw invalid(parsed.error);
     await this.db.transaction(async (m) => {
-      const [t] = (await m.query(`SELECT id, ref, status FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
+      const [t] = (await m.query(`SELECT id, ref, status, author_id FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
       if (!t) throw new AppException("NOT_FOUND", "Report not found");
       const ref = { id: t.id as string, ref: t.ref as number };
       const who = { kind: "support" as const, id: actor.id, email: actor.email };
       await m.query(`INSERT INTO support_messages (ticket_id, author_id, author_kind, internal, body, created_at) VALUES ($1, $2, 'support', $3, $4, ${NOW})`, [id, actor.id, parsed.data.internal, parsed.data.body]);
       if (!parsed.data.internal) {
+        await this.notifications.emit(m,"support_reply",id,actor.id,t.author_id?[t.author_id as string]:[]);
         await m.query(`UPDATE support_tickets SET first_response_at = COALESCE(first_response_at, ${NOW}), updated_at = ${NOW} WHERE id = $1`, [id]);
         if (t.status === "open") {
           await m.query(`UPDATE support_tickets SET status = 'in_progress' WHERE id = $1`, [id]);
           await this.activity(m, ref, "status", who, "open", "in_progress");
+          await this.notifications.emit(m,"report_status",id,actor.id,t.author_id?[t.author_id as string]:[]);
         }
       } else {
         await m.query(`UPDATE support_tickets SET updated_at = ${NOW} WHERE id = $1`, [id]);
@@ -264,7 +269,7 @@ export class SupportService {
     if (!parsed.success) throw invalid(parsed.error);
     const change = parsed.data;
     await this.db.transaction(async (m) => {
-      const [t] = (await m.query(`SELECT id, ref, status, priority, assignee_id FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
+      const [t] = (await m.query(`SELECT id, ref, status, priority, assignee_id, author_id FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
       if (!t) throw new AppException("NOT_FOUND", "Report not found");
       const ref = { id: t.id as string, ref: t.ref as number };
       const who = { kind: "support" as const, id: actor.id, email: actor.email };
@@ -272,6 +277,7 @@ export class SupportService {
       if (change.status !== undefined && change.status !== t.status) {
         await m.query(`UPDATE support_tickets SET status = $2::varchar, resolved_at = CASE WHEN $2::text = 'resolved' THEN ${NOW} ELSE NULL END WHERE id = $1`, [id, change.status]);
         await this.activity(m, ref, "status", who, t.status as string, change.status);
+        await this.notifications.emit(m,"report_status",id,actor.id,t.author_id?[t.author_id as string]:[]);
         changed = true;
       }
       if (change.priority !== undefined && change.priority !== t.priority) {
@@ -286,6 +292,7 @@ export class SupportService {
         }
         await m.query(`UPDATE support_tickets SET assignee_id = $2 WHERE id = $1`, [id, change.assigneeId]);
         await this.activity(m, ref, "assign", who, (t.assignee_id as string | null) ?? null, change.assigneeId);
+        if(change.assigneeId) await this.notifications.emit(m,"support_assigned",id,actor.id,[change.assigneeId]);
         changed = true;
       }
       if (changed) await m.query(`UPDATE support_tickets SET updated_at = ${NOW} WHERE id = $1`, [id]);
