@@ -1,0 +1,220 @@
+TAP version 13
+# Subtest: heatmap has 168 numeric cells, Monday/Sunday boundaries, UTC window totals and an accessible table
+ok 1 - heatmap has 168 numeric cells, Monday/Sunday boundaries, UTC window totals and an accessible table
+  ---
+  duration_ms: 123.0592
+  type: 'test'
+  ...
+# Subtest: Admin PDF is one A4 page with exact UTC source, digest and aggregate headlines; no extra fields are rendered
+ok 2 - Admin PDF is one A4 page with exact UTC source, digest and aggregate headlines; no extra fields are rendered
+  ---
+  duration_ms: 178.2753
+  type: 'test'
+  ...
+# Subtest: characters the font cannot draw become ? and are counted; Latin text and WinAnsi punctuation are kept
+ok 3 - characters the font cannot draw become ? and are counted; Latin text and WinAnsi punctuation are kept
+  ---
+  duration_ms: 16.8041
+  type: 'test'
+  ...
+# Subtest: wrapping never loses a character, respects the width, and breaks a word that is too long
+ok 4 - wrapping never loses a character, respects the width, and breaks a word that is too long
+  ---
+  duration_ms: 4.4638
+  type: 'test'
+  ...
+# Subtest: shortening keeps what fits, adds three dots and leaves short text alone
+ok 5 - shortening keeps what fits, adds three dots and leaves short text alone
+  ---
+  duration_ms: 3.0134
+  type: 'test'
+  ...
+# Subtest: the file name is the design name and revision, plain and short
+ok 6 - the file name is the design name and revision, plain and short
+  ---
+  duration_ms: 2.374
+  type: 'test'
+  ...
+# Subtest: dates are fixed UTC text, so the same report always gives the same words
+ok 7 - dates are fixed UTC text, so the same report always gives the same words
+  ---
+  duration_ms: 1.4566
+  type: 'test'
+  ...
+# Subtest: the diagram fits the box, never enlarges, and says when it cannot be read
+ok 8 - the diagram fits the box, never enlarges, and says when it cannot be read
+  ---
+  duration_ms: 3.9521
+  type: 'test'
+  ...
+# Subtest: every component is drawn with its name and a text status, and every connection ends on the boxes
+ok 9 - every component is drawn with its name and a text status, and every connection ends on the boxes
+  ---
+  duration_ms: 171.717
+  type: 'test'
+  ...
+# Subtest: results are never drawn for a run recorded for another revision, and a shared label is matched by id
+ok 10 - results are never drawn for a run recorded for another revision, and a shared label is matched by id
+  ---
+  duration_ms: 6.9727
+  type: 'test'
+  ...
+# Subtest: the layout is a pure function: the same report gives identical pages
+ok 11 - the layout is a pure function: the same report gives identical pages
+  ---
+  duration_ms: 24.5248
+  type: 'test'
+  ...
+# Subtest: every figure in the dossier is the report's own, and the honesty lines are there
+ok 12 - every figure in the dossier is the report's own, and the honesty lines are there
+  ---
+  duration_ms: 7.167
+  type: 'test'
+  ...
+# Subtest: a design with no run says so and shows no figures; a run for another revision is stated plainly
+ok 13 - a design with no run says so and shows no figures; a run for another revision is stated plainly
+  ---
+  duration_ms: 14.1467
+  type: 'test'
+  ...
+# Subtest: an AI-drafted design and a keyword-rules draft are marked as such, and the figures are said not to be AI output
+ok 14 - an AI-drafted design and a keyword-rules draft are marked as such, and the figures are said not to be AI output
+  ---
+  duration_ms: 23.6538
+  type: 'test'
+  ...
+# Subtest: notes appear only when asked for, with the report's own scope wording
+ok 15 - notes appear only when asked for, with the report's own scope wording
+  ---
+  duration_ms: 27.3929
+  type: 'test'
+  ...
+# Subtest: every page has a footer with the design, revision, run, engine and page numbers
+ok 16 - every page has a footer with the design, revision, run, engine and page numbers
+  ---
+  duration_ms: 21.7152
+  type: 'test'
+  ...
+# Subtest: characters the font cannot draw are replaced, counted, and the page says so
+ok 17 - characters the font cannot draw are replaced, counted, and the page says so
+  ---
+  duration_ms: 16.1386
+  type: 'test'
+  ...
+# Subtest: a long table continues on the next page with its header repeated, and no row is lost
+ok 18 - a long table continues on the next page with its header repeated, and no row is lost
+  ---
+  duration_ms: 5.7263
+  type: 'test'
+  ...
+# Subtest: a wide graph gets a landscape page; a huge one says so and leaves the details to the tables
+ok 19 - a wide graph gets a landscape page; a huge one says so and leaves the details to the tables
+  ---
+  duration_ms: 7.0349
+  type: 'test'
+  ...
+# Subtest: a design with no components is stated, not drawn
+ok 20 - a design with no components is stated, not drawn
+  ---
+  duration_ms: 1.8983
+  type: 'test'
+  ...
+# Subtest: the file parses, has the right pages and metadata, and its text contains the report's figures
+ok 21 - the file parses, has the right pages and metadata, and its text contains the report's figures
+  ---
+  duration_ms: 242.1413
+  type: 'test'
+  ...
+# Subtest: the same report gives the same file, byte for byte
+ok 22 - the same report gives the same file, byte for byte
+  ---
+  duration_ms: 88.392
+  type: 'test'
+  ...
+# Subtest: a name the font cannot draw still gives a valid file
+ok 23 - a name the font cannot draw still gives a valid file
+  ---
+  duration_ms: 40.061
+  type: 'test'
+  ...
+# Subtest: the short settings use the report's own formatting, one item each, in a fixed order, and ignore anything that is not a number
+ok 24 - the short settings use the report's own formatting, one item each, in a fixed order, and ignore anything that is not a number
+  ---
+  duration_ms: 2.9889
+  type: 'test'
+  ...
+# Subtest: settings are packed onto as few lines as fit, in order, without splitting an item
+ok 25 - settings are packed onto as few lines as fit, in order, without splitting an item
+  ---
+  duration_ms: 0.5427
+  type: 'test'
+  ...
+# Subtest: each box carries its own settings, nothing is cut short, a component without settings gets no line, and the legend still clears the boxes
+ok 26 - each box carries its own settings, nothing is cut short, a component without settings gets no line, and the legend still clears the boxes
+  ---
+  duration_ms: 3.2572
+  type: 'test'
+  ...
+# Subtest: boxes never overlap, with or without settings
+ok 27 - boxes never overlap, with or without settings
+  ---
+  duration_ms: 3.6093
+  type: 'test'
+  ...
+# Subtest: when the boxes above and below are too close to grow, or the page has no height to spare, the diagram is exactly as it was and says so
+ok 28 - when the boxes above and below are too close to grow, or the page has no height to spare, the diagram is exactly as it was and says so
+  ---
+  duration_ms: 17.2746
+  type: 'test'
+  ...
+# Subtest: a settings line in the diagram never changes the Components table
+ok 29 - a settings line in the diagram never changes the Components table
+  ---
+  duration_ms: 6.4586
+  type: 'test'
+  ...
+# Subtest: on a wide design the boxes grow to carry their settings, the grown height is reported, and four settings wrap rather than being cut
+ok 30 - on a wide design the boxes grow to carry their settings, the grown height is reported, and four settings wrap rather than being cut
+  ---
+  duration_ms: 2.4439
+  type: 'test'
+  ...
+# Subtest: monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+ok 31 - monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+  ---
+  duration_ms: 4.8235
+  type: 'test'
+  ...
+# Subtest: source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+ok 32 - source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+  ---
+  duration_ms: 1.0616
+  type: 'test'
+  ...
+# Subtest: every actual dossier page is branded without covering titles or changing recorded figures
+ok 33 - every actual dossier page is branded without covering titles or changing recorded figures
+  ---
+  duration_ms: 370.9331
+  type: 'test'
+  ...
+# Subtest: Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+ok 34 - Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+  ---
+  duration_ms: 36.9753
+  type: 'test'
+  ...
+# Subtest: owner and design-only shared print views have the same vector mark and source without adding private content
+ok 35 - owner and design-only shared print views have the same vector mark and source without adding private content
+  ---
+  duration_ms: 61.9425
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9830.6094

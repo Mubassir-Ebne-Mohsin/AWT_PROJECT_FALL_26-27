@@ -1,0 +1,25 @@
+[
+  {
+    "name": "report",
+    "pages": 2,
+    "landscapePages": 0
+  },
+  {
+    "name": "landscape",
+    "pages": 3,
+    "landscapePages": 1
+  },
+  {
+    "name": "long",
+    "pages": 5,
+    "landscapePages": 0
+  },
+  {
+    "name": "admin",
+    "pages": 1
+  },
+  {
+    "name": "print-shared",
+    "printStyles": 1
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "applied": true,
+    "kind": "missing",
+    "assertion": true,
+    "exit": 1
+  },
+  {
+    "applied": true,
+    "kind": "placement",
+    "assertion": true,
+    "exit": 1
+  },
+  {
+    "applied": true,
+    "kind": "print",
+    "assertion": true,
+    "exit": 1
+  }
+]

@@ -1,0 +1,2792 @@
+$ node --require ./tests/register.cjs --test tests/*.test.cjs
+TAP version 13
+# Subtest: tests\\admin-extras.test.cjs
+not ok 1 - tests\\admin-extras.test.cjs
+  ---
+  duration_ms: 3989.9034
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\admin-extras.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 3221226505
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: backoff doubles from 5 seconds and stops at 40
+ok 2 - backoff doubles from 5 seconds and stops at 40
+  ---
+  duration_ms: 3.8636
+  type: 'test'
+  ...
+# Subtest: a good answer resets failures and records when it arrived
+ok 3 - a good answer resets failures and records when it arrived
+  ---
+  duration_ms: 2.3023
+  type: 'test'
+  ...
+# Subtest: an older snapshot that arrives late is ignored whole
+ok 4 - an older snapshot that arrives late is ignored whole
+  ---
+  duration_ms: 0.4094
+  type: 'test'
+  ...
+# Subtest: a snapshot from the same instant is accepted (the server shares one cached read)
+ok 5 - a snapshot from the same instant is accepted (the server shares one cached read)
+  ---
+  duration_ms: 0.3626
+  type: 'test'
+  ...
+# Subtest: status: live, paused by hand, paused by a hidden tab, reconnecting, then stale after a minute
+ok 6 - status: live, paused by hand, paused by a hidden tab, reconnecting, then stale after a minute
+  ---
+  duration_ms: 0.3284
+  type: 'test'
+  ...
+# Subtest: polling runs only when neither paused nor hidden
+ok 7 - polling runs only when neither paused nor hidden
+  ---
+  duration_ms: 0.2077
+  type: 'test'
+  ...
+# Subtest: a tab coming back fetches at once when nothing recent is on screen
+ok 8 - a tab coming back fetches at once when nothing recent is on screen
+  ---
+  duration_ms: 0.3232
+  type: 'test'
+  ...
+# Subtest: status wording says how old the numbers are
+ok 9 - status wording says how old the numbers are
+  ---
+  duration_ms: 0.6399
+  type: 'test'
+  ...
+# Subtest: compact keeps small numbers whole and shortens large ones without overflow
+ok 10 - compact keeps small numbers whole and shortens large ones without overflow
+  ---
+  duration_ms: 64.5724
+  type: 'test'
+  ...
+# Subtest: ageText
+ok 11 - ageText
+  ---
+  duration_ms: 0.8981
+  type: 'test'
+  ...
+# Subtest: bucket labels count hours from the oldest bucket and wrap at midnight UTC
+ok 12 - bucket labels count hours from the oldest bucket and wrap at midnight UTC
+  ---
+  duration_ms: 1.4539
+  type: 'test'
+  ...
+# Subtest: percent never divides by zero; bar heights keep small non-zero values visible
+ok 13 - percent never divides by zero; bar heights keep small non-zero values visible
+  ---
+  duration_ms: 0.5674
+  type: 'test'
+  ...
+# Subtest: alerts are sorted most serious first and every key has a sentence
+ok 14 - alerts are sorted most serious first and every key has a sentence
+  ---
+  duration_ms: 20.0471
+  type: 'test'
+  ...
+# Subtest: the wall display moves to the next panel every ten seconds, wraps, and stands still when motion is reduced
+ok 15 - the wall display moves to the next panel every ten seconds, wraps, and stands still when motion is reduced
+  ---
+  duration_ms: 0.4449
+  type: 'test'
+  ...
+# Subtest: every component type and AI outcome has a plain name
+ok 16 - every component type and AI outcome has a plain name
+  ---
+  duration_ms: 0.2263
+  type: 'test'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF6875E3337
+#  7: 00007FF68761D93A
+#  8: 00007FF68770BFFC
+#  9: 00007FF68770D7D5
+# 10: 00007FF687709AC2
+# 11: 00007FF6877130B7
+# 12: 00007FF68770E478
+# 13: 00007FF68770C295
+# 14: 00007FF68770A39F
+# 15: 00007FF687696F03
+# 16: 00007FF68768DF0D
+# 17: 00007FF68768EB95
+# 18: 00007FF686E71804
+# 19: 00007FF686E38302
+# 20: 00007FF6870FAB36
+# 21: 00007FF686269A30
+# 22: 00007FF6863F6B43
+# 23: 00007FF687C8CF2B
+# 24: 00007FFCD36BDDA7
+# 25: 00007FFCD4FBEE4C
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF68670024C
+#  7: 00007FF6876A9E44
+#  8: 00007FF6876A242B
+#  9: 00007FF6876A9593
+# 10: 00007FF6876A5528
+# 11: 00007FF6877A4B7B
+# 12: 00007FF68779B348
+# 13: 00007FF6876C3D67
+# 14: 00007FF687696551
+# 15: 00007FF6876C3958
+# 16: 00007FF6876C410E
+# 17: 00007FF6876C3DF2
+# 18: 00007FF687697353
+# 19: 00007FF68768DFC5
+# 20: 00007FF68768EB95
+# 21: 00007FF686E71804
+# 22: 00007FF686E38302
+# 23: 00007FF6870FAB36
+# 24: 00007FF686269A30
+# 25: 00007FF6863F6B43
+# 26: 00007FF687C8CF2B
+# 27: 00007FFCD36BDDA7
+# 28: 00007FFCD4FBEE4C
+# Subtest: tests\\ai-describe.test.cjs
+not ok 3 - tests\\ai-describe.test.cjs
+  ---
+  duration_ms: 1787.8591
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\ai-describe.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: the headline is the approved wording with every figure taken from the data
+ok 18 - the headline is the approved wording with every figure taken from the data
+  ---
+  duration_ms: 83.0918
+  type: 'test'
+  ...
+# Subtest: the headline rounds the difference to the nearest percent, from whatever the data says
+ok 19 - the headline rounds the difference to the nearest percent, from whatever the data says
+  ---
+  duration_ms: 3.9537
+  type: 'test'
+  ...
+# Subtest: each claim in the headline is still true of the data
+ok 20 - each claim in the headline is still true of the data
+  ---
+  duration_ms: 1.9694
+  type: 'test'
+  ...
+# Subtest: the headline matches the findings document the user read
+ok 21 - the headline matches the findings document the user read
+  ---
+  duration_ms: 16.145
+  type: 'test'
+  ...
+# Subtest: the status says what this is, and with no data it says not yet measured and shows no figure
+ok 22 - the status says what this is, and with no data it says not yet measured and shows no figure
+  ---
+  duration_ms: 950.2127
+  type: 'test'
+  ...
+# Subtest: every table cell is the data value, formatted: p95 with its range, the model p95, and the difference
+ok 23 - every table cell is the data value, formatted: p95 with its range, the model p95, and the difference
+  ---
+  duration_ms: 133.5803
+  type: 'test'
+  ...
+# Subtest: the notes mark the fit steps, the rows where requests timed out, and the differences inside the spread
+ok 24 - the notes mark the fit steps, the rows where requests timed out, and the differences inside the spread
+  ---
+  duration_ms: 151.3392
+  type: 'test'
+  ...
+# Subtest: the breaking-point sentences state the data's loads and the difference
+ok 25 - the breaking-point sentences state the data's loads and the difference
+  ---
+  duration_ms: 131.5412
+  type: 'test'
+  ...
+# Subtest: the four expectations are listed with their verdict under every way of fitting, and match the written record
+ok 26 - the four expectations are listed with their verdict under every way of fitting, and match the written record
+  ---
+  duration_ms: 225.1555
+  type: 'test'
+  ...
+# Subtest: the trust section discloses the correction with the data's own numbers, and the limits are always stated
+ok 27 - the trust section discloses the correction with the data's own numbers, and the limits are always stated
+  ---
+  duration_ms: 186.4892
+  type: 'test'
+  ...
+# Subtest: the setup and machine sentences are the data's
+ok 28 - the setup and machine sentences are the data's
+  ---
+  duration_ms: 171.1069
+  type: 'test'
+  ...
+# Subtest: every command the tab tells you to run is real: a script in its package.json, or a file that exists
+ok 29 - every command the tab tells you to run is real: a script in its package.json, or a file that exists
+  ---
+  duration_ms: 6.7142
+  type: 'test'
+  ...
+# Subtest: the method has seven steps, in the past tense, and the page never says validated or accurate without a limit
+ok 30 - the method has seven steps, in the past tense, and the page never says validated or accurate without a limit
+  ---
+  duration_ms: 139.641
+  type: 'test'
+  ...
+# Subtest: the other tabs and the ever-present limits still hold: the Simulator tab no longer says no real service was compared
+ok 31 - the other tabs and the ever-present limits still hold: the Simulator tab no longer says no real service was compared
+  ---
+  duration_ms: 118.0316
+  type: 'test'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF68691B906
+#  7: 00007FF68768A4D2
+#  8: 00007FF687692B57
+#  9: 00007FF687694A0E
+# 10: 00007FF68768EBBA
+# 11: 00007FF686E71804
+# 12: 00007FF686E38302
+# 13: 00007FF6870FAB36
+# 14: 00007FF686269A30
+# 15: 00007FF6863F6B43
+# 16: 00007FF687C8CF2B
+# 17: 00007FFCD36BDDA7
+# 18: 00007FFCD4FBEE4C RtlUserThreadStart+44
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF6875E3337
+#  7: 00007FF68761D93A
+#  8: 00007FF6879575BF
+#  9: 00007FF687709B82
+# 10: 00007FF68771318F
+# 11: 00007FF68770E478
+# 12: 00007FF68770C295
+# 13: 00007FF68770A39F
+# 14: 00007FF68796048A
+# 15: 00007FF687790EAA
+# 16: 00007FF68779258D
+# 17: 00007FF6876C3D67
+# 18: 00007FF687696551
+# 19: 00007FF6876C3958
+# 20: 00007FF6876C410E
+# 21: 00007FF6876C3DF2
+# 22: 00007FF687697353
+# 23: 00007FF68768DFC5
+# 24: 00007FF68768EB95
+# 25: 00007FF686E71804
+# 26: 00007FF686E38302
+# 27: 00007FF6870FAB36
+# 28: 00007FF686269A30
+# 29: 00007FF6863F6B43
+# 30: 00007FF687C8CF2B
+# 31: 00007FFCD36BDDA7
+# 32: 00007FFCD4FBEE4C
+# Subtest: tests\\canvas.test.cjs
+not ok 5 - tests\\canvas.test.cjs
+  ---
+  duration_ms: 1631.9601
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\canvas.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [33852:000002D6934C1000]      527 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.54 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [33852:000002D6934C1000]      541 ms: Scavenge 20.5 (23.3) -> 19.9 (24.0) MB, pooled: 0 MB, 0.98 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [33852:000002D6934C1000]      548 ms: Scavenge 21.0 (24.0) -> 20.5 (29.0) MB, pooled: 0 MB, 2.10 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF6869D5E5B v8::SnapshotCreator::GetIsolate+50139
+#  6: 00007FF686AD60A6 v8::base::Thread::StartSynchronously+172134
+#  7: 00007FF686AE288D v8::base::Thread::StartSynchronously+223309
+#  8: 00007FF686AE2E2D v8::base::Thread::StartSynchronously+224749
+#  9: 00007FF686AE2F73 v8::base::Thread::StartSynchronously+225075
+# 10: 00007FF686AE1F68 v8::base::Thread::StartSynchronously+220968
+# 11: 00007FF686AE1267 v8::base::Thread::StartSynchronously+217639
+# 12: 00007FF686AE298A v8::base::Thread::StartSynchronously+223562
+# 13: 00007FF686AD3654 v8::base::Thread::StartSynchronously+161300
+# 14: 00007FF686AE17BC v8::base::Thread::StartSynchronously+219004
+# 15: 00007FF686ACCC2E v8::base::Thread::StartSynchronously+134126
+# 16: 00007FF686E6E1BE v8::SharedValueConveyor::SharedValueConveyor+16430
+# 17: 00007FF686E6DBEA v8::SharedValueConveyor::SharedValueConveyor+14938
+# 18: 00007FF686A49D77 v8::base::AddressSpaceReservation::AddressSpaceReservation+360231
+# 19: 00007FF686FC374E v8::PropertyDescriptor::writable+727662
+# 20: 00007FF686F2526F v8::PropertyDescriptor::writable+79247
+# 21: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 22: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 23: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 24: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 25: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 26: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 27: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 28: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 29: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 30: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 31: 00007FF607152842
+# Subtest: tests\\client.test.cjs
+not ok 6 - tests\\client.test.cjs
+  ---
+  duration_ms: 1256.7264
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\client.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [8240:000001F55BD92000]      500 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.66 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [8240:000001F55BD92000]      515 ms: Scavenge 20.5 (23.3) -> 20.0 (23.8) MB, pooled: 0 MB, 1.03 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [8240:000001F55BD92000]      519 ms: Scavenge 21.0 (23.8) -> 20.5 (29.0) MB, pooled: 0 MB, 1.16 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686AD60A6
+#  7: 00007FF686AE288D
+#  8: 00007FF686AE2E2D
+#  9: 00007FF686AE2F73
+# 10: 00007FF686AE1F68
+# 11: 00007FF686AE1267
+# 12: 00007FF686AE298A
+# 13: 00007FF686AD3654
+# 14: 00007FF686AE17BC
+# 15: 00007FF686ACCC2E
+# 16: 00007FF686E6E1BE
+# 17: 00007FF686E6DBEA
+# 18: 00007FF686A49D77
+# 19: 00007FF686FC374E
+# 20: 00007FF686F2526F
+# 21: 00007FF686F23972
+# 22: 00007FF686F23972
+# 23: 00007FF686F23972
+# 24: 00007FF686F23972
+# 25: 00007FF686F23972
+# 26: 00007FF686F23972
+# 27: 00007FF686F23972
+# 28: 00007FF686F23972
+# 29: 00007FF686F23972
+# 30: 00007FF686F23972
+# 31: 00007FF607152842
+# Subtest: tests\\concept-help.test.cjs
+not ok 7 - tests\\concept-help.test.cjs
+  ---
+  duration_ms: 1038.299
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\concept-help.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF687B0C342
+#  7: 00007FF687B206E2
+#  8: 00007FF687694ECC
+#  9: 00007FF68768EBBA
+# 10: 00007FF686E71804
+# 11: 00007FF686E38302
+# 12: 00007FF6870FAB36
+# 13: 00007FF686269A30
+# 14: 00007FF6863F6B43
+# 15: 00007FF687C8CF2B
+# 16: 00007FFCD36BDDA7
+# 17: 00007FFCD4FBEE4C
+# Subtest: tests\\creation-session.test.cjs
+not ok 8 - tests\\creation-session.test.cjs
+  ---
+  duration_ms: 1574.4033
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\creation-session.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF68670024C
+#  7: 00007FF686A826E7
+#  8: 00007FF6876C535F
+#  9: 00007FF6879B031C
+# 10: 00007FF68769A781
+# 11: 00007FF687695279
+# 12: 00007FF68768EBBA
+# 13: 00007FF686E71804
+# 14: 00007FF686E38302
+# 15: 00007FF6870FAB36
+# 16: 00007FF686269A30
+# 17: 00007FF6863F6B43
+# 18: 00007FF687C8CF2B
+# 19: 00007FFCD36BDDA7
+# 20: 00007FFCD4FBEE4C
+# Subtest: tests\\crumbs-home.test.cjs
+not ok 9 - tests\\crumbs-home.test.cjs
+  ---
+  duration_ms: 977.9726
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\crumbs-home.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [20808:0000022243B23000]      579 ms: Scavenge 17.7 (19.3) -> 17.6 (22.3) MB, pooled: 0 MB, 1.70 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [20808:0000022243B23000]      672 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.88 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF6869D5E5B v8::SnapshotCreator::GetIsolate+50139
+#  6: 00007FF686C85124 v8::Object::GetIsolate+415748
+#  7: 00007FF686C8E5D0 v8::Object::GetIsolate+453808
+#  8: 00007FF686C93C26 v8::Object::GetIsolate+475910
+#  9: 00007FF686C95DF9 v8::Object::GetIsolate+484569
+# 10: 00007FF686C8FC97 v8::Object::GetIsolate+459639
+# 11: 00007FF686C92A14 v8::Object::GetIsolate+471284
+# 12: 00007FF686C8E262 v8::Object::GetIsolate+452930
+# 13: 00007FF686C8DF1C v8::Object::GetIsolate+452092
+# 14: 00007FF686C8DB00 v8::Object::GetIsolate+451040
+# 15: 00007FF686C7D48B v8::Object::GetIsolate+383851
+# 16: 00007FF686E71898 v8::SharedValueConveyor::SharedValueConveyor+30472
+# 17: 00007FF686E6AD42 v8::SharedValueConveyor::SharedValueConveyor+2994
+# 18: 00007FF686E6E26B v8::SharedValueConveyor::SharedValueConveyor+16603
+# 19: 00007FF686E6DBEA v8::SharedValueConveyor::SharedValueConveyor+14938
+# 20: 00007FF686A49D77 v8::base::AddressSpaceReservation::AddressSpaceReservation+360231
+# 21: 00007FF686FC374E v8::PropertyDescriptor::writable+727662
+# 22: 00007FF686F2526F v8::PropertyDescriptor::writable+79247
+# 23: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 24: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 25: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 26: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 27: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 28: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 29: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 30: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 31: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 32: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 33: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 34: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 35: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 36: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 37: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 38: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 39: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 40: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 41: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 42: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 43: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 44: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 45: 00007FF686F21570 v8::PropertyDescriptor::writable+63632
+# 46: 00007FF686F2116B v8::PropertyDescriptor::writable+62603
+# 47: 00007FF686DD963D v8::Isolate::NumberOfHeapSpaces+2557
+# 48: 00007FF686DD8F73 v8::Isolate::NumberOfHeapSpaces+819
+# 49: 00007FF686EECE34 v8::Function::Call+308
+# 50: 00007FF68631B5D5 node::OnFatalError+150469
+# 51: 00007FF68631B83C node::OnFatalError+151084
+# 52: 00007FF68625B116 node::TriggerNodeReport+23462
+# 53: 00007FF686340232 node::Start+114
+# 54: 00007FF686340D38 node::Start+2936
+# 55: 00007FF6863D5A9A node::LoadEnvironment+234
+# 56: 00007FF6862990E8 v8_inspector::protocol::Binary::operator=+129912
+# 57: 00007FF6863414C3 node::Start+4867
+# 58: 00007FF6863401DE node::Start+30
+# 59: 00007FF68609B1EC AES_cbc_encrypt+152028
+# 60: 00007FF687C69704 inflateValidate+41028
+# 61: 00007FFCD36BDDA7 BaseThreadInitThunk+23
+# 62: 00007FFCD4FBEE4C RtlUserThreadStart+44
+# Subtest: tests\\dossier.test.cjs
+not ok 10 - tests\\dossier.test.cjs
+  ---
+  duration_ms: 1197.6461
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\dossier.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [23388:0000029935181000]     1302 ms: Scavenge 26.6 (31.0) -> 24.6 (31.5) MB, pooled: 0 MB, 9.67 / 0.01 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [23388:0000029935181000]     1574 ms: Scavenge 28.0 (32.8) -> 25.9 (34.5) MB, pooled: 0 MB, 1.93 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [23388:0000029935181000]     1711 ms: Scavenge 30.0 (34.8) -> 27.7 (43.0) MB, pooled: 0 MB, 3.05 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686755858
+#  7: 00007FF686C978D9
+#  8: 00007FF686C96735
+#  9: 00007FF686C8FC97
+# 10: 00007FF686C8FE34
+# 11: 00007FF686C909E1
+# 12: 00007FF686C9691A
+# 13: 00007FF686C8FC97
+# 14: 00007FF686C9324D
+# 15: 00007FF686C9609A
+# 16: 00007FF686C8FC97
+# 17: 00007FF686C99065
+# 18: 00007FF686C8DF1C
+# 19: 00007FF686C8DB00
+# 20: 00007FF686C7D48B
+# 21: 00007FF686E71898
+# 22: 00007FF686E6AD42
+# 23: 00007FF686E6FEFA
+# 24: 00007FF686E75718
+# 25: 00007FF686EEF307
+# 26: 00007FF686EEF054
+# 27: 00007FF6863043FD
+# 28: 00007FF686304934
+# 29: 00007FF686F256B8
+# 30: 00007FF6072D0FEC
+# Subtest: tests\\editor-session.test.cjs
+not ok 11 - tests\\editor-session.test.cjs
+  ---
+  duration_ms: 2348.5755
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\editor-session.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: what is sent is stated precisely: the verified facts of one run, nothing else, and what the provider may keep
+ok 39 - what is sent is stated precisely: the verified facts of one run, nothing else, and what the provider may keep
+  ---
+  duration_ms: 1.9435
+  type: 'test'
+  ...
+# Subtest: wait times read as a person would say them, at every boundary
+ok 40 - wait times read as a person would say them, at every boundary
+  ---
+  duration_ms: 19.6268
+  type: 'test'
+  ...
+# Subtest: only the hosted provider is called hosted
+ok 41 - only the hosted provider is called hosted
+  ---
+  duration_ms: 0.2717
+  type: 'test'
+  ...
+# Subtest: a local or unspecified provider keeps exactly the local readiness wording, for every reason
+ok 42 - a local or unspecified provider keeps exactly the local readiness wording, for every reason
+  ---
+  duration_ms: 0.3098
+  type: 'test'
+  ...
+# Subtest: a hosted provider is described as hosted: ready, unavailable and quota used up, with the wait
+ok 43 - a hosted provider is described as hosted: ready, unavailable and quota used up, with the wait
+  ---
+  duration_ms: 0.5927
+  type: 'test'
+  ...
+# Subtest: no hosted readiness text claims anything about a local model or this computer
+ok 44 - no hosted readiness text claims anything about a local model or this computer
+  ---
+  duration_ms: 0.545
+  type: 'test'
+  ...
+# Subtest: the drawer's one status line follows the provider the server reports
+ok 45 - the drawer's one status line follows the provider the server reports
+  ---
+  duration_ms: 9.1875
+  type: 'test'
+  ...
+# Subtest: a refused or failed request is explained in hosted terms: quota with the wait, quota unreadable, no key
+ok 46 - a refused or failed request is explained in hosted terms: quota with the wait, quota unreadable, no key
+  ---
+  duration_ms: 2.5899
+  type: 'test'
+  ...
+# Subtest: a provider outage on submit reads as hosted when the provider is hosted, and as local when it is local
+ok 47 - a provider outage on submit reads as hosted when the provider is hosted, and as local when it is local
+  ---
+  duration_ms: 39.7263
+  type: 'test'
+  ...
+# Subtest: a failed job says what failed in the words of its provider
+ok 48 - a failed job says what failed in the words of its provider
+  ---
+  duration_ms: 4.737
+  type: 'test'
+  ...
+# Subtest: a hosted job that failed shows the hosted failure text, and a job without a provider shows the local one
+ok 49 - a hosted job that failed shows the hosted failure text, and a job without a provider shows the local one
+  ---
+  duration_ms: 2.8883
+  type: 'test'
+  ...
+# Subtest: provenance lines: a hosted model has no digest, tokens and time appear only when reported
+ok 50 - provenance lines: a hosted model has no digest, tokens and time appear only when reported
+  ---
+  duration_ms: 0.9599
+  type: 'test'
+  ...
+# Subtest: the store learns that the provider is hosted from the readiness probe, and treats anything else as local
+ok 51 - the store learns that the provider is hosted from the readiness probe, and treats anything else as local
+  ---
+  duration_ms: 157.5895
+  type: 'test'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF6875E3337
+#  7: 00007FF68761D93A
+#  8: 00007FF68770D5BE
+#  9: 00007FF68770D109
+# 10: 00007FF68770D46F
+# 11: 00007FF687713863
+# 12: 00007FF68770E478
+# 13: 00007FF68770C295
+# 14: 00007FF68770A39F
+# 15: 00007FF687696F03
+# 16: 00007FF68768DF0D
+# 17: 00007FF68768EB95
+# 18: 00007FF686E71804
+# 19: 00007FF686E38302
+# 20: 00007FF6870FAB36
+# 21: 00007FF686269A30
+# 22: 00007FF6863F6B43
+# 23: 00007FF687C8CF2B
+# 24: 00007FFCD36BDDA7
+# 25: 00007FFCD4FBEE4C
+# Subtest: tests\\fix-goal.test.cjs
+not ok 13 - tests\\fix-goal.test.cjs
+  ---
+  duration_ms: 1284.068
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\fix-goal.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# \#
+# \# Fatal JavaScript out of memory: MemoryChunk allocation failed during deserialization.
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686F07D43
+#  5: 00007FF686EF47A6
+#  6: 00007FF686D50DD0
+#  7: 00007FF686D17F11
+#  8: 00007FF686D18530
+#  9: 00007FF686D18236
+# 10: 00007FF686D07D0B
+# 11: 00007FF686D0733A
+# 12: 00007FF686D5EBE0
+# 13: 00007FF686DC2D93
+# 14: 00007FF6869F4D73
+# 15: 00007FF686EFD8D1
+# 16: 00007FF6863D5C7D
+# 17: 00007FF686298CEB
+# 18: 00007FF6863414B9
+# 19: 00007FF6863401DE
+# 20: 00007FF68609B1EC
+# 21: 00007FF687C69704
+# 22: 00007FFCD36BDDA7
+# 23: 00007FFCD4FBEE4C RtlUserThreadStart+44
+# Subtest: tests\\fixes.test.cjs
+not ok 14 - tests\\fixes.test.cjs
+  ---
+  duration_ms: 555.3036
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\fixes.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# \#
+# \# Fatal JavaScript out of memory: MemoryChunk allocation failed during deserialization.
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686F07D43
+#  5: 00007FF686EF47A6
+#  6: 00007FF686D50DD0
+#  7: 00007FF686D17F11
+#  8: 00007FF686D18530
+#  9: 00007FF686D18236
+# 10: 00007FF686CFDE6C
+# 11: 00007FF686D3E8E6
+# 12: 00007FF686D3E570
+# 13: 00007FF686D3DC58
+# 14: 00007FF686D3D3D1
+# 15: 00007FF686A0F922
+# 16: 00007FF686A11212
+# 17: 00007FF686A0BDD9
+# 18: 00007FF686A10AEC
+# 19: 00007FF686A11322
+# 20: 00007FF686A0BDD9
+# 21: 00007FF686A10AEC
+# 22: 00007FF686A11322
+# 23: 00007FF686A0BDD9
+# 24: 00007FF686A10AEC
+# 25: 00007FF686A11322
+# 26: 00007FF686A0BDD9
+# 27: 00007FF686A10AEC
+# 28: 00007FF686A11322
+# 29: 00007FF686A0BDD9
+# 30: 00007FF686A10AEC
+# 31: 00007FF686A11322
+# 32: 00007FF686A0BDD9
+# 33: 00007FF686A10AEC
+# 34: 00007FF686A11322
+# 35: 00007FF686A0BDD9
+# 36: 00007FF686A10AEC
+# 37: 00007FF686A11322
+# 38: 00007FF686A0CD05
+# 39: 00007FF686A118AF
+# 40: 00007FF686D56D98
+# 41: 00007FF6869ECE60
+# 42: 00007FF686DC31E5
+# 43: 00007FF6869F4D73
+# 44: 00007FF686EFD8D1
+# 45: 00007FF6863D5C7D
+# 46: 00007FF686298CEB
+# 47: 00007FF6863414B9
+# 48: 00007FF6863401DE
+# 49: 00007FF68609B1EC
+# 50: 00007FF687C69704
+# 51: 00007FFCD36BDDA7 BaseThreadInitThunk+23
+# 52: 00007FFCD4FBEE4C
+# Subtest: tests\\help-fallback.test.cjs
+not ok 15 - tests\\help-fallback.test.cjs
+  ---
+  duration_ms: 407.3115
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\help-fallback.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: tests\\ladder.test.cjs
+not ok 16 - tests\\ladder.test.cjs
+  ---
+  duration_ms: 386.8504
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\ladder.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 3221226505
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF6869D5E5B v8::SnapshotCreator::GetIsolate+50139
+#  6: 00007FF686AD8F7E v8::base::Thread::StartSynchronously+184126
+#  7: 00007FF686AD93C1 v8::base::Thread::StartSynchronously+185217
+#  8: 00007FF686AD9251 v8::base::Thread::StartSynchronously+184849
+#  9: 00007FF686AE6784 v8::base::Thread::StartSynchronously+239428
+# 10: 00007FF686AE5DBA v8::base::Thread::StartSynchronously+236922
+# 11: 00007FF686AE59C1 v8::base::Thread::StartSynchronously+235905
+# 12: 00007FF686AE72FA v8::base::Thread::StartSynchronously+242362
+# 13: 00007FF686AE49E9 v8::base::Thread::StartSynchronously+231849
+# 14: 00007FF686AD9204 v8::base::Thread::StartSynchronously+184772
+# 15: 00007FF686AD819E v8::base::Thread::StartSynchronously+180574
+# 16: 00007FF686AE451E v8::base::Thread::StartSynchronously+230622
+# 17: 00007FF686AE4A27 v8::base::Thread::StartSynchronously+231911
+# 18: 00007FF686AD9204 v8::base::Thread::StartSynchronously+184772
+# 19: 00007FF686ADE7EE v8::base::Thread::StartSynchronously+206766
+# 20: 00007FF686ADEC9E v8::base::Thread::StartSynchronously+207966
+# 21: 00007FF686AEAA0F v8::base::Thread::StartSynchronously+256463
+# 22: 00007FF686AE1F68 v8::base::Thread::StartSynchronously+220968
+# 23: 00007FF686AD8E4D v8::base::Thread::StartSynchronously+183821
+# 24: 00007FF686AD93C1 v8::base::Thread::StartSynchronously+185217
+# 25: 00007FF686AD9251 v8::base::Thread::StartSynchronously+184849
+# 26: 00007FF686ADE7EE v8::base::Thread::StartSynchronously+206766
+# 27: 00007FF686AE7417 v8::base::Thread::StartSynchronously+242647
+# 28: 00007FF686AE49E9 v8::base::Thread::StartSynchronously+231849
+# 29: 00007FF686AD9204 v8::base::Thread::StartSynchronously+184772
+# 30: 00007FF686ADE7EE v8::base::Thread::StartSynchronously+206766
+# 31: 00007FF686ADEC9E v8::base::Thread::StartSynchronously+207966
+# 32: 00007FF686AEAA0F v8::base::Thread::StartSynchronously+256463
+# 33: 00007FF686AE1F68 v8::base::Thread::StartSynchronously+220968
+# 34: 00007FF686AE1267 v8::base::Thread::StartSynchronously+217639
+# 35: 00007FF686AE298A v8::base::Thread::StartSynchronously+223562
+# 36: 00007FF686AD3E5D v8::base::Thread::StartSynchronously+163357
+# 37: 00007FF686AE797D v8::base::Thread::StartSynchronously+244029
+# 38: 00007FF686ACCECC v8::base::Thread::StartSynchronously+134796
+# 39: 00007FF686E6FBF0 v8::SharedValueConveyor::SharedValueConveyor+23136
+# 40: 00007FF686E75718 v8::SharedValueConveyor::SharedValueConveyor+46472
+# 41: 00007FF686EEF307 v8::ScriptCompiler::CompileFunctionInternal+679
+# 42: 00007FF686EEF054 v8::ScriptCompiler::CompileFunction+84
+# 43: 00007FF6863043FD node::OnFatalError+55789
+# 44: 00007FF686304934 node::OnFatalError+57124
+# 45: 00007FF686F256B8 v8::PropertyDescriptor::writable+80344
+# 46: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 47: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 48: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 49: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 50: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 51: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 52: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 53: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 54: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 55: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 56: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 57: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 58: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 59: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 60: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 61: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 62: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 63: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 64: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 65: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 66: 00007FF686F23972 v8::PropertyDescriptor::writable+72850
+# 67: 00007FF686F21570 v8::PropertyDescriptor::writable+63632
+# 68: 00007FF686F2116B v8::PropertyDescriptor::writable+62603
+# 69: 00007FF686DD963D v8::Isolate::NumberOfHeapSpaces+2557
+# 70: 00007FF686DD8F73 v8::Isolate::NumberOfHeapSpaces+819
+# 71: 00007FF686EECE34 v8::Function::Call+308
+# 72: 00007FF68631B5D5 node::OnFatalError+150469
+# 73: 00007FF68631B83C node::OnFatalError+151084
+# 74: 00007FF68625B116 node::TriggerNodeReport+23462
+# 75: 00007FF686340232 node::Start+114
+# 76: 00007FF686340D38 node::Start+2936
+# 77: 00007FF6863D5A9A node::LoadEnvironment+234
+# 78: 00007FF6862990E8 v8_inspector::protocol::Binary::operator=+129912
+# 79: 00007FF6863414C3 node::Start+4867
+# 80: 00007FF6863401DE node::Start+30
+# 81: 00007FF68609B1EC AES_cbc_encrypt+152028
+# 82: 00007FF687C69704 inflateValidate+41028
+# 83: 00007FFCD36BDDA7 BaseThreadInitThunk+23
+# 84: 00007FFCD4FBEE4C RtlUserThreadStart+44
+# Subtest: tests\\m12.test.cjs
+not ok 17 - tests\\m12.test.cjs
+  ---
+  duration_ms: 957.4064
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m12.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF6877059A2
+#  7: 00007FF687705A1E
+#  8: 00007FF687697EF2
+#  9: 00007FF687693E85
+# 10: 00007FF68768EBBA
+# 11: 00007FF686E71804
+# 12: 00007FF686E38302
+# 13: 00007FF6870FAB36
+# 14: 00007FF686269A30
+# 15: 00007FF6863F6B43
+# 16: 00007FF687C8CF2B
+# 17: 00007FFCD36BDDA7
+# 18: 00007FFCD4FBEE4C
+# Subtest: tests\\m15-library.test.cjs
+not ok 18 - tests\\m15-library.test.cjs
+  ---
+  duration_ms: 1293.3349
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m15-library.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF687886AF2
+#  7: 00007FF687B0C5B7
+#  8: 00007FF687B0C6D4
+#  9: 00007FF687B0C08E
+# 10: 00007FF687B206E2
+# 11: 00007FF687694ECC
+# 12: 00007FF68768EBBA
+# 13: 00007FF686E71804
+# 14: 00007FF686E38302
+# 15: 00007FF6870FAB36
+# 16: 00007FF686269A30
+# 17: 00007FF6863F6B43
+# 18: 00007FF687C8CF2B
+# 19: 00007FFCD36BDDA7
+# 20: 00007FFCD4FBEE4C
+# Subtest: tests\\m15.test.cjs
+not ok 19 - tests\\m15.test.cjs
+  ---
+  duration_ms: 1222.3995
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m15.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [20364:000001F3A6960000]      642 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.55 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [20364:000001F3A6960000]      679 ms: Scavenge 20.5 (23.3) -> 19.9 (24.0) MB, pooled: 0 MB, 1.05 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [20364:000001F3A6960000]      723 ms: Scavenge 21.0 (24.0) -> 20.6 (29.3) MB, pooled: 0 MB, 3.65 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686AD0F1B
+#  7: 00007FF686AE2ECC
+#  8: 00007FF686AE2F73
+#  9: 00007FF686AE1F68
+# 10: 00007FF686AE1267
+# 11: 00007FF686AE298A
+# 12: 00007FF686AD3654
+# 13: 00007FF686AE17BC
+# 14: 00007FF686ACCC2E
+# 15: 00007FF686E6E1BE
+# 16: 00007FF686E6DBEA
+# 17: 00007FF686A49D77
+# 18: 00007FF686FC374E
+# 19: 00007FF686F2526F
+# 20: 00007FF686F23972
+# 21: 00007FF686F23972
+# 22: 00007FF686F23972
+# 23: 00007FF686F23972
+# 24: 00007FF686F23972
+# 25: 00007FF686F23972
+# 26: 00007FF686F23972
+# 27: 00007FF686F23972
+# 28: 00007FF686F23972
+# 29: 00007FF686F23972
+# 30: 00007FF607152F42
+# Subtest: tests\\m16-report.test.cjs
+not ok 20 - tests\\m16-report.test.cjs
+  ---
+  duration_ms: 1240.4108
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m16-report.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: M16 share: expiry wording follows the link's real state
+ok 60 - M16 share: expiry wording follows the link's real state
+  ---
+  duration_ms: 52.3662
+  type: 'test'
+  ...
+# Subtest: M16 share: opening statistics are stated plainly and singular or plural correctly
+ok 61 - M16 share: opening statistics are stated plainly and singular or plural correctly
+  ---
+  duration_ms: 0.9255
+  type: 'test'
+  ...
+# Subtest: M16 share: the link is built from the origin and token, and only token-shaped text is ever sent
+ok 62 - M16 share: the link is built from the origin and token, and only token-shaped text is ever sent
+  ---
+  duration_ms: 0.6164
+  type: 'test'
+  ...
+# Subtest: M16 share: creation errors explain what to do without blaming the wrong thing
+ok 63 - M16 share: creation errors explain what to do without blaming the wrong thing
+  ---
+  duration_ms: 0.5476
+  type: 'test'
+  ...
+# Subtest: M16 share: scopes, expiry choices and the honest boundary text
+ok 64 - M16 share: scopes, expiry choices and the honest boundary text
+  ---
+  duration_ms: 2.9406
+  type: 'test'
+  ...
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+# \#
+# \# Fatal process out of memory: Zone
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686EF45B1
+#  5: 00007FF6869D5E5B
+#  6: 00007FF68674BDB8
+#  7: 00007FF687A6DFD2
+#  8: 00007FF687694DA2
+#  9: 00007FF68768EBBA
+# 10: 00007FF686E71804
+# 11: 00007FF686E38302
+# 12: 00007FF6870FAB36
+# 13: 00007FF686269A30
+# 14: 00007FF6863F6B43
+# 15: 00007FF687C8CF2B
+# 16: 00007FFCD36BDDA7
+# 17: 00007FFCD4FBEE4C
+# Subtest: tests\\m6.test.cjs
+not ok 22 - tests\\m6.test.cjs
+  ---
+  duration_ms: 1166.0133
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m6.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: tests\\m7.test.cjs
+not ok 23 - tests\\m7.test.cjs
+  ---
+  duration_ms: 1526.9498
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m7.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 3221226505
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [37676:0000019C46071000]      138 ms: Scavenge 3.7 (6.4) -> 3.7 (6.4) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [37676:0000019C46071000]      143 ms: Mark-Compact (reduce) 3.7 (6.4) -> 3.6 (5.4) MB, pooled: 0 MB, 3.77 / 0.00 ms  (average mu = 0.973, current mu = 0.973) last resort; GC in old space requested
+# <--- JS stacktrace --->
+# FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF686D50DD0
+#  6: 00007FF686D08B3D
+#  7: 00007FF686D59FD3
+#  8: 00007FF686D49E9D
+#  9: 00007FF686D45A35
+# 10: 00007FF6866CCEFD
+# 11: 7FF8000000000000
+# Subtest: tests\\m8.test.cjs
+not ok 24 - tests\\m8.test.cjs
+  ---
+  duration_ms: 601.7227
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\m8.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# \#
+# \# Fatal JavaScript out of memory: MemoryChunk allocation failed during deserialization.
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686F07D43
+#  5: 00007FF686EF47A6
+#  6: 00007FF686D50DD0
+#  7: 00007FF686D17F11
+#  8: 00007FF686D18530
+#  9: 00007FF686D18236
+# 10: 00007FF686CFDE6C
+# 11: 00007FF686D3E8E6
+# 12: 00007FF686D3E570
+# 13: 00007FF686D3DC58
+# 14: 00007FF686D3D3D1
+# 15: 00007FF686D63944
+# 16: 00007FF686D6428A
+# 17: 00007FF686A0F99F
+# 18: 00007FF686A11212
+# 19: 00007FF686A0BDD9
+# 20: 00007FF686A10AEC
+# 21: 00007FF686A11322
+# 22: 00007FF686A0BDD9
+# 23: 00007FF686A10AEC
+# 24: 00007FF686A11322
+# 25: 00007FF686A0BDD9
+# 26: 00007FF686A10AEC
+# 27: 00007FF686A11322
+# 28: 00007FF686A0BDD9
+# 29: 00007FF686A10AEC
+# 30: 00007FF686A11322
+# 31: 00007FF686A0CD05
+# 32: 00007FF686A118AF
+# 33: 00007FF686D56D98
+# 34: 00007FF6869ECE60
+# 35: 00007FF686DC31E5
+# 36: 00007FF6869F4D73
+# 37: 00007FF686EFD8D1
+# 38: 00007FF6863D5C7D
+# 39: 00007FF686298CEB
+# 40: 00007FF6863414B9
+# 41: 00007FF6863401DE
+# 42: 00007FF68609B1EC
+# 43: 00007FF687C69704
+# 44: 00007FFCD36BDDA7
+# 45: 00007FFCD4FBEE4C RtlUserThreadStart+44
+# Subtest: tests\\metrics-exports.test.cjs
+not ok 25 - tests\\metrics-exports.test.cjs
+  ---
+  duration_ms: 377.2994
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\metrics-exports.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# node:fs:440
+#     return binding.readFileUtf8(path, stringToFlags(options.flag));
+#                    ^
+# Error: UNKNOWN: unknown error, open 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\notes-anchored.test.cjs'
+#     at Object.readFileSync (node:fs:440:20)
+#     at defaultLoadImpl (node:internal/modules/cjs/loader:1122:17)
+#     at loadSource (node:internal/modules/cjs/loader:1808:20)
+#     at Object..js (node:internal/modules/cjs/loader:1906:44)
+#     at Module.load (node:internal/modules/cjs/loader:1505:32)
+#     at Function._load (node:internal/modules/cjs/loader:1309:12)
+#     at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+#     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+#     at node:internal/main/run_main_module:36:49 {
+#   errno: -4094,
+#   code: 'UNKNOWN',
+#   syscall: 'open',
+#   path: 'C:\\\\ADVANCED WEB TECH\\\\AWT_PROJECT_FALL_26-27\\\\STRESSFORGE\\\\web\\\\tests\\\\notes-anchored.test.cjs'
+# }
+# Node.js v22.23.4
+# Subtest: tests\\notes-anchored.test.cjs
+not ok 26 - tests\\notes-anchored.test.cjs
+  ---
+  duration_ms: 685.2466
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\notes-anchored.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 1
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [35008:000002527D1EE000]      399 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.50 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [35008:000002527D1EE000]      414 ms: Scavenge 20.5 (23.3) -> 19.9 (24.0) MB, pooled: 0 MB, 1.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [35008:000002527D1EE000]      420 ms: Scavenge 21.0 (24.0) -> 20.5 (29.0) MB, pooled: 0 MB, 1.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686ED56C4
+#  7: 00007FF686ED73B4
+#  8: 00007FF686AEEBF1
+#  9: 00007FF686AE2915
+# 10: 00007FF686ADC400
+# 11: 00007FF686ADBBA1
+# 12: 00007FF686ADB8C0
+# 13: 00007FF686ADB00E
+# 14: 00007FF686AE1F68
+# 15: 00007FF686AE1267
+# 16: 00007FF686AE298A
+# 17: 00007FF686AD3E5D
+# 18: 00007FF686AE797D
+# 19: 00007FF686ACCECC
+# 20: 00007FF686E6FBF0
+# 21: 00007FF686E75718
+# 22: 00007FF686EEF307
+# 23: 00007FF686EEF054
+# 24: 00007FF6863043FD
+# 25: 00007FF686304934
+# 26: 00007FF686F256B8
+# 27: 00007FF686F23972
+# 28: 00007FF686F23972
+# 29: 00007FF686F23972
+# 30: 00007FF686F23972
+# 31: 00007FF686F23972
+# 32: 00007FF607152F42
+# Subtest: tests\\notification-preferences.test.cjs
+not ok 27 - tests\\notification-preferences.test.cjs
+  ---
+  duration_ms: 753.3029
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\notification-preferences.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF686D50DD0 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+33904
+#  6: 00007FF686D08B3D v8::PrimitiveArray::Length+131021
+#  7: 00007FF686D59FD3 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+71283
+#  8: 00007FF686D49E9D v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+5437
+#  9: 00007FF686D45A35 v8::internal::ThreadIsolation::JitPageReference::Size+190293
+# 10: 00007FF6866CCEFD BIO_ssl_shutdown+189
+# 11: 7FF8000000000000
+# Subtest: tests\\notifications.test.cjs
+not ok 28 - tests\\notifications.test.cjs
+  ---
+  duration_ms: 772.1163
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\notifications.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [39820:000001D82E830000]      417 ms: Scavenge 17.7 (19.3) -> 17.6 (22.3) MB, pooled: 0 MB, 1.16 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [39820:000001D82E830000]      454 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.60 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686ED9643
+#  7: 00007FF686ED881D
+#  8: 00007FF686ED9A88
+#  9: 00007FF686ED7814
+# 10: 00007FF686ED7FBA
+# 11: 00007FF686ED8637
+# 12: 00007FF686AD0FA7
+# 13: 00007FF686AE2ECC
+# 14: 00007FF686AE2F73
+# 15: 00007FF686AE1F68
+# 16: 00007FF686AE1267
+# 17: 00007FF686AE298A
+# 18: 00007FF686AD3654
+# 19: 00007FF686AE17BC
+# 20: 00007FF686ACCC2E
+# 21: 00007FF686E6E1BE
+# 22: 00007FF686E6DBEA
+# 23: 00007FF686A49D77
+# 24: 00007FF686FC374E
+# 25: 00007FF686F2526F
+# 26: 00007FF686F23972
+# 27: 00007FF686F23972
+# 28: 00007FF686F23972
+# 29: 00007FF686F23972
+# 30: 00007FF686F23972
+# 31: 00007FF686F23972
+# 32: 00007FF686F23972
+# 33: 00007FF686F23972
+# 34: 00007FF686F23972
+# 35: 00007FF686F23972
+# 36: 00007FF686F23972
+# 37: 00007FF686F23972
+# 38: 00007FF686F23972
+# 39: 00007FF686F23972
+# 40: 00007FF686F23972
+# 41: 00007FF686F23972
+# 42: 00007FF686F23972
+# 43: 00007FF686F23972
+# 44: 00007FF686F23972
+# 45: 00007FF686F23972
+# 46: 00007FF686F23972
+# 47: 00007FF686F23972
+# 48: 00007FF686F21570
+# 49: 00007FF686F2116B
+# 50: 00007FF686DD963D
+# 51: 00007FF686DD8F73
+# 52: 00007FF686EECE34
+# 53: 00007FF68631B5D5
+# 54: 00007FF68631B83C
+# 55: 00007FF68625B116
+# 56: 00007FF686340232
+# 57: 00007FF686340D38
+# 58: 00007FF6863D5A9A
+# 59: 00007FF6862990E8
+# 60: 00007FF6863414C3
+# 61: 00007FF6863401DE
+# 62: 00007FF68609B1EC
+# 63: 00007FF687C69704
+# 64: 00007FFCD36BDDA7
+# 65: 00007FFCD4FBEE4C
+# Subtest: tests\\p1-public.test.cjs
+not ok 29 - tests\\p1-public.test.cjs
+  ---
+  duration_ms: 635.1023
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p1-public.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF686D50DD0 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+33904
+#  6: 00007FF686D08B3D v8::PrimitiveArray::Length+131021
+#  7: 00007FF686D59FD3 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+71283
+#  8: 00007FF686D49E9D v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+5437
+#  9: 00007FF686D45A35 v8::internal::ThreadIsolation::JitPageReference::Size+190293
+# 10: 00007FF6866CCEFD BIO_ssl_shutdown+189
+# 11: 7FF8000000000000
+# Subtest: tests\\p2-learn-model.test.cjs
+not ok 30 - tests\\p2-learn-model.test.cjs
+  ---
+  duration_ms: 756.3043
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p2-learn-model.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686ABAE69
+#  7: 00007FF686AC6717
+#  8: 00007FF686AC6310
+#  9: 00007FF686AC28DD
+# 10: 00007FF686AC6756
+# 11: 00007FF686AC75D4
+# 12: 00007FF686AC7E08
+# 13: 00007FF686AC7165
+# 14: 00007FF686AC75D4
+# 15: 00007FF686AC1A1D
+# 16: 00007FF686AC2276
+# 17: 00007FF686AC25A4
+# 18: 00007FF686AC756C
+# 19: 00007FF686AC1A1D
+# 20: 00007FF686AC2276
+# 21: 00007FF686AC25A4
+# 22: 00007FF686AC756C
+# 23: 00007FF686AC745D
+# 24: 00007FF686AC9441
+# 25: 00007FF686AEEAB1
+# 26: 00007FF686AE2915
+# 27: 00007FF686AE2E2D
+# 28: 00007FF686AE2F73
+# 29: 00007FF686AE1F68
+# 30: 00007FF686AD8E4D
+# 31: 00007FF686AD93C1
+# 32: 00007FF686AD9251
+# 33: 00007FF686ADE7EE
+# 34: 00007FF686AE7417
+# 35: 00007FF686AE49E9
+# 36: 00007FF686AD9204
+# 37: 00007FF686ADE7EE
+# 38: 00007FF686ADEC9E
+# 39: 00007FF686AEAA0F
+# 40: 00007FF686AE1F68
+# 41: 00007FF686AE1267
+# 42: 00007FF686AE298A
+# 43: 00007FF686AD3E5D
+# 44: 00007FF686AE797D
+# 45: 00007FF686ACCECC
+# 46: 00007FF686E6FBF0
+# 47: 00007FF686E75718
+# 48: 00007FF686EEF307
+# 49: 00007FF686EEF054
+# 50: 00007FF6863043FD
+# 51: 00007FF686304934
+# 52: 00007FF686F256B8
+# 53: 00007FF686F23972
+# 54: 00007FF686F23972
+# 55: 00007FF686F23972
+# 56: 00007FF686F23972
+# 57: 00007FF686F23972
+# 58: 00007FF686F23972
+# 59: 00007FF686F23972
+# 60: 00007FF686F23972
+# 61: 00007FF686F23972
+# 62: 00007FF686F23972
+# 63: 00007FF686F23972
+# 64: 00007FF686F23972
+# 65: 00007FF686F23972
+# 66: 00007FF686F23972
+# 67: 00007FF686F23972
+# 68: 00007FF686F23972
+# 69: 00007FF686F23972
+# 70: 00007FF686F23972
+# 71: 00007FF686F23972
+# 72: 00007FF686F23972
+# 73: 00007FF686F23972
+# 74: 00007FF686F21570
+# 75: 00007FF686F2116B
+# 76: 00007FF686DD963D
+# 77: 00007FF686DD8F73
+# 78: 00007FF686EECE34
+# 79: 00007FF68631B5D5
+# 80: 00007FF68631B83C
+# 81: 00007FF68625B116
+# 82: 00007FF686340232
+# 83: 00007FF686340D38
+# 84: 00007FF6863D5A9A
+# 85: 00007FF6862990E8
+# 86: 00007FF6863414C3
+# 87: 00007FF6863401DE
+# 88: 00007FF68609B1EC
+# 89: 00007FF687C69704
+# 90: 00007FFCD36BDDA7
+# 91: 00007FFCD4FBEE4C
+# Subtest: tests\\p2-learn.test.cjs
+not ok 31 - tests\\p2-learn.test.cjs
+  ---
+  duration_ms: 521.5273
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p2-learn.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 46 routes
+ok 75 - P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 46 routes
+  ---
+  duration_ms: 42.2267
+  type: 'test'
+  ...
+# Subtest: P3 tags: worked out from each design, matching what is actually in it
+ok 76 - P3 tags: worked out from each design, matching what is actually in it
+  ---
+  duration_ms: 6.9751
+  type: 'test'
+  ...
+# Subtest: P3 tags: only tags that apply to something are offered, and the filter needs every chosen tag
+ok 77 - P3 tags: only tags that apply to something are offered, and the filter needs every chosen tag
+  ---
+  duration_ms: 6.071
+  type: 'test'
+  ...
+# Subtest: P3 words: the breaking point names the real number, first failure and cause
+ok 78 - P3 words: the breaking point names the real number, first failure and cause
+  ---
+  duration_ms: 71.3162
+  type: 'test'
+  ...
+# Subtest: P3 words: an example that misses its own goal says so, and says why; one that passes does not claim otherwise
+ok 79 - P3 words: an example that misses its own goal says so, and says why; one that passes does not claim otherwise
+  ---
+  duration_ms: 6.4325
+  type: 'test'
+  ...
+# Subtest: P3 words: every number in the main sentences comes from the data file
+ok 80 - P3 words: every number in the main sentences comes from the data file
+  ---
+  duration_ms: 46.2666
+  type: 'test'
+  ...
+# Subtest: P3 words: the load explorer text matches the curve point, judges it against the goal, and clamps its index
+ok 81 - P3 words: the load explorer text matches the curve point, judges it against the goal, and clamps its index
+  ---
+  duration_ms: 6.2607
+  type: 'test'
+  ...
+# Subtest: P3 words: a load level that is fast enough but drops too many requests is judged as missing the goal
+ok 82 - P3 words: a load level that is fast enough but drops too many requests is judged as missing the goal
+  ---
+  duration_ms: 2.1123
+  type: 'test'
+  ...
+# Subtest: P3 words: each overload behaviour is described by what it really does
+ok 83 - P3 words: each overload behaviour is described by what it really does
+  ---
+  duration_ms: 21.111
+  type: 'test'
+  ...
+# Subtest: P3 words: every overload behaviour has plain words, and the component descriptions come from the catalog
+ok 84 - P3 words: every overload behaviour has plain words, and the component descriptions come from the catalog
+  ---
+  duration_ms: 3.3613
+  type: 'test'
+  ...
+# Subtest: P3 examples: six panels with a verdict, their own-traffic result, a breaking point and a way to copy them
+ok 85 - P3 examples: six panels with a verdict, their own-traffic result, a breaking point and a way to copy them
+  ---
+  duration_ms: 921.6793
+  type: 'test'
+  ...
+# Subtest: P3 examples: the load explorer starts near the example's own traffic and follows the slider, in words, across the whole range
+ok 86 - P3 examples: the load explorer starts near the example's own traffic and follows the slider, in words, across the whole range
+  ---
+  duration_ms: 340.2359
+  type: 'test'
+  ...
+# Subtest: P3 examples: a guest is sent to sign up and returned to the template; a signed-in person goes straight to it
+ok 87 - P3 examples: a guest is sent to sign up and returned to the template; a signed-in person goes straight to it
+  ---
+  duration_ms: 526.0237
+  type: 'test'
+  ...
+# Subtest: P3 templates: six cards with derived tags and a start link, and the filter shows exactly the matching ones
+ok 88 - P3 templates: six cards with derived tags and a start link, and the filter shows exactly the matching ones
+  ---
+  duration_ms: 803.1026
+  type: 'test'
+  ...
+# Subtest: P3 components: all twelve in their categories with the overload behaviour in words, then the five traffic presets
+ok 89 - P3 components: all twelve in their categories with the overload behaviour in words, then the five traffic presets
+  ---
+  duration_ms: 123.4387
+  type: 'test'
+  ...
+# <--- Last few GCs --->
+# <--- JS stacktrace --->
+# \#
+# \# Fatal JavaScript out of memory: MemoryChunk allocation failed during deserialization.
+# \#
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF686266C8F
+#  3: 00007FF687574576
+#  4: 00007FF686F07D43
+#  5: 00007FF686EF47A6
+#  6: 00007FF686D50DD0
+#  7: 00007FF686D17F11
+#  8: 00007FF686D18530
+#  9: 00007FF686D18236
+# 10: 00007FF686CFDE6C
+# 11: 00007FF686D3E8E6
+# 12: 00007FF686D3E570
+# 13: 00007FF686D3DC58
+# 14: 00007FF686D3D3D1
+# 15: 00007FF686D63944
+# 16: 00007FF686D6428A
+# 17: 00007FF686A0F99F
+# 18: 00007FF686A11212
+# 19: 00007FF686A0BDD9
+# 20: 00007FF686A10AEC
+# 21: 00007FF686A11322
+# 22: 00007FF686A0BDD9
+# 23: 00007FF686A10AEC
+# 24: 00007FF686A11322
+# 25: 00007FF686A0BDD9
+# 26: 00007FF686A10AEC
+# 27: 00007FF686A11322
+# 28: 00007FF686A0BDD9
+# 29: 00007FF686A10AEC
+# 30: 00007FF686A11322
+# 31: 00007FF686A0CD05
+# 32: 00007FF686A118AF
+# 33: 00007FF686D56D98
+# 34: 00007FF6869ECE60
+# 35: 00007FF686DC31E5
+# 36: 00007FF6869F4D73
+# 37: 00007FF686EFD8D1
+# 38: 00007FF6863D5C7D
+# 39: 00007FF686298CEB
+# 40: 00007FF6863414B9
+# 41: 00007FF6863401DE
+# 42: 00007FF68609B1EC
+# 43: 00007FF687C69704
+# 44: 00007FFCD36BDDA7
+# 45: 00007FFCD4FBEE4C
+# Subtest: tests\\p4-account-api.test.cjs
+not ok 33 - tests\\p4-account-api.test.cjs
+  ---
+  duration_ms: 294.3043
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p4-account-api.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 2147483651
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [38844:0000017C3F1B2000]      422 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 1.63 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [38844:0000017C3F1B2000]      441 ms: Scavenge 20.5 (23.3) -> 19.9 (24.0) MB, pooled: 0 MB, 1.04 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [38844:0000017C3F1B2000]      446 ms: Scavenge 21.0 (24.0) -> 20.5 (29.3) MB, pooled: 0 MB, 1.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: AlignedAlloc Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF6869D8FEF v8::internal::Version::GetString+11839
+#  6: 00007FF686B0BEDC v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+56668
+#  7: 00007FF686B0B95A v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+55258
+#  8: 00007FF686B09AB0 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+47408
+#  9: 00007FF686D7EBC9 v8::Isolate::GetHeapProfiler+119049
+# 10: 00007FF686EE2DD7 v8::SharedValueConveyor::SharedValueConveyor+494663
+# 11: 00007FF686AD41BD v8::base::Thread::StartSynchronously+164221
+# 12: 00007FF686AE797D v8::base::Thread::StartSynchronously+244029
+# 13: 00007FF686ACCECC v8::base::Thread::StartSynchronously+134796
+# 14: 00007FF686E6FBF0 v8::SharedValueConveyor::SharedValueConveyor+23136
+# 15: 00007FF686E75718 v8::SharedValueConveyor::SharedValueConveyor+46472
+# 16: 00007FF686EEF307 v8::ScriptCompiler::CompileFunctionInternal+679
+# 17: 00007FF686EEF054 v8::ScriptCompiler::CompileFunction+84
+# 18: 00007FF68631DFE9 node::OnFatalError+161241
+# 19: 00007FF68631D867 node::OnFatalError+159319
+# 20: 00007FF68631B971 node::OnFatalError+151393
+# 21: 00007FF686F256B8 v8::PropertyDescriptor::writable+80344
+# 22: 00007FF607143EF2
+# Subtest: tests\\p4-settings.test.cjs
+not ok 34 - tests\\p4-settings.test.cjs
+  ---
+  duration_ms: 760.8263
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p4-settings.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [40216:00000272391A2000]      432 ms: Scavenge 17.7 (19.3) -> 17.6 (22.3) MB, pooled: 0 MB, 1.04 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [40216:00000272391A2000]      482 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.51 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: Zone Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107
+#  2: 00007FF6862F69DB
+#  3: 00007FF686F07CF1
+#  4: 00007FF686EF47A6
+#  5: 00007FF6869D5E5B
+#  6: 00007FF686C85124
+#  7: 00007FF686C8E5D0
+#  8: 00007FF686C93C26
+#  9: 00007FF686C95DF9
+# 10: 00007FF686C8FC97
+# 11: 00007FF686C92A14
+# 12: 00007FF686C8E262
+# 13: 00007FF686C8DF1C
+# 14: 00007FF686C8DB00
+# 15: 00007FF686C7D48B
+# 16: 00007FF686E71898
+# 17: 00007FF686E6AD42
+# 18: 00007FF686E6E26B
+# 19: 00007FF686E6DBEA
+# 20: 00007FF686A49D77
+# 21: 00007FF686FC374E
+# 22: 00007FF686F2526F
+# 23: 00007FF686F23972
+# 24: 00007FF686F23972
+# 25: 00007FF686F23972
+# 26: 00007FF686F23972
+# 27: 00007FF686F23972
+# 28: 00007FF686F23972
+# 29: 00007FF686F23972
+# 30: 00007FF686F23972
+# 31: 00007FF686F23972
+# 32: 00007FF686F23972
+# 33: 00007FF686F23972
+# 34: 00007FF686F23972
+# 35: 00007FF686F23972
+# 36: 00007FF686F23972
+# 37: 00007FF686F23972
+# 38: 00007FF686F23972
+# 39: 00007FF686F23972
+# 40: 00007FF686F23972
+# 41: 00007FF686F23972
+# 42: 00007FF686F23972
+# 43: 00007FF686F23972
+# 44: 00007FF686F23972
+# 45: 00007FF686F21570
+# 46: 00007FF686F2116B
+# 47: 00007FF686DD963D
+# 48: 00007FF686DD8F73
+# 49: 00007FF686EECE34
+# 50: 00007FF68631B5D5
+# 51: 00007FF68631B83C
+# 52: 00007FF68625B116
+# 53: 00007FF686340232
+# 54: 00007FF686340D38
+# 55: 00007FF6863D5A9A
+# 56: 00007FF6862990E8
+# 57: 00007FF6863414C3
+# 58: 00007FF6863401DE
+# 59: 00007FF68609B1EC
+# 60: 00007FF687C69704
+# 61: 00007FFCD36BDDA7
+# 62: 00007FFCD4FBEE4C
+# Subtest: tests\\p5-evaluation.test.cjs
+not ok 35 - tests\\p5-evaluation.test.cjs
+  ---
+  duration_ms: 635.4802
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p5-evaluation.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# <--- Last few GCs --->
+# [33848:000001DD92D20000]      420 ms: Scavenge 20.0 (22.5) -> 18.6 (22.8) MB, pooled: 0 MB, 0.56 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [33848:000001DD92D20000]      435 ms: Scavenge 20.5 (23.3) -> 19.9 (24.0) MB, pooled: 0 MB, 1.11 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# [33848:000001DD92D20000]      442 ms: Scavenge 21.0 (24.0) -> 20.6 (29.3) MB, pooled: 0 MB, 3.78 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure;
+# <--- JS stacktrace --->
+# FATAL ERROR: AlignedAlloc Allocation failed - process out of memory
+# ----- Native stack trace -----
+#  1: 00007FF686397107 node::SetCppgcReference+21127
+#  2: 00007FF6862F69DB EVP_MD_meth_get_input_blocksize+102619
+#  3: 00007FF686F07CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+#  4: 00007FF686EF47A6 v8::Function::Experimental_IsNopFunction+3318
+#  5: 00007FF6869D8FEF v8::internal::Version::GetString+11839
+#  6: 00007FF686B0BEDC v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+56668
+#  7: 00007FF686B0B95A v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+55258
+#  8: 00007FF686B09AB0 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+47408
+#  9: 00007FF686D7EBC9 v8::Isolate::GetHeapProfiler+119049
+# 10: 00007FF686EE2DD7 v8::SharedValueConveyor::SharedValueConveyor+494663
+# 11: 00007FF686AD41BD v8::base::Thread::StartSynchronously+164221
+# 12: 00007FF686AE797D v8::base::Thread::StartSynchronously+244029
+# 13: 00007FF686ACCECC v8::base::Thread::StartSynchronously+134796
+# 14: 00007FF686E6FBF0 v8::SharedValueConveyor::SharedValueConveyor+23136
+# 15: 00007FF686E75718 v8::SharedValueConveyor::SharedValueConveyor+46472
+# 16: 00007FF686EEF307 v8::ScriptCompiler::CompileFunctionInternal+679
+# 17: 00007FF686EEF054 v8::ScriptCompiler::CompileFunction+84
+# 18: 00007FF68631DFE9 node::OnFatalError+161241
+# 19: 00007FF68631D867 node::OnFatalError+159319
+# 20: 00007FF68631B971 node::OnFatalError+151393
+# 21: 00007FF686F256B8 v8::PropertyDescriptor::writable+80344
+# 22: 00007FF607143EF2
+# Subtest: tests\\p6-progress.test.cjs
+not ok 36 - tests\\p6-progress.test.cjs
+  ---
+  duration_ms: 746.8915
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\p6-progress.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 134
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: the sample design comes from a template that meets its own goal as shipped
+ok 94 - the sample design comes from a template that meets its own goal as shipped
+  ---
+  duration_ms: 7.1185
+  type: 'test'
+  ...
+# Subtest: the post-registration destination: the tour, unless a page was asked for
+ok 95 - the post-registration destination: the tour, unless a page was asked for
+  ---
+  duration_ms: 1.6956
+  type: 'test'
+  ...
+# Subtest: the tour marker: exact value only, per account, and storage failures are harmless
+ok 96 - the tour marker: exact value only, per account, and storage failures are harmless
+  ---
+  duration_ms: 2.9271
+  type: 'test'
+  ...
+# Subtest: the tour has three steps, in the order draw, run, improve
+ok 97 - the tour has three steps, in the order draw, run, improve
+  ---
+  duration_ms: 6.594
+  type: 'test'
+  ...
+# Subtest: the steps go forward and back, Back is off on the first, and the last step offers Finish instead of Next and Skip
+ok 98 - the steps go forward and back, Back is off on the first, and the last step offers Finish instead of Next and Skip
+  ---
+  duration_ms: 555.1719
+  type: 'test'
+  ...
+# Subtest: Skip records the tour for this account only, and goes to the dashboard
+ok 99 - Skip records the tour for this account only, and goes to the dashboard
+  ---
+  duration_ms: 151.4625
+  type: 'test'
+  ...
+# Subtest: Finish records the tour and goes to the dashboard
+ok 100 - Finish records the tour and goes to the dashboard
+  ---
+  duration_ms: 212.252
+  type: 'test'
+  ...
+# Subtest: another account in the same browser is not told it has seen the tour
+ok 101 - another account in the same browser is not told it has seen the tour
+  ---
+  duration_ms: 196.2439
+  type: 'test'
+  ...
+# Subtest: the sample button creates exactly one design from the sample template, opens it, and records the tour
+ok 102 - the sample button creates exactly one design from the sample template, opens it, and records the tour
+  ---
+  duration_ms: 133.2012
+  type: 'test'
+  ...
+# Subtest: clicking the sample button again while it is working does not create a second design
+ok 103 - clicking the sample button again while it is working does not create a second design
+  ---
+  duration_ms: 191.8989
+  type: 'test'
+  ...
+# Subtest: two clicks in the same instant, before the page redraws, still make only one design
+ok 104 - two clicks in the same instant, before the page redraws, still make only one design
+  ---
+  duration_ms: 236.5269
+  type: 'test'
+  ...
+# Subtest: when the sample cannot be created, the page says so, stays put, is not recorded as done, and can be retried
+ok 105 - when the sample cannot be created, the page says so, stays put, is not recorded as done, and can be retried
+  ---
+  duration_ms: 282.2249
+  type: 'test'
+  ...
+# Subtest: nothing is created until the button is pressed, and the tour makes no requests of its own
+ok 106 - nothing is created until the button is pressed, and the tour makes no requests of its own
+  ---
+  duration_ms: 133.9173
+  type: 'test'
+  ...
+# Subtest: every Learn topic is offered, and the greeting uses the first name
+ok 107 - every Learn topic is offered, and the greeting uses the first name
+  ---
+  duration_ms: 121.1344
+  type: 'test'
+  ...
+# Subtest: exactly one level-one heading, and headings never skip a level
+ok 108 - exactly one level-one heading, and headings never skip a level
+  ---
+  duration_ms: 80.1981
+  type: 'test'
+  ...
+# Subtest: monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+ok 109 - monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+  ---
+  duration_ms: 2.7698
+  type: 'test'
+  ...
+# Subtest: source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+ok 110 - source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+  ---
+  duration_ms: 0.5911
+  type: 'test'
+  ...
+# Subtest: every actual dossier page is branded without covering titles or changing recorded figures
+ok 111 - every actual dossier page is branded without covering titles or changing recorded figures
+  ---
+  duration_ms: 249.7108
+  type: 'test'
+  ...
+# Subtest: Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+ok 112 - Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+  ---
+  duration_ms: 29.7018
+  type: 'test'
+  ...
+# Subtest: owner and design-only shared print views have the same vector mark and source without adding private content
+ok 113 - owner and design-only shared print views have the same vector mark and source without adding private content
+  ---
+  duration_ms: 59.9312
+  type: 'test'
+  ...
+# Subtest: only same-origin Blob links with a download attribute bypass draft-navigation prompts
+ok 114 - only same-origin Blob links with a download attribute bypass draft-navigation prompts
+  ---
+  duration_ms: 1.8843
+  type: 'test'
+  ...
+# Subtest: 409 conflict stays inline, preserves credentials and exposes revision details
+ok 115 - 409 conflict stays inline, preserves credentials and exposes revision details
+  ---
+  duration_ms: 313.2836
+  type: 'test'
+  ...
+# Subtest: R1 gate: an account without the role sees the denial, never the area
+ok 116 - R1 gate: an account without the role sees the denial, never the area
+  ---
+  duration_ms: 288.5722
+  type: 'test'
+  ...
+# Subtest: R1 gate: the right role opens the area, and Admin does not stand in for another role
+ok 117 - R1 gate: the right role opens the area, and Admin does not stand in for another role
+  ---
+  duration_ms: 168.0331
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R1 gate: while the roles are loading, and when they cannot be read, the area stays closed
+ok 118 - R1 gate: while the roles are loading, and when they cannot be read, the area stays closed
+  ---
+  duration_ms: 105.1438
+  type: 'test'
+  ...
+# Subtest: R1 menu: the account menu names granted roles, and says nothing for a plain account
+ok 119 - R1 menu: the account menu names granted roles, and says nothing for a plain account
+  ---
+  duration_ms: 462.1377
+  type: 'test'
+  ...
+# Subtest: tests\\r1-roles.test.cjs
+not ok 42 - tests\\r1-roles.test.cjs
+  ---
+  duration_ms: 1947.4462
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\r1-roles.test.cjs:1:1'
+  failureType: 'testCodeFailure'
+  exitCode: 3221226505
+  signal: ~
+  error: 'test failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: R2 text: audit entries read as plain sentences, with the server operator named as such
+ok 121 - R2 text: audit entries read as plain sentences, with the server operator named as such
+  ---
+  duration_ms: 23.5752
+  type: 'test'
+  ...
+# Subtest: R2 text: failures say what happened and never echo the server's own message
+ok 122 - R2 text: failures say what happened and never echo the server's own message
+  ---
+  duration_ms: 16.4421
+  type: 'test'
+  ...
+# Subtest: R2 text: a search needs two real characters
+ok 123 - R2 text: a search needs two real characters
+  ---
+  duration_ms: 7.9392
+  type: 'test'
+  ...
+# Subtest: R2 screen: an account without the Admin role sees a denial, and no Admin call is ever made
+ok 124 - R2 screen: an account without the Admin role sees a denial, and no Admin call is ever made
+  ---
+  duration_ms: 526.1197
+  type: 'test'
+  ...
+# Subtest: R2 screen: search lists accounts with their status, and short text is not sent
+ok 125 - R2 screen: search lists accounts with their status, and short text is not sent
+  ---
+  duration_ms: 279.4043
+  type: 'test'
+  ...
+# Subtest: R2 screen: giving a role is one click; removing a role and suspending each need a confirmation
+ok 126 - R2 screen: giving a role is one click; removing a role and suspending each need a confirmation
+  ---
+  duration_ms: 864.6411
+  type: 'test'
+  ...
+# Subtest: R2 screen: an Admin's own account offers no suspend button
+ok 127 - R2 screen: an Admin's own account offers no suspend button
+  ---
+  duration_ms: 235.0672
+  type: 'test'
+  ...
+# Subtest: R2 screen: a refused change is explained in words and nothing looks changed
+ok 128 - R2 screen: a refused change is explained in words and nothing looks changed
+  ---
+  duration_ms: 291.8673
+  type: 'test'
+  ...
+# Subtest: R2 screen: the audit log reads as sentences and pages older entries without repeats
+ok 129 - R2 screen: the audit log reads as sentences and pages older entries without repeats
+  ---
+  duration_ms: 91.8613
+  type: 'test'
+  ...
+# Subtest: R2 screen: an empty audit log says so
+ok 130 - R2 screen: an empty audit log says so
+  ---
+  duration_ms: 58.0769
+  type: 'test'
+  ...
+# Subtest: R3 text: a failed share says what to do and never echoes the server's own message
+ok 131 - R3 text: a failed share says what to do and never echoes the server's own message
+  ---
+  duration_ms: 6.0161
+  type: 'test'
+  ...
+# Subtest: R3 text: grant lines, and an email must look like one before anything is sent
+ok 132 - R3 text: grant lines, and an email must look like one before anything is sent
+  ---
+  duration_ms: 61.1681
+  type: 'test'
+  ...
+# Subtest: R3 owner: sharing needs an email-shaped address, sends the choices, and shows who has a copy
+ok 133 - R3 owner: sharing needs an email-shaped address, sends the choices, and shows who has a copy
+  ---
+  duration_ms: 603.7456
+  type: 'test'
+  ...
+# Subtest: R3 owner: the chosen revision and result are sent as numbers and ids
+ok 134 - R3 owner: the chosen revision and result are sent as numbers and ids
+  ---
+  duration_ms: 183.2389
+  type: 'test'
+  ...
+# Subtest: R3 owner: a refused share is explained in words and nothing looks shared
+ok 135 - R3 owner: a refused share is explained in words and nothing looks shared
+  ---
+  duration_ms: 150.4171
+  type: 'test'
+  ...
+# Subtest: R3 owner: stopping a review asks first, then stops it and shows it as stopped
+ok 136 - R3 owner: stopping a review asks first, then stops it and shows it as stopped
+  ---
+  duration_ms: 409.2509
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: an account without the Reviewer role sees a denial and never asks for the list
+ok 137 - R3 reviewer inbox: an account without the Reviewer role sees a denial and never asks for the list
+  ---
+  duration_ms: 128.927
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: lists designs with the owner's display name and result, and links to each
+ok 138 - R3 reviewer inbox: lists designs with the owner's display name and result, and links to each
+  ---
+  duration_ms: 72.2717
+  type: 'test'
+  ...
+# Subtest: R3 reviewer inbox: says so when nothing is shared, and offers a retry when the list fails
+ok 139 - R3 reviewer inbox: says so when nothing is shared, and offers a retry when the list fails
+  ---
+  duration_ms: 119.1072
+  type: 'test'
+  ...
+# Subtest: R3 reviewer view: shows the frozen document with who shared it, and no way to change it
+ok 140 - R3 reviewer view: shows the frozen document with who shared it, and no way to change it
+  ---
+  duration_ms: 56.3024
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R3 reviewer view: a stopped or unknown review reads as unavailable, and a non-Reviewer never asks for it
+ok 141 - R3 reviewer view: a stopped or unknown review reads as unavailable, and a non-Reviewer never asks for it
+  ---
+  duration_ms: 127.829
+  type: 'test'
+  ...
+# Subtest: R3 menu: only a Reviewer sees the Shared with me link in the account menu
+ok 142 - R3 menu: only a Reviewer sees the Shared with me link in the account menu
+  ---
+  duration_ms: 291.5103
+  type: 'test'
+  ...
+# Subtest: R4 text: the counter counts what the server counts, and 2,000 is the edge
+ok 143 - R4 text: the counter counts what the server counts, and 2,000 is the edge
+  ---
+  duration_ms: 41.7939
+  type: 'test'
+  ...
+# Subtest: R4 text: counts and thread grouping
+ok 144 - R4 text: counts and thread grouping
+  ---
+  duration_ms: 24.3067
+  type: 'test'
+  ...
+# Subtest: R4 text: failures are explained in words and never echo the server's message
+ok 145 - R4 text: failures are explained in words and never echo the server's message
+  ---
+  duration_ms: 2.7748
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: posting needs 1 to 2,000 characters, trims what is sent, and shows the comment as theirs
+ok 146 - R4 reviewer: posting needs 1 to 2,000 characters, trims what is sent, and shows the comment as theirs
+  ---
+  duration_ms: 610.0499
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: editing starts from the current text, saves trimmed text, and marks the comment edited
+ok 147 - R4 reviewer: editing starts from the current text, saves trimmed text, and marks the comment edited
+  ---
+  duration_ms: 366.8511
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: deleting asks first, then leaves a placeholder with no further buttons
+ok 148 - R4 reviewer: deleting asks first, then leaves a placeholder with no further buttons
+  ---
+  duration_ms: 314.0736
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: the owner's replies appear under the comment, named as the owner, with no edit buttons on them
+ok 149 - R4 reviewer: the owner's replies appear under the comment, named as the owner, with no edit buttons on them
+  ---
+  duration_ms: 83.3947
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: markup in a comment is shown as plain text and never becomes elements
+ok 150 - R4 reviewer: markup in a comment is shown as plain text and never becomes elements
+  ---
+  duration_ms: 78.4929
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: a refused comment is explained in words and the box keeps what was typed
+ok 151 - R4 reviewer: a refused comment is explained in words and the box keeps what was typed
+  ---
+  duration_ms: 150.8219
+  type: 'test'
+  ...
+# Subtest: R4 reviewer: when the thread cannot be loaded, it says so
+ok 152 - R4 reviewer: when the thread cannot be loaded, it says so
+  ---
+  duration_ms: 71.4599
+  type: 'test'
+  ...
+# Subtest: R4 owner: the thread stays closed until asked for, then lists what the Reviewer wrote by display name
+ok 153 - R4 owner: the thread stays closed until asked for, then lists what the Reviewer wrote by display name
+  ---
+  duration_ms: 127.856
+  type: 'test'
+  ...
+# Subtest: R4 owner: a reply needs text, goes to the right comment, and appears under it
+ok 154 - R4 owner: a reply needs text, goes to the right comment, and appears under it
+  ---
+  duration_ms: 244.7613
+  type: 'test'
+  ...
+# Subtest: R4 owner: a removed comment shows as removed with no way to reply, and the owner cannot edit or delete Reviewer text
+ok 155 - R4 owner: a removed comment shows as removed with no way to reply, and the owner cannot edit or delete Reviewer text
+  ---
+  duration_ms: 112.8586
+  type: 'test'
+  ...
+# Subtest: R4 owner: after the review is stopped the thread is still readable but replies are closed
+ok 156 - R4 owner: after the review is stopped the thread is still readable but replies are closed
+  ---
+  duration_ms: 110.1605
+  type: 'test'
+  ...
+# Subtest: R4 owner: a refused reply is explained, and an empty thread says so
+ok 157 - R4 owner: a refused reply is explained, and an empty thread says so
+  ---
+  duration_ms: 378.163
+  type: 'test'
+  ...
+# Subtest: R5 form: a valid form becomes the request the server expects, with percentages turned into ratios and text trimmed
+ok 158 - R5 form: a valid form becomes the request the server expects, with percentages turned into ratios and text trimmed
+  ---
+  duration_ms: 17.1383
+  type: 'test'
+  ...
+# Subtest: R5 form: every limit the server has is checked next to its box, at the edge and just past it
+ok 159 - R5 form: every limit the server has is checked next to its box, at the edge and just past it
+  ---
+  duration_ms: 88.104
+  type: 'test'
+  ...
+# Subtest: R5 form: an existing challenge fills the form back in, with ratios shown as percentages
+ok 160 - R5 form: an existing challenge fills the form back in, with ratios shown as percentages
+  ---
+  duration_ms: 2.9333
+  type: 'test'
+  ...
+# Subtest: R5 text: goal, traffic and baseline are said plainly, including when nothing was measured or nothing is left to solve
+ok 161 - R5 text: goal, traffic and baseline are said plainly, including when nothing was measured or nothing is left to solve
+  ---
+  duration_ms: 5.951
+  type: 'test'
+  ...
+# Subtest: R5 text: failures are explained in words and never echo the server's own message
+ok 162 - R5 text: failures are explained in words and never echo the server's own message
+  ---
+  duration_ms: 3.4071
+  type: 'test'
+  ...
+# Subtest: R5 list: an account without the Instructor role sees a denial and never asks for the list
+ok 163 - R5 list: an account without the Instructor role sees a denial and never asks for the list
+  ---
+  duration_ms: 471.3287
+  type: 'test'
+  ...
+# Subtest: R5 list: the Instructor's challenges are shown with status, goal and what the model said about the starting design
+ok 164 - R5 list: the Instructor's challenges are shown with status, goal and what the model said about the starting design
+  ---
+  duration_ms: 114.8106
+  type: 'test'
+  ...
+# Subtest: R5 list: with no challenges it says so
+ok 165 - R5 list: with no challenges it says so
+  ---
+  duration_ms: 115.9779
+  type: 'test'
+  ...
+# Subtest: R5 list: a new challenge needs every box right before anything is sent, then sends the exact request and opens the draft
+ok 166 - R5 list: a new challenge needs every box right before anything is sent, then sends the exact request and opens the draft
+  ---
+  duration_ms: 473.9345
+  type: 'test'
+  ...
+# Subtest: R5 list: a refused creation is explained in words and the form keeps what was typed
+ok 167 - R5 list: a refused creation is explained in words and the form keeps what was typed
+  ---
+  duration_ms: 301.5676
+  type: 'test'
+  ...
+# Subtest: R5 detail: a draft shows its numbers, and Publish measures it and shows what the model found
+ok 168 - R5 detail: a draft shows its numbers, and Publish measures it and shows what the model found
+  ---
+  duration_ms: 321.6063
+  type: 'test'
+  ...
+# Subtest: R5 detail: saving a draft sends every box, and the starting design only when a new one was chosen
+ok 169 - R5 detail: saving a draft sends every box, and the starting design only when a new one was chosen
+  ---
+  duration_ms: 234.6829
+  type: 'test'
+  ...
+# Subtest: R5 detail: once published only the wording can change, and the form offers nothing else
+ok 170 - R5 detail: once published only the wording can change, and the form offers nothing else
+  ---
+  duration_ms: 216.2095
+  type: 'test'
+  ...
+# Subtest: R5 detail: archiving asks first, and an archived challenge offers no editing or publishing
+ok 171 - R5 detail: archiving asks first, and an archived challenge offers no editing or publishing
+  ---
+  duration_ms: 272.5376
+  type: 'test'
+  ...
+# Subtest: R5 detail: duplicating opens the new draft
+ok 172 - R5 detail: duplicating opens the new draft
+  ---
+  duration_ms: 119.6348
+  type: 'test'
+  ...
+# Subtest: R5 detail: a refused publish is explained, and the challenge stays a draft
+ok 173 - R5 detail: a refused publish is explained, and the challenge stays a draft
+  ---
+  duration_ms: 111.5674
+  type: 'test'
+  ...
+# Subtest: R5 detail: someone else's or a missing challenge reads as unavailable, and a non-Instructor never asks for it
+ok 174 - R5 detail: someone else's or a missing challenge reads as unavailable, and a non-Instructor never asks for it
+  ---
+  duration_ms: 116.1583
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: R5 detail: challenge wording is shown as plain text and never becomes elements
+ok 175 - R5 detail: challenge wording is shown as plain text and never becomes elements
+  ---
+  duration_ms: 97.2038
+  type: 'test'
+  ...
+# Subtest: R5 menu: only an Instructor sees My challenges in the account menu
+ok 176 - R5 menu: only an Instructor sees My challenges in the account menu
+  ---
+  duration_ms: 294.2417
+  type: 'test'
+  ...
+# Subtest: R5.2 retained unsaved editor work blocks actual submit UI without a network call
+ok 177 - R5.2 retained unsaved editor work blocks actual submit UI without a network call
+  ---
+  duration_ms: 429.9135
+  type: 'test'
+  ...
+# Subtest: R5.2 recovery identity is scoped to account and attempt
+ok 178 - R5.2 recovery identity is scoped to account and attempt
+  ---
+  duration_ms: 2.2593
+  type: 'test'
+  ...
+# Subtest: R5.2 reload recovers only a valid identity, never prompt or credentials
+ok 179 - R5.2 reload recovers only a valid identity, never prompt or credentials
+  ---
+  duration_ms: 11.1962
+  type: 'test'
+  ...
+# Subtest: R5.2 storage refusal does not prevent in-memory recovery
+ok 180 - R5.2 storage refusal does not prevent in-memory recovery
+  ---
+  duration_ms: 1.5497
+  type: 'test'
+  ...
+# Subtest: R5.3 text: outcome lines say pass or fail with the model's numbers, and feedback failures are explained without echoing the server
+ok 181 - R5.3 text: outcome lines say pass or fail with the model's numbers, and feedback failures are explained without echoing the server
+  ---
+  duration_ms: 42.9153
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: with no graded submissions it says so and offers nothing to open
+ok 182 - R5.3 panel: with no graded submissions it says so and offers nothing to open
+  ---
+  duration_ms: 297.618
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: each row shows the learner's display name, outcome and note count, and opening one shows the frozen design
+ok 183 - R5.3 panel: each row shows the learner's display name, outcome and note count, and opening one shows the frozen design
+  ---
+  duration_ms: 475.4907
+  type: 'test'
+  ...
+# Subtest: R5.3 feedback: a blank note cannot be sent, a note is trimmed, sent once, shown as plain text and the form clears
+ok 184 - R5.3 feedback: a blank note cannot be sent, a note is trimmed, sent once, shown as plain text and the form clears
+  ---
+  duration_ms: 562.4115
+  type: 'test'
+  ...
+# Subtest: R5.3 feedback: a rejected note stays in the box with a reason, and nothing is added
+ok 185 - R5.3 feedback: a rejected note stays in the box with a reason, and nothing is added
+  ---
+  duration_ms: 307.3964
+  type: 'test'
+  ...
+# Subtest: R5.3 panel: a failed load says so, can be retried and then shows the list
+ok 186 - R5.3 panel: a failed load says so, can be retried and then shows the list
+  ---
+  duration_ms: 158.074
+  type: 'test'
+  ...
+# Subtest: report dialog focuses the form after delayed authentication and restores the original opener on Escape
+ok 187 - report dialog focuses the form after delayed authentication and restores the original opener on Escape
+  ---
+  duration_ms: 419.5536
+  type: 'test'
+  ...
+# Subtest: a standalone denied role page has one generic h1 and no protected content
+ok 188 - a standalone denied role page has one generic h1 and no protected content
+  ---
+  duration_ms: 21.3862
+  type: 'test'
+  ...
+# Subtest: standalone unavailable access has a heading; default nested gates keep h2
+ok 189 - standalone unavailable access has a heading; default nested gates keep h2
+  ---
+  duration_ms: 5.2332
+  type: 'test'
+  ...
+# Subtest: an authorized standalone role page keeps only its real report heading
+ok 190 - an authorized standalone role page keeps only its real report heading
+  ---
+  duration_ms: 1.2484
+  type: 'test'
+  ...
+# Subtest: login-register-login links preserve a validated destination including query and hash
+ok 191 - login-register-login links preserve a validated destination including query and hash
+  ---
+  duration_ms: 2.5027
+  type: 'test'
+  ...
+# Subtest: return-to rejects external URLs, control characters, malformed encoding and auth loops
+ok 192 - return-to rejects external URLs, control characters, malformed encoding and auth loops
+  ---
+  duration_ms: 1.744
+  type: 'test'
+  ...
+# Subtest: all workspace tabs resolve the heading/title/last breadcrumb consistently
+ok 193 - all workspace tabs resolve the heading/title/last breadcrumb consistently
+  ---
+  duration_ms: 2.2566
+  type: 'test'
+  ...
+# Subtest: dashboard has its current breadcrumb and new-design screens have concrete plans
+ok 194 - dashboard has its current breadcrumb and new-design screens have concrete plans
+  ---
+  duration_ms: 2.0912
+  type: 'test'
+  ...
+# Subtest: the context holds only the fixed list of facts, with the route pattern and never an address
+ok 195 - the context holds only the fixed list of facts, with the route pattern and never an address
+  ---
+  duration_ms: 6.2192
+  type: 'test'
+  ...
+# Subtest: a page with a query string, a fragment, spaces, a full address or control characters is left out, never trimmed into something else
+ok 196 - a page with a query string, a fragment, spaces, a full address or control characters is left out, never trimmed into something else
+  ---
+  duration_ms: 0.767
+  type: 'test'
+  ...
+# Subtest: version, browser, screen, time and error reference are checked one by one
+ok 197 - version, browser, screen, time and error reference are checked one by one
+  ---
+  duration_ms: 0.6803
+  type: 'test'
+  ...
+# Subtest: nothing is read beyond the named inputs: an object carrying a token and cookies leaves no trace
+ok 198 - nothing is read beyond the named inputs: an object carrying a token and cookies leaves no trace
+  ---
+  duration_ms: 0.3618
+  type: 'test'
+  ...
+# Subtest: each item can be removed before sending, and the rows say exactly what will be sent
+ok 199 - each item can be removed before sending, and the rows say exactly what will be sent
+  ---
+  duration_ms: 0.7648
+  type: 'test'
+  ...
+# Subtest: the form is checked the way the server checks it
+ok 200 - the form is checked the way the server checks it
+  ---
+  duration_ms: 0.8109
+  type: 'test'
+  ...
+# Subtest: the request is trimmed, leaves out an empty 'expected', and only flags a duplicate when told to
+ok 201 - the request is trimmed, leaves out an empty 'expected', and only flags a duplicate when told to
+  ---
+  duration_ms: 0.3854
+  type: 'test'
+  ...
+# Subtest: errors say what to do and never echo the server's own words
+ok 202 - errors say what to do and never echo the server's own words
+  ---
+  duration_ms: 0.8472
+  type: 'test'
+  ...
+# Subtest: a duplicate warning gives the reference of the report that is already open, and only for that case
+ok 203 - a duplicate warning gives the reference of the report that is already open, and only for that case
+  ---
+  duration_ms: 0.7012
+  type: 'test'
+  ...
+# Subtest: ages are written plainly and the badge turns amber after a day and red after three, never for a resolved report
+ok 204 - ages are written plainly and the badge turns amber after a day and red after three, never for a resolved report
+  ---
+  duration_ms: 0.9483
+  type: 'test'
+  ...
+# Subtest: the inbox query names only the filters that are set, trims the search, and carries the cursor
+ok 205 - the inbox query names only the filters that are set, trims the search, and carries the cursor
+  ---
+  duration_ms: 0.6462
+  type: 'test'
+  ...
+# Subtest: every category, status and priority has a plain label, and the two wordings for 'waiting' differ
+ok 206 - every category, status and priority has a plain label, and the two wordings for 'waiting' differ
+  ---
+  duration_ms: 0.3033
+  type: 'test'
+  ...
+# Subtest: Support metrics: no recorded replies is unavailable, and every closed category/status shows zero
+ok 207 - Support metrics: no recorded replies is unavailable, and every closed category/status shows zero
+  ---
+  duration_ms: 257.095
+  type: 'test'
+  ...
+# Subtest: Support metrics: exact counts, response denominator and readable median agree with supplied aggregates
+ok 208 - Support metrics: exact counts, response denominator and readable median agree with supplied aggregates
+  ---
+  duration_ms: 35.8717
+  type: 'test'
+  ...
+# Subtest: Support metrics: zero-duration reply is real data and private extra fields are never rendered
+ok 209 - Support metrics: zero-duration reply is real data and private extra fields are never rendered
+  ---
+  duration_ms: 25.4322
+  type: 'test'
+  ...
+# Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).
+# Subtest: Light/Dark/System select persists, follows OS changes and reloads System
+ok 210 - Light/Dark/System select persists, follows OS changes and reloads System
+  ---
+  duration_ms: 99.589
+  type: 'test'
+  ...
+# Subtest: Help for this screen returns focus on button through the actual shell
+ok 211 - Help for this screen returns focus on button through the actual shell
+  ---
+  duration_ms: 177.8654
+  type: 'test'
+  ...
+# Subtest: Help for this screen returns focus on Escape through the actual shell
+ok 212 - Help for this screen returns focus on Escape through the actual shell
+  ---
+  duration_ms: 63.3217
+  type: 'test'
+  ...
+# Subtest: AI assistant returns focus on button through the actual shell
+ok 213 - AI assistant returns focus on button through the actual shell
+  ---
+  duration_ms: 106.6262
+  type: 'test'
+  ...
+# Subtest: AI assistant returns focus on Escape through the actual shell
+ok 214 - AI assistant returns focus on Escape through the actual shell
+  ---
+  duration_ms: 74.269
+  type: 'test'
+  ...
+# Subtest: nonmodal drawer does not steal focus back after focus moves into page content
+ok 215 - nonmodal drawer does not steal focus back after focus moves into page content
+  ---
+  duration_ms: 80.2974
+  type: 'test'
+  ...
+# Subtest: auth form links carry the same validated destination
+ok 216 - auth form links carry the same validated destination
+  ---
+  duration_ms: 585.0844
+  type: 'test'
+  ...
+# Subtest: real error screen focuses its heading and the segment Retry invokes Next's retry callback
+ok 217 - real error screen focuses its heading and the segment Retry invokes Next's retry callback
+  ---
+  duration_ms: 814.1269
+  type: 'test'
+  ...
+# Subtest: global boundary is self-contained and Try again invokes Next's retry callback
+ok 218 - global boundary is self-contained and Try again invokes Next's retry callback
+  ---
+  duration_ms: 60.162
+  type: 'test'
+  ...
+# Subtest: relative-age clock advances without a query result or user action and stops on unmount
+ok 219 - relative-age clock advances without a query result or user action and stops on unmount
+  ---
+  duration_ms: 47.1947
+  type: 'test'
+  ...
+# Subtest: relative-age clock changes interval without leaving a second subscription
+ok 220 - relative-age clock changes interval without leaving a second subscription
+  ---
+  duration_ms: 20.6548
+  type: 'test'
+  ...
+# Subtest: download pins revision/run, shows busy, ignores a synchronous double click and saves once
+ok 221 - download pins revision/run, shows busy, ignores a synchronous double click and saves once
+  ---
+  duration_ms: 52.7373
+  type: 'test'
+  ...
+# Subtest: Report page reuses its own document and same renderer, including reports with no run
+ok 222 - Report page reuses its own document and same renderer, including reports with no run
+  ---
+  duration_ms: 16.8893
+  type: 'test'
+  ...
+# Subtest: wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+ok 223 - wrong design/revision/run and non-simulation, pending, mismatched or absent results never download
+  ---
+  duration_ms: 13.8482
+  type: 'test'
+  ...
+# Subtest: network failure stays local and an explicit retry recovers
+ok 224 - network failure stays local and an explicit retry recovers
+  ---
+  duration_ms: 9.0273
+  type: 'test'
+  ...
+# Subtest: renderer failure clears busy and allows a fresh retry
+ok 225 - renderer failure clears busy and allows a fresh retry
+  ---
+  duration_ms: 12.3152
+  type: 'test'
+  ...
+# Subtest: changing account or selected source aborts pending work and suppresses late downloads
+ok 226 - changing account or selected source aborts pending work and suppresses late downloads
+  ---
+  duration_ms: 9.0432
+  type: 'test'
+  ...
+# Subtest: unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+ok 227 - unmount during rendering cancels delivery even though PDF work itself cannot be interrupted
+  ---
+  duration_ms: 6.2644
+  type: 'test'
+  ...
+# Subtest: notes choice updates both entry points, persists, and is captured in the render options
+ok 228 - notes choice updates both entry points, persists, and is captured in the render options
+  ---
+  duration_ms: 9.4968
+  type: 'test'
+  ...
+# Subtest: unavailable storage does not prevent notes selection or download
+ok 229 - unavailable storage does not prevent notes selection or download
+  ---
+  duration_ms: 11.3825
+  type: 'test'
+  ...
+# Subtest: returning to a previously cancelled selection does not revive a stale busy state
+ok 230 - returning to a previously cancelled selection does not revive a stale busy state
+  ---
+  duration_ms: 9.81
+  type: 'test'
+  ...
+# Subtest: a change that changes nothing, or a value outside the bounds, is described before it is sent
+ok 231 - a change that changes nothing, or a value outside the bounds, is described before it is sent
+  ---
+  duration_ms: 29.8862
+  type: 'test'
+  ...
+# Subtest: the value is sent as 0 when the rate is kept
+ok 232 - the value is sent as 0 when the rate is kept
+  ---
+  duration_ms: 2.3467
+  type: 'test'
+  ...
+# Subtest: the sentence says what was changed, worded here from the form
+ok 233 - the sentence says what was changed, worded here from the form
+  ---
+  duration_ms: 0.9981
+  type: 'test'
+  ...
+# Subtest: a side that could not be calculated is never read as a pass
+ok 234 - a side that could not be calculated is never read as a pass
+  ---
+  duration_ms: 0.5173
+  type: 'test'
+  ...
+# Subtest: every failure is put in plain words with what to do next
+ok 235 - every failure is put in plain words with what to do next
+  ---
+  duration_ms: 0.9744
+  type: 'test'
+  ...
+# Subtest: the choices are the ones the server knows, in a fixed order
+ok 236 - the choices are the ones the server knows, in a fixed order
+  ---
+  duration_ms: 0.476
+  type: 'test'
+  ...
+# Subtest: the note says the figures are estimates and nothing is saved, and never claims a measurement
+ok 237 - the note says the figures are estimates and nothing is saved, and never claims a measurement
+  ---
+  duration_ms: 0.3221
+  type: 'test'
+  ...
+1..237
+# tests 237
+# suites 0
+# pass 205
+# fail 32
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 74310.5171
+[ELIFECYCLE] Test failed. See above for more details.

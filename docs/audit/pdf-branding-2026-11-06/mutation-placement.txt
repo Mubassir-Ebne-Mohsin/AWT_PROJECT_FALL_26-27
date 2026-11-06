@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+not ok 1 - monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+  ---
+  duration_ms: 17.4961
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\pdf-brand.test.cjs:13:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    128 !== 555
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 555
+  actual: 128
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\pdf-brand.test.cjs:17:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+ok 2 - source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+  ---
+  duration_ms: 11.8054
+  type: 'test'
+  ...
+# Subtest: every actual dossier page is branded without covering titles or changing recorded figures
+ok 3 - every actual dossier page is branded without covering titles or changing recorded figures
+  ---
+  duration_ms: 1240.0573
+  type: 'test'
+  ...
+# Subtest: Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+ok 4 - Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+  ---
+  duration_ms: 94.8742
+  type: 'test'
+  ...
+# Subtest: owner and design-only shared print views have the same vector mark and source without adding private content
+ok 5 - owner and design-only shared print views have the same vector mark and source without adding private content
+  ---
+  duration_ms: 163.7567
+  type: 'test'
+  ...
+# MUTATION_APPLIED placement 1
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5012.1205
+MUTATION_APPLIED placement 0

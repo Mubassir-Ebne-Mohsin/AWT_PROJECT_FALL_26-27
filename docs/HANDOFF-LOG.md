@@ -15,6 +15,15 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-06, Codex — monochrome PDF logo and source branding
+**Owner request:** add the supplied logo at the top-right in black and white so PDF source is clear. No push requested.
+**Done:** `7ea1093` adds a shared vector mark/wordmark and snapshot-year source credit through the PDF renderer. Covers all dossier download entry points and Admin PDF; renderer clones retained layouts so branding is not duplicated or source objects mutated. Continuation headers/diagram space reserved. Owner/shared browser print uses repeated page-margin boxes, with no change to ordinary UI or recorded figures.
+**Evidence:** 549/549 frontend unit tests, lint (zero errors/two existing warnings), types, 46 routes and production build pass. Three applied in-memory faults caught. Five fixture PDFs /15 pages inspected for logo/source/placement, including landscape and four-page Chrome print; representative pages visually reviewed.
+**Initial failures/fixes:** actual PDF inspection rejected the first fixed-position print logo (near page bottom); margin boxes put it in reserved space on every page. Audit helper renamed to avoid shadowing Python inspect. The first parallel full unit attempt exhausted memory and crashed workers; the same test files/assertions passed serially with a 768 MB worker cap. No old test changed, skipped or weakened.
+**Preservation:** 158 prior protected hashes/155 original PNGs match without restoration; no original audit image, M2/runtime, environment value, user database or service touched. No new dependency, API change, AI call or paid usage. New synthetic sample PDFs/preview PNGs stay local and unstaged; text evidence/scripts accompany docs in a separate local commit. All unrelated dirty files remain as found.
+**Use:** refresh frontend and download/print a new PDF. Existing downloaded files stay unchanged. No migration/configuration needed for this branding change (the separate C migration still needs owner action if not already applied).
+**Limits/next:** actual Chromium print verified; other print engines and full authenticated/all-project Chrome regression/backend suites were not rerun. All downloaded PDFs use vector branding independent of browser print support. New code and C remain unpushed. Claims released. [Guide](PDF-BRANDING.md), report section 44.
+
 ## 2026-11-06, Codex — A/B pushed; roadmap C notifications complete locally
 **Owner go:** push nine verified commits, implement C, replace the obsolete Preferences placeholder with five saved-control checks, and bound the existing Support rollback test to Support. No gallery/live AI/owner migration authorized.
 **Pushed:** origin/codex/phase2-contracts independently matched `16bc7d589ca372c1cc8946cea49bbe047bd42595`. C is local only.

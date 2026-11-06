@@ -1683,3 +1683,24 @@ No push, paid usage, live model call, key deletion, unseen-goal gate run, or unt
 **Limits/next:** full all-project Chrome, Edge/dev-only and AI acceptance were not rerun. No required C work remains. C push and any next milestone need separate owner instruction; gallery decisions and AI acceptance inputs/live go remain pending. Future phase-completion work must update this same living report, preserve history, record actual verification and reassess affected earlier requirements; updates are not automatic.
 
 [User guide](NOTIFICATIONS.md) · [Evidence and reproduction](audit/notifications-2026-11-06/README.md). Update history: 2026-11-06 — A/B pushed, C built, verified and closed locally.
+
+## 44. PDF logo and source attribution (6 November 2026)
+
+**Verdict: complete to the owner's approved request, committed locally as `7ea1093`; not pushed.** Sources: supplied logo screenshot, matching existing landing SVG, existing dossier/Admin PDF renderer and owner/shared Report print view. [Guide](PDF-BRANDING.md), [evidence](audit/pdf-branding-2026-11-06/README.md).
+
+| Requirement | Implementation / evidence | Status |
+| --- | --- | --- |
+| Top-right black-and-white logo | Existing stacked-layer geometry and STRESSFORGE. wordmark rendered as sharp monochrome vectors. Shared renderer covers Results/header/Report downloads and Admin summary, portrait and landscape. Every output page inspected. | Verified |
+| Visible source/copyright credit | `© <snapshot UTC year> STRESSFORGE · Generated with STRESSFORGE` below the existing footer, fixed snapshot year and stable invalid-date fallback. Existing author metadata retained; no ownership/sharing change. | Verified |
+| Preserve layout/data | Header band reserved, long running titles shortened, fit estimate matches continuation spacing; original full title/data remains. Renderer copies source layout; repeated generation remains deterministic. Existing dossier/Admin assertions unchanged. | Verified |
+| Print/shared view | Same brand geometry in repeated Chromium page-margin boxes, outside report content; ordinary UI unchanged. Four printed pages inspected, including source credit and horizontal bounds. | Verified |
+
+**Validation:** 549/549 frontend unit tests, lint (zero errors/two existing warnings), types, 46 routes and production build pass. Three applied in-memory faults caught. Five fixture PDFs /15 pages inspected for logo/source/placement, including landscape and four-page Chrome print; representative pages visually reviewed. Existing focused PDF suite initially 35/35. Serial full run includes five new branding tests and every earlier frontend test. No backend/API/schema/dependency changes; backend tests and authenticated/all-project browser journeys were not rerun for this presentation-only change.
+
+**Initial failures:** the first browser-print approach placed its fixed logo near page bottom; coordinate assertions rejected it, and reserved page-margin boxes pass on every page. A test-helper name shadowed Python's inspect module and was corrected. Parallel unit workers hit explicit fatal out-of-memory errors; the unchanged suite passed 549/549 serially. Test thresholds were not weakened.
+
+**Preservation/limits:** prior 158 protected hashes (155 original PNGs, M2, runtime artifact and Next configuration) match; no restoration needed. No original images/environment values/user data/services touched. New sample PDFs contain synthetic fixture data, not the owner's designs; they and preview PNGs stay local/unstaged. No new packages, network asset, paid service, model call or migration. Chrome's repeating print margin boxes verified; other print engines untested. Downloaded PDF vector branding does not depend on those margin-box features.
+
+**Use/remaining:** refresh the frontend, then create a new download or print. Existing files are unchanged. No mandatory branding work remains; no push authorized. C's separate migration/setup requirement remains as previously recorded. Future PDF/phase changes must update this same report, preserve history, record observed evidence and reassess affected exports. Updates are not automatic.
+
+Update history: 2026-11-06 — requested branding implemented, rendered, tested and closed locally.

@@ -1,0 +1,1 @@
+[{"name": "report", "pages": 2, "everyPageLogoAndSource": true}, {"name": "landscape", "pages": 3, "everyPageLogoAndSource": true}, {"name": "long", "pages": 5, "everyPageLogoAndSource": true}, {"name": "admin", "pages": 1, "everyPageLogoAndSource": true}, {"name": "print-shared", "pages": 4, "everyPageLogoAndSource": true}]

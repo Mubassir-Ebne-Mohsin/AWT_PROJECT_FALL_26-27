@@ -1,8 +1,8 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**Current status (2026-11-06):** A/B and the nine verified commits are pushed through 16bc7d5. Approved C notification bell is complete and committed locally; C has NOT been pushed. Backend 785/785 unit, 411/411 e2e (31 suites), builds/types/lint/contracts pass. Web 544/544 full unit, 18/18 final focused controls, build/types/lint and 46 routes pass. Chrome 96/96 affected, then 20/20 final notifications, 4/4 existing shell journeys and 4/4 reduced-motion journeys; five applied deliberate faults caught. Owner must run `pnpm migration:run` before restarting the updated backend. No gallery/live AI/owner DB changes. Protected files preserved; audit services stopped. See report section 43 and NOTIFICATIONS.md.
+**Current status (2026-11-06):** PDF logo/source branding is complete locally (`7ea1093`), not pushed; see report section 44 and [guide](PDF-BRANDING.md). C also remains complete locally/unpushed; A/B published through 16bc7d5. Owner must apply the separate C migration if not already done. No gallery/live AI/owner DB changes.
 
-**Last updated:** 2026-11-06 by Codex. Backend 785/785 unit, 411/411 e2e (31 suites), builds/types/lint/contracts pass. Web 544/544 full unit, 18/18 final focused controls, build/types/lint and 46 routes pass. Chrome 96/96 affected, then 20/20 final notifications, 4/4 existing shell journeys and 4/4 reduced-motion journeys; five applied deliberate faults caught. [Report section 43](STRESSFORGE-PROGRESS-REPORT.md), [C evidence](audit/notifications-2026-11-06/README.md), [guide](NOTIFICATIONS.md). AI acceptance remains separately blocked on owner inputs and explicit live go.
+**Last updated:** 2026-11-06 by Codex. PDF branding: 549/549 frontend unit, build/types/lint/46 routes pass; 15 actual PDF pages and three deliberate faults verified. Backend 785 unit/411 e2e is prior C evidence, not rerun for this frontend-only change. [Report section 44](STRESSFORGE-PROGRESS-REPORT.md), [evidence](audit/pdf-branding-2026-11-06/README.md). AI acceptance remains separately blocked on owner inputs and explicit live go.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
 
 Latest detailed handover: [CODEX-HANDOFF-2026-11-06.md](CODEX-HANDOFF-2026-11-06.md). Read both the newest top entry and Claude's appended entries at the bottom of HANDOFF-LOG; add future entries at the top.
@@ -35,6 +35,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Admin live dashboard | Built; Support `7051e89` and roadmap B verified/committed locally | `/admin/dashboard`, wall display, aggregate API/cache/polling; no content access |
 | Support P0 | Built (`6d93542`); P1 extras remain separate | Fifth role Support, reports/inbox, internal-note privacy, audit, export/anonymization. Notifications built and verified in roadmap C; consent sharing and saved replies/merge remain unbuilt |
 | Roadmap C notification bell | Complete, committed locally; not pushed | Five private Support kinds, bell/mutes, retained account export, no AI. Run Notifications1794800000000 migration before updated API. [Guide](NOTIFICATIONS.md), report section 43 |
+| PDF logo/source branding | Complete locally, not pushed (`7ea1093`) | Shared monochrome vector logo and source footer; downloaded and Chrome-printed pages verified. [Guide](PDF-BRANDING.md), report section 44 |
 | Component notes / PDF dossier / concept help | Built per latest handoff | NoteComponent migration; printable/downloadable dossier; no-AI help |
 | AI acceptance | Current three-task proposal pending owner inputs/registration | [AI-DEADLINE-PLAN](AI-DEADLINE-PLAN.md) supersedes the earlier separate goal-reader gate where stated; independent sheet, bars/retry decision and explicit live go still required |
 | Showcase readiness | Earlier core rehearsal verified; newer sections still need owner rehearsal | Current launcher has three tasks/five-request preflight; no live calls here. Faculty requires reliable operational AI; acceptance not closed |
@@ -66,6 +67,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | PDF logo/source branding: shared renderer, dossier/print layout, tests/docs | 2026-11-06 | Finished/verified, committed locally; no active claim; not pushed |
 | Codex | Support aggregate metrics/contracts/tests; clock/motion/focus/navigation/accessibility repairs; current docs | 2026-11-05 | Finished/verified; committed `7051e89` / `1bdfe9a`; no active claim |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
 | Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |

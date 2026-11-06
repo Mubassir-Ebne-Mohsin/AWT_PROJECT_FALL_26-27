@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\docs\audit\pdf-branding-2026-11-06\verify-output.py", line 14, in <module>
+    assert logo['x0']>p.width/2 and logo['top']<40,(name,i,'logo position',logo)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('print-shared', 0, 'logo position', {'text': 'STRESSFORGE.', 'x0': 463.6054494331055, 'x1': 549.7454024721159, 'top': 746.5849641002047, 'doctop': 746.5849641002047, 'bottom': 757.5799634920797, 'upright': True, 'height': 10.994999391875012, 'width': 86.13995303901038, 'direction': 'ltr'})

@@ -1,0 +1,62 @@
+TAP version 13
+# Subtest: monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+ok 1 - monochrome vector logo fits the top-right of both orientations and attribution fits below existing footers
+  ---
+  duration_ms: 2.6914
+  type: 'test'
+  ...
+# Subtest: source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+ok 2 - source year is snapshot-based rather than today's clock, with a stable invalid-date fallback
+  ---
+  duration_ms: 0.767
+  type: 'test'
+  ...
+# Subtest: every actual dossier page is branded without covering titles or changing recorded figures
+ok 3 - every actual dossier page is branded without covering titles or changing recorded figures
+  ---
+  duration_ms: 262.4437
+  type: 'test'
+  ...
+# Subtest: Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+ok 4 - Admin summary uses the shared branding and repeated rendering never mutates a retained source layout
+  ---
+  duration_ms: 21.3746
+  type: 'test'
+  ...
+# Subtest: owner and design-only shared print views have the same vector mark and source without adding private content
+not ok 5 - owner and design-only shared print views have the same vector mark and source without adding private content
+  ---
+  duration_ms: 62.869
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\pdf-brand.test.cjs:51:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+
+      assert.ok(html.includes(printBrandCss(F.report().generatedAt)))
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\pdf-brand.test.cjs:54:53)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# MUTATION_APPLIED print 1
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2862.9583
+MUTATION_APPLIED print 0
