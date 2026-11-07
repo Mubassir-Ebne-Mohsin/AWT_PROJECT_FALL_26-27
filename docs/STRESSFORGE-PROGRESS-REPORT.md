@@ -1732,3 +1732,7 @@ Update history: 2026-11-06 — requested branding implemented, rendered, tested 
 Update history: 2026-11-07 — E approved, implemented, privacy/race/failure-tested and closed locally.
 
 **Publication update — 2026-11-07:** Owner authorized push. E, PDF branding and their recorded evidence are now published on `origin/codex/phase2-contracts` through `8e9a04b`; live remote hash matched local HEAD after push. This supersedes the earlier local-only publication notes in sections 44–45; implementation verdicts and verification limits are unchanged. No tests rerun for publication-only documentation. Protected artifacts remain uncommitted; owner migration/rehearsal still required.
+
+## 46. Header product name (7 November 2026)
+
+**Complete locally; not pushed.** Owner screenshot requested STRESSFORGE in place of Architecture Stress Test. Only the header wordmark text changed; existing icon, link targets and responsive CSS retained. Verification: 35/35 existing R1/R3/R5 component tests and focused ESLint pass. No full build/browser rerun for this text-only change; no migration, new package or AI call. Refresh the frontend. Protected artifacts remain untouched and unstaged. Earlier phase evidence and remaining AI/gallery decisions are unchanged.

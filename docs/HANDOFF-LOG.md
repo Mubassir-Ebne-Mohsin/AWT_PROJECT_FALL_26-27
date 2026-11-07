@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-07, Codex — header product name
+**Owner request/done:** Replace the screenshot's “Architecture Stress Test” header with **STRESSFORGE**. Only visible text in top-bar.tsx changed; existing icon, typography, link destinations and responsive rules preserved.
+**Evidence:** 35/35 existing R1/R3/R5 component tests pass on final source; focused ESLint passes. No new test, dependency or route. Full build/browser regression not rerun for this literal JSX text change.
+**Uncommitted/next:** Protected benchmark/runtime, audit images/PDF fixtures and film untouched/unstaged. Change committed locally; no new push requested. Refresh the running frontend. Claim released; no migration or AI call.
+
 ## 2026-11-07, Codex — owner-authorized publication
 **Goal/decision:** Owner said “push”; publish the verified pending commits without staging protected work.
 **Done:** Six commits pushed: PDF branding `7ea1093`, its evidence `e42abd4`, E backend/contracts `56a5651`, web `23b63a2`, live types `49ee461`, report/evidence `8e9a04b`. Live GitHub branch was independently confirmed at `8e9a04bb5019ea95277ac9c6aa8594ffd16a84e4` immediately after push. Publication status docs updated in a following documentation commit.

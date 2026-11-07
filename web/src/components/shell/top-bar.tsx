@@ -136,8 +136,7 @@ export function TopBar({ pathname }: { pathname: string }) {
           <BrandMark s={17} />
         </span>
         <span className="brand-word">
-          <span>Architecture</span>
-          <b>Stress Test</b>
+          <b>STRESSFORGE</b>
         </span>
       </Link>
 
