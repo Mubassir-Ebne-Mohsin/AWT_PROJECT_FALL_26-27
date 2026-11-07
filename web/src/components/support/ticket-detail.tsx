@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { SavedReplies } from "@/components/support/saved-replies";
+import { MergeControls } from "@/components/support/merge-controls";
+import { appendSavedReply } from "@/lib/support-extras";
 import { useNow } from "@/lib/use-now";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { RoleGate } from "@/components/auth/role-gate";
@@ -16,11 +19,12 @@ import { CATEGORY_LABEL, MESSAGE_MAX, PRIORITIES, PRIORITY_LABEL, STATUSES, STAT
 const REFRESH_MS = 20_000;
 
 export function SupportTicket({ id }: { id: string }) {
+  const {user}=useAuth();
   return (
     <div className="page stack lg">
       <Crumbs resolved={resolveRoute(`/support/${id}`)} />
       <RoleGate role="support" headingLevel={1}>
-        <Ticket id={id} />
+        <Ticket key={user?.id+":"+id} id={id} />
       </RoleGate>
     </div>
   );
@@ -33,7 +37,9 @@ function Ticket({ id }: { id: string }) {
   const key = ["support-ticket", user?.id, id];
   const q = useQuery({ queryKey: key, queryFn: ({ signal }) => getInboxReport(id, signal), enabled: !!user, retry: false, refetchInterval: REFRESH_MS });
   const agents = useQuery({ queryKey: ["support-agents", user?.id], queryFn: ({ signal }) => listSupportAgents(signal), enabled: !!user, retry: false, staleTime: 60_000 });
-  const [text, setText] = useState("");
+  const [text, setTextState] = useState("");
+  const draft = useRef("");
+  function setText(value:string){draft.current=value;setTextState(value);}
   const [internal, setInternal] = useState(false);
   const [shown, setShown] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -140,6 +146,7 @@ function Ticket({ id }: { id: string }) {
           )}
         </section>
 
+        <SavedReplies ticketId={r.id} disabled={busy} onInsert={reply=>{setText(appendSavedReply(draft.current,reply));setError(null);}} />
         <section className="panel stack rp-pad" aria-label="Reply">
           <div className="seg" role="group" aria-label="Who can see this">
             <button aria-pressed={!internal} onClick={() => setInternal(false)} data-testid="mode-reply">
@@ -192,11 +199,12 @@ function Ticket({ id }: { id: string }) {
 
       <aside className="panel stack rp-pad rp-ticket-side" aria-label="Handle this report" data-testid="ticket-controls">
         <h2 className="h3">Handle</h2>
+        <MergeControls key={user?.id+":"+id} report={r} onChange={refreshed} disabled={busy} />
         <div className="field">
           <label className="label" htmlFor="tk-status">
             Status
           </label>
-          <select id="tk-status" className="select" value={r.status} disabled={busy} onChange={(e) => change.mutate({ status: e.target.value as Status })} data-testid="ctl-status">
+          <select id="tk-status" className="select" value={r.status} disabled={busy||!!r.mergedInto} onChange={(e) => change.mutate({ status: e.target.value as Status })} data-testid="ctl-status">
             {STATUSES.map((s) => (
               <option key={s} value={s}>
                 {STATUS_LABEL_SUPPORT[s]}

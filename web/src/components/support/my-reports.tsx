@@ -76,6 +76,10 @@ export function MyReports() {
 }
 
 export function MyReport({ id }: { id: string }) {
+  const {user}=useAuth();
+  return <ReportThread key={user?.id+":"+id} id={id}/>;
+}
+function ReportThread({ id }: { id: string }) {
   const { user } = useAuth();
   const queries = useQueryClient();
   const [text, setText] = useState("");
@@ -107,7 +111,7 @@ export function MyReport({ id }: { id: string }) {
   }
 
   const issue = shown ? messageIssue(text) : null;
-  const closedForGood = r?.status === "resolved" && r.reopenUntil === null;
+  const closedForGood = r?.status === "resolved" && r.reopenUntil === null && !r.mergedInto;
   return (
     <div className="page stack lg">
       <Crumbs resolved={resolveRoute(`/reports/${id}`)} />
@@ -153,6 +157,7 @@ export function MyReport({ id }: { id: string }) {
             <ContextList context={r.context} />
           </section>
 
+          {r.mergedInto&&<p className="note" data-testid="merged-report-note">This report is marked as a duplicate of <Link prefetch={false} href={'/reports/'+r.mergedInto.id}>{r.mergedInto.code}</Link>. Your conversation stays private. You can continue writing here or through that link; messages from other reporters are hidden.</p>}
           <section className="stack" aria-label="Conversation" data-testid="thread">
             <h2 className="h3">Conversation</h2>
             {r.messages.length === 0 ? (

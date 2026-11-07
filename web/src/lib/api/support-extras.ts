@@ -1,0 +1,13 @@
+import { api } from "@/lib/api/client";
+import type { components } from "@/lib/api/phase3-schema";
+import type { InboxDetail } from "@/lib/support";
+type S=components["schemas"];
+export type SavedReply=S["SavedReply"];
+const local={scope:"local"} as const;
+export const getSavedReplies=(signal?:AbortSignal)=>api<S["SavedReplies"]>("/support/saved-replies",{...local,signal});
+export const createSavedReply=(body:S["SavedReplyInput"],signal?:AbortSignal)=>api<SavedReply>("/support/saved-replies",{...local,method:"POST",body,signal});
+export const editSavedReply=(id:string,body:S["SavedReplyEdit"],signal?:AbortSignal)=>api<SavedReply>(`/support/saved-replies/${id}`,{...local,method:"PATCH",body,signal});
+export const deleteSavedReply=(id:string,expectedUpdatedAt:string,signal?:AbortSignal)=>api<S["SavedReplyDeleted"]>(`/support/saved-replies/${id}`,{...local,method:"DELETE",body:{expectedUpdatedAt},signal});
+export const previewSavedReply=(r:SavedReply,ticketId:string,signal?:AbortSignal)=>api<S["SavedReplyPreview"]>(`/support/saved-replies/${r.id}/preview`,{...local,method:"POST",body:{ticketId,expectedUpdatedAt:r.updatedAt},signal});
+export const mergeReport=(id:string,body:S["SupportMergeRequest"],signal?:AbortSignal)=>api<InboxDetail>(`/support/inbox/${id}/merge`,{...local,method:"POST",body,signal});
+export const unmergeReport=(id:string,expectedUpdatedAt:string,signal?:AbortSignal)=>api<InboxDetail>(`/support/inbox/${id}/unmerge`,{...local,method:"POST",body:{expectedUpdatedAt},signal});

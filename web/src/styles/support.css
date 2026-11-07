@@ -66,3 +66,9 @@
   .rp-table td:nth-child(2) { min-width: 0; }
   .rp-table td:first-child, .rp-table th:first-child { padding-right: 4px; }
 }
+
+.support-extras { min-width: 0; overflow-wrap: anywhere; }
+.support-extras > summary { cursor: pointer; font-weight: 650; }
+.support-extras > summary + div { margin-top: 12px; }
+.support-extras .row { flex-wrap: wrap; }
+.support-extras textarea { min-height: 100px; }
