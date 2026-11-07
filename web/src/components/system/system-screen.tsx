@@ -7,10 +7,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { useUi } from "@/components/shell/ui-provider";
 import { Icon } from "@/components/ui/icon";
-import { FOREIGN_DESIGNS } from "@/lib/catalog";
 import { notify } from "@/lib/notify";
 import { ROUTES } from "@/lib/routes";
-import { SYSTEM_STATES, SystemKind } from "@/lib/system-states";
+import { SYSTEM_STATES, SystemKind, forbiddenCopy } from "@/lib/system-states";
 import { API_URL } from "@/lib/api/client";
 
 interface Props {
@@ -39,6 +38,13 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
   const [showRaw, setShowRaw] = useState(false);
 
   const home = status === "authed" ? "/dashboard" : "/";
+
+  // A link that leaves this page must not close the screen itself. While the screen is up the page underneath is not rendered, so
+  // closing it first would put the OLD page back for a moment, which would ask the server again and raise the same error again.
+  // The shell closes the screen once the new route has arrived. Only a link to the page already open (nothing will change) closes it here.
+  const leaving = (to: string) => () => {
+    if ((to.split("?")[0] || "/") === (pathname || "/")) closeSystem();
+  };
 
   // "Waking up": real mode polls the health endpoint until the API answers; demo mode runs a timer.
   useEffect(() => {
@@ -145,33 +151,43 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
     }
     case "403": {
       tone = "warn";
-      const id = "acme-legacy";
-      title = "This design belongs to another account.";
+      const copy = forbiddenCopy(status === "authed" && user ? user.email : null);
+      const signedIn = copy.signedIn;
+      title = copy.title;
       body = (
-        <p className="lede">
-          You are logged in as {user ? user.email : "a guest"}. Ask the owner to share a read-only link, or open one of your own designs.
+        <p className="lede" data-testid="forbidden-body">
+          {copy.body}
         </p>
       );
       detail = (
         <div className="panel sys-detail">
           <dl className="kv">
-            <dt>Design</dt>
-            <dd>{FOREIGN_DESIGNS[id]}</dd>
-            <dt>Owner</dt>
-            <dd>another account</dd>
+            <dt>Page</dt>
+            <dd data-testid="forbidden-page">{pathname}</dd>
+            <dt>Signed in as</dt>
+            <dd>{signedIn ? user!.email : "nobody"}</dd>
             <dt>Your access</dt>
             <dd>none</dd>
           </dl>
         </div>
       );
-      actions = (
+      actions = signedIn ? (
         <>
-          <Link href={home} className="btn btn-primary" onClick={closeSystem}>
+          <Link href={home} className="btn btn-primary" onClick={leaving(home)}>
             Back to your designs
           </Link>
-          <button className="btn" onClick={() => notify("Ask the owner for a read-only share link, or a review grant if you have the Reviewer role. This button does not send a request.", "info")}>
-            Request access
+          <button className="btn" onClick={() => { if (window.history.length > 1) router.back(); else router.push(home); }}>
+            Go back
           </button>
+        </>
+      ) : (
+        <>
+          <Link href={`/login?next=${encodeURIComponent(pathname || "/")}`} className="btn btn-primary" onClick={leaving("/login")} data-testid="forbidden-login">
+            Log in
+          </Link>
+          <Link href="/" className="btn" onClick={leaving("/")}>
+            Go to the home page
+          </Link>
         </>
       );
       break;
@@ -290,7 +306,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
         </div>
       );
       actions = (
-        <Link href={home} className="btn btn-primary" onClick={closeSystem}>
+        <Link href={home} className="btn btn-primary" onClick={leaving(home)}>
           Back to the app
         </Link>
       );
@@ -319,7 +335,7 @@ export function SystemScreen({ kind, path, fromDev, onRetry, reference }: Props)
         </div>
       );
       actions = (
-        <Link href="/dashboard" className="btn btn-primary" onClick={closeSystem}>
+        <Link href="/dashboard" className="btn btn-primary" onClick={leaving("/dashboard")}>
           Back to the dashboard
         </Link>
       );

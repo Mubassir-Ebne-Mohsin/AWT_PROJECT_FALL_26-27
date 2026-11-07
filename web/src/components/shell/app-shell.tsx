@@ -58,13 +58,24 @@ function AuthGate({ children }: { children: ReactNode }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { ui, setUI } = useUi();
+  const { ui, setUI, closeSystem } = useUi();
   const { status } = useAuth();
   const resolved = useMemo(() => resolveRoute(pathname), [pathname]);
   const stateRef = useRef({ ui, status, pathname });
   useEffect(() => {
     stateRef.current = { ui, status, pathname };
   });
+
+  // An error screen belongs to the page that raised it. Once the person navigates anywhere else (a menu link, Log in, Back), it must not
+  // stay on top of the new page: it used to cover the login form with a "belongs to another account" message. "Waking up" and the
+  // session dialog are left alone, because they have their own way out.
+  const lastPath = useRef(pathname);
+  useEffect(() => {
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    const open = stateRef.current.ui.system;
+    if (open === "403" || open === "404" || open === "500" || open === "ratelimited") closeSystem();
+  }, [pathname, closeSystem]);
 
   // Close transient UI whenever the route changes.
   useEffect(() => {

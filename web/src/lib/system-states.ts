@@ -32,3 +32,19 @@ export const SYSTEM_STATES: SystemStateDef[] = [
   { id: "aiinvalid", code: "AI_SCHEMA", label: "AI output invalid", icon: "sparkle" },
   { id: "maintenance", code: "503 maint.", label: "Maintenance", icon: "tool" },
 ];
+
+/**
+ * What the "no access" screen says. It states only facts the page knows: whether someone is signed in and as whom. It never names a
+ * design, because the screen does not know which one it was (the server answered 403 and said nothing more).
+ */
+export function forbiddenCopy(email: string | null | undefined): { title: string; body: string; signedIn: boolean } {
+  const title = "You do not have access to this.";
+  if (email)
+    return {
+      title,
+      signedIn: true,
+      body: `You are signed in as ${email}. This page belongs to another account, or needs a role your account does not have. Ask the owner to share a read-only link, or open one of your own designs.`,
+    };
+  return { title, signedIn: false, body: "You are not signed in. If this design is yours, log in with the account that owns it." };
+}
+
