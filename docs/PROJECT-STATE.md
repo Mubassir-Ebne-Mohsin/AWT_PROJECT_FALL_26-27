@@ -1,6 +1,6 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**Current status (2026-11-07):** Roadmap E saved replies/private duplicate merges complete locally; not pushed. C and PDF branding also remain local. Owner must run `pnpm migration:run` before using the updated API. See report section 45 and [guide](SUPPORT-EXTRAS.md). No gallery/live AI/owner DB changes.
+**Current status (2026-11-07):** Roadmap E and PDF branding published through `8e9a04b` on `origin/codex/phase2-contracts`; C is also published. Owner must run `pnpm migration:run` before using the updated API. See report section 45 and [guide](SUPPORT-EXTRAS.md). No gallery/live AI/owner DB changes.
 
 **Last updated:** 2026-11-07 by Codex. Backend 785/785 unit and 422/422 e2e (32 suites, four sequential processes); web 557/557 unit; Chrome 88/88 affected across four light/dark laptop projects; four applied functional faults caught. Builds, lint/types, both contracts and 46 routes pass. Full all-project Chrome, Edge and dev-only journeys were not rerun. Browser failures use controlled 503/cancellation, not a real API/container outage. No owner migration, live AI request, new dependency or frontend route. AI acceptance remains separate and unclosed.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
@@ -34,9 +34,9 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Calibration | Measured on one laptop and one toy service | Honest limits and post-observation fit correction disclosed. [Findings](CALIBRATION-FINDINGS.md); not validation for real applications |
 | Admin live dashboard | Built; Support `7051e89` and roadmap B verified/committed locally | `/admin/dashboard`, wall display, aggregate API/cache/polling; no content access |
 | Support P0 | Built (`6d93542`); P1 extras remain separate | Fifth role Support, reports/inbox, internal-note privacy, audit, export/anonymization. Notifications built and verified in roadmap C; consent sharing remains unbuilt; saved replies/private duplicate links verified in roadmap E |
-| Roadmap C notification bell | Complete, committed locally; not pushed | Five private Support kinds, bell/mutes, retained account export, no AI. Run Notifications1794800000000 migration before updated API. [Guide](NOTIFICATIONS.md), report section 43 |
-| Roadmap E saved replies / safe duplicate merges | Complete locally, not pushed | Personal/team replies insert without sending; separate private threads, no chains/cycles, audited reversible links. SupportExtras1794900000000 migration required. [Guide](SUPPORT-EXTRAS.md), report section 45 |
-| PDF logo/source branding | Complete locally, not pushed (`7ea1093`) | Shared monochrome vector logo and source footer; downloaded and Chrome-printed pages verified. [Guide](PDF-BRANDING.md), report section 44 |
+| Roadmap C notification bell | Complete, published | Five private Support kinds, bell/mutes, retained account export, no AI. Run Notifications1794800000000 migration before updated API. [Guide](NOTIFICATIONS.md), report section 43 |
+| Roadmap E saved replies / safe duplicate merges | Complete, published through 8e9a04b | Personal/team replies insert without sending; separate private threads, no chains/cycles, audited reversible links. SupportExtras1794900000000 migration required. [Guide](SUPPORT-EXTRAS.md), report section 45 |
+| PDF logo/source branding | Complete, published (`7ea1093`) | Shared monochrome vector logo and source footer; downloaded and Chrome-printed pages verified. [Guide](PDF-BRANDING.md), report section 44 |
 | Component notes / PDF dossier / concept help | Built per latest handoff | NoteComponent migration; printable/downloadable dossier; no-AI help |
 | AI acceptance | Current three-task proposal pending owner inputs/registration | [AI-DEADLINE-PLAN](AI-DEADLINE-PLAN.md) supersedes the earlier separate goal-reader gate where stated; independent sheet, bars/retry decision and explicit live go still required |
 | Showcase readiness | Earlier core rehearsal verified; newer sections still need owner rehearsal | Current launcher has three tasks/five-request preflight; no live calls here. Faculty requires reliable operational AI; acceptance not closed |
@@ -68,8 +68,8 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
-| Codex | Roadmap E saved replies/private duplicate links | 2026-11-07 | Released; complete locally, no push |
-| Codex | PDF logo/source branding: shared renderer, dossier/print layout, tests/docs | 2026-11-06 | Finished/verified, committed locally; no active claim; not pushed |
+| Codex | Roadmap E saved replies/private duplicate links | 2026-11-07 | Released; complete and published 2026-11-07 |
+| Codex | PDF logo/source branding: shared renderer, dossier/print layout, tests/docs | 2026-11-06 | Finished/verified, published; no active claim |
 | Codex | Support aggregate metrics/contracts/tests; clock/motion/focus/navigation/accessibility repairs; current docs | 2026-11-05 | Finished/verified; committed `7051e89` / `1bdfe9a`; no active claim |
 | Claude Code | M15 | 2026-10-29 | Finished M15.1-M15.5; nothing claimed. Next milestone needs the user's approval |
 | Codex | Untracked `GROQ-IMPLEMENTATION-ROADMAP.md`, `M12-EXPLANATION-SCOPE.md` | 2026-10-29 | Historical drafts; preserved, not active implementation claims; provider is now committed |

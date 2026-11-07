@@ -15,6 +15,13 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-07, Codex — owner-authorized publication
+**Goal/decision:** Owner said “push”; publish the verified pending commits without staging protected work.
+**Done:** Six commits pushed: PDF branding `7ea1093`, its evidence `e42abd4`, E backend/contracts `56a5651`, web `23b63a2`, live types `49ee461`, report/evidence `8e9a04b`. Live GitHub branch was independently confirmed at `8e9a04bb5019ea95277ac9c6aa8594ffd16a84e4` immediately after push. Publication status docs updated in a following documentation commit.
+**Evidence:** Fetch showed 0 remote-only/6 local-only commits; normal fast-forward push, no force. No implementation change or test rerun; E evidence below remains current. No migration, service change or AI call.
+**Uncommitted:** Existing protected M2/runtime, audit PNGs/PDF fixtures and film remain local and unstaged.
+**Next:** Owner migration/restart/rehearsal. Gallery/consent/live-AI approvals remain separate. No active claims.
+
 ## 2026-11-07, Codex — roadmap E saved replies and private duplicate links
 **Goal/authorization:** Owner approved E; no push or next milestone.
 **Done:** Support-only personal/team saved replies, bounded safe expansion into an editable draft (never auto-send); versioned audited merge/unmerge with no chains/cycles and strictly separate reporter conversations. Migration SupportExtras1794900000000; account export/deletion integration, canonical and live types. See report section 45 and [guide](SUPPORT-EXTRAS.md). Backend/contracts `56a5651`; web/tests `23b63a2`; live primary types alone `49ee461`. No push.

@@ -2,7 +2,7 @@
 
 Owner approved implementation on 7 November 2026. Source: ROADMAP-NEXT-FEATURES.md, item E. No gallery, consent design sharing, AI or push. Backend first, then existing Support/reporter screens; no new frontend route or package.
 
-**Status: complete locally, verified 2026-11-07; not pushed.** Backend 785/785 unit and 422/422 e2e (32 suites, four sequential processes); web 557/557 unit; Chrome 88/88 affected across four light/dark laptop projects; four applied functional faults caught. Builds, lint/types, both contracts and 46 routes pass. See [evidence](audit/support-e-2026-11-07/README.md).
+**Status: complete, verified and published 2026-11-07 through 8e9a04b.** Backend 785/785 unit and 422/422 e2e (32 suites, four sequential processes); web 557/557 unit; Chrome 88/88 affected across four light/dark laptop projects; four applied functional faults caught. Builds, lint/types, both contracts and 46 routes pass. See [evidence](audit/support-e-2026-11-07/README.md).
 
 ## Decisions and acceptance
 

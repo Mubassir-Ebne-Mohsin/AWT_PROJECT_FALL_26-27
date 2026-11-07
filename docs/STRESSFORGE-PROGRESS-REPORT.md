@@ -1730,3 +1730,5 @@ Update history: 2026-11-06 — requested branding implemented, rendered, tested 
 **Living-report maintenance:** Future phase-completion work must update this same report, preserve earlier history, record new observed verification and reassess affected earlier requirements. Updates are not automatic.
 
 Update history: 2026-11-07 — E approved, implemented, privacy/race/failure-tested and closed locally.
+
+**Publication update — 2026-11-07:** Owner authorized push. E, PDF branding and their recorded evidence are now published on `origin/codex/phase2-contracts` through `8e9a04b`; live remote hash matched local HEAD after push. This supersedes the earlier local-only publication notes in sections 44–45; implementation verdicts and verification limits are unchanged. No tests rerun for publication-only documentation. Protected artifacts remain uncommitted; owner migration/rehearsal still required.
