@@ -1,6 +1,6 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
-**Current status (2026-11-07):** Roadmap E and PDF branding published through `8e9a04b` on `origin/codex/phase2-contracts`; C is also published. Owner must run `pnpm migration:run` before using the updated API. See report section 45 and [guide](SUPPORT-EXTRAS.md). Header branding matches the supplied stacked-layer STRESSFORGE. reference (verified locally, not pushed). No gallery/live AI/owner DB changes.
+**Current status (2026-11-07):** Roadmap E and PDF branding published through `8e9a04b` on `origin/codex/phase2-contracts`; C is also published. Owner must run `pnpm migration:run` before using the updated API. See report section 45 and [guide](SUPPORT-EXTRAS.md). Header branding matches the supplied stacked-layer STRESSFORGE. reference (verified locally, not pushed). Describe example choices also restyled and verified locally (not pushed). No gallery/live AI/owner DB changes.
 
 **Last updated:** 2026-11-07 by Codex. Backend 785/785 unit and 422/422 e2e (32 suites, four sequential processes); web 557/557 unit; Chrome 88/88 affected across four light/dark laptop projects; four applied functional faults caught. Builds, lint/types, both contracts and 46 routes pass. Full all-project Chrome, Edge and dev-only journeys were not rerun. Browser failures use controlled 503/cancellation, not a real API/container outage. No owner migration, live AI request, new dependency or frontend route. AI acceptance remains separate and unclosed.
 Rules: [AGENTS.md](../AGENTS.md). Session history: [HANDOFF-LOG.md](HANDOFF-LOG.md). Evidence and history: [living report](STRESSFORGE-PROGRESS-REPORT.md). Plans: [Phase 2](PHASE-2-PLAN.md), [Phase 3](PHASE-3-PLAN.md), [roles and future scope](PROJECT-PLAN.md).
@@ -68,6 +68,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | Describe example choices: creation/describe.tsx, m4.css, focused checks and docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Header reference styling: top-bar.tsx, proto.css, focused verification and current docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Roadmap E saved replies/private duplicate links | 2026-11-07 | Released; complete and published 2026-11-07 |
 | Codex | PDF logo/source branding: shared renderer, dossier/print layout, tests/docs | 2026-11-06 | Finished/verified, published; no active claim |

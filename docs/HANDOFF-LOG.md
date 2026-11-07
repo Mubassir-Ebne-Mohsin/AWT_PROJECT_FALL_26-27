@@ -15,6 +15,12 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-07, Codex — readable Describe example choices
+**Owner request/done:** Clean up the squeezed bordered pills under Try an example. Removed the generic fixed-height chip class; added titled cards with original full prompts, natural height, 13px padding, subtle rectangular borders, responsive grid, hover/focus and disabled styles. Added a labelled group and explicit button type; prompt strings and click-to-fill handler unchanged. Only describe.tsx/m4.css changed in the application.
+**Evidence:** 17/17 existing creation-session/ai-describe unit tests and focused ESLint pass. Real running frontend, fresh headless Chrome with all API requests intercepted: 1440/1024/760/390/320 in dark/light (10 layouts), all four examples fill the exact original text by keyboard, no clipped content or horizontal overflow, no page errors, zero write requests. Dark desktop and light phone snapshots visually reviewed; screenshots/JSON remain in TEMP.
+**Initial limit:** First Chrome attempt failed ERR_INSUFFICIENT_RESOURCES with about 490 MiB available RAM. Same checks passed with one context, GPU disabled and one renderer; no user apps stopped and no assertions weakened. No full build/backend/production browser regression rerun for this styling change.
+**Uncommitted/next:** Locally committed; no push requested. Protected M2/runtime/images, film and unrelated work remain unstaged. No migration, package or AI behavior change; no live model/API or database calls during fixture browser verification. Refresh Describe your system. Claim released.
+
 ## 2026-11-07, Codex — header logo matches supplied reference
 **Owner request/done:** Match the second screenshot: transparent blue stacked-layer SVG, compact bold STRESSFORGE wordmark and blue terminal period. Reused the landing logo geometry and existing Archivo/accent tokens; changed only top-bar.tsx/proto.css, not landing/PDF branding. Added an accessible home-link label and retained existing destinations/mobile compact layout.
 **Evidence:** 35/35 existing R1/R3/R5 tests, focused ESLint pass. Real headless Chrome inspected the running public login header at 1440/1024/390 in light/dark: correct SVG, transparent background, theme accent, accessible label, no horizontal page overflow. Actual dark screenshot visually inspected. Fresh isolated browser contexts only; no owner browser sign-in changed. No full production build or authenticated browser regression rerun for this local visual change.

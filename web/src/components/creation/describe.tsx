@@ -13,6 +13,7 @@ export const DESCRIBE_EXAMPLES = [
   "IoT ingest: 4,000 requests per second of sensor writes, an API gateway, Kafka and 4 workers writing to a time-series database.",
   "Photo sharing app for users in South Asia. Uploads to S3, a CDN for images, 2 app servers and a cache.",
 ];
+const EXAMPLE_LABELS = ["News feed", "Flash-sale store", "IoT ingestion", "Photo sharing"];
 export function DescribeDesign() {
   const flow = useCreationFlow("describe"),
     { session, state } = flow;
@@ -59,16 +60,22 @@ export function DescribeDesign() {
                 {length}/{AI_DESCRIBE_MAX} characters for an AI draft
               </span>
             )}
-            <span className="hint">Try an example</span>
-            {DESCRIBE_EXAMPLES.map((text) => (
-              <button
-                className="chip m4-example"
-                key={text}
-                onClick={() => session.update({ text })}
-              >
-                {text}
-              </button>
-            ))}
+            <div className="m4-examples" role="group" aria-label="Try an example">
+              <span className="hint">Try an example</span>
+              <div className="m4-example-grid">
+                {DESCRIBE_EXAMPLES.map((text, index) => (
+                  <button
+                    type="button"
+                    className="m4-example"
+                    key={text}
+                    onClick={() => session.update({ text })}
+                  >
+                    <span className="m4-example-title">{EXAMPLE_LABELS[index]}</span>
+                    <span className="m4-example-copy">{text}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="row">
               <button
                 className="btn btn-ghost"
