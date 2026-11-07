@@ -4,6 +4,7 @@ import { CurrentUser } from "@/common/decorators";
 import { RequirePermission } from "@/common/decorators/permission.decorator";
 import { Permission } from "@/common/enums/account-role.enum";
 import { AuthUser } from "@/common/interfaces/auth-user.interface";
+import { MergeService } from "@/modules/support/merge.service";
 import { SupportService } from "@/modules/support/support.service";
 
 /** Any signed-in account may write a report and read its own. There is no route here that reaches another account's report. */
@@ -39,7 +40,12 @@ export class SupportReportsController {
 @ApiBearerAuth()
 @Controller("support")
 export class SupportInboxController {
-  constructor(private readonly support: SupportService) {}
+  constructor(private readonly support: SupportService,private readonly merges:MergeService) {}
+  @Post("inbox/:id/merge") @HttpCode(200) @RequirePermission(Permission.SUPPORT_INBOX_REPLY)
+  async merge(@CurrentUser() user:AuthUser,@Param("id",ParseUUIDPipe) id:string,@Body() body:unknown){await this.merges.change(user,id,body);return this.support.detail(user,id);}
+  @Post("inbox/:id/unmerge") @HttpCode(200) @RequirePermission(Permission.SUPPORT_INBOX_REPLY)
+  async unmerge(@CurrentUser() user:AuthUser,@Param("id",ParseUUIDPipe) id:string,@Body() body:unknown){await this.merges.change(user,id,body,true);return this.support.detail(user,id);}
+
 
   @Get("agents")
   @RequirePermission(Permission.SUPPORT_INBOX_READ)

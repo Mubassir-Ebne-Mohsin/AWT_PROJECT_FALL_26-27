@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { savedReplySchema,mergeLinkSchema } from "@/common/contracts/phase3/support-extras.schema";
 
 // P4 account self-service. Every operation is about the signed-in person's OWN account; nothing here takes another
 // account's id. Plain text only; the server never interprets display names as markup.
@@ -40,6 +41,7 @@ export const EXPORT_RUNS_IN_FULL = 20;
 const when = z.iso.datetime();
 import { notificationSchema, notificationPreferencesSchema } from "@/common/contracts/phase3/notifications.schema";
 export const accountExportSchema = z.strictObject({
+  personalSavedReplies: z.array(savedReplySchema).max(50).optional(),
   notifications: z.array(notificationSchema),
   notificationPreferences: notificationPreferencesSchema,
   format: z.literal("stressforge-export-v1"),
@@ -91,6 +93,7 @@ export const accountExportSchema = z.strictObject({
   /** Problem reports this account wrote. Support's public replies are included; internal notes never are. */
   problemReports: z.array(
     z.strictObject({
+      mergedInto: mergeLinkSchema.nullable().optional(),
       code: z.string(),
       category: z.string(),
       title: z.string(),

@@ -99,7 +99,7 @@ export class AccountService {
     );
     const history = await q("SELECT at, action, role FROM role_audit WHERE target_id = $1 ORDER BY at", [userId]);
     const reports = await q(
-      `SELECT id, ref, category, title, status, created_at, body, expected FROM support_tickets WHERE author_id = $1 ORDER BY created_at, id`,
+      `SELECT t.id,t.ref,t.category,t.title,t.status,t.created_at,t.body,t.expected,t.merged_into_id,(SELECT ref FROM support_tickets p WHERE p.id=t.merged_into_id) AS merged_ref FROM support_tickets t WHERE author_id = $1 ORDER BY created_at, id`,
     );
     // Public messages only: `internal = false` keeps Support's private notes out of a person's own export.
     const reportMessages = await q(
@@ -112,7 +112,9 @@ export class AccountService {
 
     const notifications = await q("SELECT id,kind,ref_id,created_at,read_at FROM notifications WHERE user_id=$1 AND created_at > now()-interval '90 days' ORDER BY created_at,id");
     const preferences = await q("SELECT kind,muted FROM notification_preferences WHERE user_id=$1");
+    const saved = await q("SELECT id,title,body,scope,created_at,updated_at FROM support_saved_replies WHERE owner_id=$1 AND scope='personal' ORDER BY created_at,id");
     return accountExportSchema.parse({
+      personalSavedReplies: saved.map(r=>({id:r.id,title:r.title,body:r.body,scope:r.scope,createdAt:iso(r.created_at),updatedAt:iso(r.updated_at)})),
       notifications: notifications.map(n=>({id:n.id,kind:n.kind,refId:n.ref_id,createdAt:iso(n.created_at),readAt:iso(n.read_at)})),
       notificationPreferences: ["support_reply","report_status","support_new_report","support_assigned","reporter_reply"].map(kind=>({kind,muted:preferences.find(p=>p.kind===kind)?.muted??false})),
       format: "stressforge-export-v1",
@@ -176,6 +178,7 @@ export class AccountService {
       })),
       roleHistory: history.map((h) => ({ at: iso(h.at), action: h.action, role: h.role })),
       problemReports: reports.map((r) => ({
+        mergedInto: r.merged_into_id ? {id:r.merged_into_id,code:`SF-${r.merged_ref}`} : null,
         code: `SF-${r.ref}`,
         category: r.category,
         title: r.title,

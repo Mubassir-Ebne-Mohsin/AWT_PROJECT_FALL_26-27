@@ -66,6 +66,7 @@ export class SupportService {
       createdAt: iso(r.created_at),
       updatedAt: iso(r.updated_at),
       resolvedAt: isoOrNull(r.resolved_at),
+      mergedInto: r.merged_into_id && r.merged_ref ? { id: r.merged_into_id, code: codeOf(Number(r.merged_ref)) } : null,
     };
   }
 
@@ -110,16 +111,16 @@ export class SupportService {
   }
 
   async listOwn(userId: string) {
-    const rows = (await this.db.query(`SELECT * FROM support_tickets WHERE author_id = $1 ORDER BY created_at DESC, id DESC LIMIT 100`, [userId])) as Row[];
+    const rows = (await this.db.query(`SELECT t.*, (SELECT ref FROM support_tickets p WHERE p.id=t.merged_into_id) AS merged_ref FROM support_tickets t WHERE author_id = $1 ORDER BY created_at DESC, id DESC LIMIT 100`, [userId])) as Row[];
     return reportListSchema.parse(rows.map((r) => this.summary(r)));
   }
 
   /** The author's own report. Another account's report, and one that does not exist, look the same: not found. */
   async own(userId: string, id: string) {
-    const [t] = (await this.db.query(`SELECT * FROM support_tickets WHERE id = $1 AND author_id = $2`, [id, userId])) as Row[];
+    const [t] = (await this.db.query(`SELECT t.*, (SELECT ref FROM support_tickets p WHERE p.id=t.merged_into_id) AS merged_ref FROM support_tickets t WHERE t.author_id=$2 AND (t.id=$1 OR t.merged_into_id=$1) ORDER BY (t.id=$1) DESC,t.created_at DESC,t.id DESC LIMIT 1`, [id, userId])) as Row[];
     if (!t) throw new AppException("NOT_FOUND", "Report not found");
     // `internal = false` is the whole privacy rule for notes: this is the only query that feeds the author's thread.
-    const messages = (await this.db.query(`SELECT id, author_kind, body, created_at FROM support_messages WHERE ticket_id = $1 AND internal = false ORDER BY seq`, [id])) as Row[];
+    const messages = (await this.db.query(`SELECT id, author_kind, body, created_at FROM support_messages WHERE ticket_id = $1 AND internal = false ORDER BY seq`, [t.id])) as Row[];
     const until = t.status === "resolved" ? new Date(new Date(t.resolved_at as string).getTime() + REOPEN_DAYS * 86400000) : null;
     return reportDetailSchema.parse({
       ...this.summary(t),
@@ -127,7 +128,7 @@ export class SupportService {
       expected: t.expected,
       context: t.context,
       messages: messages.map((x) => ({ id: x.id, from: x.author_kind === "user" ? "you" : "support", body: x.body, at: iso(x.created_at) })),
-      reopenUntil: until && until.getTime() > Date.now() ? until.toISOString() : null,
+      reopenUntil: !t.merged_into_id && until && until.getTime() > Date.now() ? until.toISOString() : null,
     });
   }
 
@@ -135,25 +136,27 @@ export class SupportService {
     const parsed = messageRequestSchema.safeParse(raw);
     if (!parsed.success) throw invalid(parsed.error);
     await this.db.transaction(async (m) => {
-      const [t] = (await m.query(`SELECT id, ref, status, resolved_at, assignee_id FROM support_tickets WHERE id = $1 AND author_id = $2 FOR UPDATE`, [id, user.id])) as Row[];
+      await m.query("SELECT pg_advisory_xact_lock(hashtext('sf-support-merge'))");
+      const [t] = (await m.query(`SELECT * FROM support_tickets WHERE author_id=$2 AND (id=$1 OR merged_into_id=$1) ORDER BY (id=$1) DESC,created_at DESC,id DESC LIMIT 1 FOR UPDATE`, [id, user.id])) as Row[];
       if (!t) throw new AppException("NOT_FOUND", "Report not found");
+      const ticketId = t.id as string;
       const [{ n }] = (await m.query(`SELECT count(*)::int AS n FROM support_messages WHERE author_id = $1 AND author_kind = 'user' AND created_at > now() - interval '1 hour'`, [user.id])) as Row[];
       if ((n as number) >= MESSAGES_PER_HOUR) throw new AppException("RATE_LIMITED", "You are sending messages too fast. Please wait a little.", { reason: "MESSAGES_PER_HOUR" });
       const ref = { id: t.id as string, ref: t.ref as number };
       const actor = { kind: "user" as const, id: user.id, email: user.email };
-      if (t.status === "resolved") {
-        const [{ within }] = (await m.query(`SELECT (resolved_at + interval '${REOPEN_DAYS} days' > now()) AS within FROM support_tickets WHERE id = $1`, [id])) as Row[];
+      if (!t.merged_into_id && t.status === "resolved") {
+        const [{ within }] = (await m.query(`SELECT (resolved_at + interval '${REOPEN_DAYS} days' > now()) AS within FROM support_tickets WHERE id = $1`, [ticketId])) as Row[];
         if (!within) throw new AppException("CONFLICT", `This report was resolved more than ${REOPEN_DAYS} days ago. Please send a new report.`, { reason: "REOPEN_WINDOW_PASSED" });
-        await m.query(`UPDATE support_tickets SET status = 'open', resolved_at = NULL WHERE id = $1`, [id]);
+        await m.query(`UPDATE support_tickets SET status = 'open', resolved_at = NULL WHERE id = $1`, [ticketId]);
         await this.activity(m, ref, "reopen", actor, "resolved", "open");
       } else if (t.status === "waiting") {
-        await m.query(`UPDATE support_tickets SET status = 'open' WHERE id = $1`, [id]);
+        await m.query(`UPDATE support_tickets SET status = 'open' WHERE id = $1`, [ticketId]);
         await this.activity(m, ref, "status", actor, "waiting", "open");
       }
-      await m.query(`INSERT INTO support_messages (ticket_id, author_id, author_kind, internal, body, created_at) VALUES ($1, $2, 'user', false, $3, ${NOW})`, [id, user.id, parsed.data.body]);
-      await m.query(`UPDATE support_tickets SET updated_at = ${NOW}, last_user_activity_at = ${NOW} WHERE id = $1`, [id]);
+      await m.query(`INSERT INTO support_messages (ticket_id, author_id, author_kind, internal, body, created_at) VALUES ($1, $2, 'user', false, $3, ${NOW})`, [ticketId, user.id, parsed.data.body]);
+      await m.query(`UPDATE support_tickets SET updated_at = ${NOW}, last_user_activity_at = ${NOW} WHERE id = $1`, [ticketId]);
       await this.activity(m, ref, "reply", actor, null, null);
-      await this.notifications.team(m,"reporter_reply",id,user.id,t.assignee_id as string | null);
+      await this.notifications.team(m,"reporter_reply",ticketId,user.id,t.assignee_id as string | null);
     });
     return this.own(user.id, id);
   }
@@ -175,7 +178,7 @@ export class SupportService {
     };
   }
 
-  private static readonly ITEM_SELECT = `SELECT t.*, a.display_name AS author_name, s.display_name AS assignee_name,
+  private static readonly ITEM_SELECT = `SELECT t.*, (SELECT ref FROM support_tickets p WHERE p.id=t.merged_into_id) AS merged_ref, a.display_name AS author_name, s.display_name AS assignee_name,
       NOT EXISTS (SELECT 1 FROM support_reads x WHERE x.ticket_id = t.id AND x.user_id = $1 AND x.read_at >= t.last_user_activity_at) AS unread
     FROM support_tickets t LEFT JOIN users a ON a.id = t.author_id LEFT JOIN users s ON s.id = t.assignee_id`;
 
@@ -220,8 +223,10 @@ export class SupportService {
       `SELECT m.id, m.author_kind, m.internal, m.body, m.created_at, u.display_name FROM support_messages m LEFT JOIN users u ON u.id = m.author_id WHERE m.ticket_id = $1 ORDER BY m.seq`,
       [id],
     )) as Row[];
+    const children = await this.db.query("SELECT id,ref FROM support_tickets WHERE merged_into_id=$1 ORDER BY created_at,id",[id]);
     return inboxDetailSchema.parse({
       ...this.item(t),
+      duplicates: children.map((r: any) => ({id:r.id,code:codeOf(r.ref)})),
       body: t.body,
       expected: t.expected,
       context: t.context,
@@ -269,8 +274,9 @@ export class SupportService {
     if (!parsed.success) throw invalid(parsed.error);
     const change = parsed.data;
     await this.db.transaction(async (m) => {
-      const [t] = (await m.query(`SELECT id, ref, status, priority, assignee_id, author_id FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
+      const [t] = (await m.query(`SELECT id, ref, status, priority, assignee_id, author_id, merged_into_id FROM support_tickets WHERE id = $1 FOR UPDATE`, [id])) as Row[];
       if (!t) throw new AppException("NOT_FOUND", "Report not found");
+      if(t.merged_into_id && change.status && change.status !== "resolved") throw new AppException("CONFLICT","Unmerge this duplicate before reopening it",{reason:"MERGE_CHANGED"});
       const ref = { id: t.id as string, ref: t.ref as number };
       const who = { kind: "support" as const, id: actor.id, email: actor.email };
       let changed = false;

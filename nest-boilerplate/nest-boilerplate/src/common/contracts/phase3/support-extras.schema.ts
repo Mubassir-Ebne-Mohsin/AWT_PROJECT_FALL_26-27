@@ -1,0 +1,14 @@
+import { z } from "zod";
+const control = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
+const plain = (min: number, max: number) => z.string().trim().min(min).max(max).refine(v => !control.test(v), "Control characters are not allowed");
+export const savedReplyInputSchema = z.strictObject({ title: plain(3,120), body: plain(1,4000), scope: z.enum(["personal","team"]) });
+export const savedReplyEditSchema = savedReplyInputSchema.omit({scope:true}).extend({expectedUpdatedAt:z.iso.datetime()});
+export const savedReplyDeleteSchema = z.strictObject({expectedUpdatedAt:z.iso.datetime()});
+export const savedReplyPreviewRequestSchema = z.strictObject({ticketId:z.uuid(),expectedUpdatedAt:z.iso.datetime()});
+export const savedReplySchema = z.strictObject({id:z.uuid(),title:z.string(),body:z.string(),scope:z.enum(["personal","team"]),createdAt:z.iso.datetime(),updatedAt:z.iso.datetime()});
+export const savedRepliesSchema = z.array(savedReplySchema).max(150);
+export const savedReplyPreviewSchema = z.strictObject({body:z.string().min(1).max(4000)});
+export const savedReplyDeletedSchema = z.strictObject({deleted:z.literal(true)});
+export const mergeLinkSchema = z.strictObject({id:z.uuid(),code:z.string().regex(/^SF-\d{4,}$/)});
+export const mergeRequestSchema = z.strictObject({targetId:z.uuid(),expectedUpdatedAt:z.iso.datetime(),targetUpdatedAt:z.iso.datetime()});
+export const unmergeRequestSchema = z.strictObject({expectedUpdatedAt:z.iso.datetime()});

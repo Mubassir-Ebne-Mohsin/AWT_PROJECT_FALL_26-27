@@ -60,8 +60,12 @@ import {
 import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 import { notificationsPageSchema, notificationPreferencesSchema, notificationPreferenceSchema, notificationReadSchema, notificationTargetSchema } from "@/common/contracts/phase3/notifications.schema";
+import { savedReplyInputSchema,savedReplyEditSchema,savedReplyDeleteSchema,savedReplyPreviewRequestSchema,savedReplySchema,savedRepliesSchema,savedReplyPreviewSchema,savedReplyDeletedSchema,mergeRequestSchema,unmergeRequestSchema } from "@/common/contracts/phase3/support-extras.schema";
 export function phase3OpenApi() {
   const models = {
+    SavedReplyInput:savedReplyInputSchema,SavedReplyEdit:savedReplyEditSchema,SavedReplyDelete:savedReplyDeleteSchema,
+    SavedReplyPreviewRequest:savedReplyPreviewRequestSchema,SavedReply:savedReplySchema,SavedReplies:savedRepliesSchema,SavedReplyPreview:savedReplyPreviewSchema,SavedReplyDeleted:savedReplyDeletedSchema,
+    SupportMergeRequest:mergeRequestSchema,SupportUnmergeRequest:unmergeRequestSchema,
     NotificationsPage: notificationsPageSchema,
     NotificationPreferences: notificationPreferencesSchema,
     NotificationPreference: notificationPreferenceSchema,
@@ -542,6 +546,17 @@ export function phase3OpenApi() {
           responses: { ...operation("addReportMessage", "ReportDetail", "ReportMessageRequest").responses, 201: { description: "The message was added", content: content(envelope("ReportDetail")) } },
         },
       },
+      "/v1/support/saved-replies": {
+        get:operation("listSavedReplies","SavedReplies"),
+        post:{...operation("createSavedReply","SavedReply","SavedReplyInput"),responses:{...operation("createSavedReply","SavedReply","SavedReplyInput").responses,201:{description:"Created",content:content(envelope("SavedReply"))}}},
+      },
+      "/v1/support/saved-replies/{id}": {
+        patch:{...operation("editSavedReply","SavedReply","SavedReplyEdit"),parameters:[parameter]},
+        delete:{...operation("deleteSavedReply","SavedReplyDeleted","SavedReplyDelete"),parameters:[parameter]},
+      },
+      "/v1/support/saved-replies/{id}/preview": {post:{...operation("previewSavedReply","SavedReplyPreview","SavedReplyPreviewRequest"),parameters:[parameter]}},
+      "/v1/support/inbox/{id}/merge": {post:{...operation("mergeSupportReport","InboxDetail","SupportMergeRequest"),parameters:[parameter]}},
+      "/v1/support/inbox/{id}/unmerge": {post:{...operation("unmergeSupportReport","InboxDetail","SupportUnmergeRequest"),parameters:[parameter]}},
       "/v1/support/agents": {
         get: {
           ...operation("listSupportAgents", "SupportAgent"),

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { mergeLinkSchema } from "@/common/contracts/phase3/support-extras.schema";
 
 // Support role and problem reports (docs/SUPPORT-SYSTEM-SCOPE.md). Core product contracts. Everything a person types is plain text:
 // bounded, with control characters refused, and shown as text, never as HTML. The technical context is a fixed list of fields; any
@@ -102,6 +103,7 @@ export const reportSummarySchema = z.strictObject({
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
   resolvedAt: z.iso.datetime().nullable(),
+  mergedInto: mergeLinkSchema.nullable().optional(),
 });
 
 /** The author's thread. Internal notes are not part of this shape at all, so no filter or query can return one. */
@@ -140,6 +142,7 @@ export const inboxMessageSchema = z.strictObject({
 });
 
 export const inboxDetailSchema = inboxItemSchema.extend({
+  duplicates: z.array(mergeLinkSchema).optional(),
   body: z.string(),
   expected: z.string().nullable(),
   context: reportContextSchema,
