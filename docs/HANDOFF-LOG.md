@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-07, Codex — header logo matches supplied reference
+**Owner request/done:** Match the second screenshot: transparent blue stacked-layer SVG, compact bold STRESSFORGE wordmark and blue terminal period. Reused the landing logo geometry and existing Archivo/accent tokens; changed only top-bar.tsx/proto.css, not landing/PDF branding. Added an accessible home-link label and retained existing destinations/mobile compact layout.
+**Evidence:** 35/35 existing R1/R3/R5 tests, focused ESLint pass. Real headless Chrome inspected the running public login header at 1440/1024/390 in light/dark: correct SVG, transparent background, theme accent, accessible label, no horizontal page overflow. Actual dark screenshot visually inspected. Fresh isolated browser contexts only; no owner browser sign-in changed. No full production build or authenticated browser regression rerun for this local visual change.
+**Uncommitted/next:** Protected audit files and unrelated work untouched/unstaged. Browser snapshots and measurements remain in TEMP. Locally committed; push not requested. Refresh the app. Claim released; no dependency, migration, AI call or owner database mutation.
+
 ## 2026-11-07, Codex — header product name
 **Owner request/done:** Replace the screenshot's “Architecture Stress Test” header with **STRESSFORGE**. Only visible text in top-bar.tsx changed; existing icon, typography, link destinations and responsive rules preserved.
 **Evidence:** 35/35 existing R1/R3/R5 component tests pass on final source; focused ESLint passes. No new test, dependency or route. Full build/browser regression not rerun for this literal JSX text change.

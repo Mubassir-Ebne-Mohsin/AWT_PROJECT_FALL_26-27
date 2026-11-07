@@ -7,7 +7,7 @@ import { initialsOf, useAuth } from "@/components/auth/auth-provider";
 import { useMyRoles } from "@/components/auth/use-my-roles";
 import { extraRoleText } from "@/lib/roles-presentation";
 import { useUi } from "@/components/shell/ui-provider";
-import { BrandMark, Icon, cx } from "@/components/ui/icon";
+import { Icon, cx } from "@/components/ui/icon";
 import { sectionOf } from "@/lib/routes";
 
 const USER_NAV: Array<[string, string]> = [
@@ -131,12 +131,14 @@ export function TopBar({ pathname }: { pathname: string }) {
         )}
       </div>
 
-      <Link href={authed ? "/dashboard" : "/"} className="brand" title="StressForge">
+      <Link href={authed ? "/dashboard" : "/"} className="brand" title="StressForge" aria-label="StressForge home">
         <span className="brand-mark">
-          <BrandMark s={17} />
+          <svg width="25" height="30" viewBox="0 0 30 32" aria-hidden="true">
+            <path d="m15 2 13 7-13 7L2 9Zm-13 14 13 7 13-7M2 23l13 7 13-7" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
         </span>
         <span className="brand-word">
-          <b>STRESSFORGE</b>
+          <b>STRESSFORGE<span className="brand-period">.</span></b>
         </span>
       </Link>
 

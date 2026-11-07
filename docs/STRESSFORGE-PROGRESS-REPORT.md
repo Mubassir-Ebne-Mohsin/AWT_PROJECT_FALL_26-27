@@ -1736,3 +1736,7 @@ Update history: 2026-11-07 — E approved, implemented, privacy/race/failure-tes
 ## 46. Header product name (7 November 2026)
 
 **Complete locally; not pushed.** Owner screenshot requested STRESSFORGE in place of Architecture Stress Test. Only the header wordmark text changed; existing icon, link targets and responsive CSS retained. Verification: 35/35 existing R1/R3/R5 component tests and focused ESLint pass. No full build/browser rerun for this text-only change; no migration, new package or AI call. Refresh the frontend. Protected artifacts remain untouched and unstaged. Earlier phase evidence and remaining AI/gallery decisions are unchanged.
+
+## 47. Header logo reference refinement (7 November 2026)
+
+**Complete locally; not pushed.** Supersedes section 46's text-only appearance: blue stacked layers with transparent background, bold STRESSFORGE and blue period, matching the owner's second screenshot and existing landing geometry. Uses existing display font/theme accent; existing routes and mobile icon-only mode retained, accessible home-link label added. Verified 35/35 existing component tests and focused ESLint; actual running login header inspected in fresh Chrome contexts at 1440/1024/390 in both light/dark (six checks, no horizontal overflow). Actual dark screenshot visually reviewed; snapshots/measurements remain in TEMP. No full build/authenticated browser regression rerun; no new dependency, migration, live AI or owner data change. Protected artifacts preserved; refresh the frontend to see it.
