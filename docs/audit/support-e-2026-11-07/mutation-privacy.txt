@@ -1,0 +1,25 @@
+[Nest] 34380  - 11/07/2026, 12:58:24 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (25.934 s)
+  ● E saved replies and strictly private duplicate reports › merges without copying bodies/names/notes; survivor links and writes resolve only the caller’s private conversation
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2bf31be7-3e97-4998-9e47-13a4edb3c41a"
+    Received: "9e4d9660-33a8-4c6f-bf63-a0ea8e777f27"
+
+      65 |   expect((await db.query('SELECT first_response_at FROM support_tickets WHERE id=$1',[x.id]))[0].first_response_at).toBeNull();
+      66 |   const own=(await http.get('/v1/support/reports/'+x.id).set(headers(a)).expect(200)).body.data;expect(own.status).toBe('resolved');expect(own.mergedInto).toEqual({id:y.id,code:`SF-${y.ref}`});expect(JSON.stringify(own)).not.toContain(b.email);expect(JSON.stringify(own)).not.toContain('PRIVATE TARGET');expect(JSON.stringify(own)).not.toContain('PRIVATE SOURCE NOTE');
+    > 67 |   const alias=(await http.get('/v1/support/reports/'+y.id).set(headers(a)).expect(200)).body.data;expect(alias.id).toBe(x.id);expect(alias.body).toBe(x.body);
+         |                                                                                                                    ^
+      68 |   await http.post('/v1/support/reports/'+y.id+'/messages').set(headers(a)).send({body:'PRIVATE FOLLOWUP FROM A'}).expect(201);
+      69 |   const target=(await http.get('/v1/support/reports/'+y.id).set(headers(b)).expect(200)).body.data;expect(JSON.stringify(target)).not.toContain('PRIVATE FOLLOWUP FROM A');expect(JSON.stringify(target)).not.toContain(a.email);expect(JSON.stringify(target)).not.toContain(x.title);expect(JSON.stringify(target)).not.toContain('PRIVATE TARGET NOTE');
+      70 |   expect((await detail(y.id)).duplicates).toContainEqual({id:x.id,code:`SF-${x.ref}`});expect((await detail(x.id)).status).toBe('resolved');
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:67:116)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        26.114 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\support-extras.e2e-spec.ts".
+MUTATION_APPLIED privacy 2

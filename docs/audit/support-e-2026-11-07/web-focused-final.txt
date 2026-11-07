@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: append preserves existing draft and refuses overflow without truncation
+ok 1 - append preserves existing draft and refuses overflow without truncation
+  ---
+  duration_ms: 3.8691
+  type: 'test'
+  ...
+# Subtest: real ticket integration inserts into editable text but only explicit Send reply sends
+ok 2 - real ticket integration inserts into editable text but only explicit Send reply sends
+  ---
+  duration_ms: 543.7967
+  type: 'test'
+  ...
+# Subtest: create and edit a saved reply never submit the current report
+ok 3 - create and edit a saved reply never submit the current report
+  ---
+  duration_ms: 267.5366
+  type: 'test'
+  ...
+# Subtest: an overlong insert preserves the draft and gives a useful local error
+ok 4 - an overlong insert preserves the draft and gives a useful local error
+  ---
+  duration_ms: 200.9086
+  type: 'test'
+  ...
+# Subtest: stale template errors remain local and preserve draft text
+ok 5 - stale template errors remain local and preserve draft text
+  ---
+  duration_ms: 178.3135
+  type: 'test'
+  ...
+# Subtest: merge requires choosing and reviewing a target before the explicit final action
+ok 6 - merge requires choosing and reviewing a target before the explicit final action
+  ---
+  duration_ms: 256.8487
+  type: 'test'
+  ...
+# Subtest: pending actions cannot double-submit and unmount aborts/ignores a late result
+ok 7 - pending actions cannot double-submit and unmount aborts/ignores a late result
+  ---
+  duration_ms: 4.1096
+  type: 'test'
+  ...
+# Subtest: a delayed insertion appends to text typed while the request was pending
+ok 8 - a delayed insertion appends to text typed while the request was pending
+  ---
+  duration_ms: 209.4901
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36938.0298

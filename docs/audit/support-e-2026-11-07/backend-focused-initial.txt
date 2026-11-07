@@ -1,0 +1,248 @@
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (51.937 s)
+  ● E saved replies and strictly private duplicate reports › denies anonymous, normal and Admin-only saved/merge access, including when a Support role is revoked
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › keeps personal templates private and allows another Support agent to edit/delete a team template with append-only metadata audit
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › expands only code/name non-recursively, never sends, refuses stale expansion and overlong results
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › validates all fields and preserves the first edit when two agents save the same team revision
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › serializes personal/team capacity limits even for simultaneous creates
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › merges without copying bodies/names/notes; survivor links and writes resolve only the caller’s private conversation
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › forbids self, missing targets, both chain directions, stale proposals and direct database cycles
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › serializes opposite concurrent merge requests so at most one succeeds and no cycle can exist
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › rolls back merge, system message and audit when the transactional notification insert fails
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › exports only owned personal replies and own report content, never shared/private-other conversations
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › refuses a populated rollback, and empty migration goes down/up in a guarded temporary schema
+
+    expected 201 "Created", got 422 "Unprocessable Entity"
+
+      18 |  const headers=(u:User)=>({Authorization:'Bearer '+u.token});
+      19 |  const detail=async(id:string)=>(await http.get('/v1/support/inbox/'+id).set(headers(s)).expect(200)).body.data;
+    > 20 |  async function account(role?:'support'|'admin'){const email='extras-'+randomUUID()+'@example.test';const res=await http.post('/v1/auth/register').send({email,password:'Support-E-Only-2026!',displayName:role?'PRIVATE STAFF':'PRIVATE REPORTER '+email}).expect(201);const u={id:res.body.data.user.id,token:res.body.data.accessToken,email};if(role)await roles.grant(OPERATOR,u.id,{role});return u;}
+         |                                                                                                                                                                                                                                                             ^
+      21 |  async function report(u:User){const [r]=await db.query("INSERT INTO support_tickets(author_id,category,title,body,context,created_at,updated_at,last_user_activity_at) VALUES($1,'bug',$2,$3,'{}',date_trunc('milliseconds',now()),date_trunc('milliseconds',now()),date_trunc('milliseconds',now())) RETURNING *",[u.id,'PRIVATE TITLE '+randomUUID(),'PRIVATE BODY '+u.email]);return r;}
+      22 |  async function saved(u:User,scope='personal',body='Hello {name}, about {code}. {unknown}'){return(await http.post('/v1/support/saved-replies').set(headers(u)).send({scope,title:'Saved answer '+randomUUID().slice(0,6),body}).expect(201)).body.data;}
+      23 |  async function merge(source:string,target:string){const x=await detail(source),y=await detail(target);return http.post('/v1/support/inbox/'+source+'/merge').set(headers(s)).send({targetId:target,expectedUpdatedAt:x.updatedAt,targetUpdatedAt:y.updatedAt});}
+
+      at account (test/support-extras.e2e-spec.ts:20:253)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:24:386)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       11 failed, 11 total
+Snapshots:   0 total
+Time:        53.024 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts".

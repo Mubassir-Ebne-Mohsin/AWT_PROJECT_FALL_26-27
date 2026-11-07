@@ -1,0 +1,2 @@
+> stressforge-api@1.0.0 build C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> nest build

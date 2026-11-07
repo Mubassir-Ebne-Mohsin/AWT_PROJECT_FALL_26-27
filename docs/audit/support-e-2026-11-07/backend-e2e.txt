@@ -1,0 +1,1 @@
+Full suite in four sequential processes: 422 passed; 32 unique suites; all discovered files covered; no skipped tests.

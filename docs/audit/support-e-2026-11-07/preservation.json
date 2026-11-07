@@ -1,0 +1,26 @@
+{
+  "filesVerified": 178,
+  "pngsVerified": 175,
+  "restored": [
+    "docs/audit/notifications-2026-11-06/1024-dark-1024.png",
+    "docs/audit/notifications-2026-11-06/1024-dark-1440.png",
+    "docs/audit/notifications-2026-11-06/1024-dark-320.png",
+    "docs/audit/notifications-2026-11-06/1024-dark-390.png",
+    "docs/audit/notifications-2026-11-06/1024-light-1024.png",
+    "docs/audit/notifications-2026-11-06/1024-light-1440.png",
+    "docs/audit/notifications-2026-11-06/1024-light-320.png",
+    "docs/audit/notifications-2026-11-06/1024-light-390.png",
+    "docs/audit/notifications-2026-11-06/1440-dark-1024.png",
+    "docs/audit/notifications-2026-11-06/1440-dark-1440.png",
+    "docs/audit/notifications-2026-11-06/1440-dark-320.png",
+    "docs/audit/notifications-2026-11-06/1440-dark-390.png",
+    "docs/audit/notifications-2026-11-06/1440-light-1024.png",
+    "docs/audit/notifications-2026-11-06/1440-light-1440.png",
+    "docs/audit/notifications-2026-11-06/1440-light-320.png",
+    "docs/audit/notifications-2026-11-06/1440-light-390.png",
+    "docs/contracts/m11-runtime.openapi.json"
+  ],
+  "m2": "d0edb982c694cf1983ffe36faac2f7c80ed77ac1a735852f03013e6c4a2f76dc",
+  "runtime": "b312a24c31d5506908a9a0764e66e89c813c8b37f23f9f6d82134c3e063750db",
+  "config": "f53850729d89c09a9651cb7801fcdbedbe73fdd700d1a33a096fe360f8c2a322"
+}

@@ -1,0 +1,41 @@
+[Nest] 35240  - 11/07/2026, 12:58:53 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (20.618 s)
+  ● E saved replies and strictly private duplicate reports › forbids self, missing targets, both chain directions, stale proposals and direct database cycles
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 409
+    Received: 200
+
+      74 |  });
+      75 |  it('forbids self, missing targets, both chain directions, stale proposals and direct database cycles',async()=>{
+    > 76 |   const x=await report(a),y=await report(b),z=await report(a);expect((await merge(x.id,x.id)).status).toBe(409);
+         |                                                                                                       ^
+      77 |   const d=await detail(x.id);await http.post('/v1/support/inbox/'+x.id+'/merge').set(headers(s)).send({targetId:randomUUID(),expectedUpdatedAt:d.updatedAt,targetUpdatedAt:d.updatedAt}).expect(404);
+      78 |   await http.post('/v1/support/inbox/'+x.id+'/merge').set(headers(s)).send({targetId:y.id,expectedUpdatedAt:'2000-01-01T00:00:00.000Z',targetUpdatedAt:(await detail(y.id)).updatedAt}).expect(409);
+      79 |   expect((await merge(x.id,y.id)).status).toBe(200);expect((await merge(y.id,z.id)).status).toBe(409);expect((await merge(z.id,x.id)).status).toBe(409);
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:76:103)
+
+  ● E saved replies and strictly private duplicate reports › refuses a populated rollback, and empty migration goes down/up in a guarded temporary schema
+
+    QueryFailedError: trigger "support_merge_guard" for table "support_tickets" does not exist
+
+      33 |     await q.query("ALTER TABLE support_activity DROP CONSTRAINT support_activity_action_check");
+      34 |     await q.query("ALTER TABLE support_activity ADD CONSTRAINT support_activity_action_check CHECK(action IN ('create','reply','note','status','priority','assign','reopen'))");
+    > 35 |     await q.query("DROP TRIGGER support_merge_guard ON support_tickets");
+         |     ^
+      36 |     await q.query("DROP FUNCTION support_merge_guard()");
+      37 |     await q.query("ALTER TABLE support_tickets DROP COLUMN merged_into_id");
+      38 |     await q.query("DROP TABLE support_saved_replies");
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at SupportExtras1794900000000.down (src/database/migrations/1794900000000-SupportExtras.ts:35:5)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:105:4)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 9 passed, 11 total
+Snapshots:   0 total
+Time:        20.822 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\support-extras.e2e-spec.ts".
+MUTATION_APPLIED cycle 10

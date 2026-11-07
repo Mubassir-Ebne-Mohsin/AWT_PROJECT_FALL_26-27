@@ -1,0 +1,10 @@
+Running 4 tests using 1 worker
+
+(node:11112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1024-light] › tests\browser\support-extras.spec.ts:22:5 › saved reply creation, keyboard insertion, editable draft and explicit send preserve plain text (10.1s)
+  ok 2 [1024-light] › tests\browser\support-extras.spec.ts:31:5 › team edits from another agent cause a local stale conflict; refresh/re-edit/delete works (3.3s)
+  ok 3 [1024-light] › tests\browser\support-extras.spec.ts:38:5 › merge/unmerge keeps two reporters and internal notes isolated while private follow-up works (3.6s)
+  ok 4 [1024-light] › tests\browser\support-extras.spec.ts:47:5 › preview failure stays local and a late preview cannot fill the next report draft; reduced motion works (2.8s)
+
+  4 passed (21.6s)

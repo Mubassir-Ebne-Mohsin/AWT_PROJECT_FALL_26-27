@@ -1,0 +1,25 @@
+[Nest] 14880  - 11/07/2026, 12:57:48 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (64.271 s)
+  ● E saved replies and strictly private duplicate reports › keeps personal templates private and allows another Support agent to edit/delete a team template with append-only metadata audit
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      31 |  it('keeps personal templates private and allows another Support agent to edit/delete a team template with append-only metadata audit',async()=>{
+      32 |   const own=await saved(s),team=await saved(s,'team');
+    > 33 |   const list=(await http.get('/v1/support/saved-replies').set(headers(t)).expect(200)).body.data;expect(list.some((x:any)=>x.id===own.id)).toBe(false);expect(list.some((x:any)=>x.id===team.id)).toBe(true);
+         |                                                                                                                                            ^
+      34 |   await http.patch('/v1/support/saved-replies/'+own.id).set(headers(t)).send({title:'Stolen',body:'No',expectedUpdatedAt:own.updatedAt}).expect(404);
+      35 |   const edit=(await http.patch('/v1/support/saved-replies/'+team.id).set(headers(t)).send({title:'Updated team',body:'Plain <script>text</script>',expectedUpdatedAt:team.updatedAt}).expect(200)).body.data;
+      36 |   await http.delete('/v1/support/saved-replies/'+team.id).set(headers(t)).send({expectedUpdatedAt:edit.updatedAt}).expect(200);
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:33:140)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        65.411 s
+Ran all test suites within paths "C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate\test\support-extras.e2e-spec.ts".
+MUTATION_APPLIED personal 2

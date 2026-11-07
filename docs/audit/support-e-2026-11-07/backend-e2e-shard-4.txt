@@ -1,0 +1,6 @@
+Test Suites: 8 passed, 8 total
+Tests:       120 passed, 120 total
+Snapshots:   0 total
+Time:        94.294 s
+Ran all test suites.
+Test results written to: ..\..\..\..\..\..\..\..\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\docs\audit\support-e-2026-11-07\backend-e2e-shard-4.json

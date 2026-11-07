@@ -1,0 +1,36 @@
+Running 4 tests using 1 worker
+
+(node:4192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1024-light] › tests\browser\support-extras.spec.ts:22:5 › saved reply creation, keyboard insertion, editable draft and explicit send preserve plain text (4.0s)
+  x  2 [1024-light] › tests\browser\support-extras.spec.ts:31:5 › team edits from another agent cause a local stale conflict; refresh/re-edit/delete works (17.4s)
+Testing stopped early after 1 maximum allowed failures.
+
+
+  1) [1024-light] › tests\browser\support-extras.spec.ts:31:5 › team edits from another agent cause a local stale conflict; refresh/re-edit/delete works
+
+    TimeoutError: locator.fill: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for locator('details[aria-label="Saved replies"]').getByLabel('Saved reply body', { exact: true })
+
+
+      32 |  const s=await signup(page),t=await other(true),u=await other(),r=await report(u);await ready(page,r.id);await savedOpen(page);const id=await create(page,'team');await panel(page).getByRole('button',{name:'Edit selected reply',exact:true}).click();
+      33 |  const list=await call(t,'/support/saved-replies'),item=list.json.data.find((v:{id:string})=>v.id===id);expect(item).toBeTruthy();const edited=await call(t,'/support/saved-replies/'+id,{title:'Team changed',body:'Updated by teammate',expectedUpdatedAt:item.updatedAt},'PATCH');expect(edited.status).toBe(200);
+    > 34 |  await panel(page).getByLabel('Saved reply body',{exact:true}).fill('My unsaved edit');await panel(page).getByRole('button',{name:'Save reply changes',exact:true}).click();await expect(panel(page).getByRole('alert')).toContainText('changed');await expect(panel(page).getByLabel('Saved reply body',{exact:true})).toHaveValue('My unsaved edit');
+         |                                                                ^
+      35 |  await panel(page).getByRole('button',{name:'Cancel saved reply edit',exact:true}).click();await panel(page).getByRole('button',{name:'Refresh saved replies',exact:true}).click();await expect(panel(page).getByLabel('Choose saved reply')).toContainText('Team changed');await panel(page).getByRole('button',{name:'Edit selected reply',exact:true}).click();await expect(panel(page).getByLabel('Saved reply body',{exact:true})).toHaveValue('Updated by teammate');
+      36 |  page.once('dialog',d=>d.accept());await panel(page).getByRole('button',{name:'Delete selected reply',exact:true}).click();await expect(panel(page).getByRole('status')).toContainText('deleted');expect((await call(s,'/support/saved-replies')).json.data.some((x:{id:string})=>x.id===id)).toBe(false);
+      37 | });
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\support-extras.spec.ts:34:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\support-extras-team-edits--b372c-efresh-re-edit-delete-works-1024-light\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\support-extras-team-edits--b372c-efresh-re-edit-delete-works-1024-light\error-context.md
+
+  1 failed
+    [1024-light] › tests\browser\support-extras.spec.ts:31:5 › team edits from another agent cause a local stale conflict; refresh/re-edit/delete works
+  2 did not run
+  1 passed (24.5s)
+  1 error was not a part of any test, see above for details

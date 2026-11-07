@@ -168,3 +168,12 @@ The existing `pnpm demo:ai:check` ran **once**, under the user's approval of the
 3. Open the bell with the keyboard; open a notice to its authorized report, then mark one/all read. Explain that internal notes and your own actions never notify you.
 4. In Settings → Preferences, mute a kind, generate another matching event and show it is suppressed; unmute for future events. Existing items stay.
 5. Show Pause/Resume, earlier pages, Escape/return focus and the generic private-content-free labels. Retention is 90 days. [Guide](NOTIFICATIONS.md).
+
+## Saved Support replies and private duplicate links — roadmap E (2026-11-07; no AI)
+
+1. Apply the SupportExtras migration with `pnpm migration:run` in the backend before using the updated API. Use separate browser profiles for Support and two reporters.
+2. Open a report in Support inbox. Expand Saved replies, create a personal answer `Hello {name}, thanks for reporting {code}.`, then insert it into an existing draft. Show that nothing is sent until **Send reply** is pressed. A team answer is visible/editable to another Support account; a personal answer is not.
+3. Open the duplicate report. Search for the surviving report, select it, review and confirm. Show Resolved, the system message and the status notification.
+4. As its reporter, follow the surviving link: show that only your original conversation is visible. Write a private follow-up. As the surviving reporter, confirm that the other person's name, messages and notes are absent. Support opens the linked conversations separately.
+5. Unmerge with confirmation. The original duplicate reopens and the former alias no longer grants access to the secondary reporter. Explain that no conversations were combined.
+6. Mention stale-change refusal, 50 personal / 100 team limits, and no chains or cycles. [Usage and decisions](SUPPORT-EXTRAS.md).

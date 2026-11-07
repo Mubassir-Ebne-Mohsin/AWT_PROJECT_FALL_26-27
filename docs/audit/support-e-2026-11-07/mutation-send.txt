@@ -1,0 +1,108 @@
+TAP version 13
+# Subtest: append preserves existing draft and refuses overflow without truncation
+ok 1 - append preserves existing draft and refuses overflow without truncation
+  ---
+  duration_ms: 1.9631
+  type: 'test'
+  ...
+# Subtest: real ticket integration inserts into editable text but only explicit Send reply sends
+not ok 2 - real ticket integration inserts into editable text but only explicit Send reply sends
+  ---
+  duration_ms: 396.7302
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\support-extras.test.cjs:41:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\support-extras.test.cjs:44:74)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: create and edit a saved reply never submit the current report
+ok 3 - create and edit a saved reply never submit the current report
+  ---
+  duration_ms: 267.5994
+  type: 'test'
+  ...
+# Subtest: an overlong insert preserves the draft and gives a useful local error
+not ok 4 - an overlong insert preserves the draft and gives a useful local error
+  ---
+  duration_ms: 192.2361
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\support-extras.test.cjs:53:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\support-extras.test.cjs:55:145)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: stale template errors remain local and preserve draft text
+ok 5 - stale template errors remain local and preserve draft text
+  ---
+  duration_ms: 170.7956
+  type: 'test'
+  ...
+# Subtest: merge requires choosing and reviewing a target before the explicit final action
+ok 6 - merge requires choosing and reviewing a target before the explicit final action
+  ---
+  duration_ms: 240.1161
+  type: 'test'
+  ...
+# Subtest: pending actions cannot double-submit and unmount aborts/ignores a late result
+ok 7 - pending actions cannot double-submit and unmount aborts/ignores a late result
+  ---
+  duration_ms: 4.0165
+  type: 'test'
+  ...
+# Subtest: a delayed insertion appends to text typed while the request was pending
+not ok 8 - a delayed insertion appends to text typed while the request was pending
+  ---
+  duration_ms: 188.1807
+  type: 'test'
+  location: 'C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\tests\\support-extras.test.cjs:71:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+
+    1 !== 0
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\support-extras.test.cjs:74:182)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# MUTATION_APPLIED send 1
+1..8
+# tests 8
+# suites 0
+# pass 5
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 26892.1265
+MUTATION_APPLIED send 0

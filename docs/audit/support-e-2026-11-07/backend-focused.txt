@@ -1,0 +1,23 @@
+[Nest] 28344  - 11/07/2026, 12:27:34 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (17.978 s)
+  ● E saved replies and strictly private duplicate reports › refuses a populated rollback, and empty migration goes down/up in a guarded temporary schema
+
+    QueryFailedError: canceling statement due to statement timeout
+
+       96 |   // A separate empty database is bounded through SupportExtras, keeping future migrations out of this test.
+       97 |   const name='sf_support_e_mig_'+randomUUID().replace(/-/g,'').slice(0,10);await db.query('CREATE DATABASE '+name);const other=new DataSource({...db.options,database:name,migrations:db.migrations.filter(m=>Number((m.name??m.constructor.name).match(/\d{13}$/)?.[0])<=1794900000000).map(m=>m.constructor)} as never);
+    >  98 |   try{await other.initialize();await other.runMigrations();expect((await other.query('SELECT name FROM migrations ORDER BY id DESC LIMIT 1'))[0].name).toBe('SupportExtras1794900000000');await other.undoLastMigration();expect((await other.query("SELECT count(*)::int AS n FROM information_schema.tables WHERE table_name='support_saved_replies'"))[0].n).toBe(0);await other.runMigrations();}finally{if(other.isInitialized)await other.destroy();await db.query('DROP DATABASE IF EXISTS '+name+' WITH (FORCE)');}
+          |                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+       99 |  });
+      100 | });
+      101 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:98:443)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        18.494 s, estimated 86 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts".

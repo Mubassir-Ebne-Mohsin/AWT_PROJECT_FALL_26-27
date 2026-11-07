@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "personal",
+    "applied": true,
+    "functionalFailure": true,
+    "exit": 1
+  },
+  {
+    "kind": "privacy",
+    "applied": true,
+    "functionalFailure": true,
+    "exit": 1
+  },
+  {
+    "kind": "cycle",
+    "applied": true,
+    "functionalFailure": true,
+    "exit": 1
+  },
+  {
+    "kind": "send",
+    "applied": true,
+    "functionalFailure": true,
+    "exit": 1
+  }
+]

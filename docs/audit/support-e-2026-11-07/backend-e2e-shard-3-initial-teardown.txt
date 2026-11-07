@@ -1,0 +1,31 @@
+[Nest] 36256  - 11/07/2026, 1:11:26 PM   ERROR [Exception] Unhandled request failure
+[Nest] 36256  - 11/07/2026, 1:11:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 36256  - 11/07/2026, 1:12:38 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/ai-copilot-migration.e2e-spec.ts
+
+
+  ● Test suite failed to run
+
+    QueryFailedError: canceling statement due to statement timeout
+
+      44 |   afterAll(async () => {
+      45 |     await db?.destroy();
+    > 46 |     await admin?.query(`DROP DATABASE IF EXISTS "${name}"`);
+         |     ^
+      47 |     await admin?.destroy();
+      48 |   });
+      49 |
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/ai-copilot-migration.e2e-spec.ts:46:5)
+
+Test Suites: 1 failed, 7 passed, 8 total
+Tests:       115 passed, 115 total
+Snapshots:   0 total
+Time:        90.761 s
+Ran all test suites.
+Test results written to: ..\..\..\..\..\..\..\..\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\docs\audit\support-e-2026-11-07\backend-e2e-shard-3.json
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

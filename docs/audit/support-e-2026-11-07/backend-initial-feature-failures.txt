@@ -1,0 +1,110 @@
+[Nest] 3556  - 11/07/2026, 12:25:10 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:10 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:10 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:10 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:11 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:11 PM   ERROR [Exception] Unhandled request failure
+[Nest] 3556  - 11/07/2026, 12:25:11 PM   ERROR [Exception] Unhandled request failure
+FAIL ../../../../../../../../ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts (85.209 s)
+  ● E saved replies and strictly private duplicate reports › keeps personal templates private and allows another Support agent to edit/delete a team template with append-only metadata audit
+
+    expected 200 "OK", got 500 "Internal Server Error"
+
+      33 |   const list=(await http.get('/v1/support/saved-replies').set(headers(t)).expect(200)).body.data;expect(list.some((x:any)=>x.id===own.id)).toBe(false);expect(list.some((x:any)=>x.id===team.id)).toBe(true);
+      34 |   await http.patch('/v1/support/saved-replies/'+own.id).set(headers(t)).send({title:'Stolen',body:'No',expectedUpdatedAt:own.updatedAt}).expect(404);
+    > 35 |   const edit=(await http.patch('/v1/support/saved-replies/'+team.id).set(headers(t)).send({title:'Updated team',body:'Plain <script>text</script>',expectedUpdatedAt:team.updatedAt}).expect(200)).body.data;
+         |                                                                                                                                                                                       ^
+      36 |   await http.delete('/v1/support/saved-replies/'+team.id).set(headers(t)).send({expectedUpdatedAt:edit.updatedAt}).expect(200);
+      37 |   const logs=await db.query("SELECT * FROM support_activity WHERE to_value=$1 ORDER BY seq",[team.id]);expect(logs.map((x:any)=>x.action)).toEqual(['saved_create','saved_update','saved_delete']);expect(JSON.stringify(logs)).not.toContain('Plain <script>');await expect(db.query('DELETE FROM support_activity WHERE id=$1',[logs[0].id])).rejects.toThrow('append-only');
+      38 |  });
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:35:183)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+  ● E saved replies and strictly private duplicate reports › validates all fields and preserves the first edit when two agents save the same team revision
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+    -   200,
+    -   409,
+    +   500,
+    +   500,
+      ]
+
+      48 |   await http.post('/v1/support/saved-replies').set(headers(s)).send({scope:'team',title:'Valid',body:'x',ownerId:a.id}).expect(422);
+      49 |   await http.post('/v1/support/saved-replies').set(headers(s)).send({scope:'team',title:'Valid',body:'bad\u0000text'}).expect(422);
+    > 50 |   const tpl=await saved(s,'team');const results=await Promise.all([s,t].map(u=>http.patch('/v1/support/saved-replies/'+tpl.id).set(headers(u)).send({title:'Race winner',body:u.id,expectedUpdatedAt:tpl.updatedAt})));expect(results.map(x=>x.status).sort()).toEqual([200,409]);
+         |                                                                                                                                                                                                                                                                ^
+      51 |   await http.delete('/v1/support/saved-replies/'+tpl.id).set(headers(s)).send({expectedUpdatedAt:tpl.updatedAt}).expect(409);
+      52 |  });
+      53 |  it('serializes personal/team capacity limits even for simultaneous creates',async()=>{
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:50:256)
+
+  ● E saved replies and strictly private duplicate reports › merges without copying bodies/names/notes; survivor links and writes resolve only the caller’s private conversation
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 500
+
+      61 |   const x=await report(a),y=await report(b);
+      62 |   for(const [id,body,internal] of [[x.id,'PRIVATE SOURCE NOTE',true],[y.id,'PRIVATE TARGET NOTE',true],[y.id,'PRIVATE TARGET REPLY',false]] as const){await http.post('/v1/support/inbox/'+id+'/messages').set(headers(s)).send({body,internal}).expect(201);}
+    > 63 |   await merge(x.id,y.id).then(r=>expect(r.status).toBe(200));
+         |                                                   ^
+      64 |   const own=(await http.get('/v1/support/reports/'+x.id).set(headers(a)).expect(200)).body.data;expect(own.status).toBe('resolved');expect(own.mergedInto).toEqual({id:y.id,code:`SF-${y.ref}`});expect(JSON.stringify(own)).not.toContain(b.email);expect(JSON.stringify(own)).not.toContain('PRIVATE TARGET');expect(JSON.stringify(own)).not.toContain('PRIVATE SOURCE NOTE');
+      65 |   const alias=(await http.get('/v1/support/reports/'+y.id).set(headers(a)).expect(200)).body.data;expect(alias.id).toBe(x.id);expect(alias.body).toBe(x.body);
+      66 |   await http.post('/v1/support/reports/'+y.id+'/messages').set(headers(a)).send({body:'PRIVATE FOLLOWUP FROM A'}).expect(201);
+
+      at test/support-extras.e2e-spec.ts:63:51
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:63:3)
+
+  ● E saved replies and strictly private duplicate reports › forbids self, missing targets, both chain directions, stale proposals and direct database cycles
+
+    TypeError: Cannot read properties of null (reading 'address')
+
+      at Test.formatServerUrl (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:128:21)
+      at dispatch (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:240:27)
+      at Test.end (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:263:7)
+      at end (node_modules/.pnpm/superagent@10.4.1/node_modules/superagent/src/request-base.js:285:12)
+      at Test.RequestBase.then (node_modules/.pnpm/superagent@10.4.1/node_modules/superagent/src/request-base.js:265:31)
+
+  ● E saved replies and strictly private duplicate reports › serializes opposite concurrent merge requests so at most one succeeds and no cycle can exist
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+    -   200,
+    -   409,
+    +   500,
+    +   500,
+      ]
+
+      80 |  it('serializes opposite concurrent merge requests so at most one succeeds and no cycle can exist',async()=>{
+      81 |   const x=await report(a),y=await report(b),dx=await detail(x.id),dy=await detail(y.id);
+    > 82 |   const results=await Promise.all([http.post('/v1/support/inbox/'+x.id+'/merge').set(headers(s)).send({targetId:y.id,expectedUpdatedAt:dx.updatedAt,targetUpdatedAt:dy.updatedAt}),http.post('/v1/support/inbox/'+y.id+'/merge').set(headers(t)).send({targetId:x.id,expectedUpdatedAt:dy.updatedAt,targetUpdatedAt:dx.updatedAt})]);expect(results.map(r=>r.status).sort()).toEqual([200,409]);
+         |                                                                                                                                                                                                                                                                                                                                                                              ^
+      83 |   const [{n}]=await db.query('SELECT count(*)::int AS n FROM support_tickets WHERE id=ANY($1::uuid[]) AND merged_into_id IS NOT NULL',[[x.id,y.id]]);expect(n).toBe(1);
+      84 |  });
+      85 |  it('rolls back merge, system message and audit when the transactional notification insert fails',async()=>{
+
+      at Object.<anonymous> (test/support-extras.e2e-spec.ts:82:366)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 6 passed, 11 total
+Snapshots:   0 total
+Time:        88.559 s
+Ran all test suites within paths "C:/ADVANCED WEB TECH/AWT_PROJECT_FALL_26-27/STRESSFORGE/nest-boilerplate/nest-boilerplate/test/support-extras.e2e-spec.ts".

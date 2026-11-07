@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path');
+const parts=[1,2,3,4].map(i=>JSON.parse(fs.readFileSync(path.join(__dirname,`backend-e2e-shard-${i}.json`),'utf8').replace(/^\uFEFF/,'')));
+const all=parts.flatMap(p=>p.testResults),names=all.map(t=>t.name);
+if(parts.some(p=>!p.success||p.numFailedTests||p.numPendingTests)||new Set(names).size!==names.length)throw Error('Failed, skipped or duplicate shard suite');
+const root=path.resolve(__dirname,'../../..'),backend=path.join(root,'nest-boilerplate/nest-boilerplate/test');
+const files=fs.readdirSync(backend).filter(n=>n.endsWith('.e2e-spec.ts'));
+if(files.length!==all.length||files.some(f=>!names.some(n=>path.basename(n)===f)))throw Error('Shard coverage omits a suite');
+const out={success:true,shards:4,testResults:all};for(const key of ['numPassedTests','numFailedTests','numPendingTests','numTotalTests','numPassedTestSuites','numFailedTestSuites','numTotalTestSuites'])out[key]=parts.reduce((n,p)=>n+p[key],0);
+fs.writeFileSync(path.join(__dirname,'backend-e2e.json'),JSON.stringify(out,null,2)+'\n');
+fs.writeFileSync(path.join(__dirname,'backend-e2e.txt'),`Full suite in four sequential processes: ${out.numPassedTests} passed; ${all.length} unique suites; all discovered files covered; no skipped tests.\n`);console.log(out.numPassedTests,all.length);

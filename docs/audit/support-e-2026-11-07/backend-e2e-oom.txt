@@ -1,0 +1,42 @@
+[Nest] 14620  - 11/07/2026, 1:03:34 PM   ERROR [Exception] Unhandled request failure
+[Nest] 14620  - 11/07/2026, 1:04:54 PM   ERROR [Exception] Unhandled request failure
+(node:14620) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 listening listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:14620) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(node:14620) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added to [Server]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[Nest] 14620  - 11/07/2026, 1:06:37 PM   ERROR [Exception] Unhandled request failure
+[Nest] 14620  - 11/07/2026, 1:06:51 PM   ERROR [Exception] Unhandled request failure
+
+<--- Last few GCs --->
+
+[14620:00000217E6F9E000]   265605 ms: Scavenge (interleaved) 761.3 (783.9) -> 760.9 (788.9) MB, pooled: 0 MB, 3.91 / 0.00 ms  (average mu = 0.819, current mu = 0.630) allocation failure;
+[14620:00000217E6F9E000]   265879 ms: Mark-Compact (reduce) 764.5 (789.2) -> 762.0 (783.9) MB, pooled: 0 MB, 179.46 / 0.00 ms  (+ 0.3 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 239 ms) (average mu = 0.692, c
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF6843C7107 node::SetCppgcReference+21127
+ 2: 00007FF6843269DB EVP_MD_meth_get_input_blocksize+102619
+ 3: 00007FF684F37CF1 v8::Isolate::ReportExternalAllocationLimitReached+65
+ 4: 00007FF684F247A6 v8::Function::Experimental_IsNopFunction+3318
+ 5: 00007FF684D80DD0 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+33904
+ 6: 00007FF684D7D45A v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+19194
+ 7: 00007FF684D93A0C v8::Isolate::GetHeapProfiler+8012
+ 8: 00007FF684D9428A v8::Isolate::GetHeapProfiler+10186
+ 9: 00007FF684D9F3C1 v8::Isolate::GetHeapProfiler+55553
+10: 00007FF684DB2FAA v8::Isolate::GetHeapProfiler+136426
+11: 00007FF684DB3283 v8::Isolate::GetHeapProfiler+137155
+12: 00007FF684B52A69 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+149737
+13: 00007FF684B52DE6 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+150630
+14: 00007FF684DA88DF v8::Isolate::GetHeapProfiler+93727
+15: 00007FF684BD7942 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+694210
+16: 00007FF684BD88B5 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+698165
+17: 00007FF684B7E8A5 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+329509
+18: 00007FF684B58E09 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+175241
+19: 00007FF684B6B2A4 v8::MemorySpan<std::basic_string_view<char,std::char_traits<char> > const >::end+250148
+20: 00007FF684A6C6B6 v8::base::AddressSpaceReservation::AddressSpaceReservation+305254
+21: 00007FF684A6B570 v8::base::AddressSpaceReservation::AddressSpaceReservation+300832
+22: 00007FF684FF374E v8::PropertyDescriptor::writable+727662
+23: 00007FF6062EC93C

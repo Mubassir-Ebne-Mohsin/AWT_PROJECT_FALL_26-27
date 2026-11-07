@@ -1,0 +1,8 @@
+[Nest] 16964  - 11/07/2026, 1:09:45 PM   ERROR [Exception] Unhandled request failure
+
+Test Suites: 8 passed, 8 total
+Tests:       94 passed, 94 total
+Snapshots:   0 total
+Time:        71.639 s
+Ran all test suites.
+Test results written to: ..\..\..\..\..\..\..\..\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\docs\audit\support-e-2026-11-07\backend-e2e-shard-1.json

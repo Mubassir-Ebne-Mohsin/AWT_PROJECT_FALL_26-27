@@ -1,0 +1,8 @@
+> stressforge-api@1.0.0 contract:phase3:check C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> pnpm contract:phase3 --check
+
+
+> stressforge-api@1.0.0 contract:phase3 C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\nest-boilerplate\nest-boilerplate
+> ts-node -r tsconfig-paths/register src/script/export-phase3-contract.ts "--check"
+
+M11 contract matches canonical Zod schemas
