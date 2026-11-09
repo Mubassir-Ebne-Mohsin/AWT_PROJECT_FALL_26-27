@@ -102,7 +102,7 @@ async function main() {
   }
 }
 
-main().catch((error: { message?: string }) => {
-  console.error(`Not done: ${error.message ?? error}`);
+main().catch((error: { message?: string; cause?: { code?: string; message?: string } }) => {
+  console.error(`Not done: ${error.message ?? error}${error.cause ? " (" + (error.cause.code ?? error.cause.message) + ")" : ""}`);
   process.exit(1);
 });
