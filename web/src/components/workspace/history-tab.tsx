@@ -125,9 +125,9 @@ export function HistoryTab({
               </button>
             </div>
           )}
-          {versions.isSuccess && items.length === 0 && <p>No saved versions are available for this design. Tip: every save creates a version, and restoring one creates a new version instead of rewriting history.</p>}
+          {versions.isSuccess && items.length === 0 && <p>No saved versions are available for this design.</p>}
           {items.length === 1 && items[0].revision === saved.revision && (
-            <p className="hint">Only the current version exists so far. Every save adds a version you can return to.</p>
+            <p className="hint">Only the current version exists so far. Every save adds a version you can return to. Restoring one creates a new version instead of rewriting history.</p>
           )}
           {items.length > 1 && picked.length < 2 && (
             <p className="small muted">Select two versions below to compare them side by side.</p>

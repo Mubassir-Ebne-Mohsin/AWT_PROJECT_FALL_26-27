@@ -10,7 +10,7 @@ const SHORTCUTS: Array<[string, Array<[string, string]>]> = [
     [
       ["Ctrl K", "Jump to a screen, design or action"],
       ["?", "Show this sheet"],
-      [".", "Toggle the AI assistant"],
+      [".", "Toggle Concept help"],
       ["G then D", "Go to the dashboard"],
       ["G then N", "Start a new design"],
       ["Esc", "Close the open panel or dialog"],

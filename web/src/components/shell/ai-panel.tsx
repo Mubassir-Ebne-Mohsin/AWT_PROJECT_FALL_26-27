@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUi } from "@/components/shell/ui-provider";
 import { Icon } from "@/components/ui/icon";
+import { clearUnanswered, readUnanswered, recordUnanswered } from "@/lib/concept-help/unanswered";
 import { CATEGORIES, ENTRIES, POPULAR, entryById, flatten, related, reply, type Category, type Entry, type Reply } from "@/lib/concept-help";
 import { ExplainDrawer } from "@/components/workspace/explain-panel";
 import { useExplainView } from "@/lib/explain-store";
@@ -59,6 +60,8 @@ function ScriptedAssistant({ topic, opener }: { topic?: Entry; opener?: HTMLElem
   const [text, setText] = useState("");
   const [stream, setStream] = useState<string | null>(null);
   const [browse, setBrowse] = useState<Category | "open" | null>(null);
+  const [unanswered, setUnanswered] = useState<string[]>(() => readUnanswered());
+  const [copied, setCopied] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -83,6 +86,7 @@ function ScriptedAssistant({ topic, opener }: { topic?: Entry; opener?: HTMLElem
     setMessages((m) => [...m, { role: "user", text: q }]);
 
     const r = reply(q, screen);
+    if (r.kind === "fallback") setUnanswered(recordUnanswered(q));
     const first = r.entry ? r.entry.a : r.text;
     // Reveal the main paragraph a few words at a time so it reads like a stream; the rest appears with it.
     const words = first.split(/(\s+)/);
@@ -117,6 +121,42 @@ function ScriptedAssistant({ topic, opener }: { topic?: Entry; opener?: HTMLElem
             <div className="stack">
               <div className="small muted">Nearest topics</div>
               <Topics list={r.also} onPick={(e) => send(e.q[0])} disabled={busy} />
+            </div>
+          )}
+          {unanswered.length > 0 && (
+            <div className="stack" data-testid="unanswered-list">
+              <div className="small muted">Questions I could not answer (kept in this browser only; nothing is sent)</div>
+              <ul style={{ margin: "0 0 0 18px", padding: 0 }}>
+                {unanswered.map((u) => (
+                  <li key={u}>{u}</li>
+                ))}
+              </ul>
+              <div className="row tight">
+                <button
+                  className="chip"
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(unanswered.join(String.fromCharCode(10)));
+                      setCopied(true);
+                    } catch {
+                      setCopied(false);
+                    }
+                  }}
+                >
+                  Copy this list
+                </button>
+                <button
+                  className="chip"
+                  onClick={() => {
+                    clearUnanswered();
+                    setUnanswered([]);
+                    setCopied(false);
+                  }}
+                >
+                  Clear this list
+                </button>
+                <span role="status" className="small muted">{copied ? "Copied. Paste it into Suggest a topic." : ""}</span>
+              </div>
             </div>
           )}
           <div className="row tight">
