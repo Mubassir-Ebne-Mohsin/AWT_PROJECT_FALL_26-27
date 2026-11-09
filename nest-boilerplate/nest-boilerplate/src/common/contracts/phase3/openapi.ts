@@ -400,7 +400,7 @@ export function phase3OpenApi() {
       "/v1/gallery": {
         get: {
           ...operation("listGallery", "GalleryList"),
-          parameters: ["q", "verdict", "tag", "mine", "page", "pageSize"].map((name) => ({ name, in: "query", required: false, schema: { type: "string" } })),
+          parameters: ["q", "verdict", "tag", "mine", "bottleneck", "like", "page", "pageSize"].map((name) => ({ name, in: "query", required: false, schema: { type: "string" } })),
         },
       },
       "/v1/gallery/{id}": {

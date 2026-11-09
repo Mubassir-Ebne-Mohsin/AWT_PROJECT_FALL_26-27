@@ -117,7 +117,7 @@ export class GalleryService {
   async list(viewer: string, raw: Record<string, unknown>) {
     const parsed = galleryQuerySchema.safeParse(raw);
     if (!parsed.success) throw new AppException("VALIDATION_FAILED", "Invalid gallery query");
-    const { q, verdict, tag, mine, page, pageSize } = parsed.data;
+    const { q, verdict, tag, mine, bottleneck, like, page, pageSize } = parsed.data;
     const params: unknown[] = [];
     const where = ["p.unpublished_at IS NULL"];
     if (q) {
@@ -132,19 +132,30 @@ export class GalleryService {
       params.push(tag);
       where.push(`$${params.length} = ANY(p.tags)`);
     }
+    if (bottleneck) {
+      params.push(bottleneck);
+      // The most loaded component of the frozen result, so a design under light load (which has no flagged bottleneck) still matches.
+      where.push(`(SELECT c->>'type' FROM jsonb_array_elements(p.report->'run'->'simulation'->'components') c ORDER BY (c->>'rho')::float8 DESC, c->>'id' ASC LIMIT 1) = $${params.length}`);
+    }
     if (mine === "true") {
       params.push(viewer);
       where.push(`p.owner_id = $${params.length}`);
     }
+    const filterParams = [...params];
+    let order = "p.published_at DESC, p.id DESC";
+    if (like && like.length) {
+      params.push(like);
+      order = `cardinality(ARRAY(SELECT unnest(p.tags) INTERSECT SELECT unnest($${params.length}::text[]))) DESC, ${order}`;
+    }
     const clause = where.join(" AND ");
-    const total = rowsOf<{ n: number }>(await this.db.query(`SELECT count(*)::int AS n FROM gallery_posts p WHERE ${clause}`, params))[0].n;
+    const total = rowsOf<{ n: number }>(await this.db.query(`SELECT count(*)::int AS n FROM gallery_posts p WHERE ${clause}`, filterParams))[0].n;
     const rows = rowsOf<Row>(
       await this.db.query(
         `SELECT p.id, p.owner_id AS "ownerId", p.title, p.description, p.revision, p.verdict, p.p95, p.p95_target AS "p95Target",
                 p.tags, p.node_count AS "nodeCount", p.allow_remix AS "allowRemix", p.remix_count AS "remixCount",
                 p.published_at AS "publishedAt", u.display_name AS "ownerName"
          FROM gallery_posts p JOIN users u ON u.id = p.owner_id
-         WHERE ${clause} ORDER BY p.published_at DESC, p.id DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+         WHERE ${clause} ORDER BY ${order} LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
         [...params, pageSize, (page - 1) * pageSize],
       ),
     );

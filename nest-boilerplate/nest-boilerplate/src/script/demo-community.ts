@@ -6,13 +6,13 @@ import { getTemplates } from "@/modules/simulation/engine/templates";
 /**
  * Demo helper for the community gallery.
  *
- *   pnpm demo:community          registers two clearly named demo accounts, then for each of the six templates creates a design,
- *                                runs a test and publishes it, so the gallery is never empty at a demonstration
+ *   pnpm demo:community          registers three clearly named demo accounts, then publishes each of the six templates twice (as it comes,
+ *                                and at a quiet-hours load so it passes), after running a test on each, so the gallery is never empty at a demonstration
  *   pnpm demo:community:clean    removes exactly those accounts; their designs and posts go with them
  *
  * Accounts are `demo-community-<n>-<tag>@demo.stressforge.test`, so nothing here can be mistaken for a real person.
  * Real accounts are never read or changed. Development only: it refuses to run in production.
- * Each account publishes three designs (the daily limit is five).
+ * Each account publishes four designs (the daily limit is five).
  */
 const DEMO_DOMAIN = "demo.stressforge.test";
 const api = (process.env.SF_API_URL ?? "http://localhost:5001/v1").replace(/\/$/, "");
@@ -55,7 +55,10 @@ async function clean(db: DataSource) {
 async function seed() {
   const templates = getTemplates();
   const stamp = Date.now().toString(36);
-  const names = ["Demo builder A", "Demo builder B"];
+  const names = ["Demo builder A", "Demo builder B", "Demo builder C"];
+  // Each template is published twice: as it comes, and at a quiet-hours load (a quarter of the traffic) so that, for every limiting
+  // component, the gallery has a design that passes. The Improve tab's "See how others solved this" shows such passing designs.
+  // Four posts per account stays under the daily limit of five.
   for (let n = 0; n < names.length; n++) {
     const email = `demo-community-${n + 1}-${stamp}@${DEMO_DOMAIN}`;
     const res = await call<{ accessToken: string }>("/auth/register", {
@@ -65,26 +68,30 @@ async function seed() {
     if (res.status !== 201) throw new Error(`Could not register a demo account (HTTP ${res.status}). Is the API running at ${api}?`);
     const token = res.data.accessToken;
     say(`Registered ${email}`);
-    for (const t of templates.filter((_, i) => i % 2 === n)) {
-      const made = await call<{ id: string; revision: number }>("/designs", {
-        method: "POST",
-        token,
-        body: { schemaVersion: 1, name: t.name, description: t.blurb, source: "template", templateId: t.id, graph: t.graph, traffic: t.traffic },
-      });
-      if (made.status !== 201) {
-        say(`Could not create "${t.name}" (HTTP ${made.status}).`);
-        continue;
+    for (const t of templates.filter((_, i) => i % names.length === n)) {
+      for (const quiet of [false, true]) {
+        const traffic = quiet ? { ...t.traffic, rps: Math.max(1, Math.round(t.traffic.rps / 4)), burst: 1.1 } : t.traffic;
+        const label = quiet ? `${t.name} (quiet hours)` : t.name;
+        const made = await call<{ id: string; revision: number }>("/designs", {
+          method: "POST",
+          token,
+          body: { schemaVersion: 1, name: label, description: t.blurb, source: "template", templateId: t.id, graph: t.graph, traffic },
+        });
+        if (made.status !== 201) {
+          say(`Could not create "${label}" (HTTP ${made.status}).`);
+          continue;
+        }
+        if (!(await simulate(token, made.data))) {
+          say(`"${label}": the test did not finish, so it was not published.`);
+          continue;
+        }
+        const post = await call(`/designs/${made.data.id}/gallery`, {
+          method: "POST",
+          token,
+          body: { title: "Demo: " + label, description: t.blurb, allowRemix: true, confirmOwnership: true },
+        });
+        say(`"${label}": ${post.status === 201 ? "published" : "not published (HTTP " + post.status + ")"}`);
       }
-      if (!(await simulate(token, made.data))) {
-        say(`"${t.name}": the test did not finish, so it was not published.`);
-        continue;
-      }
-      const post = await call(`/designs/${made.data.id}/gallery`, {
-        method: "POST",
-        token,
-        body: { title: "Demo: " + t.name, description: t.blurb, allowRemix: true, confirmOwnership: true },
-      });
-      say(`"${t.name}": ${post.status === 201 ? "published" : "not published (HTTP " + post.status + ")"}`);
     }
   }
   say("Done. Remove everything with: pnpm demo:community:clean");

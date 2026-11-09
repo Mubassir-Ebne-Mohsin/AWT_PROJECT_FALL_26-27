@@ -75,11 +75,11 @@ export const WS_TABS: WorkspaceTab[] = [
     icon: "sparkle",
     phase: 3,
     fid: "C",
-    desc: "The AI improvement loop: suggestions chosen by the real bottleneck, applied to the canvas, with a before and after comparison.",
+    desc: "Fix the limiting component: engine-checked suggestions, the load ladder, what-if runs and designs other people published.",
     planned: [
-      "Suggestions ranked by impact, streamed in with reasoning",
-      "Apply one to see it on the canvas with a before and after diff",
-      "Keep, revert or try the next suggestion; each step is a version",
+      "See what limits the design and try ordinary fixes there",
+      "Find how far the design can go and what a traffic change does",
+      "Open or remix published designs that pass with the same limit",
     ],
   },
   {

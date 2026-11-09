@@ -201,4 +201,37 @@ describe("Community gallery: publish, browse, view, remix (isolated Postgres, no
     await http.delete("/v1/designs/" + d.id).set(as(mine)).expect(204);
     await http.get("/v1/gallery/" + post.id).set(as(other)).expect(404);
   });
+
+  // The most loaded component type of a result, ties broken by id, exactly as the filter defines it.
+  const mostLoaded = (components: Array<{ id: string; type: string; rho: number }>) =>
+    [...components].sort((x, y) => y.rho - x.rho || x.id.localeCompare(y.id))[0]?.type ?? null;
+
+  it("filters by the limiting component of the frozen result and ranks by shared component types", async () => {
+    const mine = await freshUser("Similar finder");
+    const made: Array<{ id: string; tags: string[]; bottleneck: string | null }> = [];
+    for (const tpl of ["mvp", "three-tier", "content", "ingest", "checkout"]) {
+      const d = await newDesign(mine, tpl);
+      await simulate(d.id, 1, mine);
+      const post = (await publish(d.id, { ...ok, title: "Similar " + tpl }, mine).expect(201)).body.data;
+      const detail = (await http.get("/v1/gallery/" + post.id).set(as(mine)).expect(200)).body.data;
+      made.push({ id: post.id, tags: post.tags, bottleneck: mostLoaded(detail.report.run.simulation.components) });
+    }
+    const types = [...new Set(made.map((m) => m.bottleneck).filter((t): t is string => t !== null))];
+    expect(types.length).toBeGreaterThan(1); // the templates must not all share one bottleneck, or this test proves nothing
+    for (const t of types) {
+      const res = galleryListSchema.parse((await http.get("/v1/gallery?mine=true&bottleneck=" + t).set(as(mine)).expect(200)).body.data);
+      expect(res.items.map((i) => i.id).sort()).toEqual(made.filter((m) => m.bottleneck === t).map((m) => m.id).sort());
+    }
+    const none = galleryListSchema.parse((await http.get("/v1/gallery?mine=true&bottleneck=no-such-type").set(as(mine)).expect(200)).body.data);
+    expect(none.items).toEqual([]);
+    const like = made[0].tags;
+    const ranked = galleryListSchema.parse((await http.get("/v1/gallery?mine=true&like=" + like.join(",")).set(as(mine)).expect(200)).body.data);
+    const overlap = (tags: string[]) => tags.filter((t) => like.includes(t)).length;
+    const scores = ranked.items.map((i) => overlap(i.tags));
+    expect([...scores].sort((a, b) => b - a)).toEqual(scores);
+    // Designs with identical component types tie, so the best match is among the items with the top score.
+    expect(scores[0]).toBe(like.length);
+    expect(ranked.items.filter((i) => overlap(i.tags) === like.length).map((i) => i.id)).toContain(made[0].id);
+    await http.get("/v1/gallery?like=" + "x".repeat(400)).set(as(mine)).expect(422);
+  });
 });

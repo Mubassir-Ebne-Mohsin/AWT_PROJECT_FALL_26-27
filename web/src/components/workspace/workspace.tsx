@@ -1,4 +1,5 @@
 "use client";
+import { ImproveTab } from "@/components/workspace/improve-tab";
 import { PublishPanel } from "@/components/gallery/publish-panel";
 import { designExportFilename, designExportText } from "@/lib/design-export";
 import { AttemptWorkspaceContext } from "@/components/learner/attempt-workspace-context";
@@ -33,7 +34,7 @@ import { WS_TABS } from "@/lib/catalog";
 import { Design, Graph, fetchDesign, fetchRun, deleteDesign } from "@/lib/api/designs";
 import { useActiveView } from "@/lib/use-active-view";
 import { EditorSession } from "@/lib/editor-session";
-const LIVE_TABS = ["edit", "traffic", "results", "limits", "history", "notes"];
+const LIVE_TABS = ["edit", "traffic", "results", "limits", "improve", "history", "notes"];
 export function Workspace({ id, tab }: { id: string; tab: string }) {
   const { user } = useAuth();
   const design = useQuery({
@@ -623,6 +624,16 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                     : undefined
             }
             onFind={findLimits}
+          />
+        ) : tab === "improve" ? (
+          <ImproveTab
+            designId={initial.id}
+            savedRevision={state.saved.revision}
+            run={displayedRun}
+            stale={displayedRun ? session.isRunStale(displayedRun) : false}
+            dirty={session.dirty}
+            componentTypes={state.saved.graph.nodes.map((n) => n.type)}
+            onApplyFix={(graph, id) => session.edit(graph, id)}
           />
         ) : tab === "traffic" ? (
           <>

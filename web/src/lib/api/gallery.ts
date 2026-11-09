@@ -41,6 +41,10 @@ export interface GalleryFilters {
   verdict?: GalleryVerdict;
   tag?: string;
   mine?: boolean;
+  /** Only posts whose limiting component is of this type. */
+  bottleneck?: string;
+  /** Component types: posts sharing more of them come first. */
+  like?: string[];
   page?: number;
 }
 
@@ -53,6 +57,8 @@ export function galleryQueryString(f: GalleryFilters): string {
   if (f.verdict) p.set("verdict", f.verdict);
   if (f.tag) p.set("tag", f.tag);
   if (f.mine) p.set("mine", "true");
+  if (f.bottleneck) p.set("bottleneck", f.bottleneck);
+  if (f.like?.length) p.set("like", f.like.join(","));
   if (f.page && f.page > 1) p.set("page", String(f.page));
   const s = p.toString();
   return s ? "?" + s : "";

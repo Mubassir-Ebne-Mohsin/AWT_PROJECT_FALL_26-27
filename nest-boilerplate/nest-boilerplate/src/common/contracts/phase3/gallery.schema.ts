@@ -29,6 +29,16 @@ export const galleryQuerySchema = z.strictObject({
   verdict: galleryVerdictSchema.optional(),
   tag: z.string().trim().max(24).optional(),
   mine: z.enum(["true", "false"]).optional(),
+  /** Only posts whose most loaded component is of this type (read from the frozen report, so light-load designs match too). */
+  bottleneck: z.string().trim().min(1).max(24).optional(),
+  /** Comma separated component types: posts that share more of them come first. */
+  like: z
+    .string()
+    .trim()
+    .max(300)
+    .transform((v) => [...new Set(v.split(",").map((x) => x.trim()).filter(Boolean))].slice(0, 12))
+    .refine((v) => v.every((x) => x.length <= 24), "Component type too long")
+    .optional(),
   page: z.coerce.number().int().min(1).max(1000).default(1),
   pageSize: z.coerce.number().int().min(1).max(24).default(12),
 });
