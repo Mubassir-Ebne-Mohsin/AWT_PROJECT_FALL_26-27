@@ -77,7 +77,7 @@ export function NotesTab({ designId, currentRevision, components = [] }: { desig
               </button>
             </div>
           )}
-          {notes.isSuccess && items.length === 0 && <p>No notes yet. Add the first decision or assumption above.</p>}
+          {notes.isSuccess && items.length === 0 && <p>No notes yet. Add the first decision or assumption above. Tip: notes are included in the report, and one pinned to a component keeps the reason next to it.</p>}
           {options.length > 1 && (
             <div className="m15-field">
               <label htmlFor={showId}>Show</label>

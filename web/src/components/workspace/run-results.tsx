@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { DesignRun } from "@/lib/api/designs";
+import { TermHelp } from "@/components/ui/term-help";
 import type { ResultConcept } from "@/components/shell/ui-provider";
 import type { Summary, Simulation } from "@/lib/result-presentation";
 import {
@@ -13,6 +14,8 @@ import {
 } from "@/lib/result-presentation";
 import { TimelineChart } from "@/components/workspace/timeline-chart";
 import { RecordedTopology } from "@/components/workspace/recorded-topology";
+const TERMS: Record<string, string> = { "p95 latency": "what-is-p95", Errors: "error-budget" };
+
 export function RunResults({
   run,
   stale,
@@ -127,7 +130,7 @@ export function RunResults({
           ],
         ].map(([label, value, note]) => (
           <div className="readout" key={label}>
-            <span className="eyebrow">{label}</span>
+            <span className="eyebrow">{TERMS[label] ? <TermHelp topic={TERMS[label]}>{label}</TermHelp> : label}</span>
             <div className="v num">{value}</div>
             <div className="s">{note}</div>
             {onAsk && b && label === "Bottleneck" && (
@@ -263,7 +266,7 @@ function ResultDetails({
                   <th>Component</th>
                   <th>Peak load</th>
                   <th>Capacity</th>
-                  <th>Utilization</th>
+                  <th><TermHelp topic="utilization">Utilization</TermHelp></th>
                   <th>Mean time</th>
                   <th>Rejected</th>
                 </tr>
