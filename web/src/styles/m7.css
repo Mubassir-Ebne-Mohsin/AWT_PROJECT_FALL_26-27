@@ -14,6 +14,9 @@
   font-size: clamp(18px, 2.2vw, 30px);
   overflow-wrap: anywhere;
 }
+.m7-concept-action {
+  margin-top: 8px;
+}
 .m7-reasons {
   margin: 8px 0 0;
   padding-left: 18px;

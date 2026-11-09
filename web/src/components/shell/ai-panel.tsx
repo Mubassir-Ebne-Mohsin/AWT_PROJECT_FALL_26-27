@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUi } from "@/components/shell/ui-provider";
 import { Icon } from "@/components/ui/icon";
-import { CATEGORIES, ENTRIES, POPULAR, related, reply, type Category, type Entry, type Reply } from "@/lib/concept-help";
+import { CATEGORIES, ENTRIES, POPULAR, entryById, flatten, related, reply, type Category, type Entry, type Reply } from "@/lib/concept-help";
 import { ExplainDrawer } from "@/components/workspace/explain-panel";
 import { useExplainView } from "@/lib/explain-store";
 
@@ -18,6 +18,16 @@ type Message = { role: "user"; text: string } | { role: "assistant"; reply: Repl
  */
 export function AiPanel() {
   const view = useExplainView();
+  const { ui: { conceptRequest } } = useUi();
+  if (conceptRequest) {
+    return (
+      <ScriptedAssistant
+        key={conceptRequest.sequence}
+        topic={entryById(conceptRequest.topic)}
+        opener={conceptRequest.opener}
+      />
+    );
+  }
   return view ? <ExplainDrawer view={view} /> : <ScriptedAssistant />;
 }
 
@@ -40,10 +50,12 @@ function Topics({ list, onPick, disabled }: { list: readonly Entry[]; onPick: (e
 }
 
 /** Concept help. UI only: replies come from a fixed set of written answers (src/lib/concept-help); no model is called. */
-function ScriptedAssistant() {
+function ScriptedAssistant({ topic, opener }: { topic?: Entry; opener?: HTMLElement }) {
   const { setUI } = useUi();
   const screen = screenOf(usePathname());
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => topic
+    ? [{ role: "assistant", reply: { kind: "answer", entry: topic, text: flatten(topic), also: [] } }]
+    : []);
   const [text, setText] = useState("");
   const [stream, setStream] = useState<string | null>(null);
   const [browse, setBrowse] = useState<Category | "open" | null>(null);
@@ -52,12 +64,12 @@ function ScriptedAssistant() {
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const restoreFocus = enterDrawer(inputRef.current);
+    const restoreFocus = enterDrawer(inputRef.current, opener);
     return () => {
       if (timer.current) clearInterval(timer.current);
       restoreFocus();
     };
-  }, []);
+  }, [opener]);
 
   useEffect(() => {
     bodyRef.current?.scrollTo({ top: bodyRef.current.scrollHeight });
@@ -122,7 +134,7 @@ function ScriptedAssistant() {
     const more = [...rel, ...r.also.filter((x) => !rel.includes(x))].slice(0, 5);
     return (
       <>
-        <div className="small muted">{e.title}</div>
+        <h2 className="small muted">{e.title}</h2>
         <div className="body" style={{ whiteSpace: "pre-line" }}>
           {e.a}
         </div>

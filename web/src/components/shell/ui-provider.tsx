@@ -3,7 +3,16 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import type { SystemKind } from "@/lib/system-states";
 
+export type ResultConcept = "verdict" | "bottleneck-rule";
+
+interface ConceptRequest {
+  topic: ResultConcept;
+  opener: HTMLElement;
+  sequence: number;
+}
+
 export interface UiState {
+  conceptRequest: ConceptRequest | null;
   palette: boolean;
   ai: boolean;
   help: boolean;
@@ -21,6 +30,7 @@ export interface UiState {
 }
 
 const INITIAL: UiState = {
+  conceptRequest: null,
   palette: false,
   ai: false,
   help: false,
@@ -37,6 +47,7 @@ const INITIAL: UiState = {
 interface UiContextValue {
   ui: UiState;
   setUI: (patch: Partial<UiState>) => void;
+  openConceptHelp: (topic: ResultConcept, opener: HTMLElement) => void;
   openSystem: (kind: SystemKind, fromDev?: boolean) => void;
   closeSystem: () => void;
 }
@@ -45,14 +56,28 @@ const UiContext = createContext<UiContextValue | null>(null);
 
 export function UiProvider({ children }: { children: ReactNode }) {
   const [ui, setUi] = useState<UiState>(INITIAL);
-  const setUI = useCallback((patch: Partial<UiState>) => setUi((s) => ({ ...s, ...patch })), []);
+  const setUI = useCallback((patch: Partial<UiState>) => {
+    setUi((s) => ({
+      ...s,
+      ...(patch.ai !== undefined ? { conceptRequest: null } : {}),
+      ...patch,
+    }));
+  }, []);
+  const openConceptHelp = useCallback((topic: ResultConcept, opener: HTMLElement) => {
+    setUi((s) => ({
+      ...s,
+      ai: true,
+      help: false,
+      conceptRequest: { topic, opener, sequence: (s.conceptRequest?.sequence ?? 0) + 1 },
+    }));
+  }, []);
   const openSystem = useCallback(
     (kind: SystemKind, fromDev = false) =>
       setUi((s) => ({ ...s, system: kind, systemFromDev: fromDev, dev: false, palette: false })),
     [],
   );
   const closeSystem = useCallback(() => setUi((s) => ({ ...s, system: null, systemFromDev: false })), []);
-  const value = useMemo(() => ({ ui, setUI, openSystem, closeSystem }), [ui, setUI, openSystem, closeSystem]);
+  const value = useMemo(() => ({ ui, setUI, openConceptHelp, openSystem, closeSystem }), [ui, setUI, openConceptHelp, openSystem, closeSystem]);
   return <UiContext.Provider value={value}>{children}</UiContext.Provider>;
 }
 

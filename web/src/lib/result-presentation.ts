@@ -1,3 +1,4 @@
+import type { DesignRun } from "@/lib/api/designs";
 import type { components } from "@/lib/api/schema";
 export type Simulation = components["schemas"]["SimulationOutput"];
 export type Summary = Simulation["summary"];
@@ -8,6 +9,24 @@ export function numberText(n: number, digits = 2) {
 }
 export const percent = (n: number) => numberText(n * 100, 3) + "%";
 export const milliseconds = (n: number) => numberText(n) + " ms";
+export function recordedResultText(run: DesignRun, stale: boolean): string | null {
+  if (run.status !== "completed" || run.result.kind !== "simulation") return null;
+  const summary = run.result.summary;
+  const bottleneck = summary.nodes.find((node) => node.id === summary.bottleneckId);
+  const lines = [
+    "STRESSFORGE model estimates",
+    "Recorded revision " + run.designRevision + " · " + run.engineVersion,
+    "Verdict: " + summary.verdict,
+    "p95 latency: " + milliseconds(summary.p95) + " (target " + milliseconds(summary.traffic.sloP95) + ")",
+    "Errors: " + percent(summary.errorRate) + " (budget " + percent(summary.traffic.errorBudget) + ")",
+    "Served: " + numberText(summary.throughput) + " of " + numberText(summary.rps) + " average rps",
+  ];
+  if (bottleneck) {
+    lines.push("Bottleneck: " + bottleneck.label.replace(/\s+/g, " ").trim() + " (" + percent(bottleneck.rho) + " utilization)");
+  }
+  if (stale) lines.push("Stale result. These figures describe the recorded snapshot.");
+  return lines.join("\n");
+}
 export function boundedText(
   v: { kind: "finite"; value: number } | { kind: "unbounded" },
   unit = "",

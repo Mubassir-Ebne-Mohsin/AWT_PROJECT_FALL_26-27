@@ -15,6 +15,19 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-09, Codex — lite features Batch 1 verified
+**Goal.** Implement the owner's approved Batch 1.
+**Done.** Results opens the scripted verdict and bottleneck topics by stable ID, copies the selected completed simulation with a manual fallback, and offers Quiet night in Traffic as one undoable settings edit.
+**Evidence.** Signed-in Concept help at 1024 light, 1440 dark and 390 light. The original Phase 1 drawer assertions passed twice when run in isolation. Nine scoped browser checks passed after restoration, all three deliberate faults were caught, screenshots reviewed, TypeScript and focused lint passed, and 570 web unit tests passed. The full Phase 1 baseline stopped earlier on Share and Evaluation breadcrumbs. One neighboring M12 mobile reopen timeout passed on two unchanged reruns.
+**Working tree.** Eight frontend files and two test files plus planning and evidence docs are ready for commit review. Existing handoff and protected files were preserved. Temporary audit services were removed. Claim released.
+**Next.** Local commit review, followed by a separate scope decision for Batch 2.
+
+## 2026-11-09, Codex — lite features takeover and scope
+**Done:** Read the lite-features handoff and verified existing Duplicate, browser Print, and Traffic preset controls. Wrote the proposed batch in [LITE-FEATURES-PLAN.md](LITE-FEATURES-PLAN.md).
+**Evidence:** Concept help unit and matcher files passed 16/16. The 24-question sample reproduced 18/24 top-one and 21/24 top-three. Signed-in browser verification is pending.
+**Next:** Obtain Batch 1 scope approval, then check the signed-in drawer baseline before building contextual help, recorded-result copy and Quiet night.
+**Uncommitted:** Planning document and this state/log update. The prior handoff edits remain in the working tree. No active implementation claim.
+
 ## 2026-11-07, Codex — readable Describe example choices
 **Owner request/done:** Clean up the squeezed bordered pills under Try an example. Removed the generic fixed-height chip class; added titled cards with original full prompts, natural height, 13px padding, subtle rectangular borders, responsive grid, hover/focus and disabled styles. Added a labelled group and explicit button type; prompt strings and click-to-fill handler unchanged. Only describe.tsx/m4.css changed in the application.
 **Evidence:** 17/17 existing creation-session/ai-describe unit tests and focused ESLint pass. Real running frontend, fresh headless Chrome with all API requests intercepted: 1440/1024/760/390/320 in dark/light (10 layouts), all four examples fill the exact original text by keyboard, no clipped content or horizontal overflow, no page errors, zero write requests. Dark desktop and light phone snapshots visually reviewed; screenshots/JSON remain in TEMP.
@@ -547,3 +560,6 @@ Entry template:
 ## 2026-11-05, Claude: PDF diagram boxes carry component settings
 **Done:** each box in the PDF's black-and-white architecture diagram now also shows the component's main settings (3x  cap 250  40ms  hit 80%; 3x = copies, cap = capacity, then latency, hit ratio, share, queue depth), wrapped onto a second line when four settings need it, and the sentence under the diagram explains the short words. A box grows only as far as it needs, and only when the boxes above and below leave room and the page has the height; otherwise the diagram is exactly as before and the caption says nothing about settings. The Components table still lists every setting in full. New web/src/lib/dossier/settings.ts holds the wording used by both (`propertyText` moved there and is still exported from model.ts); diagram.ts gained erticalClearance, wrapTokens and a settings flag on its result. **Verified:** 7 new dossier unit tests (28 in the file); 10 deliberate breaks caught (two survivors were weak tests, strengthened; one was an equivalent change); new Chrome test generates a real PDF from a design with set parameters and finds the diagram line, the table row and the caption in the file text (1024 light and 1440 dark); web unit, types, lint and neighbouring report, share, notes and results specs pass; sample pages rendered to images and looked at. **Not done:** a very large design (many components, drawn at the smallest legible scale) shows no settings in the boxes by design; the table has them. Not committed.
 
+
+## 2026-11-09, Claude: Concept help expansion, lite features handed to Codex
+**Done:** Concept help rebuilt as `web/src/lib/concept-help/` (124 topics, scored matcher, related chips, links, browse, nearest-topics fallback, Suggest a topic), commit `4dae6e5`, local only. Web unit 568 passed, tsc and eslint clean; 24 independently worded questions: top-1 18, top-3 21. **Not verified:** the drawer in a signed-in browser. **Warnings for Codex:** see [CODEX-HANDOFF-LITE-FEATURES-2026-11-09.md](CODEX-HANDOFF-LITE-FEATURES-2026-11-09.md); keep the drawer scripted (no model), keep answers free of design-knowledge claims.

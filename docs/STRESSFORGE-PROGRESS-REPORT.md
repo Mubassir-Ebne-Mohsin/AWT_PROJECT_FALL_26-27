@@ -1744,3 +1744,13 @@ Update history: 2026-11-07 — E approved, implemented, privacy/race/failure-tes
 ## 48. Describe example-choice presentation (7 November 2026)
 
 **Complete locally; not pushed.** Owner requested cleaner borders/spacing under Try an example. Dedicated responsive cards replace fixed-height chip styling: short titles, original full prompt text, natural height, consistent padding, subtle borders and keyboard focus/disabled feedback. Original example strings and selection handler preserved. Verified 17/17 existing creation/description unit tests, focused ESLint and a browser fixture on the running frontend: five widths (1440/1024/760/390/320) x dark/light; four exact keyboard selections, no text clipping/page overflow/page errors and zero writes. All API responses intercepted; no live model or database calls. Desktop dark/phone light snapshots visually reviewed (TEMP). First browser attempt hit insufficient resources; a single-context/renderer, GPU-disabled retry passed unchanged checks. No user applications stopped or existing tests edited; full build/backend/production regression not rerun for this scoped visual change. Protected artifacts unchanged; refresh the frontend. Earlier phase and AI acceptance limitations remain.
+
+## 49. Lite features Batch 1 (9 November 2026)
+
+**Implemented and verified locally.** The owner approved the scope in [Lite features plan](LITE-FEATURES-PLAN.md).
+
+- Results opens the existing scripted Concept help drawer on the verdict or bottleneck topic. Keyboard activation and Escape focus return were verified.
+- Results copies the displayed completed simulation, including historical results, using recorded values and model-estimate wording. Stale results are marked. Clipboard failure provides selectable text.
+- Traffic offers Quiet night at 100 rps, 1.1× burst and steady shape. It applies as one undoable edit and preserves reads, targets and duration.
+
+All nine browser checks passed at the approved widths after restoring the source. The three deliberately introduced faults were caught. Screenshots were reviewed. TypeScript, focused ESLint and 570 web unit tests passed. The initial full Phase 1 baseline stopped before its drawer step on breadcrumb assertions. The original drawer assertions passed in isolation at both desktop widths. Existing M7 neighbor checks passed. The M12 mobile reopen check passed on reruns after one timeout. Browser verification used a temporary Next development server and disposable data. The working tree is ready for local commit review.

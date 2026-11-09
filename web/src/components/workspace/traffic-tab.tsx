@@ -99,6 +99,16 @@ export function TrafficTab({
             ))}
             <button
               className="preset"
+              type="button"
+              disabled={blocked}
+              onClick={() => session.setTraffic({ preset: "custom", rps: 100, burst: 1.1, shape: "steady" }, true)}
+            >
+              <span className="pt">Quiet night</span>
+              <span className="pf">100 rps ×1.1 · steady</span>
+              <span className="small muted">Lower the load while keeping your targets and read mix.</span>
+            </button>
+            <button
+              className="preset"
               disabled={blocked}
               aria-pressed={t.preset === "custom"}
               onClick={() => session.setTraffic({})}
@@ -112,7 +122,7 @@ export function TrafficTab({
           </div>
           <p className="hint">
             Presets update load, burst, reads, shape and p95 target; your error
-            budget and duration are kept.
+            budget and duration are kept. Quiet night only updates load, burst and shape.
           </p>
         </section>
         <section className="panel">

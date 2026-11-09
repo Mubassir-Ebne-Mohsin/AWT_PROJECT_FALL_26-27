@@ -9,6 +9,8 @@ Latest detailed handover: [CODEX-HANDOFF-2026-11-06.md](CODEX-HANDOFF-2026-11-06
 
 Update this file at the end of every session. Keep it short; put detail in the handoff log and the report.
 
+**2026-11-09 lite features.** Batch 1 approved, implemented and verified locally. Results has contextual Concept help and recorded-result copy. Traffic has Quiet night. Nine scoped browser checks, three deliberate faults, TypeScript, focused lint and 570 web unit tests passed. The full Phase 1 baseline stopped on earlier breadcrumb checks. Local changes are ready for commit review. See [Lite features plan](LITE-FEATURES-PLAN.md).
+
 ## Historical handoff verification — 2026-10-29 (superseded)
 
 Read-only repository review completed. Local HEAD and live origin/codex/phase2-contracts both resolve to 1fcf7c171af39326e927154b1fb77bf56c17a5d7. M15 is recorded complete; M16 report and share API are committed/pushed. M16.3 share settings/viewer remain uncommitted. Final full-regression success was not independently verified in this review; do not close M16 yet. Earlier summary rows below are stale where they conflict with this checkpoint. AI remains PARKED by the user's latest explicit instruction, superseding earlier M12B/Groq authorization. Codex has no active code claims; its Groq prototype files remain untouched and uncommitted. Landing work is from earlier Codex work; film/ origin remains unverified. No tests, migrations, inference, commits or pushes run during this handoff review.
@@ -68,6 +70,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | Lite Batch 1: Results, Concept help, Traffic, focused tests and evidence | 2026-11-09 | Released, scoped checks passed |
 | Codex | Describe example choices: creation/describe.tsx, m4.css, focused checks and docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Header reference styling: top-bar.tsx, proto.css, focused verification and current docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Roadmap E saved replies/private duplicate links | 2026-11-07 | Released; complete and published 2026-11-07 |

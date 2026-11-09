@@ -107,7 +107,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
   const displayedRun = pick(runId, runQuery.data, state.run, "simulation");
   const displayedLimits = pick(limitsId, limitsQuery.data, state.limitsRun, "limits");
   // M12: publish the saved, completed simulation on screen so the assistant drawer can explain exactly it.
-  const { ui, setUI } = useUi();
+  const { ui, setUI, openConceptHelp } = useUi();
   const aiEnabled = useAiEnabled(); // AI is optional: nothing AI-related renders unless the backend enables it
   const explainContext: ExplainView | null =
     aiEnabled && user && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation"
@@ -617,6 +617,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
               run={displayedRun}
               stale={session.isRunStale(displayedRun)}
               compact={tab === "edit"}
+              onAsk={tab === "results" ? openConceptHelp : undefined}
               currentNodeIds={state.design.graph.nodes.map((n) => n.id)}
             />
             {tab === "results" && displayedRun?.status === "completed" && displayedRun.result.kind === "simulation" && (

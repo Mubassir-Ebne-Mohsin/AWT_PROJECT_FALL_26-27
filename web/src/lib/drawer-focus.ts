@@ -1,8 +1,8 @@
 /** Nonmodal drawers enter at their primary control and keep normal document tab order.
  * Return focus on close unless the user already moved to another part of the page.
  */
-export function enterDrawer(target: HTMLElement | null) {
-  const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+export function enterDrawer(target: HTMLElement | null, trigger?: HTMLElement) {
+  const opener = trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
   const drawer = target?.closest("aside");
   target?.focus();
   return () => {

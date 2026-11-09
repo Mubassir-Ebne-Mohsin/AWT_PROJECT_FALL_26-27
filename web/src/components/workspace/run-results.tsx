@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { DesignRun } from "@/lib/api/designs";
+import type { ResultConcept } from "@/components/shell/ui-provider";
 import type { Summary, Simulation } from "@/lib/result-presentation";
 import {
   numberText,
@@ -8,6 +9,7 @@ import {
   milliseconds,
   boundedText,
   verdictReasons,
+  recordedResultText,
 } from "@/lib/result-presentation";
 import { TimelineChart } from "@/components/workspace/timeline-chart";
 import { RecordedTopology } from "@/components/workspace/recorded-topology";
@@ -16,10 +18,12 @@ export function RunResults({
   stale,
   compact = false,
   currentNodeIds,
+  onAsk,
 }: {
   run?: DesignRun;
   stale: boolean;
   compact?: boolean;
+  onAsk?: (topic: ResultConcept, opener: HTMLElement) => void;
   /** Component ids in the current draft; Edit links appear only for components that still exist. */
   currentNodeIds?: string[];
 }) {
@@ -74,6 +78,7 @@ export function RunResults({
           {s.verdict}
         </span>
       </div>
+      {!compact && <CopyResult key={run.id + ":" + stale} text={recordedResultText(run, stale)} />}
       <div className={"verdict " + s.verdict}>
         <div>
           <h3 className="vt">
@@ -88,6 +93,12 @@ export function RunResults({
               <li key={i}>{reason}</li>
             ))}
           </ul>
+          {onAsk && (
+            <button className="btn btn-sm m7-concept-action" type="button" aria-label="Ask about this verdict"
+              onClick={(event) => onAsk("verdict", event.currentTarget)}>
+              Ask about this
+            </button>
+          )}
         </div>
       </div>
       <div className="readouts m7-readouts">
@@ -119,6 +130,12 @@ export function RunResults({
             <span className="eyebrow">{label}</span>
             <div className="v num">{value}</div>
             <div className="s">{note}</div>
+            {onAsk && b && label === "Bottleneck" && (
+              <button className="btn btn-sm m7-concept-action" type="button" aria-label="Ask about this bottleneck"
+                onClick={(event) => onAsk("bottleneck-rule", event.currentTarget)}>
+                Ask about this
+              </button>
+            )}
           </div>
         ))}
       </div>
@@ -153,6 +170,39 @@ export function RunResults({
     </section>
   );
 }
+function CopyResult({ text }: { text: string | null }) {
+  const [status, setStatus] = useState<"idle" | "copying" | "copied" | "manual">("idle");
+  if (text === null) return null;
+
+  async function copy() {
+    if (text === null) return;
+    setStatus("copying");
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus("copied");
+    } catch {
+      setStatus("manual");
+    }
+  }
+
+  return (
+    <div className="stack">
+      <div className="row tight">
+        <button className="btn btn-sm" type="button" onClick={copy} disabled={status === "copying"}>
+          Copy results as text
+        </button>
+        <span role="status" className="hint">
+          {status === "copied" ? "Results copied." : status === "manual" ? "Clipboard unavailable. Select and copy the text below." : ""}
+        </span>
+      </div>
+      {status === "manual" && (
+        <textarea className="textarea" aria-label="Recorded results text" rows={8} readOnly value={text}
+          onFocus={(event) => event.currentTarget.select()} />
+      )}
+    </div>
+  );
+}
+
 function ResultDetails({
   run,
   output,
