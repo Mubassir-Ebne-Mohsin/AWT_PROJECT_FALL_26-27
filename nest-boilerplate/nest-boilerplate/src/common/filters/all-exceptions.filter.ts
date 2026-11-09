@@ -45,6 +45,15 @@ const REDIS_DOWN_ERRORS = [
   "MaxRetriesPerRequestError",
 ];
 
+/** PostgreSQL error 23505 (unique_violation), whether it arrives wrapped by TypeORM or straight from pg. */
+export function isUniqueViolation(exception: unknown): boolean {
+  if (!(exception instanceof Error)) return false;
+  const direct = (exception as { code?: unknown }).code;
+  const wrapped = (exception as { driverError?: { code?: unknown } })
+    .driverError?.code;
+  return direct === "23505" || wrapped === "23505";
+}
+
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger("Exception");
@@ -140,6 +149,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         "UNAVAILABLE",
         "A required service is temporarily unavailable",
       );
+    }
+    // A unique constraint nobody checked for first (a race, or a path without its own check) is the caller's
+    // conflict, not a server fault. The message is generic: constraint and column names stay in the database.
+    if (isUniqueViolation(exception)) {
+      return this.build(409, "CONFLICT", "That value already exists");
     }
     return this.build(500, "INTERNAL", "Something went wrong");
   }
