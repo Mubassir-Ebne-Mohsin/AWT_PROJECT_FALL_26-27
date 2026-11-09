@@ -6,7 +6,7 @@ const R = require("../src/lib/scripted-reply.ts");
 const ask = (q) => R.scriptedReply(q);
 
 test("every starter question gets a written answer, not the fallback", () => {
-  assert.equal(R.STARTER_CHIPS.length, 5);
+  assert.equal(R.STARTER_CHIPS.length, 12);
   for (const chip of R.STARTER_CHIPS) assert.notEqual(ask(chip), R.FALLBACK, chip);
 });
 
@@ -21,7 +21,8 @@ test("each concept answers its own question, and the more specific one wins", ()
     ["Should I add a cache?", "cache"],
     ["Why does my design fail?", "verdict"],
     ["What does strained mean?", "verdict"],
-    ["What is the error budget?", "targets"],
+    ["What is the error budget?", "error-budget"],
+    ["What are the targets?", "targets"],
     ["What does a spike do?", "burst"],
     ["Should I add more app servers?", "scale"],
     ["Why is the Asia region slow?", "region"],
@@ -48,7 +49,7 @@ test("nothing is out of date: no 'phase 2', 'phase 3', 'prototype' or 'arrive' w
 test("no answer claims to be AI, a measurement, or to know the open design", () => {
   for (const { id, answer } of R.CONCEPTS) {
     assert.doesNotMatch(answer, /I (have )?(looked|checked|analy[sz]ed)|your design (is|has|will)|guarantee|verified|proven/i, id);
-    if (id !== "ai") assert.doesNotMatch(answer.replace(/no AI/g, ""), /\bAI\b/, id);
+    if (!id.startsWith("ai") && id !== "describe-words") assert.doesNotMatch(answer.replace(/no AI/g, ""), /\bAI\b/, id);
   }
   assert.match(ask("is this ai?"), /not AI: it is a fixed set of written answers/);
 });
