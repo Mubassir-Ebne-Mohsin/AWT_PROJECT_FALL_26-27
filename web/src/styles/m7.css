@@ -122,4 +122,4 @@
 .term-help { position: relative; display: inline-block; }
 .term-btn { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; cursor: help; text-decoration: underline dotted; text-underline-offset: 3px; }
 .term-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.term-card { display: block; position: absolute; z-index: 5; left: 0; top: 100%; margin-top: 4px; width: min(280px, 80vw); padding: 8px 10px; font: 400 13px/1.45 var(--font-body); text-transform: none; letter-spacing: 0; text-align: left; background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.25); }
+.term-card { display: block; position: absolute; z-index: 5; left: 0; top: 100%; margin-top: 4px; width: min(280px, calc(100vw - 16px)); padding: 8px 10px; font: 400 13px/1.45 var(--font-body); text-transform: none; letter-spacing: 0; text-align: left; background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.25); }
