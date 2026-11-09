@@ -50,6 +50,7 @@ import { adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.sche
 import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
 import { createCommentRequestSchema, createReviewRequestSchema, editCommentRequestSchema, ownerReplyRequestSchema, reviewCommentSchema, reviewGrantSchema, reviewItemSchema, reviewViewSchema } from "@/common/contracts/phase3/reviews.schema";
+import { galleryDetailSchema, galleryListSchema, galleryPostSchema, galleryRemixSchema, galleryUnpublishedSchema, publishRequestSchema } from "@/common/contracts/phase3/gallery.schema";
 import { createShareRequestSchema, openShareRequestSchema, shareCreatedSchema, shareSchema, sharedViewSchema } from "@/common/contracts/phase3/share.schema";
 import { archiveStateSchema, libraryListSchema } from "@/common/contracts/phase3/library.schema";
 import {
@@ -120,6 +121,12 @@ export function phase3OpenApi() {
     ShareLink: shareSchema,
     ShareCreated: shareCreatedSchema,
     SharedView: sharedViewSchema,
+    GalleryPublishRequest: publishRequestSchema,
+    GalleryPost: galleryPostSchema,
+    GalleryList: galleryListSchema,
+    GalleryDetail: galleryDetailSchema,
+    GalleryRemix: galleryRemixSchema,
+    GalleryUnpublished: galleryUnpublishedSchema,
     AccountRoles: accountRolesSchema,
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
@@ -378,6 +385,38 @@ export function phase3OpenApi() {
         post: {
           ...operation("revokeDesignReview", "ReviewGrant"),
           parameters: [parameter, { name: "grantId", in: "path", required: true, schema: { type: "string", format: "uuid" } }],
+        },
+      },
+      "/v1/designs/{id}/gallery": {
+        post: {
+          ...operation("publishToGallery", "GalleryPost", "GalleryPublishRequest"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("publishToGallery", "GalleryPost", "GalleryPublishRequest").responses).filter(([code]) => code !== "200")),
+            201: { description: "The published post, a frozen snapshot of one revision and one completed run", content: content(envelope("GalleryPost")) },
+          },
+        },
+      },
+      "/v1/gallery": {
+        get: {
+          ...operation("listGallery", "GalleryList"),
+          parameters: ["q", "verdict", "tag", "mine", "page", "pageSize"].map((name) => ({ name, in: "query", required: false, schema: { type: "string" } })),
+        },
+      },
+      "/v1/gallery/{id}": {
+        get: { ...operation("getGalleryPost", "GalleryDetail"), parameters: [parameter] },
+      },
+      "/v1/gallery/{id}/unpublish": {
+        post: { ...operation("unpublishGalleryPost", "GalleryUnpublished"), parameters: [parameter] },
+      },
+      "/v1/gallery/{id}/remix": {
+        post: {
+          ...operation("remixGalleryPost", "GalleryRemix"),
+          parameters: [parameter],
+          responses: {
+            ...Object.fromEntries(Object.entries(operation("remixGalleryPost", "GalleryRemix").responses).filter(([code]) => code !== "200")),
+            201: { description: "A new private design copied from the post, with credit to the original", content: content(envelope("GalleryRemix")) },
+          },
         },
       },
       "/v1/reviews/shared-with-me": {

@@ -16,6 +16,7 @@ const USER_NAV: Array<[string, string]> = [
   ["/templates", "Templates"],
   ["/learn", "Learn"],
   ["/challenges", "Challenges"],
+  ["/gallery", "Gallery"],
   ["/evaluation/simulator", "Evaluation"],
 ];
 const PUBLIC_NAV: Array<[string, string]> = [

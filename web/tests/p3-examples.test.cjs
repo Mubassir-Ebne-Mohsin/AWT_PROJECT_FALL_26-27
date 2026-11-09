@@ -51,13 +51,13 @@ const ids = (list) => list.map((t) => t.id).sort();
 
 // ---------- the data and the tags ----------
 
-test("P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 46 routes", () => {
+test("P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 48 routes", () => {
   assert.deepEqual(ids(X.TEMPLATES), ["checkout", "content", "ingest", "media", "mvp", "three-tier"]);
   assert.deepEqual(X.TEMPLATES.map((t) => t.name), ["Classic three-tier web app", "Read-heavy content site", "Write-heavy ingest pipeline", "E-commerce checkout", "Single-server MVP", "Photo sharing"]);
   assert.equal(X.CATALOG.components.length, 12);
   assert.equal(X.CATALOG.presets.length, 5);
   assert.equal(X.CATALOG.regions.length, 3);
-  assert.equal(ROUTES.length, 46);
+  assert.equal(ROUTES.length, 48);
   for (const id of ["examples", "templates", "components", "new-template"]) assert.equal(ROUTES.find((r) => r.id === id).fidelity, "C", id);
   assert.equal(resolveRoute("/examples").route.area, "public");
   assert.equal(resolveRoute("/templates").route.area, "app");

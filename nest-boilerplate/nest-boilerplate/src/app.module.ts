@@ -1,5 +1,6 @@
 import { AiModule } from "@/modules/ai/ai.module";
 import { DesignsModule } from "@/modules/designs/designs.module";
+import { GalleryModule } from "@/modules/gallery/gallery.module";
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
@@ -67,6 +68,7 @@ const { env } = appConfig;
     HealthModule,
     SimulationModule,
     DesignsModule,
+    GalleryModule,
     AiModule,
     RolesModule,
     ReviewsModule,

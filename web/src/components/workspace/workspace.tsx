@@ -1,4 +1,5 @@
 "use client";
+import { PublishPanel } from "@/components/gallery/publish-panel";
 import { designExportFilename, designExportText } from "@/lib/design-export";
 import { AttemptWorkspaceContext } from "@/components/learner/attempt-workspace-context";
 import { useEffect, useState, useSyncExternalStore } from "react";
@@ -653,6 +654,7 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                   <Link className="btn" href={`/designs/${initial.id}/share`}>
                     Share
                   </Link>
+                  <PublishPanel designId={initial.id} revision={displayedRun.designRevision} runId={displayedRun.id} defaultTitle={state.saved.name} />
                   <Link className="btn" href={`/designs/${initial.id}/history`} data-testid="results-compare-link">
                     Compare with an earlier version
                   </Link>

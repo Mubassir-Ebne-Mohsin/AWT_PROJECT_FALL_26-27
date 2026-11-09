@@ -357,6 +357,18 @@ export const PATTERNS_APP: readonly Entry[] = [
     links: [{ label: "Challenges", href: "/challenges" }, { label: "Progress", href: "/progress" }],
   },
   {
+    id: "gallery",
+    category: "app",
+    title: "The gallery",
+    q: ["What is the gallery?", "How do I publish my design?", "How do I remix a design?", "Where are designs other people published?"],
+    kw: ["gallery", "publish", "published", "remix", "unpublish", "community", "post my design"],
+    a: "The gallery lists designs people chose to publish, newest first, each with the result it was tested at. Open one to read a frozen snapshot, or remix it into your own account as a private copy with credit. To publish, run a test, then choose Publish to the gallery on the Results tab. You can unpublish at any time.",
+    why: "A post never changes when the owner edits the design, and your notes and email are never shown.",
+    steps: ["Run a test on the revision you want to show.", "On Results, choose Publish to the gallery.", "Tick that the design is yours and choose Publish."],
+    rel: ["share-link", "account-privacy", "templates"],
+    links: [{ label: "Gallery", href: "/gallery" }],
+  },
+  {
     id: "dashboard",
     category: "app",
     title: "The dashboard",

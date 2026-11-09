@@ -1,6 +1,6 @@
 # Community gallery ("a feed for designs"): brainstorm, shaped scope and plan
 
-**Written 2026-11-06. Status: DRAFT for the owner's decisions. Nothing here is built.** No AI is involved. The owner's idea: a feed where people upload designs, anyone can see them, comment, and contribute to a design to fix it or improve it. The faculty extended the deadline, so this is sized by quality, not days. Read with [ROADMAP-NEXT-FEATURES.md](ROADMAP-NEXT-FEATURES.md) (order of work) and [SUPPORT-SYSTEM-SCOPE.md](SUPPORT-SYSTEM-SCOPE.md) (moderation reuses it).
+**Written 2026-11-06. Status: F1 and F3 built 2026-11-09 (see HANDOFF-LOG); rest DRAFT for the owner's decisions.** No AI is involved. The owner's idea: a feed where people upload designs, anyone can see them, comment, and contribute to a design to fix it or improve it. The faculty extended the deadline, so this is sized by quality, not days. Read with [ROADMAP-NEXT-FEATURES.md](ROADMAP-NEXT-FEATURES.md) (order of work) and [SUPPORT-SYSTEM-SCOPE.md](SUPPORT-SYSTEM-SCOPE.md) (moderation reuses it).
 
 ## 1. The idea, taken apart
 

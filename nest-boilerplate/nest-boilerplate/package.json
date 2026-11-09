@@ -22,6 +22,8 @@
     "ai:gate": "ts-node -r tsconfig-paths/register ./src/script/ai-gate.ts",
     "demo:ai": "nest build && node dist/script/demo-ai.js",
     "demo:activity": "ts-node -r tsconfig-paths/register ./src/script/demo-activity.ts",
+    "demo:community": "ts-node -r tsconfig-paths/register ./src/script/demo-community.ts",
+    "demo:community:clean": "ts-node -r tsconfig-paths/register ./src/script/demo-community.ts --clean",
     "demo:activity:clean": "ts-node -r tsconfig-paths/register ./src/script/demo-activity.ts --clean",
     "demo:ai:check": "ts-node -r tsconfig-paths/register ./src/script/demo-ai-check.ts",
     "admin:bootstrap": "ts-node -r tsconfig-paths/register ./src/script/grant-first-admin.ts",
