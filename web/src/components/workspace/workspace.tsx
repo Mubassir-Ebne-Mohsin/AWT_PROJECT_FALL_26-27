@@ -1,4 +1,5 @@
 "use client";
+import { designExportFilename, designExportText } from "@/lib/design-export";
 import { AttemptWorkspaceContext } from "@/components/learner/attempt-workspace-context";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -422,6 +423,23 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
             <Link className="btn btn-sm" href={`/designs/${initial.id}/share`} data-testid="ws-share-link">
               Share
             </Link>
+            <button
+              className="btn btn-sm"
+              type="button"
+              data-testid="ws-export-json"
+              title="Download the saved design as a JSON file you can import again."
+              onClick={() => {
+                const blob = new Blob([designExportText(state.saved)], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = designExportFilename(state.saved.name);
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+            >
+              Download JSON
+            </button>
             <button className="btn btn-ghost btn-sm" onClick={remove}>
               Delete
             </button>
@@ -634,6 +652,9 @@ function LoadedWorkspace({ initial, tab }: { initial: Design; tab: string }) {
                   </Link>
                   <Link className="btn" href={`/designs/${initial.id}/share`}>
                     Share
+                  </Link>
+                  <Link className="btn" href={`/designs/${initial.id}/history`} data-testid="results-compare-link">
+                    Compare with an earlier version
                   </Link>
                 </div>
               </section>
