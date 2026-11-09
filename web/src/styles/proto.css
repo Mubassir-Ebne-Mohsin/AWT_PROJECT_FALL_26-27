@@ -379,7 +379,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
 .att-row .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* Workspace */
-.ws { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); }
+.ws { position: relative; overflow: clip; height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); }
 .ws-head, .ws-body { min-width: 0; }
 .ws-head { background: var(--surface); border-bottom: 1px solid var(--line); padding-top: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .ws-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
