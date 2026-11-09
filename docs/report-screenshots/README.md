@@ -25,6 +25,7 @@ at the time shown in their first line.
 | 6.12 | `figure-6.12-run-test-202-accepted.png` | `POST /v1/designs/{id}/simulate`: asynchronous run accepted (stands in for "return book with fine") | 202 |
 | 6.13 | `figure-6.13-audit-log-as-admin.png` | `GET /v1/admin/audit?limit=3` as an Admin | 200 |
 | 6.14 | `figure-6.14-email-in-mailtrap-inbox.png` | The "Support replied to your report" email in the Mailtrap sandbox | n/a |
+| 6.14b | `figure-6.14b-status-change-email-in-mailtrap.png` | The second email, "Your report SF-1007 is now in progress", in the same Mailtrap inbox | n/a |
 | 6.15 | `figure-6.15-migrations-on-an-empty-database.png` | `pnpm migration:run` on an empty database applies all 21 migrations | n/a |
 
 ## Honest notes for the report
@@ -34,6 +35,5 @@ at the time shown in their first line.
 - **Duplicate key (409).** Figure 6.8 shows a 409 from the optimistic-concurrency check (stale revision). A unique-violation 409 is
   handled globally (commit `d8844ef`) but has no screenshot of its own.
 - **6.11** is a test run, not a live Swagger call, because the failure is injected inside the server by the test.
-- **6.14** is the only figure that depends on your Mailtrap account. A second view (the status-change email, "Your report SF-1007 is now in
-  progress") is in the same inbox if you want it.
+- **6.14 and 6.14b** are the only figures that depend on your Mailtrap account; both are normal browser screenshots.
 - **Capture script** is not part of the repository. Re-run the figures if the API changes.
