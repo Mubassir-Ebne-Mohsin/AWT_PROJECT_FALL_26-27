@@ -69,8 +69,20 @@ export const envSchema = z
     AI_MIN_FREE_MIB: z.coerce.number().int().min(1536).default(1536),
     AI_MIN_COMMIT_MIB: z.coerce.number().int().min(4096).default(4096),
     DEMO_USER_PASSWORD: z.string().min(8).default("Demo-Pass-123!"),
+
+    // Optional email (docs/MAILER-SCOPE.md). Off by default: nothing is registered and nothing is sent.
+    MAIL_ENABLED: z.enum(["true", "false"]).default("false").transform((v) => v === "true"),
+    SMTP_HOST: z.string().max(200).default(""),
+    SMTP_PORT: z.coerce.number().int().min(1).max(65535).default(2525),
+    SMTP_USER: z.string().max(200).default(""),
+    SMTP_PASS: z.string().max(200).default(""),
+    MAIL_FROM: z.string().max(200).default("StressForge <no-reply@stressforge.local>"),
+    MAIL_HOURLY_LIMIT: z.coerce.number().int().min(1).max(1000).default(10),
   })
   .superRefine((envs, ctx) => {
+    if (envs.MAIL_ENABLED && !envs.SMTP_HOST) {
+      ctx.addIssue({ code: "custom", path: ["SMTP_HOST"], message: "is required when MAIL_ENABLED=true" });
+    }
     if (envs.NODE_ENV !== "production") return;
     const placeholders = new Set([
       "change-me-access-secret-at-least-32-chars",

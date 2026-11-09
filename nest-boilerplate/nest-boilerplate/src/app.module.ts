@@ -23,6 +23,7 @@ import { ChallengesModule } from "@/modules/challenges/challenges.module";
 import { AccountModule } from "@/modules/account/account.module";
 import { SupportModule } from "@/modules/support/support.module";
 import { PermissionGuard } from "@/modules/roles/permission.guard";
+import { MailsModule } from "@/modules/mails/mails.module";
 
 import { SimulationModule } from "@/modules/simulation/simulation.module";
 import {
@@ -72,6 +73,8 @@ const { env } = appConfig;
     ChallengesModule,
     AccountModule,
     SupportModule,
+    // Optional email: not even loaded unless MAIL_ENABLED=true.
+    ...(env.MAIL_ENABLED ? [MailsModule] : []),
   ],
   providers: [
     { provide: APP_PIPE, useClass: ZodValidationPipe },

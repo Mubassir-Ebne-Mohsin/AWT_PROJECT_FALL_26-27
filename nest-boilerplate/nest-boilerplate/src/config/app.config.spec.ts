@@ -40,6 +40,13 @@ describe("environment configuration", () => {
     expect(url.hostname).toBe("127.0.0.1");
     expect(url.port).toBe("6391");
   });
+  it("keeps email off by default and refuses to enable it without an SMTP host", () => {
+    expect(envSchema.parse(base).MAIL_ENABLED).toBe(false);
+    const missing = envSchema.safeParse({ ...base, MAIL_ENABLED: "true" });
+    expect(missing.success).toBe(false);
+    if (!missing.success) expect(missing.error.issues.some((i) => i.path[0] === "SMTP_HOST")).toBe(true);
+    expect(envSchema.safeParse({ ...base, MAIL_ENABLED: "true", SMTP_HOST: "sandbox.smtp.example" }).success).toBe(true);
+  });
   it.each(["JWT_ACCESS_SECRET", "JWT_REFRESH_SECRET"] as const)(
     "rejects the published %s in production",
     (key) => {
