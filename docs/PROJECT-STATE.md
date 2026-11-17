@@ -68,10 +68,13 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 - **Not done:** Rename from the list (the workspace already renames; a list rename would bump the revision). Backend e2e and unit were last run before the web-only Designs list commit.
 - **Operator step:** `pnpm migration:run` for VersionRestore, DesignNotes and DesignArchive.
 
+**2026-11-17 independent security verification.** Upgrade commit 7587420 is confirmed at Next.js 16.4.6 with supported experimental.agentUpgrade="security". Frozen install, typecheck, lint (two warnings), 579 frontend unit tests, production build, 48-route inventory and 791 backend unit tests passed (two backend skips). Broad browser run stopped per the incorrect-test rule: 427 passed, four failed, 12 skipped, remaining checks unrun. The unchanged Phase 1 test expects 46 routes although the pre-upgrade app has 48; gallery has an ambiguous remix selector. Save/copy timing failures passed in later runs; no clean full regression is claimed. Backend full integration run had a statement timeout and native process crash; three isolated reruns passed 43 tests before stopping. Current checkout was not upgraded or merged; next step is owner decision on stale regression tests.
+
 ## Active claims (edit only what you have claimed)
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | Security upgrade verification; docs/PROJECT-STATE.md, docs/HANDOFF-LOG.md, docs/STRESSFORGE-PROGRESS-REPORT.md | 2026-11-17 | Released; verification incomplete, stale regression assertions |
 | Codex | Lite Batch 1: Results, Concept help, Traffic, focused tests and evidence | 2026-11-09 | Released, scoped checks passed |
 | Codex | Describe example choices: creation/describe.tsx, m4.css, focused checks and docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Header reference styling: top-bar.tsx, proto.css, focused verification and current docs | 2026-11-07 | Released; verified locally, not pushed |

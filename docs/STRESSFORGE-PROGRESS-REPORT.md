@@ -1754,3 +1754,14 @@ Update history: 2026-11-07 — E approved, implemented, privacy/race/failure-tes
 - Traffic offers Quiet night at 100 rps, 1.1× burst and steady shape. It applies as one undoable edit and preserves reads, targets and duration.
 
 All nine browser checks passed at the approved widths after restoring the source. The three deliberately introduced faults were caught. Screenshots were reviewed. TypeScript, focused ESLint and 570 web unit tests passed. The initial full Phase 1 baseline stopped before its drawer step on breadcrumb assertions. The original drawer assertions passed in isolation at both desktop widths. Existing M7 neighbor checks passed. The M12 mobile reopen check passed on reruns after one timeout. Browser verification used a temporary Next development server and disposable data. The working tree is ready for local commit review.
+
+
+## 2026-11-17 security upgrade verification checkpoint
+
+[Verified] Existing isolated commit 7587420 pins Next.js 16.4.6 and sets the supported experimental.agentUpgrade security policy. Frozen installation, exact version, typecheck, lint (two warnings), 579 frontend unit tests, production builds and the 48-route registry pass. Both version/policy mutations were rejected. Backend unit: 791 passed, two skipped.
+
+[Verified] Broader Chrome regression completed 443 of 1,344 configured checks: 427 passed, four failed, 12 skipped. Stopped under the repository rule for incorrect tests. The unchanged Phase 1 assertion expects 46 routes, while the pre-upgrade app has 48. Gallery has a multi-match remix selector; Save/copy also failed initially and passed later. A separate unchanged 16.4.2 baseline passed the Save/copy checks. These facts do not establish a wholly clean upgrade regression.
+
+[Verified] Full backend integration attempt encountered a statement timeout and native process crash; separate account, admin-metrics and admin-status reruns passed all 43 tests. [Untested] Remaining integration/browser journeys, other browsers, current dirty checkout, merge and deployment. No milestone closure is inferred. See newest HANDOFF-LOG entry for temporary evidence and uncommitted generated outputs.
+
+[Verified] Registry audit reports one moderate minimatch advisory and no Next.js advisory in the upgraded graph. No high or critical findings. No live AI, owner database migration, push or merge performed.
