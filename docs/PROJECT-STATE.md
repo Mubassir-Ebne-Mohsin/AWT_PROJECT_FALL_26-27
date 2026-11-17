@@ -11,6 +11,8 @@ Update this file at the end of every session. Keep it short; put detail in the h
 
 **2026-11-09 lite features.** Batch 1 approved, implemented and verified locally. Results has contextual Concept help and recorded-result copy. Traffic has Quiet night. Nine scoped browser checks, three deliberate faults, TypeScript, focused lint and 570 web unit tests passed. The full Phase 1 baseline stopped on earlier breadcrumb checks. Local changes are ready for commit review. See [Lite features plan](LITE-FEATURES-PLAN.md).
 
+**2026-11-17 Next.js security update.** The isolated codex/next-security-16.4.6 branch upgrades the frontend from 16.4.2 to 16.4.6 and sets the security upgrade policy. Install, type checking, lint, 579 tests, production build, route inventory and local HTTP smoke checks passed. The branch is local.
+
 ## Historical handoff verification — 2026-10-29 (superseded)
 
 Read-only repository review completed. Local HEAD and live origin/codex/phase2-contracts both resolve to 1fcf7c171af39326e927154b1fb77bf56c17a5d7. M15 is recorded complete; M16 report and share API are committed/pushed. M16.3 share settings/viewer remain uncommitted. Final full-regression success was not independently verified in this review; do not close M16 yet. Earlier summary rows below are stale where they conflict with this checkpoint. AI remains PARKED by the user's latest explicit instruction, superseding earlier M12B/Groq authorization. Codex has no active code claims; its Groq prototype files remain untouched and uncommitted. Landing work is from earlier Codex work; film/ origin remains unverified. No tests, migrations, inference, commits or pushes run during this handoff review.

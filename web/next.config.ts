@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   distDir: process.env.STRESSFORGE_AUDIT_BUILD === "dev"
     ? ".next-audit-dev"
     : process.env.STRESSFORGE_AUDIT_BUILD === "1" ? ".next-audit" : ".next",
+  experimental: {
+    agentUpgrade: "security",
+  },
   turbopack: {
     rules: {
       "*.css": {

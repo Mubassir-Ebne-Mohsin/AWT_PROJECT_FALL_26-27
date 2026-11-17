@@ -15,6 +15,11 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-17, Codex - Next.js security update
+The requested agent command selected 16.4.6 from 16.4.2. Checked local and fetched origin history and GitHub open PRs (0, via API). Installed the exact patch and set experimental.agentUpgrade to security. See GHSA-mfr8-8qww-v76h.
+Frozen install, exact version, typecheck, lint (2 warnings), 579 unit tests, production build and 48 route entries passed. Production HTTP smoke returned 200 for home/login/register and redirected signed-out Designs to login. Full browser and backend suites were not rerun.
+Changes are scoped to the local upgrade branch. No active claim.
+
 ## 2026-11-09, Codex — lite features Batch 1 verified
 **Goal.** Implement the owner's approved Batch 1.
 **Done.** Results opens the scripted verdict and bottleneck topics by stable ID, copies the selected completed simulation with a manual fallback, and offers Quiet night in Traffic as one undoable settings edit.
