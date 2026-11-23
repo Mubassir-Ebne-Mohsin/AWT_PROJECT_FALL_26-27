@@ -95,6 +95,50 @@ describe("StressForge API (e2e)", () => {
     });
   });
 
+  describe("username availability", () => {
+    const check = (username: string) =>
+      http.post("/v1/auth/username-availability").send({ username });
+
+    it("checks normalized usernames and rejects email lookups", async () => {
+      await check(" Example_One ").expect(200, { data: { available: true } });
+      const created = await http.post("/v1/auth/register")
+        .send({ ...creds, username: " Example_One " }).expect(201);
+      expect(created.body.data.user.username).toBe("example_one");
+      await check("EXAMPLE_ONE").expect(200, { data: { available: false } });
+      await check("bad username").expect(422);
+      await http.post("/v1/auth/username-availability")
+        .send({ username: "example_one", email: creds.email }).expect(422);
+    });
+
+    it("keeps the display name shareable and lets an older account claim a username", async () => {
+      const first = await register().expect(201);
+      const token = first.body.data.accessToken as string;
+      const profile = (username: string) => http.patch("/v1/account/profile")
+        .set("Authorization", "Bearer " + token).send({ username });
+
+      const other = await http.post("/v1/auth/register")
+        .send({ ...creds, email: "other@example.test", username: "taken_name" }).expect(201);
+      expect(other.body.data.user.displayName).toBe(creds.displayName);
+      const conflict = await profile("TAKEN_NAME").expect(422);
+      expect(conflict.body.error.details.fields[0].path).toBe("username");
+
+      const claimed = await profile(" new_name ").expect(200);
+      expect(claimed.body.data).toMatchObject({ displayName: creds.displayName, username: "new_name" });
+      await check("new_name").expect(200, { data: { available: false } });
+    });
+
+    it("lets only one concurrent signup claim an available username", async () => {
+      const results = await Promise.all(["a", "b"].map((id) =>
+        http.post("/v1/auth/register").send({
+          ...creds, email: id + "@example.test", username: "same_handle",
+        }),
+      ));
+      expect(results.map((response) => response.status).sort()).toEqual([201, 422]);
+      const rejected = results.find((response) => response.status === 422);
+      expect(rejected?.body.error.details.fields[0].path).toBe("username");
+    });
+  });
+
   describe("register", () => {
     it("creates a user, lowercases the email, sets an httpOnly refresh cookie", async () => {
       const res = await register().expect(201);

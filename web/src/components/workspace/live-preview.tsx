@@ -65,7 +65,7 @@ export function LiveBar({ session, v, onSelect, disabled }: { session: EditorSes
   return (
     <div className="live m8-live" role="region" aria-label="Live traffic and preview">
       <div className="slider">
-        <label className="eyebrow" htmlFor="live-rps">Traffic</label>
+        <label className="eyebrow" htmlFor="live-rps">Total baseline traffic</label>
         <input
           id="live-rps"
           type="range"

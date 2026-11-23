@@ -2,12 +2,17 @@ import { z } from "zod";
 
 // Mirrors the API's rules (nest-boilerplate/src/modules/auth/dto/auth.dto.ts) so
 // mistakes are caught before a request is sent. The server stays the authority.
-const email = z.string().trim().toLowerCase().min(1, "Enter your email").email("Enter a valid email address");
+const email = z.string().trim().toLowerCase().min(1, "Enter your email").max(254, "Use 254 characters or fewer").email("Enter a valid email address");
 
 export const loginSchema = z.object({
   email,
   password: z.string().min(1, "Enter your password"),
 });
+
+export const usernameSchema = z.string().trim().toLowerCase().regex(
+  /^[a-z0-9_]{3,30}$/,
+  "Use 3–30 letters, numbers or underscores.",
+);
 
 export const registerSchema = z.object({
   displayName: z.string().trim().min(1, "Enter your name").max(60, "Use 60 characters or fewer"),
@@ -17,6 +22,7 @@ export const registerSchema = z.object({
     .min(8, "Use at least 8 characters")
     .max(128, "Use at most 128 characters")
     .regex(/^(?=.*[A-Za-z])(?=.*\d)/, "Include at least one letter and one number"),
+  username: usernameSchema.optional(),
   terms: z.literal(true, { error: "Accept the terms to create an account." }),
 });
 

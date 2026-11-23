@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ProfileUsername } from "@/components/settings/profile-username";
 import { NotificationPreferences } from "@/components/notifications/notification-preferences";
 import { notFound, usePathname } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
@@ -162,6 +163,7 @@ function Profile() {
         </div>
         <Message notice={notice} id="profile-notice" />
       </form>
+      <ProfileUsername current={user.username} />
     </section>
   );
 }

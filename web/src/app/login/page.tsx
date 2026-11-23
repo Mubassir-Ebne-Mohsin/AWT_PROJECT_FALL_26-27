@@ -1,3 +1,4 @@
+import "@/components/auth/login-art.css";
 import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/login-form";
 

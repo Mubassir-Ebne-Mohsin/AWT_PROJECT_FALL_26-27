@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { UsernameField } from "@/components/auth/username-field";
 import { AuthSide } from "@/components/auth/auth-side";
 import { Icon, cx } from "@/components/ui/icon";
 import { register } from "@/lib/api/auth";
@@ -12,14 +13,14 @@ import { authLink, safeNext } from "@/lib/safe-next";
 import { fieldErrors, passwordStrength, registerSchema } from "@/lib/validation/auth";
 import { afterRegisterPath } from "@/lib/welcome";
 
-type Field = "displayName" | "email" | "password" | "terms";
+type Field = "username" | "displayName" | "email" | "password" | "terms";
 
 export function RegisterForm() {
   const router = useRouter();
   const requestedNext = useSearchParams().get("next");
   const next = safeNext(requestedNext);
-  const [f, setF] = useState({ displayName: "", email: "", password: "", terms: false });
-  const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
+  const [f, setF] = useState({ displayName: "", username: "", email: "", password: "", terms: false });
+  const [submitErrors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -28,8 +29,9 @@ export function RegisterForm() {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setFormError(null);
-    const parsed = registerSchema.safeParse(f);
+    const parsed = registerSchema.safeParse({ ...f, username: f.username.trim() || undefined });
     if (!parsed.success) {
       setErrors(fieldErrors<Field>(parsed.error));
       return;
@@ -37,8 +39,8 @@ export function RegisterForm() {
     setErrors({});
     setBusy(true);
     try {
-      const { displayName, email, password } = parsed.data;
-      const session = await register({ displayName, email, password });
+      const { displayName, email, password, username } = parsed.data;
+      const session = await register({ displayName, email, password, username });
       notify(`Welcome, ${session.user.displayName}. Your account is ready.`, "ok");
       router.replace(afterRegisterPath(requestedNext, next));
     } catch (err) {
@@ -57,9 +59,19 @@ export function RegisterForm() {
     }
   };
 
+  const change = (key: "displayName" | "email" | "password" | "username", value: string) => {
+    setF((previous) => ({ ...previous, [key]: value }));
+    setErrors((previous) => ({ ...previous, [key]: undefined }));
+  };
+  const email = registerSchema.shape.email.safeParse(f.email);
+  const emailError = submitErrors.email ?? (f.email.trim() && !email.success ? email.error.issues[0]?.message : undefined);
+  const name = registerSchema.shape.displayName.safeParse(f.displayName);
+  const nameError = submitErrors.displayName ?? (f.displayName && !name.success ? name.error.issues[0]?.message : undefined);
+  const errors = { ...submitErrors, displayName: nameError, email: emailError };
   const bind = (key: "displayName" | "email" | "password") => ({
     value: f[key],
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [key]: e.target.value }),
+    disabled: busy,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => change(key, e.target.value),
     "aria-invalid": !!errors[key],
     "aria-describedby": errors[key] ? `reg-${key}-err` : undefined,
   });
@@ -93,6 +105,7 @@ export function RegisterForm() {
               <input id="reg-name" className={cx("input", errors.displayName && "bad")} autoComplete="name" placeholder="Ada Lovelace" {...bind("displayName")} />
               {err("displayName")}
             </div>
+            <UsernameField value={f.username} onChange={(value) => change("username", value)} error={errors.username} disabled={busy} optional />
             <div className="field">
               <label className="label" htmlFor="reg-email">
                 Email

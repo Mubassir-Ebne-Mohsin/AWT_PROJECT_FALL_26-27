@@ -15,6 +15,46 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-23, Codex - publish pending application updates
+Owner authorized the code push. Included the live username flow and migration, weighted client traffic display, login Build/Run/Test animation and theme contrast repair. Rechecked 11 UI tests and TypeScript successfully. Earlier backend and browser evidence and limitations remain recorded below. Published the security branch separately at 2a17035.
+Main is still the earlier foundation plus uploaded documents. The latest application code is on codex/phase2-contracts. Protected audit files, runtime dump and film remain outside this commit. No active claim.
+
+## 2026-11-22, Codex - login animation text contrast
+Build and Run letters inherited dark body text in light mode. Scoped white text and a dark text shadow now keep the labels readable on the blue animation objects.
+An isolated Chrome render of the actual component and stylesheet verified Build, Run and Test text in light and dark contexts and reduced motion. The assertion rejected a deliberate inherited-color override. Visually checked the light reduced-motion screenshot. Full login-page and broad regression checks were not rerun.
+CSS and tracking notes remain local and uncommitted. Claim released.
+
+## 2026-11-18, Codex - publish report and proposal
+Copied the two owner-supplied Downloads files byte-for-byte into Documents. Commit 2dd6377 contains only StressForge-Project-Report1.pdf and STRESSFORGE_Project_Proposal.docx. Pushed to origin/codex/phase2-contracts and verified the remote commit ID.
+Earlier working changes are preserved. Tracking notes remain local and uncommitted. Claim released.
+
+## 2026-11-17, Codex - live signup username availability
+Signup and Settings Profile share a debounced username field. A public rate-limited POST checks only the normalized handle. The database enforces unique lowercase handles at write time. Existing users can claim one via Profile. Email format is checked locally and duplicates are still checked at signup. Username is optional for compatibility.
+11 UI tests, frontend types and scoped backend/frontend lint passed. The debounce regression assertion caught a deliberately delayed request. All 25 App e2e cases passed on disposable PostgreSQL and Redis, including normalized matches, duplicate-name accounts, the concurrent username claim and profile claiming. The initial broader run had five existing cleanup queries time out. The successful retry used the documented disposable Postgres settings. Browser and full suites were not rerun.
+Apply migration 1795200000000 before restarting the updated API; the owner database was not changed. Implementation and tests are local and uncommitted. Web uses a narrow typed extension for the optional handle; the legacy Swagger snapshot was preserved. Claim released.
+
+## 2026-11-16, Codex - client traffic estimates
+Renamed the canvas slider Total baseline traffic and added the selected client estimate from draft RPS and weights. Updated automation selectors for the new label.
+Ten UI tests, TypeScript and scoped lint passed. The focused test rejected an in-memory mutation that displayed the full rate for each client. Browser and service harnesses were not rerun.
+Canvas and workspace components, UI and browser test files, and these notes are local and uncommitted. Claim released.
+
+## 2026-11-12, Codex — larger Build, Run and Test animation
+Increased the login scene scale from 1.15/0.9/0.68 to 1.65/1.25/0.94 in login-art.css. An isolated Chrome render of the component verified the scale at 850, 550 and 460 px panel widths, checked the static reduced-motion sphere fits, and rejected a deliberate old-scale override. The first harness run needed the ES2022 target for string spread. The full login page was not rerun.
+CSS and handoff updates are local and uncommitted. Claim released.
+
+## 2026-11-12, Codex — Build, Run and Test login loader
+Replaced the login cube with the supplied three-phase animation. Scoped styles preserve the grid, keep the enlarged responsive sizing and show a static Build sphere for reduced motion. Signup uses its original component.
+Type checking, scoped lint and nine UI tests passed. Chrome checked all three phases at 1920 dark and 1024 light, including reduced motion at 1920 and a deliberate Run-phase break at 1024. Signup passed at 1920. Remaining browser checks timed out. A cold Turbopack run encountered a Windows resource error, so browser evidence came from the warmed isolated preview.
+The artwork and handoff updates are local. Claim released.
+
+## 2026-11-12, Codex — larger login cube
+Increased the login cube scale by 12–15% across the existing visible panel widths. Reviewed the CSS diff. Local change ready for review.
+
+## 2026-11-12, Codex — animated login illustration
+The owner supplied a blue cube animation for the marked login side panel. Scoped CSS keeps the original grid and shows a still assembled cube for reduced motion. Registration continues to use AuthSide.
+Chrome passed at 1920 dark, 1024 light and 390 dark. The motion assertion rejected a deliberate CSS override. The first CSS module version produced missing cube classes in Chrome and was replaced by the login route stylesheet. TypeScript, scoped lint and all nine existing UI tests passed. Screenshots are in the sf-login-art-20261112 temporary directory.
+Four frontend files and these two handoff updates are local and ready for review. Claim released.
+
 ## 2026-11-09, Codex — lite features Batch 1 verified
 **Goal.** Implement the owner's approved Batch 1.
 **Done.** Results opens the scripted verdict and bottleneck topics by stable ID, copies the selected completed simulation with a manual fallback, and offers Quiet night in Traffic as one undoable settings edit.

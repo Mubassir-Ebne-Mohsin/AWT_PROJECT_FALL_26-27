@@ -4,6 +4,7 @@ import { ComponentGlyph } from "@/components/canvas/component-glyph";
 import { NumericField, LabelField } from "@/components/canvas/property-fields";
 import type { EditorSession } from "@/lib/editor-session";
 import { GRID } from "@/lib/canvas/geometry";
+import { numberText, percent } from "@/lib/result-presentation";
 export function NodeProperties({
   node,
   entry,
@@ -15,6 +16,16 @@ export function NodeProperties({
   catalog: Catalog;
   session: EditorSession;
 }) {
+  const { graph, traffic } = session.state.design;
+  let baseline: string | undefined;
+  if (node.type === "client") {
+    const totalWeight = graph.nodes.reduce(
+      (sum, item) => sum + (item.type === "client" ? Math.max(0, item.props.share ?? 1) : 0),
+      0,
+    );
+    const share = Math.max(0, node.props.share ?? 1) / (totalWeight || 1);
+    baseline = `Estimated baseline: ${numberText(traffic.rps * share)} RPS (${percent(share)})`;
+  }
   const patch = (value: Record<string, unknown>, label?: string) => {
     const graph = session.state.design.graph;
     session.edit({
@@ -55,6 +66,7 @@ export function NodeProperties({
               key={key}
               property={key as NumericProperty}
               node={node}
+              description={key === "share" ? baseline : undefined}
               session={session}
               value={defaultValue(node, entry, key as NumericProperty)}
               change={(value) => patch({ [key]: value })}

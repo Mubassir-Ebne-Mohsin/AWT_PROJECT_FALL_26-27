@@ -94,7 +94,7 @@ test("M8 live preview: Load overlay, debounced requests, no saved rows, layout-o
   await expect(page.locator(".cv-node.overlay").first()).toBeVisible();
   await expect(page.getByLabel("Load overlay legend")).toContainText("failing at or above 100%");
   const before = previews.length;
-  const slider = page.getByLabel("Traffic", { exact: true });
+  const slider = page.getByLabel("Total baseline traffic", { exact: true });
   await slider.focus();
   for (let i = 0; i < 15; i++) await page.keyboard.press("ArrowRight");
   await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
@@ -133,7 +133,7 @@ test("M8 stale preview reply never overwrites newer inputs; superseded request i
   });
   await page.getByRole("button", { name: "Load (L)" }).click();
   await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15_000 });
-  const slider = page.getByLabel("Traffic", { exact: true });
+  const slider = page.getByLabel("Total baseline traffic", { exact: true });
   await slider.focus();
   await page.keyboard.press("PageUp");
   await page.waitForTimeout(900);
@@ -264,7 +264,7 @@ test("M8 session-modal reauthentication keeps the draft and renews the preview i
   const before = ids.at(-1);
   await page.route(api + "/designs/" + id, (route) => (route.request().method() === "PATCH" ? route.fulfill({ status: 401, json: { error: { code: "SESSION_EXPIRED", message: "M8 expiry" } } }) : route.continue()));
   await page.route(api + "/auth/refresh", (route) => route.fulfill({ status: 401, json: { error: { code: "SESSION_EXPIRED", message: "M8 expiry" } } }));
-  const slider = page.getByLabel("Traffic", { exact: true });
+  const slider = page.getByLabel("Total baseline traffic", { exact: true });
   await slider.focus();
   await page.keyboard.press("PageUp");
   const drafted = await slider.inputValue();

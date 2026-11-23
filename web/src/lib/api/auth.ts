@@ -6,6 +6,7 @@ export interface Credentials {
 }
 export interface Registration extends Credentials {
   displayName: string;
+  username?: string;
 }
 
 // Forms render failures inline, so these calls are `silent` for server-error screens.
@@ -19,6 +20,12 @@ export async function register(body: Registration) {
   const session = await api<AuthSession>("/auth/register", { method: "POST", body, auth: false, silent: true });
   adoptSession(session);
   return session;
+}
+
+export function checkUsername(username: string, signal: AbortSignal) {
+  return api<{ available: boolean }>("/auth/username-availability", {
+    method: "POST", body: { username }, auth: false, scope: "local", signal,
+  });
 }
 
 export async function logout() {

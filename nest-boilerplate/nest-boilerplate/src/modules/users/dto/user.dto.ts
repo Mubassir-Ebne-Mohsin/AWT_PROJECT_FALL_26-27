@@ -6,6 +6,7 @@ export const userResponseSchema = z.object({
   id: z.uuid(),
   email: z.string(),
   displayName: z.string(),
+  username: z.string().optional(),
   role: z.enum(Role),
   createdAt: z.string(),
 });

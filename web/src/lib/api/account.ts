@@ -8,6 +8,12 @@ export type AccountExport = S["AccountExport"];
 // Account failures stay on the Settings screen: a local scope never opens a global system screen.
 const local = { scope: "local" } as const;
 
+export async function changeUsername(username: string): Promise<User> {
+  const user = await api<User>("/account/profile", { ...local, method: "PATCH", body: { username } });
+  updateSessionUser(user);
+  return user;
+}
+
 export async function changeDisplayName(displayName: string): Promise<User> {
   const user = await api<User>("/account/profile", { ...local, method: "PATCH", body: { displayName } });
   updateSessionUser(user);

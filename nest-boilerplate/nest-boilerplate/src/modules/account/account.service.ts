@@ -12,6 +12,11 @@ import {
   profileUpdateSchema,
 } from "@/common/contracts/phase3/account.schema";
 
+import { z } from "zod";
+import { usernameSchema } from "@/common/contracts/username.schema";
+
+const usernameUpdateSchema = z.strictObject({ username: usernameSchema });
+
 type Fields = { path: string; message: string }[];
 const invalid = (fields: Fields) => new AppException("VALIDATION_FAILED", "Validation failed", { fields });
 const iso = (d: Date | null | undefined) => (d ? new Date(d).toISOString() : null);
@@ -31,9 +36,14 @@ export class AccountService {
   ) {}
 
   async updateProfile(userId: string, raw: unknown) {
-    const parsed = profileUpdateSchema.safeParse(raw);
-    if (!parsed.success) throw invalid(parsed.error.issues.map((i) => ({ path: String(i.path[0] ?? "displayName"), message: i.message })));
-    await this.db.query("UPDATE users SET display_name = $2, updated_at = now() WHERE id = $1", [userId, parsed.data.displayName]);
+    const field = raw && typeof raw === "object" && "username" in raw ? "username" : "displayName";
+    const schema = field === "username"
+      ? usernameUpdateSchema
+      : profileUpdateSchema;
+    const parsed = schema.safeParse(raw);
+    if (!parsed.success) throw invalid(parsed.error.issues.map((i) => ({ path: String(i.path[0] ?? field), message: i.message })));
+    if ("username" in parsed.data) await this.users.setUsername(userId, parsed.data.username);
+    else await this.db.query("UPDATE users SET display_name = $2, updated_at = now() WHERE id = $1", [userId, parsed.data.displayName]);
     const user = await this.users.findById(userId);
     if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
     return this.users.toDto(user);

@@ -2,6 +2,8 @@ import { createZodDto } from "nestjs-zod";
 import { z } from "zod";
 import { userResponseSchema } from "@/modules/users/dto/user.dto";
 
+import { usernameSchema } from "@/common/contracts/username.schema";
+
 const email = z.string().trim().toLowerCase().max(254).email();
 
 const newPassword = z
@@ -14,6 +16,7 @@ const newPassword = z
 export const registerSchema = z.object({
   email,
   password: newPassword,
+  username: usernameSchema.optional(),
   displayName: z.string().trim().min(1, "Enter a display name").max(60),
 });
 
@@ -31,5 +34,7 @@ export const authSessionSchema = z.object({
 });
 
 export class RegisterDto extends createZodDto(registerSchema) {}
+export class UsernameCheckDto extends createZodDto(z.strictObject({ username: usernameSchema })) {}
+export class UsernameAvailabilityDto extends createZodDto(z.object({ available: z.boolean() })) {}
 export class LoginDto extends createZodDto(loginSchema) {}
 export class AuthSessionDto extends createZodDto(authSessionSchema) {}

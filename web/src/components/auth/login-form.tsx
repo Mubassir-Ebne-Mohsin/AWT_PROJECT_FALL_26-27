@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { AuthSide } from "@/components/auth/auth-side";
+import { LoginArt } from "@/components/auth/login-art";
 import { useAuth } from "@/components/auth/auth-provider";
 import { Icon, cx } from "@/components/ui/icon";
 import { login } from "@/lib/api/auth";
@@ -149,7 +149,7 @@ export function LoginForm() {
           </div>
         </div>
       </div>
-      <AuthSide />
+      <LoginArt />
     </div>
   );
 }

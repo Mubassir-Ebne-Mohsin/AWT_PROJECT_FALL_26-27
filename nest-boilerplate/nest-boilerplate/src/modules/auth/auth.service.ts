@@ -50,6 +50,7 @@ export class AuthService {
     const user = await this.users.create({
       email: dto.email,
       displayName: dto.displayName,
+      ...(dto.username ? { username: dto.username } : {}),
       passwordHash: await argon2.hash(dto.password),
     });
     return this.issue(user, randomUUID());

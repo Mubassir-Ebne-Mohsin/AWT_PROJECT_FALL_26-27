@@ -8,9 +8,11 @@ export function NumericField({
   value,
   session,
   change,
+  description,
 }: {
   node: Node;
   property: NumericProperty;
+  description?: string;
   value: number;
   session: EditorSession;
   change: (value: number) => void;
@@ -48,7 +50,7 @@ export function NumericField({
           inputMode="decimal"
           value={text}
           aria-invalid={session.state.inputErrors.includes(key)}
-          aria-describedby={error ? id + "-error" : undefined}
+          aria-describedby={[description && id + "-description", error && id + "-error"].filter(Boolean).join(" ") || undefined}
           min={r.min * scale}
           max={
             (property === "share" && node.type === "client" ? 1e6 : r.max) *
@@ -93,6 +95,9 @@ export function NumericField({
           </span>
         )}
       </div>
+      {description && (
+        <p className="hint" id={id + "-description"}>{description}</p>
+      )}
       {error && (
         <p className="c-fail small" id={id + "-error"} role="alert">
           {error}

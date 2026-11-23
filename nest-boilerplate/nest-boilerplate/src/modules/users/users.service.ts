@@ -18,6 +18,30 @@ export class UsersService {
     return this.repo.findOneBy({ email: normalizeEmail(email) });
   }
 
+  async usernameAvailable(username: string) {
+    return !(await this.repo.existsBy({ username }));
+  }
+
+  async setUsername(id: string, username: string) {
+    try {
+      await this.repo.update({ id }, { username });
+    } catch (error) {
+      this.throwUsernameConflict(error);
+    }
+  }
+
+  private throwUsernameConflict(error: unknown): never {
+    if (error instanceof QueryFailedError) {
+      const { code, constraint } = error.driverError as { code?: string; constraint?: string };
+      if (code === "23505" && constraint === "uq_users_username") {
+        throw new AppException("VALIDATION_FAILED", "Validation failed", {
+          fields: [{ path: "username", message: "This username is already taken" }],
+        });
+      }
+    }
+    throw error;
+  }
+
   findById(id: string) {
     return this.repo.findOneBy({ id });
   }
@@ -31,6 +55,7 @@ export class UsersService {
     email: string;
     passwordHash: string;
     displayName: string;
+    username?: string;
     role?: Role;
   }) {
     try {
@@ -56,7 +81,7 @@ export class UsersService {
           ],
         });
       }
-      throw error;
+      this.throwUsernameConflict(error);
     }
   }
 
@@ -66,6 +91,7 @@ export class UsersService {
       id: user.id,
       email: user.email,
       displayName: user.displayName,
+      ...(user.username ? { username: user.username } : {}),
       role: user.role,
       createdAt: user.createdAt.toISOString(),
     };

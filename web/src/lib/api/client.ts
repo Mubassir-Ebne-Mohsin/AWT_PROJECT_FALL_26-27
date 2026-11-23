@@ -6,8 +6,9 @@ import { clearSessionHint, setSessionHint } from "@/lib/session-hint";
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5001/v1").replace(/\/$/, "");
 const REQUEST_TIMEOUT_MS = 15_000;
 
-export type AuthSession = components["schemas"]["AuthSessionDto"];
-export type User = AuthSession["user"];
+type GeneratedSession = components["schemas"]["AuthSessionDto"];
+export type User = GeneratedSession["user"] & { username?: string };
+export type AuthSession = GeneratedSession & { user: User };
 
 // The access token lives in memory only: gone on reload, restored by the refresh cookie.
 let accessToken: string | null = null;

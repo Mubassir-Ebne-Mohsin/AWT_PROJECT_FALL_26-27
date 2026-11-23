@@ -129,3 +129,100 @@ test("global boundary is self-contained and Try again invokes Next's retry callb
     assert.equal(retries, 1);
   } finally { console.error = originalError; }
 });
+
+test("canvas labels total baseline traffic and shows the selected client's weighted share with preview off", async () => {
+  const { NodeProperties } = require("../src/components/canvas/node-properties.tsx");
+  const { LiveBar } = require("../src/components/workspace/live-preview.tsx");
+  const asia = { id: "asia", type: "client", label: "Asia", props: {} };
+  const us = { id: "us", type: "client", label: "US", props: { share: 3 } };
+  const app = { id: "app", type: "app", label: "App", props: { share: 1 } };
+  const session = {
+    state: { design: { graph: { nodes: [asia, us, app] }, traffic: { rps: 628 } }, inputErrors: [] },
+    inputError() {},
+  };
+  const entry = { label: "Clients", editableProperties: ["share"], defaults: { share: 1 } };
+  const container = document.createElement("div");
+  document.body.append(container);
+  const root = createRoot(container);
+  roots.push(root);
+  const show = async node => act(async () => root.render(h(React.Fragment, null,
+    h(LiveBar, { session, v: { enabled: false, state: {} } }),
+    h(NodeProperties, { node, session, entry, catalog: {} }),
+  )));
+  const estimate = () => {
+    const input = container.querySelector('input[type="number"]');
+    return document.getElementById(input.getAttribute("aria-describedby"))?.textContent;
+  };
+
+  await show(asia);
+  assert.equal(container.querySelector('label[for="live-rps"]').textContent, "Total baseline traffic");
+  assert.equal(estimate(), "Estimated baseline: 157 RPS (25%)");
+  await show(us);
+  assert.equal(estimate(), "Estimated baseline: 471 RPS (75%)");
+
+  session.state.design.traffic.rps = 800;
+  await show(us);
+  assert.equal(estimate(), "Estimated baseline: 600 RPS (75%)");
+  asia.props.share = 0;
+  us.props.share = 0;
+  await show(asia);
+  assert.equal(estimate(), "Estimated baseline: 0 RPS (0%)");
+});
+
+test("username checks debounce, ignore stale results, and leave submission possible if unavailable", async () => {
+  const { UsernameField } = require("../src/components/auth/username-field.tsx");
+  const requests = [];
+  const fetchBefore = global.fetch;
+  global.fetch = (url, options) => new Promise((resolve) => {
+    assert.match(url, /\/auth\/username-availability$/);
+    requests.push({ ...options, resolve });
+  });
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  let setValue;
+  function Fixture() {
+    const [value, set] = React.useState("");
+    setValue = set;
+    return h(UsernameField, { value, onChange: set, disabled: false });
+  }
+  try {
+    const container = await render(h(Fixture));
+    const input = container.querySelector("input");
+    const feedback = container.querySelector('[role="status"]');
+    const enter = async value => act(async () => setValue(value));
+    const reply = async (index, data, status = 200) => act(async () => {
+      requests[index].resolve(new Response(JSON.stringify(data), { status }));
+    });
+
+    await enter("bad email@example.test");
+    assert.equal(input.getAttribute("aria-invalid"), "true");
+    await act(() => wait(375));
+    assert.equal(requests.length, 0);
+
+    await enter("Aaa");
+    await enter("Aaa_b");
+    assert.match(feedback.textContent, /Checking/);
+    await act(() => wait(375));
+    assert.deepEqual(requests.map(request => JSON.parse(request.body)), [{ username: "aaa_b" }]);
+
+    await enter("Next_User");
+    await act(() => wait(375));
+    assert.equal(requests.length, 2);
+    assert.equal(requests[0].signal.aborted, true);
+    await reply(1, { data: { available: false } });
+    assert.match(feedback.textContent, /already taken/);
+    await reply(0, { data: { available: true } });
+    assert.match(feedback.textContent, /already taken/);
+
+    await enter("Yet_Another");
+    await act(() => wait(375));
+    await reply(2, { data: { available: true } });
+    assert.equal(feedback.textContent, "Username available.");
+
+    await enter("Offline_User");
+    await act(() => wait(375));
+    await reply(3, { error: { code: "RATE_LIMITED" } }, 429);
+    assert.match(feedback.textContent, /You can still submit/);
+  } finally {
+    global.fetch = fetchBefore;
+  }
+});

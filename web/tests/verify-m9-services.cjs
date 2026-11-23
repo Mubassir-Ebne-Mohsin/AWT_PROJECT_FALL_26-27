@@ -72,7 +72,7 @@ const statusLine = (page) => page.locator(".m8-live [role=status]");
     const id =new URL(page.url()).pathname.split("/")[2];
     await page.getByRole("button", { name: "Load (L)" }).click();
     await expect(page.getByText("Live preview — unsaved inputs").first()).toBeVisible({ timeout: 15000 });
-    const slider = page.getByLabel("Traffic", { exact: true });
+    const slider = page.getByLabel("Total baseline traffic", { exact: true });
     const saved = () => expect(page.getByRole("status").filter({ hasText: /^Saved ·/ })).toBeVisible({ timeout: 30000 });
 
     // Postgres and Redis outages: the draft stays, preview fails inline (or keeps working), nothing resubmits.

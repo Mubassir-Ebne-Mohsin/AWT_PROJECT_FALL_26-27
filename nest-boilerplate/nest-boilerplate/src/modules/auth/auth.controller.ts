@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   HttpCode,
   Post,
   Req,
@@ -24,6 +25,8 @@ import {
   AuthSessionDto,
   LoginDto,
   RegisterDto,
+  UsernameAvailabilityDto,
+  UsernameCheckDto,
 } from "@/modules/auth/dto/auth.dto";
 import { UserDto } from "@/modules/users/dto/user.dto";
 import { UsersService } from "@/modules/users/users.service";
@@ -64,6 +67,16 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.respond(res, await this.auth.register(dto));
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
+  @Header("Cache-Control", "no-store")
+  @Post("username-availability")
+  @HttpCode(200)
+  @ApiOkEnvelope(UsernameAvailabilityDto)
+  async usernameAvailability(@Body() dto: UsernameCheckDto) {
+    return { available: await this.users.usernameAvailable(dto.username) };
   }
 
   @Public()

@@ -11,6 +11,12 @@ Update this file at the end of every session. Keep it short; put detail in the h
 
 **2026-11-09 lite features.** Batch 1 approved, implemented and verified locally. Results has contextual Concept help and recorded-result copy. Traffic has Quiet night. Nine scoped browser checks, three deliberate faults, TypeScript, focused lint and 570 web unit tests passed. The full Phase 1 baseline stopped on earlier breadcrumb checks. Local changes are ready for commit review. See [Lite features plan](LITE-FEATURES-PLAN.md).
 
+**2026-11-17 signup usernames.** Signup checks optional username availability after a short pause. Profile lets existing accounts claim a username. Apply migration 1795200000000 before restarting the updated API. Focused UI, database integration, frontend types and scoped lint passed. Changes are local.
+
+**2026-11-16 client traffic display.** Canvas labels the total baseline traffic and displays the selected client estimate with preview off. Focused UI tests, TypeScript and lint passed. Changes are local.
+
+**2026-11-12 login illustration.** The login side panel shows the supplied Build, Run and Test sequence on the existing grid. Type checking, scoped lint and nine UI tests passed. The animation was enlarged by 38–43% and checked in Chrome at three panel widths. See the handoff for browser evidence and limitations.
+
 ## Historical handoff verification — 2026-10-29 (superseded)
 
 Read-only repository review completed. Local HEAD and live origin/codex/phase2-contracts both resolve to 1fcf7c171af39326e927154b1fb77bf56c17a5d7. M15 is recorded complete; M16 report and share API are committed/pushed. M16.3 share settings/viewer remain uncommitted. Final full-regression success was not independently verified in this review; do not close M16 yet. Earlier summary rows below are stale where they conflict with this checkpoint. AI remains PARKED by the user's latest explicit instruction, superseding earlier M12B/Groq authorization. Codex has no active code claims; its Groq prototype files remain untouched and uncommitted. Landing work is from earlier Codex work; film/ origin remains unverified. No tests, migrations, inference, commits or pushes run during this handoff review.
@@ -70,6 +76,10 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 
 | Agent | Area / paths | Since | Status |
 | --- | --- | --- | --- |
+| Codex | Documents report/proposal upload | 2026-11-18 | Released, pushed 2dd6377 |
+| Codex | Signup username and profile claim, persistence, checks and contracts | 2026-11-17 | Released, focused checks passed |
+| Codex | Canvas client traffic estimate, live slider label and affected selectors | 2026-11-16 | Released, focused checks passed |
+| Codex | Login illustration, scoped styles and verification | 2026-11-22 | Released, contrast checked in Chrome |
 | Codex | Lite Batch 1: Results, Concept help, Traffic, focused tests and evidence | 2026-11-09 | Released, scoped checks passed |
 | Codex | Describe example choices: creation/describe.tsx, m4.css, focused checks and docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Header reference styling: top-bar.tsx, proto.css, focused verification and current docs | 2026-11-07 | Released; verified locally, not pushed |
