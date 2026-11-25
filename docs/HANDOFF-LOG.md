@@ -15,6 +15,9 @@ Entry template:
 **Warnings:** ...
 ```
 
+## 2026-11-25, Codex - merge Next.js security upgrade
+Merged codex/next-security-16.4.6 at the owner request, preserving both histories. Upgrade and previous verification are recorded below; full browser and backend integration regression remains incomplete. Existing unrelated working changes preserved. No active claim. Next: install web dependencies, restart the server, and address stale regression assertions separately.
+
 ## 2026-11-23, Codex - publish pending application updates
 Owner authorized the code push. Included the live username flow and migration, weighted client traffic display, login Build/Run/Test animation and theme contrast repair. Rechecked 11 UI tests and TypeScript successfully. Earlier backend and browser evidence and limitations remain recorded below. Published the security branch separately at 2a17035.
 Main is still the earlier foundation plus uploaded documents. The latest application code is on codex/phase2-contracts. Protected audit files, runtime dump and film remain outside this commit. No active claim.
@@ -54,6 +57,20 @@ Increased the login cube scale by 12–15% across the existing visible panel wid
 The owner supplied a blue cube animation for the marked login side panel. Scoped CSS keeps the original grid and shows a still assembled cube for reduced motion. Registration continues to use AuthSide.
 Chrome passed at 1920 dark, 1024 light and 390 dark. The motion assertion rejected a deliberate CSS override. The first CSS module version produced missing cube classes in Chrome and was replaced by the login route stylesheet. TypeScript, scoped lint and all nine existing UI tests passed. Screenshots are in the sf-login-art-20261112 temporary directory.
 Four frontend files and these two handoff updates are local and ready for review. Claim released.
+## 2026-11-17, Codex - independent security upgrade verification (partial)
+**Scope:** Confirm existing isolated upgrade 7587420; no application or test source changes. Main dirty checkout preserved. Claims released.
+**Passed:** pnpm 12.14.0 frozen install; next --version = 16.4.6; supported config schema and agentUpgrade security; typecheck; lint (two pre-existing warnings); 579/579 frontend unit; production builds; 48-route inventory. Exact-target/policy checks rejected both original-16.4.2 and disabled-policy in-memory mutations. Backend pnpm 10.34.7 frozen install/build; 791 unit passed, two skipped.
+**Browser:** Full configured Chrome suite selected 1,344 checks. Stopped after 427 passed, four failed, 12 skipped (443 completed), following AGENTS incorrect-test rule. Phase 1 expects 46 routes but original commit 259b9a4 already has 48; route source/test files are unchanged by upgrade. Gallery remix text matches two elements after earlier gallery data. First light Save/copy failures were timing-sensitive; those journeys passed later dark checks and both passed on separate 16.4.2 baseline. These results do not prove every failure is unrelated to Next.js; full green regression remains unavailable. Earlier public-only attempt hit signup failures before disposable API setup and was stopped; no assertion was weakened.
+**Backend integration:** Monolithic attempt reported a CREATE DATABASE statement timeout in Support then crashed with exit 3221225477. Separate-process reruns account/admin-metrics/admin-status passed 17+14+12 = 43 tests. Remaining suites unrun after stop. AI and mail remained off; mocked browser AI responses did not call a provider.
+**Security audit:** pnpm audit reports no Next advisory, one moderate minimatch advisory (GHSA-g3hv-75wg-m249), zero high/critical. No unrelated dependency change.
+**Evidence:** TEMP/sf-next-security-browser.log, sf-next-security-api-unit.log, sf-next-security-api-e2e.log, sf-next-api-e2e-summary.txt, sf-next-e2e-*.log, sf-next-baseline-browser.log, sf-next-security-audit.json. Baseline worktree is TEMP/sf-next1642-baseline-verify at 259b9a4. Its build emitted output but exited on the security recommendation on each attempt; normal next start worked. Security warning confirms 16.4.2 should be upgraded.
+**Uncommitted:** Generated docs/audit screenshots and docs/contracts/m11-runtime.openapi.json remain in this upgrade worktree. Automatic review rejected git restore/moving audit outputs over ownership concerns; left intact. No owner data, migration, merge, push or deployment. All three session-created containers removed; test web/API processes stopped. Original worktree still contains its independent pre-existing edits.
+**Next:** Approve correction of stale regression assertions separately, then rerun full browser/integration coverage. Do not call this fully tested or merge automatically.
+
+## 2026-11-17, Codex - Next.js security update
+The requested agent command selected 16.4.6 from 16.4.2. Checked local and fetched origin history and GitHub open PRs (0, via API). Installed the exact patch and set experimental.agentUpgrade to security. See GHSA-mfr8-8qww-v76h.
+Frozen install, exact version, typecheck, lint (2 warnings), 579 unit tests, production build and 48 route entries passed. Production HTTP smoke returned 200 for home/login/register and redirected signed-out Designs to login. Full browser and backend suites were not rerun.
+Changes are scoped to the local upgrade branch. No active claim.
 
 ## 2026-11-09, Codex — lite features Batch 1 verified
 **Goal.** Implement the owner's approved Batch 1.

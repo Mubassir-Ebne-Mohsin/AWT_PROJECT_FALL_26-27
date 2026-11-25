@@ -16,6 +16,7 @@ Update this file at the end of every session. Keep it short; put detail in the h
 **2026-11-16 client traffic display.** Canvas labels the total baseline traffic and displays the selected client estimate with preview off. Focused UI tests, TypeScript and lint passed. Changes are local.
 
 **2026-11-12 login illustration.** The login side panel shows the supplied Build, Run and Test sequence on the existing grid. Type checking, scoped lint and nine UI tests passed. The animation was enlarged by 38–43% and checked in Chrome at three panel widths. See the handoff for browser evidence and limitations.
+**2026-11-17 Next.js security update.** The merged codex/next-security-16.4.6 branch upgrades the frontend from 16.4.2 to 16.4.6 and sets the security upgrade policy. Install, type checking, lint, 579 tests, production build, route inventory and local HTTP smoke checks passed. The merge is local.
 
 ## Historical handoff verification — 2026-10-29 (superseded)
 
@@ -72,6 +73,8 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 - **Not done:** Rename from the list (the workspace already renames; a list rename would bump the revision). Backend e2e and unit were last run before the web-only Designs list commit.
 - **Operator step:** `pnpm migration:run` for VersionRestore, DesignNotes and DesignArchive.
 
+**2026-11-17 independent security verification.** Upgrade commit 7587420 is confirmed at Next.js 16.4.6 with supported experimental.agentUpgrade="security". Frozen install, typecheck, lint (two warnings), 579 frontend unit tests, production build, 48-route inventory and 791 backend unit tests passed (two backend skips). Broad browser run stopped per the incorrect-test rule: 427 passed, four failed, 12 skipped, remaining checks unrun. The unchanged Phase 1 test expects 46 routes although the pre-upgrade app has 48; gallery has an ambiguous remix selector. Save/copy timing failures passed in later runs; no clean full regression is claimed. Backend full integration run had a statement timeout and native process crash; three isolated reruns passed 43 tests before stopping. The upgrade is now merged locally; stale regression assertions still need separate attention.
+
 ## Active claims (edit only what you have claimed)
 
 | Agent | Area / paths | Since | Status |
@@ -80,6 +83,7 @@ Read-only repository review completed. Local HEAD and live origin/codex/phase2-c
 | Codex | Signup username and profile claim, persistence, checks and contracts | 2026-11-17 | Released, focused checks passed |
 | Codex | Canvas client traffic estimate, live slider label and affected selectors | 2026-11-16 | Released, focused checks passed |
 | Codex | Login illustration, scoped styles and verification | 2026-11-22 | Released, contrast checked in Chrome |
+| Codex | Security upgrade verification; docs/PROJECT-STATE.md, docs/HANDOFF-LOG.md, docs/STRESSFORGE-PROGRESS-REPORT.md | 2026-11-17 | Released; verification incomplete, stale regression assertions |
 | Codex | Lite Batch 1: Results, Concept help, Traffic, focused tests and evidence | 2026-11-09 | Released, scoped checks passed |
 | Codex | Describe example choices: creation/describe.tsx, m4.css, focused checks and docs | 2026-11-07 | Released; verified locally, not pushed |
 | Codex | Header reference styling: top-bar.tsx, proto.css, focused verification and current docs | 2026-11-07 | Released; verified locally, not pushed |
