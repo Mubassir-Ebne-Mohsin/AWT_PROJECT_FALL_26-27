@@ -169,6 +169,7 @@ function Body({ id }: { id: string }) {
             key={c.updatedAt}
             mode={mode}
             initial={fromChallenge(c)}
+            initialLearning={c.learning} initialPolicy={c.rules?.profile}
             busy={save.isPending}
             serverError={error}
             submitLabel="Save changes"

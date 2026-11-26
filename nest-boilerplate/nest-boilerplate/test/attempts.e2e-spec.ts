@@ -153,12 +153,8 @@ describe("R5.2 learner attempts (isolated Postgres, no AI involved)", () => {
     await http.get(`/v1/challenges/${c.id}`).expect(404);
     await publish(teacher, c.id).expect(200);
     const r = await http.get(`/v1/challenges/${c.id}`).expect(200);
-    expect(Object.keys(r.body.data).sort()).toEqual([
-      "goal",
-      "id",
-      "summary",
-      "title",
-    ]);
+    expect(Object.keys(r.body.data).sort()).toEqual(["baseline","goal","id","learning","preview","rules","summary","title","traffic"]);
+    expect(r.body.data.preview.nodes.every((n:Record<string,unknown>)=>!Object.hasOwn(n,"props"))).toBe(true);
     expect(
       (await http.get("/v1/challenges").expect(200)).body.data.map(
         (c: any) => c.id,

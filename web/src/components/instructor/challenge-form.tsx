@@ -1,5 +1,6 @@
 "use client";
 
+import { ChallengeLearningFields, type LearningValues, type Learning, type Policy } from "@/components/instructor/challenge-learning-fields";
 import { useId, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -12,12 +13,13 @@ export type FormMode = "create" | "draft" | "wording";
  * One form for all three situations: a new challenge (everything, and a starting design is required), a draft (everything,
  * and the starting design can be swapped), and a published challenge (the wording only, because the rest is frozen).
  */
-export function ChallengeForm(props: { mode: FormMode; initial: FormValues; busy: boolean; serverError: string | null; submitLabel: string; onSubmit: (body: Body | Pick<Body, "title" | "summary">) => void }) {
+export function ChallengeForm(props: { mode: FormMode; initial: FormValues; initialLearning?: Learning | null; initialPolicy?: Policy | null; busy: boolean; serverError: string | null; submitLabel: string; onSubmit: (body: Body | Pick<Body, "title" | "summary">) => void }) {
   const { user } = useAuth();
   const uid = useId();
   const [v, setV] = useState<FormValues>(props.initial);
   const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>({});
   const [find, setFind] = useState("");
+  const [guide,setGuide]=useState<LearningValues>({learning:props.initialLearning??null,policy:props.initialPolicy??null});
   const set = <K extends keyof FormValues>(key: K, value: FormValues[K]) => setV((old) => ({ ...old, [key]: value }));
   const wordingOnly = props.mode === "wording";
 
@@ -52,7 +54,7 @@ export function ChallengeForm(props: { mode: FormMode; initial: FormValues; busy
         const converted = toBody(v, { needDesign: props.mode === "create" });
         if (!converted.ok) return setErrors(converted.errors);
         setErrors({});
-        props.onSubmit(wordingOnly ? { title: converted.body.title, summary: converted.body.summary } : converted.body);
+        props.onSubmit(wordingOnly ? { title: converted.body.title, summary: converted.body.summary } : {...converted.body,...(guide.learning||props.initialLearning?{learning:guide.learning}:{}),...(guide.policy||props.initialPolicy?{policy:guide.policy}:{})});
       }}
     >
       {field("title", "Title", <input id={uid + "title"} className="r2-input" value={v.title} maxLength={TITLE_MAX + 20} onChange={(e) => set("title", e.target.value)} />, CHALLENGE_TEXT_NOTE)}
@@ -113,6 +115,7 @@ export function ChallengeForm(props: { mode: FormMode; initial: FormValues; busy
         </>
       )}
 
+      {!wordingOnly && <ChallengeLearningFields value={guide} onChange={setGuide}/>}
       {props.serverError && (
         <p className="m16-warn" role="alert" data-testid="challenge-error">
           {props.serverError}

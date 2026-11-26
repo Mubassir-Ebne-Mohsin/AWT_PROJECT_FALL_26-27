@@ -1,3 +1,4 @@
+import "@/styles/challenges.css";
 import { ChallengeDetail } from "@/components/instructor/challenge-detail";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

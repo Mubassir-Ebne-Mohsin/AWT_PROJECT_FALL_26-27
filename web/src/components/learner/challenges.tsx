@@ -1,4 +1,6 @@
 "use client";
+import { ChallengeLibrary } from "@/components/learner/challenge-library";
+import { ChallengeBrief } from "@/components/learner/challenge-brief";
 import {
   readSubmissionIdentity,
   rememberSubmissionIdentity,
@@ -16,7 +18,6 @@ import { resolveRoute } from "@/lib/routes";
 import { api } from "@/lib/api/client";
 import { ApiError } from "@/lib/api/errors";
 import {
-  publishedChallenges,
   publishedChallenge,
   startAttempt,
   readAttempt,
@@ -35,37 +36,7 @@ function Notice({ error }: { error: unknown }) {
   ) : null;
 }
 export function LearnerCatalog() {
-  const q = useQuery({
-    queryKey: ["published-challenges"],
-    queryFn: ({ signal }) => publishedChallenges(signal),
-    retry: false,
-  });
-  return (
-    <div className="page stack lg">
-      <Crumbs resolved={resolveRoute("/challenges")} />
-      <h1 className="h1">Challenges</h1>
-      <p className="lede">
-        Practice meeting a latency and error target under fixed traffic.
-      </p>
-      <Notice error={q.error} />
-      {q.isPending && <p role="status">Loading challenges…</p>}
-      {q.isError && (
-        <button className="btn" onClick={() => void q.refetch()}>
-          Try again
-        </button>
-      )}
-      {q.data?.length === 0 && <p>No published challenges yet.</p>}
-      {q.data?.map((c) => (
-        <article className="card stack" key={c.id}>
-          <h2 className="h2">
-            <Link href={`/challenges/${c.id}`}>{c.title}</Link>
-          </h2>
-          <p>{c.summary}</p>
-          <p>{goal(c.goal)}</p>
-        </article>
-      ))}
-    </div>
-  );
+  return <ChallengeLibrary />;
 }
 export function LearnerChallenge() {
   const id = String(useParams().id),
@@ -103,8 +74,7 @@ export function LearnerChallenge() {
       </h1>
       {q.data && (
         <>
-          <p>{q.data.summary}</p>
-          <p>{goal(q.data.goal)}</p>
+          <ChallengeBrief key={id} challenge={q.data} />
         </>
       )}
       {!uuid(id) && <p>This challenge is unavailable.</p>}
@@ -234,7 +204,32 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
           null,
         );
         setUncertain(false);
-        setMessage(error.message);
+        const details = error.details as
+          { reason?: unknown; issues?: unknown } | undefined;
+        const issues =
+          details?.reason === "EXERCISE_RULES" && Array.isArray(details.issues)
+            ? details.issues
+                .flatMap((issue: unknown) =>
+                  typeof issue === "object" &&
+                  issue !== null &&
+                  "message" in issue &&
+                  typeof issue.message === "string"
+                    ? [issue.message]
+                    : [],
+                )
+                .slice(0, 5)
+            : [];
+        setMessage(
+          [
+            error.message,
+            ...issues,
+            ...(issues.length
+              ? [
+                  "Review Allowed changes above, edit your attempt and save before retrying. No graded submission was used.",
+                ]
+              : []),
+          ].join(" "),
+        );
         return;
       }
       setUncertain(true);
@@ -253,7 +248,7 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
       </p>
     );
   return (
-    <section className="card stack">
+    <section className="challenge-attempt stack">
       <h2 className="h2">Your private attempt</h2>
       {q.data?.challenge.archived && (
         <p role="status">
@@ -296,7 +291,13 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
                 ? "Check the same submission"
                 : "Submit saved revision"}
           </button>
-          <p role="status">{q.data.submissions.some(s=>s.status==="pending") ? "Judging saved inputs with the challenge traffic…" : message==="Judging saved inputs with the challenge traffic…" ? "Judging finished; see the recorded outcome below." : message}</p>
+          <p role="status">
+            {q.data.submissions.some((s) => s.status === "pending")
+              ? "Judging saved inputs with the challenge traffic…"
+              : message === "Judging saved inputs with the challenge traffic…"
+                ? "Judging finished; see the recorded outcome below."
+                : message}
+          </p>
           <ul>
             {q.data.submissions.map((s) => (
               <li key={s.id}>
@@ -305,19 +306,39 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
                   ? `${s.passes ? "Passed" : "Not passed"} · p95 ${s.p95} ms · errors ${((s.errorRate ?? 0) * 100).toFixed(2)}%`
                   : s.status}{" "}
                 · {s.engineVersion ?? "No graded result"}
+                {s.modelVerdict && (
+                  <span className="hint"> · Model state: {s.modelVerdict}</span>
+                )}
+                {s.rulesVersion && (
+                  <span className="hint">
+                    {" "}
+                    · Exercise rules v{s.rulesVersion}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
           {q.data.feedback.length > 0 && (
-            <section className="stack" aria-label="Instructor feedback" data-testid="attempt-feedback">
+            <section
+              className="stack"
+              aria-label="Instructor feedback"
+              data-testid="attempt-feedback"
+            >
               <h3 className="h3">Instructor feedback</h3>
               {q.data.feedback.map((f) => {
-                const on = q.data.submissions.find((s) => s.id === f.submissionId);
+                const on = q.data.submissions.find(
+                  (s) => s.id === f.submissionId,
+                );
                 return (
-                  <div className="r4-comment" key={f.id} data-testid="attempt-feedback-item">
+                  <div
+                    className="r4-comment"
+                    key={f.id}
+                    data-testid="attempt-feedback-item"
+                  >
                     <div className="small muted">
                       {f.author.displayName}
-                      {on ? ` on revision ${on.designRevision}` : ""} · {new Date(f.createdAt).toLocaleDateString()}
+                      {on ? ` on revision ${on.designRevision}` : ""} ·{" "}
+                      {new Date(f.createdAt).toLocaleDateString()}
                     </div>
                     <p className="r4-text">{f.text}</p>
                   </div>

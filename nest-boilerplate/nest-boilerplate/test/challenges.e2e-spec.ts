@@ -82,7 +82,7 @@ describe("R5.1 Instructor challenges (isolated Postgres, no AI involved)", () =>
     expect(c).toMatchObject({ title: "Survive the flash sale", status: "draft", baseline: null, publishedAt: null, archivedAt: null, goal: { p95Ms: 300, errorRate: 0.01 } });
     expect(c.traffic).toEqual({ ...TRAFFIC, sloP95: 300, errorBudget: 0.01 });
     expect(c.componentCount).toBe(design.graph.nodes.length);
-    expect(Object.keys(c).sort()).toEqual(["archivedAt", "baseline", "componentCount", "createdAt", "goal", "id", "publishedAt", "status", "summary", "title", "traffic", "updatedAt"]);
+    expect(Object.keys(c).sort()).toEqual(["archivedAt", "baseline", "componentCount", "createdAt", "goal", "id", "learning", "publishedAt", "rules", "status", "summary", "title", "traffic", "updatedAt"]);
     expect(JSON.stringify(c)).not.toContain(design.id); // no link back to the Instructor's design
     expect(JSON.stringify(c)).not.toContain("nodes");
     expect(challengeSchema.parse((await get(teacher, c.id).expect(200)).body.data)).toEqual(c);

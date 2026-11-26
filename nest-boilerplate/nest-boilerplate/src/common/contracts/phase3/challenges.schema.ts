@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { challengeLearningSchema, challengeRulesSchema, exerciseProfileSchema } from "@/common/contracts/phase3/challenge-learning.schema";
 import { trafficSchema } from "@/common/contracts/phase2/graph.schema";
 
 // R5 Instructor challenges. An Instructor writes a goal, a fixed traffic profile and a starting design; learners later
@@ -32,6 +33,8 @@ export const challengeTrafficSchema = trafficSchema.omit({ sloP95: true, errorBu
 export const startingDesignRefSchema = z.strictObject({ designId: z.uuid(), revision: z.number().int().positive().optional() });
 
 export const createChallengeRequestSchema = z.strictObject({
+  learning: challengeLearningSchema.nullable().optional(),
+  policy: exerciseProfileSchema.nullable().optional(),
   title: plain(CHALLENGE_TITLE_MAX),
   summary: plain(CHALLENGE_SUMMARY_MAX),
   goal: challengeGoalSchema,
@@ -42,6 +45,8 @@ export const createChallengeRequestSchema = z.strictObject({
 /** Title and summary can always change. Goal, traffic and the starting design only while the challenge is a draft. */
 export const patchChallengeRequestSchema = z
   .strictObject({
+    learning: challengeLearningSchema.nullable().optional(),
+    policy: exerciseProfileSchema.nullable().optional(),
     title: plain(CHALLENGE_TITLE_MAX).optional(),
     summary: plain(CHALLENGE_SUMMARY_MAX).optional(),
     goal: challengeGoalSchema.optional(),
@@ -61,6 +66,8 @@ export const challengeBaselineSchema = z.strictObject({
 /** What the owning Instructor sees. The starting design itself is not part of it, only its size. */
 export const challengeSchema = z.strictObject({
   id: z.uuid(),
+  learning: challengeLearningSchema.nullable().optional(),
+  rules: challengeRulesSchema.nullable().optional(),
   title: z.string(),
   summary: z.string(),
   goal: challengeGoalSchema,

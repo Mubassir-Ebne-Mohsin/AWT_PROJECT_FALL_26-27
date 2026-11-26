@@ -1,5 +1,5 @@
 import { api } from "@/lib/api/client";
-import type { components } from "@/lib/api/schema";
+import type { components } from "@/lib/api/phase3-schema";
 
 type Schemas = components["schemas"];
 export type Challenge = Schemas["Challenge"];

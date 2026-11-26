@@ -1,3 +1,4 @@
+import { HELP_LESSONS } from "@/lib/learn-help-links";
 // Concept help: all entries, ranking and the reply the drawer shows. Deterministic: the same question gives the same reply.
 import { ACCOUNT_TROUBLE_AI_GLOSSARY } from "./e-account-trouble-ai-glossary";
 import { BASICS_RESULTS } from "./e-basics-results";
@@ -9,7 +10,10 @@ import type { Entry, Reply } from "./types";
 export { CATEGORIES } from "./types";
 export type { Category, Entry, Link, Reply } from "./types";
 
-export const ENTRIES: readonly Entry[] = [...BASICS_RESULTS, ...COMPONENTS_TRAFFIC, ...PATTERNS_APP, ...ACCOUNT_TROUBLE_AI_GLOSSARY];
+export const ENTRIES: readonly Entry[] = [...BASICS_RESULTS, ...COMPONENTS_TRAFFIC, ...PATTERNS_APP, ...ACCOUNT_TROUBLE_AI_GLOSSARY].map(e => {
+  const lesson = HELP_LESSONS[e.id];
+  return lesson && (e.links?.length ?? 0) < 4 ? { ...e, links: [...(e.links ?? []), { label: "Read the full lesson", href: "/learn/" + lesson }] } : e;
+});
 
 const BY_ID = new Map(ENTRIES.map((e) => [e.id, e]));
 export const entryById = (id: string): Entry | undefined => BY_ID.get(id);

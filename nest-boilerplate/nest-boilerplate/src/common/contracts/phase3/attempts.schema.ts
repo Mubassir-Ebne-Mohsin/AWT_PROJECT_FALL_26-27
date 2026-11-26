@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { challengeLearningSchema, challengeRulesSchema } from "@/common/contracts/phase3/challenge-learning.schema";
+import { topologyPreviewSchema } from "@/common/contracts/phase2/graph.schema";
+import { challengeBaselineSchema } from "@/common/contracts/phase3/challenges.schema";
 import { challengeGoalSchema } from "@/common/contracts/phase3/challenges.schema";
 import {
   graphSchema,
@@ -7,6 +10,11 @@ import {
 
 export const SUBMISSION_LIMIT = 20;
 export const publicChallengeSchema = z.strictObject({
+  traffic: trafficSchema.optional(),
+  preview: topologyPreviewSchema.nullable().optional(),
+  learning: challengeLearningSchema.nullable().optional(),
+  rules: challengeRulesSchema.nullable().optional(),
+  baseline: challengeBaselineSchema.nullable().optional(),
   id: z.uuid(),
   title: z.string(),
   summary: z.string(),
@@ -23,6 +31,8 @@ export const attemptSchema = z.strictObject({
   createdAt: z.iso.datetime(),
 });
 export const submissionSchema = z.strictObject({
+  rulesVersion: z.literal(1).optional(),
+  modelVerdict: z.enum(["pass", "strained", "fail"]).optional(),
   id: z.uuid(),
   attemptId: z.uuid(),
   requestId: z.uuid(),

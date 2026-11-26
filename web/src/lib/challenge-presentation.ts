@@ -46,6 +46,8 @@ export function fromChallenge(c: Shown): FormValues {
 }
 
 export type Body = {
+  learning?: import("@/lib/api/phase3-schema").components["schemas"]["CreateChallengeRequest"]["learning"];
+  policy?: import("@/lib/api/phase3-schema").components["schemas"]["CreateChallengeRequest"]["policy"];
   title: string;
   summary: string;
   goal: { p95Ms: number; errorRate: number };

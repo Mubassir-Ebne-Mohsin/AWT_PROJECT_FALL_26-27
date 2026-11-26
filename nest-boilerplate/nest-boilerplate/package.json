@@ -5,6 +5,7 @@
   "description": "StressForge API: architecture stress-testing platform (NestJS)",
   "license": "MIT",
   "scripts": {
+    "challenges:seed": "ts-node -r tsconfig-paths/register src/script/seed-foundation-challenges.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

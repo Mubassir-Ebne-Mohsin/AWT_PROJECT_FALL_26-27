@@ -372,6 +372,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/designs/{id}/gallery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["publishToGallery"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/gallery": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listGallery"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/gallery/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getGalleryPost"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/gallery/{id}/unpublish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["unpublishGalleryPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/gallery/{id}/remix": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["remixGalleryPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/reviews/shared-with-me": {
         parameters: {
             query?: never;
@@ -1395,6 +1475,83 @@ export interface components {
             unreadCount: number;
         };
         PublicChallengeList: {
+            traffic?: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
+            preview?: {
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    x: number;
+                    y: number;
+                }[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            } | null;
+            learning?: {
+                /** @enum {string} */
+                category: "Scaling" | "Caching" | "Data" | "Regions" | "Media" | "Routing";
+                /** @enum {string} */
+                difficulty: "beginner" | "intermediate" | "advanced";
+                estimatedMinutes: number;
+                objective: string;
+                brief: string;
+                topics: string[];
+                hints: [
+                    string,
+                    string,
+                    string
+                ];
+                /** @default 100 */
+                sequence: number;
+            } | null;
+            rules?: {
+                /** @constant */
+                version: 1;
+                /** @enum {string} */
+                profile: "scale-app" | "add-cache" | "read-replicas" | "edge-cache" | "co-locate" | "media-edge";
+                editable: ({
+                    nodeId: string;
+                    /** @constant */
+                    property: "replicas";
+                    min: number;
+                    max: number;
+                } | {
+                    nodeId: string;
+                    /** @constant */
+                    property: "region";
+                    choices: ("us-east" | "eu-west" | "ap-south")[];
+                })[];
+                additions: {
+                    /** @enum {string} */
+                    type: "cache" | "cdn" | "replica";
+                    maxNodes: number;
+                    maxHitRatio?: number;
+                }[];
+                replicaCaps: {
+                    [key: string]: number;
+                };
+            } | null;
+            baseline?: {
+                p95: number;
+                errorRate: number;
+                passes: boolean;
+                engineVersion: string;
+            } | null;
             /** Format: uuid */
             id: string;
             title: string;
@@ -1405,6 +1562,83 @@ export interface components {
             };
         }[];
         PublicChallenge: {
+            traffic?: {
+                /** @enum {string} */
+                preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                rps: number;
+                burst: number;
+                readRatio: number;
+                sloP95: number;
+                errorBudget: number;
+                durationMin: number;
+                /** @enum {string} */
+                shape: "steady" | "ramp" | "spike";
+            };
+            preview?: {
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    x: number;
+                    y: number;
+                }[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            } | null;
+            learning?: {
+                /** @enum {string} */
+                category: "Scaling" | "Caching" | "Data" | "Regions" | "Media" | "Routing";
+                /** @enum {string} */
+                difficulty: "beginner" | "intermediate" | "advanced";
+                estimatedMinutes: number;
+                objective: string;
+                brief: string;
+                topics: string[];
+                hints: [
+                    string,
+                    string,
+                    string
+                ];
+                /** @default 100 */
+                sequence: number;
+            } | null;
+            rules?: {
+                /** @constant */
+                version: 1;
+                /** @enum {string} */
+                profile: "scale-app" | "add-cache" | "read-replicas" | "edge-cache" | "co-locate" | "media-edge";
+                editable: ({
+                    nodeId: string;
+                    /** @constant */
+                    property: "replicas";
+                    min: number;
+                    max: number;
+                } | {
+                    nodeId: string;
+                    /** @constant */
+                    property: "region";
+                    choices: ("us-east" | "eu-west" | "ap-south")[];
+                })[];
+                additions: {
+                    /** @enum {string} */
+                    type: "cache" | "cdn" | "replica";
+                    maxNodes: number;
+                    maxHitRatio?: number;
+                }[];
+                replicaCaps: {
+                    [key: string]: number;
+                };
+            } | null;
+            baseline?: {
+                p95: number;
+                errorRate: number;
+                passes: boolean;
+                engineVersion: string;
+            } | null;
             /** Format: uuid */
             id: string;
             title: string;
@@ -1444,6 +1678,10 @@ export interface components {
                 };
             };
             submissions: {
+                /** @constant */
+                rulesVersion?: 1;
+                /** @enum {string} */
+                modelVerdict?: "pass" | "strained" | "fail";
                 /** Format: uuid */
                 id: string;
                 /** Format: uuid */
@@ -1480,6 +1718,10 @@ export interface components {
             expectedRevision: number;
         };
         ChallengeSubmission: {
+            /** @constant */
+            rulesVersion?: 1;
+            /** @enum {string} */
+            modelVerdict?: "pass" | "strained" | "fail";
             /** Format: uuid */
             id: string;
             /** Format: uuid */
@@ -1514,6 +1756,10 @@ export interface components {
                 };
                 passed: boolean;
                 best: {
+                    /** @constant */
+                    rulesVersion?: 1;
+                    /** @enum {string} */
+                    modelVerdict?: "pass" | "strained" | "fail";
                     /** Format: uuid */
                     id: string;
                     /** Format: uuid */
@@ -1532,6 +1778,10 @@ export interface components {
                     completedAt: string | null;
                 } | null;
                 submissions: {
+                    /** @constant */
+                    rulesVersion?: 1;
+                    /** @enum {string} */
+                    modelVerdict?: "pass" | "strained" | "fail";
                     /** Format: uuid */
                     id: string;
                     /** Format: uuid */
@@ -1750,6 +2000,7 @@ export interface components {
             id: string;
             email: string;
             displayName: string;
+            username?: string;
             /** @enum {string} */
             role: "user" | "admin";
             createdAt: string;
@@ -1762,6 +2013,7 @@ export interface components {
                 id: string;
                 email: string;
                 displayName: string;
+                username?: string;
                 /** @enum {string} */
                 role: "user" | "admin";
                 createdAt: string;
@@ -3720,6 +3972,577 @@ export interface components {
                 limitations: string[];
             };
         };
+        GalleryPublishRequest: {
+            title: string;
+            /** @default  */
+            description: string;
+            revision?: number;
+            /** Format: uuid */
+            run?: string;
+            /** @default true */
+            allowRemix: boolean;
+            /** @constant */
+            confirmOwnership: true;
+        };
+        GalleryPost: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            description: string;
+            ownerName: string;
+            isMine: boolean;
+            /** Format: date-time */
+            publishedAt: string;
+            revision: number;
+            /** @enum {string} */
+            verdict: "pass" | "strained" | "fail";
+            p95: number;
+            p95Target: number;
+            tags: string[];
+            nodeCount: number;
+            remixCount: number;
+            allowRemix: boolean;
+        };
+        GalleryList: {
+            items: {
+                /** Format: uuid */
+                id: string;
+                title: string;
+                description: string;
+                ownerName: string;
+                isMine: boolean;
+                /** Format: date-time */
+                publishedAt: string;
+                revision: number;
+                /** @enum {string} */
+                verdict: "pass" | "strained" | "fail";
+                p95: number;
+                p95Target: number;
+                tags: string[];
+                nodeCount: number;
+                remixCount: number;
+                allowRemix: boolean;
+            }[];
+            total: number;
+            page: number;
+            pageSize: number;
+        };
+        GalleryDetail: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            description: string;
+            ownerName: string;
+            isMine: boolean;
+            /** Format: date-time */
+            publishedAt: string;
+            revision: number;
+            /** @enum {string} */
+            verdict: "pass" | "strained" | "fail";
+            p95: number;
+            p95Target: number;
+            tags: string[];
+            nodeCount: number;
+            remixCount: number;
+            allowRemix: boolean;
+            report: {
+                name: string;
+                description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
+                revision: number;
+                isCurrentRevision: boolean;
+                /** Format: date-time */
+                versionCreatedAt: string;
+                /** Format: date-time */
+                generatedAt: string;
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+                traffic: {
+                    /** @enum {string} */
+                    preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                    rps: number;
+                    burst: number;
+                    readRatio: number;
+                    sloP95: number;
+                    errorBudget: number;
+                    durationMin: number;
+                    /** @enum {string} */
+                    shape: "steady" | "ramp" | "spike";
+                };
+                run: {
+                    /** Format: uuid */
+                    id: string;
+                    /** @enum {string} */
+                    kind: "simulation" | "limits";
+                    /** @enum {string} */
+                    status: "pending" | "completed" | "failed";
+                    designRevision: number;
+                    matchesRevision: boolean;
+                    engineVersion: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    traffic: {
+                        /** @enum {string} */
+                        preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                        rps: number;
+                        burst: number;
+                        readRatio: number;
+                        sloP95: number;
+                        errorBudget: number;
+                        durationMin: number;
+                        /** @enum {string} */
+                        shape: "steady" | "ramp" | "spike";
+                    };
+                    simulation: {
+                        /** @enum {string} */
+                        verdict: "pass" | "strained" | "fail";
+                        p50: number;
+                        p95: number;
+                        p99: number;
+                        errorRate: number;
+                        throughput: number;
+                        sloMet: boolean;
+                        p95Target: number;
+                        errorBudget: number;
+                        bottleneck: {
+                            label: string;
+                            type: string;
+                            rho: number;
+                        } | null;
+                        components: {
+                            id: string;
+                            label: string;
+                            type: string;
+                            region: string;
+                            peak: number;
+                            rho: number;
+                            /** @enum {string} */
+                            status: "idle" | "ok" | "warn" | "fail";
+                            errors: number;
+                        }[];
+                    } | null;
+                    failure: {
+                        code: string;
+                        message: string;
+                    } | null;
+                } | null;
+                limits: {
+                    /** Format: uuid */
+                    runId: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                    /** @enum {string} */
+                    state: "found" | "failsAtMinimumLoad" | "notReachedWithinRange";
+                    passingRps: number | null;
+                    failingRps: number | null;
+                    headroom: number | null;
+                    firstComponent: string | null;
+                    cause: ("latency" | "errors" | "both") | null;
+                } | null;
+                /** @enum {string} */
+                noteScope: "all" | "decisions" | "none";
+                notes: {
+                    revision: number;
+                    component: string | null;
+                    /** @enum {string} */
+                    kind: "decision" | "assumption";
+                    text: string;
+                    /** Format: date-time */
+                    createdAt: string;
+                }[];
+                limitations: string[];
+            };
+        };
+        GalleryRemix: {
+            design: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                description: string;
+                /** @enum {string} */
+                source: "blank" | "template" | "import" | "scripted" | "ai";
+                templateId: ("three-tier" | "content" | "ingest" | "checkout" | "mvp" | "media") | null;
+                revision: number;
+                /** Format: date-time */
+                createdAt: string;
+                /** Format: date-time */
+                updatedAt: string;
+                /** @constant */
+                schemaVersion: 1;
+                graph: {
+                    nodes: ({
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "client";
+                        props: {
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cdn";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "lb";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "gateway";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "app";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "worker";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "cache";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            hitRatio?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "db";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "replica";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "queue";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            maxDepth?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "storage";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    } | {
+                        id: string;
+                        label: string;
+                        x: number;
+                        y: number;
+                        /** @constant */
+                        type: "external";
+                        props: {
+                            replicas?: number;
+                            capacity?: number;
+                            latency?: number;
+                            /** @enum {string} */
+                            region?: "us-east" | "eu-west" | "ap-south";
+                            share?: number;
+                        };
+                    })[];
+                    edges: {
+                        id: string;
+                        from: string;
+                        to: string;
+                    }[];
+                };
+                traffic: {
+                    /** @enum {string} */
+                    preset: "custom" | "steady" | "evening" | "flash" | "launch" | "ingest";
+                    rps: number;
+                    burst: number;
+                    readRatio: number;
+                    sloP95: number;
+                    errorBudget: number;
+                    durationMin: number;
+                    /** @enum {string} */
+                    shape: "steady" | "ramp" | "spike";
+                };
+            };
+            remixCount: number;
+        };
+        GalleryUnpublished: {
+            /** Format: uuid */
+            id: string;
+            /** Format: date-time */
+            unpublishedAt: string;
+        };
         AccountRoles: {
             roles: ("user" | "instructor" | "reviewer" | "support" | "admin")[];
         };
@@ -4494,6 +5317,50 @@ export interface components {
         Challenge: {
             /** Format: uuid */
             id: string;
+            learning?: {
+                /** @enum {string} */
+                category: "Scaling" | "Caching" | "Data" | "Regions" | "Media" | "Routing";
+                /** @enum {string} */
+                difficulty: "beginner" | "intermediate" | "advanced";
+                estimatedMinutes: number;
+                objective: string;
+                brief: string;
+                topics: string[];
+                hints: [
+                    string,
+                    string,
+                    string
+                ];
+                /** @default 100 */
+                sequence: number;
+            } | null;
+            rules?: {
+                /** @constant */
+                version: 1;
+                /** @enum {string} */
+                profile: "scale-app" | "add-cache" | "read-replicas" | "edge-cache" | "co-locate" | "media-edge";
+                editable: ({
+                    nodeId: string;
+                    /** @constant */
+                    property: "replicas";
+                    min: number;
+                    max: number;
+                } | {
+                    nodeId: string;
+                    /** @constant */
+                    property: "region";
+                    choices: ("us-east" | "eu-west" | "ap-south")[];
+                })[];
+                additions: {
+                    /** @enum {string} */
+                    type: "cache" | "cdn" | "replica";
+                    maxNodes: number;
+                    maxHitRatio?: number;
+                }[];
+                replicaCaps: {
+                    [key: string]: number;
+                };
+            } | null;
             title: string;
             summary: string;
             goal: {
@@ -4529,6 +5396,24 @@ export interface components {
             archivedAt: string | null;
         };
         CreateChallengeRequest: {
+            learning?: {
+                /** @enum {string} */
+                category: "Scaling" | "Caching" | "Data" | "Regions" | "Media" | "Routing";
+                /** @enum {string} */
+                difficulty: "beginner" | "intermediate" | "advanced";
+                estimatedMinutes: number;
+                objective: string;
+                brief: string;
+                topics: string[];
+                hints: [
+                    string,
+                    string,
+                    string
+                ];
+                /** @default 100 */
+                sequence: number;
+            } | null;
+            policy?: ("scale-app" | "add-cache" | "read-replicas" | "edge-cache" | "co-locate" | "media-edge") | null;
             title: string;
             summary: string;
             goal: {
@@ -4552,6 +5437,24 @@ export interface components {
             };
         };
         PatchChallengeRequest: {
+            learning?: {
+                /** @enum {string} */
+                category: "Scaling" | "Caching" | "Data" | "Regions" | "Media" | "Routing";
+                /** @enum {string} */
+                difficulty: "beginner" | "intermediate" | "advanced";
+                estimatedMinutes: number;
+                objective: string;
+                brief: string;
+                topics: string[];
+                hints: [
+                    string,
+                    string,
+                    string
+                ];
+                /** @default 100 */
+                sequence: number;
+            } | null;
+            policy?: ("scale-app" | "add-cache" | "read-replicas" | "edge-cache" | "co-locate" | "media-edge") | null;
             title?: string;
             summary?: string;
             goal?: {
@@ -7439,6 +8342,497 @@ export interface operations {
                 content: {
                     "application/json": {
                         data: components["schemas"]["ReviewGrant"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    publishToGallery: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GalleryPublishRequest"];
+            };
+        };
+        responses: {
+            /** @description The published post, a frozen snapshot of one revision and one completed run */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["GalleryPost"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    listGallery: {
+        parameters: {
+            query?: {
+                q?: string;
+                verdict?: string;
+                tag?: string;
+                mine?: string;
+                bottleneck?: string;
+                like?: string;
+                page?: string;
+                pageSize?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["GalleryList"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    getGalleryPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["GalleryDetail"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    unpublishGalleryPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success or retained terminal replay */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["GalleryUnpublished"];
+                    };
+                };
+            };
+            /** @description Stable API error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Stable API error */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    remixGalleryPost: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A new private design copied from the post, with credit to the original */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["GalleryRemix"];
                     };
                 };
             };

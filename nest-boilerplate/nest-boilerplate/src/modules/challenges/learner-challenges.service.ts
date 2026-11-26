@@ -1,8 +1,10 @@
+import { publicChallenge } from "@/modules/challenges/challenge-projection";
+import { exerciseIssues } from "@/modules/challenges/exercise-rules";
+import { graphSchema } from "@/common/contracts/phase2/graph.schema";
 import { Injectable, OnApplicationBootstrap } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { AppException } from "@/common/errors";
 import {
-  publicChallengeSchema,
   feedbackSchema,
   attemptSchema,
   submitAttemptSchema,
@@ -30,11 +32,13 @@ type SubmissionRow = {
   design_revision: number;
   snapshot: unknown;
   goal: unknown;
+  rule_snapshot?: unknown;
   status: "pending" | "completed" | "failed" | "interrupted";
   result: {
     p95: number;
     errorRate: number;
     passes: boolean;
+    output?: {summary:{verdict:"pass"|"strained"|"fail"}};
     engineVersion: string;
   } | null;
   created_at: Date;
@@ -55,17 +59,17 @@ export class LearnerChallengesService implements OnApplicationBootstrap {
   }
   async list() {
     const rows = await this.db.query(
-      "SELECT id,title,summary,jsonb_build_object('p95Ms',goal_p95_ms,'errorRate',goal_error_rate) AS goal FROM challenges WHERE status='published' ORDER BY published_at DESC,id DESC LIMIT 200",
+      "SELECT id,title,summary,traffic,starting_graph,baseline,to_jsonb(challenges)->'learning' AS learning,to_jsonb(challenges)->'exercise_rules' AS exercise_rules,jsonb_build_object('p95Ms',goal_p95_ms,'errorRate',goal_error_rate) AS goal FROM challenges WHERE status='published' ORDER BY published_at DESC,id DESC LIMIT 200",
     );
-    return rows.map((r: unknown) => publicChallengeSchema.parse(r));
+    return rows.map((r: Record<string,unknown>) => publicChallenge(r));
   }
   async detail(id: string) {
     const [row] = await this.db.query(
-      "SELECT id,title,summary,jsonb_build_object('p95Ms',goal_p95_ms,'errorRate',goal_error_rate) AS goal FROM challenges WHERE id=$1 AND status='published'",
+      "SELECT id,title,summary,traffic,starting_graph,baseline,to_jsonb(challenges)->'learning' AS learning,to_jsonb(challenges)->'exercise_rules' AS exercise_rules,jsonb_build_object('p95Ms',goal_p95_ms,'errorRate',goal_error_rate) AS goal FROM challenges WHERE id=$1 AND status='published'",
       [id],
     );
     if (!row) throw new AppException("NOT_FOUND", "Challenge not found");
-    return publicChallengeSchema.parse(row);
+    return publicChallenge(row);
   }
   private attempt(row: AttemptRow) {
     if (!row.design_id)
@@ -82,6 +86,8 @@ export class LearnerChallengesService implements OnApplicationBootstrap {
   }
   private submission(row: SubmissionRow) {
     return submissionSchema.parse({
+      ...(row.rule_snapshot?{rulesVersion:1}:{}),
+      ...(row.result?.output?.summary?.verdict?{modelVerdict:row.result.output.summary.verdict}:{}),
       id: row.id,
       attemptId: row.attempt_id,
       requestId: row.request_id,
@@ -244,14 +250,19 @@ export class LearnerChallengesService implements OnApplicationBootstrap {
           "Fix the graph before submitting",
           { reason: "INVALID_GRAPH" },
         );
+      if(c.exercise_rules){
+        const issues=exerciseIssues(graphSchema.parse(c.starting_graph),snapshot.graph,c.exercise_rules);
+        if(issues.length)throw new AppException("VALIDATION_FAILED","This design is outside the challenge rules",{reason:"EXERCISE_RULES",issues});
+      }
       const [row] = await m.query(
-        "INSERT INTO challenge_submissions(attempt_id,request_id,design_revision,snapshot,goal,status) VALUES($1,$2,$3,$4,$5,'pending') RETURNING *",
+        c.exercise_rules ? "INSERT INTO challenge_submissions(attempt_id,request_id,design_revision,snapshot,goal,status,rule_snapshot) VALUES($1,$2,$3,$4,$5,'pending',$6) RETURNING *" : "INSERT INTO challenge_submissions(attempt_id,request_id,design_revision,snapshot,goal,status) VALUES($1,$2,$3,$4,$5,'pending') RETURNING *",
         [
           attemptId,
           request.requestId,
           d.revision,
           JSON.stringify(snapshot),
           JSON.stringify(goal),
+          ...(c.exercise_rules?[JSON.stringify(c.exercise_rules)]:[]),
         ],
       );
       return { row: row as SubmissionRow, fresh: true };

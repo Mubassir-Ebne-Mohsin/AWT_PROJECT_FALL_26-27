@@ -16,6 +16,11 @@ import {
   patchChallengeRequestSchema,
 } from "@/common/contracts/phase3/challenges.schema";
 
+import { graphSchema } from "@/common/contracts/phase2/graph.schema";
+import { exerciseIssues } from "@/modules/challenges/exercise-rules";
+import { createExerciseRules } from "@/modules/challenges/exercise-rules";
+import { challengeRulesSchema, type ExerciseProfile } from "@/common/contracts/phase3/challenge-learning.schema";
+
 type Goal = { p95Ms: number; errorRate: number };
 type Row = {
   id: string;
@@ -28,6 +33,8 @@ type Row = {
   graph: { nodes?: unknown[] };
   status: "draft" | "published" | "archived";
   baseline: unknown;
+  learning?: unknown;
+  rules?: unknown;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -35,7 +42,7 @@ type Row = {
 };
 
 const COLUMNS = `id, instructor_id AS "instructorId", title, summary, goal_p95_ms AS "p95Ms", goal_error_rate AS "errorRate", traffic,
-  starting_graph AS graph, status, baseline, created_at AS "createdAt", updated_at AS "updatedAt", published_at AS "publishedAt", archived_at AS "archivedAt"`;
+  to_jsonb(challenges)->'learning' AS learning, to_jsonb(challenges)->'exercise_rules' AS rules, starting_graph AS graph, status, baseline, created_at AS "createdAt", updated_at AS "updatedAt", published_at AS "publishedAt", archived_at AS "archivedAt"`;
 const iso = (d: Date | null) => (d ? d.toISOString() : null);
 
 /** The traffic the model is run with: the Instructor's choices plus the SLO taken from the goal, so they cannot disagree. */
@@ -58,6 +65,7 @@ export class ChallengesService {
   private dto(row: Row) {
     return challengeSchema.parse({
       id: row.id,
+      learning: row.learning ?? null, rules: row.rules ?? null,
       title: row.title,
       summary: row.summary,
       goal: { p95Ms: row.p95Ms, errorRate: row.errorRate },
@@ -70,6 +78,14 @@ export class ChallengesService {
       publishedAt: iso(row.publishedAt),
       archivedAt: iso(row.archivedAt),
     });
+  }
+
+  private async configure(m:EntityManager,row:Row,learning:unknown,policy:ExerciseProfile|null|undefined){
+    const profile=policy===undefined?(row.rules?challengeRulesSchema.parse(row.rules).profile:null):policy;
+    const rules=profile?createExerciseRules(graphSchema.parse(row.graph),profile):null;
+    const result=await m.query(`UPDATE challenges SET learning=$2,exercise_rules=$3 WHERE id=$1 RETURNING ${COLUMNS}`,
+      [row.id,JSON.stringify(learning===undefined?(row.learning??null):learning),JSON.stringify(rules)]);
+    return this.one(result);
   }
 
   /** The first row of a RETURNING query: an UPDATE gives back `[rows, count]`, an INSERT gives back the rows themselves. */
@@ -114,7 +130,8 @@ export class ChallengesService {
          VALUES ($1, $2, $3, $4, $5, $6, $7, 'draft', now(), now()) RETURNING ${COLUMNS}`,
         [instructor, body.title, body.summary, body.goal.p95Ms, body.goal.errorRate, JSON.stringify(traffic), JSON.stringify(graph)],
       )) as Row[];
-      return this.dto(this.one(rows));
+      const made=this.one(rows);
+      return this.dto(body.learning!==undefined||body.policy!==undefined?await this.configure(m,made,body.learning,body.policy):made);
     });
   }
 
@@ -135,7 +152,7 @@ export class ChallengesService {
     return this.db.transaction(async (m) => {
       const row = await this.mine(m, instructor, id, true);
       if (row.status === "archived") throw new AppException("CONFLICT", "An archived challenge cannot be changed", { reason: "ARCHIVED" });
-      const structural = body.goal !== undefined || body.traffic !== undefined || body.from !== undefined;
+      const structural = body.goal !== undefined || body.traffic !== undefined || body.from !== undefined || body.learning !== undefined || body.policy !== undefined;
       if (structural && row.status === "published")
         throw new AppException("CONFLICT", "A published challenge's goal, traffic and starting design are frozen", { reason: "PUBLISHED_FROZEN" });
       const goal = body.goal ?? { p95Ms: row.p95Ms, errorRate: row.errorRate };
@@ -147,7 +164,8 @@ export class ChallengesService {
           WHERE id = $1 AND instructor_id = $2 RETURNING ${COLUMNS}`,
         [id, instructor, body.title ?? row.title, body.summary ?? row.summary, goal.p95Ms, goal.errorRate, JSON.stringify(traffic), JSON.stringify(graph), structural],
       )) as Row[];
-      return this.dto(this.one(updated));
+      const updatedRow=this.one(updated);
+      return this.dto(body.learning!==undefined||body.policy!==undefined||(body.from&&row.rules)?await this.configure(m,updatedRow,body.learning,body.policy):updatedRow);
     });
   }
 
@@ -163,6 +181,7 @@ export class ChallengesService {
   /** Runs the model on the frozen starting design at the challenge's traffic and compares it with the goal, inclusive. */
   private async measure(instructor: string, row: Row) {
     const goal = { p95Ms: row.p95Ms, errorRate: row.errorRate };
+    if(row.rules){const issues=exerciseIssues(graphSchema.parse(row.graph),graphSchema.parse(row.graph),row.rules);if(issues.length)throw new AppException("VALIDATION_FAILED","The exercise rules do not admit the starting design",{reason:"EXERCISE_RULES",issues});}
     let result;
     try {
       result = await this.simulation.executor.submit(instructor, {
@@ -217,7 +236,8 @@ export class ChallengesService {
          VALUES ($1, $2, $3, $4, $5, $6, $7, 'draft', now(), now()) RETURNING ${COLUMNS}`,
         [instructor, `${row.title} (copy)`.slice(0, CHALLENGE_TITLE_MAX), row.summary, row.p95Ms, row.errorRate, JSON.stringify(row.traffic), JSON.stringify(row.graph)],
       )) as Row[];
-      return this.dto(this.one(rows));
+      const made=this.one(rows);
+      return this.dto(row.learning||row.rules?await this.configure(m,made,row.learning,undefined===row.rules?null:row.rules?challengeRulesSchema.parse(row.rules).profile:null):made);
     });
   }
 }
