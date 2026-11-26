@@ -35,6 +35,11 @@ export const graphNode = z.discriminatedUnion("type", [
   node("external", { ...ordinaryProps, share: ratio.optional() }),
 ]);
 export const graphEdge = z.strictObject({ id: localId, from: localId, to: localId });
+/** Bounded topology only: thumbnails never need component properties or traffic. */
+export const topologyPreviewSchema = z.strictObject({
+  nodes: z.array(z.strictObject({ id: localId, type: componentType, label: z.string().max(80), x: coordinate, y: coordinate })).max(BOUNDS.nodes),
+  edges: z.array(graphEdge).max(BOUNDS.edges),
+});
 const graphShape = { nodes: z.array(graphNode).max(BOUNDS.nodes), edges: z.array(graphEdge).max(BOUNDS.edges) };
 
 type Topology = { nodes: { id: string }[]; edges: { id?: string; from: string; to: string }[] };

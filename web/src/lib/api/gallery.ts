@@ -5,6 +5,10 @@ import type { SharedView } from "@/lib/api/shares";
 // Community gallery (F1, F3). Types mirror src/common/contracts/phase3/gallery.schema.ts on the server.
 export type GalleryVerdict = "pass" | "strained" | "fail";
 
+export interface GalleryPreview {
+  nodes: { id: string; type: Design["graph"]["nodes"][number]["type"]; label: string; x: number; y: number }[];
+  edges: { id: string; from: string; to: string }[];
+}
 export interface GalleryPost {
   id: string;
   title: string;
