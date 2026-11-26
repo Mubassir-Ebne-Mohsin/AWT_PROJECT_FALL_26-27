@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        11.964 s
+Ran all test suites within paths "src/modules/challenges/exercise-rules.spec.ts".

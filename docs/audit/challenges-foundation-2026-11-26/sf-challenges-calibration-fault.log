@@ -1,0 +1,23 @@
+FAIL src/modules/challenges/exercise-rules.spec.ts (13.278 s)
+  ● Foundation exercise rules and calibration › admits six preserved-ID starters and references, with failing starts and passing solutions
+
+    Uncalibrated exercise: Rescue the single-server launch
+
+      38 |       reference = measure(c.reference);
+      39 |     if (baseline.passes || !reference.passes)
+    > 40 |       throw Error("Uncalibrated exercise: " + c.title);
+         |             ^
+      41 |     return { fixture: c, rules, baseline };
+      42 |   });
+      43 | }
+
+      at modules/challenges/foundation-pack.ts:40:13
+          at Array.map (<anonymous>)
+      at verifyFoundationPack (modules/challenges/foundation-pack.ts:12:26)
+      at Object.<anonymous> (modules/challenges/exercise-rules.spec.ts:9:32)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 8 skipped, 9 total
+Snapshots:   0 total
+Time:        14.261 s, estimated 16 s
+Ran all test suites within paths "src/modules/challenges/exercise-rules.spec.ts".

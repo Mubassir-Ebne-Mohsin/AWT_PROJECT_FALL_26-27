@@ -1,0 +1,87 @@
+FAIL test/challenge-foundations.e2e-spec.ts (8.391 s)
+  ● Foundation challenges: private attempts, frozen rules and migration › adds six once without overwriting published content and exposes only bounded starter metadata
+
+    QueryFailedError: update or delete on table "challenges" violates foreign key constraint "challenge_attempts_challenge_id_fkey" on table "challenge_attempts"
+
+      52 |     db = app.get(DataSource);
+      53 |     await db.runMigrations();
+    > 54 |     await db.query("DELETE FROM challenges WHERE id=ANY($1::uuid[])",[FOUNDATION_PACK.map(c=>c.id)]);
+         |     ^
+      55 |     setupSwagger(app);
+      56 |     await app.init();
+      57 |     http = request(app.getHttpServer());
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:54:5)
+
+  ● Foundation challenges: private attempts, frozen rules and migration › refuses another pack owner and freezes rules/metadata on publication
+
+    QueryFailedError: update or delete on table "challenges" violates foreign key constraint "challenge_attempts_challenge_id_fkey" on table "challenge_attempts"
+
+      52 |     db = app.get(DataSource);
+      53 |     await db.runMigrations();
+    > 54 |     await db.query("DELETE FROM challenges WHERE id=ANY($1::uuid[])",[FOUNDATION_PACK.map(c=>c.id)]);
+         |     ^
+      55 |     setupSwagger(app);
+      56 |     await app.init();
+      57 |     http = request(app.getHttpServer());
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:54:5)
+
+  ● Foundation challenges: private attempts, frozen rules and migration › does not allocate a graded slot for shortcuts; grades saved graph with fixed challenge traffic and records rules
+
+    QueryFailedError: update or delete on table "challenges" violates foreign key constraint "challenge_attempts_challenge_id_fkey" on table "challenge_attempts"
+
+      52 |     db = app.get(DataSource);
+      53 |     await db.runMigrations();
+    > 54 |     await db.query("DELETE FROM challenges WHERE id=ANY($1::uuid[])",[FOUNDATION_PACK.map(c=>c.id)]);
+         |     ^
+      55 |     setupSwagger(app);
+      56 |     await app.init();
+      57 |     http = request(app.getHttpServer());
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:54:5)
+
+  ● Foundation challenges: private attempts, frozen rules and migration › copies metadata and rules into a new owned draft and validates policy inputs
+
+    QueryFailedError: update or delete on table "challenges" violates foreign key constraint "challenge_attempts_challenge_id_fkey" on table "challenge_attempts"
+
+      52 |     db = app.get(DataSource);
+      53 |     await db.runMigrations();
+    > 54 |     await db.query("DELETE FROM challenges WHERE id=ANY($1::uuid[])",[FOUNDATION_PACK.map(c=>c.id)]);
+         |     ^
+      55 |     setupSwagger(app);
+      56 |     await app.init();
+      57 |     http = request(app.getHttpServer());
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:54:5)
+
+  ● Foundation challenges: private attempts, frozen rules and migration › migration is reversible before use and refuses dropping populated learning/rule history
+
+    QueryFailedError: update or delete on table "challenges" violates foreign key constraint "challenge_attempts_challenge_id_fkey" on table "challenge_attempts"
+
+      52 |     db = app.get(DataSource);
+      53 |     await db.runMigrations();
+    > 54 |     await db.query("DELETE FROM challenges WHERE id=ANY($1::uuid[])",[FOUNDATION_PACK.map(c=>c.id)]);
+         |     ^
+      55 |     setupSwagger(app);
+      56 |     await app.init();
+      57 |     http = request(app.getHttpServer());
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:54:5)
+
+
+Test Suites: 1 failed, 3 passed, 4 total
+Tests:       5 failed, 36 passed, 41 total
+Snapshots:   0 total
+Time:        31.801 s
+Ran all test suites within paths "test/challenge-foundations.e2e-spec.ts", "test/challenges.e2e-spec.ts", "test/attempts.e2e-spec.ts", "test/submissions-feedback.e2e-spec.ts".

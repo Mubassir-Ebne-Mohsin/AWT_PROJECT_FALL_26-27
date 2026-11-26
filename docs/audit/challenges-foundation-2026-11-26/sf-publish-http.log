@@ -1,0 +1,6 @@
+
+Test Suites: 4 passed, 4 total
+Tests:       41 passed, 41 total
+Snapshots:   0 total
+Time:        63.883 s
+Ran all test suites within paths "test/challenge-foundations.e2e-spec.ts", "test/challenges.e2e-spec.ts", "test/attempts.e2e-spec.ts", "test/submissions-feedback.e2e-spec.ts".

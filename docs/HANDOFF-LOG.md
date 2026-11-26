@@ -2,6 +2,16 @@
 
 Append a new entry at the TOP at the end of every session (newest first). Never rewrite old entries. Keep each entry to what the next agent needs: what changed, evidence, what is uncommitted, what to do next. Current status lives in [PROJECT-STATE.md](PROJECT-STATE.md).
 
+## 2026-11-26 — Authorized Challenges publication
+
+User authorized commit and push. Versioned dependencies: `9032a1d` (shared topology/thumbnail primitive), `7912192` (Learn guides required by challenge links). Implementation: `dc6ee8f` (CH-1/CH-2, canonical contract, six opt-in exercises and server rules). This entry supersedes earlier local/uncommitted labels for those exact changes. Remote publication is authorized; see branch history for the documentation commit.
+
+Validated an isolated checkout of the staged files rather than relying on the broader dirty tree: backend build, frontend typecheck and production build passed; actual fresh-database Challenges/attempt/feedback HTTP41/41; focused Learn/legacy Progress/Instructor/discovery web units61/61; all48 published registry routes have pages. The working tree has49 routes because its separate OAuth completion route is intentionally not part of this release. Types/contracts were regenerated for the committed subset. Temporary dependency junctions required a snapshot-only Turbopack filesystem-root adjustment; the actual project config was unchanged. Initial snapshot checks caught an omitted Concept Help mapping and a social-auth49-route assertion accidentally included with Learn; added the mapping and retained the release's original48 assertion before final checks. No test coverage was removed.
+
+Earlier817 backend/605 web units and24 browser journeys document the broader development tree, not a rerun of this exact subset. They remain useful development evidence with that limitation. No new live AI/OAuth calls or owner migration/seed. The disposable Challenges database container is stopped after publication checks. No screenshot/film/protected benchmark/main runtime contract was staged.
+
+Other previously dirty OAuth, Progress, Gallery/Dashboard/Designs changes, landing edits, protected artifacts and their broader generated types remain local. Shared-file partial staging preserved those bytes; do not discard them because HEAD now differs from the working file. Owner next applies migrations and explicitly seeds with an active Instructor UUID using CHALLENGES-FOUNDATION.md. No CH-3 work started. Publication claim released.
+
 Entry template:
 
 ```

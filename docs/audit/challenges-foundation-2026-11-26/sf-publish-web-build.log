@@ -1,0 +1,72 @@
+▲ Next.js 16.4.6 (Turbopack)
+✓ Running next.config.ts took 145ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 9.7s
+  Running TypeScript ...
+  Finished TypeScript in 23.7s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/37) ...
+  Generating static pages using 11 workers (9/37) 
+  Generating static pages using 11 workers (18/37) 
+  Generating static pages using 11 workers (27/37) 
+✓ Generating static pages using 11 workers (37/37) in 2.4s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ○ /admin/dashboard
+├ ○ /admin/dashboard/wall
+├ ○ /admin/users
+├ ○ /challenges
+├ ƒ /challenges/[id]
+├ ○ /compare
+├ ○ /components
+├ ○ /dashboard
+├ ○ /designs
+├ ƒ /designs/[id]
+├ ƒ /designs/[id]/[tab]
+├ ƒ /designs/[id]/report
+├ ƒ /designs/[id]/share
+├ ○ /dev/ai-logs
+├ ○ /dev/evaluation-runner
+├ ○ /evaluation
+├ ƒ /evaluation/[tab]
+├ ○ /examples
+├ ○ /gallery
+├ ƒ /gallery/[id]
+├ ○ /how-it-works
+├ ○ /instructor/challenges
+├ ƒ /instructor/challenges/[id]
+├ ○ /learn
+├ ƒ /learn/[topic]
+├ ○ /login
+├ ○ /new
+├ ○ /new/blank
+├ ○ /new/describe
+├ ○ /new/import
+├ ○ /new/template
+├ ○ /privacy
+├ ○ /progress
+├ ○ /register
+├ ○ /reports
+├ ƒ /reports/[id]
+├ ○ /reviews
+├ ƒ /reviews/[id]
+├ ○ /settings
+├ ƒ /settings/[section]
+├ ƒ /share/[token]
+├ ○ /support
+├ ƒ /support/[id]
+├ ○ /templates
+├ ○ /terms
+└ ○ /welcome
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

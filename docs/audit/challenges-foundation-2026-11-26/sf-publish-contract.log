@@ -1,0 +1,5 @@
+
+> stressforge-api@1.0.0 contract:phase3 C:\Users\mubas\AppData\Local\Temp\sf-challenges-publish-ea776fa_\nest-boilerplate\nest-boilerplate
+> ts-node -r tsconfig-paths/register src/script/export-phase3-contract.ts
+
+M11 contract matches canonical Zod schemas

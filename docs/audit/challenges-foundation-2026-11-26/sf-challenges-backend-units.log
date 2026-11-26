@@ -1,0 +1,20 @@
+[Nest] 9436  - 11/26/2026, 3:55:43 PM    WARN [Exception] m
+[Nest] 9436  - 11/26/2026, 3:55:43 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:55:43 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:55:43 PM    WARN [Exception] m
+[Nest] 9436  - 11/26/2026, 3:55:43 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:13 PM    WARN [AiTaskService] Could not record an AI task call: database down
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:36 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:39 PM   ERROR [Exception] Unhandled request failure
+[Nest] 9436  - 11/26/2026, 3:56:39 PM   ERROR [Exception] Unhandled request failure
+
+Test Suites: 1 skipped, 71 passed, 71 of 72 total
+Tests:       2 skipped, 817 passed, 819 total
+Snapshots:   0 total
+Time:        127.611 s, estimated 210 s
+Ran all test suites.

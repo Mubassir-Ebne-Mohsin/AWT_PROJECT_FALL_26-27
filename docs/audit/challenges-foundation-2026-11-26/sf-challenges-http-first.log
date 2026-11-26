@@ -1,0 +1,23 @@
+FAIL test/challenge-foundations.e2e-spec.ts (17.723 s)
+  ● Foundation challenges: private attempts, frozen rules and migration › adds six once without overwriting published content and exposes only bounded starter metadata
+
+    expect(received).not.toMatch(expected)
+
+    Expected pattern: not /reference|passwordHash|provider_subject/
+    Received string:      "{\"traffic\":{\"preset\":\"custom\",\"rps\":600,\"burst\":1.5,\"readRatio\":0.8,\"sloP95\":150,\"errorBudget\":0.01,\"durationMin\":10,\"shape\":\"steady\"},\"preview\":{\"nodes\":[{\"id\":\"n1\",\"type\":\"client\",\"label\":\"Users\",\"x\":40,\"y\":228},{\"id\":\"n2\",\"type\":\"app\",\"label\":\"App servers\",\"x\":280,\"y\":228},{\"id\":\"n4\",\"type\":\"db\",\"label\":\"Database\",\"x\":520,\"y\":228}],\"edges\":[{\"id\":\"e3\",\"from\":\"n1\",\"to\":\"n2\"},{\"id\":\"e5\",\"from\":\"n2\",\"to\":\"n4\"}]},\"learning\":{\"category\":\"Scaling\",\"difficulty\":\"beginner\",\"estimatedMinutes\":15,\"objective\":\"Scale a small application without inventing faster servers.\",\"brief\":\"Your small shop is launching today. The app tier cannot serve the burst. Keep the workload and per-instance properties fixed; increase only its replica count, up to three.\",\"topics\":[\"app-servers\",\"scaling\",\"utilization\"],\"hints\":[\"Which component exceeds its capacity?\",\"Replicas add instances; they do not make each instance faster.\",\"Try a small app replica pool and submit the saved revision.\"],\"sequence\":1},\"rules\":{\"version\":1,\"profile\":\"scale-app\",\"editable\":[{\"nodeId\":\"n2\",\"property\":\"replicas\",\"min\":1,\"max\":3}],\"additions\":[],\"replicaCaps\":{\"db\":1,\"app\":3,\"client\":1}},\"baseline\":{\"p95\":2068.6678163591455,\"errorRate\":0.34716089980271925,\"passes\":false,\"engineVersion\":\"reference-port-v1\"},\"id\":\"66666666-6666-4666-8666-000000000001\",\"title\":\"Owner wording\",\"summary\":\"Scale a small application without inventing faster servers.\",\"goal\":{\"p95Ms\":150,\"errorRate\":0.01}}"
+
+      83 |       ),
+      84 |     ).toBe(true);
+    > 85 |     expect(JSON.stringify(c)).not.toMatch(
+         |                                   ^
+      86 |       /reference|passwordHash|provider_subject/,
+      87 |     );
+      88 |     const schema = (await http.get("/docs-json").expect(200)).body;
+
+      at Object.<anonymous> (test/challenge-foundations.e2e-spec.ts:85:35)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        18.345 s
+Ran all test suites within paths "test/challenge-foundations.e2e-spec.ts".

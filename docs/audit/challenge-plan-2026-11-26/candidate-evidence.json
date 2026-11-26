@@ -1,0 +1,2500 @@
+{
+  "note": "Offline model estimates, proposed content only, not published challenges or production measurements",
+  "cases": [
+    {
+      "id": "C01",
+      "title": "Rescue the single-server launch",
+      "traffic": {
+        "preset": "custom",
+        "rps": 600,
+        "burst": 1.5,
+        "readRatio": 0.8,
+        "sloP95": 150,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 1,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 2068.6678163591455,
+        "errorRate": 0.34716089980271925,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 1.5,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 42.719439543131955,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.5,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C02",
+      "title": "Cache a busy catalogue",
+      "traffic": {
+        "preset": "custom",
+        "rps": 2000,
+        "burst": 1.5,
+        "readRatio": 0.95,
+        "sloP95": 150,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "cache",
+            "label": "Cache",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.85,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "db",
+            "label": "Database",
+            "x": 1000,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n4",
+            "to": "n8"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 615.6079984640684,
+        "errorRate": 0.40017113333124843,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 1.6666666666666667,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 40.20726496083975,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.625,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C03",
+      "title": "Scale reads without moving writes",
+      "traffic": {
+        "preset": "custom",
+        "rps": 2000,
+        "burst": 1.5,
+        "readRatio": 0.95,
+        "sloP95": 150,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "replica",
+            "label": "Read replica",
+            "x": 1000,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "replica",
+            "label": "Read replica 2",
+            "x": 1000,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          },
+          {
+            "id": "e11",
+            "from": "n6",
+            "to": "n10"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 615.6079984640684,
+        "errorRate": 0.40017113333124843,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 1.6666666666666667,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 43.76796022264014,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.625,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C04",
+      "title": "Put a breaking-news site behind the edge",
+      "traffic": {
+        "preset": "custom",
+        "rps": 3000,
+        "burst": 2,
+        "readRatio": 0.95,
+        "sloP95": 200,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "cache",
+            "label": "Cache",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "db",
+            "label": "Database",
+            "x": 1000,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n4",
+            "to": "n8"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "cdn",
+            "label": "CDN",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.8
+            }
+          },
+          {
+            "id": "n4",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "app",
+            "label": "App servers",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "cache",
+            "label": "Cache",
+            "x": 1000,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "db",
+            "label": "Database",
+            "x": 1240,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          },
+          {
+            "id": "e11",
+            "from": "n6",
+            "to": "n10"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 1814.2027172930175,
+        "errorRate": 0.6058759597000362,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 2.5,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 45.140789050582455,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.6,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C05",
+      "title": "Remove a cross-region detour",
+      "traffic": {
+        "preset": "custom",
+        "rps": 500,
+        "burst": 1.2,
+        "readRatio": 0.8,
+        "sloP95": 150,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "eu-west"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 198.80152328820503,
+        "errorRate": 0,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 0.3333333333333333,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 43.63393135283419,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.3333333333333333,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C06",
+      "title": "Serve a photo feed under load",
+      "traffic": {
+        "preset": "custom",
+        "rps": 2000,
+        "burst": 2,
+        "readRatio": 0.95,
+        "sloP95": 200,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 1000,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "storage",
+            "label": "Object storage",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "share": 0.6,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n4",
+            "to": "n8"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "cdn",
+            "label": "CDN",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.8
+            }
+          },
+          {
+            "id": "n4",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "app",
+            "label": "App servers",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "cache",
+            "label": "Cache",
+            "x": 1000,
+            "y": 181,
+            "props": {
+              "hitRatio": 0.8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "db",
+            "label": "Database",
+            "x": 1240,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n12",
+            "type": "storage",
+            "label": "Object storage",
+            "x": 1000,
+            "y": 275,
+            "props": {
+              "share": 0.6,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          },
+          {
+            "id": "e11",
+            "from": "n6",
+            "to": "n10"
+          },
+          {
+            "id": "e13",
+            "from": "n6",
+            "to": "n12"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 1961.6934902466605,
+        "errorRate": 0.557461607132404,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 2.2222222222222223,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 73.30802717053372,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.5333333333333333,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C07",
+      "title": "Fix the API gateway chokepoint",
+      "traffic": {
+        "preset": "custom",
+        "rps": 800,
+        "burst": 1.5,
+        "readRatio": 0.8,
+        "sloP95": 150,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "gateway",
+            "label": "API gateway",
+            "x": 280,
+            "y": 181,
+            "props": {
+              "region": "us-east",
+              "capacity": 500
+            }
+          },
+          {
+            "id": "n4",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "gateway",
+            "label": "API gateway",
+            "x": 280,
+            "y": 181,
+            "props": {
+              "region": "us-east",
+              "capacity": 500,
+              "replicas": 4
+            }
+          },
+          {
+            "id": "n4",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 584.6719923576109,
+        "errorRate": 0.5834183079102978,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 2.4,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 47.185155506130926,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.6666666666666666,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C08",
+      "title": "Scale the load-balancing tier",
+      "traffic": {
+        "preset": "custom",
+        "rps": 1000,
+        "burst": 1.5,
+        "readRatio": 0.8,
+        "sloP95": 200,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east",
+              "capacity": 1000
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "region": "us-east",
+              "capacity": 1000,
+              "replicas": 3
+            }
+          },
+          {
+            "id": "n4",
+            "type": "app",
+            "label": "App servers",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 324.5634519759839,
+        "errorRate": 0.3333366076197488,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 1.5,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 45.86352080927331,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "strained",
+        "maxRho": 0.8333333333333334,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C09",
+      "title": "Acknowledge notifications before delivering them",
+      "traffic": {
+        "preset": "custom",
+        "rps": 500,
+        "burst": 1.5,
+        "readRatio": 0.2,
+        "sloP95": 100,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "external",
+            "label": "Email provider",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "share": 1,
+              "region": "us-east",
+              "capacity": 1000
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n2",
+            "to": "n6"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n5",
+            "type": "queue",
+            "label": "Queue",
+            "x": 520,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "worker",
+            "label": "Workers",
+            "x": 760,
+            "y": 275,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "external",
+            "label": "Email provider",
+            "x": 520,
+            "y": 275,
+            "props": {
+              "share": 1,
+              "region": "us-east",
+              "capacity": 1000
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e7",
+            "from": "n2",
+            "to": "n5"
+          },
+          {
+            "id": "e8",
+            "from": "n5",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n4"
+          },
+          {
+            "id": "e11",
+            "from": "n6",
+            "to": "n10"
+          },
+          {
+            "id": "e12",
+            "from": "n2",
+            "to": "n4"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 325.1137452655613,
+        "errorRate": 0,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 0.75,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 39.45586316501381,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.4166666666666667,
+        "queues": [
+          {
+            "id": "n5",
+            "label": "Queue",
+            "arrival": 400,
+            "peakArrival": 600,
+            "drain": 1000,
+            "backlog": 0,
+            "lag": {
+              "kind": "finite",
+              "value": 0
+            },
+            "overflow": 0,
+            "maxDepth": 500000,
+            "state": "clear",
+            "syncShare": 0.8
+          }
+        ],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C10",
+      "title": "Drain the background queue",
+      "traffic": {
+        "preset": "custom",
+        "rps": 1000,
+        "burst": 2,
+        "readRatio": 0.2,
+        "sloP95": 200,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 5,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n5",
+            "type": "queue",
+            "label": "Queue",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "worker",
+            "label": "Workers",
+            "x": 760,
+            "y": 275,
+            "props": {
+              "replicas": 1,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e7",
+            "from": "n2",
+            "to": "n5"
+          },
+          {
+            "id": "e8",
+            "from": "n5",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n4"
+          },
+          {
+            "id": "e10",
+            "from": "n2",
+            "to": "n4"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 5,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 760,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n5",
+            "type": "queue",
+            "label": "Queue",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "worker",
+            "label": "Workers",
+            "x": 760,
+            "y": 275,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e7",
+            "from": "n2",
+            "to": "n5"
+          },
+          {
+            "id": "e8",
+            "from": "n5",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n4"
+          },
+          {
+            "id": "e10",
+            "from": "n2",
+            "to": "n4"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 39.58599087901736,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "strained",
+        "maxRho": 3.2,
+        "queues": [
+          {
+            "id": "n5",
+            "label": "Queue",
+            "arrival": 800,
+            "peakArrival": 1600,
+            "drain": 250,
+            "backlog": 330000,
+            "lag": {
+              "kind": "finite",
+              "value": 1320
+            },
+            "overflow": 0,
+            "maxDepth": 500000,
+            "state": "growing",
+            "syncShare": 0.8
+          }
+        ],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 39.58599087901736,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "pass",
+        "maxRho": 0.6666666666666666,
+        "queues": [
+          {
+            "id": "n5",
+            "label": "Queue",
+            "arrival": 800,
+            "peakArrival": 1600,
+            "drain": 2000,
+            "backlog": 0,
+            "lag": {
+              "kind": "finite",
+              "value": 0
+            },
+            "overflow": 0,
+            "maxDepth": 500000,
+            "state": "clear",
+            "syncShare": 0.8
+          }
+        ],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C11",
+      "title": "Weighted regional clients",
+      "traffic": {
+        "preset": "custom",
+        "rps": 500,
+        "burst": 1.2,
+        "readRatio": 0.8,
+        "sloP95": 250,
+        "errorBudget": 0.01,
+        "durationMin": 10,
+        "shape": "steady"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east",
+              "share": 1
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "client",
+            "label": "Asia customers",
+            "x": 0,
+            "y": 200,
+            "props": {
+              "region": "ap-south",
+              "share": 3
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n6",
+            "to": "n2"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east",
+              "share": 1
+            }
+          },
+          {
+            "id": "n2",
+            "type": "app",
+            "label": "App servers",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "replicas": 3,
+              "region": "ap-south"
+            }
+          },
+          {
+            "id": "n4",
+            "type": "db",
+            "label": "Database",
+            "x": 520,
+            "y": 228,
+            "props": {
+              "region": "ap-south"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "client",
+            "label": "Asia customers",
+            "x": 0,
+            "y": 200,
+            "props": {
+              "region": "ap-south",
+              "share": 3
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n6",
+            "to": "n2"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 244.56510083415068,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "strained",
+        "maxRho": 0.3333333333333333,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 232.20720754707963,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "strained",
+        "maxRho": 0.3333333333333333,
+        "queues": [],
+        "engineVersion": "reference-port-v1"
+      }
+    },
+    {
+      "id": "C12",
+      "title": "Global marketplace capstone",
+      "traffic": {
+        "preset": "custom",
+        "rps": 3000,
+        "burst": 2.5,
+        "readRatio": 0.85,
+        "sloP95": 500,
+        "errorBudget": 0.01,
+        "durationMin": 20,
+        "shape": "spike"
+      },
+      "start": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "cdn",
+            "label": "CDN",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.7
+            }
+          },
+          {
+            "id": "n4",
+            "type": "gateway",
+            "label": "API gateway",
+            "x": 520,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 520,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "app",
+            "label": "App servers",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "replicas": 2,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "cache",
+            "label": "Cache",
+            "x": 1000,
+            "y": 87,
+            "props": {
+              "hitRatio": 0.85,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n12",
+            "type": "db",
+            "label": "Database",
+            "x": 1240,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n13",
+            "type": "queue",
+            "label": "Queue",
+            "x": 1000,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n14",
+            "type": "worker",
+            "label": "Workers",
+            "x": 1240,
+            "y": 275,
+            "props": {
+              "replicas": 4,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n19",
+            "type": "replica",
+            "label": "Read replica",
+            "x": 1480,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n21",
+            "type": "replica",
+            "label": "Read replica 2",
+            "x": 1480,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n23",
+            "type": "external",
+            "label": "Payment API",
+            "x": 1000,
+            "y": 275,
+            "props": {
+              "share": 0.04,
+              "region": "us-east",
+              "capacity": 150
+            }
+          },
+          {
+            "id": "n25",
+            "type": "storage",
+            "label": "Object storage",
+            "x": 1000,
+            "y": 369,
+            "props": {
+              "share": 0.15,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          },
+          {
+            "id": "e11",
+            "from": "n8",
+            "to": "n10"
+          },
+          {
+            "id": "e15",
+            "from": "n8",
+            "to": "n13"
+          },
+          {
+            "id": "e16",
+            "from": "n13",
+            "to": "n14"
+          },
+          {
+            "id": "e17",
+            "from": "n14",
+            "to": "n12"
+          },
+          {
+            "id": "e18",
+            "from": "n8",
+            "to": "n12"
+          },
+          {
+            "id": "e20",
+            "from": "n12",
+            "to": "n19"
+          },
+          {
+            "id": "e22",
+            "from": "n12",
+            "to": "n21"
+          },
+          {
+            "id": "e24",
+            "from": "n8",
+            "to": "n23"
+          },
+          {
+            "id": "e26",
+            "from": "n8",
+            "to": "n25"
+          }
+        ]
+      },
+      "fixed": {
+        "nodes": [
+          {
+            "id": "n1",
+            "type": "client",
+            "label": "Users",
+            "x": 40,
+            "y": 228,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n2",
+            "type": "cdn",
+            "label": "CDN",
+            "x": 280,
+            "y": 228,
+            "props": {
+              "hitRatio": 0.7
+            }
+          },
+          {
+            "id": "n4",
+            "type": "gateway",
+            "label": "API gateway",
+            "x": 520,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n6",
+            "type": "lb",
+            "label": "Load balancer",
+            "x": 520,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n8",
+            "type": "app",
+            "label": "App servers",
+            "x": 760,
+            "y": 228,
+            "props": {
+              "replicas": 10,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n10",
+            "type": "cache",
+            "label": "Cache",
+            "x": 1000,
+            "y": 87,
+            "props": {
+              "hitRatio": 0.85,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n12",
+            "type": "db",
+            "label": "Database",
+            "x": 1240,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n13",
+            "type": "queue",
+            "label": "Queue",
+            "x": 1000,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n14",
+            "type": "worker",
+            "label": "Workers",
+            "x": 1240,
+            "y": 275,
+            "props": {
+              "replicas": 8,
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n19",
+            "type": "replica",
+            "label": "Read replica",
+            "x": 1480,
+            "y": 181,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n21",
+            "type": "replica",
+            "label": "Read replica 2",
+            "x": 1480,
+            "y": 275,
+            "props": {
+              "region": "us-east"
+            }
+          },
+          {
+            "id": "n23",
+            "type": "external",
+            "label": "Payment API",
+            "x": 1000,
+            "y": 275,
+            "props": {
+              "share": 0.04,
+              "region": "us-east",
+              "capacity": 150
+            }
+          },
+          {
+            "id": "n25",
+            "type": "storage",
+            "label": "Object storage",
+            "x": 1000,
+            "y": 369,
+            "props": {
+              "share": 0.15,
+              "region": "us-east"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e3",
+            "from": "n1",
+            "to": "n2"
+          },
+          {
+            "id": "e5",
+            "from": "n2",
+            "to": "n4"
+          },
+          {
+            "id": "e7",
+            "from": "n4",
+            "to": "n6"
+          },
+          {
+            "id": "e9",
+            "from": "n6",
+            "to": "n8"
+          },
+          {
+            "id": "e11",
+            "from": "n8",
+            "to": "n10"
+          },
+          {
+            "id": "e15",
+            "from": "n8",
+            "to": "n13"
+          },
+          {
+            "id": "e16",
+            "from": "n13",
+            "to": "n14"
+          },
+          {
+            "id": "e17",
+            "from": "n14",
+            "to": "n12"
+          },
+          {
+            "id": "e18",
+            "from": "n8",
+            "to": "n12"
+          },
+          {
+            "id": "e20",
+            "from": "n12",
+            "to": "n19"
+          },
+          {
+            "id": "e22",
+            "from": "n12",
+            "to": "n21"
+          },
+          {
+            "id": "e24",
+            "from": "n8",
+            "to": "n23"
+          },
+          {
+            "id": "e26",
+            "from": "n8",
+            "to": "n25"
+          }
+        ]
+      },
+      "baseline": {
+        "p95": 1240.438685954516,
+        "errorRate": 0.24772330659605657,
+        "passes": false,
+        "verdict": "fail",
+        "maxRho": 2.5312500000000004,
+        "queues": [
+          {
+            "id": "n13",
+            "label": "Queue",
+            "arrival": 177.77777777777777,
+            "peakArrival": 444.44444444444446,
+            "drain": 1000,
+            "backlog": 0,
+            "lag": {
+              "kind": "finite",
+              "value": 0
+            },
+            "overflow": 0,
+            "maxDepth": 500000,
+            "state": "clear",
+            "syncShare": 0.059259259259259255
+          }
+        ],
+        "engineVersion": "reference-port-v1"
+      },
+      "reference": {
+        "p95": 63.18737411866254,
+        "errorRate": 0,
+        "passes": true,
+        "verdict": "strained",
+        "maxRho": 0.8100000000000002,
+        "queues": [
+          {
+            "id": "n13",
+            "label": "Queue",
+            "arrival": 450.00000000000006,
+            "peakArrival": 1125.0000000000002,
+            "drain": 2000,
+            "backlog": 0,
+            "lag": {
+              "kind": "finite",
+              "value": 0
+            },
+            "overflow": 0,
+            "maxDepth": 500000,
+            "state": "clear",
+            "syncShare": 0.15000000000000002
+          }
+        ],
+        "engineVersion": "reference-port-v1"
+      }
+    }
+  ]
+}

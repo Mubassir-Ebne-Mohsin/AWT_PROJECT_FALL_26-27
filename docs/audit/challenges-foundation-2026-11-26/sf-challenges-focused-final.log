@@ -1,0 +1,6 @@
+
+Test Suites: 2 passed, 2 total
+Tests:       12 passed, 12 total
+Snapshots:   0 total
+Time:        11.667 s
+Ran all test suites within paths "src/modules/challenges/challenge-projection.spec.ts", "src/modules/challenges/exercise-rules.spec.ts".

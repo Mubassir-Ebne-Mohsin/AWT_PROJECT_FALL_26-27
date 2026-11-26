@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       20 passed, 20 total
+Snapshots:   0 total
+Time:        14.295 s, estimated 16 s
+Ran all test suites within paths "test/social-auth.e2e-spec.ts".

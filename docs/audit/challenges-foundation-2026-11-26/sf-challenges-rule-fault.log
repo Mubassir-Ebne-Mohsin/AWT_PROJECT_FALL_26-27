@@ -1,0 +1,114 @@
+FAIL src/modules/challenges/exercise-rules.spec.ts (15.292 s)
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Rescue the single-server launch
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Cache a busy catalogue
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Scale reads without moving writes
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Put a breaking-news site behind the edge
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Remove a cross-region detour
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Serve a photo feed under load
+
+    expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+      16 |           const g = structuredClone(c.start);
+      17 |           mutate(g);
+    > 18 |           expect(exerciseIssues(c.start, g, rules).length).toBeGreaterThan(0);
+         |                                                            ^
+      19 |         };
+      20 |       check((g) => {
+      21 |         g.nodes.find((n) => n.type === "app")!.props = { capacity: 1e9 };
+
+      at check (modules/challenges/exercise-rules.spec.ts:18:60)
+      at modules/challenges/exercise-rules.spec.ts:20:7
+
+Test Suites: 1 failed, 1 total
+Tests:       6 failed, 3 skipped, 9 total
+Snapshots:   0 total
+Time:        15.898 s
+Ran all test suites within paths "src/modules/challenges/exercise-rules.spec.ts".

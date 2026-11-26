@@ -1,5 +1,7 @@
 # STRESSFORGE project state (shared by Codex and Claude Code)
 
+**2026-11-26 Challenges publication:** User-authorized commit/push of dependencies9032a1d/7912192 and CH-1/CH-2 implementationdc6ee8f. Isolated publication snapshot: both builds/types,41 HTTP,61 scoped web units and48 routes pass. Owner migration/explicit Instructor seed pending. OAuth/Progress/landing and other unrelated local edits remain uncommitted. See newest handoff and [setup](CHALLENGES-FOUNDATION.md).
+
 **Current status (2026-11-07):** Roadmap E and PDF branding published through `8e9a04b` on `origin/codex/phase2-contracts`; C is also published. Owner must run `pnpm migration:run` before using the updated API. See report section 45 and [guide](SUPPORT-EXTRAS.md). Header branding matches the supplied stacked-layer STRESSFORGE. reference (verified locally, not pushed). Describe example choices also restyled and verified locally (not pushed). No gallery/live AI/owner DB changes.
 
 **Last updated:** 2026-11-07 by Codex. Backend 785/785 unit and 422/422 e2e (32 suites, four sequential processes); web 557/557 unit; Chrome 88/88 affected across four light/dark laptop projects; four applied functional faults caught. Builds, lint/types, both contracts and 46 routes pass. Full all-project Chrome, Edge and dev-only journeys were not rerun. Browser failures use controlled 503/cancellation, not a real API/container outage. No owner migration, live AI request, new dependency or frontend route. AI acceptance remains separate and unclosed.

@@ -1,0 +1,756 @@
+FAIL src/modules/challenges/exercise-rules.spec.ts (10.612 s)
+  ● Foundation exercise rules and calibration › admits six preserved-ID starters and references, with failing starts and passing solutions
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "lb"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cache"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/foundation-pack.ts:16:38
+          at Array.map (<anonymous>)
+      at verifyFoundationPack (modules/challenges/foundation-pack.ts:12:26)
+      at Object.<anonymous> (modules/challenges/exercise-rules.spec.ts:9:32)
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Rescue the single-server launch
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "lb"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cache"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Cache a busy catalogue
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Scale reads without moving writes
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cache"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Put a breaking-news site behind the edge
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Remove a cross-region detour
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cache"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects fixed-capacity, deleted-node, bypass and high-replica shortcuts: Serve a photo feed under load
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at modules/challenges/exercise-rules.spec.ts:14:40
+
+  ● Foundation exercise rules and calibration › rejects perfect caching, disconnected additions, foreign types and altered client demand
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at Object.<anonymous> (modules/challenges/exercise-rules.spec.ts:44:34)
+
+  ● Foundation exercise rules and calibration › accepts cosmetic moves/labels and leaves legacy challenge grading unrestricted
+
+    ZodError: [
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cdn"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "lb"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "gateway"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "worker"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "cache"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "replica"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "queue"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "storage"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      },
+      {
+        "expected": "number",
+        "code": "invalid_type",
+        "path": [
+          "replicaCaps",
+          "external"
+        ],
+        "message": "Invalid input: expected number, received undefined"
+      }
+    ]
+
+      61 |   if (profile === "scale-app") caps.app = 3;
+      62 |   for (const a of additions) caps[a.type] = (caps[a.type] ?? 0) + a.maxNodes;
+    > 63 |   return challengeRulesSchema.parse({
+         |                               ^
+      64 |     version: 1,
+      65 |     profile,
+      66 |     editable,
+
+      at createExerciseRules (modules/challenges/exercise-rules.ts:63:31)
+      at Object.<anonymous> (modules/challenges/exercise-rules.spec.ts:79:53)
+
+Test Suites: 1 failed, 1 total
+Tests:       9 failed, 9 total
+Snapshots:   0 total
+Time:        11.667 s
+Ran all test suites within paths "src/modules/challenges/exercise-rules.spec.ts".

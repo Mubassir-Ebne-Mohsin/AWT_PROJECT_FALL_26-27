@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-26",
+  "scope": "approved CH-1 / CH-2",
+  "backendFullUnits": {
+    "passed": 817,
+    "existingSkips": 2
+  },
+  "backendFinalFocused": {
+    "passed": 12
+  },
+  "challengesHttp": {
+    "passed": 41
+  },
+  "socialHttp": {
+    "passed": 20
+  },
+  "webUnits": {
+    "passed": 605
+  },
+  "productionBrowser": {
+    "uniqueJourneysPassed": 24,
+    "combinedInterruptedAfterPasses": 18,
+    "separate1440DarkPasses": 6,
+    "note": "Not a single completed 24-test process; interrupted under memory pressure."
+  },
+  "deliberateFaultsCaught": [
+    "validation bypass (six rejection assertions)",
+    "uncalibrated reference (calibration assertion)"
+  ],
+  "ownerDatabaseMigrated": false,
+  "ownerSeeded": false,
+  "committed": false,
+  "pushed": false
+}

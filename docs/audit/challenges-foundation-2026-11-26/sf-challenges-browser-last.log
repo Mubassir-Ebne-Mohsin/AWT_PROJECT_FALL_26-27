@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+(node:13840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1440-dark] › tests\browser\challenge-foundations.spec.ts:172:5 › Challenge cards are styled, responsive, searchable and filterable (19.1s)
+  ok 2 [1440-dark] › tests\browser\challenge-foundations.spec.ts:232:5 › Challenge briefing explains fixed workload, bounded edits, hints and safe guest return (3.9s)
+  ok 3 [1440-dark] › tests\browser\challenge-foundations.spec.ts:261:5 › Private progress, saved submission and account switch do not leak prior results (9.9s)
+  ok 4 [1440-dark] › tests\browser\challenge-foundations.spec.ts:302:5 › Catalog and progress failures stay local and support retry (1.5s)
+  ok 5 [1440-dark] › tests\browser\challenge-foundations.spec.ts:333:5 › Instructor authoring has bounded profile choices and editable learning fields (3.4s)
+  ok 6 [1440-dark] › tests\browser\challenge-foundations.spec.ts:365:6 › Rule rejection explains the repair without inventing a graded result (2.7s)
+
+  6 passed (2.4m)

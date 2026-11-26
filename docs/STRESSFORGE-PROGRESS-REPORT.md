@@ -1765,3 +1765,39 @@ All nine browser checks passed at the approved widths after restoring the source
 [Verified] Full backend integration attempt encountered a statement timeout and native process crash; separate account, admin-metrics and admin-status reruns passed all 43 tests. [Untested] Remaining integration/browser journeys, other browsers, current dirty checkout, merge and deployment. No milestone closure is inferred. See newest HANDOFF-LOG entry for temporary evidence and uncommitted generated outputs.
 
 [Verified] Registry audit reports one moderate minimatch advisory and no Next.js advisory in the upgraded graph. No high or critical findings. No live AI, owner database migration, push or merge performed.
+
+
+## 2026-11-26 — Approved Challenges CH-1/CH-2 foundation release
+
+**Verdict:** Implementation verified locally in isolation; owner-database migration, explicit seed and personal rehearsal remain pending. This does not complete the deferred CH-3 advanced/async-grading scope. No application feature was activated through a live model or paid service.
+
+| Requirement | Implementation / evidence | Status |
+| --- | --- | --- |
+| Organized catalog | Shared starter SVG/icons; compact3/2/1 grid, search/category/difficulty/private-progress/sort/reset; no per-card API | Verified with controlled production browser journeys |
+| Honest progress | Account-keyed server progress, explicit guest/loading/failure states, latest attempt link | Verified browser account switch and isolated HTTP owner checks |
+| Guided exercise | Scenario, frozen traffic/targets, baseline, allowed edits, three hints and valid Learn links | Verified browser/contract/projection |
+| Bounded rules | Original nodes/paths/demand/service properties preserved; profile-specific additions/replicas/region; reject before allocation | Verified rule unit and actual HTTP422/zero-allocation checks |
+| Frozen records | Rule snapshot/version plus saved graph/goal/traffic, idempotent accepted requests | Verified actual HTTP grading and replay |
+| Six official cases | One-app scaling, cache, read replicas, CDN, co-location, media; each failing start and rule-valid passing reference | Verified offline engine and pack tests; server-only references |
+| Instructor authoring | Learning fields/profile, published structural freeze and duplicate metadata | Verified unit/HTTP/controlled browser; custom solvability not promised |
+| Installation | Nullable1795400000000 migration; explicit idempotent/locked/owner-limited seed, refusal of destructive rollback | Verified disposable DB/schema; owner's installation pending |
+| Old compatibility | Four old challenges/history/judge retained, approved additive response assertions and explicit Social migration target |41 Challenges/attempt/feedback HTTP +20 social-auth HTTP pass |
+
+**Verification evidence:** backend build passed; full backend units817 passed/two existing skips, focused rule/projection12 passed; web605 unit tests passed; final production web build/typecheck passed. Full lints have0 errors with26 backend and2 web warnings. Phase3 contract matches canonical schemas;49 registered routes have pages. Production Chrome24 distinct journeys passed:18 in the interrupted combined run and6 in a separate last-project run. The combined worker stalled under severe RAM pressure, so this is not evidence of a single clean24-test process. Four laptop size/theme projects also check390/320px, computed card styles/column count and horizontal overflow. Reviewed desktop dark/mobile light screenshots. Source/outputs: docs/audit/challenges-foundation-2026-11-26/.
+
+**Failures and deliberate checks:** disabling exerciseIssues made all six rejection cases fail; replacing the passing reference with the starter failed calibration. Fault setup files removed. Initial new tests exposed enum-record key strictness (fixed with partialRecord), new browser selector/fixture mismatches, corrupted new punctuation and unhelpful rule failures (UI repaired). Isolated cleanup fixed to respect test FK history. Existing tests were changed only under the owner's explicit approvals; privacy/refusal/data-preservation coverage retained. Focused post-fault rerun was initially interrupted to relieve memory pressure; final result is recorded in the evidence log.
+
+**Limits:** browser flows use controlled API fixtures, with separate actual Nest/Postgres/simulator integration tests. No continuous real-account browser-to-DB rehearsal, full all-feature Chrome regression, Edge, dev-only states, real outages or live AI/provider acceptance in this scope. No owner data/credentials changed; no new dependency/route; no commit/push. Protected benchmark/old audit images remain outside this release's edits. Only own labelled test services were stopped.
+
+**Remaining:** owner applies pending migrations, chooses an active Instructor UUID, runs the opt-in seed from CHALLENGES-FOUNDATION.md and rehearses a private attempt. Keep the existing historical entry above intact; future phase-completion work must update this same report with new evidence and reassess affected earlier requirements.
+
+
+## 2026-11-26 — Authorized Challenges publication
+
+User authorized commit and push. Versioned dependencies: `9032a1d` (shared topology/thumbnail primitive), `7912192` (Learn guides required by challenge links). Implementation: `dc6ee8f` (CH-1/CH-2, canonical contract, six opt-in exercises and server rules). This entry supersedes earlier local/uncommitted labels for those exact changes. Remote publication is authorized; see branch history for the documentation commit.
+
+Validated an isolated checkout of the staged files rather than relying on the broader dirty tree: backend build, frontend typecheck and production build passed; actual fresh-database Challenges/attempt/feedback HTTP41/41; focused Learn/legacy Progress/Instructor/discovery web units61/61; all48 published registry routes have pages. The working tree has49 routes because its separate OAuth completion route is intentionally not part of this release. Types/contracts were regenerated for the committed subset. Temporary dependency junctions required a snapshot-only Turbopack filesystem-root adjustment; the actual project config was unchanged. Initial snapshot checks caught an omitted Concept Help mapping and a social-auth49-route assertion accidentally included with Learn; added the mapping and retained the release's original48 assertion before final checks. No test coverage was removed.
+
+Earlier817 backend/605 web units and24 browser journeys document the broader development tree, not a rerun of this exact subset. They remain useful development evidence with that limitation. No new live AI/OAuth calls or owner migration/seed. The disposable Challenges database container is stopped after publication checks. No screenshot/film/protected benchmark/main runtime contract was staged.
+
+Other previously dirty OAuth, Progress, Gallery/Dashboard/Designs changes, landing edits, protected artifacts and their broader generated types remain local. Shared-file partial staging preserved those bytes; do not discard them because HEAD now differs from the working file. Owner next applies migrations and explicitly seeds with an active Instructor UUID using CHALLENGES-FOUNDATION.md. No CH-3 work started. Publication claim released.
