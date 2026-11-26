@@ -1,16 +1,8 @@
+import { TOPICS } from "@/lib/learn-content";
 // Fixed vocabularies from the prototype (SECTION 3 and SECTION 5). They decide which
 // dynamic URL segments are valid and what their titles and breadcrumbs say.
 
-export const LEARN_TOPICS: Record<string, string> = {
-  p95: "p95 latency",
-  caching: "Caching",
-  queues: "Queues",
-  replicas: "Read replicas",
-  "load-balancing": "Load balancing",
-  utilization: "Utilization (ρ)",
-  cdn: "CDNs",
-  regions: "Regions and latency",
-};
+export const LEARN_TOPICS: Record<string, string> = Object.fromEntries(TOPICS.map(topic => [topic.id, topic.title]));
 
 export const CHALLENGES: Record<string, string> = {
   "flash-sale": "Survive a flash sale",

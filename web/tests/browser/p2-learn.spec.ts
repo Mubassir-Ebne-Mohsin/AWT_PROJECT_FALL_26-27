@@ -22,13 +22,13 @@ const watch = (page: Page) => {
   return { errors, api };
 };
 
-test("P2 the index lists the eight concepts, links each one, and starts with nothing opened", async ({ page }) => {
+test("P2 the index lists the expanded concepts, links each one, and starts with nothing opened", async ({ page }) => {
   const seen = watch(page);
   await page.goto("/learn");
   await expect(page).toHaveTitle("Learn · StressForge");
   await expect(page.locator("main h1")).toHaveText("Learn");
-  await expect(page.getByTestId("learn-card")).toHaveCount(8);
-  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-card")).toHaveCount(41);
+  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 41 opened · 0 passed");
   await expect(page.getByTestId("learn-mark").first()).toHaveText("Not opened yet");
   for (const [id, title] of TOPICS) await expect(page.getByRole("link", { name: title, exact: true })).toHaveAttribute("href", "/learn/" + id);
   for (const width of [320, 390, 1024, 1440]) {
@@ -96,14 +96,14 @@ test("P2 a guest opens topics and passes a check, and the marks survive a reload
   await page.goto("/learn/cdn");
   await expect(page.getByTestId("topic-mark")).toHaveText("Opened");
   await page.goto("/learn");
-  await expect(page.getByTestId("learn-tally")).toHaveText("2 of 8 opened · 1 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("2 of 41 opened · 1 passed");
   const marks = await page.getByTestId("learn-card").evaluateAll((els) => els.map((e) => [e.querySelector("a")!.textContent, e.getAttribute("data-mark")]));
   expect(Object.fromEntries(marks)).toMatchObject({ Caching: "passed", CDNs: "opened", Queues: "new" });
 
   await page.getByTestId("learn-clear").click();
-  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 41 opened · 0 passed");
   await page.reload();
-  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 41 opened · 0 passed");
 });
 
 test("P2 two accounts in one browser keep separate marks, and a guest's marks are not given to the account", async ({ page }, info) => {
@@ -118,25 +118,25 @@ test("P2 two accounts in one browser keep separate marks, and a guest's marks ar
   await page.getByRole("button", { name: "Create account", exact: true }).click();
   await expect(page.getByRole("button", { name: "Account menu", exact: true })).toBeVisible();
   await page.goto("/learn");
-  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 41 opened · 0 passed");
   await page.goto("/learn/cdn");
   await expect(page.getByTestId("topic-mark")).toHaveText("Opened");
   await page.goto("/learn");
-  await expect(page.getByTestId("learn-tally")).toHaveText("1 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("1 of 41 opened · 0 passed");
   await page.getByRole("button", { name: "Account menu", exact: true }).click();
   await page.getByRole("menuitem", { name: "Log out", exact: true }).click();
   await expect(page.getByRole("button", { name: "Account menu", exact: true })).toHaveCount(0);
   await page.goto("/learn");
-  await expect(page.getByTestId("learn-tally")).toHaveText("1 of 8 opened · 0 passed"); // the guest's own mark (queues)
+  await expect(page.getByTestId("learn-tally")).toHaveText("1 of 41 opened · 0 passed"); // the guest's own mark (queues)
   await expect(page.locator("[data-testid=learn-card][data-mark=opened] a")).toHaveText("Queues");
 });
 
-test("P2 anything that is not one of the eight topics is a page-not-found, and the names every object has are not topics", async ({ page }) => {
+test("P2 anything that is not a registered topic is a page-not-found, and the names every object has are not topics", async ({ page }) => {
   for (const name of ["not-a-topic", "constructor", "__proto__", "toString"]) {
     await page.goto("/learn/" + name);
     await expect(page).toHaveTitle("Page not found · StressForge");
     await expect(page.getByTestId("learn-topic")).toHaveCount(0);
   }
   await page.goto("/learn");
-  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 8 opened · 0 passed");
+  await expect(page.getByTestId("learn-tally")).toHaveText("0 of 41 opened · 0 passed");
 });

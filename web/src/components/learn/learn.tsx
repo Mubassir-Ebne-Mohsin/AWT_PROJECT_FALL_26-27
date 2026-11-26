@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { LearnLibrary } from "@/components/learn/learn-library";
+import { LessonGuide, RelatedLessons } from "@/components/learn/lesson-guide";
+import { LessonIcon } from "@/components/learn/lesson-icon";
 import { notFound, usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -55,58 +58,8 @@ export function useLearnProgress() {
 }
 
 export function LearnIndex() {
-  const resolved = resolveRoute("/learn");
   const { progress, clear } = useLearnProgress();
-  const [cleared, setCleared] = useState(false);
-  return (
-    <div className="page stack lg" data-testid="learn-index">
-      <Crumbs resolved={resolved} />
-      <div className="stack">
-        <h1 className="h1">Learn</h1>
-        <p className="lede">Eight ideas behind the numbers StressForge shows. Each has a short explanation, a demo you can drag, and a two-question check. Everything here runs in your browser, and nothing is sent anywhere.</p>
-      </div>
-      <p className="hint" data-testid="learn-tally">
-        {progress.opened.length} of {TOPICS.length} opened · {progress.passed.length} passed
-      </p>
-      <ul className="lrn-cards" aria-label="Concepts">
-        {TOPICS.map((t) => {
-          const mark = markOf(progress, t.id);
-          return (
-            <li key={t.id} className="panel stack r2-pad" data-testid="learn-card" data-mark={mark}>
-              <h2 className="h3">
-                <Link href={`/learn/${t.id}`}>{t.title}</Link>
-              </h2>
-              <p>{t.summary}</p>
-              <p className={"pill " + (mark === "passed" ? "ok" : mark === "opened" ? "accent" : "outline")} data-testid="learn-mark">
-                {MARK_LABEL[mark]}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
-      <section className="stack" aria-label="Your progress">
-        <p className="hint">Your marks are kept on this device only, separately for each account and for guests.</p>
-        <div className="row">
-          <button
-            className="btn"
-            type="button"
-            onClick={() => {
-              clear();
-              setCleared(true);
-            }}
-            data-testid="learn-clear"
-          >
-            Clear my learning progress
-          </button>
-        </div>
-        {cleared && (
-          <p className="hint" role="status" data-testid="learn-cleared">
-            Cleared. Your marks on this device are gone.
-          </p>
-        )}
-      </section>
-    </div>
-  );
+  return <LearnLibrary progress={progress} clear={clear} />;
 }
 
 function QuestionBlock({ q, index, onResult }: { q: Question; index: number; onResult: (correct: boolean) => void }) {
@@ -207,7 +160,7 @@ export function LearnTopic() {
   }, [ready, open, id, known]);
   const mark = MARK_LABEL[markOf(progress, id)];
   if (resolved.route === NOT_FOUND_ROUTE || !topic) notFound();
-  const Demo = DEMOS[id];
+  const Demo = Object.hasOwn(DEMOS, id) ? DEMOS[id] : undefined;
   const index = TOPICS.findIndex((t) => t.id === id);
   const prev = TOPICS[index - 1];
   const next = TOPICS[index + 1];
@@ -217,7 +170,7 @@ export function LearnTopic() {
     <div className="page narrow stack lg" data-testid="learn-topic">
       <Crumbs resolved={resolved} />
       <div className="stack">
-        <h1 className="h1">{topic.title}</h1>
+        <LessonIcon topic={topic} /><h1 className="h1">{topic.title}</h1>
         <p className="lede">{topic.summary}</p>
         <p className="hint" data-testid="topic-mark">
           {mark}
@@ -228,7 +181,8 @@ export function LearnTopic() {
           <p key={p}>{p}</p>
         ))}
       </section>
-      <Demo />
+      <LessonGuide topic={topic} />
+      {Demo && <Demo />}
       <section className="panel stack r2-pad" aria-label="Where you will see this" data-testid="seen">
         <h2 className="h3">Where you will see this in the app</h2>
         <p>{topic.seen}</p>
@@ -242,6 +196,7 @@ export function LearnTopic() {
         </p>
       </section>
       <Check key={id} id={id} passedBefore={passedBefore} onPass={() => pass(id)} />
+      <RelatedLessons topic={topic} />
       <nav className="row between" aria-label="More concepts">
         {prev ? <Link href={`/learn/${prev.id}`}>← {prev.title}</Link> : <span />}
         <Link href="/learn">All concepts</Link>

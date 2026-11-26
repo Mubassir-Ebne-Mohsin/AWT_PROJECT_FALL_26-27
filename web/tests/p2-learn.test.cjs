@@ -90,14 +90,15 @@ const words = (text) => text.trim().split(/\s+/).length;
 
 // ---------- content ----------
 
-test("P2 content: exactly the eight registered topics, with the registered titles, in a sensible order", () => {
+test("P2 content: the expanded registered topics, preserving the original eight, with the registered titles, in a sensible order", () => {
   assert.deepEqual([...C.TOPIC_IDS].sort(), Object.keys(LEARN_TOPICS).sort());
   for (const t of C.TOPICS) assert.equal(t.title, LEARN_TOPICS[t.id], t.id);
-  assert.equal(C.TOPICS.length, 8);
+  assert.equal(C.TOPICS.length, 41);
+  assert.equal(C.CORE_TOPICS.length, 8);
 });
 
 test("P2 content: every lesson is short plain text with a place in the app, a takeaway and a two-question check", () => {
-  for (const t of C.TOPICS) {
+  for (const t of C.CORE_TOPICS) {
     assert.ok(t.body.length >= 3, t.id + " has an explanation");
     const total = words(t.body.join(" "));
     assert.ok(total >= 90 && total <= 260, `${t.id} explanation is ${total} words`);
@@ -206,8 +207,8 @@ test("P2 progress: unreadable, tampered or unknown data is ignored, and a blocke
 
 // ---------- registry ----------
 
-test("P2 registry: the learn routes are complete, now 48 routes, and only the eight topics resolve", () => {
-  assert.equal(ROUTES.length, 48);
+test("P2 registry: the learn routes are complete, now 49 routes, and only registered topics resolve", () => {
+  assert.equal(ROUTES.length, 49);
   for (const id of ["learn", "learn-topic"]) assert.equal(ROUTES.find((r) => r.id === id).fidelity, "C");
   for (const id of Object.keys(LEARN_TOPICS)) assert.equal(resolveRoute("/learn/" + id).title, LEARN_TOPICS[id]);
   assert.equal(resolveRoute("/learn/not-a-topic").title, "Page not found");
@@ -222,19 +223,19 @@ test("P2 registry: the learn routes are complete, now 48 routes, and only the ei
 
 // ---------- the index page ----------
 
-test("P2 index: eight cards link to the topics, show a text mark for each, and count what is opened and passed", async () => {
+test("P2 index: all registered cards link to the topics, show a text mark for each, and count what is opened and passed", async () => {
   const view = await render("/learn");
   const cards = [...view.querySelectorAll("[data-testid='learn-card']")];
-  assert.equal(cards.length, 8);
+  assert.equal(cards.length, C.TOPICS.length);
   assert.deepEqual(cards.map((c) => c.querySelector("a").getAttribute("href")), C.TOPIC_IDS.map((id) => "/learn/" + id));
   assert.ok(cards.every((c) => /Not opened yet/.test(c.textContent)));
   assert.equal(view.querySelectorAll("h1").length, 1);
-  assert.match(testid(view, "learn-tally").textContent, /0 of 8 opened · 0 passed/);
+  assert.match(testid(view, "learn-tally").textContent, /0 of 41 opened · 0 passed/);
   P.markPassed(window.localStorage, "guest", "caching", C.TOPIC_IDS);
   P.markOpened(window.localStorage, "guest", "cdn", C.TOPIC_IDS);
   document.body.innerHTML = "";
   const again = await render("/learn");
-  assert.match(testid(again, "learn-tally").textContent, /2 of 8 opened · 1 passed/);
+  assert.match(testid(again, "learn-tally").textContent, /2 of 41 opened · 1 passed/);
   const marks = Object.fromEntries([...again.querySelectorAll("[data-testid='learn-card']")].map((c) => [c.querySelector("a").textContent, c.getAttribute("data-mark")]));
   assert.equal(marks["Caching"], "passed");
   assert.equal(marks["CDNs"], "opened");
@@ -247,9 +248,9 @@ test("P2 index: the marks belong to the signed-in account, not to the browser, a
   authUser = { id: "me" };
   authStatus = "authed";
   const view = await render("/learn");
-  assert.match(testid(view, "learn-tally").textContent, /1 of 8 opened · 1 passed/, "my own marks, not the guest's");
+  assert.match(testid(view, "learn-tally").textContent, /1 of 41 opened · 1 passed/, "my own marks, not the guest's");
   await click(testid(view, "learn-clear"));
-  assert.match(testid(view, "learn-tally").textContent, /0 of 8 opened · 0 passed/);
+  assert.match(testid(view, "learn-tally").textContent, /0 of 41 opened · 0 passed/);
   assert.ok(testid(view, "learn-cleared"));
   assert.deepEqual(P.readProgress(window.localStorage, "guest", C.TOPIC_IDS).opened, ["cdn"], "the guest marks are untouched");
   assert.equal(window.localStorage.getItem("sf:learn:v1:user:me"), null);
@@ -265,8 +266,8 @@ test("P2 index: nothing is read or written for a person whose sign-in is still b
 
 // ---------- a topic page ----------
 
-test("P2 topic: every topic renders one heading, its explanation, a demo, where it shows up, a takeaway and a check, with no request", async () => {
-  for (const t of C.TOPICS) {
+test("P2 topic: every original interactive topic renders one heading, its explanation, a demo, where it shows up, a takeaway and a check, with no request", async () => {
+  for (const t of C.CORE_TOPICS) {
     document.body.innerHTML = "";
     const view = await render("/learn/" + t.id);
     assert.equal(view.querySelectorAll("h1").length, 1, t.id);
@@ -329,7 +330,7 @@ test("P2 topic: a person who passed before is told so and can try again", async 
   assert.match(testid(view, "topic-mark").textContent, /Passed the check/);
 });
 
-test("P2 topic: previous and next links walk the eight topics in order", async () => {
+test("P2 topic: previous and next links walk the expanded registry in order", async () => {
   let view = await render("/learn/queues");
   let links = [...view.querySelectorAll("nav[aria-label='More concepts'] a")].map((a) => [a.textContent, a.getAttribute("href")]);
   assert.deepEqual(links, [["← Utilization (ρ)", "/learn/utilization"], ["All concepts", "/learn"], ["p95 latency →", "/learn/p95"]]);
@@ -337,7 +338,7 @@ test("P2 topic: previous and next links walk the eight topics in order", async (
   view = await render("/learn/utilization");
   assert.equal(view.querySelectorAll("nav[aria-label='More concepts'] a").length, 2, "no previous link on the first topic");
   document.body.innerHTML = "";
-  view = await render("/learn/regions");
+  view = await render("/learn/" + C.TOPIC_IDS.at(-1));
   assert.equal(view.querySelectorAll("nav[aria-label='More concepts'] a").length, 2, "no next link on the last topic");
 });
 
@@ -445,4 +446,71 @@ test("P2 demo: caching, replicas, balancing, CDN and regions each follow the mod
   await setSelect(byLabel(view, "Where the database runs"), "eu-west");
   await setRange(byLabel(view, "Calls in a row"), 1);
   assert.match(summary(view), /adds 75 ms\. 1 call in a row add 75 ms/);
+});
+
+// Expanded library: the original eight retain all numerical/demo assertions above.
+test("Learn expansion: all palette types have exactly one complete component lesson and supported properties", () => {
+ const { CATALOG } = require("../../nest-boilerplate/nest-boilerplate/src/modules/simulation/engine/catalog.ts");
+ const { graphNode } = require("../../nest-boilerplate/nest-boilerplate/src/common/contracts/phase2/graph.schema.ts");
+ const components = C.TOPICS.filter(t => t.component);
+ assert.equal(components.length,12);
+ assert.deepEqual(components.map(t=>t.component).sort(),Object.keys(CATALOG).sort());
+ for (const t of components) {
+  const shape = graphNode.options.find(option => option.shape.type.value === t.component).shape.props.shape;
+  assert.deepEqual(t.properties.map(p=>p.key).sort(),Object.keys(shape).sort(),t.id+" supported properties");
+  assert.ok(t.diagram.length >= 2 && t.example.length > 20 && t.practice.length >= 4,t.id);
+ }
+});
+test("Learn expansion: every new guide has reviewed structure, valid routes and meaningful checks", () => {
+ const core = new Set(C.CORE_TOPICS.map(t=>t.id));
+ assert.equal(C.TOPICS.length,41);
+ assert.equal(new Set(C.TOPIC_IDS).size,41);
+ for (const t of C.TOPICS) {
+  assert.ok(["components","properties","traffic","results","workflows"].includes(t.category),t.id);
+  for (const id of t.related ?? []) assert.ok(C.topicById(id),t.id+" related "+id);
+  for (const link of t.links ?? []) assert.notEqual(resolveRoute(link.href).title,"Page not found",link.href);
+  if (core.has(t.id)) continue;
+  assert.ok(t.body.length>=3 && words(t.body.join(" "))>=90,t.id+" full explanation");
+  assert.equal(t.quiz.length,2,t.id);
+  for (const q of t.quiz) { assert.equal(new Set(q.options).size,4);assert.ok(q.options[q.answer]);assert.ok(q.why.length>20); }
+  assert.ok(t.practice.length>=3 && t.takeaway.length>20,t.id);
+  assert.doesNotMatch(t.body.join(" "),/<|>|guarantee[s]? (?:accuracy|availability)/i,t.id);
+ }
+});
+test("Learn expansion: every new guide renders with a check and without claiming an interactive demo", async () => {
+ const core = new Set(C.CORE_TOPICS.map(t=>t.id));
+ for (const t of C.TOPICS.filter(t=>!core.has(t.id))) {
+  const view = await render("/learn/"+t.id);
+  assert.equal(view.querySelectorAll("h1").length,1,t.id);
+  assert.equal(view.querySelector("h1").textContent,t.title,t.id);
+  assert.ok(testid(view,"lesson-guide"),t.id);
+  assert.equal(view.querySelectorAll("[data-testid=demo]").length,0,t.id);
+  assert.equal(view.querySelectorAll("[data-testid=question]").length,2,t.id);
+ }
+ assert.equal(fetchCalls,0);
+});
+test("Learn expansion: categories, property search and empty-state reset preserve progress", async () => {
+ const view = await render("/learn");
+ const buttons = [...view.querySelectorAll("button")];
+ await click(buttons.find(b=>b.textContent.startsWith("Components ")));
+ assert.equal(view.querySelectorAll("[data-testid=learn-card]").length,12);
+ assert.equal(view.querySelectorAll("[data-testid=learn-card] .learn-logo svg").length,12);
+ await click(buttons.find(b=>b.textContent.startsWith("All lessons ")));
+ await setRange(byLabel(view,"Find a lesson"),"zzzz-no-such-topic");await settle();
+ assert.ok(testid(view,"learn-empty"));
+ await click([...view.querySelectorAll("button")].find(b=>b.textContent==="Clear filters"));
+ assert.equal(view.querySelectorAll("[data-testid=learn-card]").length,41);
+ assert.equal(fetchCalls,0);
+});
+
+
+test("Learn expansion: Concept Help links point to registered lessons without changing answers", () => {
+ const { ENTRIES } = require("../src/lib/concept-help/index.ts");
+ const { HELP_LESSONS } = require("../src/lib/learn-help-links.ts");
+ for (const [entry,id] of Object.entries(HELP_LESSONS)) {
+  assert.ok(C.topicById(id),entry+" lesson");
+  const help=ENTRIES.find(e=>e.id===entry);
+  assert.ok(help,entry+" help entry");
+  assert.ok(help.links.some(l=>l.href==="/learn/"+id),entry+" full lesson link");
+ }
 });

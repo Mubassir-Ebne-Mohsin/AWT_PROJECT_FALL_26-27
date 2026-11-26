@@ -1,3 +1,8 @@
+import type { LessonDetails } from "@/lib/learn-types";
+import { CORE_DETAILS } from "@/lib/learn-enrichment";
+import { COMPONENT_GUIDES } from "@/lib/learn-guides-components";
+import { FOUNDATION_GUIDES } from "@/lib/learn-guides-foundations";
+import { WORKFLOW_GUIDES } from "@/lib/learn-guides-workflows";
 import { BURST_SECONDS, CACHE_DEFAULT_HIT, CDN_DEFAULT_HIT, COMPONENT, REPLICATION_COST, RTT_MS, STATUS, WORKER_CAPACITY, caching, cdn, percentiles, queue } from "@/lib/learn-model";
 
 // P2 Learn: the lessons, as typed data. Numbers in the words come from the same model the demos run on
@@ -5,7 +10,7 @@ import { BURST_SECONDS, CACHE_DEFAULT_HIT, CDN_DEFAULT_HIT, COMPONENT, REPLICATI
 // Plain English, no promises about measured performance. Edit the words here; the components only lay them out.
 
 export type Question = { prompt: string; options: string[]; answer: number; why: string };
-export type Topic = {
+export type Topic = Partial<LessonDetails> & {
   id: string;
   title: string;
   summary: string;
@@ -28,7 +33,7 @@ const cacheHigh = caching({ rps: 1000, readRatio: 1, hit: 0.95, burst: 1 });
 const cdnSample = cdn({ rps: 2000, readRatio: 0.8, hit: CDN_DEFAULT_HIT, burst: 1.5 });
 const growing = queue({ rps: 500, burst: 1, drain: WORKER_CAPACITY, maxDepth: 500000, durationMin: 10 });
 
-export const TOPICS: Topic[] = [
+export const CORE_TOPICS: Topic[] = [
   {
     id: "utilization",
     title: "Utilization (ρ)",
@@ -240,5 +245,6 @@ export const TOPICS: Topic[] = [
   },
 ];
 
+export const TOPICS: Topic[] = [...CORE_TOPICS.map(t => ({ ...t, ...CORE_DETAILS[t.id] })), ...COMPONENT_GUIDES, ...FOUNDATION_GUIDES, ...WORKFLOW_GUIDES].map(t => t.component && t.practice ? { ...t, practice: [...t.practice, "Increase workload gradually again and inspect remaining headroom, including any new limiting component."] } : t);
 export const TOPIC_IDS = TOPICS.map((t) => t.id);
 export const topicById = (id: string) => TOPICS.find((t) => t.id === id);
