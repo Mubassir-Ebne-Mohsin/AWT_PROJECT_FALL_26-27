@@ -1,12 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import "@/styles/gallery.css";
+
+import { COMPONENT_NAMES } from "@/components/gallery/gallery-preview";
+import { GalleryCard } from "@/components/gallery/gallery-card";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Crumbs } from "@/components/shell/crumbs";
-import { fetchGallery, VERDICT_LABEL, VERDICT_TONE, type GalleryFilters, type GalleryVerdict } from "@/lib/api/gallery";
-import { dateText } from "@/lib/report-presentation";
-import { milliseconds } from "@/lib/result-presentation";
+import { fetchGallery, VERDICT_LABEL, type GalleryFilters, type GalleryVerdict } from "@/lib/api/gallery";
 import { resolveRoute } from "@/lib/routes";
 
 const VERDICTS: GalleryVerdict[] = ["pass", "strained", "fail"];
@@ -21,11 +22,12 @@ export function GalleryList() {
     retry: false,
   });
   const set = (patch: Partial<GalleryFilters>) => setFilters((f) => ({ ...f, ...patch, page: patch.page ?? 1 }));
-  const data = q.data;
+  const data = q.isError ? undefined : q.data;
+  const filtered = !!(filters.q || filters.verdict || filters.mine || filters.tag);
   const pages = data ? Math.max(1, Math.ceil(data.total / data.pageSize)) : 1;
 
   return (
-    <div className="page stack lg">
+    <div className="page stack lg gallery-page">
       <Crumbs resolved={resolveRoute("/gallery")} />
       <div className="page-head">
         <div className="stack">
@@ -36,7 +38,7 @@ export function GalleryList() {
       </div>
 
       <form
-        className="row"
+        className="gallery-toolbar"
         role="search"
         onSubmit={(e) => {
           e.preventDefault();
@@ -67,7 +69,12 @@ export function GalleryList() {
         </label>
       </form>
 
-      {q.isPending && <p role="status">Loading the gallery…</p>}
+      <div className="gallery-summary">
+        <p role="status">{q.isFetching ? "Loading designs…" : data ? `${data.total} published ${data.total === 1 ? "design" : "designs"}${filtered ? " matching your filters" : " · Newest first"}` : ""}</p>
+        {filtered && <div className="row tight">{filters.tag && <span className="small">Component: {COMPONENT_NAMES[filters.tag as keyof typeof COMPONENT_NAMES] ?? filters.tag}</span>}<button className="btn btn-sm" type="button" onClick={() => { setFilters({}); setDraft(""); }}>Clear filters</button></div>}
+      </div>
+      <p className="hint gallery-disclaimer">Results are mathematical estimates from each published test. Designs may use different traffic profiles and targets.</p>
+      {q.isPending && <ul className="gallery-grid" aria-label="Loading gallery" aria-busy="true">{Array.from({ length: 6 }, (_, i) => <li key={i} className="gallery-skeleton" aria-hidden="true"><div /><span /><span /><span /></li>)}</ul>}
       {q.isError && (
         <div className="panel stack" role="alert">
           <h2 className="h3">The gallery could not be loaded</h2>
@@ -79,36 +86,13 @@ export function GalleryList() {
       )}
       {data && data.items.length === 0 && (
         <div className="panel stack" data-testid="gallery-empty">
-          <h2 className="h3">{filters.q || filters.verdict || filters.mine ? "No designs match these filters" : "Nothing is published yet"}</h2>
+          <h2 className="h3">{filtered ? "No designs match these filters" : "Nothing is published yet"}</h2>
           <p className="hint">Run a test on one of your designs, then choose Publish to the gallery on its Results tab.</p>
         </div>
       )}
       {data && data.items.length > 0 && (
-        <ul className="stack" style={{ listStyle: "none", margin: 0, padding: 0 }} data-testid="gallery-items">
-          {data.items.map((p) => (
-            <li key={p.id}>
-              <article className="card stack">
-                <div className="row" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <h2 className="h3" style={{ margin: 0 }}>
-                    <Link href={"/gallery/" + p.id}>{p.title}</Link>
-                  </h2>
-                  <span className={"tag " + VERDICT_TONE[p.verdict]}>{VERDICT_LABEL[p.verdict]}</span>
-                </div>
-                {p.description && <p className="hint">{p.description}</p>}
-                <p className="small muted">
-                  p95 {milliseconds(p.p95)} (target {milliseconds(p.p95Target)}) · {p.nodeCount} components · by {p.ownerName}
-                  {p.isMine ? " (you)" : ""} · {dateText(p.publishedAt)} · remixed {p.remixCount} {p.remixCount === 1 ? "time" : "times"}
-                </p>
-                <div className="row tight">
-                  {p.tags.map((t) => (
-                    <button key={t} className="chip" type="button" onClick={() => set({ tag: filters.tag === t ? undefined : t })} aria-pressed={filters.tag === t}>
-                      {t}
-                    </button>
-                  ))}
-                </div>
-              </article>
-            </li>
-          ))}
+        <ul className="gallery-grid" data-testid="gallery-items">
+          {data.items.map(p => <li key={p.id}><GalleryCard post={p} activeTag={filters.tag} onTag={tag => set({ tag: filters.tag === tag ? undefined : tag })} /></li>)}
         </ul>
       )}
       {data && pages > 1 && (

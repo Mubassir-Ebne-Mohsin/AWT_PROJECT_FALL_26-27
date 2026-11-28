@@ -16,6 +16,6 @@ import { TokenStore } from "@/modules/auth/token-store.service";
   ],
   controllers: [AuthController],
   providers: [AuthService, TokenStore],
-  exports: [JwtModule, TokenStore],
+  exports: [JwtModule, TokenStore, AuthService],
 })
 export class AuthModule {}

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { TOPIC_IDS } from "../../src/lib/learn-content";
 
 // P6 Progress, in a real browser: the concepts section follows what is opened and passed on Learn, the suggestion moves on
 // and gives its reason, marks belong to one account, the challenge section is unchanged, and nothing invents a streak.
@@ -31,8 +32,8 @@ async function passCaching(page: Page) {
 test("P6 a new account sees its concepts, a first suggestion with its reason, and the unchanged challenge counts", async ({ page }, info) => {
   const errors = await register(page, info.project.name + "-new");
   await expect(page.locator("main h1")).toHaveText("Progress");
-  await expect(page.getByTestId("concepts-tally")).toHaveText("0 of 8 opened · 0 passed the check");
-  await expect(page.getByTestId("concept-row")).toHaveCount(8);
+  await expect(page.getByTestId("concepts-tally")).toHaveText("0 of 41 opened · 0 passed the check");
+  await expect(page.getByTestId("concept-row")).toHaveCount(41);
   await expect(page.getByTestId("concept-row").first()).toContainText("Not opened yet");
   await expect(page.getByTestId("concepts")).toContainText("Kept in this browser, not on your account");
   await expect(page.getByTestId("next-step").getByRole("link")).toHaveAttribute("href", "/learn/utilization");
@@ -56,7 +57,7 @@ test("P6 opening and passing on Learn changes the counts, the marks and the sugg
   await expect(page.getByTestId("topic-mark")).toHaveText("Opened");
   await passCaching(page);
   await page.goto("/progress");
-  await expect(page.getByTestId("concepts-tally")).toHaveText("2 of 8 opened · 1 passed the check");
+  await expect(page.getByTestId("concepts-tally")).toHaveText("2 of 41 opened · 1 passed the check");
   await expect(page.locator('[data-testid="concept-row"][data-topic="utilization"]')).toHaveAttribute("data-mark", "opened");
   await expect(page.locator('[data-testid="concept-row"][data-topic="caching"]')).toHaveAttribute("data-mark", "passed");
   await expect(page.locator('[data-testid="concept-row"][data-topic="queues"]')).toHaveAttribute("data-mark", "new");
@@ -71,14 +72,14 @@ test("P6 marks stay after a reload, and a different account in another browser p
   await passCaching(page);
   await page.goto("/progress");
   // Let the page finish restoring the session before reloading it, or the reload can race the token refresh.
-  await expect(page.getByTestId("concepts-tally")).toHaveText("1 of 8 opened · 1 passed the check");
+  await expect(page.getByTestId("concepts-tally")).toHaveText("1 of 41 opened · 1 passed the check");
   await page.reload();
-  await expect(page.getByTestId("concepts-tally")).toHaveText("1 of 8 opened · 1 passed the check");
+  await expect(page.getByTestId("concepts-tally")).toHaveText("1 of 41 opened · 1 passed the check");
   const use = info.project.use;
   const context = await browser.newContext({ baseURL: use.baseURL, viewport: use.viewport ?? undefined, colorScheme: use.colorScheme ?? undefined });
   const other = await context.newPage();
   await register(other, info.project.name + "-other");
-  await expect(other.getByTestId("concepts-tally")).toHaveText("0 of 8 opened · 0 passed the check");
+  await expect(other.getByTestId("concepts-tally")).toHaveText("0 of 41 opened · 0 passed the check");
   await context.close();
 });
 
@@ -86,12 +87,12 @@ test("P6 after every check is passed with no challenge attempted, the suggestion
   await register(page, info.project.name + "-all");
   await passCaching(page);
   // Mark every topic passed by writing what the quiz writes, in this account's own bucket.
-  const topics = ["utilization", "queues", "p95", "caching", "replicas", "load-balancing", "cdn", "regions"];
+  const topics = TOPIC_IDS;
   const key = await page.evaluate(() => Object.keys(localStorage).find((x) => x.startsWith("sf:learn:v1:user:")) ?? "");
   expect(key).not.toBe("");
   await page.evaluate(([k, ids]) => localStorage.setItem(k, JSON.stringify({ opened: ids, passed: ids })), [key, topics] as [string, string[]]);
   await page.goto("/progress");
-  await expect(page.getByTestId("concepts-tally")).toHaveText("8 of 8 opened · 8 passed the check");
+  await expect(page.getByTestId("concepts-tally")).toHaveText("41 of 41 opened · 41 passed the check");
   await expect(page.getByTestId("next-step")).toHaveAttribute("data-kind", "browse");
   await expect(page.getByTestId("next-step").getByRole("link")).toHaveAttribute("href", "/challenges");
   await expect(page.getByTestId("next-reason")).toContainText("not attempted a challenge yet");

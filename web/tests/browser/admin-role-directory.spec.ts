@@ -1,0 +1,38 @@
+import {test,expect,type Page,type BrowserContext} from "@playwright/test";
+const id=(n:number)=>`70000000-0000-4000-8000-${String(n).padStart(12,"0")}`;
+async function fixture(page:Page,context:BrowserContext,admin=true){
+ await context.addCookies([{name:"sf_session",value:"1",url:new URL(process.env.SF_WEB_URL??"http://localhost:3000").origin}]);
+ const make=(n:number,name:string,roles:string[],status="active")=>({id:id(n),displayName:name,email:`member${n}@example.test`,roles,status,createdAt:"2026-11-26T00:00:00.000Z"});
+ let people=[make(2,"Amina Rahman",["user","instructor"]),make(3,"Nadia Support",["user","support"],"suspended"),make(4,"Rafi Hasan",["user","support","admin"]),make(5,"Mubassir Mohsin",["user","admin"])],unavailable=false;
+ const calls:string[]=[],errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));page.on("console",m=>{if(m.type()==="error"&&!(m.text().includes("503")&&m.location().url.includes("/admin/users/privileged")))errors.push(m.text());});
+ await page.route("**/v1/**",async route=>{const req=route.request(),url=new URL(req.url()),path=url.pathname;calls.push(path);let data:unknown={};
+  const user={id:id(1),email:"audit-admin@example.test",displayName:"Audit Admin",role:"user"};
+  if(path.endsWith("/auth/refresh"))data={accessToken:"controlled-token",expiresIn:900,user};else if(path.endsWith("/auth/me"))data=user;
+  else if(path.endsWith("/account/roles"))data={roles:admin?["user","admin"]:["user"]};
+  else if(path.endsWith("/admin/users/privileged")){
+   if(unavailable)return route.fulfill({status:503,json:{error:{code:"UNAVAILABLE",message:"controlled failure"}}});
+   const eligible=people.filter(p=>p.roles.some(r=>["instructor","support","admin"].includes(r))&&(!url.searchParams.get("role")||p.roles.includes(url.searchParams.get("role")!)));const start=url.searchParams.get("beforeId")?eligible.findIndex(p=>p.id===url.searchParams.get("beforeId"))+1:0;const items=eligible.slice(start,start+12);data={items,next:start+12<eligible.length?{at:items.at(-1)!.createdAt,id:items.at(-1)!.id}:null};
+  }else if(path.endsWith("/admin/audit"))data=[{id:id(90),at:"2026-11-26T00:00:00.000Z",action:"grant",role:"instructor",actor:{id:id(1),email:"audit-administrator-with-a-long-display@example.test"},target:{id:id(2),email:"instructor-with-an-extraordinarily-long-unbroken-account-name@example.test"}},{id:id(91),at:"2026-11-25T00:00:00.000Z",action:"suspend",role:null,actor:{id:id(1),email:"audit-admin@example.test"},target:{id:id(3),email:"support-account@example.test"}}];
+  else if(path.includes("/admin/users/")&&req.method()==="DELETE"){const target=people.find(p=>p.id===path.split('/')[4])!;target.roles=target.roles.filter(r=>r!==path.split('/').at(-1));data={userId:target.id,roles:target.roles};}
+  else if(path.endsWith("/admin/users"))data=people.filter(p=>(p.displayName+p.email).toLowerCase().includes((url.searchParams.get("q")??"").toLowerCase()));
+  return route.fulfill({json:{data}});
+ });
+ return {errors,calls,fail:(v:boolean)=>{unavailable=v;},many:()=>{people=Array.from({length:14},(_,n)=>make(n+10,"Instructor "+(n+1),["user","instructor"]));}};
+}
+test("Role-holder table is styled, responsive, filterable and opens account controls",async({page,context},info)=>{
+ const f=await fixture(page,context);await page.goto("/admin/users");const directory=page.getByRole("region",{name:"Role holders",exact:true});await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(4);
+ await expect(page.getByRole("columnheader",{name:"Account",exact:true})).toBeVisible();await expect(page.getByRole("columnheader",{name:"Roles",exact:true})).toBeVisible();await expect(page.getByRole("cell",{name:"Suspended",exact:true})).toBeVisible();
+ const contrast=await page.locator(".admin-directory-status").evaluateAll(nodes=>{
+ const rgb=(v:string)=>(v.match(/[\d.]+/g)??[]).map(Number);
+ const luminance=(v:number[])=>v.slice(0,3).map(c=>{const n=c/255;return n<=0.04045?n/12.92:((n+0.055)/1.055)**2.4;}).reduce((sum,c,i)=>sum+c*[0.2126,0.7152,0.0722][i],0);
+ return nodes.map(node=>{let parent:Element|null=node;let bg:number[]=[];while(parent){bg=rgb(getComputedStyle(parent).backgroundColor);if(bg.length>=3&&(bg.length===3||bg[3]>0))break;parent=parent.parentElement;}const fg=luminance(rgb(getComputedStyle(node).color)),back=luminance(bg);return (Math.max(fg,back)+0.05)/(Math.min(fg,back)+0.05);});
+ });for(const ratio of contrast)expect(ratio).toBeGreaterThanOrEqual(4.5);
+ for(const width of [1440,1024,390,320]){await page.setViewportSize({width,height:1000});await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await expect.poll(()=>page.locator("main").evaluate(e=>e.scrollWidth<=e.clientWidth+1)).toBe(true);await expect(page.locator(".admin-directory")).toHaveCSS("border-top-width","1px");if(width===1440||width===390){await page.screenshot({path:info.outputPath(`admin-directory-${width}.png`),animations:"disabled",fullPage:true});await page.getByTestId("admin-audit").scrollIntoViewIfNeeded();await page.screenshot({path:info.outputPath(`admin-audit-${width}.png`),animations:"disabled"});await page.locator("main").evaluate(e=>{e.scrollTop=0;});}}
+ const scroll=page.getByRole("region",{name:"Role-holder accounts table",exact:true});await scroll.focus();await scroll.press("ArrowRight");await expect.poll(()=>scroll.evaluate(e=>e.scrollLeft)).toBeGreaterThan(0);await expect.poll(()=>page.locator("main").evaluate(e=>e.scrollLeft)).toBe(0);
+ await page.setViewportSize({width:1440,height:1000});await directory.getByRole("button",{name:"Admin",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(2);await directory.getByRole("button",{name:"Instructor",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(1);await page.getByRole("button",{name:"Manage Amina Rahman",exact:true}).click();await expect(page.locator("#admin-account-panel")).toBeFocused();await expect(page.getByRole("button",{name:"Give Support role",exact:true})).toBeVisible();expect(f.errors).toEqual([]);
+});
+test("Directory pages, retries local errors and reflects a removed last role",async({page,context})=>{
+ const f=await fixture(page,context);f.fail(true);await page.goto("/admin/users");await expect(page.getByRole("button",{name:"Retry role holders",exact:true})).toBeVisible();f.fail(false);await page.getByRole("button",{name:"Retry role holders",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(4);
+ await page.getByRole("button",{name:"Manage Amina Rahman",exact:true}).click();await page.getByRole("button",{name:"Remove Instructor role",exact:true}).click();await page.getByRole("button",{name:"Confirm remove Instructor",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(3);await expect(page.getByTestId("admin-notice")).toContainText("Instructor role removed");f.many();await page.getByRole("button",{name:"Refresh role holders",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(12);await page.getByRole("button",{name:"Load more role holders",exact:true}).click();await expect(page.locator(".admin-directory-table tbody tr")).toHaveCount(14);expect(f.errors).toEqual([]);
+});
+test("Non-Admins cannot load the directory or audit",async({page,context})=>{const f=await fixture(page,context,false);await page.goto("/admin/users");await expect(page.locator(".admin-directory-table")).toHaveCount(0);await expect(page.getByTestId("role-gate-denied")).toBeVisible();expect(f.calls.filter(p=>p.startsWith("/v1/admin/"))).toEqual([]);expect(f.errors).toEqual([]);});

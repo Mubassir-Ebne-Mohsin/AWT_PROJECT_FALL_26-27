@@ -82,7 +82,7 @@ export class DesignsService {
       await m.delete(SavedDesign, id);
     });
   }
-  async summaries(owner: string, page: number, pageSize: number) {
+  async summaries(owner: string, page: number, pageSize: number, includePreview = false) {
     const [designs, total] = await this.db
       .getRepository(SavedDesign)
       .findAndCount({
@@ -110,6 +110,10 @@ export class DesignsService {
           nodeCount: d.graph.nodes.length,
           edgeCount: d.graph.edges.length,
           latestRun: latest ? this.runSummary(latest) : null,
+          ...(includePreview ? { preview: {
+            nodes: d.graph.nodes.map(({ id, type, label, x, y }) => ({ id, type, label, x, y })),
+            edges: d.graph.edges.map(({ id, from, to }) => ({ id, from, to })),
+          } } : {}),
         });
       }),
     );
@@ -168,7 +172,7 @@ export class DesignsService {
     return new WithMeta(result.data, { page, pageSize, total: result.total });
   }
   async dashboard(owner: string) {
-    const { data: designs, total } = await this.summaries(owner, 1, 10);
+    const { data: designs, total } = await this.summaries(owner, 1, 10, true);
     const query = () =>
       this.db
         .getRepository(SavedRun)

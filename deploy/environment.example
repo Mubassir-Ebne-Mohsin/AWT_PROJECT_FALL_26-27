@@ -1,0 +1,13 @@
+# Public template only. Save your private values outside Git and pass --env-file explicitly.
+# Never print `docker compose config` with real values; use config --quiet.
+PUBLIC_HOST=stressforge.example.com
+PUBLIC_ORIGIN=https://stressforge.example.com
+API_IMAGE=stressforge-api:reviewed-release
+WEB_IMAGE=stressforge-web:reviewed-release
+PROXY_IMAGE=stressforge-proxy:reviewed-release
+POSTGRES_ADMIN_PASSWORD=replace-me
+APP_DB_PASSWORD=replace-me
+MIGRATION_DB_PASSWORD=replace-me
+REDIS_PASSWORD=replace-me
+JWT_ACCESS_SECRET=replace-me-with-a-generated-secret
+JWT_REFRESH_SECRET=replace-me-with-a-different-generated-secret

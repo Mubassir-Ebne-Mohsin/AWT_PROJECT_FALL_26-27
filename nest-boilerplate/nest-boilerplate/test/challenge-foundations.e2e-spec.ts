@@ -73,7 +73,7 @@ describe("Foundation challenges: private attempts, frozen rules and migration", 
     ]);
     expect(await seedFoundationPack(db, teacher.id)).toBe(0);
     const c = (
-      await http.get("/v1/challenges/" + FOUNDATION_PACK[0].id).expect(200)
+      await http.get("/v1/challenges/" + FOUNDATION_PACK[0].id).set(auth(learner)).expect(200)
     ).body.data;
     expect(c.title).toBe("Owner wording");
     expect(c.learning.difficulty).toBe("beginner");

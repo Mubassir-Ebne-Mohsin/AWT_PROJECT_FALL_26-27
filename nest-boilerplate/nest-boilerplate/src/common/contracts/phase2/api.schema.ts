@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { topologyPreviewSchema } from "@/common/contracts/phase2/graph.schema";
 import { componentType, graphSchema, importSchema, region, snapshotSchema, templateId, trafficSchema } from "@/common/contracts/phase2/graph.schema";
 import { boundedValue, limitsOutputSchema, outputSchema, simulationOutputSchema, validationSchema } from "@/common/contracts/phase2/result.schema";
 
@@ -51,6 +52,7 @@ const latestRun = z.strictObject({
 export const designSummarySchema = z.strictObject({
   ...recordFields, nodeCount: z.number().int().min(0).max(50), edgeCount: z.number().int().min(0).max(200),
   latestRun: latestRun.nullable(),
+  preview: topologyPreviewSchema.optional(),
 });
 export const listQuerySchema = z.strictObject({ page: z.number().int().min(1).default(1), pageSize: z.number().int().min(1).max(50).default(20) });
 export const designListSchema = z.strictObject({

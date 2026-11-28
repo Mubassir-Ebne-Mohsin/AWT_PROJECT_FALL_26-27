@@ -1,4 +1,6 @@
 "use client";
+import "@/styles/dashboard-preview.css";
+import { GalleryPreview } from "@/components/gallery/gallery-preview";
 import Link from "next/link";
 import { kindLabel, runHref, workspaceHref } from "@/lib/run-links";
 import { useRef, useState } from "react";
@@ -171,7 +173,7 @@ export function Dashboard() {
           {data?.designs.map((d) => {
             const status = designStatus(d);
             return (
-              <article className="panel m4-design-card" key={d.id}>
+              <article className="panel m4-design-card dashboard-design-card" key={d.id}>
                 <Link
                   className="m4-design-link stack"
                   href={workspaceHref(
@@ -184,6 +186,7 @@ export function Dashboard() {
                       : {},
                   )}
                 >
+                  <div className="dashboard-preview"><GalleryPreview graph={d.preview} title={d.name} context="saved" /></div>
                   <div className="m4-card-head">
                     <span className="eyebrow">
                       {d.source === "scripted" ? "Scripted mock" : d.source === "ai" ? "AI draft" : d.source}

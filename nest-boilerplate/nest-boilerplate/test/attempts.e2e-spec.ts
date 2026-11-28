@@ -148,15 +148,17 @@ describe("R5.2 learner attempts (isolated Postgres, no AI involved)", () => {
     }
     throw new Error("Judging did not settle");
   }
-  it("public list exposes only published metadata and no private graph", async () => {
+  it("signed-in list exposes only published metadata and no private graph", async () => {
     const c = await made();
-    await http.get(`/v1/challenges/${c.id}`).expect(404);
+    await http.get(`/v1/challenges/${c.id}`).expect(401);
+    await http.get("/v1/challenges").expect(401);
+    await http.get(`/v1/challenges/${c.id}`).set(as(learner)).expect(404);
     await publish(teacher, c.id).expect(200);
-    const r = await http.get(`/v1/challenges/${c.id}`).expect(200);
+    const r = await http.get(`/v1/challenges/${c.id}`).set(as(learner)).expect(200);
     expect(Object.keys(r.body.data).sort()).toEqual(["baseline","goal","id","learning","preview","rules","summary","title","traffic"]);
     expect(r.body.data.preview.nodes.every((n:Record<string,unknown>)=>!Object.hasOwn(n,"props"))).toBe(true);
     expect(
-      (await http.get("/v1/challenges").expect(200)).body.data.map(
+      (await http.get("/v1/challenges").set(as(learner)).expect(200)).body.data.map(
         (c: any) => c.id,
       ),
     ).toContain(c.id);

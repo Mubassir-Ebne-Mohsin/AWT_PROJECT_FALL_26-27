@@ -1,3 +1,4 @@
+import "@/styles/social-auth.css";
 import { SettingsPage } from "@/components/settings/settings";
 
 export default function Page() {

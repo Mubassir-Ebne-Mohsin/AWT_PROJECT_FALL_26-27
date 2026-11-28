@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { recordLearningActivity, clearLearningActivity } from "@/lib/learning-activity";
 import { LearnLibrary } from "@/components/learn/learn-library";
 import { LessonGuide, RelatedLessons } from "@/components/learn/lesson-guide";
 import { LessonIcon } from "@/components/learn/lesson-icon";
@@ -44,6 +45,7 @@ export function useLearnProgress() {
       const store = browserStore();
       const before = rawProgress(store, bucket);
       mark(store, bucket, topic, TOPIC_IDS);
+      recordLearningActivity(store, bucket, topic, TOPIC_IDS, mark === markPassed ? "passed" : "opened");
       if (rawProgress(store, bucket) !== before) changed();
     },
     [ready, bucket],
@@ -52,6 +54,7 @@ export function useLearnProgress() {
   const pass = useCallback((topic: string) => record(markPassed, topic), [record]);
   const clear = useCallback(() => {
     clearProgress(browserStore(), bucket);
+    clearLearningActivity(browserStore(), bucket);
     changed();
   }, [bucket]);
   return { progress, open, pass, clear, ready };

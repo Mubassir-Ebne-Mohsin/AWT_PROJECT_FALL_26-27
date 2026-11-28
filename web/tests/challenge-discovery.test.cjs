@@ -88,3 +88,11 @@ test("legacy metadata stays unclassified and sorts after authored difficulty", (
     1,
   );
 });
+
+ test("newest keeps the API publication order while recommended keeps learning order", () => {
+ const published=[...fixtures].reverse(), ids=published.map(c=>c.id);
+ assert.deepEqual(discoverChallenges(published,{...all,sort:"newest"},new Map()).map(c=>c.id),ids);
+ assert.deepEqual(discoverChallenges(published,{...all,sort:"recommended"},new Map()).map(c=>c.id),fixtures.map(c=>c.id));
+ assert.deepEqual(discoverChallenges(published,{...all,sort:"newest",difficulty:"beginner"},new Map()).map(c=>c.id),published.filter(c=>c.learning.difficulty==="beginner").map(c=>c.id));
+ assert.deepEqual(published.map(c=>c.id),ids);
+ });

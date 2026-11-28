@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SocialSettings } from "@/components/settings/social-settings";
 import { ProfileUsername } from "@/components/settings/profile-username";
 import { NotificationPreferences } from "@/components/notifications/notification-preferences";
 import { notFound, usePathname } from "next/navigation";
@@ -169,6 +170,11 @@ function Profile() {
 }
 
 function Security() {
+  const {user}=useAuth();
+  return <>{(user?.socialAuthEnabled || user?.hasPassword === false) && <SocialSettings key={user?.id}/>}{user?.hasPassword !== false && <PasswordSecurity/>}</>;
+}
+
+function PasswordSecurity() {
   const [v, setV] = useState({ current: "", next: "", confirm: "" });
   const [errors, setErrors] = useState<PasswordErrors>({});
   const [busy, setBusy] = useState(false);
@@ -296,7 +302,7 @@ function Data() {
         <Message notice={exportNotice} id="export-notice" />
       </section>
 
-      <section className="panel stack r2-pad" aria-label="Delete account" data-testid="delete-section">
+      {user?.hasPassword === false ? <section className="panel stack r2-pad"><h3 className="h3">Delete your account</h3><p>Authenticate with a connected provider in Security to delete this account.</p><Link href="/settings/security">Open Security</Link></section> : <section className="panel stack r2-pad" aria-label="Delete account" data-testid="delete-section">
         <h3 className="h3">Delete your account</h3>
         <p>This cannot be undone. Deleting your account permanently removes:</p>
         <ul>
@@ -344,7 +350,7 @@ function Data() {
             <Message notice={deleteNotice} id="delete-notice" />
           </form>
         )}
-      </section>
+      </section>}
     </>
   );
 }

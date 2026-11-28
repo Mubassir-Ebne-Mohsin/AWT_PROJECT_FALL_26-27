@@ -1,0 +1,21 @@
+# Never send credentials or developer data to the image builder.
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+.git
+.gitignore
+node_modules
+**/node_modules
+dist
+coverage
+*.log
+*.pem
+**/*.pem
+*.key
+**/*.key
+**/*client_secret*.json
+
+# Compiler caches are platform-specific build artifacts.
+*.tsbuildinfo

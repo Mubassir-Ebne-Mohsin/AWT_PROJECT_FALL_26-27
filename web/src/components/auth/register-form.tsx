@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { SocialRegistration } from "@/components/auth/social-registration";
+import { SocialButtons } from "@/components/auth/social-buttons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { UsernameField } from "@/components/auth/username-field";
@@ -16,6 +18,11 @@ import { afterRegisterPath } from "@/lib/welcome";
 type Field = "username" | "displayName" | "email" | "password" | "terms";
 
 export function RegisterForm() {
+  const social=useSearchParams().get("social");
+  return social === "1" ? <SocialRegistration/> : <EmailRegisterForm/>;
+}
+
+function EmailRegisterForm() {
   const router = useRouter();
   const requestedNext = useSearchParams().get("next");
   const next = safeNext(requestedNext);
@@ -97,6 +104,7 @@ export function RegisterForm() {
               <div>{formError}</div>
             </div>
           )}
+          <SocialButtons />
           <form className="stack" onSubmit={submit} noValidate>
             <div className="field">
               <label className="label" htmlFor="reg-name">

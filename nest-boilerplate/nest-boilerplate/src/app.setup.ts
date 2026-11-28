@@ -4,6 +4,7 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { cleanupOpenApiDoc } from "nestjs-zod";
 import cookieParser from "cookie-parser";
+import { httpBoundary } from "@/common/middlewares/http-boundary";
 
 import helmet from "helmet";
 import { appConfig } from "@/config";
@@ -37,6 +38,7 @@ export function configureApp(app: NestExpressApplication) {
     allowedHeaders: ["Authorization", "Content-Type"],
     maxAge: 86400,
   });
+  app.use("/v1", httpBoundary(env.CORS_ORIGIN_LIST));
   // Keep CORS/security headers on parser errors too.
   // A 64 KiB raw import may double in size when escaped inside its JSON envelope.
   // Keep this larger transport allowance local; the raw UTF-8 limit remains 64 KiB.
@@ -54,8 +56,9 @@ export function configureApp(app: NestExpressApplication) {
   app.enableShutdownHooks();
 }
 
-/** Swagger UI at /docs, raw OpenAPI JSON at /docs-json (the frontend generates types from it). */
-export function setupSwagger(app: NestExpressApplication) {
+/** Development Swagger UI at /docs and raw schema at /docs-json. Never mounted in production. */
+export function setupSwagger(app: NestExpressApplication): boolean {
+  if (env.IS_PRODUCTION) return false;
   const config = new DocumentBuilder()
     .setTitle("StressForge API")
     .setDescription("Architecture stress-testing platform.")
@@ -66,4 +69,5 @@ export function setupSwagger(app: NestExpressApplication) {
   documentDesigns(document);
   documentAi(document);
   SwaggerModule.setup("docs", app, document, { jsonDocumentUrl: "docs-json" });
+  return true;
 }

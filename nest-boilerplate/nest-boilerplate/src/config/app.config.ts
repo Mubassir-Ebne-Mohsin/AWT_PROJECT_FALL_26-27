@@ -11,18 +11,28 @@ export const envSchema = z
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    HOSTED_PUBLIC_HOST: z.string().max(253).default(""),
+    HOSTED_MODE: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
+    HOSTED_PRIVATE_NETWORK: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
     PORT: z.coerce.number().int().positive().default(5001),
     // Number of reverse proxies in front of the app (0 = none). Used for client IP detection.
     TRUST_PROXY_HOPS: z.coerce.number().int().min(0).default(0),
     CORS_ORIGINS: z.string().default("http://localhost:3000"),
     FRONTEND_URL: z.string().default("http://localhost:3000"),
+    GOOGLE_AUTH_ENABLED: z.enum(["true","false"]).default("false").transform(v=>v==="true"),
+    GOOGLE_CLIENT_ID: z.string().default(""), GOOGLE_CLIENT_SECRET: z.string().default(""), GOOGLE_REDIRECT_URI: z.string().default(""),
+    GITHUB_AUTH_ENABLED: z.enum(["true","false"]).default("false").transform(v=>v==="true"),
+    GITHUB_CLIENT_ID: z.string().default(""), GITHUB_CLIENT_SECRET: z.string().default(""), GITHUB_REDIRECT_URI: z.string().default(""),
 
+    DB_TLS: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
+    DB_TLS_CA_FILE: z.string().max(4096).default(""),
     DB_HOST: z.string().default("localhost"),
     DB_PORT: z.coerce.number().int().default(5433),
     DB_USER: z.string().min(1),
     DB_PASSWORD: z.string().min(1),
     DB_DATABASE: z.string().min(1),
 
+    REDIS_TLS: z.enum(["true", "false"]).default("false").transform(v => v === "true"),
     REDIS_HOST: z.string().default("localhost"),
     REDIS_PORT: z.coerce.number().int().default(6379),
     REDIS_PASSWORD: z.preprocess(emptyToUndefined, z.string().optional()),
@@ -80,6 +90,22 @@ export const envSchema = z
     MAIL_HOURLY_LIMIT: z.coerce.number().int().min(1).max(1000).default(10),
   })
   .superRefine((envs, ctx) => {
+    if (envs.DB_TLS_CA_FILE && !envs.DB_TLS) ctx.addIssue({ code: "custom", path: ["DB_TLS_CA_FILE"], message: "requires DB_TLS=true" });
+    if (envs.GOOGLE_AUTH_ENABLED || envs.GITHUB_AUTH_ENABLED) {
+      try {
+        const u = new URL(envs.FRONTEND_URL);
+        if (u.username || u.password || u.pathname !== "/" || u.search || u.hash ||
+          !(u.protocol === "https:" || (envs.NODE_ENV !== "production" && u.protocol === "http:" && ["localhost", "127.0.0.1"].includes(u.hostname)))) throw Error();
+      } catch { ctx.addIssue({ code: "custom", path: ["FRONTEND_URL"], message: "must be a trusted HTTPS origin (localhost HTTP allowed outside production)" }); }
+    }
+    for (const p of ["GOOGLE","GITHUB"] as const) {
+      if(!envs[`${p}_AUTH_ENABLED`]) continue;
+      for(const suffix of ["CLIENT_ID","CLIENT_SECRET","REDIRECT_URI"] as const) {
+        const key=`${p}_${suffix}` as const;
+        if(!envs[key])ctx.addIssue({code:"custom",path:[key],message:"is required for the enabled provider"});
+      }
+      try {const u=new URL(envs[`${p}_REDIRECT_URI`]);if(u.username||u.password||u.search||u.hash||u.pathname!==`/v1/auth/${p.toLowerCase()}/callback`||!(u.protocol==="https:"||(envs.NODE_ENV!=="production"&&u.protocol==="http:"&&["localhost","127.0.0.1"].includes(u.hostname))))throw Error();}catch{ctx.addIssue({code:"custom",path:[`${p}_REDIRECT_URI`],message:"must be the configured HTTPS callback (localhost HTTP allowed outside production)"});}
+    }
     if (envs.MAIL_ENABLED && !envs.SMTP_HOST) {
       ctx.addIssue({ code: "custom", path: ["SMTP_HOST"], message: "is required when MAIL_ENABLED=true" });
     }
@@ -112,8 +138,8 @@ export const envSchema = z
       .map((o) => o.trim())
       .filter(Boolean),
     REDIS_URL: envs.REDIS_PASSWORD
-      ? `redis://:${encodeURIComponent(envs.REDIS_PASSWORD)}@${envs.REDIS_HOST}:${envs.REDIS_PORT}`
-      : `redis://${envs.REDIS_HOST}:${envs.REDIS_PORT}`,
+      ? `redis${envs.REDIS_TLS ? "s" : ""}://:${encodeURIComponent(envs.REDIS_PASSWORD)}@${envs.REDIS_HOST}:${envs.REDIS_PORT}`
+      : `redis${envs.REDIS_TLS ? "s" : ""}://${envs.REDIS_HOST}:${envs.REDIS_PORT}`,
   }));
 
 // Fail fast with a readable message instead of a stack trace deep inside Nest.

@@ -79,7 +79,7 @@ export function ComparePanel({
             <RunPicker revision={a} runs={runs.filter((r) => r.designRevision === a)} value={runA} onChange={setRunA} />
             <RunPicker revision={b} runs={runs.filter((r) => r.designRevision === b)} value={runB} onChange={setRunB} />
           </div>
-          <div>
+          <div className="m15-change-summary">
             <h4 className="h4">
               What changed from revision {a} to revision {b}
             </h4>
@@ -116,7 +116,8 @@ export function ComparePanel({
                 </div>
               </div>
               {(ma || mb) && (
-                <table className="m15-table">
+                <div className="m15-table-scroll" role="region" aria-label="Comparison metrics" tabIndex={0}>
+              <table className="m15-table">
                   <caption>Each result on its own (not subtracted)</caption>
                   <thead>
                     <tr>
@@ -140,11 +141,13 @@ export function ComparePanel({
                     ))}
                   </tbody>
                 </table>
+              </div>
               )}
             </div>
           )}
           {data && data.comparable && ma && mb && data.deltas && (
             <div className="stack">
+              <div className="m15-table-scroll" role="region" aria-label="Comparison metrics" tabIndex={0}>
               <table className="m15-table">
                 <caption>
                   Revision {a} to revision {b}, same traffic and model version
@@ -163,7 +166,7 @@ export function ComparePanel({
                     <td>{verdictText(ma.verdict)}</td>
                     <td>{verdictText(mb.verdict)}</td>
                     <td>
-                      <span className={"tag " + toneClass[verdictTag(ma.verdict, mb.verdict).tone]}>{verdictTag(ma.verdict, mb.verdict).label}</span>
+                      <span className={"m15-delta " + toneClass[verdictTag(ma.verdict, mb.verdict).tone]}>{verdictTag(ma.verdict, mb.verdict).label}</span>
                     </td>
                   </tr>
                   {METRIC_ROWS.map((row) => {
@@ -175,7 +178,7 @@ export function ComparePanel({
                         <td>{row.format(ma[row.key])}</td>
                         <td>{row.format(mb[row.key])}</td>
                         <td>
-                          <span className={"tag " + toneClass[tag.tone]}>{tag.label}</span> <span className="small muted">{row.formatDelta(delta)}</span>
+                          <span className={"m15-delta " + toneClass[tag.tone]}>{tag.label}</span> <span className="small muted">{row.formatDelta(delta)}</span>
                         </td>
                       </tr>
                     );
@@ -188,6 +191,7 @@ export function ComparePanel({
                   </tr>
                 </tbody>
               </table>
+              </div>
               <p className="small muted">
                 Targets: p95 {milliseconds(ma.p95Target)}, error budget {percent(ma.errorBudget)}. Predicted by the model, not measured.
               </p>

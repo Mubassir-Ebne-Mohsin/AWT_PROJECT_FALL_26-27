@@ -1,0 +1,17 @@
+{
+  http_port 8080
+  https_port 8443
+  admin off
+}
+{$PUBLIC_HOST} {
+  header Strict-Transport-Security "max-age=31536000"
+  @api path /v1 /v1/*
+  handle @api {
+    reverse_proxy api:5001 {
+      header_up -Forwarded
+    }
+  }
+  handle {
+    reverse_proxy web:3000
+  }
+}

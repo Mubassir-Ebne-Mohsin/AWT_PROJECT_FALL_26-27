@@ -1,0 +1,8 @@
+environment.*
+!environment.example
+*.private
+*.secret
+*.dump
+*.backup
+*.pem
+*.key

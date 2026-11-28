@@ -2,6 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { RedisCacheService } from "@/providers/cache/redis/redis-cache.service";
 
 const PREFIX = "sf:revoked";
+// sf-session-cutoff-v1: delayed writes cannot roll back a newer revocation or TTL.
+export const SESSION_CUTOFF_SCRIPT = `
+local old = tonumber(redis.call('GET', KEYS[1]) or '-1')
+local cutoff = math.max(old, tonumber(ARGV[1]))
+local ttl = math.max(redis.call('PTTL', KEYS[1]), tonumber(ARGV[2]))
+redis.call('SET', KEYS[1], tostring(cutoff), 'PX', ttl)
+return 'OK'
+`;
 
 /** Revocation list for JWT ids, kept in Redis with a TTL equal to the token's remaining life. */
 @Injectable()
@@ -43,6 +51,9 @@ export class TokenStore {
     return res === "OK";
   }
 
+  /** OAuth management must not accept an already spent refresh credential. */
+  isRefreshSpent(jti: string) { return this.has(`rt:${jti}`); }
+
   /**
    * R2: a suspended account's still-valid access tokens are refused for as long as any of them could live. The database
    * (`account_status`) stays the source of truth for login and refresh; this marker only covers the access-token window.
@@ -66,7 +77,10 @@ export class TokenStore {
    */
   async endSessions(userId: string, endedAtSeconds: number, ttlSeconds: number) {
     if (ttlSeconds < 1) return;
-    await this.client.set(`${PREFIX}:since:${userId}`, String(endedAtSeconds), { EX: Math.ceil(ttlSeconds) });
+    await this.client.eval(SESSION_CUTOFF_SCRIPT, {
+      keys: [`${PREFIX}:since:${userId}`],
+      arguments: [String(endedAtSeconds), String(Math.ceil(ttlSeconds * 1000))],
+    });
   }
 
   async sessionsEndedAt(userId: string): Promise<number | null> {

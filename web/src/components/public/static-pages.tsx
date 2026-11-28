@@ -1,14 +1,9 @@
-import Link from "next/link";
 import { Crumbs } from "@/components/shell/crumbs";
 import {
-  ABOUT_SECTIONS,
-  HOW_INTRO,
-  HOW_SECTIONS,
   PRIVACY_AI,
   PRIVACY_CONTROL,
   PRIVACY_INTRO,
   PRIVACY_STORED,
-  SOURCE_URL,
   TERMS_SECTIONS,
   type Section,
 } from "@/lib/public-content";
@@ -55,29 +50,9 @@ function Sections({ sections }: { sections: Section[] }) {
   );
 }
 
-export function HowItWorksPage() {
-  return (
-    <Frame path="/how-it-works" lead={HOW_INTRO}>
-      <Sections sections={HOW_SECTIONS} />
-      <p className="hint">
-        Want the evidence? <Link href="/evaluation/simulator">See what has been checked</Link>. Ready to try it? <Link href="/register">Create an account</Link> or <Link href="/learn">read the concepts</Link>.
-      </p>
-    </Frame>
-  );
-}
+export { HowItWorksPage } from "@/components/public/how-it-works-page";
 
-export function AboutPage() {
-  return (
-    <Frame path="/about" lead="An architecture drawing and simulation lab for students and developers.">
-      <Sections sections={ABOUT_SECTIONS} />
-      <p>
-        <a href={SOURCE_URL} rel="noreferrer noopener" target="_blank">
-          Open the source repository
-        </a>
-      </p>
-    </Frame>
-  );
-}
+export { AboutPage } from "@/components/public/about-page";
 
 export function PrivacyPage() {
   return (

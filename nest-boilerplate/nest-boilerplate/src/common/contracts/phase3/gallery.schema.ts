@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { usernameSchema } from "@/common/contracts/username.schema";
+import { topologyPreviewSchema } from "@/common/contracts/phase2/graph.schema";
 import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { sharedReportSchema } from "@/common/contracts/phase3/share.schema";
 
@@ -48,6 +50,7 @@ export const galleryPostSchema = z.strictObject({
   title: z.string(),
   description: z.string(),
   ownerName: z.string(),
+  ownerUsername: usernameSchema.nullable().optional(),
   isMine: z.boolean(),
   publishedAt: z.iso.datetime(),
   revision: z.number().int().positive(),
@@ -60,8 +63,12 @@ export const galleryPostSchema = z.strictObject({
   allowRemix: z.boolean(),
 });
 
+/** Only published topology is exposed. No properties, notes, live design IDs or run payloads. */
+export const galleryPreviewSchema = topologyPreviewSchema;
+export const galleryListItemSchema = galleryPostSchema.extend({ preview: galleryPreviewSchema.nullable() });
+
 export const galleryListSchema = z.strictObject({
-  items: z.array(galleryPostSchema).max(24),
+  items: z.array(galleryListItemSchema).max(24),
   total: z.number().int().nonnegative(),
   page: z.number().int().positive(),
   pageSize: z.number().int().positive(),

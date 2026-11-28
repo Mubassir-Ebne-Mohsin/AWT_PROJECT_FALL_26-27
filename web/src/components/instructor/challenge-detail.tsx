@@ -52,6 +52,8 @@ function Body({ id }: { id: string }) {
   const done = (text: string) => (made: Challenge) => {
     queries.setQueryData(key, made);
     void queries.invalidateQueries({ queryKey: ["my-challenges", user?.id] });
+    void queries.invalidateQueries({ queryKey: ["published-challenges"] });
+    void queries.invalidateQueries({ queryKey: ["published-challenge", id] });
     setError(null);
     setConfirming(false);
     setNotice({ ok: true, text });

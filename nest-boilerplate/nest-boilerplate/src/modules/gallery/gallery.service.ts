@@ -10,6 +10,7 @@ import {
   GALLERY_MAX_PER_DAY,
   galleryDetailSchema,
   galleryListSchema,
+  galleryPreviewSchema,
   galleryPostSchema,
   galleryQuerySchema,
   galleryRemixSchema,
@@ -21,6 +22,8 @@ const iso = (d: Date | string) => new Date(d).toISOString();
 
 interface Row extends GalleryPost {
   ownerName: string;
+  ownerUsername?: string | null;
+  previewGraph?: GalleryPost["report"]["graph"];
 }
 
 /** A driver may return rows directly or as [rows, count]; both are handled the same way as the share service. */
@@ -45,6 +48,7 @@ export class GalleryService {
       title: row.title,
       description: row.description,
       ownerName: row.ownerName,
+      ownerUsername: row.ownerUsername ?? null,
       isMine: row.ownerId === viewer,
       publishedAt: iso(row.publishedAt),
       revision: row.revision,
@@ -89,7 +93,7 @@ export class GalleryService {
         throw new AppException("VALIDATION_FAILED", "You can publish at most 5 designs a day", { reason: "GALLERY_DAILY_LIMIT", limit: GALLERY_MAX_PER_DAY });
       const dup = rowsOf(await m.query("SELECT 1 FROM gallery_posts WHERE design_id = $1 AND revision = $2 AND unpublished_at IS NULL", [designId, revision]));
       if (dup.length) throw new AppException("CONFLICT", "This revision is already published", { reason: "ALREADY_PUBLISHED" });
-      const who = rowsOf<{ name: string }>(await m.query("SELECT display_name AS name FROM users WHERE id = $1", [owner]));
+      const who = rowsOf<{ name: string; username: string | null }>(await m.query("SELECT display_name AS name, username FROM users WHERE id = $1", [owner]));
       const row = await m.save(
         m.create(GalleryPost, {
           ownerId: owner,
@@ -110,7 +114,7 @@ export class GalleryService {
           unpublishedAt: null,
         }),
       );
-      return galleryPostSchema.parse(this.post({ ...row, ownerName: who[0]?.name ?? "" } as Row, owner));
+      return galleryPostSchema.parse(this.post({ ...row, ownerName: who[0]?.name ?? "", ownerUsername: who[0]?.username ?? null } as Row, owner));
     });
   }
 
@@ -153,13 +157,22 @@ export class GalleryService {
       await this.db.query(
         `SELECT p.id, p.owner_id AS "ownerId", p.title, p.description, p.revision, p.verdict, p.p95, p.p95_target AS "p95Target",
                 p.tags, p.node_count AS "nodeCount", p.allow_remix AS "allowRemix", p.remix_count AS "remixCount",
-                p.published_at AS "publishedAt", u.display_name AS "ownerName"
+                p.published_at AS "publishedAt", p.report->'graph' AS "previewGraph", u.display_name AS "ownerName", u.username AS "ownerUsername"
          FROM gallery_posts p JOIN users u ON u.id = p.owner_id
          WHERE ${clause} ORDER BY ${order} LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
         [...params, pageSize, (page - 1) * pageSize],
       ),
     );
-    return galleryListSchema.parse({ items: rows.map((r) => this.post(r, viewer)), total, page, pageSize });
+    return galleryListSchema.parse({ items: rows.map((r) => ({ ...this.post(r, viewer), preview: this.preview(r.previewGraph) })), total, page, pageSize });
+  }
+
+  private preview(graph: Row["previewGraph"]) {
+    if (!graph) return null;
+    const result = galleryPreviewSchema.safeParse({
+      nodes: graph.nodes.map(({ id, type, label, x, y }) => ({ id, type, label, x, y })),
+      edges: graph.edges.map(({ id, from, to }) => ({ id, from, to })),
+    });
+    return result.success ? result.data : null;
   }
 
   private async load(id: string): Promise<Row> {
@@ -167,7 +180,7 @@ export class GalleryService {
       await this.db.query(
         `SELECT p.id, p.owner_id AS "ownerId", p.title, p.description, p.revision, p.verdict, p.p95, p.p95_target AS "p95Target",
                 p.tags, p.node_count AS "nodeCount", p.allow_remix AS "allowRemix", p.remix_count AS "remixCount",
-                p.published_at AS "publishedAt", p.report, u.display_name AS "ownerName"
+                p.published_at AS "publishedAt", p.report, u.display_name AS "ownerName", u.username AS "ownerUsername"
          FROM gallery_posts p JOIN users u ON u.id = p.owner_id WHERE p.id = $1 AND p.unpublished_at IS NULL`,
         [id],
       ),

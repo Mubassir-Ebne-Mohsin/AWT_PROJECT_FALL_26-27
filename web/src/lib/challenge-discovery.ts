@@ -37,7 +37,10 @@ export function discoverChallenges(
         (!filter.state || status(c.id) === filter.state),
     )
     .sort((a, b) =>
-      filter.sort === "title"
+      // The API orders publications by published_at DESC, id DESC. Keep that stable order for newest.
+      filter.sort === "newest"
+        ? 0
+        : filter.sort === "title"
         ? a.title.localeCompare(b.title)
         : filter.sort === "difficulty"
           ? rank(a) - rank(b) || a.title.localeCompare(b.title)

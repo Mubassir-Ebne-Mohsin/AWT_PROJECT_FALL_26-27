@@ -10,10 +10,13 @@ export interface GalleryPreview {
   edges: { id: string; from: string; to: string }[];
 }
 export interface GalleryPost {
+  /** Older APIs may omit this while the frontend is rolling out. */
+  preview?: GalleryPreview | null;
   id: string;
   title: string;
   description: string;
   ownerName: string;
+  ownerUsername?: string | null;
   isMine: boolean;
   publishedAt: string;
   revision: number;

@@ -31,9 +31,8 @@ test("P3 /examples: a guest sees six examples with their breaking points, no acc
   await expect(page.getByTestId("example-panel")).toHaveCount(6);
   for (const name of NAMES) await expect(page.getByRole("heading", { name, level: 2 })).toBeVisible();
   await expect(page.getByTestId("breaking-point").first()).toContainText(/holds its goal up to about [\d,]+ requests a second/);
-  // The two examples that miss their own goal say so.
-  await expect(page.locator("#three-tier").getByTestId("own-result")).toContainText("misses its goal");
-  await expect(page.locator("#three-tier").getByTestId("own-result")).toContainText("below the 1,200 it is tested at");
+  // Starter defaults pass; the load explorers still expose overloaded failures.
+  for (const panel of await page.getByTestId("example-panel").all()) await expect(panel.getByTestId("own-result")).toContainText("meets its goal");
   await expect(page.locator("#mvp").getByTestId("own-result")).toContainText("meets its goal");
   await expect(page.getByText("Nothing here was measured on real servers")).toBeVisible();
   const headings = await page.locator("main h1, main h2, main h3").evaluateAll((els) => els.map((e) => Number(e.tagName[1])));

@@ -60,7 +60,7 @@ export class AuthService {
     const user = await this.users.findByEmail(dto.email);
     const hash = user?.passwordHash ?? (await DUMMY_HASH_PROMISE);
     const ok = await argon2.verify(hash, dto.password);
-    if (!user || !ok)
+    if (!user || !user.passwordHash || !ok)
       throw new AppException("UNAUTHENTICATED", BAD_CREDENTIALS);
     // Said only after the password is right, so it cannot be used to find out which emails have accounts.
     if (user.accountStatus === "suspended") {
@@ -84,7 +84,7 @@ export class AuthService {
     const user = await this.users.findById(userId);
     if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
     const bad = (path: string, message: string) => new AppException("VALIDATION_FAILED", "Validation failed", { fields: [{ path, message }] });
-    if (!(await argon2.verify(user.passwordHash, parsed.data.currentPassword))) throw bad("currentPassword", "Incorrect password");
+    if (!user.passwordHash || !(await argon2.verify(user.passwordHash, parsed.data.currentPassword))) throw bad("currentPassword", "Incorrect password");
     if (parsed.data.currentPassword === parsed.data.newPassword) throw bad("newPassword", "Choose a password you are not already using");
     const passwordHash = await argon2.hash(parsed.data.newPassword);
     const now = new Date();
@@ -93,6 +93,16 @@ export class AuthService {
     await this.tokens.endSessions(userId, cutoff, Math.max(env.JWT_ACCESS_TTL_SECONDS, 1));
     const fresh = await this.users.findById(userId);
     return this.issue(fresh ?? user, randomUUID());
+  }
+
+  /** Read-only family binding for a browser's OAuth transaction; normal refresh rotation keeps the family. */
+  async socialSessionFamily(token: string | undefined, owner: string): Promise<string> {
+    if (!token) throw new AppException("UNAUTHENTICATED", "Sign in again before managing login methods");
+    const p = await this.verifyRefresh(token), user = await this.users.findById(owner);
+    const cutoff = user?.sessionsRevokedAt ? Math.floor(new Date(user.sessionsRevokedAt).getTime()/1000) : null;
+    if (p.sub !== owner || !user || user.accountStatus !== "active" || (cutoff !== null && (p.iat ?? 0) <= cutoff) || (await this.tokens.isFamilyRevoked(p.fam)) || (await this.tokens.isRefreshSpent(p.jti)))
+      throw new AppException("UNAUTHENTICATED", "Sign in again before managing login methods");
+    return p.fam;
   }
 
   /** Rotates the refresh token: the presented one is spent and a new pair is issued. */
@@ -189,7 +199,7 @@ export class AuthService {
     }
   }
 
-  private async issue(
+  async issue(
     user: User,
     family: string,
     // A family has an absolute lifetime. Rotation changes ids, never its deadline,
@@ -197,12 +207,22 @@ export class AuthService {
     refreshExpiresAt = Math.floor(Date.now() / 1000) +
       env.JWT_REFRESH_TTL_SECONDS,
   ): Promise<IssuedSession> {
-    // Sessions are cut off at a whole second (sessionsRevokedAt) and tokens carry whole-second issue times, so a session
-    // created in that same second would look like one that was ended. Date it just after the cut-off instead.
-    const cutoff = user.sessionsRevokedAt ? Math.floor(new Date(user.sessionsRevokedAt).getTime() / 1000) : null;
-    const issuedAt = cutoff !== null && Math.floor(Date.now() / 1000) <= cutoff ? cutoff + 1 : undefined;
+    // Never future-date iat: another revocation in that second could miss it.
+    // Wait at most one normal second, then re-check the account before issuing.
+    const revokedAt = user.sessionsRevokedAt ? new Date(user.sessionsRevokedAt).getTime() : null;
+    const delay = revokedAt === null ? 0 : (Math.floor(revokedAt / 1000) + 1) * 1000 - Date.now();
+    if (delay > 2000) throw new AppException("UNAVAILABLE", "Session clock is out of sync. Please retry shortly.");
+    if (delay > 0) {
+      await new Promise<void>(resolve => setTimeout(resolve, delay));
+      const fresh = await this.users.findById(user.id);
+      if (!fresh || fresh.accountStatus === "suspended" ||
+        (fresh.sessionsRevokedAt ? new Date(fresh.sessionsRevokedAt).getTime() : null) !== revokedAt)
+        throw new AppException("SESSION_EXPIRED", "Your session has expired. Sign in again.");
+      if (Date.now() <= (Math.floor(revokedAt! / 1000) + 1) * 1000 - 1)
+        throw new AppException("UNAVAILABLE", "Session clock is out of sync. Please retry shortly.");
+      user = fresh;
+    }
     const accessPayload: Omit<AccessTokenPayload, "exp"> = {
-      ...(issuedAt ? { iat: issuedAt } : {}),
       typ: "access",
       sub: user.id,
       email: user.email,
@@ -215,7 +235,6 @@ export class AuthService {
       sub: user.id,
       jti: randomUUID(),
       fam: family,
-      ...(issuedAt ? { iat: issuedAt } : {}),
       exp: refreshExpiresAt,
     };
     const [accessToken, refreshToken] = await Promise.all([

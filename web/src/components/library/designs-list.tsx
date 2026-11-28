@@ -1,4 +1,7 @@
 "use client";
+import "@/styles/dashboard-preview.css";
+import "@/styles/library-preview.css";
+import { GalleryPreview } from "@/components/gallery/gallery-preview";
 
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
@@ -193,6 +196,7 @@ export function DesignsList() {
               const busy = busyId === d.id;
               return (
                 <li key={d.id} className="panel m15-design" data-testid="library-item">
+                  <div className="dashboard-preview m15-design-preview"><GalleryPreview graph={d.preview} title={d.name} context="saved" /></div>
                   <div className="row m15-vh">
                     <h2 className="h4">
                       <Link href={workspaceHref(d.id, "edit")}>{d.name}</Link>
@@ -200,7 +204,7 @@ export function DesignsList() {
                     {d.archivedAt && <span className="tag">Archived</span>}
                     <span className={"tag " + r.tone}>{r.label}</span>
                   </div>
-                  {d.description && <p className="hint">{d.description}</p>}
+                  {d.description && <p className="hint m15-design-description" title={d.description}>{d.description}</p>}
                   <p className="hint">
                     Revision {d.revision} · {d.nodeCount} {d.nodeCount === 1 ? "component" : "components"} · {d.edgeCount}{" "}
                     {d.edgeCount === 1 ? "connection" : "connections"} · Updated <time dateTime={d.updatedAt}>{new Date(d.updatedAt).toLocaleDateString()}</time>

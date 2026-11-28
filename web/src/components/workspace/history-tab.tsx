@@ -130,17 +130,12 @@ export function HistoryTab({
             <p className="hint">Only the current version exists so far. Every save adds a version you can return to. Restoring one creates a new version instead of rewriting history.</p>
           )}
           {items.length > 1 && picked.length < 2 && (
-            <p className="small muted">Select two versions below to compare them side by side.</p>
+            <p className="small muted">Select two versions to compare them side by side.</p>
           )}
-          {picked.length === 2 &&
-            (() => {
-              const [lo, hi] = orderPair(picked[0], picked[1]);
-              const older = items.find((v) => v.revision === lo);
-              const newer = items.find((v) => v.revision === hi);
-              return older && newer ? (
-                <ComparePanel designId={designId} older={older} newer={newer} runs={runs.data ?? []} onClose={() => setPicked([])} />
-              ) : null;
-            })()}
+          <div className="m15-history-layout">
+            <div className="m15-revision-list">
+            <div className="m15-list-heading"><h3 className="h4">Revisions</h3><span className="small muted">Newest first</span></div>
+          <div className="m15-revision-scroll" role="region" aria-label="Scrollable saved revisions" tabIndex={0}>
           <ol className="m15-timeline" aria-label="Versions, newest first">
             {items.map((v) => {
               const origin = versionOrigin(v);
@@ -148,7 +143,7 @@ export function HistoryTab({
               const runsHere = byRevision.get(v.revision) ?? [];
               const changes = open === v.revision ? restoreChanges(saved, v.snapshot as Design) : [];
               return (
-                <li key={v.id} className={"m15-version" + (isCurrent ? " is-current" : "")}>
+                <li key={v.id} className={"m15-version" + (isCurrent ? " is-current" : "") + (picked.includes(v.revision) ? " is-selected" : "")}>
                   <div className="row tight m15-vh">
                     <h3 className="h4">Revision {v.revision}</h3>
                     {isCurrent && <span className="tag accent">Current</span>}
@@ -160,6 +155,8 @@ export function HistoryTab({
                   {origin.note && <p className="small muted">{origin.note}</p>}
                   <p className="small">{snapshotSummary(v.snapshot as Design)}</p>
                   {runsHere.length > 0 && (
+                    <details className="m15-recorded-runs" open>
+                      <summary>Recorded runs ({runsHere.length})</summary>
                     <ul className="m15-runs" aria-label={`Recorded runs for revision ${v.revision}`}>
                       {runsHere.map((r) => (
                         <li key={r.id}>
@@ -177,6 +174,7 @@ export function HistoryTab({
                         </li>
                       ))}
                     </ul>
+                    </details>
                   )}
                   <label className="m15-pick small">
                     <input
@@ -230,6 +228,27 @@ export function HistoryTab({
               {versions.isFetchingNextPage ? "Loading…" : "Load older versions"}
             </button>
           )}
+          </div>
+          </div>
+            <div className="m15-comparison-workspace">
+          {picked.length === 2 &&
+            (() => {
+              const [lo, hi] = orderPair(picked[0], picked[1]);
+              const older = items.find((v) => v.revision === lo);
+              const newer = items.find((v) => v.revision === hi);
+              return older && newer ? (
+                <ComparePanel designId={designId} older={older} newer={newer} runs={runs.data ?? []} onClose={() => setPicked([])} />
+              ) : null;
+            })()}
+          {picked.length < 2 && (
+            <div className="panel m15-compare-empty">
+              <h3 className="h3">Compare revisions</h3>
+              <p className="muted">Choose two revisions from the list to see what changed and compare their recorded results.</p>
+              <p className="small muted" role="status">{picked.length} of 2 revisions selected</p>
+            </div>
+          )}
+          </div>
+          </div>
           {runs.isError && <p className="small muted">Recorded runs could not be loaded; the versions above are unaffected.</p>}
           {orphans.length > 0 && (
             <div className="stack">

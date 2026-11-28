@@ -43,7 +43,7 @@ export const TEMPLATES: {
     },
     traffic: {
       preset: "evening",
-      rps: 1200,
+      rps: 800,
       burst: 1.5,
       readRatio: 0.85,
       sloP95: 300,
@@ -85,7 +85,7 @@ export const TEMPLATES: {
     },
     traffic: {
       preset: "ingest",
-      rps: 1500,
+      rps: 600,
       burst: 1.3,
       readRatio: 0.15,
       sloP95: 250,
@@ -111,7 +111,7 @@ export const TEMPLATES: {
     },
     traffic: {
       preset: "flash",
-      rps: 1400,
+      rps: 600,
       burst: 3,
       readRatio: 0.6,
       sloP95: 400,

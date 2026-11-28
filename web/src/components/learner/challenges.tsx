@@ -1,5 +1,6 @@
 "use client";
 import { ChallengeLibrary } from "@/components/learner/challenge-library";
+import { ChallengeIntroduction } from "@/components/public/challenge-introduction";
 import { ChallengeBrief } from "@/components/learner/challenge-brief";
 import {
   readSubmissionIdentity,
@@ -12,7 +13,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
-import { ConceptsProgress, NextStep } from "@/components/learner/concepts";
+import { ProgressPage } from "@/components/progress/progress-page";
 import { Crumbs } from "@/components/shell/crumbs";
 import { resolveRoute } from "@/lib/routes";
 import { api } from "@/lib/api/client";
@@ -22,12 +23,9 @@ import {
   startAttempt,
   readAttempt,
   submitAttempt,
-  challengeProgress,
 } from "@/lib/api/attempts";
 const uuid = (s: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(s);
-const goal = (g: { p95Ms: number; errorRate: number }) =>
-  `p95 ≤ ${g.p95Ms} ms · errors ≤ ${(g.errorRate * 100).toFixed(2)}%`;
 function Notice({ error }: { error: unknown }) {
   return error ? (
     <p role="alert">
@@ -36,7 +34,8 @@ function Notice({ error }: { error: unknown }) {
   ) : null;
 }
 export function LearnerCatalog() {
-  return <ChallengeLibrary />;
+  const { status, user } = useAuth();
+  return status === "authed" && user ? <ChallengeLibrary key={user.id} /> : <ChallengeIntroduction />;
 }
 export function LearnerChallenge() {
   const id = String(useParams().id),
@@ -46,9 +45,9 @@ export function LearnerChallenge() {
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState("");
   const q = useQuery({
-    queryKey: ["published-challenge", id],
+    queryKey: ["published-challenge", id, user?.id],
     queryFn: ({ signal }) => publishedChallenge(id, signal),
-    enabled: uuid(id),
+    enabled: !!user && uuid(id),
     retry: false,
   });
   const attemptId = search.get("attempt");
@@ -356,58 +355,5 @@ function Attempt({ id, challengeId }: { id: string; challengeId: string }) {
   );
 }
 export function LearnerProgress() {
-  const { user } = useAuth();
-  const q = useQuery({
-    queryKey: ["challenge-progress", user?.id],
-    queryFn: ({ signal }) => challengeProgress(signal),
-    enabled: !!user,
-    retry: false,
-  });
-  return (
-    <div className="page stack lg">
-      <Crumbs resolved={resolveRoute("/progress")} />
-      <h1 className="h1">Progress</h1>
-      <p className="lede">What to do next, the concepts you have opened, and your recorded challenge results.</p>
-      <Notice error={q.error} />
-      <NextStep challenges={q.data ? { items: q.data.items } : null} />
-      <ConceptsProgress />
-      <h2 className="h2">Challenges</h2>
-      {q.isError && (
-        <button className="btn" onClick={() => void q.refetch()}>
-          Try again
-        </button>
-      )}
-      {q.data && (
-        <>
-          <p>
-            {q.data.passed} passed · {q.data.attempted} attempted
-          </p>
-          {q.data.items.length === 0 && (
-            <Link href="/challenges">Browse challenges to begin</Link>
-          )}
-          {q.data.items.map((i) => (
-            <article className="card stack" key={i.attemptId}>
-              <h3 className="h3">{i.title}</h3>
-              <p>
-                {i.passed ? "Passed" : "Not yet passed"}
-                {i.archived ? " · Archived" : ""}
-              </p>
-              <p>{goal(i.goal)}</p>
-              {i.best && (
-                <p>
-                  Best: p95 {i.best.p95} ms · errors{" "}
-                  {((i.best.errorRate ?? 0) * 100).toFixed(2)}%
-                </p>
-              )}
-              <Link
-                href={`/challenges/${i.challengeId}?attempt=${i.attemptId}`}
-              >
-                View attempt and submissions
-              </Link>
-            </article>
-          ))}
-        </>
-      )}
-    </div>
-  );
+  return <ProgressPage />;
 }

@@ -74,43 +74,33 @@ export const HOW_SECTIONS: Section[] = [
 ];
 
 export const ABOUT_SECTIONS: Section[] = [
-  {
-    id: "why",
-    heading: "Why this exists",
-    body: [
-      "StressForge is an architecture drawing and simulation lab for students and developers. You draw a system, choose a traffic profile, and see which component gives way first, then change the design and run it again.",
-      "It was built as a course project for Advanced Web Technologies (Fall 2026-27) to practise a complete web application: accounts, saved designs, a calculation engine, sharing and review.",
-    ],
-  },
-  {
-    id: "who",
-    heading: "Who it is for",
-    body: ["Four kinds of account share the same app:"],
-    items: [
-      "Everyone can draw, run, save, compare and report on their own designs, and try published challenges.",
-      "Reviewers read designs that an owner chose to share with them and leave comments.",
-      "Instructors publish challenges and read the submissions to their own challenges.",
-      "Admins manage accounts and roles. Admins cannot read anyone's designs.",
-    ],
-  },
-  {
-    id: "stack",
-    heading: "What it is built with",
-    body: ["A web app in Next.js and React, an API in NestJS, both in TypeScript, with PostgreSQL for data and Redis for short-lived state. The calculation runs on the server in the NestJS API."],
-  },
-  {
-    id: "honest",
-    heading: "What to keep in mind",
-    body: ["The numbers are model estimates, not measurements. The AI features are switched off in this version and nothing you create is sent to an AI service."],
-  },
-  {
-    id: "source",
-    heading: "Source",
-    body: ["The project source is on GitHub at Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27."],
-  },
+  { id: "why", heading: "An architecture lab for better decisions", body: [
+    "STRESSFORGE helps students and developers understand how a system behaves under load. Draw an architecture, define its traffic, and explore the bottlenecks before changing the design.",
+    "Created as an Advanced Web Technologies course project (Fall 2026–27), it connects visual design, repeatable model calculations and practical learning in one workspace."
+  ] },
+  { id: "who", heading: "Different roles. A shared learning space.", body: ["Build on your own, learn with an instructor, or invite a second perspective."], items: [
+    "Builders draw, save and compare their own designs, explore the Gallery, and attempt published challenges.",
+    "Reviewers read frozen designs explicitly shared with them and leave feedback for the owner.",
+    "Instructors publish challenges with fixed traffic and targets, then review submissions to their own challenges.",
+    "Support helps with reported problems. Support cannot see your designs.",
+    "Admins manage accounts and roles. Admins cannot read anyone's designs."
+  ] },
+  { id: "workflow", heading: "A question. A test. A better design.", body: [
+    "Start from a blank canvas, a template or an imported design. Connect components, choose a request rate and burst pattern, and set latency and error targets.",
+    "Run the model to inspect component utilization, request paths and latency estimates. Compare saved runs, explore Limits and the load ladder, then test a change and record what you learned."
+  ] },
+  { id: "honest", heading: "Clear about what the numbers mean", body: [
+    "Results are mathematical estimates, not measurements of real infrastructure. STRESSFORGE does not send load to your servers. Use it to reason about architecture, then validate important decisions with real load tests.",
+    "The simulator computes the numbers. Optional AI-assisted tools are experimental and depend on the enabled configuration; they do not replace the calculation engine. You can design and run simulations without AI."
+  ] }
 ];
 
-export const SOURCE_URL = "https://github.com/Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27";
+export const ABOUT_CAPABILITIES = [
+  { icon: "layers", title: "Make the architecture visible", detail: "Connect clients, routing, compute and data components on a canvas. Explore capacity, replicas, cache hits and regions instead of leaving assumptions hidden in a diagram.", link: "/examples", action: "Explore examples" },
+  { icon: "heat", title: "Find the pressure points", detail: "Choose traffic, bursts and read share. Inspect estimated p95 latency, errors and utilization, then use Limits and the load ladder to explore where your design stops meeting its targets.", link: "/how-it-works", action: "Understand the model" },
+  { icon: "wrench", title: "Improve with evidence", detail: "Try verified fix suggestions, compare recorded runs and keep decisions in Notes. Download a PDF report or share a read-only snapshot to explain the trade-offs.", link: "/evaluation/simulator", action: "See the evaluation" },
+  { icon: "help", title: "Learn by trying", detail: "Build your understanding with component guides, interactive lessons and challenges. Discover published designs in the Gallery and remix a starting point into your own workspace.", link: "/learn", action: "Open the learning library" }
+] as const;
 
 export type Stored = { what: string; detail: string; who: string };
 

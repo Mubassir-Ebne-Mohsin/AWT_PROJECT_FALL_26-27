@@ -216,4 +216,21 @@ describe("M15.5 Designs list (isolated Postgres, no AI involved)", () => {
       expect(live.paths[path]).toEqual(canonical[path]);
     }
   });
+
+  it("list thumbnails use current saved geometry and remain private across archive states", async () => {
+    const a = await account(), other = await account();
+    const d = await a.create("Thumbnail check");
+    const graph = structuredClone(d.graph);
+    graph.nodes[0].x = -432;
+    graph.nodes[0].label = "Current library thumbnail";
+    await http.patch("/v1/designs/" + d.id).set(a.headers).send({ expectedRevision: d.revision, graph }).expect(200);
+    const list = (await http.get("/v1/library/designs").set(a.headers).expect(200)).body;
+    expect(list.data[0].preview.nodes[0]).toMatchObject({ x: -432, label: "Current library thumbnail" });
+    expect(JSON.stringify(list.data[0].preview)).not.toMatch(/props|capacity|traffic|ownerId/);
+    const foreign = (await http.get("/v1/library/designs?archived=all").set(other.headers).expect(200)).body;
+    expect(foreign.data).toEqual([]);
+    await http.post("/v1/designs/" + d.id + "/archive").set(a.headers).expect(200);
+    const archived = (await http.get("/v1/library/designs?archived=archived").set(a.headers).expect(200)).body;
+    expect(archived.data[0].preview.nodes[0].label).toBe("Current library thumbnail");
+  });
 });

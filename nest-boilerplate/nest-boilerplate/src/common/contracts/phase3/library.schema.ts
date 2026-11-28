@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { topologyPreviewSchema } from "@/common/contracts/phase2/graph.schema";
 
 // M15.5 Designs list. The phase 2 list contract stays frozen; this richer, filterable list lives beside it.
 // Core product contracts: independent of the optional AI contracts.
@@ -39,6 +40,7 @@ export const libraryItemSchema = z.strictObject({
   nodeCount: z.number().int().min(0),
   edgeCount: z.number().int().min(0),
   latestRun: latestRunSchema.nullable(),
+  preview: topologyPreviewSchema.optional(),
 });
 
 export const libraryListSchema = z.strictObject({

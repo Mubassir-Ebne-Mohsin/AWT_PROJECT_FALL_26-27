@@ -25,6 +25,18 @@ class FakeRedisClient {
     return "OK";
   }
 
+  /** Implements only the atomic cutoff script used by TokenStore; other Lua is a test error. */
+  async eval(script: string, options: { keys: string[]; arguments: string[] }) {
+    this.assertOpen();
+    if (!script.includes("local cutoff = math.max") || options.keys.length !== 1)
+      throw new Error("Unsupported fake Redis script");
+    const key = options.keys[0], existing = this.live(key);
+    const cutoff = Math.max(Number(existing?.value ?? -1), Number(options.arguments[0]));
+    const ttl = Math.max((existing?.expiresAt ?? Date.now()) - Date.now(), Number(options.arguments[1]));
+    this.store.set(key, { value: String(cutoff), expiresAt: Date.now() + ttl });
+    return "OK";
+  }
+
   async get(key: string) {
     this.assertOpen();
     return this.live(key)?.value ?? null;

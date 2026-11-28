@@ -1,8 +1,9 @@
 import { api } from "@/lib/api/client";
+import type { components as Phase3Components } from "@/lib/api/phase3-schema";
 import type { components } from "@/lib/api/schema";
 
 type Schemas = components["schemas"];
-export type LibraryPage = Schemas["DesignLibraryList"];
+export type LibraryPage = Phase3Components["schemas"]["DesignLibraryList"];
 export type LibraryItem = LibraryPage["data"][number];
 export type ArchiveState = Schemas["ArchiveState"];
 

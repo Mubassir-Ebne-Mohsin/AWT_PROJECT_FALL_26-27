@@ -1,3 +1,4 @@
+import { appConfig } from "@/config";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { QueryFailedError, Repository } from "typeorm";
@@ -93,6 +94,8 @@ export class UsersService {
       displayName: user.displayName,
       ...(user.username ? { username: user.username } : {}),
       role: user.role,
+      ...(user.passwordHash === null ? { hasPassword: false } : {}),
+      ...(appConfig.env.GOOGLE_AUTH_ENABLED || appConfig.env.GITHUB_AUTH_ENABLED ? { socialAuthEnabled: true } : {}),
       createdAt: user.createdAt.toISOString(),
     };
   }

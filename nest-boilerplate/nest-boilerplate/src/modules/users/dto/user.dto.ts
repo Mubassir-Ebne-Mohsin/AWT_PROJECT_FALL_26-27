@@ -7,6 +7,8 @@ export const userResponseSchema = z.object({
   email: z.string(),
   displayName: z.string(),
   username: z.string().optional(),
+  hasPassword: z.boolean().optional(),
+  socialAuthEnabled: z.boolean().optional(),
   role: z.enum(Role),
   createdAt: z.string(),
 });

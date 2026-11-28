@@ -5,7 +5,7 @@ export function safeNext(raw: string | null | undefined, fallback = "/dashboard"
     const url = new URL(raw, "https://stressforge.invalid");
     if (url.origin !== "https://stressforge.invalid") return fallback;
     const path = decodeURIComponent(url.pathname).replace(/\/+$/, "");
-    if (path === "/login" || path === "/register" || path.startsWith("//") || path.includes("\\")) return fallback;
+    if (path.startsWith("/auth/") || path === "/login" || path === "/register" || path.startsWith("//") || path.includes("\\")) return fallback;
     return url.pathname + url.search + url.hash;
   } catch {
     return fallback;

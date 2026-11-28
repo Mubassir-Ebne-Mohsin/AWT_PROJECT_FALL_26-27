@@ -1,0 +1,41 @@
+/* Examples only: slightly narrower, denser cards; all model text and controls remain visible. */
+.examples-page { --examples-violet: color-mix(in srgb,var(--accent) 64%,#a67af1); max-width: 856px; position: relative; isolation: isolate; gap: 20px; padding-top: 32px; }
+.examples-page::before { content: ""; position: absolute; z-index: -1; pointer-events: none; inset: 35px 0 auto; height: 600px; background: radial-gradient(ellipse at 85% 35%,color-mix(in srgb,var(--examples-violet) 15%,transparent),transparent 63%); }
+.examples-header { padding: 24px 0 8px; gap: 14px; }
+.examples-eyebrow { color: var(--accent); font: 500 10px/1.6 var(--font-mono); letter-spacing: .14em; }
+.examples-header h1 { font-size: clamp(33px,4vw,44px); letter-spacing: -.04em; line-height: 1.12; }
+.examples-header .lede { max-width: 720px; font-size: 15px; color: var(--ink-2); line-height: 1.75; }
+.examples-jump ul { margin: 6px 0 0; }
+.examples-jump .chip { padding: 8px 12px; min-height: 36px; display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; background: color-mix(in srgb,var(--surface) 80%,transparent); border-color: var(--line); color: var(--ink-2); transition: background .2s,color .2s,border-color .2s,transform .2s; }
+.examples-jump .chip:hover,.examples-jump .chip:focus-visible { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-line); text-decoration: none; transform: translateY(-2px); }
+.examples-card { --card-glow: var(--examples-violet); position: relative; gap: 10px; padding: 20px 22px; border-radius: 18px; border: 1px solid var(--line); background: color-mix(in srgb,var(--surface) 87%,transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 color-mix(in srgb,var(--ink) 4%,transparent) inset,0 9px 30px color-mix(in srgb,var(--card-glow) 5%,transparent); transition: border-color .25s,box-shadow .25s; scroll-margin-top: 24px; }
+.examples-card:hover,.examples-card:focus-within { border-color: var(--accent-line); box-shadow: 0 8px 32px color-mix(in srgb,var(--card-glow) 11%,transparent); }
+.examples-card-heading { padding-bottom: 3px; gap: 10px; }
+.examples-card-heading h2 { font-size: 18px; letter-spacing: -.025em; line-height: 1.3; }
+.examples-card-heading .pill { font-size: 10px; flex: none; }
+.examples-diagram { border: 1px solid var(--line-soft); border-radius: 11px; overflow: hidden; height: 136px; padding: 6px 10px; background-color: color-mix(in srgb,var(--canvas) 86%,transparent); }
+.examples-diagram svg { width: 100%; height: 100%; display: block; }
+.examples-page .examples-description { color: var(--ink); font-size: 13px; line-height: 1.65; }
+.examples-card [data-testid="components-list"] { font-size: 11px; color: var(--ink-3); line-height: 1.6; }
+.examples-result,.examples-breaking { gap: 6px; }
+.examples-result h3,.examples-breaking h3 { font-size: 12px; letter-spacing: 0; color: var(--ink); }
+.examples-result p,.examples-breaking > p:first-of-type { color: var(--ink-2); font-size: 12px; line-height: 1.65; }
+.examples-breaking .hint { font-size: 10.5px; line-height: 1.55; color: var(--ink-3); }
+.examples-explorer { gap: 8px; padding: 14px 16px; border-radius: 11px; border: 1px solid var(--accent-line); background: linear-gradient(120deg,color-mix(in srgb,var(--accent-soft) 68%,var(--surface)),color-mix(in srgb,var(--surface) 90%,transparent)); }
+.examples-explorer h3 { display: flex; align-items: center; gap: 7px; color: var(--accent); font-size: 12px; }
+.examples-explorer .lrn-field { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 5px 12px; align-items: center; }
+.examples-explorer .lrn-field label { font-size: 11px; color: var(--ink-2); }
+.examples-explorer .lrn-value { grid-column: 2; grid-row: 1; font-size: 11px; color: var(--ink); justify-self: end; text-align: right; }
+.examples-explorer input[type="range"] { grid-column: 1/-1; grid-row: 2; width: 100%; margin: 0; height: 30px; accent-color: var(--accent); cursor: pointer; }
+.examples-explorer input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 5px; }
+.examples-explorer .lrn-summary { font-size: 12px; line-height: 1.65; color: var(--ink-2); }
+.examples-explorer .hint { color: var(--ink-3); font-size: 10px; line-height: 1.5; }
+.examples-card-footer { padding-top: 4px; }
+.examples-card-footer .btn { min-height: 38px; height: auto; white-space: normal; text-align: center; padding: 10px 13px; font-size: 11px; }
+.examples-page > .hint { font-size: 12px; line-height: 1.75; padding: 4px 0; }
+@media(max-width:600px) { .examples-page { padding-top: 22px; gap: 16px; } .examples-header { padding-top: 18px; } .examples-card { padding: 17px; border-radius: 15px; } .examples-diagram { height: 130px; padding: 5px; } .examples-card-heading h2 { font-size: 17px; } .examples-explorer { padding: 12px; } .examples-card-footer .btn { width: 100%; } .examples-jump .chip { min-height: 40px; } }
+@media(prefers-reduced-motion:reduce) { .examples-page * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } .examples-jump .chip:hover { transform: none; } }
+
+.examples-diagram-hint { display: none; }
+.examples-diagram:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media(max-width:600px) { .examples-diagram { height: 148px; overflow: auto; overscroll-behavior-x: contain; } .examples-diagram svg { width: 1024px; max-width: none; height: auto; min-height: 124px; } .examples-page .examples-diagram-hint { display: block; color: var(--ink-3); font-size: 10px; margin-top: -5px; } }

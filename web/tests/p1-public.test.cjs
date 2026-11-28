@@ -114,14 +114,18 @@ test("P1: the privacy page promises export and deletion exactly when the API has
   assert.match(C.PRIVACY_STORED.find((r) => r.what === "Role history").who, /kept after an account is deleted/);
 });
 
-test("P1: the about page names the real stack and the real roles, and the source link is the repository", () => {
-  const web = JSON.parse(read("web/package.json")).dependencies;
-  const api = JSON.parse(read("nest-boilerplate/nest-boilerplate/package.json")).dependencies;
-  assert.ok(web.next && web.react && api["@nestjs/core"] && api.typeorm && api.ioredis);
-  const text = C.ABOUT_SECTIONS.flatMap((s) => [...s.body, ...(s.items ?? [])]).join(" ");
-  for (const word of ["Next.js", "React", "NestJS", "TypeScript", "PostgreSQL", "Redis", "Reviewers", "Instructors", "Admins"]) assert.match(text, new RegExp(word));
-  assert.match(text, /Admins cannot read anyone's designs/);
-  assert.equal(C.SOURCE_URL, "https://github.com/Mubassir-Ebne-Mohsin/AWT_PROJECT_FALL_26-27");
-  const d = doc(renderToStaticMarkup(h(Pages.AboutPage)));
-  assert.equal(d.querySelector("a[target='_blank']").getAttribute("href"), C.SOURCE_URL);
+test("P1: About explains the product, roles and model limits without stack or source sections", () => {
+ const text = C.ABOUT_SECTIONS.flatMap(s => [...s.body, ...(s.items ?? [])]).join(" ");
+ for (const word of ["Builders", "Reviewers", "Instructors", "Support", "Admins"]) assert.match(text, new RegExp(word));
+ assert.match(text, /Admins cannot read anyone's designs/);
+ assert.match(text, /Advanced Web Technologies/);
+ assert.match(text, /mathematical estimates, not measurements/);
+ assert.match(text, /without AI/);
+ const d = doc(renderToStaticMarkup(h(Pages.AboutPage)));
+ assert.equal(d.querySelectorAll("[data-testid='about-capability']").length, 4);
+ assert.equal(d.querySelectorAll("input[type='radio']").length, 4);
+ assert.equal(d.querySelectorAll("details").length, 5);
+ assert.doesNotMatch(d.body.textContent, /What it is built with|Open the source repository|GitHub|Next\.js|NestJS/);
+ assert.equal(d.querySelector("a[href*='github.com']"), null);
+ for (const a of d.querySelectorAll(".about-card a")) assert.notEqual(resolveRoute(a.getAttribute("href")).route.id, "notfound");
 });

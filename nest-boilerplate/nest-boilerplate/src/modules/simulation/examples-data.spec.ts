@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { buildExamplesData } from "@/src/script/examples-data";
 import { fixturesMatch } from "@/src/script/learn-fixtures";
+import { simulate } from "@/modules/simulation/engine/simulate";
 import { getCatalog, getTemplates } from "@/modules/simulation/engine/templates";
 
 const file = resolve(__dirname, "../../../../../web/src/lib/examples-data.json");
@@ -43,10 +44,24 @@ describe("P3 examples data follows the real engine", () => {
     }
   });
 
-  it("is honest about the examples that miss their own goal", () => {
-    const by = Object.fromEntries(stored().templates.map((t: { id: string }) => [t.id, t]));
-    expect(by["three-tier"].result.sloMet).toBe(false);
-    expect(by["checkout"].result.sloMet).toBe(false);
-    expect(by["mvp"].result.sloMet).toBe(true);
+  it("every starter passes with zero errors and comfortable headroom at its supplied traffic", () => {
+    for (const t of stored().templates) {
+      expect(t.result.sloMet).toBe(true);
+      expect(t.result.verdict).toBe("pass");
+      expect(t.result.errorRate).toBe(0);
+      expect(t.result.p95).toBeLessThanOrEqual(t.traffic.sloP95);
+      expect(t.result.maxRho).toBeLessThan(0.8);
+      expect(t.traffic.rps).toBeLessThan(t.limits.passingRps);
+    }
+  });
+
+  it("overloading a starter still produces genuine failures", () => {
+    for (const t of getTemplates()) {
+      const result = simulate({ nodes: t.graph.nodes, edges: t.graph.edges }, { ...t.traffic, rps: t.traffic.rps * 20 });
+      expect(result.ok).toBe(true);
+      if (!result.ok) throw new Error("Invalid starter");
+      expect(result.sloMet).toBe(false);
+      expect(result.verdict).toBe("fail");
+    }
   });
 });

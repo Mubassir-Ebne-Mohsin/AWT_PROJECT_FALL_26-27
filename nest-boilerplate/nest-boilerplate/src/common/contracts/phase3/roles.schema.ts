@@ -29,6 +29,19 @@ export const adminUserSchema = z.strictObject({
   createdAt: z.iso.datetime(),
 });
 
+/** Admin-only directory of accounts holding at least one of these explicit roles. */
+export const directoryRoleSchema = z.enum(["instructor", "support", "admin"]);
+export const roleDirectoryQuerySchema = z.strictObject({
+  role: directoryRoleSchema.optional(),
+  limit: z.coerce.number().int().min(1).max(20).default(12),
+  before: z.iso.datetime().optional(),
+  beforeId: z.uuid().optional(),
+}).refine(q => (q.before === undefined) === (q.beforeId === undefined), "Both cursor fields are required together");
+export const roleDirectorySchema = z.strictObject({
+  items: z.array(adminUserSchema).max(20),
+  next: z.strictObject({at:z.iso.datetime(),id:z.uuid()}).nullable(),
+});
+
 /** R2: search by part of an email or display name. Newest accounts first; an Admin still sees no design content. */
 export const userSearchQuerySchema = z.strictObject({ q: z.string().trim().min(2).max(100), limit: z.coerce.number().int().min(1).max(20).default(10) });
 export const statusChangeSchema = z.strictObject({ userId: z.uuid(), status: z.enum(["active", "suspended"]) });

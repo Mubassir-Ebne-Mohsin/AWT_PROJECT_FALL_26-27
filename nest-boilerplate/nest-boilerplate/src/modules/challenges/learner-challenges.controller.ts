@@ -8,7 +8,6 @@ import {
   HttpCode,
 } from "@nestjs/common";
 import { CurrentUser } from "@/common/decorators";
-import { Public } from "@/common/decorators/public.decorator";
 import { AuthUser } from "@/common/interfaces/auth-user.interface";
 import { AppException } from "@/common/errors";
 import { submitAttemptSchema } from "@/common/contracts/phase3/attempts.schema";
@@ -16,10 +15,10 @@ import { LearnerChallengesService } from "@/modules/challenges/learner-challenge
 @Controller()
 export class LearnerChallengesController {
   constructor(private readonly learners: LearnerChallengesService) {}
-  @Public() @Get("challenges") list() {
+  @Get("challenges") list() {
     return this.learners.list();
   }
-  @Public() @Get("challenges/:id") detail(
+  @Get("challenges/:id") detail(
     @Param("id", ParseUUIDPipe) id: string,
   ) {
     return this.learners.detail(id);

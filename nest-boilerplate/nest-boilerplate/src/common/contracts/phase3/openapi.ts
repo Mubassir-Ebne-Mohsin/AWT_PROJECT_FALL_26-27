@@ -1,3 +1,5 @@
+import { socialRegistrationSchema,socialPasswordProofSchema,socialProofRequestSchema,socialReauthRequestSchema,socialPasswordRequestSchema,socialDeleteRequestSchema } from "@/common/contracts/phase3/social.schema";
+import { providerAvailabilitySchema,identitiesSchema,pendingSocialSchema,completionSchema,proofSchema,socialSessionSchema } from "@/common/contracts/phase3/social.schema";
 import {
   publicChallengeListSchema,
   publicChallengeSchema,
@@ -47,7 +49,7 @@ import {
 } from "@/common/contracts/phase3/support.schema";
 import { metricsExportSchema } from "@/common/contracts/phase3/admin-metrics.schema";
 import { adminMetricsSchema } from "@/common/contracts/phase3/admin-metrics.schema";
-import { accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
+import { roleDirectorySchema, accountRolesSchema, adminUserSchema, auditEntrySchema, grantRoleRequestSchema, roleChangeSchema, statusChangeSchema } from "@/common/contracts/phase3/roles.schema";
 import { challengeSchema, createChallengeRequestSchema, patchChallengeRequestSchema } from "@/common/contracts/phase3/challenges.schema";
 import { createCommentRequestSchema, createReviewRequestSchema, editCommentRequestSchema, ownerReplyRequestSchema, reviewCommentSchema, reviewGrantSchema, reviewItemSchema, reviewViewSchema } from "@/common/contracts/phase3/reviews.schema";
 import { galleryDetailSchema, galleryListSchema, galleryPostSchema, galleryRemixSchema, galleryUnpublishedSchema, publishRequestSchema } from "@/common/contracts/phase3/gallery.schema";
@@ -62,8 +64,12 @@ import { designSchema } from "@/common/contracts/phase2/api.schema";
 import { errorResponseSchema } from "@/common/swagger/error-response.dto";
 import { notificationsPageSchema, notificationPreferencesSchema, notificationPreferenceSchema, notificationReadSchema, notificationTargetSchema } from "@/common/contracts/phase3/notifications.schema";
 import { savedReplyInputSchema,savedReplyEditSchema,savedReplyDeleteSchema,savedReplyPreviewRequestSchema,savedReplySchema,savedRepliesSchema,savedReplyPreviewSchema,savedReplyDeletedSchema,mergeRequestSchema,unmergeRequestSchema } from "@/common/contracts/phase3/support-extras.schema";
+import { progressActivitySchema, progressDaySchema } from "@/common/contracts/phase3/progress.schema";
 export function phase3OpenApi() {
   const models = {
+    SocialRegistrationRequest:socialRegistrationSchema, SocialPasswordProofRequest:socialPasswordProofSchema, SocialProofRequest:socialProofRequestSchema, SocialReauthRequest:socialReauthRequestSchema, SocialPasswordRequest:socialPasswordRequestSchema, SocialDeleteRequest:socialDeleteRequestSchema,
+    SocialProviders:providerAvailabilitySchema, SocialIdentities:identitiesSchema, SocialPending:pendingSocialSchema, SocialCompletion:completionSchema, SocialProof:proofSchema, SocialSession:socialSessionSchema, SocialRedirect:z.strictObject({url:z.string()}), SocialMutation:z.strictObject({disconnected:z.boolean()}), SocialInput:z.record(z.string(),z.unknown()),
+    ProgressActivity: progressActivitySchema, ProgressActivityDay: progressDaySchema,
     SavedReplyInput:savedReplyInputSchema,SavedReplyEdit:savedReplyEditSchema,SavedReplyDelete:savedReplyDeleteSchema,
     SavedReplyPreviewRequest:savedReplyPreviewRequestSchema,SavedReply:savedReplySchema,SavedReplies:savedRepliesSchema,SavedReplyPreview:savedReplyPreviewSchema,SavedReplyDeleted:savedReplyDeletedSchema,
     SupportMergeRequest:mergeRequestSchema,SupportUnmergeRequest:unmergeRequestSchema,
@@ -130,6 +136,7 @@ export function phase3OpenApi() {
     AccountRoles: accountRolesSchema,
     GrantRoleRequest: grantRoleRequestSchema,
     AdminUser: adminUserSchema,
+    AdminRoleDirectory: roleDirectorySchema,
     AdminMetrics: adminMetricsSchema,
     AdminMetricsExport: metricsExportSchema,
     ReportContext: reportContextSchema,
@@ -223,6 +230,7 @@ export function phase3OpenApi() {
       },
     };
   }
+  const withStatus = (op: ReturnType<typeof operation>, status: "201" | "204") => ({...op, responses:Object.fromEntries(Object.entries(op.responses).map(([key,value])=>key==="200"?[status,status==="204"?{description:"Account deleted"}:value]:[key,value]))});
   return {
     openapi: "3.1.0",
     info: {
@@ -232,16 +240,27 @@ export function phase3OpenApi() {
         "Opt-in backend only. M10 quality gate failed; model prose remains experimental. No AI UI or mutation endpoint.",
     },
     paths: {
+      "/v1/auth/{provider}/start": {get:{operationId:"startSocialLogin",security:[],parameters:[{name:"provider",in:"path",required:true,schema:{type:"string",enum:["google","github"]}},{name:"next",in:"query",schema:{type:"string"}}],responses:{303:{description:"Redirect to provider"},503:{description:"Provider not configured or unavailable",content:content(ref("Error"))}}}},
+      "/v1/auth/{provider}/callback": {get:{operationId:"completeSocialProvider",security:[],parameters:[{name:"provider",in:"path",required:true,schema:{type:"string",enum:["google","github"]}},...(["state","code","error"] as const).map(name=>({name,in:"query",schema:{type:"string"}}))],responses:{303:{description:"Redirect to safe completion, consent or local error page; no session tokens in URL"}}}},
+      "/v1/auth/providers": {get:{...operation("socialProviders","SocialProviders"),security:[]}},
+      "/v1/auth/oauth/identities": {get:operation("socialIdentities","SocialIdentities")},
+      "/v1/auth/oauth/pending": {get:{...operation("socialPending","SocialPending"),security:[]}},
+      "/v1/auth/oauth/completion": {get:{...operation("socialCompletion","SocialCompletion"),security:[]}},
+      "/v1/auth/oauth/register": {post:{...withStatus(operation("socialRegister","SocialSession","SocialRegistrationRequest"),"201"),security:[]}},
+      "/v1/auth/reauthenticate": {post:operation("socialPasswordReauth","SocialProof","SocialPasswordProofRequest")},
+      "/v1/auth/oauth/password": {post:operation("socialSetPassword","SocialSession","SocialPasswordRequest")},
+      "/v1/auth/oauth/delete": {post:withStatus(operation("socialDeleteAccount","SocialMutation","SocialDeleteRequest"),"204")},
+      ...Object.fromEntries(["link","reauth","unlink"].map(action=>["/v1/auth/oauth/{provider}/"+action,{post:{...operation("social"+action,action==="unlink"?"SocialMutation":"SocialRedirect",action==="reauth"?"SocialReauthRequest":"SocialProofRequest"),parameters:[{name:"provider",in:"path",required:true,schema:{type:"string",enum:["google","github"]}}]}}])),
+      "/v1/progress/activity": { get: operation("getMyActivity", "ProgressActivity") },
+      "/v1/progress/activity/day": { get: { ...operation("getMyActivityDay", "ProgressActivityDay"), parameters:[{name:"date",in:"query",required:true,schema:{type:"string",format:"date"}}] } },
       "/v1/challenges": {
         get: {
           ...operation("listPublishedChallenges", "PublicChallengeList"),
-          security: [],
         },
       },
       "/v1/challenges/{id}": {
         get: {
           ...operation("getPublishedChallenge", "PublicChallenge"),
-          security: [],
           parameters: [parameter],
         },
       },
@@ -661,6 +680,14 @@ export function phase3OpenApi() {
       },
       "/v1/admin/metrics": {
         get: operation("getAdminMetrics", "AdminMetrics"),
+      },
+      "/v1/admin/users/privileged": {
+        get: {...operation("listRoleHolders","AdminRoleDirectory"),parameters:[
+          {name:"role",in:"query",schema:{type:"string",enum:["instructor","support","admin"]}},
+          {name:"limit",in:"query",schema:{type:"integer",minimum:1,maximum:20,default:12}},
+          {name:"before",in:"query",schema:{type:"string",format:"date-time"}},
+          {name:"beforeId",in:"query",schema:{type:"string",format:"uuid"}},
+        ]},
       },
       "/v1/admin/users": {
         get: {

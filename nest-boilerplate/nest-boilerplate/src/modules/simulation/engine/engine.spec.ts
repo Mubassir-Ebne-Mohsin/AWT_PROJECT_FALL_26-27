@@ -106,11 +106,13 @@ describe("Typed model and source parity", () => {
     const templates = getTemplates();
     expect(templates).toHaveLength(6);
     expect(getCatalog().components).toHaveLength(12);
+    expect(templates.map((t) => t.traffic.rps)).toEqual([800, 2000, 600, 600, 300, 800]);
     templates.forEach((t, i) =>
       expect({
         schemaVersion: t.schemaVersion,
         graph: t.graph,
-        traffic: t.traffic,
+        // Historical parity fixtures retain their original overload traffic.
+        traffic: { ...t.traffic, rps: fixtures[i].input.traffic.rps },
       }).toEqual(fixtures[i].input),
     );
   });

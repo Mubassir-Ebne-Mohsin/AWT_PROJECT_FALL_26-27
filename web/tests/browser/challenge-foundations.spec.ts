@@ -6,7 +6,7 @@ const attemptId = "90000000-0000-4000-8000-000000000001",
 async function fixture(
   page: Page,
   context: BrowserContext,
-  signedIn = false,
+  signedIn = true,
   instructor = false,
 ) {
   await context.clearCookies();
@@ -14,7 +14,7 @@ async function fixture(
     .origin;
   if (signedIn)
     await context.addCookies([{ name: "sf_session", value: "1", url: origin }]);
-  let failCatalog = false,
+  let reverseCatalog = false, newlyPublished = false, failCatalog = false,
     failProgress = false,
     secondAccount = false,
     completed = false, rejectRules = false;
@@ -26,10 +26,10 @@ async function fixture(
       url = new URL(req.url()),
       p = url.pathname;
     requests.push(p);
+    if (signedIn && (p === "/v1/challenges" || p.startsWith("/v1/challenges/"))) expect(req.headers()["authorization"]).toBe("Bearer controlled-test-token");
     let data: unknown = {};
     if (p === "/v1/challenges") {
       if (failCatalog) {
-        failCatalog = false;
         return route.fulfill({
           status: 503,
           json: {
@@ -37,7 +37,8 @@ async function fixture(
           },
         });
       }
-      data = challenges;
+      const catalogOrder = reverseCatalog ? [...challenges].reverse() : challenges;
+      data = newlyPublished ? [{ ...challenges[0], id: "80000000-0000-4000-8000-000000000001", title: "Newly published university challenge" }, ...catalogOrder] : catalogOrder;
     } else if (p.startsWith("/v1/challenges/") && p.endsWith("/attempt"))
       data = {
         id: attemptId,
@@ -157,10 +158,14 @@ async function fixture(
   return {
     errors,
     requests,
+    reverseCatalog: () => { reverseCatalog = true; },
+    publishNew: () => { newlyPublished = true; },
+    withdraw: () => { newlyPublished = false; },
     rejectRules: () => { rejectRules = true; },
     failCatalog: () => {
       failCatalog = true;
     },
+    restoreCatalog: () => { failCatalog = false; },
     failProgress: (v: boolean) => {
       failProgress = v;
     },
@@ -229,7 +234,7 @@ test("Challenge cards are styled, responsive, searchable and filterable", async 
   );
   expect(f.errors).toEqual([]);
 });
-test("Challenge briefing explains fixed workload, bounded edits, hints and safe guest return", async ({
+test("Signed-in challenge briefing explains fixed workload, bounded edits, hints and attempt entry", async ({
   page,
   context,
 }) => {
@@ -249,13 +254,7 @@ test("Challenge briefing explains fixed workload, bounded edits, hints and safe 
     "href",
     "/learn/app-servers",
   );
-  const login = page.getByRole("link", {
-    name: "Log in to start",
-    exact: true,
-  });
-  await login.focus();
-  await login.press("Enter");
-  await expect(page).toHaveURL(/\/login\?next=/);
+  await expect(page.getByRole("button", { name: "Start or resume private attempt", exact: true })).toBeVisible();
   expect(f.errors).toEqual([]);
 });
 test("Private progress, saved submission and account switch do not leak prior results", async ({
@@ -313,6 +312,7 @@ test("Catalog and progress failures stay local and support retry", async ({
   await expect(
     page.getByText("Challenges could not be loaded.", { exact: false }),
   ).toBeVisible();
+  f.restoreCatalog();
   await page.getByRole("button", { name: "Try again", exact: true }).click();
   await expect(page.locator(".challenge-card")).toHaveCount(6);
   await expect(
@@ -366,3 +366,27 @@ test("Instructor authoring has bounded profile choices and editable learning fie
  const f=await fixture(page,context,true);f.rejectRules();await page.goto(`/challenges/${challenges[0].id}?attempt=${attemptId}`);
  await page.getByRole("button",{name:"Submit saved revision",exact:true}).click();await expect(page.getByText(/App servers permits at most 3 replicas/)).toBeVisible();await expect(page.getByText(/No graded submission was used/)).toBeVisible();await expect(page.getByText(/Passed · p95/)).toHaveCount(0);expect(f.errors).toEqual([]);
  });
+
+ test("Published challenges refresh for another user without reloading the page", async ({page,context}) => {
+ const f=await fixture(page,context,true);await page.goto("/challenges");await expect(page.locator(".challenge-card")).toHaveCount(6);f.publishNew();
+ await page.getByRole("button",{name:"Refresh challenges",exact:true}).click();await expect(page.locator(".challenge-card")).toHaveCount(7);await expect(page.getByRole("link",{name:"Newly published university challenge",exact:true})).toBeVisible();
+ f.withdraw();await page.evaluate(()=>window.dispatchEvent(new Event("visibilitychange")));await expect(page.locator(".challenge-card")).toHaveCount(6);expect(f.errors).toEqual([]);
+ });
+ test("An already-open catalog picks up another Instructor publication automatically", async ({page,context}) => {
+ const f=await fixture(page,context);await page.goto("/challenges");await expect(page.locator(".challenge-card")).toHaveCount(6);f.publishNew();await expect(page.locator(".challenge-card")).toHaveCount(7,{timeout:45000});expect(f.errors).toEqual([]);
+ });
+
+ test("Newest first is the default and Reset restores it without removing Recommended", async ({page,context}) => {
+ const f=await fixture(page,context);f.reverseCatalog();await page.goto("/challenges");const sort=page.getByRole("combobox",{name:"Sort",exact:true});await expect(sort).toHaveValue("newest");await expect(page.locator(".challenge-card h2").first()).toHaveText(challenges.at(-1)!.title);
+ await sort.selectOption("recommended");await expect(page.locator(".challenge-card h2").first()).toHaveText(challenges[0].title);
+ await sort.selectOption("title");await expect(page.locator(".challenge-card h2").first()).toHaveText([...challenges].sort((a,b)=>a.title.localeCompare(b.title))[0].title);
+ await page.getByRole("button",{name:"Reset filters",exact:true}).click();await expect(sort).toHaveValue("newest");await expect(page.locator(".challenge-card h2").first()).toHaveText(challenges.at(-1)!.title);
+ f.publishNew();await page.getByRole("button",{name:"Refresh challenges",exact:true}).click();await expect(page.locator(".challenge-card h2").first()).toHaveText("Newly published university challenge");expect(f.errors).toEqual([]);
+ });
+
+test("Signing out removes cached challenge cards and restores the guest introduction",async({page,context})=>{
+ const f=await fixture(page,context,true);await page.goto('/challenges');await expect(page.locator('.challenge-card')).toHaveCount(6);
+ await page.getByRole('button',{name:'Account menu',exact:true}).click();await page.getByRole('menuitem',{name:'Log out',exact:true}).click();
+ await expect(page.getByTestId('challenge-introduction')).toBeVisible();await expect(page.locator('.challenge-card')).toHaveCount(0);await expect(page.getByLabel('Search challenges')).toHaveCount(0);
+ const before=f.requests.filter(p=>p==='/v1/challenges').length;await page.getByRole('radio',{name:'Try more replicas',exact:true}).check();expect(f.requests.filter(p=>p==='/v1/challenges').length).toBe(before);expect(f.errors).toEqual([]);
+});

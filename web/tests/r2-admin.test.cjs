@@ -72,6 +72,13 @@ require.cache[require.resolve("../src/lib/api/admin.ts")] = {
     },
   },
 };
+let directoryFailure=null;
+require.cache[require.resolve("../src/lib/api/admin.ts")].exports.fetchRoleDirectory=(role,after)=>{
+ calls.push(["directory",role,after?.id??null]);if(directoryFailure)return Promise.reject(directoryFailure);
+ const eligible=accounts.filter(a=>a.roles.some(r=>["instructor","support","admin"].includes(r))&&(!role||a.roles.includes(role)));
+ const start=after?eligible.findIndex(a=>a.id===after.id)+1:0,items=eligible.slice(start,start+12);return Promise.resolve({items,next:start+12<eligible.length?{at:items.at(-1).createdAt,id:items.at(-1).id}:null});
+};
+afterEach(()=>{directoryFailure=null;});
 const { AdminUsers } = require("../src/components/admin/admin-users.tsx");
 const P = require("../src/lib/admin-presentation.ts");
 
@@ -236,3 +243,14 @@ test("R2 screen: an empty audit log says so", async () => {
   const view = await render();
   assert.match(view.querySelector("[data-testid=admin-audit]").textContent, /Nothing has been changed yet/);
 });
+
+ test("Admin directory lists only role holders once and can manage them directly",async()=>{
+ accounts=[acct({id:"teach",displayName:"Teacher",roles:["user","instructor"]}),acct({id:"support",displayName:"Support member",roles:["user","support"],status:"suspended"}),acct({id:"multi",displayName:"Multi Admin",roles:["user","support","admin"]}),acct({id:"normal",displayName:"Normal user"}),acct({id:"review",displayName:"Only reviewer",roles:["user","reviewer"]})];
+ const view=await render(),directory=view.querySelector('section[aria-label="Role holders"]');assert.equal(directory.querySelectorAll("tbody tr").length,3);assert.doesNotMatch(directory.textContent,/Normal user|Only reviewer/);assert.match(directory.textContent,/Suspended/);await click(buttonNamed(directory,"Manage Teacher"));assert.match(view.querySelector('[data-testid="admin-account"]').textContent,/Teacher/);assert.equal(document.activeElement.id,"admin-account-panel");
+ });
+ test("Admin directory filters current roles and retains account search for ordinary users",async()=>{
+ accounts=[acct({id:"admin",displayName:"Administrator",roles:["user","admin"]}),acct({id:"teach",displayName:"Teacher",roles:["user","instructor"]}),acct({id:"ordinary",displayName:"Ordinary person",email:"ordinary@example.test"})];const view=await render(),directory=view.querySelector('section[aria-label="Role holders"]');await click(buttonNamed(directory,"Instructor"));assert.equal(directory.querySelectorAll("tbody tr").length,1);assert.match(directory.textContent,/Teacher/);await search(view,"ordinary");assert.match(view.querySelector('section[aria-label="Search results"]').textContent,/Ordinary person/);
+ });
+ test("Admin directory failures stay local and can be retried",async()=>{
+ directoryFailure=new ApiError("UNAVAILABLE","private server text",503);const view=await render(),directory=view.querySelector('section[aria-label="Role holders"]');assert.ok(directory.querySelector('[role="alert"]'));assert.doesNotMatch(directory.textContent,/private server text/);directoryFailure=null;await click(buttonNamed(directory,"Retry role holders"));assert.match(directory.textContent,/No matching role holders/);assert.ok(view.querySelector('form[aria-label="Find an account"]'));
+ });

@@ -8,5 +8,6 @@ import { AccountService } from "@/modules/account/account.service";
   imports: [UsersModule],
   controllers: [AccountController],
   providers: [AccountService],
+  exports: [AccountService],
 })
 export class AccountModule {}

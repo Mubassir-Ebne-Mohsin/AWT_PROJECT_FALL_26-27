@@ -1,0 +1,19 @@
+.env
+.env.*
+**/.env*
+node_modules
+**/node_modules
+.next*
+coverage
+test-results
+playwright-report
+.git
+*.log
+*.pem
+**/*.pem
+*.key
+**/*.key
+**/*client_secret*.json
+
+# Compiler caches are platform-specific build artifacts.
+*.tsbuildinfo

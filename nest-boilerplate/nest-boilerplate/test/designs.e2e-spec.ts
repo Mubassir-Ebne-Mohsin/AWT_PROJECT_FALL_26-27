@@ -932,4 +932,19 @@ describe("M3 saved designs and simulation (isolated database)", () => {
       "completed",
     );
   });
+
+  it("dashboard thumbnails reflect current saved geometry and stay owner-scoped without a run", async () => {
+    const d = await create();
+    const graph = structuredClone(d.graph);
+    graph.nodes[0].x = -432;
+    graph.nodes[0].label = "Current saved thumbnail";
+    await http.patch("/v1/designs/" + d.id).set(auth()).send({ expectedRevision: d.revision, graph }).expect(200);
+    const dashboard = (await http.get("/v1/dashboard").set(auth()).expect(200)).body.data;
+    const card = dashboard.designs.find((item: { id: string }) => item.id === d.id);
+    expect(card.preview.nodes[0]).toMatchObject({ x: -432, label: "Current saved thumbnail" });
+    expect(card.latestRun).toBeNull();
+    expect(JSON.stringify(card.preview)).not.toMatch(/props|traffic|capacity|ownerId/);
+    const other = (await http.get("/v1/dashboard").set({ Authorization: "Bearer " + foreign }).expect(200)).body.data;
+    expect(other.designs.some((item: { id: string }) => item.id === d.id)).toBe(false);
+  });
 });

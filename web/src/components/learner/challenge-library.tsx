@@ -18,10 +18,16 @@ export function ChallengeLibrary() {
     [category, setCategory] = useState(""),
     [difficulty, setDifficulty] = useState(""),
     [state, setState] = useState(""),
-    [sort, setSort] = useState("recommended"),
+    [sort, setSort] = useState("newest"),
     [limit, setLimit] = useState(12);
   const catalog = useQuery({
-    queryKey: ["published-challenges"],
+    queryKey: ["published-challenges", user?.id],
+    enabled: !!user,
+    staleTime: 0,
+    refetchOnMount: "always",
+    refetchOnWindowFocus: true,
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
     queryFn: ({ signal }) => publishedChallenges(signal),
     retry: false,
   });
@@ -36,7 +42,7 @@ export function ChallengeLibrary() {
       () => new Map((items ?? []).map((i) => [i.challengeId, i])),
       [items],
     );
-  const available = catalog.data ?? [],
+  const available = user ? catalog.data ?? [] : [],
     ready = !!user && progress.isSuccess;
   const filtered = discoverChallenges(
     available,
@@ -54,7 +60,7 @@ export function ChallengeLibrary() {
     setCategory("");
     setDifficulty("");
     setState("");
-    setSort("recommended");
+    setSort("newest");
     setLimit(12);
   };
   return (
@@ -68,9 +74,12 @@ export function ChallengeLibrary() {
             Find the bottleneck. Make one thoughtful change. Test what improves.
           </p>
         </div>
-        <Link className="btn" href="/progress">
-          My progress
-        </Link>
+        <div className="row">
+          <button className="btn" aria-label="Refresh challenges" disabled={catalog.isFetching} onClick={() => { void catalog.refetch(); if (user) void progress.refetch(); }}>
+            {catalog.isFetching ? "Refreshing…" : "Refresh challenges"}
+          </button>
+          <Link className="btn" href="/progress">My progress</Link>
+        </div>
       </div>
       <div className="challenge-overview">
         <div>
@@ -102,12 +111,6 @@ export function ChallengeLibrary() {
           </Link>
         )}
       </div>
-      {!user && (
-        <p className="hint">
-          Explore the challenges freely. Log in to keep a private attempt and
-          record your progress.
-        </p>
-      )}
       {user && progress.isError && (
         <p role="status">
           Your progress is temporarily unavailable.{" "}
@@ -176,6 +179,7 @@ export function ChallengeLibrary() {
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
+            <option value="newest">Newest first</option>
             <option value="recommended">Recommended</option>
             <option value="difficulty">Difficulty</option>
             <option value="title">Title</option>
@@ -186,7 +190,7 @@ export function ChallengeLibrary() {
         </button>
       </div>
       <p className="hint">
-        Mathematical model estimates, not real infrastructure measurements.
+        The catalog refreshes every 30 seconds while this page is visible. Mathematical model estimates, not real infrastructure measurements.
         Published traffic and targets are fixed; each exercise explains its
         allowed edits.
       </p>

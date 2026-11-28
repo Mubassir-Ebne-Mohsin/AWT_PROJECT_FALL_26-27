@@ -921,6 +921,21 @@ export interface components {
                 verdict: ("pass" | "strained" | "fail") | null;
                 p95: number | null;
             } | null;
+            preview?: {
+                nodes: {
+                    id: string;
+                    /** @enum {string} */
+                    type: "client" | "cdn" | "lb" | "gateway" | "app" | "worker" | "cache" | "db" | "replica" | "queue" | "storage" | "external";
+                    label: string;
+                    x: number;
+                    y: number;
+                }[];
+                edges: {
+                    id: string;
+                    from: string;
+                    to: string;
+                }[];
+            };
         };
         DesignList: {
             data: components["schemas"]["DesignSummary"][];

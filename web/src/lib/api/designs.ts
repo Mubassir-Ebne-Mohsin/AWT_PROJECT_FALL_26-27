@@ -1,11 +1,12 @@
 import { api } from "@/lib/api/client";
+import type { components as Phase2Components } from "@/lib/api/phase2-schema";
 import type { components } from "@/lib/api/schema";
 type Schemas = components["schemas"];
 export type Design = Schemas["Design"];
 export type Graph = Design["graph"];
 export type DesignRun = Schemas["Run"];
 export type Template = Schemas["Template"];
-export type DashboardData = Schemas["Dashboard"];
+export type DashboardData = Phase2Components["schemas"]["Dashboard"];
 export type AcceptedRun = Schemas["AcceptedRun"];
 export const fetchTemplates = () => api<Template[]>("/templates");
 export const fetchDashboard = () => api<DashboardData>("/dashboard");

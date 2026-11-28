@@ -14,6 +14,14 @@ const local = { scope: "local" } as const;
 export const AUDIT_PAGE = 20;
 
 export const searchUsers = (q: string, signal?: AbortSignal) => api<AdminUser[]>(`/admin/users?q=${encodeURIComponent(q)}`, { ...local, signal });
+export type DirectoryRole = "instructor" | "support" | "admin";
+export type RoleDirectory = Schemas["AdminRoleDirectory"];
+export function fetchRoleDirectory(role?:DirectoryRole,after?:{at:string;id:string},signal?:AbortSignal) {
+  const query=new URLSearchParams({limit:"12"});
+  if(role)query.set("role",role);
+  if(after){query.set("before",after.at);query.set("beforeId",after.id);}
+  return api<RoleDirectory>(`/admin/users/privileged?${query}`,{...local,signal});
+}
 export const grantRole = (id: string, role: GrantableRole) => api<RoleChange>(`/admin/users/${id}/roles`, { ...local, method: "POST", body: { role } });
 export const revokeRole = (id: string, role: GrantableRole) => api<RoleChange>(`/admin/users/${id}/roles/${role}`, { ...local, method: "DELETE" });
 export const suspendUser = (id: string) => api<StatusChange>(`/admin/users/${id}/suspend`, { ...local, method: "POST" });

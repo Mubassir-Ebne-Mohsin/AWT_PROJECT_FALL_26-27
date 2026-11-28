@@ -1,3 +1,4 @@
+import type { Graph } from "@/common/contracts/phase2/graph.schema";
 import { Injectable } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import { AppException } from "@/common/errors";
@@ -58,10 +59,10 @@ export class DesignLibraryService {
     const rows = (await this.db.query(
       `SELECT d.id, d.name, d.description, d.revision, d.created_at AS "createdAt", d.updated_at AS "updatedAt",
         d.archived_at AS "archivedAt", jsonb_array_length(d.graph->'nodes') AS "nodeCount",
-        jsonb_array_length(d.graph->'edges') AS "edgeCount", r.payload AS run
+        jsonb_array_length(d.graph->'edges') AS "edgeCount", d.graph AS "previewGraph", r.payload AS run
        ${FROM} WHERE ${clause} ORDER BY ${ORDER[sort]} LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
       [...params, pageSize, (page - 1) * pageSize],
-    )) as Array<Record<string, unknown> & { createdAt: Date; updatedAt: Date; archivedAt: Date | null; run: SavedRun["payload"] | null }>;
+    )) as Array<Record<string, unknown> & { createdAt: Date; updatedAt: Date; archivedAt: Date | null; previewGraph?: Graph; run: SavedRun["payload"] | null }>;
     const data = rows.map((row) =>
       libraryItemSchema.parse({
         id: row.id,
@@ -73,6 +74,10 @@ export class DesignLibraryService {
         archivedAt: row.archivedAt ? row.archivedAt.toISOString() : null,
         nodeCount: row.nodeCount,
         edgeCount: row.edgeCount,
+        ...(row.previewGraph ? { preview: {
+          nodes: row.previewGraph.nodes.map(({ id, type, label, x, y }) => ({ id, type, label, x, y })),
+          edges: row.previewGraph.edges.map(({ id, from, to }) => ({ id, from, to })),
+        } } : {}),
         latestRun: row.run ? this.designs.runSummary({ payload: row.run } as SavedRun) : null,
       }),
     );

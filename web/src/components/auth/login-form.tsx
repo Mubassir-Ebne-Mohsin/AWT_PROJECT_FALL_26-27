@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SocialButtons } from "@/components/auth/social-buttons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { LoginArt } from "@/components/auth/login-art";
@@ -78,6 +79,7 @@ export function LoginForm() {
               <div>{formError}</div>
             </div>
           )}
+          <SocialButtons />
           <form className="stack" onSubmit={submit} noValidate>
             <div className="field">
               <label className="label" htmlFor="login-email">

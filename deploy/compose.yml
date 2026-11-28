@@ -1,0 +1,159 @@
+name: stressforge-hosted
+x-api-env: &api-env
+  NODE_ENV: production
+  HOSTED_MODE: 'true'
+  HOSTED_PUBLIC_HOST: ${PUBLIC_HOST:?Set the public hostname}
+  HOSTED_PRIVATE_NETWORK: 'true'
+  PORT: '5001'
+  FRONTEND_URL: ${PUBLIC_ORIGIN:?Set the HTTPS public origin}
+  CORS_ORIGINS: ${PUBLIC_ORIGIN:?Set the HTTPS public origin}
+  TRUST_PROXY_HOPS: '1'
+  DB_HOST: postgres
+  DB_PORT: '5432'
+  DB_DATABASE: stressforge
+  DB_USER: sf_app
+  DB_PASSWORD: ${APP_DB_PASSWORD:?Generate a private application password}
+  REDIS_HOST: redis
+  REDIS_PORT: '6379'
+  REDIS_PASSWORD: ${REDIS_PASSWORD:?Generate a private Redis password}
+  JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Generate a private signing secret}
+  JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Generate a distinct private signing secret}
+  AI_ENABLED: 'false'
+  GOOGLE_AUTH_ENABLED: 'false'
+  GITHUB_AUTH_ENABLED: 'false'
+services:
+  validate:
+    image: ${API_IMAGE:?Set the reviewed API release image}
+    profiles: [tools]
+    command: [node, /run/validate-environment.cjs]
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST:?Set the public hostname}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:?Set the public origin}
+      POSTGRES_ADMIN_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Generate a private bootstrap password}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Generate a private application password}
+      MIGRATION_DB_PASSWORD: ${MIGRATION_DB_PASSWORD:?Generate a private migration password}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Generate a private Redis password}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?Generate a private signing secret}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?Generate a distinct private signing secret}
+    volumes: [./validate-environment.cjs:/run/validate-environment.cjs:ro]
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+  api:
+    image: ${API_IMAGE:?Set the reviewed API release image}
+    build:
+      context: ../nest-boilerplate/nest-boilerplate
+    # This intentional fixed per-project name forbids accidental --scale api=2.
+    container_name: ${COMPOSE_PROJECT_NAME:-stressforge-hosted}-api
+    environment: *api-env
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 1
+    stop_grace_period: 20s
+    networks: [edge, data]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  migrate:
+    image: ${API_IMAGE:?Set the reviewed API release image}
+    profiles: [tools]
+    command: [node, dist/script/typeorm_migration_run.js]
+    environment:
+      <<: *api-env
+      DB_USER: sf_migrator
+      DB_PASSWORD: ${MIGRATION_DB_PASSWORD:?Generate a private migration password}
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    networks: [data]
+    depends_on:
+      postgres: {condition: service_healthy}
+  web:
+    image: ${WEB_IMAGE:?Set the reviewed web release image}
+    build:
+      context: ../web
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_ORIGIN:?Set the HTTPS public origin}/v1
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs: [/tmp, '/app/.next/cache:uid=1000,gid=1000']
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    cpus: 1
+    networks: [edge]
+  proxy:
+    image: ${PROXY_IMAGE:?Set the reviewed proxy release image}
+    build: ./caddy
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST:?Set the public hostname without scheme}
+    ports: ['80:8080', '443:8443']
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks: [edge]
+  postgres:
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    user: '70:70'
+    environment:
+      POSTGRES_DB: stressforge
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Generate a private bootstrap password}
+      SF_APP_PASSWORD: ${APP_DB_PASSWORD:?Generate a private application password}
+      SF_MIGRATION_PASSWORD: ${MIGRATION_DB_PASSWORD:?Generate a private migration password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/10-roles.sh:ro
+    tmpfs: ['/var/run/postgresql:uid=70,gid=70', /tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    networks: [data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -h 127.0.0.1 -U postgres -d stressforge']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
+    user: redis
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Generate a private Redis password}
+    command: [sh, -c, 'exec redis-server --requirepass "$$REDIS_PASSWORD" --appendonly yes --appendfsync always --save "" --maxmemory 96mb --maxmemory-policy noeviction']
+    volumes: [redis-data:/data]
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    networks: [data]
+    healthcheck:
+      test: [CMD-SHELL, 'REDISCLI_AUTH="$$REDIS_PASSWORD" redis-cli ping | grep -q PONG']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+networks:
+  edge: {}
+  data: {internal: true}
+volumes:
+  postgres-data: {}
+  redis-data: {}
+  caddy-data: {}
+  caddy-config: {}

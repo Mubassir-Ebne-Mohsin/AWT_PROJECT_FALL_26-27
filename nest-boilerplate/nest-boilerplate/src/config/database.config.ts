@@ -5,6 +5,7 @@ import {
 } from "typeorm";
 import { camelCase, snakeCase } from "typeorm/util/StringUtils";
 import { appConfig } from "@/config/app.config";
+import { databaseTls } from "@/config/database-tls";
 
 /**
  * Snake naming will be used in database operations
@@ -87,6 +88,7 @@ export const dataSourceOptions: DataSourceOptions = {
   password: env.DB_PASSWORD,
   database: env.DB_DATABASE,
   schema: "public",
+  ssl: databaseTls(env.DB_TLS, env.DB_TLS_CA_FILE),
   entities: [__dirname + `/../modules/**/entities/*.entity.${ext}`],
   namingStrategy: new SnakeNamingStrategy(),
   migrations: [__dirname + `/../database/migrations/*.${ext}`],

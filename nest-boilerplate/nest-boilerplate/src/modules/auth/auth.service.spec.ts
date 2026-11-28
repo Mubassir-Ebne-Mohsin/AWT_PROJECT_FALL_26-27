@@ -48,6 +48,7 @@ describe("AuthService", () => {
     it("stores an argon2 hash, never the plain password", async () => {
       const { user } = await register(undefined, "pass-word-1");
       expect(user.passwordHash).not.toContain("pass-word-1");
+      if (!user.passwordHash) throw new Error("Password registration must store a real hash");
       expect(user.passwordHash.startsWith("$argon2")).toBe(true);
       expect(await argon2.verify(user.passwordHash, "pass-word-1")).toBe(true);
     });

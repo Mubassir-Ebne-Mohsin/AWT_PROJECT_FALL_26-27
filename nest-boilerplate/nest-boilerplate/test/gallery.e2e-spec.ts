@@ -234,4 +234,24 @@ describe("Community gallery: publish, browse, view, remix (isolated Postgres, no
     expect(ranked.items.filter((i) => overlap(i.tags) === like.length).map((i) => i.id)).toContain(made[0].id);
     await http.get("/v1/gallery?like=" + "x".repeat(400)).set(as(mine)).expect(422);
   });
+
+  it("publishes and reads the creator's public username without exposing their email", async () => {
+    const suffix = randomUUID().replace(/-/g, "").slice(0, 12);
+    const username = "gallery_" + suffix;
+    const email = "gallery-name-" + suffix + "@example.test";
+    const registration = await http.post("/v1/auth/register").send({ email, username, password: "Gallery-test-2026!", displayName: "Named Builder" }).expect(201);
+    const token = registration.body.data.accessToken;
+    const design = await newDesign(token);
+    await simulate(design.id, 1, token);
+    const title = "Named snapshot " + suffix;
+    const published = (await publish(design.id, { ...ok, title }, token).expect(201)).body.data;
+    expect(published.ownerUsername).toBe(username);
+    const list = galleryListSchema.parse((await http.get("/v1/gallery?q=" + encodeURIComponent(title)).set(as(other)).expect(200)).body.data);
+    expect(list.items).toHaveLength(1);
+    expect(list.items[0]).toMatchObject({ ownerName: "Named Builder", ownerUsername: username });
+    expect(list.items[0].preview?.nodes.length).toBe(design.graph.nodes.length);
+    const detail = galleryDetailSchema.parse((await http.get("/v1/gallery/" + published.id).set(as(other)).expect(200)).body.data);
+    expect(detail.ownerUsername).toBe(username);
+    expect(JSON.stringify({ published, list, detail })).not.toContain(email);
+  });
 });

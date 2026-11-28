@@ -1,3 +1,4 @@
+import "@/styles/social-auth.css";
 import { Suspense } from "react";
 import { RegisterForm } from "@/components/auth/register-form";
 

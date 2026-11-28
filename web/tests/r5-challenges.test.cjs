@@ -376,3 +376,9 @@ test("R5 menu: only an Instructor sees My challenges in the account menu", async
   assert.ok(view.querySelector("[role=menu]"));
   assert.equal([...view.querySelectorAll("a")].some((a) => a.textContent.includes("My challenges")), false);
 });
+
+ test("Publication invalidates the public catalog and detail cache", async () => {
+ challenges=[make({id:"ch-refresh"})];const queries=client();queries.setQueryDefaults(["published-challenges"],{gcTime:Infinity});queries.setQueryDefaults(["published-challenge"],{gcTime:Infinity});queries.setQueryData(["published-challenges"],[]);queries.setQueryData(["published-challenge","ch-refresh"],{title:"Old"});
+ const container=document.createElement("div");document.body.append(container);const root=createRoot(container);roots.push(root);await act(async()=>root.render(h(QueryClientProvider,{client:queries},h(ChallengeDetail,{id:"ch-refresh"}))));await settle();await click(buttonNamed(container,"Publish"));
+ assert.equal(queries.getQueryState(["published-challenges"]).isInvalidated,true);assert.equal(queries.getQueryState(["published-challenge","ch-refresh"]).isInvalidated,true);
+ });

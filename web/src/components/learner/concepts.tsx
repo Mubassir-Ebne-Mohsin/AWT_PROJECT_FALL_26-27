@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LEARN_CATEGORIES } from "@/lib/learn-types";
 import { useLearnProgress } from "@/components/learn/learn";
 import { TOPICS } from "@/lib/learn-content";
 import { MARK_LABEL, markOf } from "@/lib/learn-progress";
@@ -36,7 +37,9 @@ export function ConceptsProgress() {
         {ready ? `${tally.opened} of ${tally.total} opened · ${tally.passed} passed the check` : "Loading…"}
       </p>
       <p className="hint">Kept in this browser, not on your account. Clearing this browser&apos;s site data removes it.</p>
-      <ul className="stack" style={{ listStyle: "none", padding: 0 }}>
+      <div className="progress-category-grid">{LEARN_CATEGORIES.map(category=>{const topics=TOPICS.filter(t=>t.category===category.id),passed=topics.filter(t=>progress.passed.includes(t.id)).length;return <article className="progress-category" key={category.id}><h3>{category.title}</h3><progress value={passed} max={topics.length} aria-label={category.title+" checks passed"}/><p>{passed} / {topics.length} checks passed</p></article>;})}</div>
+      <details className="progress-topic-list" open><summary>All lessons and your marks</summary>
+      <ul>
         {TOPICS.map((t) => {
           const mark = markOf(progress, t.id);
           return (
@@ -45,7 +48,7 @@ export function ConceptsProgress() {
             </li>
           );
         })}
-      </ul>
+      </ul></details>
     </section>
   );
 }

@@ -6,6 +6,8 @@ import { TokenStore } from "@/modules/auth/token-store.service";
 import { ACCOUNT_ROLE_ORDER, AccountRole, type GrantableRole } from "@/common/enums/account-role.enum";
 import {
   adminUserSchema,
+  roleDirectoryQuerySchema,
+  roleDirectorySchema,
   auditEntrySchema,
   auditQuerySchema,
   grantRoleRequestSchema,
@@ -90,6 +92,24 @@ export class AccountRolesService {
     return out;
   }
 
+  /** Bounded Admin directory; role membership is filtered in SQL, never reconstructed from audit history. */
+  async directory(raw: Record<string, unknown>) {
+    const parsed=roleDirectoryQuerySchema.safeParse(raw);
+    if(!parsed.success)throw new AppException("VALIDATION_FAILED","Invalid role directory query");
+    const {role,limit,before,beforeId}=parsed.data;
+    const rows=await this.db.query(`
+      SELECT u.id,u.display_name,u.email,u.account_status,u.created_at,u.role AS legacy,
+        ARRAY(SELECT r.role FROM user_roles r WHERE r.user_id=u.id) AS granted
+      FROM users u
+      WHERE (u.role='admin' OR EXISTS(SELECT 1 FROM user_roles r WHERE r.user_id=u.id AND r.role IN ('instructor','support','admin')))
+        AND ($1::text IS NULL OR ($1='admin' AND u.role='admin') OR EXISTS(SELECT 1 FROM user_roles r WHERE r.user_id=u.id AND r.role=$1))
+        AND ($2::timestamptz IS NULL OR (date_trunc('milliseconds',u.created_at),u.id)<($2::timestamptz,$3::uuid))
+      ORDER BY date_trunc('milliseconds',u.created_at) DESC,u.id DESC LIMIT $4`,[role??null,before??null,beforeId??null,limit+1]) as Array<{id:string;display_name:string;email:string;account_status:string;created_at:Date;legacy:string;granted:string[]}>;
+    const items=rows.slice(0,limit).map(u=>adminUserSchema.parse({id:u.id,displayName:u.display_name,email:u.email,status:u.account_status,createdAt:u.created_at.toISOString(),roles:ACCOUNT_ROLE_ORDER.filter(r=>r===AccountRole.USER||u.granted.includes(r)||(r===AccountRole.ADMIN&&u.legacy===AccountRole.ADMIN))}));
+    const last=items.at(-1);
+    return roleDirectorySchema.parse({items,next:rows.length>limit&&last?{at:last.createdAt,id:last.id}:null});
+  }
+
   async rolesFor(id: string) {
     await this.requireUser(id, this.db.manager);
     return roleChangeSchema.parse({ userId: id, roles: await this.rolesOf(id) });
@@ -152,7 +172,7 @@ export class AccountRolesService {
           throw new AppException("CONFLICT", "The last admin cannot be removed", { reason: "LAST_ADMIN" });
         await m.query("DELETE FROM user_roles WHERE user_id = $1 AND role = $2", [targetId, role]);
         // Decision 3: removing a role ends the account's sessions, so it has to sign in again and cannot keep refreshing.
-        await m.query("UPDATE users SET sessions_revoked_at = now() WHERE id = $1", [targetId]);
+        await m.query("UPDATE users SET sessions_revoked_at = clock_timestamp() WHERE id = $1", [targetId]);
         // The legacy column is read through, so it must not keep an admin the table no longer has.
         if (role === AccountRole.ADMIN) await m.query("UPDATE users SET role = 'user' WHERE id = $1 AND role = 'admin'", [targetId]);
         await this.audit(m, "revoke", role, actor, target);
@@ -175,11 +195,15 @@ export class AccountRolesService {
       const roles = await this.rolesOf(targetId, m);
       if (roles.includes(AccountRole.ADMIN) && (await this.activeAdminCount(m)) <= 1)
         throw new AppException("CONFLICT", "The last admin cannot be suspended", { reason: "LAST_ADMIN" });
-      await m.query("UPDATE users SET account_status = 'suspended', sessions_revoked_at = now() WHERE id = $1", [targetId]);
+      await m.query("UPDATE users SET account_status = 'suspended', sessions_revoked_at = clock_timestamp() WHERE id = $1", [targetId]);
       await this.audit(m, "suspend", null, actor, target);
     });
     // After the commit, and repeated on a retry: the database says suspended, this cuts off tokens already issued.
     try {
+      const fresh = await this.requireUser(targetId, this.db.manager);
+      await this.tokens.endSessions(targetId,
+        Math.floor(new Date(fresh.sessionsRevokedAt ?? Date.now()).getTime() / 1000),
+        appConfig.env.JWT_ACCESS_TTL_SECONDS);
       await this.tokens.blockUser(targetId, appConfig.env.JWT_ACCESS_TTL_SECONDS);
     } catch {
       throw new AppException("UNAVAILABLE", "The account is suspended, but live sessions could not be ended yet. Please retry.");
@@ -189,15 +213,21 @@ export class AccountRolesService {
 
   /** Restore: the account can sign in again; sessions that were ended stay ended. Idempotent. */
   async restore(actor: Actor, targetId: string) {
-    await this.db.transaction(async (m) => {
+    if (!this.tokens) throw new AppException("INTERNAL", "Restoring needs the token store");
+    const cutoff = await this.db.transaction(async (m) => {
       await m.query(LOCK);
       const target = await this.requireUser(targetId, m);
-      if (target.accountStatus !== "suspended") return;
-      await m.query("UPDATE users SET account_status = 'active' WHERE id = $1", [targetId]);
-      await this.audit(m, "restore", null, actor, target);
+      if (target.accountStatus === "suspended") {
+        await m.query("UPDATE users SET account_status = 'active' WHERE id = $1", [targetId]);
+        await this.audit(m, "restore", null, actor, target);
+      }
+      return target.sessionsRevokedAt;
     });
     try {
-      await this.tokens?.unblockUser(targetId);
+      // Repeat on retries. Clearing the suspension must never revive old access JWTs.
+      if (cutoff) await this.tokens.endSessions(targetId,
+        Math.floor(new Date(cutoff).getTime() / 1000), appConfig.env.JWT_ACCESS_TTL_SECONDS);
+      await this.tokens.unblockUser(targetId);
     } catch {
       throw new AppException("UNAVAILABLE", "The account is restored, but its sign-in block could not be cleared yet. Please retry.");
     }

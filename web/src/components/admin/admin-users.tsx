@@ -1,11 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { RoleDirectoryTable } from "@/components/admin/role-directory";
+import { useEffect, useId, useState } from "react";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/components/auth/auth-provider";
 import { RoleGate } from "@/components/auth/role-gate";
 import { Crumbs } from "@/components/shell/crumbs";
-import { AUDIT_PAGE, fetchAudit, grantRole, restoreUser, revokeRole, searchUsers, suspendUser, type AdminUser, type GrantableRole } from "@/lib/api/admin";
+import { fetchRoleDirectory, type DirectoryRole, AUDIT_PAGE, fetchAudit, grantRole, restoreUser, revokeRole, searchUsers, suspendUser, type AdminUser, type GrantableRole } from "@/lib/api/admin";
 import { MIN_SEARCH, adminErrorText, auditText, canSearch, searchTerm, statusLabel } from "@/lib/admin-presentation";
 import { dateText } from "@/lib/report-presentation";
 import { resolveRoute } from "@/lib/routes";
@@ -16,13 +17,13 @@ type Notice = { ok: boolean; text: string } | null;
 
 export function AdminUsers() {
   return (
-    <div className="page stack lg">
+    <div className="page stack lg admin-accounts-page">
       <Crumbs resolved={resolveRoute("/admin/users")} />
       <div className="page-head">
         <div className="stack">
           <span className="eyebrow">Admin</span>
           <h1 className="h1">Accounts and roles</h1>
-          <p className="lede">Find an account, change its roles, or suspend it. You see account details only, never anyone&apos;s designs.</p>
+          <p className="lede">Manage who can teach, support and administer StressForge. Account details only—designs stay private.</p>
         </div>
       </div>
       <RoleGate role="admin">
@@ -36,6 +37,7 @@ function AdminTools() {
   const { user: me } = useAuth();
   const queries = useQueryClient();
   const uid = useId();
+  const [directoryRole, setDirectoryRole] = useState<DirectoryRole | "">("");
   const [text, setText] = useState("");
   const [term, setTerm] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
@@ -52,10 +54,20 @@ function AdminTools() {
     retry: false,
   });
 
-  const account = (found.data ?? []).find((u) => u.id === selected) ?? null;
+  const directory = useInfiniteQuery({
+    queryKey:["admin-role-directory",me?.id,directoryRole],
+    queryFn:({pageParam,signal})=>fetchRoleDirectory(directoryRole||undefined,pageParam??undefined,signal),
+    initialPageParam:null as {at:string;id:string}|null,
+    getNextPageParam:last=>last.next??undefined,
+    enabled:!!me,retry:false,refetchOnWindowFocus:true,
+  });
+  const directoryItems=(directory.data?.pages??[]).flatMap(p=>p.items);
+  useEffect(()=>{if(selected)document.getElementById("admin-account-panel")?.focus();},[selected]);
+  const account = directoryItems.find(u=>u.id===selected) ?? (found.data ?? []).find((u) => u.id === selected) ?? null;
   const refresh = () => {
     setConfirming(null);
     void queries.invalidateQueries({ queryKey: ["admin-users", me?.id] });
+    void queries.invalidateQueries({queryKey:["admin-role-directory",me?.id]});
     void queries.invalidateQueries({ queryKey: ["admin-audit", me?.id] });
   };
   const done = (message: string) => {
@@ -81,8 +93,9 @@ function AdminTools() {
 
   return (
     <>
+      <RoleDirectoryTable items={directoryItems} role={directoryRole} onRole={role=>{setDirectoryRole(role);setSelected(null);setConfirming(null);}} selected={selected} pending={directory.isPending} error={directory.error} fetching={directory.isFetching} more={!!directory.hasNextPage} loadingMore={directory.isFetchingNextPage} onRefresh={()=>void directory.refetch()} onMore={()=>void directory.fetchNextPage()} onManage={id=>{setTerm("");setSelected(id);setConfirming(null);setNotice(null);}}/>
       <form
-        className="panel stack r2-pad"
+        className="panel stack r2-pad admin-account-search"
         aria-label="Find an account"
         onSubmit={(e) => {
           e.preventDefault();
@@ -162,7 +175,7 @@ function AdminTools() {
         />
       )}
 
-      <section className="panel stack r2-pad" aria-label="Audit log" data-testid="admin-audit">
+      <section className="panel stack r2-pad admin-account-audit" aria-label="Audit log" data-testid="admin-audit">
         <h2 className="h3">Audit log</h2>
         <p className="hint">Every role change and suspension, newest first. Nobody can edit or delete an entry.</p>
         {audit.isPending && <p className="hint">Loading…</p>}
@@ -208,7 +221,7 @@ function AccountPanel(props: {
   const { account, isMe, busy, confirming, setConfirming } = props;
   const suspended = account.status === "suspended";
   return (
-    <section className="panel stack r2-pad" aria-label={`Account ${account.email}`} data-testid="admin-account">
+    <section className="panel stack r2-pad" id="admin-account-panel" tabIndex={-1} aria-label={`Account ${account.email}`} data-testid="admin-account">
       <div className="row between">
         <div className="stack">
           <h2 className="h3">{account.displayName}</h2>

@@ -7,13 +7,11 @@ const local = { scope: "local" } as const;
 export const publishedChallenges = (signal?: AbortSignal) =>
   api<S["PublicChallengeList"]>("/challenges", {
     ...local,
-    auth: false,
     signal,
   });
 export const publishedChallenge = (id: string, signal?: AbortSignal) =>
   api<S["PublicChallenge"]>(`/challenges/${id}`, {
     ...local,
-    auth: false,
     signal,
   });
 export const startAttempt = (id: string) =>

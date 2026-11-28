@@ -51,6 +51,12 @@ export class AdminController {
     return this.roles.search(query);
   }
 
+  @Get("users/privileged")
+  @RequirePermission(Permission.ADMIN_USERS_READ)
+  directory(@Query() query: Record<string, unknown>) {
+    return this.roles.directory(query);
+  }
+
   @Post("users/:id/suspend")
   @HttpCode(200)
   @RequirePermission(Permission.ADMIN_USERS_SUSPEND)
