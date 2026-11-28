@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:23556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session (2.1s)
+  ok 2 [1440-dark] › tests\browser\region-lab.spec.ts:13:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records (16.2s)
+
+  2 passed (20.8s)

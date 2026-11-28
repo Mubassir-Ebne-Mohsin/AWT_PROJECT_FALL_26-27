@@ -1,0 +1,54 @@
+FAIL src/modules/region-lab/engine/regional.spec.ts (12.007 s)
+  ● regional observed health and recovery clocks › no surviving enumerated candidate produces unavailability, never a magic fallback
+
+    FoundationError: Unreachable component
+
+       7 | export function simulateRegional(value:unknown,options:FoundationOptions={}){
+       8 |   const parsed=regionalInputSchema.safeParse(value);
+    >  9 |   if(!parsed.success)throw new FoundationError('INVALID_INPUT',parsed.error.issues.slice(0,8).map(i=>i.message).join('; '));
+         |                            ^
+      10 |   const input=parsed.data;
+      11 |   canonical(input);
+      12 |   const result=executeComponentModel({...input,componentVersion:1},options,input);
+
+      at simulateRegional (modules/region-lab/engine/regional-engine.ts:9:28)
+      at Object.<anonymous> (modules/region-lab/engine/regional.spec.ts:54:16)
+
+  ● regional validation, targets and paired execution › aggregate execution cannot multiply event/observation/wall/result budgets
+
+    expect(received).toThrow()
+
+    Received function did not throw
+
+      112 |   });
+      113 |   it('aggregate execution cannot multiply event/observation/wall/result budgets',()=>{
+    > 114 |     const s=outage(fixture());expect(()=>experiment(s,'paired',2,{limits:{maxEvents:6000}})).toThrow();expect(()=>experiment(s,'paired',1,{limits:{maxResultBytes:1}})).toThrow('result');expect(()=>experiment(s,'paired',1,{limits:{maxObservations:400}})).toThrow('observation');expect(()=>experiment(s,'paired',6)).toThrow('mode/repetitions');
+          |                                                                                              ^
+      115 |   });
+      116 |   it('imports the draft scenario with strict profile resolution and seconds conversion',()=>{
+      117 |     const examples=JSON.parse(readFileSync(resolve(process.cwd(),'../../docs/region-lab/examples.json'),'utf8'));
+
+      at Object.<anonymous> (modules/region-lab/engine/regional.spec.ts:114:94)
+
+  ● regional validation, targets and paired execution › imports the draft scenario with strict profile resolution and seconds conversion
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 10
+    Received: 14
+
+      119 |     // Keep this import rehearsal small without claiming calibrated performance.
+      120 |     examples.baseline.workload.baselineRps=1;examples.baseline.workload.durationSeconds=10;examples.baseline.workload.schedule=[{atSeconds:0,multiplier:1},{atSeconds:10,multiplier:1}];
+    > 121 |     const r=simulateRegionLabScenario(examples.baseline);expect(r.repetitions[0].baseline!.summary.offeredRequests).toBe(10);expect(r.provenance.length).toBeGreaterThan(0);
+          |                                                                                                                     ^
+      122 |     examples.baseline.profiles[0].properties.cpu=8;expect(()=>adaptRegionalScenario(examples.baseline)).toThrow('Unsupported typed profile');
+      123 |   });
+      124 | });
+
+      at Object.<anonymous> (modules/region-lab/engine/regional.spec.ts:121:117)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 25 passed, 28 total
+Snapshots:   0 total
+Time:        13.056 s
+Ran all test suites within paths "src/modules/region-lab/engine/regional.spec.ts".

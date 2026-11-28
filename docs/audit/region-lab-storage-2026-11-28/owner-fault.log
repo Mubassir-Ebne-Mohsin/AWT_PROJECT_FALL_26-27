@@ -1,0 +1,27 @@
+FAIL test/region-lab.e2e-spec.ts (17.064 s)
+  ● Region Lab private persistence and isolated execution › Admin and other accounts get404 on every private identifier operation
+
+    expected 404 "Not Found", got 200 "OK"
+
+      301 |       .get("/v1/region-lab/experiments/" + e.id)
+      302 |       .set(auth(other))
+    > 303 |       .expect(404);
+          |        ^
+      304 |     await http
+      305 |       .patch("/v1/region-lab/experiments/" + e.id)
+      306 |       .set(auth(other))
+
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:303:8)
+      ----
+      at Test._assertStatus (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:404:14)
+      at node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:460:13
+      at Test._assertFunction (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:437:13)
+      at Test.assert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:302:23)
+      at localAssert (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:220:38)
+      at Server.<anonymous> (node_modules/.pnpm/supertest@7.3.1/node_modules/supertest/lib/test.js:227:13)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 29 skipped, 30 total
+Snapshots:   0 total
+Time:        17.886 s, estimated 30 s
+Ran all test suites with tests matching "Admin and other accounts".

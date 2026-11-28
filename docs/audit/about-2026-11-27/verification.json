@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-27",
+  "status": "verified locally",
+  "scope": "About page only; isolated hosting acceptance remains deferred by owner",
+  "unitTests": {
+    "passed": 7
+  },
+  "browser": {
+    "uniquePassed": 8,
+    "enhancedInteractionRerun": 4,
+    "projects": [
+      "1024-light",
+      "1024-dark",
+      "1440-light",
+      "1440-dark"
+    ],
+    "widths": [
+      320,
+      390,
+      1024,
+      1440
+    ],
+    "checks": [
+      "guest content and no product API calls",
+      "source/stack removed",
+      "native radio selection and keyboard arrows",
+      "role expansion",
+      "main scroll-container bounds",
+      "reduced-motion animations disabled",
+      "canvas CTA route"
+    ]
+  },
+  "types": "passed",
+  "scopedLint": "passed",
+  "productionBuild": "passed",
+  "productionPreview": "http://localhost:3013/about",
+  "previewSession": 91267,
+  "mutation": "reintroduced source text failed About assertion; restored source and 7/7 passed",
+  "screenshots": "hero/cards project PNGs; desktop light/dark inspected; mobile light inspected inline",
+  "dependenciesAdded": 0,
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false
+}

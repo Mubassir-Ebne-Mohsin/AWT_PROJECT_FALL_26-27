@@ -1,0 +1,27 @@
+FAIL src/modules/region-lab/engine/regional.spec.ts (18.262 s)
+  ● regional network and traffic accounting › counts propagation and bytes once per direction, including client entry
+
+    expect(received).toBeCloseTo(expected)
+
+    Expected: 14
+    Received: 4
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   10
+
+      54 |     const r = run(s);
+      55 |     expect(r.summary.successfulRequests).toBe(1);
+    > 56 |     expect(r.summary.latency.meanMs).toBeCloseTo(14);
+         |                                      ^
+      57 |     expect(r.regional!.links.reduce((a, n) => a + n.bytes, 0)).toBe(2000);
+      58 |     expect(r.regional!.links.reduce((a, n) => a + n.transfers, 0)).toBe(4);
+      59 |     s.workload.origins[0].shareBps = 0;
+
+      at Object.<anonymous> (modules/region-lab/engine/regional.spec.ts:56:38)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 32 skipped, 33 total
+Snapshots:   0 total
+Time:        19.351 s
+Ran all test suites within paths "src/modules/region-lab/engine/regional.spec.ts".

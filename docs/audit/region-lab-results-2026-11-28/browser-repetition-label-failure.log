@@ -1,0 +1,43 @@
+
+Running 2 tests using 1 worker
+
+(node:6976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session (1.7s)
+  x  2 [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records (23.9s)
+
+
+  1) [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByLabel('Repetition', { exact: true }).locator('option')
+    Expected: 2
+    Received: 0
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveCount" getByLabel('Repetition', { exact: true }).locator('option') with timeout 15000ms
+      - waiting for getByLabel('Repetition', { exact: true }).locator('option')
+        33 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      31 |  await page.goto(editorUrl);await page.getByLabel("Enable deployment outage",{exact:true}).check();await expect(page.getByLabel("Outage target",{exact:true})).toHaveValue("eu_app");await page.getByText("Complete scenario · routing, network, profiles and outages",{exact:true}).click();const scenario=structuredClone(record.snapshot.scenario);scenario.runOptions={mode:"paired",seed:42,repetitions:2};scenario.outage={id:"browser_outage",scope:"application_deployment",region:"eu-west",affectedNodeIds:["eu_app"],startSeconds:3,durationSeconds:6,inFlightPolicy:"abort_at_failed_node"};for(const route of scenario.routing){route.detectionMs=1000;route.switchMs=500;route.failbackMs=1000;}
+      32 |  await page.getByLabel("Scenario JSON",{exact:true}).fill(JSON.stringify(scenario,null,2));await page.getByRole("button",{name:"Validate scenario",exact:true}).click();await expect(page.getByText(/Scenario is valid within current admission limits/)).toBeVisible();await page.getByRole("button",{name:"Save revision"}).click();await expect(page.getByRole("button",{name:"Run saved revision"})).toBeEnabled();await page.goto(firstRunUrl);await expect(page.getByText(/Earlier revision: this run describes revision/)).toBeVisible();await page.goto(editorUrl);await page.getByRole("button",{name:"Run saved revision"}).click();await expect(page.getByRole("heading",{name:"Recorded latency distribution"})).toBeVisible({timeout:60000});
+    > 33 |  await expect(page.getByLabel("Repetition",{exact:true}).locator("option")).toHaveCount(2);await page.getByLabel("Scenario",{exact:true}).selectOption("outage");await page.getByLabel("Repetition",{exact:true}).selectOption("1");await expect(page.getByText(/repetition 1 · seed/)).toBeVisible();await page.getByRole("button",{name:"Compare saved results"}).click();await expect(page.getByText("Comparable foundation and seed.",{exact:true})).toBeVisible();
+         |                                                                             ^
+      34 |  for(const width of [1440,1024,390,320]){await page.setViewportSize({width,height:900});await page.getByLabel("Color theme",{exact:true}).selectOption("light");await expect(page.locator("html")).toHaveClass(/light/);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1&&[...document.querySelectorAll(".main")].every(el=>el.scrollWidth<=el.clientWidth+1))).toBe(true);await page.screenshot({path:path.join(audit,`run-${width}-light.png`),fullPage:true});}
+      35 |  await page.reload();await expect(page.getByRole("heading",{name:"Recorded latency distribution"})).toBeVisible();
+      36 |  const runId=page.url().split("/").at(-1)!;let polls=0;const lifecycle=async(route:Route)=>{if(new URL(route.request().url()).pathname===`/v1/region-lab/runs/${runId}`){polls++;await route.fulfill({json:{data:{...record.run,id:runId,status:"running",availableSides:["baseline","outage"],repetitions:2,retained:true}}});}else await route.fallback();};
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\region-lab.spec.ts:33:77
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\region-lab-Region-Lab-crea-637c8-ports-real-isolated-records-1440-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\region-lab-Region-Lab-crea-637c8-ports-real-isolated-records-1440-dark\error-context.md
+
+  1 failed
+    [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records 
+  1 passed (28.5s)

@@ -1,0 +1,21 @@
+FAIL test/region-lab.e2e-spec.ts (26.396 s)
+  ● Region Lab private persistence and isolated execution › Stage7 withholds deltas for incompatible workload or code and compares compatible saved sides
+
+    Isolated Region Lab execution did not complete
+
+      88 |         finished = false;
+      89 |       const stop = (code: RegionExecutionCode) => {
+    > 90 |         failure ??= new RegionExecutionError(code);
+         |                     ^
+      91 |         child.kill("SIGKILL");
+      92 |       };
+      93 |       const aborted = () => stop("CANCELLED");
+
+      at stop (src/modules/region-lab/worker/region-executor.ts:90:21)
+      at ChildProcess.<anonymous> (src/modules/region-lab/worker/region-executor.ts:119:11)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 38 skipped, 39 total
+Snapshots:   0 total
+Time:        27.067 s
+Ran all test suites with tests matching "Stage7 withholds deltas".

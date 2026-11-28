@@ -1,0 +1,23 @@
+FAIL src/modules/region-lab/engine/regional.spec.ts (29.892 s)
+  ● regional observed health and recovery clocks › retains stale routing until detection plus switching, then fails back after recovery
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 90
+    Received: 100
+
+      152 |   it("retains stale routing until detection plus switching, then fails back after recovery", () => {
+      153 |     const r = run(outage(fixture()));
+    > 154 |     expect(r.summary.successfulRequests).toBe(90);
+          |                                          ^
+      155 |     expect(r.summary.failures.UNAVAILABLE).toBe(10);
+      156 |     expect(r.regional!.reroutedRoots).toBe(40);
+      157 |     expect(
+
+      at Object.<anonymous> (modules/region-lab/engine/regional.spec.ts:154:42)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 32 skipped, 33 total
+Snapshots:   0 total
+Time:        30.797 s
+Ran all test suites within paths "src/modules/region-lab/engine/regional.spec.ts".

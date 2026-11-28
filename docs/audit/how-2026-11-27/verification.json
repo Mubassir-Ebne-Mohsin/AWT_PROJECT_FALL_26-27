@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-27",
+  "status": "verified locally",
+  "scope": "How it works UI; isolated hosting acceptance remains deferred",
+  "unitTests": 8,
+  "browserTests": 12,
+  "projects": [
+    "1024-light",
+    "1024-dark",
+    "1440-light",
+    "1440-dark"
+  ],
+  "widths": [
+    320,
+    390,
+    1024,
+    1440
+  ],
+  "checks": [
+    "all eight model explanations retained",
+    "unchanged guest/no-product-API journey",
+    "native keyboard details and jump navigation",
+    "main-container bounds",
+    "reversible scroll-timeline reveal",
+    "reduced motion",
+    "readable CSS-free fallback"
+  ],
+  "productionBuild": "passed",
+  "types": "passed",
+  "scopedLint": "passed after unused Link import removed",
+  "fault": "omitting model paragraphs failed preservation check; restored source and 8/8 passed",
+  "screenshots": "hero and mobile traffic PNGs; dark desktop and light mobile reviewed",
+  "preview": "http://localhost:3013/how-it-works",
+  "previewSession": 83249,
+  "dependenciesAdded": 0,
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false
+}

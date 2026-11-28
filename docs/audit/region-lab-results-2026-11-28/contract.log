@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       39 skipped, 1 passed, 40 total
+Snapshots:   0 total
+Time:        22.24 s, estimated 63 s
+Ran all test suites with tests matching "generates18".

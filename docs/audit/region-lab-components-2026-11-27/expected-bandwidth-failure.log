@@ -1,0 +1,54 @@
+FAIL src/modules/region-lab/engine/component.spec.ts (14.213 s)
+  ● component resource numerical references › 8Mbps equal-share transfer, staggered=false
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+    -   2000,
+    -   2000,
+    +   0,
+    +   0,
+      ]
+
+      556 |         e.run();
+      557 |       }
+    > 558 |       expect(done).toEqual(staggered ? [1500, 2000] : [2000, 2000]);
+          |                    ^
+      559 |       expect(link.active).toBe(0);
+      560 |     },
+      561 |   );
+
+      at modules/region-lab/engine/component.spec.ts:558:20
+
+  ● component resource numerical references › 8Mbps equal-share transfer, staggered=true
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 2
+    + Received  + 2
+
+      Array [
+    -   1500,
+    -   2000,
+    +   0,
+    +   500,
+      ]
+
+      556 |         e.run();
+      557 |       }
+    > 558 |       expect(done).toEqual(staggered ? [1500, 2000] : [2000, 2000]);
+          |                    ^
+      559 |       expect(link.active).toBe(0);
+      560 |     },
+      561 |   );
+
+      at modules/region-lab/engine/component.spec.ts:558:20
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 51 skipped, 53 total
+Snapshots:   0 total
+Time:        15.06 s, estimated 22 s
+Ran all test suites within paths "src/modules/region-lab/engine/component.spec.ts".

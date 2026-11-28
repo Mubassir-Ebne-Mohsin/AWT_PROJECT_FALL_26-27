@@ -1,0 +1,132 @@
+{
+  "date": "2026-11-28",
+  "stage": 7,
+  "status": "complete for approved local engineering scope",
+  "backendIntegration": {
+    "passed": 39,
+    "skipped": 1,
+    "skip": "opt-in browser-server fixture, executed separately for the browser only"
+  },
+  "numericalAndCodec": {
+    "suites": 9,
+    "passed": 190
+  },
+  "webRegression": {
+    "passed": 102
+  },
+  "browser": {
+    "uniqueJourneys": 2,
+    "passed": 2,
+    "restoredPublicRerunPassed": 1,
+    "channel": "installed Google Chrome",
+    "web": "production build on task-owned loopback 3016",
+    "api": "disposable real PostgreSQL/module/worker on loopback 5057",
+    "widths": [
+      320,
+      390,
+      1024,
+      1440
+    ],
+    "checks": [
+      "private route redirect",
+      "create/save/validate",
+      "real baseline:2400 offered roots",
+      "real paired run:2 repetitions",
+      "scenario/repetition/view selection",
+      "stale revision warning",
+      "comparison of outage against baseline",
+      "JSON/PDF download",
+      "actual light-palette CSS and no horizontal overflow",
+      "reduced motion",
+      "visibility polling pause/resume"
+    ],
+    "controlledBoundaries": [
+      "auth restoration and revocation dependencies",
+      "browser transport Origin adapter to existing 3000 allowlist",
+      "pending lifecycle response for visibility polling"
+    ],
+    "visualReview": [
+      "intro desktop/mobile dark",
+      "recorded result desktop dark",
+      "paired result desktop/mobile light",
+      "rendered downloaded PDF first page"
+    ]
+  },
+  "mutations": {
+    "owner": {
+      "exit": 1,
+      "failedAssertions": 1,
+      "log": "owner-fault.log"
+    },
+    "comparison": {
+      "exit": 1,
+      "failedAssertions": 1,
+      "log": "compare-fault.log"
+    },
+    "histogram": {
+      "exit": 1,
+      "failedAssertions": 2,
+      "log": "codec-fault.log"
+    },
+    "uiOverflow": {
+      "exit": 1,
+      "failedJourneys": 1,
+      "log": "ui-overflow-fault.log"
+    }
+  },
+  "gates": {
+    "backendLint": "pass, zero warnings",
+    "backendTestTypes": "pass",
+    "backendProductionBuild": "pass",
+    "webScopedLint": "pass, zero warnings",
+    "webProductionBuildAndTypes": "pass",
+    "registeredRoutes": 53,
+    "canonicalAccountContract": "synchronized only optional AccountExport.regionLab; unrelated fields preserved",
+    "generatedTypes": "regenerated",
+    "implementedApi": {
+      "operations": 18,
+      "paths": 14,
+      "bearerRequired": true,
+      "localRefsResolved": true
+    },
+    "compiledTrustedWorker": "pass",
+    "numericalReplay": "2 Stage4 and 2 Stage5 exact golden cases;7 original foundation files unchanged",
+    "whitespaceDiff": "pass"
+  },
+  "initialFailuresAndFixes": [
+    "codec header metadata and bounded decode",
+    "fixture worker UUID / JSONB key ordering",
+    "UTF-8 editing / app-shell height / textarea labeling",
+    "worker metadata binding / final IPC flush",
+    "final new contract-writer import lint",
+    "outage and result selectors explicit accessible labels",
+    "new browser fixture expected class rather than existing data-theme attribute",
+    "visual review found actual light palette selector mismatch; fixed data-theme CSS and asserted rendered variable"
+  ],
+  "hostingE2E": "deferred by owner; focused verification does not replace full hosting/Redis/provider/CORS acceptance",
+  "calibrated": false,
+  "ownerDevMigrationApplied": false,
+  "testServices": "task-only PostgreSQL55468/API5057/web3016 stopped",
+  "remainingReleaseGates": [
+    "apply Stage6 migration through owner development/deployment workflow",
+    "separately approve Stage8 measured calibration and acceptance",
+    "hosted OS/container hard memory enforcement and process supervision",
+    "separately deferred whole-project hosting rehearsal"
+  ],
+  "committed": true,
+  "publication": {
+    "authorized": true,
+    "target": "origin/codex/phase2-contracts",
+    "codeCommits": [
+      "b4d6f225340a85cbc28a9f471e90c5c75cc62b52",
+      "9ae4cd01d67eb7feed545888b177788bd54a6c0e"
+    ],
+    "remoteVerification": "compare final branch tip with git ls-remote after push; reported in publication response"
+  },
+  "precommit": {
+    "frontendPassed": 102,
+    "legacyBrowserRegistrationEntries": 12,
+    "legacySharedShellRouteCount": 49,
+    "dedicatedRegionRoutes": 4
+  }
+}

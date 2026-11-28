@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-28",
+  "nodeVersion": "v24.14.1",
+  "stage4ExactGoldenCases": 2,
+  "stage5ExactGoldenCases": 2,
+  "foundationSourceChanges": [
+    "engine.ts"
+  ],
+  "foundationFilesUnchanged": 7,
+  "numericalDefaultsPreserved": true,
+  "calibrated": false
+}

@@ -1,0 +1,18 @@
+{
+  "backendTests": 47,
+  "webTests": 15,
+  "controlledBrowserJourneys": 14,
+  "existingGuestExamplesBrowserJourneys": 1,
+  "types": "pass",
+  "scopedLints": "pass",
+  "backendBuild": "pass",
+  "frontendBuild": "pass",
+  "canonicalSixTemplateCalculations": "pass; zero errors; utilization below 80%",
+  "faults": [
+    "original three-tier 1200rps fails correctly",
+    "injected forbidden badge caught"
+  ],
+  "initialBrowserFailure": "new fixture omitted canvas catalog; corrected and all14 passed",
+  "realAuthenticatedDatabaseQueueAcceptance": "not run; controlled transport only",
+  "ownerWrites": false
+}

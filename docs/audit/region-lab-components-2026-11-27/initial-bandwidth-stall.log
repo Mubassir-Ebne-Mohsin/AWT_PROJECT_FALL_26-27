@@ -1,0 +1,51 @@
+FAIL src/modules/region-lab/engine/component.spec.ts (37.554 s)
+  ● storage timestamp precision › completes1 bytes at high bandwidth without zero-time event loops
+
+    FoundationError: Component event limit exceeded
+
+      774 |   while (events.peek() && events.peek()!.time <= stop) {
+      775 |     if (++processed > limits.maxEvents)
+    > 776 |       throw new FoundationError(
+          |             ^
+      777 |         "BUDGET_EXCEEDED",
+      778 |         "Component event limit exceeded",
+      779 |       );
+
+      at simulateComponents (modules/region-lab/engine/component-engine.ts:776:13)
+      at modules/region-lab/engine/component.spec.ts:530:16
+
+  ● storage timestamp precision › completes3 bytes at high bandwidth without zero-time event loops
+
+    FoundationError: Component event limit exceeded
+
+      774 |   while (events.peek() && events.peek()!.time <= stop) {
+      775 |     if (++processed > limits.maxEvents)
+    > 776 |       throw new FoundationError(
+          |             ^
+      777 |         "BUDGET_EXCEEDED",
+      778 |         "Component event limit exceeded",
+      779 |       );
+
+      at simulateComponents (modules/region-lab/engine/component-engine.ts:776:13)
+      at modules/region-lab/engine/component.spec.ts:530:16
+
+  ● storage timestamp precision › completes1000 bytes at high bandwidth without zero-time event loops
+
+    FoundationError: Component event limit exceeded
+
+      774 |   while (events.peek() && events.peek()!.time <= stop) {
+      775 |     if (++processed > limits.maxEvents)
+    > 776 |       throw new FoundationError(
+          |             ^
+      777 |         "BUDGET_EXCEEDED",
+      778 |         "Component event limit exceeded",
+      779 |       );
+
+      at simulateComponents (modules/region-lab/engine/component-engine.ts:776:13)
+      at modules/region-lab/engine/component.spec.ts:530:16
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 53 skipped, 56 total
+Snapshots:   0 total
+Time:        39.206 s
+Ran all test suites within paths "src/modules/region-lab/engine/component.spec.ts".

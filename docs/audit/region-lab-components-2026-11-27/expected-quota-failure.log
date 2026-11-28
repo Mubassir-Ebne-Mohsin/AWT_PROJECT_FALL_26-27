@@ -1,0 +1,23 @@
+FAIL src/modules/region-lab/engine/component.spec.ts (21.641 s)
+  ● component resource numerical references › token bucket is full, caps idle refill and admits exactly at500ms
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      530 |     expect(b.take(0)).toBe(true);
+      531 |     expect(b.take(0)).toBe(true);
+    > 532 |     expect(b.take(0)).toBe(false);
+          |                       ^
+      533 |     expect(b.take(499)).toBe(false);
+      534 |     expect(b.take(500)).toBe(true);
+      535 |     expect(b.take(100000)).toBe(true);
+
+      at Object.<anonymous> (modules/region-lab/engine/component.spec.ts:532:23)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 52 skipped, 53 total
+Snapshots:   0 total
+Time:        22.375 s
+Ran all test suites within paths "src/modules/region-lab/engine/component.spec.ts".

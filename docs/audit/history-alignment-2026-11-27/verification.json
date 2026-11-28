@@ -1,0 +1,30 @@
+{
+  "widths": [
+    {
+      "viewport": 1920,
+      "historyWidth": 1872,
+      "railWidth": 380,
+      "fits": true
+    },
+    {
+      "viewport": 1440,
+      "historyWidth": 1392,
+      "railWidth": 380,
+      "fits": true
+    },
+    {
+      "viewport": 390,
+      "historyWidth": 358,
+      "railWidth": 324,
+      "fits": true
+    },
+    {
+      "viewport": 320,
+      "historyWidth": 288,
+      "railWidth": 254,
+      "fits": true
+    }
+  ],
+  "errors": [],
+  "faultDetected": true
+}

@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-28",
+  "targetBranch": "codex/phase2-contracts",
+  "remote": "origin",
+  "platformCommit": "b4d6f225340a85cbc28a9f471e90c5c75cc62b52",
+  "regionLabCommit": "9ae4cd01d67eb7feed545888b177788bd54a6c0e",
+  "validation": "331 focused checks +2 production-browser journeys and both native builds",
+  "precommitFrontendPasses": 102,
+  "hostingAcceptance": "deferred",
+  "ownerMigrationApplied": false,
+  "exclusions": "protected historical audit and landing changes; film; local presentations",
+  "forcePush": false
+}

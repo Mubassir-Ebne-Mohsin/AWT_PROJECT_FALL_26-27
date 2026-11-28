@@ -1,0 +1,121 @@
+$ next dev --port 3016
+▲ Next.js 16.4.6 (Turbopack)
+- Local:         http://localhost:3016
+- Network:       http://192.168.3.190:3016
+✓ Ready in 2.7s
+✓ Running next.config.ts took 333ms
+- Experiments (use with caution):
+  · cpus
+
+○ Compiling /region-lab ...
+⨯ ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx
+
+
+  Turbopack has seen frequent file updates and is waiting for the filesystem to settle (0.5s elapsed so far; last modified: "\\\\?\\C:\\ADVANCED WEB TECH\\AWT_PROJECT_FALL_26-27\\STRESSFORGE\\web\\node_modules\\.pnpm\\next@16.4.6_@babel+core@7.2_60ba6e471d146ed82b7dce31ad70b41a\\node_modules\\next\\dist\\next-devtools\\shared\\react-19-hydration-error.js").
+○ Compiling /_error ...
+ GET /region-lab 500 in 31.5s (next.js: 25.0s, proxy.ts: 466ms, application-code: 6.1s)
+[browser] Uncaught Error: ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx
+
+
+[browser] ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx 
+[browser] ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx 
+⨯ ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/experiments/page.tsx
+
+
+ GET /region-lab/experiments 500 in 3.2s (next.js: 3.0s, proxy.ts: 70ms, application-code: 135ms)
+[browser] Uncaught Error: ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx
+
+
+[browser] ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx 
+[browser] ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/experiments/page.tsx 
+[browser] ./src/components/region-lab/region-lab.tsx
+Error: Reading source code for parsing failed
+An unexpected error happened while trying to read the source code to parse: failed to convert rope into string
+
+Caused by:
+- invalid utf-8 sequence of 1 bytes from index 22791
+
+Import trace:
+  Server Component:
+    ./src/components/region-lab/region-lab.tsx
+    ./src/app/region-lab/page.tsx 

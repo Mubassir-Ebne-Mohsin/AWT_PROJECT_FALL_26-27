@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        11.66 s
+Ran all test suites within paths "src/modules/region-lab/results/result-codec.spec.ts".

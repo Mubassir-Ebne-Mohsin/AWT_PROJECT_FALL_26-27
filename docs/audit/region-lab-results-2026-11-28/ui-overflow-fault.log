@@ -1,0 +1,32 @@
+
+Running 1 test using 1 worker
+
+(node:2080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session (1.8s)
+
+
+  1) [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+       8 |  await expect(page.locator(".rl-hero .rl-node").last()).toHaveCSS("opacity","1");
+       9 |  if(process.env.SF_STAGE7_UI_FAULT==="1")await page.addStyleTag({content:".rl-body{min-width:2000px!important}"});
+    > 10 |  for(const width of [1440,1024,390,320]){await page.setViewportSize({width,height:900});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1&&[...document.querySelectorAll(".main")].every(el=>el.scrollWidth<=el.clientWidth+1))).toBe(true);await page.screenshot({path:path.join(audit,`intro-${width}.png`),fullPage:true});}
+         |                                                                                                                                                                                                                                                                  ^
+      11 |  await page.emulateMedia({reducedMotion:"reduce"});await expect(page.locator(".rl-hero .rl-node").last()).toHaveCSS("animation-name","none");await page.goto("/region-lab/experiments");await expect(page).toHaveURL(/\/login\?next=/);
+      12 | });
+      13 | test("Region Lab creates, saves, runs, inspects, compares and exports real isolated records",async({page,context,request})=>{
+        at C:\ADVANCED WEB TECH\AWT_PROJECT_FALL_26-27\STRESSFORGE\web\tests\browser\region-lab.spec.ts:10:258
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\region-lab-Region-Lab-publ-dc624-ate-pages-require-a-session-1440-dark\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\region-lab-Region-Lab-publ-dc624-ate-pages-require-a-session-1440-dark\error-context.md
+
+  1 failed
+    [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session 

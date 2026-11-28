@@ -1,5 +1,73 @@
 # STRESSFORGE progress report
 
+## 2026-11-28 — Commit and publication checkpoint
+
+Owner authorized commit and push of completed changes. Platform commit `b4d6f2` records earlier approved OAuth/activity/UI/security and deployment scaffold; Region Lab commit `9ae4cd0` records stages1–7 and shared integrations. Documentation/evidence follow in a separate commit. Target: `origin/codex/phase2-contracts`. Final331 checks and2 production browser journeys, both native builds and4 deliberate faults retain their recorded results. Pre-commit frontend rerun passes102; old route-count labels corrected to53 and legacy browser journey registration passes12 project/test entries. All49 shared-shell routes retain their existing assertions;4 dedicated Lab routes have separate owned-fixture journeys. Full hosted acceptance and calibration remain pending; no owner migration/deployment occurred. Protected historical audit/landing files, film/ and local presentation artifacts are excluded.
+
+
+## 2026-11-28 — Region Lab recorded results and live UI verified
+
+**2026-11-28 Region Lab stage7 — locally verified:** Recorded HDR/cohort results, private inspection/paging/comparison/JSON/PDF/version exports, account manifest and live Region Lab UI complete within approved engineering scope.190 numerical/codec/PDF unit checks,39 real PostgreSQL/API/process checks and102 preserved frontend checks pass; both production Chrome journeys pass across320/390/1024/1440, including paired2-repetition runs, downloads, stale warnings, actual light palette, reduced motion and polling. Owner/comparison/HDR/overflow deliberate faults detected; normal restored. Backend lint/types/build, web lint/types/production build,53 routes, additive account contract/generated types, compiled worker and4 exact numerical golden replays pass. Final visual review caught/fixed theme attribute mismatch and selector labels. Task-only55468/5057/3016 services stopped. Guide docs/REGION-LAB-RESULTS-AND-UI.md; final evidence docs/audit/region-lab-results-2026-11-28/checks.json. Owner development migration NOT applied; full hosting acceptance and Stage8 calibration remain separate. All Stage7 work local, unstaged/uncommitted; no push. Claim released.
+
+
+## 2026-11-28 — Region Lab Stage7 verification in progress
+
+**2026-11-28 Region Lab stage7 — verification in progress:** Results/strict view DTO, real HDR/cohort capture, owner-private inspection/comparison/JSON/PDF/version exports, account manifest and live Region Lab pages are implemented locally.39 real-PostgreSQL/API/process checks and186 prior numerical/codec checks pass;94 existing web checks pass. Owner/comparison/HDR deliberate faults are caught; exact Stage4/5 golden outputs preserved. Final UI production build/browser rerun, PDF wrapping tests and generated account-contract synchronization remain pending after final refinements. User is freeing RAM after available memory fell below100MiB; own test cluster paused, no user apps/services stopped. Do not mark complete yet. Claim remains active. Guide: docs/REGION-LAB-RESULTS-AND-UI.md; current evidence docs/audit/region-lab-results-2026-11-28/checks.json. No owner-dev migration/commit/push; hosting acceptance and calibration remain deferred/separate.
+
+## 2026-11-28 — Region Lab private storage and jobs
+
+**2026-11-28 Region Lab stage6:** Private experiment/version/run storage,12 authenticated operations and durable isolated execution implemented locally. Five additive tables enforce owner isolation, immutable inputs, optimistic revisions, idempotency after pruning/deletion and account fencing. PostgreSQL queued rows/singleton slot replace the draft Bull dispatch proposal; existing Bull unchanged. Fixed credential-scrubbed child,45s parent watchdog,60s lease, cancellation/completion fencing, crash/restart recovery and bounded native result validation verified.30 real-PostgreSQL HTTP/storage/process tests plus182 prior numerical tests pass (212 across separate runs); owner/lease deliberate faults each fail, types/zero-warning scoped lint/build/compiled child and8 foundation hashes/two prior golden outputs pass. Migration tested only in disposable55468 database, now stopped; owner dev migration NOT applied. V8 heap is capped,256MiB RSS is sampled/cooperative: hosted OS hard memory cap remains a release gate. UI/result wire/HDR/export/report integration and calibration remain later stages; full isolated hosting E2E stays deferred. Local/uncommitted, no commit/push. Next separately approved stage7. See docs/REGION-LAB-STORAGE-AND-JOBS.md and docs/audit/region-lab-storage-2026-11-28/.
+
+## 2026-11-28 — Region Lab regional execution
+
+Regional engine complete locally: directed shared bandwidth/propagation including client entry, explicit/nearest observed-health routing, independent detection/switch/failback clocks, subset deployment outages, healthy downstream occupancy, worker fetch/ACK transport, ordered replica transport/apply and baseline/outage/paired repetitions under shared budgets. Strict Stage1-draft importer resolves profiles, converts seconds and preserves canonical provenance/hash.33 regional +149 prior cases =182 tests/7 suites pass; transport-bypass and omniscient-routing faults detected; types/zero-warning lint/backend build pass. All8 Stage3 source hashes and both Stage4 recorded numerical outputs preserved. Local/uncommitted and uncalibrated; no API/UI/persistence integration. Full isolated hosting E2E remains deferred. Next: separately approved stage6 owner-private persistence and isolated job execution. See docs/REGION-LAB-REGIONAL-MODELS.md.
+
+
+## 2026-11-27 — Region Lab typed component models
+
+Local typed component engine implements all12 types with explicit cache/CDN hit/bypass paths, logical token buckets, blocking pools, DB read/write demand, ordered replica apply, detached FIFO jobs/ACKs/bounded redelivery, worker scaling and equal-share storage bandwidth.58 new component checks plus44 foundation and47 existing simulator cases pass (149 tests/6 suites); two test-only faults detected; types/zero-warning scoped lint/backend build pass. Independent review defects fixed and regression-covered, including high-bandwidth timestamp progress and retained retry capacity. All8 prior foundation source hashes preserved. Local single-region input only; zero replica transport/queue-worker delay and worker waitingCapacity0 enforced. No UI/API integration or calibration claimed. Full isolated hosted E2E remains deferred. Local/uncommitted. Next: separately approved stage5 regional network/routing/outage/recovery. See docs/REGION-LAB-COMPONENT-MODELS.md.
+
+
+## 2026-11-27 — Region Lab engine foundation
+
+Bounded seeded event-engine foundation complete locally: strict generic DAG inputs, constant/Poisson arrivals, explicit replica/slot/FIFO limits, deadlines with continued running-work occupancy, capped safe retries, downstream fanout/delays, root-cohort accounting, exact sampled percentiles, canonical hash/replay and resource guards.44 new offline tests plus47 existing simulator regressions pass (91 total); expected event-priority mutation fails; backend types/scoped lint/build pass. Three M/M/1 references match fixed analytical checks, not real-system calibration. No API/UI/DB integration, typed12-component model or regional outage model yet. Same-process memory/cancellation guards do not replace future worker isolation. Local/uncommitted. Next: separately approved stage4 component/property models. See docs/REGION-LAB-ENGINE-FOUNDATION.md.
+
+
+## 2026-11-27 — Region Lab interface preview
+
+Region Lab stage2 UI prototype complete locally: dedicated graphite/teal identity and glass navbar; six interactive views (overview, experiments, workspace, illustrative results,12 profiles and guide), separate in-memory drafts, workload/replica edits, contract-valid JSON export, recovery-state previews and accessible responsive navigation. No simulator/API/account storage integration.8 unique controlled Chrome journeys with final8/8 rerun, types/lint/syntax and six static-server HTTP checks pass; injected overflow fault detected. Desktop/mobile light/dark screenshots reviewed. Preview on loopback3015; no owner service/data changes. Dedicated UI prototype only; live engine integration, main navigation replacement, persistence and calibration remain future stages. Local/uncommitted. Guide: docs/REGION-LAB-UI-PROTOTYPE.md.
+
+
+## 2026-11-27 — Region Lab stage1 specification
+
+Scope and draft contracts completed:12-component modeling/support boundaries, temporal/network/failure semantics, immutable private experiments/runs, result accounting and proposed resource/accuracy gates.65 offline contract cases,15 planned API operations,124 local OpenAPI references, schema/example parity and semantic-bypass fault detection verified. These are documentation/schema checks, not a new simulator or accuracy benchmark. Main application and Evaluation remain unchanged. Local/uncommitted; next stage is dedicated UI prototype after owner approval. See docs/REGION-LAB-SCOPE.md and docs/REGION-LAB-CONTRACTS.md.
+
+
+## 2026-11-27 — Passing starter templates
+
+All six starter templates now pass at their supplied traffic with zero errors and max utilization below80%. Default rps changed only for three-tier1200→800, ingest1500→600 and checkout1400→600; topology, properties, targets, bursts and failure logic unchanged. Generated Examples data regenerated from the real engine; Templates verdict badges removed. Applies to new copies, not existing saved designs.47 backend/15 web units,14 controlled copy-and-first-run Chrome journeys, types/scoped lints/both builds pass. Numerical results come from the real canonical simulation; browser persistence/run transport is intercepted. Historical overload parity/failure coverage retained. Owner approved obsolete assertion updates. Guide: docs/PASSING-STARTER-TEMPLATES.md. Local/uncommitted; full hosting acceptance deferred.
+
+
+## 2026-11-27 — Full-width History alignment
+
+History now aligns with both edges of the description panel; desktop revision column380px. Four controlled viewport checks verify alignment, responsive fit and no page errors; capped-width fault detected. Local CSS adjustment only; build not repeated.
+
+
+## 2026-11-27 — History width adjustment
+
+Expanded History maximum width to1480px while retaining the compact320px desktop revision rail. Four controlled Chrome viewport checks passed; no overflow/page errors; old-width fault detected. Local/uncommitted; build not repeated for this CSS-only adjustment.
+
+
+## 2026-11-27 — Compact revision scrolling
+
+History now scrolls its revision list independently beneath a fixed heading, with native wheel/touch/keyboard access and responsive height limits. Six controlled browser checks, TypeScript and scoped lint passed; removing the scrolling constraint was detected. Local/uncommitted; production build not repeated for this small follow-up. Evidence: docs/audit/history-scroller-2026-11-27/.
+
+
+## 2026-11-27 — History interface refinement
+
+Implemented the owner-selected Split workspace preview: compact revision list beside a readable comparison table, selected-state highlights, collapsible runs, compact deltas and mobile-local keyboard table scrolling. Existing saved results, comparability rules and restore safeguards retained.10 unchanged presentation tests,8 unique controlled Chrome journeys plus4 final refinement reruns, TypeScript/scoped lint/production build pass. A deliberately broken layout was detected. New screenshots and guide: docs/HISTORY-UI-REFINEMENT.md; docs/audit/history-refinement-2026-11-27/. Local/uncommitted; full hosting acceptance still deferred.
+
+
 > **Latest update: 2026-11-01 (Asia/Dhaka). The roles track (Admin, Reviewer, Instructor, learner challenges) is COMPLETE and pushed: section 28. Phase 3 AI work is parked by the user (sections 24-27 and the M12A notes). Earlier status: Phase 1 COMPLETE for the local Foundation scope; M9 production-dependency reassessment is in section 21. Original audit: PARTIAL on 2026-10-22; see section 9 for closure evidence.**
 
 > **Publication scope as of 2026-10-27:** Phase1 baseline **9e8bb00** remains on GitHub main. M1–M9, including the completed Phase2 core loop, M9 fixes and this report, are published on **codex/phase2-contracts**. Verified code/closure checkpoint **7bdc41d** was pushed on2026-10-27 under explicit user authorization; a documentation-only publication update follows it. No main merge or deployment occurred. Phase2 is complete for the approved local scope with the accepted historical benchmark exception; see section21.
@@ -1767,6 +1835,201 @@ All nine browser checks passed at the approved widths after restoring the source
 [Verified] Registry audit reports one moderate minimatch advisory and no Next.js advisory in the upgraded graph. No high or critical findings. No live AI, owner database migration, push or merge performed.
 
 
+## 2026-11-25 Gallery card refinement
+
+[Verified] Approved Gallery cards now show a compact SVG of the frozen published topology, directional connections, component glyphs, recorded verdict/p95/target, revision/component count, readable tags, attribution/date and remix availability. Responsive grid is three/two/one columns with filters, count/reset and loading/error/empty/missing-preview states. The list API exposes only bounded, allow-listed topology and makes no per-card detail queries. No dependency, migration, route or AI call was added.
+
+[Verified] Backend build, scoped lint, canonical Phase3 contract check, 3 privacy/unit tests and 11 existing HTTP integration tests passed against a fresh isolated Postgres16 database. Web build, types, scoped lint, 48 routes and final 586/586 frontend unit tests passed. Four Chrome projects passed for both development and production builds, covering light/dark and 1440/1024/390px, filters/reset, controlled outage/retry, keyboard focus, reduced motion and no horizontal page overflow. Five dedicated card tests include all 50 nodes/200 edges. Three deliberate faults were detected and restored. Desktop/mobile screenshots were visually reviewed.
+
+[Limitations] First broad unit run failed the untouched Reviewer inbox test (584/585); its file passed 12/12 alone and the final full rerun passed 586/586. New test/fixture corrections and the SVG warning fix are documented in the guide. Browser checks use HTTP fixtures; real database behavior is tested separately by the Gallery suite. Full all-route browser/all-module backend regression and production-load performance were not run. Dense graphs are thumbnails; details remain on the post page.
+
+[Local delivery] Changes and generated contracts/types are uncommitted, not pushed. Existing audit/runtime artifacts remain untouched by task edits. Generated export also catches up existing Gallery/username contract drift. No owner data/session, migrations or live AI were used. Own test servers/container stopped; claim released. See [Gallery card refinement](GALLERY-CARD-REFINEMENT.md) and the newest handoff for exact files/evidence.
+
+
+## 2026-11-25 Compact Gallery follow-up
+
+Owner approved smaller Dashboard-style cards with thumbnail and creator identity. Cards now share Dashboard page width, use 108px architecture previews, approximately 306px height in the inspected desktop fixture, compact metrics/tags and a two-line title. Descriptions/timestamps remain available on the existing detail page. The running dev frontend initially lacked Gallery rules in its root bundle; importing Gallery CSS directly from GalleryList establishes a route dependency. HTTP and browser checks confirmed the Gallery stylesheet is now served and applied on port 3000.
+
+The API includes only the publisher's public username, with display-name-only fallback. Existing users.username storage is reused; no migration. List/detail/publish attribution is verified using an isolated real registration/publish/read flow, without email exposure.
+
+Current-revision verification: backend build, scoped lint, Phase3 contract check, 4/4 privacy units and 12/12 Gallery HTTP integration tests; frontend types, scoped lint, production build, 6/6 card tests and 48 routes. Four Chrome projects passed against the current dev frontend using isolated API fixtures, then four passed against the production build; each checks 1440/1024/390px, 3/2/1 columns, all card heights <=340px, creator name, no horizontal page overflow and earlier functional assertions. An in-memory hidden-username fault was caught. Desktop dark/mobile light screenshots reviewed. Twelve new screenshots are in docs/audit/gallery-compact-2026-11-25, unstaged.
+
+Full-project regression was not repeated for this follow-up. Earlier 586-unit evidence applies to the preceding revision. Public username may require restarting an older compiled API. All task changes remain uncommitted/unpushed. Own production server and test container stopped; user services retained. No owner data or live AI calls.
+
+
+## 2026-11-25 Dashboard saved-design thumbnails
+
+Implemented locally at the owner's request, following the compact Gallery work. No commit or push.
+
+Dashboard design cards now have a 108px architecture thumbnail using current saved node positions, labels and directional edges. They retain source/verdict, title, counts, revision/date, recorded latency, navigation and delete confirmation. Empty saved graphs say Empty canvas; older API responses without topology show an honest fallback. Thumbnails are labelled Saved architecture, not Published architecture or a test-run snapshot.
+
+The Dashboard requests preview data through its existing owner-scoped summary read, with no per-card browser/API requests and no extra graph lookup. Ordinary design-list summaries omit this optional payload. A shared bounded topology contract excludes properties and traffic. Gallery reuses the same schema/renderer with its existing published context. No new dependency, migration, route, model call or owner-data modification.
+
+Files: Dashboard component and new dashboard-preview.css; shared GalleryPreview saved context; designs.service.ts summaries/dashboard; phase2 graph/api contracts, Gallery schema alias; generated Phase2/Phase3 contracts/types; DashboardData now uses the canonical Phase2 generated type. Tests are dashboard-preview.spec.ts, added designs.e2e-spec.ts case, dashboard-preview.spec.ts browser file and shared gallery-cards.test.cjs.
+
+Verified: both production builds, frontend types/scoped lint, backend scoped lint, Phase2/Phase3 contract checks/examples and 48 routes. New backend units 2/2 plus Gallery units 4/4. Shared card/preview unit tests 7/7. Isolated Dashboard HTTP selection 2 passed/21 skipped by name filter: saved geometry/ownership/no-run case and existing deletion-race check. Fresh dedicated database sf_dashboard_preview_20261125 on own labelled Postgres container/5547. Initial migration attempt hit the existing short query timeout while builds ran; rerun without builds passed without changing timeouts. New browser fixture locators were corrected for nested fallback text and existing alertdialog semantics; no earlier assertions removed.
+
+Browser: 8/8 Dashboard+Gallery checks passed across four Chrome projects against the user's existing dev frontend with isolated HTTP fixtures. Each covers 1440/1024/390px and light/dark, saved-image/fallback states, no page-level horizontal scroll, keyboard links, unchanged delete confirmation and no detail requests for thumbnails. The mutation forcing Saved to Published labels was caught in memory without changing production files. Desktop screenshot visually reviewed. Twelve new Dashboard screenshots remain unstaged under docs/audit/dashboard-thumbnails-2026-11-25.
+
+Limits: full all-module/all-route regression not rerun; production build passed but this follow-up's browser run used the current dev server. Owner API/data/session untouched. Only own test container was stopped; user services kept running. Restart an older compiled API if thumbnails show unavailable. No migration is required.
+
+
+## Designs library thumbnails - 25 November 2026
+
+Implemented at the owner's request, locally and uncommitted. Designs cards now show a 108px saved-architecture thumbnail with directional arrows and existing component glyphs, matching Dashboard/Gallery. Long descriptions and titles are limited to two visible lines. Existing search, sort/result/archive filters, pagination, Open, Duplicate, Archive, Unarchive and Undo remain in place. Empty/legacy responses use the existing honest preview states.
+
+The paginated owner-scoped list query selects the current graph alongside existing metadata. A strict bounded topology projection exposes only IDs, type/label, positions and edge endpoints; no component properties, traffic, notes or per-card detail requests. Archived designs retain their saved previews. The existing shared topology schema and renderer are reused. No migration, new dependency, route or AI call.
+
+Changed files: `design-library.service.ts`, `phase3/library.schema.ts`, generated Phase3 JSON/types, `api/library.ts`, `library/designs-list.tsx`, new `library-preview.css`, new backend `library-preview.spec.ts`, added HTTP case in `test/library.e2e-spec.ts`, new browser `library-preview.spec.ts`, and these tracking docs.
+
+Verification: backend/frontend production builds, TypeScript, scoped ESLint, canonical Phase3 contract and 48 routes passed. New owner/pagination/projection unit 1/1; shared preview/card units 7/7. Full Designs library HTTP suite 9/9 passed against dedicated sf_library_preview_20261125 database on own labelled Postgres16 container/5547, including current saved edits, archived previews, foreign-owner exclusion, duplicate and archive behavior. Combined Designs+Dashboard+Gallery Chrome checks 12/12 passed in four light/dark projects on the current dev server; every journey includes 1440/1024/390px. Designs checks include visible thumbnails, two-line descriptions, no page-level sideways scroll, no per-card reads, URL sorting, debounced search, duplicate, archive and Undo. Desktop screenshot visually reviewed. Twelve new screenshots remain unstaged in docs/audit/library-thumbnails-2026-11-25.
+
+A disposable browser test hid the thumbnail only inside its isolated page and failed the visibility assertion as expected; application source stayed unchanged and the temporary test was removed. Full-project regression was not run, and this follow-up's production build was not browser-tested separately. No owner data/session, API key or live AI touched. Only own test container stopped; user services retained. All earlier uncommitted work preserved; nothing committed or pushed. Restart an older compiled API if preview data is unavailable. No migration required.
+
+
+## Learn library expansion - 25 November 2026
+
+Implemented locally after the owner approved the expanded scope and the obsolete eight-card/count assertion corrections. Nothing committed or pushed.
+
+### What changed
+
+Learn is now a searchable 41-lesson field guide with five category filters, three suggested starting paths, consistent component/category glyphs, compact status footers, and responsive three/two/one-column cards. All 12 canvas component types have exactly one component lesson. Existing eight lesson IDs, order, numerical demos, quiz answer keys and progress storage remain. The 33 new lessons provide written guides and two-question checks; they do not pretend to have new interactive simulations.
+
+Component lessons explain real-world uses, conceptual example sequences, every supported component property, editor ranges, effects, tradeoffs, and controlled exercises. Traffic guides cover baseline/scale, bursts, reads/writes, all three shapes, presets, modeled duration, p95 target and error budget. Results and workflow guides explain how to interpret saved evidence, model limits, preview/Limits, fixes, comparisons, reports/sharing, Gallery, roles and Support. Practices are manual experiments, not precomputed pass/fail claims. Existing Concept Help entries link to the relevant full lessons without model calls or changes to their answer ranking.
+
+### Inventory
+
+| Category | Count | Lesson IDs |
+| --- | --- | --- |
+| Components | 12 | queues, caching, replicas, load-balancing, cdn, clients, api-gateway, app-servers, workers, databases, object-storage, external-apis |
+| Properties and scaling | 6 | regions, capacity, service-time, scaling, request-share, queue-depth |
+| Traffic | 7 | traffic-basics, bursts, read-write, traffic-shapes, traffic-presets, test-duration, targets |
+| Reading results | 7 | utilization, p95, throughput-errors, verdicts-bottlenecks, headroom, queue-metrics, model-limits |
+| Using StressForge | 9 | canvas-graph, save-history, simulation-results, limits-preview, fixes-whatif, compare, report-share, gallery-learning, account-safety |
+
+### Implementation and sources
+
+- `web/src/lib/learn-content.ts` composes the original CORE_TOPICS with typed guides. New data files: learn-types.ts, learn-enrichment.ts, learn-guides-components.ts, learn-guides-foundations.ts, learn-guides-workflows.ts and learn-help-links.ts. catalog.ts derives valid lesson titles from this registry; routes.ts retains the existing dynamic route and updates its description.
+- `web/src/components/learn/learn-library.tsx`, lesson-icon.tsx and lesson-guide.tsx render discovery, glyphs, examples, property tables and related links. learn.tsx retains the existing progress/quiz implementation and renders demos only for the original eight. Both Learn route page files import styles/learn-library.css explicitly.
+- `web/src/lib/concept-help/index.ts` enriches selected entries with lesson links. Tests: tests/p2-learn.test.cjs, tests/browser/p2-learn.spec.ts and new tests/browser/learn-library.spec.ts.
+- Property descriptions were checked against backend graph.schema.ts, engine/catalog.ts, frontend canvas/model.ts and workspace/traffic-tab.tsx. Numerical teaching demos remain checked against learn-model.ts and docs/contracts/learn-fixtures.json. Workflow copy follows the existing workspace, library, sharing, roles and help behavior. No vendor-logo assets or external learning service introduced.
+
+### Verification evidence
+
+- Full web unit sweep: **592/592 passed** (serial execution). After adding one additional help-link integrity test, the final focused Learn suite passed **25/25**. Earlier combined Learn/model/progress/Concept Help selection passed 54/54 before that last case.
+- `pnpm build` (STRESSFORGE_AUDIT_BUILD=1), `pnpm typecheck`, `pnpm lint` and `pnpm check:routes` passed. Lint has zero errors and two unrelated existing warnings (support.ts unused disable; dossier.test.cjs unused id). Registry remains **48 routes**, with 41 concrete lesson IDs under the existing dynamic route.
+- Backend Learn fixture tests **4/4** and `pnpm fixtures:learn:check` passed; fixtures match the simulator. No engine or backend application changes in this Learn increment.
+- Combined selected original/expanded Chrome suite on the current development server: **49 passed, 3 intentionally skipped**. The original eight demos, guest reload/pass/reset, invalid/prototype-key topic rejection and new discovery flow passed across four light/dark laptop projects. The separate real-account creation journey was excluded to avoid writing to the owner's database; account/guest separation remains covered by units.
+- Final strengthened new browser suite: **5 passed, 3 intentionally skipped**. The 41-URL inventory runs once rather than four times, and now checks every lesson at desktop and 390px. Discovery runs in all four projects at 1440/1024/390/320px, asserts computed 3/2/1 grid columns, visible icons, focus/navigation, legacy progress preservation, a new guide quiz, empty-search recovery and readable reduced-motion output. No page errors or /v1 calls observed in these journeys.
+- Separate production server on port 3013: **2/2** new journeys passed, including all 41 lesson URLs at desktop/mobile, without touching owner ports 3000/5001. Only that temporary production process was stopped.
+- Two in-memory deliberate faults were rejected: adding an unsupported Clients property failed the exact schema-property coverage assertion; an unknown related lesson failed the link-integrity assertion. No application source was broken on disk.
+- Initial focused run exposed a stale assertion that Regions was the last lesson. Updated under the owner's approval to check the final registry item while retaining original lesson/demos/quiz tests. An initial helper command used an incorrect relative test-file path, performed no edit, and was corrected.
+- New screenshots retained, unstaged, under docs/audit/learn-library-2026-11-25. Light desktop, dark mobile cards and mobile property layouts were visually inspected.
+
+### Boundaries and delivery
+
+No dependency, backend route, migration, live AI request, environment-value access, owner-data modification, commit or push. Guest/account progress continues in the same browser-only buckets; no migration or reset is necessary. Full all-feature Chrome/Edge, real-account signup/login and screen-reader testing were not repeated. Existing unrelated dirty files and protected artifacts remain unstaged and untouched. Preview at http://localhost:3000/learn; refresh the already-running development frontend.
+
+To add a lesson, extend the typed guide registry, validate related IDs and supported properties, add a real knowledge check, and update counts and coverage with owner approval when required. Do not label a written guide an interactive demo. Future phase work must update the existing progress report, preserve earlier history, record fresh evidence and reassess affected earlier requirements; this does not happen automatically.
+
+
+## 2026-11-26 - Progress redesign and private purple activity calendar
+
+Approved scope implemented locally. Progress now combines four overview cards, Continue learning, the existing next-step rule, five category completion bars, organized lesson marks, a purple UTC calendar, day details and recent milestones. It records future local quiz activity without inventing historical learning dates and reads completed saved simulation/Limits/challenge events through two authenticated owner-scoped APIs. Device/account sources, partial outages, deletion effects and bounded day details are labelled. No migration or new dependency.
+
+Evidence: full web units 599/599; focused learning/progress/activity 45/45; new backend units 3/3; isolated Postgres HTTP 6/6, including actual simulation/Limits work, owner isolation and date/row bounds. Backend/frontend builds, frontend types, scoped backend lint, web lint (0 errors, 2 pre-existing warnings), canonical Phase3 contract and 48 route files pass. New browser suite 16/16 across four light/dark projects, widths 1440/1024/390/320; production 4/4. Actual quiz-to-calendar persistence, keyboard details, neutral/purple distinction, empty history and outage retries verified. Desktop/mobile screenshots reviewed. Palette and owner-filter faults were rejected; temporary fault files removed. A legacy admin CSS collision and synthetic pending-fixture cleanup issue were found and fixed; no existing tests weakened.
+
+Known limits: full all-feature Chrome/Edge/backend-wide suites and real-account P6 browser rehearsal not rerun; browser API/auth were fixtures and HTTP integration was independently real. No screen-reader or production-scale benchmark. Learning remains browser-local; UTC calendar uses retained saved records, so deleting designs removes their runs. Existing undated marks stay undated.
+
+All work uncommitted/unpushed; protected artifacts and earlier work retained. Only own test server/container stopped, owner 3000/5001 unchanged. No owner-data writes, environment-value read or AI call. Details, file map, scope and evidence: [Progress activity](PROGRESS-ACTIVITY.md). Claim released.
+
+
+## 2026-11-26 - Google and GitHub authentication scope (planned only)
+
+Full proposed scope is in [SOCIAL-AUTH-SCOPE.md](SOCIAL-AUTH-SCOPE.md). Repository review confirmed required password hashes and password-only sensitive account actions; safe social-only registration therefore needs schema compatibility and account-flow work in addition to buttons. Plan covers server-owned provider verification, existing JWT/cookie sessions, explicit linking/no email merging, consent, local provider setup, staged delivery, rollback guards and real-versus-controlled acceptance evidence.
+
+Status: planning completed; implementation NOT STARTED, pending scope approval. Official Google/GitHub documentation checked. No application changes, tests, provider sign-ins, environment-value reads, database changes, commit or push. Earlier milestones and uncommitted work preserved.
+
+
+## 2026-11-26 - Approved Google/GitHub sign-in implementation (partial: live acceptance pending)
+
+**Verdict:** Implementation and controlled verification are ready for owner setup. The social-authentication milestone is **PARTIAL**, because real Google and GitHub application configuration, consent and account journeys have not been verified. The owner explicitly authorized implementation without live credentials and approved pinned route-count updates. Providers remain off by default. No live provider or model request was made.
+
+### Requirement and implementation checklist
+
+| Requirement | Implementation | Observed verification/status |
+| --- | --- | --- |
+| Existing email login, register, JWT refresh/logout and roles remain | Null-aware AuthService/UsersService; same token issuer and guards | 74/74 auth/account/roles/social HTTP compatibility; full backend units 805 passed, 2 existing skips. Verified controlled compatibility |
+| Google OIDC and GitHub OAuth | modules/social/provider-client.ts; fixed endpoints, PKCE S256, Google nonce/JWKS RS256/issuer/audience/expiry/azp checks; transient GitHub token + verified primary private-email lookup | 5/5 locally signed protocol tests; invalid claims/signature/state and timeout rejected. Live providers blocked on setup |
+| Consent-based first social registration | social-flow.service/controller; pending server identity, readonly verified email, optional username and terms/CSRF/origin | Real Postgres HTTP signup, missing verification, email collision, consent, replay and racing registration tests; browser form checked. Verified with controlled provider |
+| No automatic email/account merging or provider roles | Stable provider subject identity; explicit authenticated link and unique constraints | Collision/changed-email/cross-account tests pass; default role stays user. Auto-link deliberate fault caught |
+| Browser/state/session binding, one-use proofs and safe returns | SocialStore + SocialFlowService; hashed opaque Redis keys, TTLs, NX consumption, browser/family/action binding | Store race/expiry/outage units, HTTP foreign browser/provider/replay/proof tests and callback URL assertions pass. Real Redis outage not run |
+| Clean-browser callback restores ordinary session | Public /auth/complete?oauth=1 + completion cookie, refresh/adopt, memory JWT/session hint | Dev 20/20 and production 20/20 across four Chrome projects; bare completion makes no credential request; StrictMode single-use read. Verified with browser API fixtures |
+| Account methods, link/unlink and first password | social-account.service, SocialSettings, canonical Phase3 schemas | HTTP explicit link, cross-account refusal, null-password denial, real Argon2 first password, proof purpose/replay, last-method/concurrent unlink; browser provider reauth/first-password pass |
+| Safe export, deletion and last working Admin | Own provider/dates only; cascade; existing cleanup/revocation and shared advisory role lock | HTTP redaction/cascade/last-Admin and concurrent deletion 204/409 pass. Local password accounts preserve current-password rules |
+| Migration and safe reversal | 1795300000000-SocialIdentities.ts; nullable hash, unique identities/FK, guarded down | Isolated schema up/down preserves hashes; reversal refuses populated social data. No owner DB migration run |
+| Accessible responsive UI; preserve artwork | Optional provider buttons, social consent, Security methods, scoped CSS | Login overflow/screenshots 1440/1024/390, light/dark; production keyboard/proof recovery 4/4; normal backgrounds retained. Screen-reader audit not performed |
+| Contracts, routes, dependencies and setup | social.schema.ts → Phase3 OpenAPI/types, 49 routes, setup guide | Backend/frontend builds, lint, web types, contract generation/parity and route-file inventory passed. No main schema.d.ts regeneration |
+| Both real providers and deployment behavior | Owner-present setup/live matrix in SOCIAL-AUTH-SETUP.md | **Blocked/pending**, not inferred from mocks. Production HTTPS/proxy/cross-site configuration is unverified |
+
+### Evidence and meaningful failures
+
+- Backend `pnpm build`, `pnpm lint:check`: pass; lint has 0 errors and 26 pre-existing warnings. Full unit sweep: **805 passed**, 2 skipped, 69 passing suites. After final hardening/config additions, focused config/auth/null-password/store suite **21/21** passed; do not sum overlapping counts.
+- `jest --config test/jest-e2e.json --runInBand --runTestsByPath test/app.e2e-spec.ts test/account.e2e-spec.ts test/roles.e2e-spec.ts test/social-auth.e2e-spec.ts`: **74/74**. Final social suite with rate-limit assertion: **20/20**, overlapping the earlier compatibility run.
+- `node -r ts-node/register -r tsconfig-paths/register --test test/social-provider.node.cjs`: **5/5**. Generates test RS256 keys and intercepts every external fetch; no real provider contacted.
+- Web full units **602/602**; `pnpm build` with STRESSFORGE_AUDIT_BUILD=1, `pnpm typecheck`, `pnpm lint`, `pnpm check:routes`: pass, **49 routes**. Web lint has 0 errors/2 existing unrelated warnings. `pnpm contract:phase3:check`, regenerated Phase3 JSON/types: pass.
+- Chrome `social-auth.spec.ts --workers=1`: development **20/20**, production **20/20**, followed by production `--grep "Keyboard entry"` **4/4** after adding that test. Both providers, clean session hint, consent, hidden disabled providers, local cancellation/expiry errors, no proof in URL/localStorage, first password, keyboard entry and proof-403 recovery covered. Browser API responses are controlled; the independent HTTP suite exercises Nest/Postgres.
+- Four temporary runtime mutations produced the expected assertion failures: bypass browser/provider state binding; auto-link by email; delete final identity unconditionally; append a fake access_token parameter to callback redirect. No faulty application source persisted; temporary setup file removed. Logs retained in the new audit directory. A separate real red-green test caught the known dummy-password login path for null-hash users before its fix.
+- Initial full suites caught nullable hash typing and obsolete 48-route pins; corrected without weakening checks (route changes owner-approved). Browser checks caught missing precise labels and single-use completion handling. Expired/reused proofs and wrong local reauth passwords now produce local 403 errors rather than triggering access-session refresh/logout. Concurrent Admin deletion now shares the existing role lock.
+- Initial overlapping build/HTTP run hit laptop memory/connection limits. Sequential retry yielded 72/74, with two unchanged tests timing out during TRUNCATE under the existing 2-second DB limit. Disabling fsync/synchronous_commit **only in the disposable test Postgres container**, then rerunning sequentially, yielded 74/74. No production timeout/durability setting changed. These performance conditions are part of the test evidence, not a production benchmark.
+
+### File map and decisions
+
+Backend additions: `src/modules/social/{social.module,social.controller,social-flow.service,social-account.service,provider-client,social-store,social.types}.ts`; new migration above; `src/common/contracts/phase3/social.schema.ts`; config/auth/account/user changes for null-aware passwords, safe capability flags, family binding, export and token reuse. New tests: `test/social-auth.e2e-spec.ts`, `test/social-provider.node.cjs`, `src/modules/social/{social-store,social-config,null-password}.spec.ts`.
+
+Frontend additions: `app/auth/complete/page.tsx`, `components/auth/social-{buttons,registration,completion}.tsx`, `components/settings/social-settings.tsx`, `lib/api/social.ts`, `styles/social-auth.css`, social unit/browser tests; existing login/register/Settings and route registry extended. Only approved obsolete route counts were changed in existing route tests; the original journey assertions remain.
+
+Two backend dependencies: oauth4webapi **3.8.9** handles protocol/PKCE/token responses; jose **6.2.18** verifies Google signatures/JWKS. No frontend dependency or paid service added. Sensitive account endpoints use `/v1/auth/oauth/` rather than the initially proposed `/account/identities` paths because the existing refresh cookie is scoped to `/v1/auth`. Action-proof TTL is at most five minutes and proofs stay in frontend module memory, not persistent storage. A fixed `oauth=1` marker distinguishes real completion visits from registry browsing without exposing credentials.
+
+### Remaining work and ownership
+
+1. Owner creates both OAuth applications and configures private backend credentials/callbacks; applies the migration on their intended database and enables each provider independently.
+2. Run every owner-present live scenario in [SOCIAL-AUTH-SETUP.md](SOCIAL-AUTH-SETUP.md), including collision, consent/cancel, returning user, link/unlink/proof, refresh/logout and first-password/deletion behavior. Record observed evidence; do not declare SOC-5 complete beforehand.
+3. Deployment-specific HTTPS, secure cookies, same-site topology, CORS/proxy and provider consent/production status remain a separate gate. Full all-feature Chrome/Edge, real-Redis outage and production load testing were not rerun in this increment.
+
+All social code, generated contracts, scope/setup/report/state/handoff changes remain **uncommitted and unpushed**, together with preserved earlier local work. Main schema.d.ts, protected historical benchmark/images and film are untouched by this increment. No owner services/ports/data were changed. Temporary audit servers and the labelled social Postgres container were stopped; Docker Desktop left running. New evidence: `docs/audit/social-auth-2026-11-26/`. Claim released.
+
+Maintenance: future phase/feature completion must update this same report, preserve earlier history, add dated commands/results and reassess affected earlier requirements. Updates are not automatic. Live acceptance must replace the pending status only with actual observed results.
+
+
+## 2026-11-26 - Landing header signup entry
+
+Owner requested a visible Sign up button beside Log in. Added an Account navigation group and primary /register link in web/src/components/landing/landing-page.tsx; scoped web/src/styles/landing.css rules preserve both links and logo down to 320px. Hero/footer signup links and authentication logic retained. Eight Chrome responsive journeys (1440/1024/390/320, both color preferences) passed header fit, keyboard signup and login navigation; no-JavaScript href and a deliberate missing-link DOM fault were checked. TypeScript and focused ESLint passed. Initial five-second navigation probes timed out; the final check waits for hydration and uses the existing project's 15-second browser assertion window. No existing tests weakened/changed; full production build and all-feature regression were not rerun for this small UI-only change. Screenshots/log: docs/audit/landing-signup-2026-11-26/. Temporary checker removed; browser closed; owner services/data untouched. Local and uncommitted/unpushed. Claim released.
+
+
+### 2026-11-26 - Landing account buttons right-corner follow-up
+
+Owner requested both account buttons closer to the corner. Desktop header right padding is now 32px, preserving the original left/logo alignment; mobile retains 12px. Chrome verified the exact inset, login/signup hrefs and no overflow at 1920/1440/1024/390/320; wrong-inset DOM mutation was detected. Screenshots/log: docs/audit/landing-header-corner-2026-11-26/. CSS-only change; no rebuild/type changes or auth/data changes. Temporary checker/browser cleaned up. Local/uncommitted/unpushed; claim released.
+
+
+### 2026-11-26 - GitHub callback connectivity and RFC 9207 issuer correction
+
+Owner reported connection refusal at the OAuth callback. Read-only checks found the API running again with health 200 on localhost/127.0.0.1/::1 and both dependencies up; the API process had recently started. Restart timing is a plausible explanation, not a reproduced root cause of the original browser refusal. No callback credential was replayed or stored. Public availability reports Google/GitHub enabled; this does not prove valid credentials or successful live acceptance.
+
+Source inspection found an additional defect: GitHub's configured issuer was https://github.com and the adapter discarded the incoming iss parameter. Changed the configured issuer to https://github.com/login/oauth, matching [GitHub's official issuer documentation](https://docs.github.com/en/apps/github-authentication-discovery-endpoints), and now pass scalar iss to oauth4webapi for exact comparison. Empty/non-string/array and mismatched values fail before token exchange; absent iss stays compatible with older responses. No identity API/OIDC-token assumption or validation bypass introduced.
+
+A new protocol regression failed before the fix (missing expected rejection), and the full protocol selection now passes 6/6 with locally signed tokens and intercepted outbound fetches. Backend build and scoped lint pass. During source/build work the existing owner watch temporarily had no listener; a subsequent source recompilation restored its child. Final health verified HTTP 200, Postgres/Redis up; no duplicate backend or manual owner-process termination. No credential read/change, owner DB mutation or live provider/model call. Evidence: docs/audit/github-callback-2026-11-26/. Code/tests/docs remain uncommitted/unpushed. Full backend/browser sweep not repeated for this patch. A fresh user-driven GitHub sign-in and remaining live matrix are still pending; do not reuse the old callback URL. Claim released.
+
+
+## 2026-11-26 - Challenges refinement planning and content feasibility
+
+Proposed scope: [CHALLENGES-REFINEMENT-PLAN.md](CHALLENGES-REFINEMENT-PLAN.md). Planning only, implementation approval pending. Reviewed catalog/detail/attempt/Instructor flows, canonical challenge/submission schemas, legacy four seed, frozen published snapshots, owner recovery/progress, model catalog/routing and server judge. Current public catalog only includes id/title/summary/goal; card-style delivery and discovery metadata need explicit work. Judge remains inclusive p95 AND error-budget, not model utilization state or queue health.
+
+Ran24 offline, bounded simulations (12 starter/reference pairs) against reference-port-v1 without DB/network/model/environment/service work. Ten candidates have failing starters and passing references. Two were deliberately excluded from ordinary grading: queue starter meets request targets despite330,000 modeled queued messages/1320s lag; regional placements both meet250ms and are better conceptual practice than an artificially narrow target. C08/C12 meet targets while model-strained; future UI must distinguish these facts. Capstone uses all12 component types. Inputs/results/runnable probe: docs/audit/challenge-plan-2026-11-26/. A read-only evidence integrity check confirmed10 fail/pass pairs and12-type capstone. This is numerical preflight, not proof of UI/constraints or completed/published content; reference node IDs must be reconciled with originals before rule-valid fixture release.
+
+Plan proposes CH-1 presentation/discovery, CH-2 versioned rules plus six foundation exercises, CH-3 advanced practice/explicit async grading and CH-4 integration/polish. Preserve existing four published IDs/traffic/attempts and20-submit cap; do not mutate owner data or rewrite historical outcomes. No app/schema changes, builds, browser checks or full suite were required/performed for this planning task. Documentation/evidence uncommitted/unpushed; prior dirty/protected artifacts preserved; claim released. Future approved stages must update this report and evidence without rewriting earlier history.
+
+
 ## 2026-11-26 — Approved Challenges CH-1/CH-2 foundation release
 
 **Verdict:** Implementation verified locally in isolation; owner-database migration, explicit seed and personal rehearsal remain pending. This does not complete the deferred CH-3 advanced/async-grading scope. No application feature was activated through a live model or paid service.
@@ -1801,3 +2064,105 @@ Validated an isolated checkout of the staged files rather than relying on the br
 Earlier817 backend/605 web units and24 browser journeys document the broader development tree, not a rerun of this exact subset. They remain useful development evidence with that limitation. No new live AI/OAuth calls or owner migration/seed. The disposable Challenges database container is stopped after publication checks. No screenshot/film/protected benchmark/main runtime contract was staged.
 
 Other previously dirty OAuth, Progress, Gallery/Dashboard/Designs changes, landing edits, protected artifacts and their broader generated types remain local. Shared-file partial staging preserved those bytes; do not discard them because HEAD now differs from the working file. Owner next applies migrations and explicitly seeds with an active Instructor UUID using CHALLENGES-FOUNDATION.md. No CH-3 work started. Publication claim released.
+
+
+
+## 2026-11-26 — Frontend dependency junction repair
+
+The temporary publication snapshot's pnpm12 pre-script dependency verification traversed its shared node_modules junction and rewrote21 frontend package links plus generated command-wrapper NODE_PATH values to the snapshot path. Turbopack correctly rejected Next.js outside the real web root. Repointed only those21 validated junctions and generated wrappers to the existing local web/node_modules/.pnpm store; no package versions/source/configuration/credentials changed and no package directories deleted. Login and register compiled with unchanged config on isolated3013 and returned200. Removed only the two snapshot dependency junctions to prevent recurrence; do not run package-manager installs against shared node_modules junctions. No owner process/database change or push. Dependency files are ignored; this documentation remains local.
+
+
+
+## 2026-11-26 — Challenges public-catalog freshness fix
+
+Read-only owner API check: GET localhost:5001/v1/challenges returned11 public entries, including University Results-Day Rush (5be3adaa-207b-4fb0-b557-cbfcaa98bf37) and the six seeded foundation exercises, without authentication. Publication/Instructor ownership is working; the original owner UI/network was not inspected. Found a concrete freshness gap consistent with the symptom: global30s stale cache disables focus refresh, and Instructor mutation invalidated only its private list.
+
+Catalog now refetches on mount/focus, polls every30s only while visible and offers Refresh challenges (also refreshes this user's progress). Successful Instructor save/publish/archive invalidates the public list and matching detail. Search/category/difficulty/progress filters still intentionally apply; Reset filters if a new entry is hidden. No auth/access-rule/backend/data change.
+
+Verification: new publication invalidation assertion failed false!==true before repair, then focused web23/23 passed. Scoped lint and TypeScript passed. Chrome1440-dark two new journeys each passed: another user's open list updates manually/on visible-tab event, and an unchanged open guest list updates on the real timer. Browser responses are controlled fixtures; only the real API read above used owner data. Browser runner ultimately completed successfully:2 passed, exit0 (3.3min). Severe memory pressure (about15MiB free) slowed cleanup; only own3013 server was stopped. No full production build/all-project regression rerun. Evidence docs/audit/challenge-refresh-2026-11-26/. Files are local/uncommitted/unpushed; preserve prior unrelated work. Claim released.
+
+
+
+## 2026-11-26 — Approved newest-first Challenges default
+
+Owner approved Newest first as the default, retaining Recommended. The public API already sorts by published_at DESC,id DESC; frontend now preserves that publication order for newest, rather than replacing it with learning sequence. Initial selection and both Reset/Clear filters return to newest. Recommended still uses lesson sequence; Difficulty and Title are retained. Filtering preserves the API order and does not mutate the cached array. No schema/migration/backend/user-data change or fabricated publication timestamp.
+
+Verification: added order regression failed against the previous implementation, then4/4 discovery tests passed. TypeScript/scoped lint passed. Chrome1440-dark1/1 completed (1.2min): default/newest, Recommended, Title, Reset, then a newly published fixture moves to first after Refresh. Real read-only public API plus the discovery helper confirmed University Results-Day Rush first among11 entries. Browser uses controlled fixtures; full production build/all-project regression was not rerun for this small change. Evidence docs/audit/challenge-newest-2026-11-26/.
+
+Touched only challenge-library.tsx, challenge-discovery.ts, additive unit/browser coverage and shared docs; preserved prior uncommitted refresh/OAuth/Progress/Gallery/landing work and protected artifacts. Stopped only own audit3013 server. Local/uncommitted/unpushed. Claim released.
+
+
+
+## 2026-11-26 — Admin role-holder directory and page polish
+
+**Scope/status:** Added a dedicated Admin-only table for current Instructor/Support/Admin holders (ordinary User/Reviewer-only excluded), role filters, bounded cursor loading, explicit loaded counts, status/joined columns, Manage/focus and local retry. Refined heading, search and audit spacing using existing theme tokens. Existing account search and mutation confirmations/protections retained. No migration, new dependency or frontend route. Implementation and functional checks local/uncommitted; visual acceptance pending memory. [Guide](ADMIN-ACCOUNTS-DIRECTORY.md).
+
+**Backend/security:** GET /v1/admin/users/privileged requires ADMIN_USERS_READ and strict Zod query validation. Current memberships/legacy Admin filtered server-side, one row per account, whitelist projection, stable millisecond+UUID pagination. Existing audit history is not a source of current roles. Regenerated only Phase3 contract/types in the working tree; preserve their other pre-existing feature changes.
+
+**Evidence:** backend build,2 new units,6 isolated directory HTTP,13 Admin UI units, TypeScript/scoped lints pass. Deliberate SQL-filter bypass exposed ordinary/reviewer-only rows and failed the privacy test; removed setup and reran6/6 green. Initial combined HTTP27/31: three new counts affected by shared fixture data (new suite reset fixed); one existing suspend/restore session test passed unchanged on isolated rerun. Do not weaken/relabel that original failure or claim a single clean31-test run. Owner data untouched.
+
+**Visual limitation:** Chrome workers stalled at launch under severe RAM pressure. Initial3000 was found not listening; own3013 compiled /admin/users200 and served new CSS. No completed visual/browser matrix or production build claimed. Browser test file is written; rerun when memory available. Only own labelled database/audit server are cleaned up; protected benchmark/old screenshots and unrelated local work retained. No commit/push or live AI call. Current Describe uses structured Groq adapter; Ollama support is separate. Attempted ollama status launcher timed out and no Ollama process remained; no model response was requested.
+
+**Next:** finish browser light/dark/responsiveness/manage/pagination/error/gate checks and production build, inspect screenshots, append final evidence to report. Claim released with visual checks pending. See docs/audit/admin-directory-2026-11-26/.
+
+
+
+## 2026-11-26 — Requested Admin directory visual verification completed
+
+**Result:** Final Chrome dev-browser matrix12/12 passed (16.8s), four1024/1440 light/dark projects. Every style journey also checks390/320 widths. Reviewed screenshots of light/dark desktop, narrow table and populated long audit history; search controls, status badges, filter selection and spacing are readable. Keyboard table scrolling/focus, role filters, Manage-panel focus, pagination,503 retry, last-role removal and non-Admin API denial all pass. No unexpected browser console/page errors (the deliberately mocked503 is exempt).
+
+**Defects found/fixed:** Initial document-only overflow tests passed, but the app uses a main scroll container. Stronger bounds found main.scrollWidth615 at390px: an absolutely positioned sr-only Actions label escaped the table scroll region. Added position:relative to .admin-directory-scroll, preserving local horizontal table scrolling/accessibility instead of hiding page overflow. A rendered light-theme contrast check then failed Active text at3.5897:1; switched Active/Suspended text to existing ok-ink/warn-ink tokens. Final assertions require>=4.5:1 across both themes. Both failing regressions and the fixes are retained in evidence. Long audit text itself wraps correctly; the initial suspicion about it was narrowed to the hidden label by layout diagnostics.
+
+**Evidence/scope:** docs/audit/admin-directory-visual-2026-11-26/ contains logs, screenshots and verification.json. TypeScript/scoped lint checked separately. Browser accounts/API replies are controlled fixtures; no real role/account writes or live AI calls. No backend/migration/dependency change in this follow-up; only admin-accounts.css, stronger browser coverage and documentation. This closes the visual-verification gap; full production build/all-feature regression remains a separate unperformed check. Earlier functional tests are historical evidence, not rerun totals for this turn.
+
+**Working tree:** All changes remain local/uncommitted/unpushed, including the earlier Admin implementation and unrelated existing work. Old audit images, benchmark, credentials and source from other features preserved. Stop only the audit3013 server. Claim released.
+
+
+## 2026-11-27 — Hosting hardening first pass (H1)
+
+Owner prioritized hardening before further components. Implemented /v1 browser-origin/Fetch Metadata rejection and private no-store defaults, production Swagger suppression, truthful startup logging, frontend security headers/CSP baseline and backend Docker context exclusions. Existing authentication/role/cookie/OAuth state controls remain required. This compatible CSP does not claim full script/XSS protection. No schema/dependency/provider/data changes.
+
+Verification: initial boundary14 failed/4 passed; boundary plus existing auth/config/recovery44 passed; final Swagger/boundary19 passed (overlap). Web header2 passed after red. Both builds (frontend includes TypeScript/page generation), scoped lints and four actual production header checks passed. Docker synthetic scratch build passed, failed deliberately without ignore rules, then passed restored; no real application image built. Installed Chrome recorded12 unique production assertion passes across two interrupted runs; cleanup stalled under low RAM and owned processes were stopped. Clean browser-suite exit and full regression remain pending. Screenshot reviewed; evidence is `docs/audit/hosting-hardening-2026-11-27/verification.json` and adjacent artifacts.
+
+Status: local/uncommitted/unpushed first safeguards; overall hosting readiness open. `docs/HOSTING-HARDENING-PLAN.md` orders deployment/session durability, account/role operations and release/recovery gates. The earlier admin-status revocation failure remains an explicit investigation item. Owner credentials/ports/data and protected audit artifacts preserved. No live provider request, migration, deployment, purchase, commit or push. Claim released.
+
+
+## 2026-11-27 — H2 deployment/session checkpoint (partial)
+
+Prepared pinned rootless images and single-origin HTTPS/private-data Compose deployment, distinct runtime/migration roles, offline environment checks, hosted startup guards, verified Postgres TLS and Redis TLS configuration. Fixed three reproduced session boundaries: future-dated issue times, backward/shortened revocation markers, and access tokens revived by restore. Session-focused19 passed; preflight bypass was caught then9 passed; deployment environment4 passed. Initial images built. The final rebuild and acceptance remain unverified: one old config child timed out, a512MiB retry ran out of heap, and a mistakenly overlapping rehearsal was interrupted/cleaned after three setup checks.
+
+Severe laptop memory pressure reached about8-10MiB free; only owned build/test resources were stopped. User will free RAM and reply ready. The harness requires about2GiB free and must follow sequential successful builds. No runtime HTTPS/TLS/auth/worker/Redis restart/backup/rollback/Chrome acceptance is claimed yet. See deploy/README.md, H2 scope and docs/audit/h2-2026-11-27/verification.json. All changes local/uncommitted/unpushed; no owner data/provider work. Claim released pending resume.
+
+
+## 2026-11-27 — H2 final build verification resumed
+
+Both native production builds, the full backend test-code type check and all four final container images passed. Focused backend25/25 and deployment-validator4/4 passed; scoped lint has no errors (two existing FakeRedis warnings). The old config timeout was not reproduced on the sequential successful run. Source-parity image identities and build logs are recorded under docs/audit/h2-2026-11-27/.
+
+H2 remains PARTIAL: the final isolated rehearsal stopped at its unchanged2GiB RAM gate before creating resources (about787MiB available on final inventory). No new runtime/TLS/auth/worker/restart/backup/rollback/Chrome success is claimed. Owner development services and all data are preserved; no provider call, deployment, staging, commit or push. The next required step is the same isolated harness on an adequately provisioned machine/session. Claim released.
+
+
+## 2026-11-27 — About page refined
+
+Implemented a product-first About story with theme-aware glass cards, four-step native interactive architecture illustration, expandable role details, capability links and reduced-motion support. Source and technology-stack sections removed as requested. No dependency or backend change. Owner approved replacing obsolete assertions while preserving other public/model/privacy checks.7 units and8 unique Chrome journeys passed;4 enhanced reruns verify keyboard arrows, main-container overflow and capture screenshots. Frontend types, scoped lint, optimized production build and About HTTP200 pass. A deliberate source-text regression was caught and restored. Local/uncommitted; evidence docs/audit/about-2026-11-27/. Own3013 preview remains available; owner services/data preserved. The user deferred isolated hosting acceptance to a later session.
+
+
+## 2026-11-27 — How it works walkthrough refinement
+
+Replaced the text-only layout with a four-step walkthrough, theme-aware glass panels, animated request/cache schematic, six traffic explanations, metric cards, native expandable model detail and sticky navigation. All8 canonical model notes/caveats remain in server-rendered content. CSS scroll timelines provide continuous reversible reveals; reduced motion and unsupported/CSS-free experiences remain readable. No dependency/backend/provider change.8 units/12 focused Chrome checks, TypeScript/scoped lint and production build passed; omission fault was caught and restored. Screenshots reviewed; evidence docs/audit/how-2026-11-27/. Local/uncommitted, own3013 production preview available. Owner services/data preserved; isolated hosting acceptance remains deferred.
+
+
+## 2026-11-27 — Login-only challenge data and visitor experience
+
+Published challenge reads now require JWT authentication, and direct briefing URLs return guests to login. Anonymous /challenges renders a separate educational introduction with glass cards, glow, a native replica illustration and reduced-motion scroll effects. Authenticated library/attempt experience preserved; account-scoped queries and sign-out removal prevent cached guest exposure. Phase3 auth contract updated without response/migration changes.
+
+Evidence:7 focused guard HTTP tests,21 web units,48 distinct successful browser journeys across initial40 successes and corrected-outage/logout8-success rerun, plus2 production guest journeys. Types/scoped lints/both production builds pass; live anonymous catalog/detail status401. A public-route bypass in an isolated test process was caught (5 failures), then restored7/7. Owner approved fixture/auth changes; broader Postgres suites were updated/type-checked but not rerun, and separate hosting acceptance remains deferred. Local/uncommitted; no owner-data/provider/push work. See CHALLENGE-ACCESS.md and docs/audit/challenge-access-2026-11-27/.
+
+
+## 2026-11-27 — Examples cards refined
+
+Refined Examples with slightly narrower/shorter glass cards, restrained glow, clearer spacing and compact Load explorers. Preserved all six architectures, complete model text, saved values, slider behavior and copy flows. Reused fitted diagram renderer with component icons; narrow screens offer keyboard/local diagram scrolling instead of unreadably shrinking the entire graph.15 existing units and16 unique browser checks passed, plus4 final mobile refinement reruns. Types/scoped lint/production build/HTTP200 passed; isolated frozen-state fault caught2 failures before the normal15-pass run. Model data/helpers unchanged. Local/uncommitted; evidence docs/audit/examples-refinement-2026-11-27/, own3013 preview available. No backend/owner-data/provider/push changes; hosting acceptance stays deferred.
+
+
+## 2026-11-27 — Templates selection and card layout refined
+
+Added native selectable icon chips with checked/focus states, match-all help, live count and reset/empty controls. Refined six Templates cards around fitted diagram headers, real saved verdicts, metadata, compact tags, expandable model facts and aligned Start from this template / See how it behaves actions. Three/two/one-column layout, keyboard access and reduced motion verified.15 unchanged units/8 controlled browser journeys, types/scoped lint/production build passed; frozen-state fault caught filter failures then normal15/15 passed. Data/helper unchanged; no account/provider/backend work. Local/uncommitted; evidence docs/audit/templates-refinement-2026-11-27/. Use normal3000 origin for authentication. Hosting acceptance remains deferred.

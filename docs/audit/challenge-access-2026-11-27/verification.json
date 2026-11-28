@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-27",
+  "status": "verified locally",
+  "scope": "Challenge sign-in boundary and guest introduction; hosting acceptance still deferred",
+  "backendHttp": {
+    "passed": 7,
+    "fixture": "real controller/JWT AuthGuard over HTTP; data service and revocation store stubbed; no database"
+  },
+  "webUnits": {
+    "passed": 21
+  },
+  "browser": {
+    "initial": {
+      "passed": 40,
+      "failed": 4,
+      "reason": "one-shot outage fixture recovered during authenticated development mount"
+    },
+    "ownerApprovedFixtureCorrection": true,
+    "correctedOutageAndLogout": {
+      "passed": 8
+    },
+    "distinctSuccessfulJourneys": 48,
+    "productionGuestSmoke": {
+      "passed": 2
+    },
+    "widths": [
+      320,
+      390,
+      1024,
+      1440
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ]
+  },
+  "apiStatusOnlySmoke": {
+    "catalog": 401,
+    "detail": 401
+  },
+  "productionFrontend": {
+    "catalog": 200,
+    "detailRedirect": 307,
+    "loginReturnPreserved": true,
+    "note": "Guest introduction verified after hydration in real production browser"
+  },
+  "types": "backend full tests and frontend passed",
+  "scopedLint": "passed",
+  "builds": {
+    "backend": "passed",
+    "frontend": "passed"
+  },
+  "contract": "regenerated from canonical Phase3 source with bearer security; response schema unchanged",
+  "mutation": {
+    "kind": "public-route metadata in isolated test process only",
+    "failed": 5,
+    "restoredPassed": 7,
+    "productionControllerNeverMadePublic": true
+  },
+  "pendingBroaderChecks": [
+    "Full Postgres-backed attempts/foundation suites not rerun; approved fixtures updated and type-checked",
+    "Separate hosting acceptance remains deferred by owner"
+  ],
+  "preview": "http://localhost:3013/challenges",
+  "previewSession": 60142,
+  "dependenciesAdded": 0,
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false
+}

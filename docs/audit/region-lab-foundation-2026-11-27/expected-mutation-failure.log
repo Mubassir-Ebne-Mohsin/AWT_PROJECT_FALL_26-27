@@ -1,0 +1,32 @@
+FAIL src/modules/region-lab/engine/foundation.spec.ts (13.859 s)
+  ● Region Lab event foundation: primitives and validation › orders events by time, deadline priority and stable insertion sequence
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+    +   1,
+        2,
+        3,
+    -   1,
+        4,
+        0,
+      ]
+
+      297 |         },
+      298 |       });
+    > 299 |     expect(Array.from({ length: 5 }, () => h.pop()!.sequence)).toEqual([
+          |                                                                ^
+      300 |       2, 3, 1, 4, 0,
+      301 |     ]);
+      302 |     expect(h.pop()).toBeUndefined();
+
+      at Object.<anonymous> (modules/region-lab/engine/foundation.spec.ts:299:64)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 40 skipped, 41 total
+Snapshots:   0 total
+Time:        14.631 s, estimated 20 s
+Ran all test suites within paths "src/modules/region-lab/engine/foundation.spec.ts".

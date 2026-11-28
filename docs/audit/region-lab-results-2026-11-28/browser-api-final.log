@@ -1,0 +1,5 @@
+Test Suites: 1 passed, 1 total
+Tests:       39 skipped, 1 passed, 40 total
+Snapshots:   0 total
+Time:        514.747 s
+Ran all test suites with tests matching "Stage7 browser fixture serves".

@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-26",
+  "browser": "Chrome, Next dev audit3013",
+  "projects": [
+    "1024-light",
+    "1024-dark",
+    "1440-light",
+    "1440-dark"
+  ],
+  "passed": 12,
+  "failed": 0,
+  "durationSeconds": 16.8,
+  "checkedWidths": [
+    1440,
+    1024,
+    390,
+    320
+  ],
+  "checks": [
+    "table/filter styling",
+    "main and document overflow bounds",
+    "keyboard horizontal table scrolling",
+    "Manage focus",
+    "pagination",
+    "503 retry",
+    "last-role row removal",
+    "non-Admin directory/audit denial",
+    "unexpected console/page errors",
+    "status text contrast >=4.5",
+    "populated long audit entries"
+  ],
+  "fixes": [
+    "position:relative contains hidden Actions label and prevents main overflow615px at390px",
+    "use ok-ink and warn-ink status colors; original Active contrast3.59:1 failed"
+  ],
+  "data": "controlled browser fixtures; no owner account mutations",
+  "screenshotsManuallyReviewed": true,
+  "productionBuildRerun": false,
+  "committed": false,
+  "pushed": false,
+  "typescriptPassed": true,
+  "scopedLintPassed": true,
+  "auditServerStopped": true
+}

@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-27",
+  "stage": "scope and contracts only",
+  "contractChecks": 65,
+  "plannedApiOperations": 15,
+  "openApiLocalReferences": 124,
+  "schemaExampleParity": "pass",
+  "markdownLinks": "pass",
+  "mutation": "Disabling scenario semantics fails malformed-share rejection; clean rerun passes",
+  "simulationExecuted": false,
+  "accuracyMeasured": false,
+  "productionCodeChanged": false,
+  "existingTestsChanged": false,
+  "migrationsRun": false,
+  "network": false,
+  "database": false,
+  "nextStage": "UI prototype; separate approval required",
+  "uncommitted": true
+}

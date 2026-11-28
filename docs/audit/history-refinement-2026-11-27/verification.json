@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-27",
+  "scope": "History split workspace",
+  "unitTests": 10,
+  "browserUniqueJourneys": 8,
+  "browserInitialPasses": 4,
+  "browserExpandedPasses": 8,
+  "browserFinalMobilePasses": 4,
+  "types": "passed",
+  "scopedLint": "passed",
+  "productionBuild": "passed",
+  "fault": {
+    "method": "test-only single-column CSS injection",
+    "expected": "desktop positioning assertion failure",
+    "observed": "failed as expected"
+  },
+  "data": "controlled API fixtures; no owner writes",
+  "existingTestsModified": false,
+  "hostingAcceptance": "deferred by owner"
+}

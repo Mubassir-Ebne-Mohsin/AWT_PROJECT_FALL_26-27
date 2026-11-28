@@ -1,0 +1,35 @@
+/* Offline component evidence. No application bootstrap, environment files, DB or provider calls. */
+const fs = require('node:fs');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const { createHash } = require('node:crypto');
+const { createRequire } = require('node:module');
+const repo = path.resolve(__dirname, '../../..');
+const backend = path.join(repo, 'nest-boilerplate/nest-boilerplate');
+const req = createRequire(path.join(backend, 'package.json'));
+req('ts-node').register({ project: path.join(backend, 'tsconfig.json'), transpileOnly: true });
+req('tsconfig-paths').register({ baseUrl: backend, paths: { '@/*': ['src/*'] } });
+const directory = path.join(backend, 'src/modules/region-lab/engine');
+const { simulateComponents } = require(path.join(directory, 'component-engine.ts'));
+const { componentFixture, component, edge } = require(path.join(directory, 'component.fixture.ts'));
+const baseline = componentFixture();
+const all = componentFixture();
+const read = all.workload.operations[0]; Object.assign(read, { shareBps: 8000, requestBytes: 100, responseBytes: 1000 });
+all.workload.operations.push({ ...read, id: 'order', kind: 'write', shareBps: 2000 });
+for (const type of ['cdn', 'lb', 'gateway', 'cache', 'replica', 'queue', 'worker', 'storage', 'external']) all.nodes.push(component(type));
+all.workload.origins[0].entryNodeId = 'lb';
+all.edges = [edge('lb','cdn'),edge('cdn','gateway'),edge('gateway','app'),edge('app','cache'),edge('cache','db'),edge('cache','replica'),edge('app','queue','async'),edge('queue','worker'),edge('worker','db'),edge('app','storage'),edge('app','external')];
+for (const e of all.edges) e.operationIds = e.to === 'replica' ? ['browse'] : ['browse','order'];
+for (const n of all.nodes) if (n.type === 'cache' || n.type === 'cdn') n.properties.hitRatio = .25;
+const cases = [baseline, all].map(input => {
+  const result = simulateComponents(input);
+  assert.deepEqual(simulateComponents(input), result);
+  assert.equal(result.summary.successfulRequests, 100);
+  assert.equal(result.diagnostics.remainingBackgroundWork, 0);
+  for (const n of result.nodes) if (n.queue) assert.equal(n.queue.accepted, n.queue.completed + n.queue.dropped + n.queue.deadLettered + n.queue.waiting + n.queue.inFlight + n.queue.delayed);
+  return { input, result };
+});
+assert.equal(new Set(cases[1].result.nodes.map(n => n.type)).size, 12);
+const sourceSha256 = Object.fromEntries(fs.readdirSync(directory).filter(n => n.startsWith('component') && n.endsWith('.ts')).sort().map(n => [n, createHash('sha256').update(fs.readFileSync(path.join(directory, n))).digest('hex')]));
+fs.writeFileSync(path.join(__dirname, 'verification.json'), JSON.stringify({ date:'2026-11-27', stage:'uncalibrated-components', nodeVersion:process.version, deterministicReplay:true, sourceSha256, cases }, null, 2) + '\n');
+console.log(JSON.stringify({ cases:cases.map(c => ({ inputHash:c.result.inputHash, roots:c.result.summary.offeredRequests, successes:c.result.summary.successfulRequests, types:new Set(c.result.nodes.map(n=>n.type)).size, meanMs:c.result.summary.latency.meanMs, background:c.result.diagnostics.remainingBackgroundWork })), deterministicReplay:true }, null, 2));

@@ -1,0 +1,7 @@
+{
+  "project": "stressforge-h2-qa-1795754694687",
+  "checks": [],
+  "status": "failed",
+  "error": "Hosting rehearsal requires about 2 GiB of free RAM; close unused apps before retrying",
+  "cleanup": "no resources created"
+}

@@ -1,0 +1,14 @@
+Listing tests:
+  [1024-light] › phase1.spec.ts:32:5 › 53 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+  [1024-light] › phase1.spec.ts:219:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers
+  [1024-light] › phase1.spec.ts:262:5 › all ten developer demo states render and recover @dev
+  [1024-dark] › phase1.spec.ts:32:5 › 53 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+  [1024-dark] › phase1.spec.ts:219:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers
+  [1024-dark] › phase1.spec.ts:262:5 › all ten developer demo states render and recover @dev
+  [1440-light] › phase1.spec.ts:32:5 › 53 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+  [1440-light] › phase1.spec.ts:219:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers
+  [1440-light] › phase1.spec.ts:262:5 › all ten developer demo states render and recover @dev
+  [1440-dark] › phase1.spec.ts:32:5 › 53 registry routes, auth forms, palette, drawers, themes, tab restores and logout
+  [1440-dark] › phase1.spec.ts:219:5 › API error screens focus headings, refresh 429 preserves session and Try again recovers
+  [1440-dark] › phase1.spec.ts:262:5 › all ten developer demo states render and recover @dev
+Total: 12 tests in 1 file

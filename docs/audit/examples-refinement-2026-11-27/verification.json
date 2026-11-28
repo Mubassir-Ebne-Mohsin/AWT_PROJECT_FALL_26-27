@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-27",
+  "status": "verified locally",
+  "scope": "Examples presentation only; hosting acceptance stays deferred",
+  "unitTests": 15,
+  "browser": {
+    "uniquePassed": 16,
+    "mobileRefinementRerunPassed": 4,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "projects": [
+      "1024-light",
+      "1024-dark",
+      "1440-light",
+      "1440-dark"
+    ],
+    "widths": [
+      320,
+      390,
+      1024,
+      1440
+    ],
+    "checks": [
+      "six cards and preview diagrams",
+      "saved own-result/breaking-point wording",
+      "all six keyboard load explorers",
+      "guest copy return links",
+      "jump anchors",
+      "compact desktop envelope",
+      "SVG geometry within viewBox",
+      "local keyboard diagram scrolling on mobile",
+      "main-container overflow",
+      "reduced-motion transitions",
+      "no product API requests while exploring"
+    ]
+  },
+  "desktopMeasurement": {
+    "viewportWidth": 1440,
+    "firstCardWidth": 824,
+    "firstCardHeight": 636.56,
+    "explorerHeight": 156.3
+  },
+  "types": "passed",
+  "scopedLint": "passed",
+  "productionBuild": "passed",
+  "productionHttp": 200,
+  "modelDataAndHelpers": "unchanged; git diff exit0",
+  "fault": {
+    "kind": "React state frozen in separate test process using preload; application and existing test source untouched",
+    "expectedFailures": 2,
+    "normalPasses": 15
+  },
+  "screenshots": "desktop dark and narrow light reviewed",
+  "preview": "http://localhost:3013/examples",
+  "previewSession": 79725,
+  "dependenciesAdded": 0,
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false
+}

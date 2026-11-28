@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-28",
+  "nodeVersion": "v24.14.1",
+  "kind": "local compiled-worker engineering smoke, not production benchmark",
+  "elapsedMs": 920,
+  "engineDigest": "86fe93f82727f718f45904cb13246f9c31433cc3faee0d138c91db0b71dbd5c2",
+  "inputHash": "733a16111d67f7c30330ca3eec92ce0459e16cf90659382cfa218b401c2e0d44",
+  "childEnvKeys": [
+    "NODE_ENV",
+    "TEMP",
+    "TMP"
+  ],
+  "execArgv": [
+    "--max-old-space-size=160",
+    "--max-semi-space-size=16"
+  ],
+  "summary": {
+    "offeredRequests": 10,
+    "successfulRequests": 10,
+    "failedRequests": 0,
+    "unresolvedRequests": 0,
+    "attempts": 10,
+    "failures": {
+      "QUEUE_FULL": 0,
+      "RATE_LIMITED": 0,
+      "DEADLINE": 0,
+      "UNAVAILABLE": 0
+    },
+    "errorRateRatio": 0,
+    "latency": {
+      "count": 10,
+      "meanMs": 70.02124160000012,
+      "p50Ms": 93.13926399999946,
+      "p95Ms": null,
+      "p99Ms": null
+    },
+    "verdict": "indeterminate"
+  },
+  "processedEvents": 121,
+  "resolvesOnlyAfterChildClose": true,
+  "calibrated": false
+}

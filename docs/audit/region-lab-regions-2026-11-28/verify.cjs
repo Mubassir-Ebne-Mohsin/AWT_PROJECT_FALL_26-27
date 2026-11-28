@@ -1,0 +1,25 @@
+/* Offline verification only: no application bootstrap, environment, DB or provider. */
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {createRequire}=require('node:module'),{createHash}=require('node:crypto');
+const repo=path.resolve(__dirname,'../../..'),backend=path.join(repo,'nest-boilerplate/nest-boilerplate');
+const req=createRequire(path.join(backend,'package.json'));
+req('ts-node').register({project:path.join(backend,'tsconfig.json'),transpileOnly:true});
+req('tsconfig-paths').register({baseUrl:backend,paths:{'@/*':['src/*']}});
+const directory=path.join(backend,'src/modules/region-lab/engine');
+const {simulateRegional,simulateRegionalExperiment}=require(path.join(directory,'regional-engine.ts'));
+const {simulateComponents}=require(path.join(directory,'component-engine.ts'));
+const {regionalFixture,deploymentOutage}=require(path.join(directory,'regional.fixture.ts'));
+const sourceSha256=Object.fromEntries(fs.readdirSync(directory).filter(n=>n.startsWith('regional')&&n.endsWith('.ts')||['component-engine.ts','component-input.ts'].includes(n)).sort().map(n=>[n,createHash('sha256').update(fs.readFileSync(path.join(directory,n))).digest('hex')]));
+const foundation=JSON.parse(fs.readFileSync(path.join(repo,'docs/audit/region-lab-foundation-2026-11-27/verification.json')));
+for(const [name,hash] of Object.entries(foundation.sourceSha256))assert.equal(createHash('sha256').update(fs.readFileSync(path.join(directory,name))).digest('hex'),hash);
+const old=JSON.parse(fs.readFileSync(path.join(repo,'docs/audit/region-lab-components-2026-11-27/verification.json')));
+for(const c of old.cases)assert.deepEqual(simulateComponents(c.input),c.result);
+const baseline=regionalFixture(),outage=deploymentOutage(regionalFixture());
+const normal=simulateRegional(baseline),failed=simulateRegional(outage),paired=simulateRegionalExperiment(outage,'paired',2);
+assert.equal(normal.summary.successfulRequests,100);assert.equal(failed.summary.successfulRequests,90);assert.equal(failed.summary.failures.UNAVAILABLE,10);
+assert.deepEqual(simulateRegional(outage),failed);assert.deepEqual(simulateRegionalExperiment(outage,'paired',2),paired);
+const phases=failed.regional.phases.filter(p=>p.route==='us-east>browse').map(p=>[p.atMs,p.phase]);
+assert.deepEqual(phases,[[250,'switching'],[300,'rerouted'],[650,'recovery_detected'],[700,'recovered']]);
+const output={date:'2026-11-28',stage:'uncalibrated-regional',nodeVersion:process.version,sourceSha256,foundationHashesPreserved:Object.keys(foundation.sourceSha256).length,stage4GoldenCasesPreserved:old.cases.length,deterministicReplay:true,cases:[{input:baseline,result:normal},{input:outage,result:failed}],paired};
+fs.writeFileSync(path.join(__dirname,'verification.json'),JSON.stringify(output,null,2)+'\n');
+console.log(JSON.stringify({foundationFilesPreserved:8,stage4GoldenCasesPreserved:old.cases.length,baselineSuccesses:100,outageSuccesses:90,outageUnavailable:10,phases,repetitionSeeds:paired.repetitions.map(r=>r.seed),deterministicReplay:true},null,2));

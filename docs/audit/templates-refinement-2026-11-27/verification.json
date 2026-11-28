@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-27",
+  "status": "verified locally",
+  "scope": "Templates UI only; hosting acceptance remains deferred",
+  "unitTests": 15,
+  "browser": {
+    "passed": 8,
+    "projects": [
+      "1024-light",
+      "1024-dark",
+      "1440-light",
+      "1440-dark"
+    ],
+    "widths": [
+      320,
+      390,
+      1024,
+      1440
+    ],
+    "controlledSignIn": true,
+    "realAccountsCreated": 0,
+    "checks": [
+      "native checkbox chips and keyboard Space",
+      "AND filtering and selected state",
+      "empty state and Clear/Reset",
+      "all six diagram previews",
+      "both retained action labels and exact hrefs",
+      "saved breaking-point text retained in keyboard details",
+      "three/two/one-column layouts",
+      "main scroll-container bounds",
+      "reduced motion",
+      "desktop/mobile screenshots"
+    ]
+  },
+  "types": "passed",
+  "scopedLint": "passed",
+  "productionBuild": "passed",
+  "dataAndFilterHelper": "unchanged; git diff exit0",
+  "mutation": "Isolated React-state freeze caught existing filter/slider tests; normal15/15 passed; application/existing test sources never changed for fault",
+  "screenshots": "desktop dark and mobile light reviewed",
+  "view": "http://localhost:3000/templates",
+  "note": "Use configured origin3000 for real authentication; temporary controlled3014 preview stopped; no provider/CORS changes",
+  "dependenciesAdded": 0,
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false
+}

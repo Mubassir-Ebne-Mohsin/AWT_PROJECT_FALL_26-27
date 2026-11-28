@@ -1,0 +1,30 @@
+{
+  "foundationFilesPreserved": 8,
+  "stage4GoldenCasesPreserved": 2,
+  "baselineSuccesses": 100,
+  "outageSuccesses": 90,
+  "outageUnavailable": 10,
+  "phases": [
+    [
+      250,
+      "switching"
+    ],
+    [
+      300,
+      "rerouted"
+    ],
+    [
+      650,
+      "recovery_detected"
+    ],
+    [
+      700,
+      "recovered"
+    ]
+  ],
+  "repetitionSeeds": [
+    42,
+    3564648532
+  ],
+  "deterministicReplay": true
+}

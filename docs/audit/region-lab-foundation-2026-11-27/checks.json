@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-27",
+  "stage": "Region Lab stage3 foundation",
+  "jest": {
+    "suites": 5,
+    "passed": 91,
+    "newFoundation": 44,
+    "existingSimulatorRegression": 47,
+    "exitCode": 0
+  },
+  "backendBuild": {
+    "command": "pnpm build",
+    "exitCode": 0
+  },
+  "types": {
+    "command": "pnpm exec tsc --project tsconfig.test.json --noEmit",
+    "exitCode": 0
+  },
+  "scopedLint": {
+    "command": "pnpm exec eslint src/modules/region-lab/engine/*.ts --max-warnings 0",
+    "exitCode": 0,
+    "warnings": 0
+  },
+  "mutation": {
+    "testOnly": true,
+    "environment": "SF_REGION_FOUNDATION_FAULT=deadline-order",
+    "assertion": "orders events by time, deadline priority and stable insertion sequence",
+    "exitCode": 1,
+    "expectedFailure": true,
+    "normalRerunPassed": true
+  },
+  "limits": [
+    "No real-system calibration",
+    "No typed12-component model or regional routing/outage behavior",
+    "No API/UI integration",
+    "No hard OS worker memory isolation yet",
+    "Hosted isolated E2E deferred by owner"
+  ]
+}

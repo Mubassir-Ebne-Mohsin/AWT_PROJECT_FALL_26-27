@@ -1,0 +1,6 @@
+
+Test Suites: 5 passed, 5 total
+Tests:       91 passed, 91 total
+Snapshots:   0 total
+Time:        24.914 s, estimated 46 s
+Ran all test suites within paths "src/modules/region-lab/engine/foundation.spec.ts", "src/modules/region-lab/engine/queueing.spec.ts", "src/modules/simulation/engine/engine.spec.ts", "src/modules/simulation/examples-data.spec.ts", "src/modules/simulation/engine/fixes.spec.ts".

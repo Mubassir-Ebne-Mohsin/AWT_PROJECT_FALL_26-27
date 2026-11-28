@@ -1,0 +1,7 @@
+$ next start --port 3016 --hostname 127.0.0.1
+▲ Next.js 16.4.6
+- Local:         http://127.0.0.1:3016
+- Network:       http://127.0.0.1:3016
+✓ Ready in 423ms
+✓ Running next.config.ts took 151ms
+[ELIFECYCLE] Command failed with exit code -1.

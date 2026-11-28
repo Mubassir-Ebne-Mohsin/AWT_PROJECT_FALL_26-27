@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-28",
+  "stage": 6,
+  "scope": "Local private storage/API and isolated durable jobs",
+  "integration": {
+    "exitCode": 0,
+    "dotenvAccess": "forbidden by test",
+    "existingTestsEdited": false,
+    "port": 55468,
+    "suites": 1,
+    "passed": 30,
+    "database": "sf_region_stage6",
+    "postgresVersion": 17,
+    "auth": "real JWT/AuthGuard with controlled revocation-store fixture"
+  },
+  "regression": {
+    "exitCode": 0,
+    "passed": 182,
+    "suites": 7
+  },
+  "totalPassingTestsAcrossSeparateRuns": 212,
+  "backendTestTypes": {
+    "exitCode": 0
+  },
+  "scopedLint": {
+    "warnings": 0,
+    "exitCode": 0
+  },
+  "backendBuild": {
+    "exitCode": 0
+  },
+  "mutations": [
+    {
+      "exitCode": 1,
+      "testOnly": true,
+      "failedTests": 1,
+      "name": "owner predicate bypass"
+    },
+    {
+      "exitCode": 1,
+      "testOnly": true,
+      "failedTests": 1,
+      "name": "stale lease token bypass"
+    }
+  ],
+  "replay": {
+    "exitCode": 0,
+    "foundationHashesPreserved": 8,
+    "stage4GoldenCasesPreserved": 2,
+    "deterministic": true
+  },
+  "compiledWorker": {
+    "exitCode": 0,
+    "successful": 10,
+    "histogramTail": "insufficient sample count; no p95/p99 invented",
+    "processedEvents": 121,
+    "offered": 10
+  },
+  "storage": {
+    "ownerDevMigrationApplied": false,
+    "paths": 9,
+    "httpOperations": 12,
+    "queueTransport": "PostgreSQL durable rows and fenced singleton slot",
+    "tables": 5,
+    "testMigrationUpDownUp": true
+  },
+  "worker": {
+    "wallMs": 45000,
+    "arbitraryCodeSandbox": false,
+    "observedRssMiB": 256,
+    "v8OldSpaceMiB": 160,
+    "osRssHardCap": false,
+    "v8SemiSpaceMiB": 16,
+    "leaseMs": 60000
+  },
+  "queueTransportAdjustment": "Stage1 proposed Bull/Redis dispatch; Stage6 uses the same PostgreSQL acceptance transaction as its durable queue, avoiding dual-write reconciliation. Existing Bull remains unchanged.",
+  "calibrated": false,
+  "uiIntegrated": false,
+  "resultWireAndViews": "Stage7 pending; native Stage5 results stored, HDR capture must be versioned",
+  "fullIsolatedHostingE2E": "deferred by owner",
+  "ownerServicesChanged": false,
+  "testClusterStopped": true,
+  "sourceSha256": {
+    "src/app.module.ts": "770e18a174a64aef4135725d7197b32d153ff9486823268dc2fe2ba6e84f0f76",
+    "src/database/migrations/1795600000000-RegionLabStorage.ts": "f5bc7a939b5d20ffd3b5c820f57706f10e3bb5579e0f81e58d30277d5f668fa8",
+    "src/modules/region-lab/entities/region-lab.entity.ts": "9b3295aa73e82c4632c98cc00f9b6d3ab3a8563f9f6fe92206e2f11b85c7b66e",
+    "src/modules/region-lab/region-policy.ts": "357200dd74e6c19912b9fee49c492de93a23506c6d0971cb9ea6b73ff390ec1e",
+    "src/modules/region-lab/region.dto.ts": "0997d077d6629577c919290675396e9bb91b790b36ce92968c9fc80b48d1556d",
+    "src/modules/region-lab/region-store.service.ts": "031d6bb5fd348a8ae42078546571d8a712905cf3fc5527bdee467f8443cdedd3",
+    "src/modules/region-lab/region-jobs.service.ts": "cbd46699611a87604a6044a120b47c7bad532ff583f7f046af794d987a23b000",
+    "src/modules/region-lab/region.controller.ts": "352f3160b16a17910adface51137bef4c202e1d6c09f92b6948d8fc65412fc19",
+    "src/modules/region-lab/region-lab.module.ts": "353e58ce9af10e48162b0770afc06d01ecf5c67df7ce1431c9bb17b58e9b3bcd",
+    "src/modules/region-lab/worker/region-executor.ts": "2a674247ac15e02866eab844ed4cc8d5be768cea6b0274f402511502c970f2b4",
+    "src/modules/region-lab/worker/region-compute.worker.ts": "cb14ace4950a73c78fd5f2ca2aecb6a4107ba9a177f4801c081f44c2ee812be8",
+    "src/modules/region-lab/worker/region-result.ts": "fcd1cc8c12240b95875684d32488a393a894375fd9ec0a8de07a24326cb02580",
+    "test/jest-region-lab.json": "5959d68ea996c32f445d9b6b9ac54a673561be7594f6da8cf9f73a17e6f6ecc5",
+    "test/region-lab.e2e-spec.ts": "6bf179c001a775487b2417d90f04b4e6da2cd719e5d679fd66d55b4f90195ee3",
+    "test/fixtures/region-worker-fault.cjs": "d180348d9ffb27a15bf5b5eb56d759cab832b397c80093b90ac35b73c7ad8894"
+  },
+  "uncommitted": true,
+  "committed": false,
+  "pushed": false,
+  "claimReleased": true
+}

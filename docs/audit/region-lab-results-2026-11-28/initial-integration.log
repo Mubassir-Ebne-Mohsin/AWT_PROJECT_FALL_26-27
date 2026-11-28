@@ -1,0 +1,166 @@
+FAIL test/region-lab.e2e-spec.ts (48.759 s)
+  ● Region Lab private persistence and isolated execution › Stage7 gates every numerical result, export, PDF, comparison and version export by owner
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:908:18)
+
+  ● Region Lab private persistence and isolated execution › Stage7 exposes captured distributions and exactly conserved recorded arrival buckets
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:917:16)
+
+  ● Region Lab private persistence and isolated execution › Stage7 rejects unavailable sides/repetitions, invalid queries and cross-view cursors
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:924:16)
+
+  ● Region Lab private persistence and isolated execution › Stage7 refuses numerical exports before completion and never recomputes native legacy results
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:937:18)
+
+  ● Region Lab private persistence and isolated execution › Stage7 downloads byte-valid private PDF and JSON with frozen inputs and safe headers
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:944:25)
+
+  ● Region Lab private persistence and isolated execution › Stage7 withholds deltas for incompatible workload or code and compares compatible saved sides
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:955:13)
+
+  ● Region Lab private persistence and isolated execution › Stage7 account manifest is owner-only and includes immutable version/run download paths without leases
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:963:13)
+
+  ● Region Lab private persistence and isolated execution › Stage7 histories page retained run records without skipping identical-millisecond timestamps
+
+    QueryFailedError: invalid input syntax for type uuid: "stage7-tests"
+
+      43 |   values?: any[],
+      44 | ): Promise<any[]> {
+    > 45 |   const result = await connection.query(text, values);
+         |                  ^
+      46 |   return Array.isArray(result) &&
+      47 |     result.length === 2 &&
+      48 |     Array.isArray(result[0]) &&
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at DataSource.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:541:20)
+      at sql (src/modules/region-lab/region-store.service.ts:45:18)
+      at src/modules/region-lab/region-store.service.ts:569:19
+      at EntityManager.transaction (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/entity-manager/EntityManager.ts:157:28)
+      at recorded (test/region-lab.e2e-spec.ts:902:15)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:970:18)
+
+Test Suites: 1 failed, 1 total
+Tests:       8 failed, 30 passed, 38 total
+Snapshots:   0 total
+Time:        49.322 s
+Ran all test suites.

@@ -1,0 +1,23 @@
+FAIL test/region-lab.e2e-spec.ts (16.487 s)
+  ● Region Lab private persistence and isolated execution › only one dispatcher claims execution and stale lease tokens cannot publish
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      487 |     expect(row).toBeTruthy();
+      488 |     const result = simulateRegionLabScenario(row!.snapshot.scenario);
+    > 489 |     expect(await store.finish(row!.id, randomUUID(), { result })).toBe(false);
+          |                                                                   ^
+      490 |     expect((await store.getRun(owner.id, row!.id)).status).toBe("running");
+      491 |     expect(await store.finish(row!.id, row!.lease_token, { result })).toBe(
+      492 |       true,
+
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:489:67)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 29 skipped, 30 total
+Snapshots:   0 total
+Time:        17.18 s, estimated 18 s
+Ran all test suites with tests matching "only one dispatcher claims execution".

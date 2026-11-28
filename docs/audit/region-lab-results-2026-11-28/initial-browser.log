@@ -1,0 +1,42 @@
+
+Running 2 tests using 1 worker
+
+(node:22548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session (11ms)
+(node:24628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records (3ms)
+
+
+  1) [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session 
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\mubas\AppData\Local\ms-playwright\chromium_headless_shell-1248\chrome-headless-shell-win64\chrome-headless-shell.exe
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results\region-lab-Region-Lab-publ-dc624-ate-pages-require-a-session-1440-dark\error-context.md
+
+  2) [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records 
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\mubas\AppData\Local\ms-playwright\chromium_headless_shell-1248\chrome-headless-shell-win64\chrome-headless-shell.exe
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     pnpm exec playwright install                           ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results\region-lab-Region-Lab-crea-637c8-ports-real-isolated-records-1440-dark\error-context.md
+
+  2 failed
+    [1440-dark] › tests\browser\region-lab.spec.ts:6:5 › Region Lab public introduction stays readable and private pages require a session 
+    [1440-dark] › tests\browser\region-lab.spec.ts:12:5 › Region Lab creates, saves, runs, inspects, compares and exports real isolated records 

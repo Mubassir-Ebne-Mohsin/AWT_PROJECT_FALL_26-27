@@ -1,0 +1,39 @@
+FAIL src/modules/region-lab/results/result-codec.spec.ts (9.476 s)
+  ● Recorded Region Lab result codec › captures each repetition and side from real observations, preserving numerical output
+
+    expect(received).toThrow()
+
+    Received function did not throw
+
+       8 |  it("round trips actual microsecond observations, including zero, with count and range enforcement",()=>{const samples=[0,0.001,0.002,1,25,300,60000],wire=histogram(samples)!;const decoded=decodeHistogram(wire,samples.length)!;expect(decoded.totalCount).toBe(7);expect(distributionPlot(wire).reduce((n,b)=>n+b.count,0)).toBe(7);expect(decoded.getValueAtPercentile(50)/1000).toBeCloseTo(1,2);expect(()=>histogram([60000.1])).toThrow();expect(histogram([])).toBeNull();});
+       9 |  it("rejects forged envelopes, counts, malformed compression and allocation headers before decoding",()=>{const wire=histogram([1,2,3])!;for(const bad of [{...wire,count:4},{...wire,data:"structural-placeholder"},{...wire,highestTrackableValue:1},{...wire,data:Buffer.alloc(100).toString("base64")}])expect(()=>decodeHistogram(bad,3)).toThrow();expect(()=>decodeHistogram(wire,0)).toThrow();});
+    > 10 |  it("captures each repetition and side from real observations, preserving numerical output",()=>{const s=JSON.parse(readFileSync(resolve(process.cwd(),"../../docs/region-lab/examples.json"),"utf8")).baseline;s.profiles.forEach((p:any)=>p.origin="custom");Object.assign(s.workload,{arrival:"constant_rate",baselineRps:20,durationSeconds:10,warmupSeconds:0,schedule:[{atSeconds:0,multiplier:1},{atSeconds:10,multiplier:1}]});s.runOptions={mode:"baseline",seed:42,repetitions:2};const old=simulateRegionLabScenario(s),capture=createCapture(10000),current=simulateRegionLabScenario(s,capture);expect(current).toEqual(old);const result={...current,wireVersion:RESULT_FORMAT,telemetry:{executions:capture.executions}};expect(()=>validateTelemetry(result)).not.toThrow();expect(capture.executions).toHaveLength(2);expect(capture.executions[0].histograms.global!.count).toBe(200);const forged=structuredClone(result);forged.telemetry.executions[0].buckets[0].offeredRequests++;expect(()=>validateTelemetry(forged)).toThrow();});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^
+      11 |  it("rejects histograms with forged quantiles and missing scopes",()=>{const capture=createCapture(1000);capture.onRootEvent({kind:"offered",arrivedMs:0});capture.onRootEvent({kind:"attempt",arrivedMs:0});capture.onRootEvent({kind:"outcome",arrivedMs:0,latencyMs:1});capture.onSamples("global",[1]);const summary={successfulRequests:1,offeredRequests:1,failedRequests:0,attempts:1,latency:{p50Ms:50,p95Ms:null,p99Ms:null}};const r={wireVersion:RESULT_FORMAT,repetitions:[{baseline:{summary,origins:{},operations:{}}}],telemetry:{executions:capture.executions}};expect(()=>validateTelemetry(r)).toThrow("percentile");});
+      12 | });
+      13 |
+
+      at Object.<anonymous> (modules/region-lab/results/result-codec.spec.ts:10:1008)
+
+  ● Recorded Region Lab result codec › rejects histograms with forged quantiles and missing scopes
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "percentile"
+
+    Received function did not throw
+
+       9 |  it("rejects forged envelopes, counts, malformed compression and allocation headers before decoding",()=>{const wire=histogram([1,2,3])!;for(const bad of [{...wire,count:4},{...wire,data:"structural-placeholder"},{...wire,highestTrackableValue:1},{...wire,data:Buffer.alloc(100).toString("base64")}])expect(()=>decodeHistogram(bad,3)).toThrow();expect(()=>decodeHistogram(wire,0)).toThrow();});
+      10 |  it("captures each repetition and side from real observations, preserving numerical output",()=>{const s=JSON.parse(readFileSync(resolve(process.cwd(),"../../docs/region-lab/examples.json"),"utf8")).baseline;s.profiles.forEach((p:any)=>p.origin="custom");Object.assign(s.workload,{arrival:"constant_rate",baselineRps:20,durationSeconds:10,warmupSeconds:0,schedule:[{atSeconds:0,multiplier:1},{atSeconds:10,multiplier:1}]});s.runOptions={mode:"baseline",seed:42,repetitions:2};const old=simulateRegionLabScenario(s),capture=createCapture(10000),current=simulateRegionLabScenario(s,capture);expect(current).toEqual(old);const result={...current,wireVersion:RESULT_FORMAT,telemetry:{executions:capture.executions}};expect(()=>validateTelemetry(result)).not.toThrow();expect(capture.executions).toHaveLength(2);expect(capture.executions[0].histograms.global!.count).toBe(200);const forged=structuredClone(result);forged.telemetry.executions[0].buckets[0].offeredRequests++;expect(()=>validateTelemetry(forged)).toThrow();});
+    > 11 |  it("rejects histograms with forged quantiles and missing scopes",()=>{const capture=createCapture(1000);capture.onRootEvent({kind:"offered",arrivedMs:0});capture.onRootEvent({kind:"attempt",arrivedMs:0});capture.onRootEvent({kind:"outcome",arrivedMs:0,latencyMs:1});capture.onSamples("global",[1]);const summary={successfulRequests:1,offeredRequests:1,failedRequests:0,attempts:1,latency:{p50Ms:50,p95Ms:null,p99Ms:null}};const r={wireVersion:RESULT_FORMAT,repetitions:[{baseline:{summary,origins:{},operations:{}}}],telemetry:{executions:capture.executions}};expect(()=>validateTelemetry(r)).toThrow("percentile");});
+         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^
+      12 | });
+      13 |
+
+      at Object.<anonymous> (modules/region-lab/results/result-codec.spec.ts:11:595)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 passed, 4 total
+Snapshots:   0 total
+Time:        10.003 s, estimated 12 s
+Ran all test suites within paths "src/modules/region-lab/results/result-codec.spec.ts".

@@ -1,0 +1,13 @@
+# Designs library thumbnails
+
+## Designs library thumbnails - 25 November 2026
+
+Implemented at the owner's request, locally and uncommitted. Designs cards now show a 108px saved-architecture thumbnail with directional arrows and existing component glyphs, matching Dashboard/Gallery. Long descriptions and titles are limited to two visible lines. Existing search, sort/result/archive filters, pagination, Open, Duplicate, Archive, Unarchive and Undo remain in place. Empty/legacy responses use the existing honest preview states.
+
+The paginated owner-scoped list query selects the current graph alongside existing metadata. A strict bounded topology projection exposes only IDs, type/label, positions and edge endpoints; no component properties, traffic, notes or per-card detail requests. Archived designs retain their saved previews. The existing shared topology schema and renderer are reused. No migration, new dependency, route or AI call.
+
+Changed files: `design-library.service.ts`, `phase3/library.schema.ts`, generated Phase3 JSON/types, `api/library.ts`, `library/designs-list.tsx`, new `library-preview.css`, new backend `library-preview.spec.ts`, added HTTP case in `test/library.e2e-spec.ts`, new browser `library-preview.spec.ts`, and these tracking docs.
+
+Verification: backend/frontend production builds, TypeScript, scoped ESLint, canonical Phase3 contract and 48 routes passed. New owner/pagination/projection unit 1/1; shared preview/card units 7/7. Full Designs library HTTP suite 9/9 passed against dedicated sf_library_preview_20261125 database on own labelled Postgres16 container/5547, including current saved edits, archived previews, foreign-owner exclusion, duplicate and archive behavior. Combined Designs+Dashboard+Gallery Chrome checks 12/12 passed in four light/dark projects on the current dev server; every journey includes 1440/1024/390px. Designs checks include visible thumbnails, two-line descriptions, no page-level sideways scroll, no per-card reads, URL sorting, debounced search, duplicate, archive and Undo. Desktop screenshot visually reviewed. Twelve new screenshots remain unstaged in docs/audit/library-thumbnails-2026-11-25.
+
+A disposable browser test hid the thumbnail only inside its isolated page and failed the visibility assertion as expected; application source stayed unchanged and the temporary test was removed. Full-project regression was not run, and this follow-up's production build was not browser-tested separately. No owner data/session, API key or live AI touched. Only own test container stopped; user services retained. All earlier uncommitted work preserved; nothing committed or pushed. Restart an older compiled API if preview data is unavailable. No migration required.

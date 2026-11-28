@@ -1,0 +1,15 @@
+# Dashboard design thumbnails - 25 November 2026
+
+Implemented locally at the owner's request, following the compact Gallery work. No commit or push.
+
+Dashboard design cards now have a 108px architecture thumbnail using current saved node positions, labels and directional edges. They retain source/verdict, title, counts, revision/date, recorded latency, navigation and delete confirmation. Empty saved graphs say Empty canvas; older API responses without topology show an honest fallback. Thumbnails are labelled Saved architecture, not Published architecture or a test-run snapshot.
+
+The Dashboard requests preview data through its existing owner-scoped summary read, with no per-card browser/API requests and no extra graph lookup. Ordinary design-list summaries omit this optional payload. A shared bounded topology contract excludes properties and traffic. Gallery reuses the same schema/renderer with its existing published context. No new dependency, migration, route, model call or owner-data modification.
+
+Files: Dashboard component and new dashboard-preview.css; shared GalleryPreview saved context; designs.service.ts summaries/dashboard; phase2 graph/api contracts, Gallery schema alias; generated Phase2/Phase3 contracts/types; DashboardData now uses the canonical Phase2 generated type. Tests are dashboard-preview.spec.ts, added designs.e2e-spec.ts case, dashboard-preview.spec.ts browser file and shared gallery-cards.test.cjs.
+
+Verified: both production builds, frontend types/scoped lint, backend scoped lint, Phase2/Phase3 contract checks/examples and 48 routes. New backend units 2/2 plus Gallery units 4/4. Shared card/preview unit tests 7/7. Isolated Dashboard HTTP selection 2 passed/21 skipped by name filter: saved geometry/ownership/no-run case and existing deletion-race check. Fresh dedicated database sf_dashboard_preview_20261125 on own labelled Postgres container/5547. Initial migration attempt hit the existing short query timeout while builds ran; rerun without builds passed without changing timeouts. New browser fixture locators were corrected for nested fallback text and existing alertdialog semantics; no earlier assertions removed.
+
+Browser: 8/8 Dashboard+Gallery checks passed across four Chrome projects against the user's existing dev frontend with isolated HTTP fixtures. Each covers 1440/1024/390px and light/dark, saved-image/fallback states, no page-level horizontal scroll, keyboard links, unchanged delete confirmation and no detail requests for thumbnails. The mutation forcing Saved to Published labels was caught in memory without changing production files. Desktop screenshot visually reviewed. Twelve new Dashboard screenshots remain unstaged under docs/audit/dashboard-thumbnails-2026-11-25.
+
+Limits: full all-module/all-route regression not rerun; production build passed but this follow-up's browser run used the current dev server. Owner API/data/session untouched. Only own test container was stopped; user services kept running. Restart an older compiled API if thumbnails show unavailable. No migration is required.

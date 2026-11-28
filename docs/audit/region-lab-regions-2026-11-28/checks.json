@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-28",
+  "stage": "uncalibrated-regional",
+  "jest": {
+    "exitCode": 0,
+    "suites": 7,
+    "passed": 182,
+    "newRegional": 33,
+    "priorComponents": 58,
+    "foundation": 44,
+    "existingSimulator": 47
+  },
+  "lint": {
+    "exitCode": 0,
+    "warnings": 0
+  },
+  "backendTestTypes": {
+    "exitCode": 0
+  },
+  "backendBuild": {
+    "exitCode": 0
+  },
+  "mutations": [
+    {
+      "name": "transport bypass",
+      "testOnly": true,
+      "exitCode": 1,
+      "failedTests": 1
+    },
+    {
+      "name": "omniscient routing",
+      "testOnly": true,
+      "exitCode": 1,
+      "failedTests": 1
+    }
+  ],
+  "initialFixtureRun": {
+    "passed": 25,
+    "failed": 3,
+    "existingTestsEdited": false,
+    "corrected": true
+  },
+  "replay": {
+    "deterministic": true,
+    "foundationSourceHashesPreserved": 8,
+    "priorComponentGoldenOutputsPreserved": 2,
+    "seeds": [
+      42,
+      3564648532
+    ]
+  },
+  "calibrated": false,
+  "apiIntegrated": false,
+  "uiIntegrated": false,
+  "persistenceImplemented": false,
+  "fullIsolatedHostingE2E": "deferred by owner",
+  "claimReleased": true,
+  "uncommitted": true
+}

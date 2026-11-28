@@ -1,0 +1,11 @@
+{
+  "project": "stressforge-h2-qa-1795721809365",
+  "checks": [
+    "production and isolated Compose validate without printing configuration",
+    "private deployment validator accepts generated configuration",
+    "isolated data services healthy as non-root users"
+  ],
+  "status": "failed",
+  "error": "Docker compose failed:  Container stressforge-h2-qa-1795721809365-migrate-run-e694758fe56d Creating \n Container stressforge-h2-qa-1795721809365-migrate-run-e694758fe56d Created \n",
+  "cleanup": "own project removed"
+}

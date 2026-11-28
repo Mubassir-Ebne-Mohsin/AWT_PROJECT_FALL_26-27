@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "headers": {
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "x-powered-by": null
+    }
+  },
+  {
+    "path": "/login",
+    "status": 200,
+    "headers": {
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "x-powered-by": null
+    }
+  },
+  {
+    "path": "/register",
+    "status": 200,
+    "headers": {
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "x-powered-by": null
+    }
+  },
+  {
+    "path": "/admin/users",
+    "status": 307,
+    "headers": {
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "frame-ancestors 'none'; object-src 'none'; base-uri 'self'",
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "x-powered-by": null
+    }
+  }
+]

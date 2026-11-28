@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-27",
+  "stage": "uncalibrated-components",
+  "jest": {
+    "exitCode": 0,
+    "suites": 6,
+    "passed": 149,
+    "newComponents": 58,
+    "foundation": 44,
+    "existingSimulator": 47
+  },
+  "types": {
+    "exitCode": 0,
+    "command": "pnpm exec tsc --project tsconfig.test.json --noEmit"
+  },
+  "lint": {
+    "exitCode": 0,
+    "warnings": 0,
+    "command": "pnpm exec eslint src/modules/region-lab/engine/component*.ts --max-warnings 0"
+  },
+  "backendBuild": {
+    "exitCode": 0,
+    "command": "pnpm build"
+  },
+  "mutations": [
+    {
+      "testOnly": true,
+      "name": "quota",
+      "exitCode": 1,
+      "failedAssertions": 1
+    },
+    {
+      "testOnly": true,
+      "name": "bandwidth",
+      "exitCode": 1,
+      "failedAssertions": 2
+    }
+  ],
+  "beforeFix": {
+    "highBandwidthTimestampStall": {
+      "exitCode": 1,
+      "failed": 3,
+      "payloadBytes": [
+        1,
+        3,
+        1000
+      ],
+      "postFixPassed": true
+    }
+  },
+  "independentReview": "Initial findings fixed; focused rechecks found no actionable issues in reviewed fixes",
+  "priorFoundationSourceHashesPreserved": 8,
+  "calibrated": false,
+  "uiIntegrated": false,
+  "stage5Implemented": false,
+  "claimReleased": true,
+  "uncommitted": true
+}

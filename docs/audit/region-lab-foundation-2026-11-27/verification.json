@@ -1,0 +1,708 @@
+{
+  "date": "2026-11-27",
+  "stage": "uncalibrated-foundation",
+  "nodeVersion": "v24.14.1",
+  "scope": "Offline kernel and analytical checks; not measured hardware, regional simulation, or production calibration",
+  "deterministicReplay": true,
+  "sourceSha256": {
+    "arrivals.ts": "10cb54a5c98725065424dc8dd9c99dfc91265b23e526a9c54303e691c4264ae8",
+    "engine.ts": "718f0ae2ad6a5ef63167c52c668ab7d5b4804945e7c51f99d559cfa5455ca907",
+    "foundation.fixture.ts": "a22dbb92c7023bbcd3e9e9eee9d6afa9cfaa0093cd81707bd891de3b9d0e1886",
+    "foundation.spec.ts": "a6808857284a0a2acce61e4895c11dfcbcfb9cb658200b7623532f3502ac55a4",
+    "heap.ts": "478d573401ccc21a7f17fe062d4b55a548ef109632b721e720f9ff9357bd5ef6",
+    "input.ts": "b7923b57bed8bf97b70c1b2d19a74c7449288dc1e42cbff760cda787eae2e500",
+    "queueing.spec.ts": "a939f3d6082595ea728fa083762bf6356de9039866a806752b7eb09dffefbda9",
+    "random.ts": "9cd5f537b686cfa28798967681dd6afdf40335ab8730f1035401d98f40a50b07"
+  },
+  "deterministicInput": {
+    "foundationVersion": 1,
+    "seed": 42,
+    "workload": {
+      "baselineRps": 50,
+      "arrival": "constant_rate",
+      "durationMs": 1000,
+      "warmupMs": 0,
+      "drainMs": 3000,
+      "schedule": [
+        {
+          "atMs": 0,
+          "multiplier": 1
+        },
+        {
+          "atMs": 1000,
+          "multiplier": 1
+        }
+      ],
+      "origins": [
+        {
+          "id": "us-east",
+          "shareBps": 10000,
+          "entryNodeId": "app"
+        }
+      ],
+      "operations": [
+        {
+          "id": "browse",
+          "kind": "read",
+          "shareBps": 10000,
+          "deadlineMs": 3000,
+          "idempotent": true,
+          "retry": {
+            "maxAttempts": 1,
+            "baseBackoffMs": 5,
+            "maxBackoffMs": 5,
+            "jitterRatio": 0
+          }
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "app",
+        "replicas": 1,
+        "slotsPerReplica": 1,
+        "waitingCapacityPerReplica": 200,
+        "serviceTime": {
+          "kind": "constant",
+          "valueMs": 10
+        },
+        "dispatch": "all",
+        "downstream": []
+      }
+    ],
+    "targets": {
+      "p95Ms": 300,
+      "errorBudgetRatio": 0.01
+    }
+  },
+  "deterministicResult": {
+    "engineVersion": "region-lab-foundation-v1",
+    "stage": "uncalibrated-foundation",
+    "inputHash": "e23783c78ca3641c01657cdf7c5bd14b003bce5f76e6416dc53b5d341a527c46",
+    "measurementMs": 1000,
+    "warmupOfferedRequests": 0,
+    "summary": {
+      "offeredRequests": 50,
+      "successfulRequests": 50,
+      "failedRequests": 0,
+      "unresolvedRequests": 0,
+      "attempts": 50,
+      "errorRateRatio": 0,
+      "failures": {
+        "QUEUE_FULL": 0,
+        "DEADLINE": 0
+      },
+      "latency": {
+        "count": 50,
+        "minMs": 10,
+        "maxMs": 10,
+        "meanMs": 10,
+        "p50Ms": 10,
+        "p95Ms": null,
+        "p99Ms": null,
+        "percentileStatus": {
+          "p50": "available",
+          "p95": "insufficient_samples",
+          "p99": "insufficient_samples"
+        }
+      },
+      "verdict": "indeterminate"
+    },
+    "origins": {
+      "us-east": {
+        "offeredRequests": 50,
+        "successfulRequests": 50,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 50,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 50,
+          "minMs": 10,
+          "maxMs": 10,
+          "meanMs": 10,
+          "p50Ms": 10,
+          "p95Ms": null,
+          "p99Ms": null,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "insufficient_samples",
+            "p99": "insufficient_samples"
+          }
+        },
+        "verdict": "indeterminate"
+      }
+    },
+    "operations": {
+      "browse": {
+        "offeredRequests": 50,
+        "successfulRequests": 50,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 50,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 50,
+          "minMs": 10,
+          "maxMs": 10,
+          "meanMs": 10,
+          "p50Ms": 10,
+          "p95Ms": null,
+          "p99Ms": null,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "insufficient_samples",
+            "p99": "insufficient_samples"
+          }
+        },
+        "verdict": "indeterminate"
+      }
+    },
+    "nodes": [
+      {
+        "id": "app",
+        "offeredCalls": 50,
+        "completedCalls": 50,
+        "failedCalls": 0,
+        "rejectedCalls": 0,
+        "queuedDeadlineExpirations": 0,
+        "lateServiceCompletions": 0,
+        "utilizationRatio": 0.5,
+        "peakBusySlots": 1,
+        "peakQueueDepth": 0,
+        "endingQueueDepth": 0,
+        "activeCallsAtDrainEnd": 0
+      }
+    ],
+    "diagnostics": {
+      "processedEvents": 151,
+      "peakPendingEvents": 51,
+      "peakLiveCalls": 1,
+      "estimatedEvents": 350,
+      "pendingRoots": 0,
+      "remainingWorkAtDrainEnd": 0,
+      "pendingEventsAtDrainEnd": 0
+    },
+    "limitations": [
+      "Generic blocking service pools only; no typed12-component adapter",
+      "No regional routing/failure or shared-bandwidth model",
+      "Exact internal observations; HDR wire serialization deferred",
+      "No real-system calibration or production-accuracy claim"
+    ]
+  },
+  "overloadedInput": {
+    "foundationVersion": 1,
+    "seed": 42,
+    "workload": {
+      "baselineRps": 100,
+      "arrival": "constant_rate",
+      "durationMs": 1000,
+      "warmupMs": 0,
+      "drainMs": 3000,
+      "schedule": [
+        {
+          "atMs": 0,
+          "multiplier": 1
+        },
+        {
+          "atMs": 1000,
+          "multiplier": 1
+        }
+      ],
+      "origins": [
+        {
+          "id": "us-east",
+          "shareBps": 10000,
+          "entryNodeId": "app"
+        }
+      ],
+      "operations": [
+        {
+          "id": "browse",
+          "kind": "read",
+          "shareBps": 10000,
+          "deadlineMs": 3000,
+          "idempotent": true,
+          "retry": {
+            "maxAttempts": 1,
+            "baseBackoffMs": 5,
+            "maxBackoffMs": 5,
+            "jitterRatio": 0
+          }
+        }
+      ]
+    },
+    "nodes": [
+      {
+        "id": "app",
+        "replicas": 1,
+        "slotsPerReplica": 1,
+        "waitingCapacityPerReplica": 200,
+        "serviceTime": {
+          "kind": "constant",
+          "valueMs": 20
+        },
+        "dispatch": "all",
+        "downstream": []
+      }
+    ],
+    "targets": {
+      "p95Ms": 300,
+      "errorBudgetRatio": 0.01
+    }
+  },
+  "overloadedResult": {
+    "engineVersion": "region-lab-foundation-v1",
+    "stage": "uncalibrated-foundation",
+    "inputHash": "2d0022c6de52ba46d9e8918c6e8c2e9bf5479511e3178038ec88d9ff03743a72",
+    "measurementMs": 1000,
+    "warmupOfferedRequests": 0,
+    "summary": {
+      "offeredRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "unresolvedRequests": 0,
+      "attempts": 100,
+      "errorRateRatio": 0,
+      "failures": {
+        "QUEUE_FULL": 0,
+        "DEADLINE": 0
+      },
+      "latency": {
+        "count": 100,
+        "minMs": 20,
+        "maxMs": 1010,
+        "meanMs": 515,
+        "p50Ms": 510,
+        "p95Ms": null,
+        "p99Ms": null,
+        "percentileStatus": {
+          "p50": "available",
+          "p95": "insufficient_samples",
+          "p99": "insufficient_samples"
+        }
+      },
+      "verdict": "indeterminate"
+    },
+    "origins": {
+      "us-east": {
+        "offeredRequests": 100,
+        "successfulRequests": 100,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 100,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 100,
+          "minMs": 20,
+          "maxMs": 1010,
+          "meanMs": 515,
+          "p50Ms": 510,
+          "p95Ms": null,
+          "p99Ms": null,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "insufficient_samples",
+            "p99": "insufficient_samples"
+          }
+        },
+        "verdict": "indeterminate"
+      }
+    },
+    "operations": {
+      "browse": {
+        "offeredRequests": 100,
+        "successfulRequests": 100,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 100,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 100,
+          "minMs": 20,
+          "maxMs": 1010,
+          "meanMs": 515,
+          "p50Ms": 510,
+          "p95Ms": null,
+          "p99Ms": null,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "insufficient_samples",
+            "p99": "insufficient_samples"
+          }
+        },
+        "verdict": "indeterminate"
+      }
+    },
+    "nodes": [
+      {
+        "id": "app",
+        "offeredCalls": 100,
+        "completedCalls": 100,
+        "failedCalls": 0,
+        "rejectedCalls": 0,
+        "queuedDeadlineExpirations": 0,
+        "lateServiceCompletions": 0,
+        "utilizationRatio": 0.995,
+        "peakBusySlots": 1,
+        "peakQueueDepth": 50,
+        "endingQueueDepth": 0,
+        "activeCallsAtDrainEnd": 0
+      }
+    ],
+    "diagnostics": {
+      "processedEvents": 301,
+      "peakPendingEvents": 101,
+      "peakLiveCalls": 51,
+      "estimatedEvents": 700,
+      "pendingRoots": 0,
+      "remainingWorkAtDrainEnd": 0,
+      "pendingEventsAtDrainEnd": 0
+    },
+    "limitations": [
+      "Generic blocking service pools only; no typed12-component adapter",
+      "No regional routing/failure or shared-bandwidth model",
+      "Exact internal observations; HDR wire serialization deferred",
+      "No real-system calibration or production-accuracy claim"
+    ]
+  },
+  "analytical": [
+    {
+      "seed": 1,
+      "input": {
+        "foundationVersion": 1,
+        "seed": 1,
+        "workload": {
+          "baselineRps": 50,
+          "arrival": "poisson",
+          "durationMs": 300000,
+          "warmupMs": 30000,
+          "drainMs": 60000,
+          "schedule": [
+            {
+              "atMs": 0,
+              "multiplier": 1
+            },
+            {
+              "atMs": 300000,
+              "multiplier": 1
+            }
+          ],
+          "origins": [
+            {
+              "id": "us-east",
+              "shareBps": 10000,
+              "entryNodeId": "app"
+            }
+          ],
+          "operations": [
+            {
+              "id": "browse",
+              "kind": "read",
+              "shareBps": 10000,
+              "deadlineMs": 60000,
+              "idempotent": true,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 5,
+                "jitterRatio": 0
+              }
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "app",
+            "replicas": 1,
+            "slotsPerReplica": 1,
+            "waitingCapacityPerReplica": 10000,
+            "serviceTime": {
+              "kind": "exponential",
+              "meanMs": 10
+            },
+            "dispatch": "all",
+            "downstream": []
+          }
+        ],
+        "targets": {
+          "p95Ms": 300,
+          "errorBudgetRatio": 0.01
+        }
+      },
+      "summary": {
+        "offeredRequests": 14950,
+        "successfulRequests": 14950,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 14950,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 14950,
+          "minMs": 0.0009320749813923612,
+          "maxMs": 175.3913858353917,
+          "meanMs": 19.915028989746105,
+          "p50Ms": 13.62878177218954,
+          "p95Ms": 60.22327505174326,
+          "p99Ms": 92.04216555110179,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "available",
+            "p99": "available"
+          }
+        },
+        "verdict": "pass"
+      },
+      "utilizationRatio": 0.4977510413940016,
+      "diagnostics": {
+        "processedEvents": 49357,
+        "peakPendingEvents": 3121,
+        "peakLiveCalls": 12,
+        "estimatedEvents": 124719,
+        "pendingRoots": 0,
+        "remainingWorkAtDrainEnd": 0,
+        "pendingEventsAtDrainEnd": 0
+      },
+      "inputHash": "a16e9db14cf2ca8bdc4e8251b8e2e8c4af7518e8325e64bae050b3f7a9c295b5",
+      "expected": {
+        "meanMs": 20,
+        "p95Ms": 59.914645471079815,
+        "utilizationRatio": 0.5
+      }
+    },
+    {
+      "seed": 42,
+      "input": {
+        "foundationVersion": 1,
+        "seed": 42,
+        "workload": {
+          "baselineRps": 50,
+          "arrival": "poisson",
+          "durationMs": 300000,
+          "warmupMs": 30000,
+          "drainMs": 60000,
+          "schedule": [
+            {
+              "atMs": 0,
+              "multiplier": 1
+            },
+            {
+              "atMs": 300000,
+              "multiplier": 1
+            }
+          ],
+          "origins": [
+            {
+              "id": "us-east",
+              "shareBps": 10000,
+              "entryNodeId": "app"
+            }
+          ],
+          "operations": [
+            {
+              "id": "browse",
+              "kind": "read",
+              "shareBps": 10000,
+              "deadlineMs": 60000,
+              "idempotent": true,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 5,
+                "jitterRatio": 0
+              }
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "app",
+            "replicas": 1,
+            "slotsPerReplica": 1,
+            "waitingCapacityPerReplica": 10000,
+            "serviceTime": {
+              "kind": "exponential",
+              "meanMs": 10
+            },
+            "dispatch": "all",
+            "downstream": []
+          }
+        ],
+        "targets": {
+          "p95Ms": 300,
+          "errorBudgetRatio": 0.01
+        }
+      },
+      "summary": {
+        "offeredRequests": 14983,
+        "successfulRequests": 14983,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 14983,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 14983,
+          "minMs": 0.0009090855019167066,
+          "maxMs": 150.95899522755644,
+          "meanMs": 18.875843648218435,
+          "p50Ms": 13.160693470097613,
+          "p95Ms": 56.403704410709906,
+          "p99Ms": 84.55547485745046,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "available",
+            "p99": "available"
+          }
+        },
+        "verdict": "pass"
+      },
+      "utilizationRatio": 0.48788072107777136,
+      "diagnostics": {
+        "processedEvents": 49306,
+        "peakPendingEvents": 3133,
+        "peakLiveCalls": 12,
+        "estimatedEvents": 124719,
+        "pendingRoots": 0,
+        "remainingWorkAtDrainEnd": 0,
+        "pendingEventsAtDrainEnd": 0
+      },
+      "inputHash": "ded5f85f27d1b5427bc0ee78078b8461dfdc6d4d12f62203d4dd7e58a13252bc",
+      "expected": {
+        "meanMs": 20,
+        "p95Ms": 59.914645471079815,
+        "utilizationRatio": 0.5
+      }
+    },
+    {
+      "seed": 999,
+      "input": {
+        "foundationVersion": 1,
+        "seed": 999,
+        "workload": {
+          "baselineRps": 50,
+          "arrival": "poisson",
+          "durationMs": 300000,
+          "warmupMs": 30000,
+          "drainMs": 60000,
+          "schedule": [
+            {
+              "atMs": 0,
+              "multiplier": 1
+            },
+            {
+              "atMs": 300000,
+              "multiplier": 1
+            }
+          ],
+          "origins": [
+            {
+              "id": "us-east",
+              "shareBps": 10000,
+              "entryNodeId": "app"
+            }
+          ],
+          "operations": [
+            {
+              "id": "browse",
+              "kind": "read",
+              "shareBps": 10000,
+              "deadlineMs": 60000,
+              "idempotent": true,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 5,
+                "jitterRatio": 0
+              }
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "app",
+            "replicas": 1,
+            "slotsPerReplica": 1,
+            "waitingCapacityPerReplica": 10000,
+            "serviceTime": {
+              "kind": "exponential",
+              "meanMs": 10
+            },
+            "dispatch": "all",
+            "downstream": []
+          }
+        ],
+        "targets": {
+          "p95Ms": 300,
+          "errorBudgetRatio": 0.01
+        }
+      },
+      "summary": {
+        "offeredRequests": 15021,
+        "successfulRequests": 15021,
+        "failedRequests": 0,
+        "unresolvedRequests": 0,
+        "attempts": 15021,
+        "errorRateRatio": 0,
+        "failures": {
+          "QUEUE_FULL": 0,
+          "DEADLINE": 0
+        },
+        "latency": {
+          "count": 15021,
+          "minMs": 0.0009147740784101188,
+          "maxMs": 153.97787571733352,
+          "meanMs": 19.85011593715698,
+          "p50Ms": 13.44977865551482,
+          "p95Ms": 61.11352589739545,
+          "p99Ms": 90.4507685014105,
+          "percentileStatus": {
+            "p50": "available",
+            "p95": "available",
+            "p99": "available"
+          }
+        },
+        "verdict": "pass"
+      },
+      "utilizationRatio": 0.4939161197418897,
+      "diagnostics": {
+        "processedEvents": 49555,
+        "peakPendingEvents": 3082,
+        "peakLiveCalls": 13,
+        "estimatedEvents": 124719,
+        "pendingRoots": 0,
+        "remainingWorkAtDrainEnd": 0,
+        "pendingEventsAtDrainEnd": 0
+      },
+      "inputHash": "a425c29117ea69b9132fe3dae43e8029814a7fcc256675d26db67b5a66b1361a",
+      "expected": {
+        "meanMs": 20,
+        "p95Ms": 59.914645471079815,
+        "utilizationRatio": 0.5
+      }
+    }
+  ]
+}

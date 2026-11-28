@@ -1,0 +1,1038 @@
+{
+  "date": "2026-11-27",
+  "stage": "uncalibrated-components",
+  "nodeVersion": "v24.14.1",
+  "deterministicReplay": true,
+  "sourceSha256": {
+    "component-engine.ts": "a3e8724cda326d09f8dc7083db70ddf9e724a3a91e8d863a79ef4346a77cdc4a",
+    "component-input.ts": "3e03f8603a213b75d296d3dbe91534105ad47810b67eff00eade43a6e33bc7a3",
+    "component-resources.ts": "b1af61c930f230c60534915f828478515409f09750ad3bdbc40ef5964c7501c1",
+    "component.fixture.ts": "28a5009ac00cf07a9c815c35cf549486be6344c17eeb8783aa12b247b9b7c340",
+    "component.spec.ts": "ea916415d6af5a21572982f6906e94f4374aa25f9e5ea987a05c3d41bcbe04ed"
+  },
+  "cases": [
+    {
+      "input": {
+        "componentVersion": 1,
+        "seed": 42,
+        "workload": {
+          "baselineRps": 100,
+          "arrival": "constant_rate",
+          "durationMs": 1000,
+          "warmupMs": 0,
+          "drainMs": 5000,
+          "schedule": [
+            {
+              "atMs": 0,
+              "multiplier": 1
+            },
+            {
+              "atMs": 1000,
+              "multiplier": 1
+            }
+          ],
+          "origins": [
+            {
+              "id": "us-east",
+              "shareBps": 10000,
+              "clientNodeId": "users",
+              "entryNodeId": "app"
+            }
+          ],
+          "operations": [
+            {
+              "id": "browse",
+              "kind": "read",
+              "shareBps": 10000,
+              "deadlineMs": 5000,
+              "idempotent": true,
+              "requestBytes": 0,
+              "responseBytes": 0,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 20,
+                "jitterRatio": 0
+              }
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "users",
+            "type": "client",
+            "region": "us-east"
+          },
+          {
+            "id": "app",
+            "region": "us-east",
+            "profileId": "app_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "app",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000
+            }
+          },
+          {
+            "id": "db",
+            "region": "us-east",
+            "profileId": "db_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "db",
+            "properties": {
+              "readServiceTime": {
+                "kind": "constant",
+                "valueMs": 3
+              },
+              "writeServiceTime": {
+                "kind": "constant",
+                "valueMs": 7
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e_app_db",
+            "from": "app",
+            "to": "db",
+            "operationIds": [
+              "browse"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          }
+        ],
+        "targets": {
+          "p95Ms": 300,
+          "errorBudgetRatio": 0.01
+        }
+      },
+      "result": {
+        "engineVersion": "region-lab-components-v1",
+        "stage": "uncalibrated-components",
+        "inputHash": "0a9e952df81751c86f1e7d2c71b9d1fdabf155d31a7f42e0859fa9bed2f5f1b7",
+        "warmupOfferedRequests": 0,
+        "summary": {
+          "offeredRequests": 100,
+          "successfulRequests": 100,
+          "failedRequests": 0,
+          "unresolvedRequests": 0,
+          "attempts": 100,
+          "failures": {
+            "QUEUE_FULL": 0,
+            "RATE_LIMITED": 0,
+            "DEADLINE": 0
+          },
+          "errorRateRatio": 0,
+          "latency": {
+            "count": 100,
+            "meanMs": 4,
+            "p50Ms": 4,
+            "p95Ms": null,
+            "p99Ms": null
+          },
+          "verdict": "indeterminate"
+        },
+        "origins": {
+          "us-east": {
+            "offeredRequests": 100,
+            "successfulRequests": 100,
+            "failedRequests": 0,
+            "unresolvedRequests": 0,
+            "attempts": 100,
+            "failures": {
+              "QUEUE_FULL": 0,
+              "RATE_LIMITED": 0,
+              "DEADLINE": 0
+            },
+            "errorRateRatio": 0,
+            "latency": {
+              "count": 100,
+              "meanMs": 4,
+              "p50Ms": 4,
+              "p95Ms": null,
+              "p99Ms": null
+            },
+            "verdict": "indeterminate"
+          }
+        },
+        "operations": {
+          "browse": {
+            "offeredRequests": 100,
+            "successfulRequests": 100,
+            "failedRequests": 0,
+            "unresolvedRequests": 0,
+            "attempts": 100,
+            "failures": {
+              "QUEUE_FULL": 0,
+              "RATE_LIMITED": 0,
+              "DEADLINE": 0
+            },
+            "errorRateRatio": 0,
+            "latency": {
+              "count": 100,
+              "meanMs": 4,
+              "p50Ms": 4,
+              "p95Ms": null,
+              "p99Ms": null
+            },
+            "verdict": "indeterminate"
+          }
+        },
+        "nodes": [
+          {
+            "id": "app",
+            "type": "app",
+            "offeredCalls": 100,
+            "completedCalls": 100,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.004,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "db",
+            "type": "db",
+            "offeredCalls": 100,
+            "completedCalls": 100,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.003,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "users",
+            "type": "client",
+            "offeredCalls": 0,
+            "completedCalls": 0,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": null,
+            "peakBusySlots": 0,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          }
+        ],
+        "diagnostics": {
+          "processedEvents": 601,
+          "peakPendingEvents": 101,
+          "estimatedEvents": 2900,
+          "remainingCalls": 0,
+          "remainingBackgroundWork": 0,
+          "pendingEvents": 0
+        },
+        "warnings": [],
+        "limitations": [
+          "Single-region component model; explicit edge delays only",
+          "No regional routing/outage or network link sharing",
+          "Replica transport is zero; ordered serial apply is separate from read slots",
+          "Exact internal observations; no HDR wire adapter or production calibration",
+          "Synchronous local library; hosted worker isolation remains pending"
+        ]
+      }
+    },
+    {
+      "input": {
+        "componentVersion": 1,
+        "seed": 42,
+        "workload": {
+          "baselineRps": 100,
+          "arrival": "constant_rate",
+          "durationMs": 1000,
+          "warmupMs": 0,
+          "drainMs": 5000,
+          "schedule": [
+            {
+              "atMs": 0,
+              "multiplier": 1
+            },
+            {
+              "atMs": 1000,
+              "multiplier": 1
+            }
+          ],
+          "origins": [
+            {
+              "id": "us-east",
+              "shareBps": 10000,
+              "clientNodeId": "users",
+              "entryNodeId": "lb"
+            }
+          ],
+          "operations": [
+            {
+              "id": "browse",
+              "kind": "read",
+              "shareBps": 8000,
+              "deadlineMs": 5000,
+              "idempotent": true,
+              "requestBytes": 100,
+              "responseBytes": 1000,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 20,
+                "jitterRatio": 0
+              }
+            },
+            {
+              "id": "order",
+              "kind": "write",
+              "shareBps": 2000,
+              "deadlineMs": 5000,
+              "idempotent": true,
+              "requestBytes": 100,
+              "responseBytes": 1000,
+              "retry": {
+                "maxAttempts": 1,
+                "baseBackoffMs": 5,
+                "maxBackoffMs": 20,
+                "jitterRatio": 0
+              }
+            }
+          ]
+        },
+        "nodes": [
+          {
+            "id": "users",
+            "type": "client",
+            "region": "us-east"
+          },
+          {
+            "id": "app",
+            "region": "us-east",
+            "profileId": "app_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "app",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000
+            }
+          },
+          {
+            "id": "db",
+            "region": "us-east",
+            "profileId": "db_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "db",
+            "properties": {
+              "readServiceTime": {
+                "kind": "constant",
+                "valueMs": 3
+              },
+              "writeServiceTime": {
+                "kind": "constant",
+                "valueMs": 7
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000
+            }
+          },
+          {
+            "id": "cdn",
+            "region": "us-east",
+            "profileId": "cdn_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "cdn",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "hitRatio": 0.25,
+              "hitTime": {
+                "kind": "constant",
+                "valueMs": 0.25
+              }
+            }
+          },
+          {
+            "id": "lb",
+            "region": "us-east",
+            "profileId": "lb_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "lb",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000
+            }
+          },
+          {
+            "id": "gateway",
+            "region": "us-east",
+            "profileId": "gateway_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "gateway",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "rateLimitRps": 10000,
+              "rateLimitBurstRequests": 10000
+            }
+          },
+          {
+            "id": "cache",
+            "region": "us-east",
+            "profileId": "cache_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "cache",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "hitRatio": 0.25,
+              "hitTime": {
+                "kind": "constant",
+                "valueMs": 0.25
+              }
+            }
+          },
+          {
+            "id": "replica",
+            "region": "us-east",
+            "profileId": "replica_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "replica",
+            "primaryNodeId": "db",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "replicationApplyTime": {
+                "kind": "constant",
+                "valueMs": 4
+              }
+            }
+          },
+          {
+            "id": "queue",
+            "region": "us-east",
+            "profileId": "queue_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "queue",
+            "properties": {
+              "maxDepthJobs": 100,
+              "ackTime": {
+                "kind": "constant",
+                "valueMs": 2
+              },
+              "overflowPolicy": "reject_new",
+              "maxDeliveryAttempts": 3,
+              "redeliveryDelayMs": 5
+            }
+          },
+          {
+            "id": "worker",
+            "region": "us-east",
+            "profileId": "worker_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "worker",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 0
+            }
+          },
+          {
+            "id": "storage",
+            "region": "us-east",
+            "profileId": "storage_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "storage",
+            "properties": {
+              "readServiceTime": {
+                "kind": "constant",
+                "valueMs": 3
+              },
+              "writeServiceTime": {
+                "kind": "constant",
+                "valueMs": 7
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "aggregateBandwidthMbps": 8
+            }
+          },
+          {
+            "id": "external",
+            "region": "us-east",
+            "profileId": "external_profile",
+            "profileVersion": 1,
+            "replicas": 1,
+            "type": "external",
+            "properties": {
+              "serviceTime": {
+                "kind": "constant",
+                "valueMs": 1
+              },
+              "serviceSlotsPerReplica": 100,
+              "waitingCapacity": 1000,
+              "rateLimitRps": 10000,
+              "rateLimitBurstRequests": 10000
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "e_lb_cdn",
+            "from": "lb",
+            "to": "cdn",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_cdn_gateway",
+            "from": "cdn",
+            "to": "gateway",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_gateway_app",
+            "from": "gateway",
+            "to": "app",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_app_cache",
+            "from": "app",
+            "to": "cache",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_cache_db",
+            "from": "cache",
+            "to": "db",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_cache_replica",
+            "from": "cache",
+            "to": "replica",
+            "operationIds": [
+              "browse"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_app_queue",
+            "from": "app",
+            "to": "queue",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "async",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_queue_worker",
+            "from": "queue",
+            "to": "worker",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_worker_db",
+            "from": "worker",
+            "to": "db",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_app_storage",
+            "from": "app",
+            "to": "storage",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          },
+          {
+            "id": "e_app_external",
+            "from": "app",
+            "to": "external",
+            "operationIds": [
+              "browse",
+              "order"
+            ],
+            "mode": "sync",
+            "dispatch": "all",
+            "weight": 1,
+            "oneWayDelayMs": 0
+          }
+        ],
+        "targets": {
+          "p95Ms": 300,
+          "errorBudgetRatio": 0.01
+        }
+      },
+      "result": {
+        "engineVersion": "region-lab-components-v1",
+        "stage": "uncalibrated-components",
+        "inputHash": "2e71f7af5e8cdf5d9a7a70affc615391c644853bd61ad9e4461212626b78ed60",
+        "warmupOfferedRequests": 0,
+        "summary": {
+          "offeredRequests": 100,
+          "successfulRequests": 100,
+          "failedRequests": 0,
+          "unresolvedRequests": 0,
+          "attempts": 100,
+          "failures": {
+            "QUEUE_FULL": 0,
+            "RATE_LIMITED": 0,
+            "DEADLINE": 0
+          },
+          "errorRateRatio": 0,
+          "latency": {
+            "count": 100,
+            "meanMs": 7.895500000000014,
+            "p50Ms": 8.100000000000023,
+            "p95Ms": null,
+            "p99Ms": null
+          },
+          "verdict": "indeterminate"
+        },
+        "origins": {
+          "us-east": {
+            "offeredRequests": 100,
+            "successfulRequests": 100,
+            "failedRequests": 0,
+            "unresolvedRequests": 0,
+            "attempts": 100,
+            "failures": {
+              "QUEUE_FULL": 0,
+              "RATE_LIMITED": 0,
+              "DEADLINE": 0
+            },
+            "errorRateRatio": 0,
+            "latency": {
+              "count": 100,
+              "meanMs": 7.895500000000014,
+              "p50Ms": 8.100000000000023,
+              "p95Ms": null,
+              "p99Ms": null
+            },
+            "verdict": "indeterminate"
+          }
+        },
+        "operations": {
+          "browse": {
+            "offeredRequests": 76,
+            "successfulRequests": 76,
+            "failedRequests": 0,
+            "unresolvedRequests": 0,
+            "attempts": 76,
+            "failures": {
+              "QUEUE_FULL": 0,
+              "RATE_LIMITED": 0,
+              "DEADLINE": 0
+            },
+            "errorRateRatio": 0,
+            "latency": {
+              "count": 76,
+              "meanMs": 6.567763157894748,
+              "p50Ms": 8.100000000000023,
+              "p95Ms": null,
+              "p99Ms": null
+            },
+            "verdict": "indeterminate"
+          },
+          "order": {
+            "offeredRequests": 24,
+            "successfulRequests": 24,
+            "failedRequests": 0,
+            "unresolvedRequests": 0,
+            "attempts": 24,
+            "failures": {
+              "QUEUE_FULL": 0,
+              "RATE_LIMITED": 0,
+              "DEADLINE": 0
+            },
+            "errorRateRatio": 0,
+            "latency": {
+              "count": 24,
+              "meanMs": 12.100000000000017,
+              "p50Ms": 12.100000000000023,
+              "p95Ms": null,
+              "p99Ms": null
+            },
+            "verdict": "indeterminate"
+          }
+        },
+        "nodes": [
+          {
+            "id": "app",
+            "type": "app",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.005162000000000013,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "cache",
+            "type": "cache",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 13,
+            "cacheMisses": 46,
+            "cacheBypasses": 24,
+            "utilizationRatio": 0.0037625,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "cdn",
+            "type": "cdn",
+            "offeredCalls": 100,
+            "completedCalls": 100,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 17,
+            "cacheMisses": 59,
+            "cacheBypasses": 24,
+            "utilizationRatio": 0.006864500000000013,
+            "peakBusySlots": 2,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "db",
+            "type": "db",
+            "offeredCalls": 153,
+            "completedCalls": 153,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.00645,
+            "peakBusySlots": 2,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "external",
+            "type": "external",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.00083,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "gateway",
+            "type": "gateway",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.005992000000000013,
+            "peakBusySlots": 2,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "lb",
+            "type": "lb",
+            "offeredCalls": 100,
+            "completedCalls": 100,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.007864500000000012,
+            "peakBusySlots": 2,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "queue",
+            "type": "queue",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": null,
+            "peakBusySlots": 0,
+            "peakQueueDepth": 1,
+            "lateCompletions": 0,
+            "queue": {
+              "accounting": "all accepted jobs including warmup",
+              "accepted": 83,
+              "completed": 83,
+              "dropped": 0,
+              "deadLettered": 0,
+              "deliveries": 83,
+              "redeliveries": 0,
+              "waiting": 0,
+              "inFlight": 0,
+              "delayed": 0,
+              "maxStartedJobAgeMs": 2
+            },
+            "replication": null
+          },
+          {
+            "id": "replica",
+            "type": "replica",
+            "offeredCalls": 46,
+            "completedCalls": 46,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.00045,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": {
+              "appliedCommits": 48,
+              "pendingCommits": 0,
+              "meanCommitToApplyMs": 5,
+              "maxCommitToApplyMs": 6
+            }
+          },
+          {
+            "id": "storage",
+            "type": "storage",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.004332000000000013,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "users",
+            "type": "client",
+            "offeredCalls": 0,
+            "completedCalls": 0,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": null,
+            "peakBusySlots": 0,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          },
+          {
+            "id": "worker",
+            "type": "worker",
+            "offeredCalls": 83,
+            "completedCalls": 83,
+            "failedCalls": 0,
+            "rejectedCalls": 0,
+            "rateLimitedCalls": 0,
+            "cacheHits": 0,
+            "cacheMisses": 0,
+            "cacheBypasses": 0,
+            "utilizationRatio": 0.00424,
+            "peakBusySlots": 1,
+            "peakQueueDepth": 0,
+            "lateCompletions": 0,
+            "queue": null,
+            "replication": null
+          }
+        ],
+        "diagnostics": {
+          "processedEvents": 2988,
+          "peakPendingEvents": 188,
+          "estimatedEvents": 26900,
+          "remainingCalls": 0,
+          "remainingBackgroundWork": 0,
+          "pendingEvents": 1
+        },
+        "warnings": [],
+        "limitations": [
+          "Single-region component model; explicit edge delays only",
+          "No regional routing/outage or network link sharing",
+          "Replica transport is zero; ordered serial apply is separate from read slots",
+          "Exact internal observations; no HDR wire adapter or production calibration",
+          "Synchronous local library; hosted worker isolation remains pending"
+        ]
+      }
+    }
+  ]
+}

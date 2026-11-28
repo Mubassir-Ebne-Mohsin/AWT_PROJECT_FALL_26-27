@@ -1,0 +1,371 @@
+  console.log
+    Migration "RegionLabStorage1795600000000" failed, error: syntax error at or near "IF"
+
+      at PlatformTools.log (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/platform/PlatformTools.ts:274:17)
+
+FAIL test/region-lab.e2e-spec.ts (22.984 s)
+  ● Region Lab private persistence and isolated execution › requires the existing bearer guard, rejects hostile origins and validates strict bodies
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › Admin and other accounts get404 on every private identifier operation
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › records immutable versions, rejects stale edits and duplicates independently
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › paginates summaries without graphs and binds cursors to their owner
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › authenticates operator profiles and treats custom provenance as assumptions
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › serializes idempotent submissions and freezes accepted input across later edits
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › bounds owner queues, prevents active deletion and retains deleted request-id tombstones
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › only one dispatcher claims execution and stale lease tokens cannot publish
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › completion and cancellation have one atomic winner and cancellation retains the physical slot
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › expired leases fail without silent retry or acceptance of a late result
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › database deletion fences jobs and cascades all owner-private state before a stale publication
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › executes a real child with no DB/JWT/provider credentials and publishes only after exit
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › isolatescrash and never treats it as completed
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › isolatesinvalid and never treats it as completed
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › isolateswrong-token and never treats it as completed
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › isolatesrss and never treats it as completed
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › parent watchdog terminates a spinning child while the API event loop stays responsive
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › a real V8 heap ceiling contains allocation failure in the child process
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › dispatchers persist actual child results and cancelling a running child releases the lease after exit
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+  ● Region Lab private persistence and isolated execution › migration rollback refuses populated data and restores an empty disposable schema
+
+    QueryFailedError: syntax error at or near "IF"
+
+      2 | export class RegionLabStorage1795600000000 implements MigrationInterface {
+      3 |   name='RegionLabStorage1795600000000';
+    > 4 |   async up(q:QueryRunner){await q.query(`
+        |                           ^
+      5 |     SET LOCAL lock_timeout='2s';
+      6 |     CREATE TABLE region_lab_experiments (
+      7 |       id uuid PRIMARY KEY DEFAULT gen_random_uuid(), owner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+
+      at PostgresQueryRunner.query (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/driver/postgres/PostgresQueryRunner.ts:325:19)
+      at RegionLabStorage1795600000000.up (src/database/migrations/1795600000000-RegionLabStorage.ts:4:27)
+      at MigrationExecutor.executePendingMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/migration/MigrationExecutor.ts:346:17)
+      at DataSource.runMigrations (node_modules/.pnpm/typeorm@0.3.31_ioredis@5.11_763eeda3ad5d06a42c6018ae0dfa1c21/src/data-source/DataSource.ts:404:13)
+      at Object.<anonymous> (test/region-lab.e2e-spec.ts:56:68)
+
+Test Suites: 1 failed, 1 total
+Tests:       20 failed, 20 total
+Snapshots:   0 total
+Time:        24.037 s
+Ran all test suites.

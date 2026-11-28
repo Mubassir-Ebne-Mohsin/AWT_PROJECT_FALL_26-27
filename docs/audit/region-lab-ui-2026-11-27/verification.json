@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-27",
+  "stage": "UI prototype only",
+  "uniqueBrowserJourneys": 8,
+  "finalBrowserPasses": 8,
+  "viewports": [
+    320,
+    390,
+    1024,
+    1440
+  ],
+  "views": [
+    "overview",
+    "experiments",
+    "workspace",
+    "results",
+    "profiles",
+    "guide"
+  ],
+  "exportScenarioContract": "pass",
+  "types": "pass",
+  "scopedTestLint": "pass",
+  "syntax": "pass",
+  "staticHttpChecks": 6,
+  "mutation": "Oversized1600px hero detected by desktop overflow assertion",
+  "screenshotsReviewed": [
+    "dark desktop overview",
+    "light mobile workspace",
+    "dark desktop results"
+  ],
+  "initialFailure": "Owner3000 offline; separate3015 server used",
+  "prototypeFixes": [
+    "explicit slider/select labels",
+    "invalid input export guard",
+    "independent draft memory",
+    "failure guide navigation",
+    "skip navigation preserves view"
+  ],
+  "server": "http://127.0.0.1:3015",
+  "serverSession": 73130,
+  "liveSimulation": false,
+  "persistentStorage": false,
+  "applicationApiCalls": false,
+  "appNavigationChanged": false,
+  "existingTestsModified": false,
+  "ownerDataWrites": false,
+  "productionBuild": "not needed or run for static prototype assets",
+  "uncommitted": true
+}

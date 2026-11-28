@@ -1,0 +1,91 @@
+{
+  "date": "2026-11-27",
+  "status": "PARTIAL: final builds passed; isolated runtime acceptance blocked by physical RAM",
+  "sessionFocused": {
+    "passed": 19,
+    "suites": 5
+  },
+  "preflightFault": {
+    "caught": true,
+    "restoredPasses": 9,
+    "scope": "before added wildcard case"
+  },
+  "environmentValidator": {
+    "passed": 4
+  },
+  "hostCombined": {
+    "passed": 23,
+    "failed": 1,
+    "reason": "existing 15-second production-startup child timeout during concurrent build; unchanged assertion"
+  },
+  "heapRetry": {
+    "heapMiB": 512,
+    "status": "out of memory; not a green run"
+  },
+  "images": {
+    "initialApi": "built",
+    "standaloneWeb": "built",
+    "rootlessProxy": "built",
+    "verification": "built",
+    "finalApi": "passed, exit 0; current source compiled and packaged",
+    "buildPipeline": "subsequently split compilation/prune with a 1024 MiB build-only heap and excluded platform caches",
+    "finalStandaloneWeb": "passed, exit 0; current source compiled and packaged",
+    "finalProxy": "passed, exit 0",
+    "finalVerification": "passed, exit 0",
+    "finalIdentities": {
+      "api": "sha256:1b1eccf82ee7f0ddb68c8da4c08fcb164c25cfd950a0f23da8ba04b270b5e79d",
+      "web": "sha256:51cbf83ace4d4ce555be9ad833cfacd8bd597154edc1826124c98b4d873b5832",
+      "proxy": "sha256:5d8f6c984b7ae3d9cdad40d2ec14e90e2532a00c7161ed42a42368303868f5ae",
+      "verification": "sha256:375bd965890563101a4c8e34be34a2acbe1d8098a5b90b3e12a38f97bdee4960"
+    }
+  },
+  "integration": {
+    "project": "stressforge-h2-qa-1795754694687",
+    "checks": [],
+    "status": "failed",
+    "error": "Hosting rehearsal requires about 2 GiB of free RAM; close unused apps before retrying",
+    "cleanup": "no resources created"
+  },
+  "pending": [
+    "isolated runtime/HTTPS/TLS/auth/worker/restart/restore/rollback tests",
+    "unchanged Linux account/role HTTP tests",
+    "real hosted Chrome journey"
+  ],
+  "ownerDataChanged": false,
+  "liveAiCalls": 0,
+  "commitOrPush": false,
+  "resumedVerification": {
+    "date": "2026-11-27",
+    "nativeBackendBuild": "passed, exit 0",
+    "backendFullTestTypeCheck": "passed, exit 0",
+    "nativeFrontendBuild": "passed, exit 0; separate audit output, one worker",
+    "focusedUnits": {
+      "passed": 25,
+      "suites": 5
+    },
+    "environmentValidator": {
+      "passed": 4
+    },
+    "backendScopedLint": {
+      "errors": 0,
+      "warnings": 2,
+      "note": "existing empty lifecycle methods in FakeRedis"
+    },
+    "frontendConfigLint": {
+      "errors": 0
+    },
+    "harnessSyntax": "passed",
+    "resourceGate": {
+      "requiredFreeMiB": 2048,
+      "observedFreeMiB": 787,
+      "result": "refused before resources created; gate unchanged",
+      "note": "Docker VM filesystem cache reclaimed once; no persistent WSL setting changed"
+    }
+  },
+  "previousIntegration": {
+    "status": "interrupted by agent to avoid mixing a running build with acceptance",
+    "checksCompleted": 3,
+    "ownerProject": "stressforge-h2-qa-1795721809365",
+    "cleanup": "own project removed"
+  }
+}
