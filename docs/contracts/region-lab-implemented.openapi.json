@@ -1,0 +1,3755 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/v1/region-lab/experiments/{id}/versions/{revision}/export": {
+      "get": {
+        "operationId": "RegionController_versionExport",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/experiments/{id}/runs": {
+      "get": {
+        "operationId": "RegionController_runs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      },
+      "post": {
+        "operationId": "RegionController_submit",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}/results": {
+      "get": {
+        "operationId": "RegionController_resultsView",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionResultViewDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}/compare": {
+      "get": {
+        "operationId": "RegionController_compare",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}/export": {
+      "get": {
+        "operationId": "RegionController_exportRun",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}/report": {
+      "get": {
+        "operationId": "RegionController_report",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/profiles": {
+      "get": {
+        "operationId": "RegionController_catalog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/validate": {
+      "post": {
+        "operationId": "RegionController_validate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/experiments": {
+      "get": {
+        "operationId": "RegionController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      },
+      "post": {
+        "operationId": "RegionController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/experiments/{id}": {
+      "get": {
+        "operationId": "RegionController_get",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      },
+      "patch": {
+        "operationId": "RegionController_patch",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      },
+      "delete": {
+        "operationId": "RegionController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/experiments/{id}/duplicate": {
+      "post": {
+        "operationId": "RegionController_duplicate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicateRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/experiments/{id}/versions": {
+      "get": {
+        "operationId": "RegionController_versions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}": {
+      "get": {
+        "operationId": "RegionController_run",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    },
+    "/v1/region-lab/runs/{id}/cancel": {
+      "post": {
+        "operationId": "RegionController_cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "region-lab"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Isolated Region Lab",
+    "description": "",
+    "version": "1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RegionResultViewDto": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          },
+          "experimentRevision": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "currentRevision": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "isCurrentRevision": {
+            "type": "boolean"
+          },
+          "inputHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "engineVersion": {
+            "type": "string"
+          },
+          "wireVersion": {
+            "type": "string",
+            "enum": [
+              "native-v1",
+              "region-lab-result-v2"
+            ]
+          },
+          "calibration": {
+            "type": "string",
+            "enum": [
+              "uncalibrated"
+            ]
+          },
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "baseline",
+              "outage"
+            ]
+          },
+          "repetition": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "offeredRequests": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "successfulRequests": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "failedRequests": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "unresolvedRequests": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "attempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "errorRateRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "nullable": true
+              },
+              "failures": {
+                "type": "object",
+                "properties": {
+                  "QUEUE_FULL": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "RATE_LIMITED": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "DEADLINE": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "UNAVAILABLE": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "required": [
+                  "QUEUE_FULL",
+                  "RATE_LIMITED",
+                  "DEADLINE",
+                  "UNAVAILABLE"
+                ],
+                "additionalProperties": false
+              },
+              "latency": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "meanMs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "nullable": true
+                  },
+                  "p50Ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "nullable": true
+                  },
+                  "p95Ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "nullable": true
+                  },
+                  "p99Ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "count",
+                  "meanMs",
+                  "p50Ms",
+                  "p95Ms",
+                  "p99Ms"
+                ],
+                "additionalProperties": false
+              },
+              "verdict": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "fail",
+                  "indeterminate"
+                ]
+              }
+            },
+            "required": [
+              "offeredRequests",
+              "successfulRequests",
+              "failedRequests",
+              "unresolvedRequests",
+              "attempts",
+              "errorRateRatio",
+              "failures",
+              "latency",
+              "verdict"
+            ],
+            "additionalProperties": false
+          },
+          "provenance": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "integer",
+                  "exclusiveMinimum": true,
+                  "maximum": 9007199254740991,
+                  "minimum": 0
+                },
+                "origin": {
+                  "type": "string",
+                  "enum": [
+                    "custom",
+                    "reference",
+                    "measured"
+                  ]
+                },
+                "provenance": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "origin",
+                "provenance"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "targets": {},
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            }
+          },
+          "reroutedRoots": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "nullable": true
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "distribution": {
+            "type": "object",
+            "properties": {
+              "format": {
+                "type": "string",
+                "enum": [
+                  "hdr-v2-base64"
+                ]
+              },
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "ms"
+                ]
+              },
+              "encodedTickToMs": {
+                "type": "number",
+                "enum": [
+                  0.001
+                ]
+              },
+              "lowestDiscernibleValue": {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              "highestTrackableValue": {
+                "type": "number",
+                "enum": [
+                  60000000
+                ]
+              },
+              "significantDigits": {
+                "type": "number",
+                "enum": [
+                  3
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "exclusiveMinimum": true,
+                "maximum": 9007199254740991,
+                "minimum": 0
+              },
+              "data": {
+                "type": "string",
+                "maxLength": 180000
+              }
+            },
+            "required": [
+              "format",
+              "unit",
+              "encodedTickToMs",
+              "lowestDiscernibleValue",
+              "highestTrackableValue",
+              "significantDigits",
+              "count",
+              "data"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "distributionPlot": {
+            "maxItems": 24,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "fromMs": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "toMs": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "fromMs",
+                "toMs",
+                "count"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "distributionStatus": {
+            "type": "string",
+            "enum": [
+              "captured",
+              "unavailable_for_legacy_run"
+            ]
+          },
+          "timelineAccounting": {
+            "type": "string"
+          },
+          "items": {
+            "maxItems": 120,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {}
+            }
+          },
+          "nextCursor": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "runId",
+          "experimentRevision",
+          "currentRevision",
+          "isCurrentRevision",
+          "inputHash",
+          "engineVersion",
+          "wireVersion",
+          "calibration",
+          "scenario",
+          "repetition",
+          "seed",
+          "summary",
+          "provenance",
+          "targets",
+          "phases",
+          "links",
+          "reroutedRoots",
+          "warnings",
+          "limitations",
+          "distribution",
+          "distributionPlot",
+          "distributionStatus",
+          "timelineAccounting",
+          "items",
+          "nextCursor"
+        ],
+        "additionalProperties": false
+      },
+      "ValidateRegionDto": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "type": "number",
+            "enum": [
+              1
+            ]
+          },
+          "engineContract": {
+            "type": "string",
+            "enum": [
+              "region-lab-event-v1-draft"
+            ]
+          },
+          "regions": {
+            "minItems": 1,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "us-east",
+                "eu-west",
+                "ap-south"
+              ]
+            }
+          },
+          "profiles": {
+            "minItems": 1,
+            "maxItems": 36,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                },
+                "version": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "origin": {
+                  "type": "string",
+                  "enum": [
+                    "reference",
+                    "measured",
+                    "custom"
+                  ]
+                },
+                "provenance": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "component": {
+                  "type": "string",
+                  "enum": [
+                    "cdn",
+                    "lb",
+                    "gateway",
+                    "app",
+                    "worker",
+                    "cache",
+                    "db",
+                    "replica",
+                    "queue",
+                    "storage",
+                    "external"
+                  ]
+                },
+                "properties": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "label",
+                "origin",
+                "provenance",
+                "component",
+                "properties"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "graph": {
+            "type": "object",
+            "properties": {
+              "nodes": {
+                "minItems": 2,
+                "maxItems": 36,
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "client"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "region",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "profileId": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "profileVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 1000000
+                        },
+                        "replicas": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 200
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "cdn",
+                            "lb",
+                            "gateway",
+                            "app",
+                            "worker",
+                            "cache",
+                            "db",
+                            "queue",
+                            "storage",
+                            "external"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "region",
+                        "profileId",
+                        "profileVersion",
+                        "replicas",
+                        "type"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": -100000,
+                          "maximum": 100000
+                        },
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "profileId": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "profileVersion": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 1000000
+                        },
+                        "replicas": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 200
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "replica"
+                          ]
+                        },
+                        "primaryNodeId": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "x",
+                        "y",
+                        "region",
+                        "profileId",
+                        "profileVersion",
+                        "replicas",
+                        "type",
+                        "primaryNodeId"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              },
+              "edges": {
+                "maxItems": 120,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "from": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "to": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "operationIds": {
+                      "minItems": 1,
+                      "maxItems": 8,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                      }
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "sync",
+                        "async"
+                      ]
+                    },
+                    "dispatch": {
+                      "type": "string",
+                      "enum": [
+                        "all",
+                        "weighted_one"
+                      ]
+                    },
+                    "weight": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 10000
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "from",
+                    "to",
+                    "operationIds",
+                    "mode",
+                    "dispatch",
+                    "weight"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "nodes",
+              "edges"
+            ],
+            "additionalProperties": false
+          },
+          "network": {
+            "minItems": 1,
+            "maxItems": 9,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "from": {
+                  "type": "string",
+                  "enum": [
+                    "us-east",
+                    "eu-west",
+                    "ap-south"
+                  ]
+                },
+                "to": {
+                  "type": "string",
+                  "enum": [
+                    "us-east",
+                    "eu-west",
+                    "ap-south"
+                  ]
+                },
+                "oneWayDelay": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "constant"
+                          ]
+                        },
+                        "valueMs": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 60000
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "valueMs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "exponential"
+                          ]
+                        },
+                        "meanMs": {
+                          "type": "number",
+                          "minimum": 0.001,
+                          "maximum": 60000
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "meanMs"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "lognormal"
+                          ]
+                        },
+                        "meanMs": {
+                          "type": "number",
+                          "minimum": 0.001,
+                          "maximum": 60000
+                        },
+                        "coefficientOfVariation": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 3
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "meanMs",
+                        "coefficientOfVariation"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
+                },
+                "bandwidthMbps": {
+                  "type": "number",
+                  "minimum": 0.001,
+                  "maximum": 1000000
+                },
+                "provenance": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "required": [
+                "from",
+                "to",
+                "oneWayDelay",
+                "bandwidthMbps",
+                "provenance"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "routing": {
+            "minItems": 1,
+            "maxItems": 24,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "originRegion": {
+                  "type": "string",
+                  "enum": [
+                    "us-east",
+                    "eu-west",
+                    "ap-south"
+                  ]
+                },
+                "operationId": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                },
+                "policy": {
+                  "type": "string",
+                  "enum": [
+                    "explicit",
+                    "nearest_healthy"
+                  ]
+                },
+                "primaryEntryNodeId": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                },
+                "fallbackEntryNodeIds": {
+                  "maxItems": 2,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  }
+                },
+                "detectionMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 60000
+                },
+                "switchMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 60000
+                },
+                "failbackMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 60000
+                },
+                "returnOnRecovery": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "originRegion",
+                "operationId",
+                "policy",
+                "primaryEntryNodeId",
+                "fallbackEntryNodeIds",
+                "detectionMs",
+                "switchMs",
+                "failbackMs",
+                "returnOnRecovery"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "workload": {
+            "type": "object",
+            "properties": {
+              "baselineRps": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 20000
+              },
+              "arrival": {
+                "type": "string",
+                "enum": [
+                  "constant_rate",
+                  "poisson"
+                ]
+              },
+              "durationSeconds": {
+                "type": "integer",
+                "minimum": 10,
+                "maximum": 3600
+              },
+              "warmupSeconds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 120
+              },
+              "drainSeconds": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60
+              },
+              "regionalShares": {
+                "minItems": 1,
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "region": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "shareBps": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 10000
+                    }
+                  },
+                  "required": [
+                    "region",
+                    "shareBps"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "operations": {
+                "minItems": 1,
+                "maxItems": 8,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "read",
+                        "write"
+                      ]
+                    },
+                    "shareBps": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 10000
+                    },
+                    "deadlineMs": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 60000
+                    },
+                    "idempotent": {
+                      "type": "boolean"
+                    },
+                    "retry": {
+                      "type": "object",
+                      "properties": {
+                        "maxAttempts": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 3
+                        },
+                        "baseBackoffMs": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        },
+                        "maxBackoffMs": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 60000
+                        },
+                        "jitterRatio": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      },
+                      "required": [
+                        "maxAttempts",
+                        "baseBackoffMs",
+                        "maxBackoffMs",
+                        "jitterRatio"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "requestBytes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 16777216
+                    },
+                    "responseBytes": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 16777216
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "kind",
+                    "shareBps",
+                    "deadlineMs",
+                    "idempotent",
+                    "retry",
+                    "requestBytes",
+                    "responseBytes",
+                    "label"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "schedule": {
+                "minItems": 2,
+                "maxItems": 32,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "atSeconds": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 3600
+                    },
+                    "multiplier": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 10
+                    }
+                  },
+                  "required": [
+                    "atSeconds",
+                    "multiplier"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "baselineRps",
+              "arrival",
+              "durationSeconds",
+              "warmupSeconds",
+              "drainSeconds",
+              "regionalShares",
+              "operations",
+              "schedule"
+            ],
+            "additionalProperties": false
+          },
+          "outage": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "scope": {
+                "type": "string",
+                "enum": [
+                  "application_deployment"
+                ]
+              },
+              "region": {
+                "type": "string",
+                "enum": [
+                  "us-east",
+                  "eu-west",
+                  "ap-south"
+                ]
+              },
+              "affectedNodeIds": {
+                "minItems": 1,
+                "maxItems": 12,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                }
+              },
+              "startSeconds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3600
+              },
+              "durationSeconds": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3600
+              },
+              "inFlightPolicy": {
+                "type": "string",
+                "enum": [
+                  "abort_at_failed_node"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "scope",
+              "region",
+              "affectedNodeIds",
+              "startSeconds",
+              "durationSeconds",
+              "inFlightPolicy"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "targets": {
+            "type": "object",
+            "properties": {
+              "p95Ms": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 60000
+              },
+              "errorBudgetRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "perRegion": {
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "region": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "p95Ms": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 60000
+                    },
+                    "errorBudgetRatio": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  },
+                  "required": [
+                    "region",
+                    "p95Ms",
+                    "errorBudgetRatio"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "p95Ms",
+              "errorBudgetRatio",
+              "perRegion"
+            ],
+            "additionalProperties": false
+          },
+          "runOptions": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "baseline",
+                  "outage",
+                  "paired"
+                ]
+              },
+              "seed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4294967295
+              },
+              "repetitions": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "mode",
+              "seed",
+              "repetitions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "engineContract",
+          "regions",
+          "profiles",
+          "graph",
+          "network",
+          "routing",
+          "workload",
+          "outage",
+          "targets",
+          "runOptions"
+        ],
+        "additionalProperties": false
+      },
+      "CreateRegionDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "description": {
+            "default": "",
+            "type": "string",
+            "maxLength": 2000
+          },
+          "scenario": {
+            "type": "object",
+            "properties": {
+              "schemaVersion": {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              "engineContract": {
+                "type": "string",
+                "enum": [
+                  "region-lab-event-v1-draft"
+                ]
+              },
+              "regions": {
+                "minItems": 1,
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "us-east",
+                    "eu-west",
+                    "ap-south"
+                  ]
+                }
+              },
+              "profiles": {
+                "minItems": 1,
+                "maxItems": 36,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 1000000
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "origin": {
+                      "type": "string",
+                      "enum": [
+                        "reference",
+                        "measured",
+                        "custom"
+                      ]
+                    },
+                    "provenance": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "component": {
+                      "type": "string",
+                      "enum": [
+                        "cdn",
+                        "lb",
+                        "gateway",
+                        "app",
+                        "worker",
+                        "cache",
+                        "db",
+                        "replica",
+                        "queue",
+                        "storage",
+                        "external"
+                      ]
+                    },
+                    "properties": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "label",
+                    "origin",
+                    "provenance",
+                    "component",
+                    "properties"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "graph": {
+                "type": "object",
+                "properties": {
+                  "nodes": {
+                    "minItems": 2,
+                    "maxItems": 36,
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "client"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "profileId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "profileVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 1000000
+                            },
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "cdn",
+                                "lb",
+                                "gateway",
+                                "app",
+                                "worker",
+                                "cache",
+                                "db",
+                                "queue",
+                                "storage",
+                                "external"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "profileId",
+                            "profileVersion",
+                            "replicas",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "profileId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "profileVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 1000000
+                            },
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "replica"
+                              ]
+                            },
+                            "primaryNodeId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "profileId",
+                            "profileVersion",
+                            "replicas",
+                            "type",
+                            "primaryNodeId"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "edges": {
+                    "maxItems": 120,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "from": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "to": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "operationIds": {
+                          "minItems": 1,
+                          "maxItems": 8,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                          }
+                        },
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "sync",
+                            "async"
+                          ]
+                        },
+                        "dispatch": {
+                          "type": "string",
+                          "enum": [
+                            "all",
+                            "weighted_one"
+                          ]
+                        },
+                        "weight": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "from",
+                        "to",
+                        "operationIds",
+                        "mode",
+                        "dispatch",
+                        "weight"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "nodes",
+                  "edges"
+                ],
+                "additionalProperties": false
+              },
+              "network": {
+                "minItems": 1,
+                "maxItems": 9,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "to": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "oneWayDelay": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "constant"
+                              ]
+                            },
+                            "valueMs": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "valueMs"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "exponential"
+                              ]
+                            },
+                            "meanMs": {
+                              "type": "number",
+                              "minimum": 0.001,
+                              "maximum": 60000
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "meanMs"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "lognormal"
+                              ]
+                            },
+                            "meanMs": {
+                              "type": "number",
+                              "minimum": 0.001,
+                              "maximum": 60000
+                            },
+                            "coefficientOfVariation": {
+                              "type": "number",
+                              "minimum": 0.01,
+                              "maximum": 3
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "meanMs",
+                            "coefficientOfVariation"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "bandwidthMbps": {
+                      "type": "number",
+                      "minimum": 0.001,
+                      "maximum": 1000000
+                    },
+                    "provenance": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "to",
+                    "oneWayDelay",
+                    "bandwidthMbps",
+                    "provenance"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "routing": {
+                "minItems": 1,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "originRegion": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "operationId": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "policy": {
+                      "type": "string",
+                      "enum": [
+                        "explicit",
+                        "nearest_healthy"
+                      ]
+                    },
+                    "primaryEntryNodeId": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "fallbackEntryNodeIds": {
+                      "maxItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                      }
+                    },
+                    "detectionMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "switchMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "failbackMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "returnOnRecovery": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "originRegion",
+                    "operationId",
+                    "policy",
+                    "primaryEntryNodeId",
+                    "fallbackEntryNodeIds",
+                    "detectionMs",
+                    "switchMs",
+                    "failbackMs",
+                    "returnOnRecovery"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "workload": {
+                "type": "object",
+                "properties": {
+                  "baselineRps": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 20000
+                  },
+                  "arrival": {
+                    "type": "string",
+                    "enum": [
+                      "constant_rate",
+                      "poisson"
+                    ]
+                  },
+                  "durationSeconds": {
+                    "type": "integer",
+                    "minimum": 10,
+                    "maximum": 3600
+                  },
+                  "warmupSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 120
+                  },
+                  "drainSeconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60
+                  },
+                  "regionalShares": {
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "shareBps": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "region",
+                        "shareBps"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "operations": {
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "read",
+                            "write"
+                          ]
+                        },
+                        "shareBps": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        },
+                        "deadlineMs": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 60000
+                        },
+                        "idempotent": {
+                          "type": "boolean"
+                        },
+                        "retry": {
+                          "type": "object",
+                          "properties": {
+                            "maxAttempts": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 3
+                            },
+                            "baseBackoffMs": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 10000
+                            },
+                            "maxBackoffMs": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 60000
+                            },
+                            "jitterRatio": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "required": [
+                            "maxAttempts",
+                            "baseBackoffMs",
+                            "maxBackoffMs",
+                            "jitterRatio"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "requestBytes": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 16777216
+                        },
+                        "responseBytes": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 16777216
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "shareBps",
+                        "deadlineMs",
+                        "idempotent",
+                        "retry",
+                        "requestBytes",
+                        "responseBytes",
+                        "label"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "schedule": {
+                    "minItems": 2,
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "atSeconds": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 3600
+                        },
+                        "multiplier": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 10
+                        }
+                      },
+                      "required": [
+                        "atSeconds",
+                        "multiplier"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "baselineRps",
+                  "arrival",
+                  "durationSeconds",
+                  "warmupSeconds",
+                  "drainSeconds",
+                  "regionalShares",
+                  "operations",
+                  "schedule"
+                ],
+                "additionalProperties": false
+              },
+              "outage": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "application_deployment"
+                    ]
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "affectedNodeIds": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    }
+                  },
+                  "startSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3600
+                  },
+                  "durationSeconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3600
+                  },
+                  "inFlightPolicy": {
+                    "type": "string",
+                    "enum": [
+                      "abort_at_failed_node"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "scope",
+                  "region",
+                  "affectedNodeIds",
+                  "startSeconds",
+                  "durationSeconds",
+                  "inFlightPolicy"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "targets": {
+                "type": "object",
+                "properties": {
+                  "p95Ms": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 60000
+                  },
+                  "errorBudgetRatio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "perRegion": {
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "p95Ms": {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 60000
+                        },
+                        "errorBudgetRatio": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      },
+                      "required": [
+                        "region",
+                        "p95Ms",
+                        "errorBudgetRatio"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "p95Ms",
+                  "errorBudgetRatio",
+                  "perRegion"
+                ],
+                "additionalProperties": false
+              },
+              "runOptions": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "baseline",
+                      "outage",
+                      "paired"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "repetitions": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                },
+                "required": [
+                  "mode",
+                  "seed",
+                  "repetitions"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "engineContract",
+              "regions",
+              "profiles",
+              "graph",
+              "network",
+              "routing",
+              "workload",
+              "outage",
+              "targets",
+              "runOptions"
+            ],
+            "additionalProperties": false
+          },
+          "sourceDesign": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
+              "revision": {
+                "type": "integer",
+                "exclusiveMinimum": true,
+                "maximum": 9007199254740991,
+                "minimum": 0
+              }
+            },
+            "required": [
+              "id",
+              "revision"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "scenario"
+        ],
+        "additionalProperties": false
+      },
+      "PatchRegionDto": {
+        "type": "object",
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "scenario": {
+            "type": "object",
+            "properties": {
+              "schemaVersion": {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              "engineContract": {
+                "type": "string",
+                "enum": [
+                  "region-lab-event-v1-draft"
+                ]
+              },
+              "regions": {
+                "minItems": 1,
+                "maxItems": 3,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "us-east",
+                    "eu-west",
+                    "ap-south"
+                  ]
+                }
+              },
+              "profiles": {
+                "minItems": 1,
+                "maxItems": 36,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 1000000
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "origin": {
+                      "type": "string",
+                      "enum": [
+                        "reference",
+                        "measured",
+                        "custom"
+                      ]
+                    },
+                    "provenance": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "component": {
+                      "type": "string",
+                      "enum": [
+                        "cdn",
+                        "lb",
+                        "gateway",
+                        "app",
+                        "worker",
+                        "cache",
+                        "db",
+                        "replica",
+                        "queue",
+                        "storage",
+                        "external"
+                      ]
+                    },
+                    "properties": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version",
+                    "label",
+                    "origin",
+                    "provenance",
+                    "component",
+                    "properties"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "graph": {
+                "type": "object",
+                "properties": {
+                  "nodes": {
+                    "minItems": 2,
+                    "maxItems": 36,
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "client"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "profileId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "profileVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 1000000
+                            },
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "cdn",
+                                "lb",
+                                "gateway",
+                                "app",
+                                "worker",
+                                "cache",
+                                "db",
+                                "queue",
+                                "storage",
+                                "external"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "profileId",
+                            "profileVersion",
+                            "replicas",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80
+                            },
+                            "x": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "y": {
+                              "type": "number",
+                              "minimum": -100000,
+                              "maximum": 100000
+                            },
+                            "region": {
+                              "type": "string",
+                              "enum": [
+                                "us-east",
+                                "eu-west",
+                                "ap-south"
+                              ]
+                            },
+                            "profileId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            },
+                            "profileVersion": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 1000000
+                            },
+                            "replicas": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 200
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "replica"
+                              ]
+                            },
+                            "primaryNodeId": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "x",
+                            "y",
+                            "region",
+                            "profileId",
+                            "profileVersion",
+                            "replicas",
+                            "type",
+                            "primaryNodeId"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "edges": {
+                    "maxItems": 120,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "from": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "to": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "operationIds": {
+                          "minItems": 1,
+                          "maxItems": 8,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                          }
+                        },
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "sync",
+                            "async"
+                          ]
+                        },
+                        "dispatch": {
+                          "type": "string",
+                          "enum": [
+                            "all",
+                            "weighted_one"
+                          ]
+                        },
+                        "weight": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "from",
+                        "to",
+                        "operationIds",
+                        "mode",
+                        "dispatch",
+                        "weight"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "nodes",
+                  "edges"
+                ],
+                "additionalProperties": false
+              },
+              "network": {
+                "minItems": 1,
+                "maxItems": 9,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "to": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "oneWayDelay": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "constant"
+                              ]
+                            },
+                            "valueMs": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 60000
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "valueMs"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "exponential"
+                              ]
+                            },
+                            "meanMs": {
+                              "type": "number",
+                              "minimum": 0.001,
+                              "maximum": 60000
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "meanMs"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "enum": [
+                                "lognormal"
+                              ]
+                            },
+                            "meanMs": {
+                              "type": "number",
+                              "minimum": 0.001,
+                              "maximum": 60000
+                            },
+                            "coefficientOfVariation": {
+                              "type": "number",
+                              "minimum": 0.01,
+                              "maximum": 3
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "meanMs",
+                            "coefficientOfVariation"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "bandwidthMbps": {
+                      "type": "number",
+                      "minimum": 0.001,
+                      "maximum": 1000000
+                    },
+                    "provenance": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "to",
+                    "oneWayDelay",
+                    "bandwidthMbps",
+                    "provenance"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "routing": {
+                "minItems": 1,
+                "maxItems": 24,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "originRegion": {
+                      "type": "string",
+                      "enum": [
+                        "us-east",
+                        "eu-west",
+                        "ap-south"
+                      ]
+                    },
+                    "operationId": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "policy": {
+                      "type": "string",
+                      "enum": [
+                        "explicit",
+                        "nearest_healthy"
+                      ]
+                    },
+                    "primaryEntryNodeId": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    },
+                    "fallbackEntryNodeIds": {
+                      "maxItems": 2,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                      }
+                    },
+                    "detectionMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "switchMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "failbackMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    "returnOnRecovery": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "originRegion",
+                    "operationId",
+                    "policy",
+                    "primaryEntryNodeId",
+                    "fallbackEntryNodeIds",
+                    "detectionMs",
+                    "switchMs",
+                    "failbackMs",
+                    "returnOnRecovery"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "workload": {
+                "type": "object",
+                "properties": {
+                  "baselineRps": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 20000
+                  },
+                  "arrival": {
+                    "type": "string",
+                    "enum": [
+                      "constant_rate",
+                      "poisson"
+                    ]
+                  },
+                  "durationSeconds": {
+                    "type": "integer",
+                    "minimum": 10,
+                    "maximum": 3600
+                  },
+                  "warmupSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 120
+                  },
+                  "drainSeconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60
+                  },
+                  "regionalShares": {
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "shareBps": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "region",
+                        "shareBps"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "operations": {
+                    "minItems": 1,
+                    "maxItems": 8,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "read",
+                            "write"
+                          ]
+                        },
+                        "shareBps": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10000
+                        },
+                        "deadlineMs": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 60000
+                        },
+                        "idempotent": {
+                          "type": "boolean"
+                        },
+                        "retry": {
+                          "type": "object",
+                          "properties": {
+                            "maxAttempts": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 3
+                            },
+                            "baseBackoffMs": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 10000
+                            },
+                            "maxBackoffMs": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 60000
+                            },
+                            "jitterRatio": {
+                              "type": "number",
+                              "minimum": 0,
+                              "maximum": 1
+                            }
+                          },
+                          "required": [
+                            "maxAttempts",
+                            "baseBackoffMs",
+                            "maxBackoffMs",
+                            "jitterRatio"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "requestBytes": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 16777216
+                        },
+                        "responseBytes": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 16777216
+                        },
+                        "label": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "shareBps",
+                        "deadlineMs",
+                        "idempotent",
+                        "retry",
+                        "requestBytes",
+                        "responseBytes",
+                        "label"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "schedule": {
+                    "minItems": 2,
+                    "maxItems": 32,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "atSeconds": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 3600
+                        },
+                        "multiplier": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 10
+                        }
+                      },
+                      "required": [
+                        "atSeconds",
+                        "multiplier"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "baselineRps",
+                  "arrival",
+                  "durationSeconds",
+                  "warmupSeconds",
+                  "drainSeconds",
+                  "regionalShares",
+                  "operations",
+                  "schedule"
+                ],
+                "additionalProperties": false
+              },
+              "outage": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "scope": {
+                    "type": "string",
+                    "enum": [
+                      "application_deployment"
+                    ]
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "affectedNodeIds": {
+                    "minItems": 1,
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                    }
+                  },
+                  "startSeconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3600
+                  },
+                  "durationSeconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3600
+                  },
+                  "inFlightPolicy": {
+                    "type": "string",
+                    "enum": [
+                      "abort_at_failed_node"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "scope",
+                  "region",
+                  "affectedNodeIds",
+                  "startSeconds",
+                  "durationSeconds",
+                  "inFlightPolicy"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "targets": {
+                "type": "object",
+                "properties": {
+                  "p95Ms": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 60000
+                  },
+                  "errorBudgetRatio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "perRegion": {
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "region": {
+                          "type": "string",
+                          "enum": [
+                            "us-east",
+                            "eu-west",
+                            "ap-south"
+                          ]
+                        },
+                        "p95Ms": {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 60000
+                        },
+                        "errorBudgetRatio": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        }
+                      },
+                      "required": [
+                        "region",
+                        "p95Ms",
+                        "errorBudgetRatio"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "p95Ms",
+                  "errorBudgetRatio",
+                  "perRegion"
+                ],
+                "additionalProperties": false
+              },
+              "runOptions": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "baseline",
+                      "outage",
+                      "paired"
+                    ]
+                  },
+                  "seed": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "repetitions": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                },
+                "required": [
+                  "mode",
+                  "seed",
+                  "repetitions"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "engineContract",
+              "regions",
+              "profiles",
+              "graph",
+              "network",
+              "routing",
+              "workload",
+              "outage",
+              "targets",
+              "runOptions"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "expectedRevision"
+        ],
+        "additionalProperties": false
+      },
+      "DuplicateRegionDto": {
+        "type": "object",
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "RunRegionDto": {
+        "type": "object",
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991,
+            "minimum": 0
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+          }
+        },
+        "required": [
+          "expectedRevision",
+          "requestId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

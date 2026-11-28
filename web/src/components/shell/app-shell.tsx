@@ -141,10 +141,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   const showSystem = ui.system && ui.system !== "session" && (pathname !== "/" || ui.systemFromDev);
 
   return (
-    <div className={pathname === "/" ? "shell sf-landing-shell" : "shell"}>
+    <div className={pathname === "/" ? "shell sf-landing-shell" : pathname.startsWith("/region-lab") ? "shell rl-app-shell" : "shell"}>
       {/* React 19 hoists this into <head>; it survives client navigations, unlike a document.title write. */}
       <title>{`${showSystem && ui.system === "404" ? "Page not found" : resolved.title} · StressForge`}</title>
-      {pathname !== "/" && <TopBar pathname={pathname} />}
+      {pathname !== "/" && !pathname.startsWith("/region-lab") && <TopBar pathname={pathname} />}
       <main className={pathname === "/" ? "main sf-landing-main" : "main"} id="main" tabIndex={-1}>
         {showSystem ? (
           <SystemScreen key={`sys-${ui.system}`} kind={ui.system!} fromDev={ui.systemFromDev} />

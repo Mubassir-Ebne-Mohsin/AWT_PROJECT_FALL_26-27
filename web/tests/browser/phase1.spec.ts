@@ -29,7 +29,7 @@ async function register(page: Page, email: string) {
   await expect(page.getByRole("button", { name: "Account menu", exact: true })).toBeVisible();
 }
 
-test("46 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
+test("53 registry routes, auth forms, palette, drawers, themes, tab restores and logout", async ({ page, context }, testInfo) => {
   const email = `web-${Date.now()}-${testInfo.project.name}@example.test`;
   const unexpected: string[] = [];
   page.on("pageerror", error => unexpected.push(error.message));
@@ -57,7 +57,7 @@ test("46 registry routes, auth forms, palette, drawers, themes, tab restores and
     await expect(page).toHaveURL(/\/new\/template\?audit=1$/);
   });
 
-  await test.step("all 46 registered patterns resolve with correct document titles and no overflow", async () => {
+  await test.step("the 49 shared-shell patterns resolve with correct document titles and no overflow", async () => {
     await page.goto("/new/template");
     await page.getByRole("button", { name: "Use Single-server MVP", exact: true }).click();
     await expect(page.getByLabel("Replicas (1–200)")).toBeVisible();
@@ -66,9 +66,12 @@ test("46 registry routes, auth forms, palette, drawers, themes, tab restores and
     const seed = await page.request.post(apiBase + "/support/reports", { headers: { Authorization: "Bearer " + accessToken }, data: { category: "bug", title: "Shell route fixture", body: "Disposable report for the registry route journey." } });
     expect(seed.status()).toBe(201);
     const ownedReportId = (await seed.json()).data.id as string;
-    expect(ROUTES).toHaveLength(46);
-    expect(ROUTES.map(route => route.id)).toEqual(expect.arrayContaining(["admin-dashboard", "admin-wall", "my-reports", "my-report", "support-inbox", "support-ticket"]));
-    for (const route of ROUTES) {
+    expect(ROUTES).toHaveLength(53);
+    expect(ROUTES.filter(route => route.id.startsWith("region-" )).map(route => route.id).sort()).toEqual(["region-experiment", "region-experiments", "region-lab", "region-run"]);
+    expect(ROUTES.map(route => route.id)).toEqual(expect.arrayContaining(["auth-complete", "admin-dashboard", "admin-wall", "my-reports", "my-report", "support-inbox", "support-ticket"]));
+    // The four dedicated Lab routes use their own navbar and real owned fixtures in region-lab.spec.ts.
+    // Preserve every shared-shell route and assertion from this original journey.
+    for (const route of ROUTES.filter(route => !route.id.startsWith("region-"))) {
       await test.step(route.path, async () => {
         const path = samplePath(route.path, ownedDesignId, ownedReportId);
         const navigable = ["learn-topic", "challenge", "evaluation", "settings"].includes(route.id) || (!route.path.includes(":") && !route.redirectTo);

@@ -51,13 +51,13 @@ const ids = (list) => list.map((t) => t.id).sort();
 
 // ---------- the data and the tags ----------
 
-test("P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 48 routes", () => {
+test("P3 data: six templates, a 12-component catalog and five traffic presets, with the registry now 53 routes", () => {
   assert.deepEqual(ids(X.TEMPLATES), ["checkout", "content", "ingest", "media", "mvp", "three-tier"]);
   assert.deepEqual(X.TEMPLATES.map((t) => t.name), ["Classic three-tier web app", "Read-heavy content site", "Write-heavy ingest pipeline", "E-commerce checkout", "Single-server MVP", "Photo sharing"]);
   assert.equal(X.CATALOG.components.length, 12);
   assert.equal(X.CATALOG.presets.length, 5);
   assert.equal(X.CATALOG.regions.length, 3);
-  assert.equal(ROUTES.length, 48);
+  assert.equal(ROUTES.length, 53);
   for (const id of ["examples", "templates", "components", "new-template"]) assert.equal(ROUTES.find((r) => r.id === id).fidelity, "C", id);
   assert.equal(resolveRoute("/examples").route.area, "public");
   assert.equal(resolveRoute("/templates").route.area, "app");
@@ -104,17 +104,33 @@ test("P3 words: the breaking point names the real number, first failure and caus
 });
 
 test("P3 words: an example that misses its own goal says so, and says why; one that passes does not claim otherwise", () => {
-  const three = X.ownResultText(T("three-tier"));
+  for (const t of X.TEMPLATES) {
+    assert.equal(t.result.verdict, "pass", t.id);
+    assert.equal(t.result.sloMet, true, t.id);
+    assert.equal(t.result.errorRate, 0, t.id);
+    assert.ok(t.result.maxRho < 0.8, t.id + " headroom");
+    assert.match(X.ownResultText(t), /meets its goal/);
+  }
+  // Keep failure/strain wording coverage with explicit overloaded fixtures.
+  const overloaded = (id, rps, p95, verdict = "fail") => {
+    const t = structuredClone(T(id));
+    t.traffic.rps = rps;
+    const app = t.result.nodes.find(n => n.type === "app");
+    app.rho = 1;
+    t.result = { ...t.result, p95, verdict, sloMet: false, bottleneckId: app.id };
+    return t;
+  };
+  const three = X.ownResultText(overloaded("three-tier", 1200, 313));
   assert.match(three, /misses its goal/);
   assert.match(three, /p95 313 ms/);
   assert.match(three, /breaking point \(about 1,199 requests a second\) is below the 1,200 it is tested at/);
-  assert.match(X.ownResultText(T("checkout")), /misses its goal.*p95 1,572 ms/);
-  assert.match(X.ownResultText(T("ingest")), /close to the edge/);
+  assert.match(X.ownResultText(overloaded("checkout", 1400, 1572)), /misses its goal.*p95 1,572 ms/);
+  assert.match(X.ownResultText(overloaded("ingest", 1500, 80, "strained")), /close to the edge/);
   const mvp = X.ownResultText(T("mvp"));
   assert.match(mvp, /meets its goal/);
   assert.doesNotMatch(mvp, /misses|is below the/);
   assert.match(X.ownResultText(T("content")), /Nothing is under strain/);
-  assert.match(X.ownResultText(T("three-tier")), /The busiest component is App servers at 1\d\d% utilization/);
+  assert.match(three, /The busiest component is App servers at 1\d\d% utilization/);
 });
 
 test("P3 words: every number in the main sentences comes from the data file", () => {
@@ -252,6 +268,8 @@ test("P3 templates: six cards with derived tags and a start link, and the filter
   assert.equal(view.querySelector("[data-testid='template-count']").textContent, "Showing 6 of 6 templates");
   for (const c of cards()) {
     const t = T(c.getAttribute("data-id"));
+    assert.equal(c.querySelector(".template-result"), null, "No status badges on starter cards");
+    assert.doesNotMatch(c.textContent, /MISSES GOAL|MEETS GOAL|NEAR LIMIT/);
     assert.deepEqual([...c.querySelectorAll("[data-testid='tag']")].map((e) => e.textContent), X.tagsOf(t.graph).map((g) => g.label));
     assert.equal(c.querySelector("[data-testid='start-template']").getAttribute("href"), "/new/template?template=" + t.id);
     assert.equal(c.querySelector("[data-testid='template-breaking']").textContent, X.breakingPointText(t));

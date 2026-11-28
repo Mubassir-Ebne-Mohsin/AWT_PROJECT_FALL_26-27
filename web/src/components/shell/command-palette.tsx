@@ -52,7 +52,7 @@ export function CommandPalette() {
       const group = r.area === "public" ? "Public pages" : r.area === "dev" ? "Developer" : "App";
       add(group, r.title as string, go(r.path), { icon: "arrowR", hint: r.phase > 2 ? `Phase ${r.phase}` : r.path });
     }
-    add("App", "Evaluation", go("/evaluation/simulator"), { icon: "arrowR", hint: "Phase 5" });
+    add("App", "Region Lab", go("/region-lab"), { icon: "arrowR", hint: "Phase 5" });
     add("App", "Settings", go("/settings/profile"), { icon: "arrowR", hint: "Phase 5" });
     for (const [k, v] of Object.entries(LEARN_TOPICS)) add("Learn", v, go(`/learn/${k}`), { icon: "book", hint: "Phase 4", keywords: "concept" });
     for (const [k, v] of Object.entries(CHALLENGES)) add("Challenges", v, go(`/challenges/${k}`), { icon: "flag", hint: "Phase 4" });

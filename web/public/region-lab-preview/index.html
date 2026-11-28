@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Region Lab by StressForge. Interactive interface prototype with clearly labelled illustrative data.">
+  <title>Region Lab by StressForge · Interface preview</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="region-lab.css">
+  <script src="prototype-data.js" defer></script>
+  <script src="region-lab.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav-wrap">
+    <nav class="lab-nav" aria-label="Region Lab">
+      <a class="wordmark" href="#overview" aria-label="Region Lab overview"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 36" width="30" height="34" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 3 29 10 16 17 3 10Z M3 17 16 24 29 17 M3 24 16 31 29 24"/></svg></span><span>REGION<span class="brand-weight">LAB</span><small>BY STRESSFORGE</small></span></a>
+      <button class="icon-button menu-toggle" type="button" id="menu-toggle" aria-expanded="false" aria-controls="lab-navigation">Menu</button>
+      <div class="nav-links" id="lab-navigation"><a href="#overview">Overview</a><a href="#experiments">Experiments</a><a href="#workspace">Workspace</a><a href="#profiles">Profiles</a><a href="#guide">Guide</a></div>
+      <div class="nav-end"><button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to light theme">Light</button><a class="return-link" href="/dashboard">StressForge <span aria-hidden="true">↗</span></a></div>
+    </nav>
+  </header>
+  <div class="preview-strip"><span><span class="signal amber" aria-hidden="true"></span>INTERFACE PREVIEW</span><p>Demonstration data · No simulation or benchmark has been run</p><label>Screen state<select id="screen-state"><option value="ready">Ready</option><option value="loading">Loading</option><option value="empty">Empty</option><option value="failure">Failure</option></select></label></div>
+  <main id="main" tabindex="-1"></main>
+  <footer class="lab-footer"><a class="footer-brand" href="#overview">REGION LAB <span>by StressForge</span></a><p>Assumptions visible. Experiments reproducible. Evidence first.</p><span>Stage 02 / Interface prototype</span></footer>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <dialog id="rename-dialog"><form id="rename-form"><span class="eyebrow">EXPERIMENT DETAILS</span><h2>Rename draft</h2><label>Experiment name<input id="rename-name" name="name" required maxlength="100"></label><div class="actions"><button class="button quiet" value="cancel" type="button" id="rename-cancel">Cancel</button><button class="button primary" type="submit">Save name</button></div></form></dialog>
+  <noscript><p class="no-script">This interactive preview needs JavaScript. No live simulations are available in this prototype.</p></noscript>
+</body>
+</html>

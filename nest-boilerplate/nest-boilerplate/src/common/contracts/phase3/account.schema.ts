@@ -41,6 +41,8 @@ export const EXPORT_RUNS_IN_FULL = 20;
 const when = z.iso.datetime();
 import { notificationSchema, notificationPreferencesSchema } from "@/common/contracts/phase3/notifications.schema";
 export const accountExportSchema = z.strictObject({
+  regionLab: z.strictObject({format:z.literal("region-lab-account-manifest-v1"),available:z.boolean(),experiments:z.array(z.unknown()),versions:z.array(z.unknown()),runs:z.array(z.unknown()),requests:z.array(z.unknown()),note:z.string()}).optional(),
+  connectedProviders: z.array(z.object({provider:z.enum(["google","github"]),linkedAt:z.string()})).optional(),
   personalSavedReplies: z.array(savedReplySchema).max(50).optional(),
   notifications: z.array(notificationSchema),
   notificationPreferences: notificationPreferencesSchema,

@@ -1,0 +1,762 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "status": {
+          "type": "string",
+          "const": "queued"
+        },
+        "progressRatio": {
+          "type": "number",
+          "const": 0
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "experimentRevision",
+        "inputHash",
+        "engineVersion",
+        "mode",
+        "createdAt",
+        "status",
+        "progressRatio"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "status": {
+          "type": "string",
+          "const": "running"
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "progressRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "experimentRevision",
+        "inputHash",
+        "engineVersion",
+        "mode",
+        "createdAt",
+        "status",
+        "startedAt",
+        "progressRatio"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "status": {
+          "type": "string",
+          "const": "completed"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "progressRatio": {
+          "type": "number",
+          "const": 1
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "pass",
+                    "fail",
+                    "indeterminate"
+                  ]
+                },
+                "offeredRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "successfulRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "failedRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "unresolvedRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "attempts": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3000000000
+                },
+                "p50Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "p95Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "p99Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "percentileStatus": {
+                  "type": "object",
+                  "properties": {
+                    "p50": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    },
+                    "p95": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    },
+                    "p99": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "p50",
+                    "p95",
+                    "p99"
+                  ],
+                  "additionalProperties": false
+                },
+                "errorRateRatio": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "successLatencyHistogram": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "unit": {
+                          "type": "string",
+                          "const": "ms"
+                        },
+                        "encodedTickToMs": {
+                          "type": "number",
+                          "const": 0.001
+                        },
+                        "lowestTrackableMs": {
+                          "type": "number",
+                          "const": 0.001
+                        },
+                        "highestTrackableMs": {
+                          "type": "number",
+                          "const": 60000
+                        },
+                        "significantDigits": {
+                          "type": "number",
+                          "const": 3
+                        },
+                        "encoding": {
+                          "type": "string",
+                          "const": "hdr-v2-base64"
+                        },
+                        "count": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 1000000000
+                        },
+                        "data": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 262144,
+                          "pattern": "^[A-Za-z0-9+/]+={0,2}$"
+                        }
+                      },
+                      "required": [
+                        "unit",
+                        "encodedTickToMs",
+                        "lowestTrackableMs",
+                        "highestTrackableMs",
+                        "significantDigits",
+                        "encoding",
+                        "count",
+                        "data"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "verdict",
+                "offeredRequests",
+                "successfulRequests",
+                "failedRequests",
+                "unresolvedRequests",
+                "attempts",
+                "p50Ms",
+                "p95Ms",
+                "p99Ms",
+                "percentileStatus",
+                "errorRateRatio",
+                "successLatencyHistogram"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outage": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "verdict": {
+                  "type": "string",
+                  "enum": [
+                    "pass",
+                    "fail",
+                    "indeterminate"
+                  ]
+                },
+                "offeredRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "successfulRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "failedRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "unresolvedRequests": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000
+                },
+                "attempts": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3000000000
+                },
+                "p50Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "p95Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "p99Ms": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 60000
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "percentileStatus": {
+                  "type": "object",
+                  "properties": {
+                    "p50": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    },
+                    "p95": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    },
+                    "p99": {
+                      "type": "string",
+                      "enum": [
+                        "available",
+                        "insufficient_samples",
+                        "incomplete"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "p50",
+                    "p95",
+                    "p99"
+                  ],
+                  "additionalProperties": false
+                },
+                "errorRateRatio": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "successLatencyHistogram": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "unit": {
+                          "type": "string",
+                          "const": "ms"
+                        },
+                        "encodedTickToMs": {
+                          "type": "number",
+                          "const": 0.001
+                        },
+                        "lowestTrackableMs": {
+                          "type": "number",
+                          "const": 0.001
+                        },
+                        "highestTrackableMs": {
+                          "type": "number",
+                          "const": 60000
+                        },
+                        "significantDigits": {
+                          "type": "number",
+                          "const": 3
+                        },
+                        "encoding": {
+                          "type": "string",
+                          "const": "hdr-v2-base64"
+                        },
+                        "count": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 1000000000
+                        },
+                        "data": {
+                          "type": "string",
+                          "minLength": 4,
+                          "maxLength": 262144,
+                          "pattern": "^[A-Za-z0-9+/]+={0,2}$"
+                        }
+                      },
+                      "required": [
+                        "unit",
+                        "encodedTickToMs",
+                        "lowestTrackableMs",
+                        "highestTrackableMs",
+                        "significantDigits",
+                        "encoding",
+                        "count",
+                        "data"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "verdict",
+                "offeredRequests",
+                "successfulRequests",
+                "failedRequests",
+                "unresolvedRequests",
+                "attempts",
+                "p50Ms",
+                "p95Ms",
+                "p99Ms",
+                "percentileStatus",
+                "errorRateRatio",
+                "successLatencyHistogram"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "experimentRevision",
+        "inputHash",
+        "engineVersion",
+        "mode",
+        "createdAt",
+        "status",
+        "completedAt",
+        "progressRatio",
+        "baseline",
+        "outage"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "status": {
+          "type": "string",
+          "const": "failed"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "failure": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "enum": [
+                "INVALID_SCENARIO",
+                "UNSUPPORTED_CAPABILITY",
+                "BUDGET_EXCEEDED",
+                "DEADLINE_EXCEEDED",
+                "WORKER_INTERRUPTED",
+                "COMPUTE_FAILED"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "experimentRevision",
+        "inputHash",
+        "engineVersion",
+        "mode",
+        "createdAt",
+        "status",
+        "completedAt",
+        "failure"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "experimentRevision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "inputHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "engineVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "status": {
+          "type": "string",
+          "const": "cancelled"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        }
+      },
+      "required": [
+        "id",
+        "experimentId",
+        "experimentRevision",
+        "inputHash",
+        "engineVersion",
+        "mode",
+        "createdAt",
+        "status",
+        "completedAt"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$id": "urn:stressforge:region-lab:v1:run",
+  "$comment": "Draft specification only. Cross-field checks require contract.cjs and REGION-LAB-CONTRACTS.md. No running API or calibrated engine is implied."
+}

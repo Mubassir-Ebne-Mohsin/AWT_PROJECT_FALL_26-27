@@ -1,0 +1,3242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "engineContract": {
+      "type": "string",
+      "const": "region-lab-event-v1-draft"
+    },
+    "regions": {
+      "minItems": 1,
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "us-east",
+          "eu-west",
+          "ap-south"
+        ]
+      }
+    },
+    "profiles": {
+      "minItems": 1,
+      "maxItems": 36,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "cdn"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "hitRatio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "hitTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "hitRatio",
+                  "hitTime"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "lb"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "gateway"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "rateLimitRps": {
+                    "type": "number",
+                    "minimum": 0.001,
+                    "maximum": 1000000
+                  },
+                  "rateLimitBurstRequests": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "rateLimitRps",
+                  "rateLimitBurstRequests"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "app"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "worker"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "cache"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "hitRatio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "hitTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "hitRatio",
+                  "hitTime"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "db"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "readServiceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "writeServiceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  }
+                },
+                "required": [
+                  "readServiceTime",
+                  "writeServiceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "replica"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "replicationApplyTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "replicationApplyTime"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "queue"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "maxDepthJobs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "ackTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "overflowPolicy": {
+                    "type": "string",
+                    "enum": [
+                      "reject_new",
+                      "drop_oldest"
+                    ]
+                  },
+                  "maxDeliveryAttempts": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "redeliveryDelayMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60000
+                  }
+                },
+                "required": [
+                  "maxDepthJobs",
+                  "ackTime",
+                  "overflowPolicy",
+                  "maxDeliveryAttempts",
+                  "redeliveryDelayMs"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "storage"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "readServiceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "writeServiceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "aggregateBandwidthMbps": {
+                    "type": "number",
+                    "minimum": 0.001,
+                    "maximum": 1000000
+                  }
+                },
+                "required": [
+                  "readServiceTime",
+                  "writeServiceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "aggregateBandwidthMbps"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "origin": {
+                "type": "string",
+                "enum": [
+                  "reference",
+                  "measured",
+                  "custom"
+                ]
+              },
+              "provenance": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "component": {
+                "type": "string",
+                "const": "external"
+              },
+              "properties": {
+                "type": "object",
+                "properties": {
+                  "serviceTime": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "constant"
+                          },
+                          "valueMs": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "valueMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "exponential"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "const": "lognormal"
+                          },
+                          "meanMs": {
+                            "type": "number",
+                            "minimum": 0.001,
+                            "maximum": 60000
+                          },
+                          "coefficientOfVariation": {
+                            "type": "number",
+                            "minimum": 0.01,
+                            "maximum": 3
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "meanMs",
+                          "coefficientOfVariation"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
+                  "serviceSlotsPerReplica": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1024
+                  },
+                  "waitingCapacity": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000
+                  },
+                  "rateLimitRps": {
+                    "type": "number",
+                    "minimum": 0.001,
+                    "maximum": 1000000
+                  },
+                  "rateLimitBurstRequests": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  }
+                },
+                "required": [
+                  "serviceTime",
+                  "serviceSlotsPerReplica",
+                  "waitingCapacity",
+                  "rateLimitRps",
+                  "rateLimitBurstRequests"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "label",
+              "origin",
+              "provenance",
+              "component",
+              "properties"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "graph": {
+      "type": "object",
+      "properties": {
+        "nodes": {
+          "minItems": 2,
+          "maxItems": 36,
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "client"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "cdn"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "lb"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "gateway"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "app"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "worker"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "cache"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "db"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "queue"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "storage"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "external"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "region": {
+                    "type": "string",
+                    "enum": [
+                      "us-east",
+                      "eu-west",
+                      "ap-south"
+                    ]
+                  },
+                  "profileId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "profileVersion": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "replicas": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "primaryNodeId": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                  },
+                  "type": {
+                    "type": "string",
+                    "const": "replica"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "x",
+                  "y",
+                  "region",
+                  "profileId",
+                  "profileVersion",
+                  "replicas",
+                  "primaryNodeId",
+                  "type"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "edges": {
+          "maxItems": 120,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "from": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "to": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "operationIds": {
+                "minItems": 1,
+                "maxItems": 8,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+                }
+              },
+              "dispatch": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "weighted_one"
+                ]
+              },
+              "weight": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "sync",
+                  "async"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "from",
+              "to",
+              "operationIds",
+              "dispatch",
+              "weight",
+              "mode"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ],
+      "additionalProperties": false
+    },
+    "network": {
+      "minItems": 1,
+      "maxItems": 9,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "enum": [
+              "us-east",
+              "eu-west",
+              "ap-south"
+            ]
+          },
+          "to": {
+            "type": "string",
+            "enum": [
+              "us-east",
+              "eu-west",
+              "ap-south"
+            ]
+          },
+          "oneWayDelay": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "constant"
+                  },
+                  "valueMs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 60000
+                  }
+                },
+                "required": [
+                  "kind",
+                  "valueMs"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "exponential"
+                  },
+                  "meanMs": {
+                    "type": "number",
+                    "minimum": 0.001,
+                    "maximum": 60000
+                  }
+                },
+                "required": [
+                  "kind",
+                  "meanMs"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "lognormal"
+                  },
+                  "meanMs": {
+                    "type": "number",
+                    "minimum": 0.001,
+                    "maximum": 60000
+                  },
+                  "coefficientOfVariation": {
+                    "type": "number",
+                    "minimum": 0.01,
+                    "maximum": 3
+                  }
+                },
+                "required": [
+                  "kind",
+                  "meanMs",
+                  "coefficientOfVariation"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "bandwidthMbps": {
+            "type": "number",
+            "minimum": 0.001,
+            "maximum": 1000000
+          },
+          "provenance": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "oneWayDelay",
+          "bandwidthMbps",
+          "provenance"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "workload": {
+      "type": "object",
+      "properties": {
+        "baselineRps": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 20000
+        },
+        "arrival": {
+          "type": "string",
+          "enum": [
+            "constant_rate",
+            "poisson"
+          ]
+        },
+        "durationSeconds": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 3600
+        },
+        "warmupSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "drainSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "regionalShares": {
+          "minItems": 1,
+          "maxItems": 3,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "enum": [
+                  "us-east",
+                  "eu-west",
+                  "ap-south"
+                ]
+              },
+              "shareBps": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 10000
+              }
+            },
+            "required": [
+              "region",
+              "shareBps"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "operations": {
+          "minItems": 1,
+          "maxItems": 8,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "read",
+                  "write"
+                ]
+              },
+              "shareBps": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "requestBytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16777216
+              },
+              "responseBytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16777216
+              },
+              "deadlineMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60000
+              },
+              "idempotent": {
+                "type": "boolean"
+              },
+              "retry": {
+                "type": "object",
+                "properties": {
+                  "maxAttempts": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "baseBackoffMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10000
+                  },
+                  "maxBackoffMs": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 60000
+                  },
+                  "jitterRatio": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                },
+                "required": [
+                  "maxAttempts",
+                  "baseBackoffMs",
+                  "maxBackoffMs",
+                  "jitterRatio"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "kind",
+              "shareBps",
+              "requestBytes",
+              "responseBytes",
+              "deadlineMs",
+              "idempotent",
+              "retry"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "schedule": {
+          "minItems": 2,
+          "maxItems": 32,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "atSeconds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3600
+              },
+              "multiplier": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10
+              }
+            },
+            "required": [
+              "atSeconds",
+              "multiplier"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "baselineRps",
+        "arrival",
+        "durationSeconds",
+        "warmupSeconds",
+        "drainSeconds",
+        "regionalShares",
+        "operations",
+        "schedule"
+      ],
+      "additionalProperties": false
+    },
+    "routing": {
+      "minItems": 1,
+      "maxItems": 24,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "originRegion": {
+            "type": "string",
+            "enum": [
+              "us-east",
+              "eu-west",
+              "ap-south"
+            ]
+          },
+          "operationId": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "policy": {
+            "type": "string",
+            "enum": [
+              "explicit",
+              "nearest_healthy"
+            ]
+          },
+          "primaryEntryNodeId": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+          },
+          "fallbackEntryNodeIds": {
+            "maxItems": 2,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+            }
+          },
+          "detectionMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60000
+          },
+          "switchMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60000
+          },
+          "failbackMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60000
+          },
+          "returnOnRecovery": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "originRegion",
+          "operationId",
+          "policy",
+          "primaryEntryNodeId",
+          "fallbackEntryNodeIds",
+          "detectionMs",
+          "switchMs",
+          "failbackMs",
+          "returnOnRecovery"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "outage": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+            },
+            "scope": {
+              "type": "string",
+              "const": "application_deployment"
+            },
+            "region": {
+              "type": "string",
+              "enum": [
+                "us-east",
+                "eu-west",
+                "ap-south"
+              ]
+            },
+            "affectedNodeIds": {
+              "minItems": 1,
+              "maxItems": 12,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+              }
+            },
+            "startSeconds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            },
+            "durationSeconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3600
+            },
+            "inFlightPolicy": {
+              "type": "string",
+              "const": "abort_at_failed_node"
+            }
+          },
+          "required": [
+            "id",
+            "scope",
+            "region",
+            "affectedNodeIds",
+            "startSeconds",
+            "durationSeconds",
+            "inFlightPolicy"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "targets": {
+      "type": "object",
+      "properties": {
+        "p95Ms": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 60000
+        },
+        "errorBudgetRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "perRegion": {
+          "maxItems": 3,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "enum": [
+                  "us-east",
+                  "eu-west",
+                  "ap-south"
+                ]
+              },
+              "p95Ms": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 60000
+              },
+              "errorBudgetRatio": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "region",
+              "p95Ms",
+              "errorBudgetRatio"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "p95Ms",
+        "errorBudgetRatio",
+        "perRegion"
+      ],
+      "additionalProperties": false
+    },
+    "runOptions": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "baseline",
+            "outage",
+            "paired"
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "repetitions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "required": [
+        "mode",
+        "seed",
+        "repetitions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "engineContract",
+    "regions",
+    "profiles",
+    "graph",
+    "network",
+    "workload",
+    "routing",
+    "outage",
+    "targets",
+    "runOptions"
+  ],
+  "additionalProperties": false,
+  "$id": "urn:stressforge:region-lab:v1:scenario",
+  "$comment": "Draft specification only. Cross-field checks require contract.cjs and REGION-LAB-CONTRACTS.md. No running API or calibrated engine is implied."
+}

@@ -7,7 +7,7 @@ export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:500
 const REQUEST_TIMEOUT_MS = 15_000;
 
 type GeneratedSession = components["schemas"]["AuthSessionDto"];
-export type User = GeneratedSession["user"] & { username?: string };
+export type User = GeneratedSession["user"] & { username?: string; hasPassword?: boolean; socialAuthEnabled?: boolean };
 export type AuthSession = GeneratedSession & { user: User };
 
 // The access token lives in memory only: gone on reload, restored by the refresh cookie.
@@ -61,6 +61,7 @@ interface RequestOptions {
   scope?: "global" | "local";
   /** Return the whole `{ data, meta }` envelope instead of only `data` (paged lists). */
   envelope?: boolean;
+  binary?: boolean;
   signal?: AbortSignal;
 }
 
@@ -211,6 +212,7 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
 
   if (res.ok) {
     if (res.status === 204) return undefined as T;
+    if (opts.binary) return await res.blob() as T;
     const body = (await res.json()) as { data: T };
     return opts.envelope ? (body as T) : body.data;
   }

@@ -1,3 +1,4 @@
+import {regionAccountExport} from "@/modules/region-lab/results/region-account-export";
 import { Injectable } from "@nestjs/common";
 import { DataSource } from "typeorm";
 import * as argon2 from "argon2";
@@ -54,6 +55,8 @@ export class AccountService {
     if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
     const q = <T = Record<string, any>>(sql: string, params: unknown[] = [userId]): Promise<T[]> => this.db.query(sql, params);
 
+    const ready = (await q<{ready:boolean}>("SELECT to_regclass('public.external_identities') IS NOT NULL AS ready", []))[0]?.ready ?? false;
+    const connectedProviders = ready ? await q<{provider:string;linked_at:Date}>("SELECT provider,linked_at FROM external_identities WHERE user_id=$1 ORDER BY provider") : [];
     const roles = await q<{ role: string }>("SELECT role FROM user_roles WHERE user_id = $1 ORDER BY role");
     const designs = await q(
       `SELECT id, name, description, source, template_id, revision, archived_at, created_at, updated_at, graph, traffic
@@ -123,10 +126,13 @@ export class AccountService {
     const notifications = await q("SELECT id,kind,ref_id,created_at,read_at FROM notifications WHERE user_id=$1 AND created_at > now()-interval '90 days' ORDER BY created_at,id");
     const preferences = await q("SELECT kind,muted FROM notification_preferences WHERE user_id=$1");
     const saved = await q("SELECT id,title,body,scope,created_at,updated_at FROM support_saved_replies WHERE owner_id=$1 AND scope='personal' ORDER BY created_at,id");
+    const regionLab=await regionAccountExport(this.db,userId);
     return accountExportSchema.parse({
+      regionLab,
       personalSavedReplies: saved.map(r=>({id:r.id,title:r.title,body:r.body,scope:r.scope,createdAt:iso(r.created_at),updatedAt:iso(r.updated_at)})),
       notifications: notifications.map(n=>({id:n.id,kind:n.kind,refId:n.ref_id,createdAt:iso(n.created_at),readAt:iso(n.read_at)})),
       notificationPreferences: ["support_reply","report_status","support_new_report","support_assigned","reporter_reply"].map(kind=>({kind,muted:preferences.find(p=>p.kind===kind)?.muted??false})),
+      connectedProviders: connectedProviders.map(p=>({provider:p.provider,linkedAt:new Date(p.linked_at).toISOString()})),
       format: "stressforge-export-v1",
       exportedAt: new Date().toISOString(),
       note: `Everything this account holds. Results of older runs beyond the latest ${EXPORT_RUNS_IN_FULL} per design are listed without their result. Share-link secrets, password hashes and other people's emails are never included. The role history keeps the email text of past role changes.`,
@@ -206,14 +212,17 @@ export class AccountService {
    * (archived, with no owner) so their results survive; every other challenge goes with the account. The role history
    * is an append-only audit log and is kept.
    */
-  async deleteAccount(userId: string, raw: unknown): Promise<void> {
-    const parsed = deleteAccountSchema.safeParse(raw);
+  async deleteAccount(userId: string, raw: unknown, verifiedSocialUser?: string): Promise<void> {
+    const social = verifiedSocialUser === userId;
+    const parsed = deleteAccountSchema.safeParse(social && raw && typeof raw === "object" ? { ...raw, password: "provider-proof" } : raw);
     if (!parsed.success) throw invalid(parsed.error.issues.map((i) => ({ path: String(i.path[0] ?? "confirmation"), message: i.message })));
     const user = await this.users.findById(userId);
     if (!user) throw new AppException("UNAUTHENTICATED", "You are not signed in");
-    if (!(await argon2.verify(user.passwordHash, parsed.data.password))) throw invalid([{ path: "password", message: "Incorrect password" }]);
+    if (!social && (!user.passwordHash || !(await argon2.verify(user.passwordHash, parsed.data.password)))) throw invalid([{ path: "password", message: "Incorrect password" }]);
 
     await this.db.transaction(async (m) => {
+      // Coordinate deletion with role grants/revocations and other deletions.
+      await m.query("SELECT pg_advisory_xact_lock(hashtext('sf-account-roles'))");
       const [locked] = await m.query("SELECT id FROM users WHERE id = $1 FOR UPDATE", [userId]);
       if (!locked) throw new AppException("UNAUTHENTICATED", "You are not signed in");
       const [{ others }] = await m.query(

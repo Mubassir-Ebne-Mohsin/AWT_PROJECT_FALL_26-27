@@ -1,3 +1,6 @@
+import { RegionLabModule } from "@/modules/region-lab/region-lab.module";
+import { SocialModule } from "@/modules/social/social.module";
+import { ProgressModule } from "@/modules/progress/progress.module";
 import { AiModule } from "@/modules/ai/ai.module";
 import { DesignsModule } from "@/modules/designs/designs.module";
 import { GalleryModule } from "@/modules/gallery/gallery.module";
@@ -65,10 +68,13 @@ const { env } = appConfig;
     }),
     UsersModule,
     AuthModule,
+    SocialModule,
     HealthModule,
     SimulationModule,
+    RegionLabModule,
     DesignsModule,
     GalleryModule,
+    ProgressModule,
     AiModule,
     RolesModule,
     ReviewsModule,
